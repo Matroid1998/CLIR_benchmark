@@ -1,0 +1,35 @@
+# clir_bench configuration. Committed: this is a research repo, and the values
+# here (which repos, which models) are part of how results are reproduced.
+
+default_domain = "chem_patents"
+
+[paths]
+data = "data"
+reports = "reports"
+cluster = "cluster"
+
+[llm]
+generation_model = "gpt-5-mini"
+verifier_model = "anthropic/claude-sonnet-4.6"
+concept_verifier_model = "anthropic/claude-sonnet-4.5"
+generation_reasoning_effort = "medium"
+grading_reasoning_effort = "low"
+thinking_budget_tokens = 8000
+thinking_max_tokens = 12000
+retries = 3
+
+[eval]
+variant = "multilingual"
+batch_size = 32
+main_score = "recall_at_10"
+# Loading embedding models is opt-in; `clir eval plan` prepares a cluster job.
+allow_local_models = false
+
+[domains.chem_patents]
+corpus_repo = "MehdiAstaraki/multilingual_GP"
+benchmark_repo = "MehdiAstaraki/multi-lingual-qac-chem-patents"
+gp_benchmark_repo = "MehdiAstaraki/multi-lingual-qac-chem-patents"
+epo_benchmark_repo = "MehdiAstaraki/multi-lingual-qac-epo"
+alias_graph_repo = "MehdiAstaraki/multi-lingual-qac-alias-graph"
+progressive_repo = "MehdiAstaraki/progressive-code-switch"
+chebi_variant = "full"

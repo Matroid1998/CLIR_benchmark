@@ -1,0 +1,21 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Heavy data + model caches (never tracked)
+data/
+.cache/
+cluster/out/
+
+# Run artifacts: keep summaries and findings, drop bulk outputs
+reports/runs/*/predictions/
+reports/runs/*/emb/
+reports/**/experimental_plots/
+reports/**/experimental_codes/
+.pytest_cache/
