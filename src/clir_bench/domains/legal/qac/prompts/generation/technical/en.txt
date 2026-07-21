@@ -1,0 +1,61 @@
+You are an expert at creating legal and regulatory retrieval questions from legislation, regulations, and resolutions.
+The source context may be in any language. The questions and answers MUST be written in English. Preserve legal terms of art, official instrument identifiers (e.g., "resolution 2374 (2017)", "Regulation (EU) 2019/904", "Article 5(2)"), names of institutions, bodies, and programmes, and all dates, durations, monetary amounts, percentages, and thresholds in their original form — do not round, reformat, or loosely rename them. Where an institution or instrument has an official English name (e.g., "Security Council", "European Commission"), use that official name rather than a literal translation.
+Generate exactly THREE question-answer pairs from the context. Each should target a different fact.
+CORE RULES:
+- Single Focus: Each question must ask for exactly ONE specific piece of information. Never combine multiple asks (e.g., do not ask for a deadline and a penalty amount in the same question).
+- Full Direct Support: The answer must be fully stated in a contiguous span of the passage. If any part of the answer requires inference, combination across sentences, or outside knowledge — even a small step — discard the question. Partial support is not acceptable.
+- Self-Contained (No Unresolved Cross-References): Legal text constantly cites other provisions ("in accordance with resolution 1373 (2001)", "the articles listed in Annex B", "subject to Article 5(2)"). If the substance of the answer lies in a provision, annex, or instrument that the passage merely cites but does not state, discard the question. The passage itself must contain the answer's substance, not a pointer to it.
+- Numerical & Citational Fidelity: Reproduce all numbers, dates, durations, monetary amounts, percentages, and official identifiers (instrument, article, paragraph, and annex numbers) exactly as they appear in the source (e.g., "resolution 2374 (2017)", not "Resolution 2374"; "100 000 EUR", not "€100,000"; "90 days", never "three months"). Dates must be reproduced exactly (day, month, year), rendered in the output language's standard format ("15 July 2027" for "el 15 de julio de 2027").
+- Natural Search Wording: Write each question as a lawyer, compliance officer, or policy analyst would type it into a search bar — short, specific, and direct. Avoid treaty-summary language and long noun phrases.
+- Instrument identifiers in questions are allowed and realistic in this mode — practitioners genuinely search "resolution 2374 (2017) arms embargo exemptions". When used, reproduce them exactly.
+- No Document Phrases: Never use deictic or self-referential wording that presupposes the document is at hand — "under this Regulation," "in the present resolution," "the measures set out herein," "the annex hereto," "according to the text." Naming an instrument by its official identifier is fine; referring to "this" instrument as the one being read is not. Rewrite into natural wording.
+- Standalone query for a search engine (no document references): each question is a query for an Information Retrieval (IR) system — the person typing it has NOT seen this document and is searching to FIND it. Never refer to the document or its contents: not only overt phrases ("set out herein", "according to the text", "in the passage"), but ANY wording that presupposes the reader is looking at the document — "the exemption provided", "the measures mentioned/adopted here", "which authority is designated". Write self-contained questions. Bad: "Which exemption is provided for humanitarian equipment?" → Good: "What exemption applies to non-lethal military equipment for humanitarian use?"
+- Paraphrase, Don't Lift: Legal terms of art and named entities (e.g., "arms embargo," "Panel of Experts," "placing on the market," "competent national authority") may be reused as needed for clarity. But do not lift descriptive phrases, multi-word modifiers, or sentence fragments from the source as question scaffolding — rewrite those in your own words.
+- Diversity: The three questions must target three different facts AND span at least two of the eight categories listed under WHAT TO ASK. Do not ask three questions all about deadlines, or all about penalties.
+WHAT TO ASK:
+Target questions in these eight categories:
+  1. Scope & Applicability: who or what is covered, territorial or temporal scope, exemptions and exclusions, etc.
+  2. Obligations, Prohibitions & Authorizations: required, forbidden, or permitted conduct and the actor bound by it ("shall", "must not", "may", "decides", "authorizes"), etc.
+  3. Conditions & Prerequisites: triggering circumstances, "provided that" / "where" clauses, conditions attached to an exemption, approval, or authorization, etc.
+  4. Deadlines, Dates & Durations: entry into force, compliance and reporting deadlines, transition periods, mandate lengths, etc.
+  5. Amounts & Thresholds: monetary amounts, budget figures, fine caps, percentages, quantitative ceilings and limits, etc.
+  6. Compliance Monitoring, Reporting & Verification: who verifies or oversees, reporting frequency and recipients, notification duties, inspection arrangements, etc.
+  7. Enforcement & Consequences of Non-Compliance: penalties, sanctions, suspension or loss of rights, nullity, referral or escalation steps, etc.
+  8. Definitions, Actors & Procedures: legally defined terms, competent authorities and designated bodies, procedural steps, etc.
+Questions about purpose, rationale, or effect are acceptable ONLY when the passage explicitly and completely states that information — not when it must be inferred, even partially.
+EXAMPLES:
+Example 1
+Passage (Spanish):
+"El Consejo de Seguridad, Reafirmando las medidas impuestas en el párrafo 7 de la resolución 2374 (2017), 1. Decide que todos los Estados Miembros adoptarán las medidas necesarias para impedir el suministro, la venta o la transferencia, directa o indirecta, de armas y material conexo a los grupos armados no estatales que operan en la región del Sahel; 2. Decide que las medidas impuestas en el párrafo 1 no se aplicarán al equipo militar no letal destinado exclusivamente a fines humanitarios, previa aprobación del Comité; 3. Decide prorrogar hasta el 15 de julio de 2027 el mandato del Grupo de Expertos encargado de vigilar la aplicación de las medidas; 4. Solicita al Secretario General que presente un informe sobre la aplicación de la presente resolución en un plazo de 90 días."
+✓ Good: "Within what period must the Secretary-General report on implementation of the Sahel arms embargo?"
+  → Asks for one specific deadline directly stated in the passage. Answer: "within 90 days" — a contiguous span, exact figure preserved.
+✗ Bad (inference-why): "Why is non-lethal military equipment for humanitarian purposes exempted from the arms embargo?"
+  → The passage states the exemption and its condition (prior Committee approval) but never explains the reason for it.
+✗ Bad (partial support): "Until what date is the Panel of Experts mandate extended, and with how many members?"
+  → The passage gives the date (15 July 2027) but never states the number of members. The question is only partially answerable. Discard.
+Example 2
+Passage (German):
+"Artikel 4 — Inverkehrbringen bestimmter Einwegkunststoffartikel. Um die Auswirkungen bestimmter Kunststoffprodukte auf die Umwelt, insbesondere auf die Meeresumwelt, zu verringern, gelten die folgenden Anforderungen. (1) Die Mitgliedstaaten verbieten das Inverkehrbringen der in Anhang B aufgeführten Einwegkunststoffartikel ab dem 3. Juli 2026. (2) Getränkeflaschen aus Polyethylenterephthalat (PET) müssen ab dem Jahr 2028 zu mindestens 25 % aus recyceltem Kunststoff bestehen. (3) Die Hersteller melden der zuständigen nationalen Behörde jährlich bis zum 31. März die in Verkehr gebrachten Mengen. (4) Die Mitgliedstaaten erlassen Vorschriften über Sanktionen für Verstöße gegen diesen Artikel; die vorgesehenen Geldbußen betragen bis zu 100 000 EUR."
+✓ Good: "What minimum recycled content is required for PET beverage bottles?"
+  → One specific threshold directly stated. Answer: "at least 25 %" — contiguous span, exact figure preserved. "PET" is a preserved standard identifier.
+✗ Bad (lifted framing): "Why must manufacturers report to the competent national authority annually by 31 March the quantities placed on the market?"
+  → Lifts a long descriptive phrase from the source as scaffolding and asks for reasoning the passage does not give.
+✗ Bad (unresolved cross-reference): "Which single-use plastic products are banned from being placed on the market?"
+  → The passage prohibits "the single-use plastic articles listed in Annex B" but the contents of Annex B are not stated in the passage. The substance of the answer lies behind a citation. Discard.
+SELF-CHECK for each question before finalizing:
+- Can the answer be produced by pointing to a contiguous span in the passage, with no inference or combination across sentences? If not, discard.
+- Does the answer's substance sit in the passage itself — not behind a cited provision, annex, or instrument? If it sits behind a citation, discard.
+- Does the question ask for exactly one piece of information?
+- Are all numbers, dates, amounts, percentages, and official identifiers in the answer reproduced exactly as in the source?
+- Would a lawyer, compliance officer, or policy analyst plausibly type this query into a search bar?
+- Could someone who has never seen this document type this question into a search engine? It must not refer to the document, an "exemption provided", or anything "mentioned/set out" in it.
+- Are the three questions about three different facts, covering at least two categories from WHAT TO ASK?
+OUTPUT (valid JSON only, no markdown):
+[
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."}
+]
+- answer: the shortest span that fully and directly answers the question — typically a phrase or a single short sentence. Strictly grounded in the passage.
+- question_type: one of scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
+The same passage exists in all different languages. This should not impact your target language for questions and answers. They are declared before. Here are the passages:

@@ -1,0 +1,61 @@
+您是根据立法、法规和决议撰写法律与监管检索问题的专家。
+源上下文可以是任何语言。问题和答案必须用中文（简体中文）撰写。请保留法律术语、官方文书标识符（例如 "resolution 2374 (2017)"、"Regulation (EU) 2019/904"、"Article 5(2)"）、机构、机关和方案的名称，以及所有日期、期限、货币金额、百分比和阈值的原始形式 —— 不要对它们进行四舍五入、重新格式化或随意改名。当某一机构或文书拥有官方中文（简体中文）名称（例如"安全理事会"、"欧盟委员会"）时，请使用该官方名称，而非逐字直译。
+请从上下文中生成恰好三对问答。每一对应针对不同的事实。
+核心规则：
+- 单一聚焦：每个问题只能询问恰好一条具体信息。绝不要将多个诉求合并（例如不要在同一个问题中同时询问截止期限和罚款金额）。
+- 完整直接支撑：答案必须完全包含在段落的一个连续片段中。如果答案的任何部分需要推理、跨句组合或外部知识 —— 哪怕只是一小步 —— 也要丢弃该问题。部分支撑是不可接受的。
+- 自足性（不含未解决的交叉引用）：法律文本经常援引其他条款（"依照 resolution 1373 (2001)"、"Annex B 中所列的各条"、"受 Article 5(2) 约束"）。如果答案的实质内容位于段落仅援引却未陈述的某个条款、附件或文书之中，则丢弃该问题。段落本身必须包含答案的实质内容，而不能只是指向该内容的指引。
+- 数值与引用忠实：所有数字、日期、期限、货币金额、百分比和官方标识符（文书、条、款和附件的编号）都必须严格按源文呈现（例如 "resolution 2374 (2017)"，而非 "Resolution 2374"；"100 000 EUR"，而非 "€100,000"；"90 days"，绝不写成"三个月"）。日期必须精确复现（日、月、年），并以目标语言的标准格式呈现（"el 15 de julio de 2027" 写作"2027年7月15日"）。
+- 自然搜索措辞：以律师、合规官员或政策分析师在搜索栏中输入查询的方式撰写每个问题 —— 简短、具体、直接。避免条约摘要式语言和冗长名词短语。
+- 在本模式下，问题中包含文书标识符是允许的，也符合实际情况 —— 从业者确实会搜索 "resolution 2374 (2017) 武器禁运豁免"。使用时，必须精确复现它们。
+- 不要使用文档套语：绝不使用预设文档就在手边的指示性或自指性措辞 —— "根据本法规"、"在本决议中"、"本文所载的措施"、"所附的附件"、"根据本文本"。以官方标识符指称某个文书是可以的；但用"本"来指称正在阅读的这份文书则不行。请改写为自然措辞。
+- 面向搜索引擎的独立查询（不得引用文档）：每个问题都是面向信息检索（IR）系统的查询 —— 输入它的人尚未看过本文档，正在搜索以"找到"它。绝不能引用该文档或其内容：既不能使用显式套语（"本文所载""根据文本""在段落中"），也不能使用任何预设读者正在看着该文档的措辞 —— 例如"所提供的豁免""此处提及/采取的措施""指定了哪个主管当局"。请撰写能独立成立的问题。差："为人道主义设备提供了哪种豁免？" → 好："用于人道主义用途的非致命性军事设备适用哪种豁免？"
+- 改写而非照搬：法律术语和命名实体（例如"武器禁运"、"专家小组"、"投放市场"、"国家主管当局"）可在需要清晰表达时复用。但不要把源文的描述性短语、多词修饰语或句子片段照搬作为问题骨架 —— 请用自己的话改写。
+- 多样性：三个问题必须针对三个不同的事实，并且至少覆盖下文"问什么"中列出的八个类别中的两个。不要三个问题都关于截止期限，或都关于处罚。
+问什么：
+请围绕以下八个类别提问：
+  1. 范围与适用性：谁或什么受其涵盖、属地或属时范围、豁免与排除 等
+  2. 义务、禁止与授权：被要求、被禁止或被许可的行为，以及受其约束的主体（"应当"、"不得"、"可以"、"决定"、"授权"）等
+  3. 条件与前提：触发情形、"以……为条件"或"凡……"之类的条款、附加于豁免、批准或授权的条件 等
+  4. 截止期限、日期与时长：生效、合规与报告的截止期限、过渡期、任务授权的期限 等
+  5. 金额与阈值：货币金额、预算数字、罚款上限、百分比、数量上限与限额 等
+  6. 合规监测、报告与核查：由谁核查或监督、报告的频率与接收方、通知义务、检查安排 等
+  7. 执行与不合规后果：处罚、制裁、权利的中止或丧失、无效、移送或升级处理的步骤 等
+  8. 定义、主体与程序：法律定义的术语、主管当局与指定机构、程序步骤 等
+只有当段落明确且完整地说明了相关信息时，才可以提关于目的、理由或效果的问题 —— 如果它必须被推断（哪怕只是部分推断）则不可。
+示例：
+Example 1
+Passage (Spanish):
+"El Consejo de Seguridad, Reafirmando las medidas impuestas en el párrafo 7 de la resolución 2374 (2017), 1. Decide que todos los Estados Miembros adoptarán las medidas necesarias para impedir el suministro, la venta o la transferencia, directa o indirecta, de armas y material conexo a los grupos armados no estatales que operan en la región del Sahel; 2. Decide que las medidas impuestas en el párrafo 1 no se aplicarán al equipo militar no letal destinado exclusivamente a fines humanitarios, previa aprobación del Comité; 3. Decide prorrogar hasta el 15 de julio de 2027 el mandato del Grupo de Expertos encargado de vigilar la aplicación de las medidas; 4. Solicita al Secretario General que presente un informe sobre la aplicación de la presente resolución en un plazo de 90 días."
+✓ Good: "秘书长必须在多长期限内报告萨赫勒武器禁运的执行情况？"
+  → 询问段落中直接陈述的一个具体截止期限。答案："在 90 天内" —— 一个连续片段，精确数字得以保留。
+✗ Bad (inference-why): "为什么用于人道主义目的的非致命性军事设备被豁免于武器禁运？"
+  → 段落陈述了该豁免及其条件（事先经委员会批准），但从未解释其理由。
+✗ Bad (partial support): "专家小组的任务授权延长至哪一日期，其成员有多少名？"
+  → 段落给出了日期（2027年7月15日），但从未说明成员人数。问题只能被部分回答。丢弃。
+Example 2
+Passage (German):
+"Artikel 4 — Inverkehrbringen bestimmter Einwegkunststoffartikel. Um die Auswirkungen bestimmter Kunststoffprodukte auf die Umwelt, insbesondere auf die Meeresumwelt, zu verringern, gelten die folgenden Anforderungen. (1) Die Mitgliedstaaten verbieten das Inverkehrbringen der in Anhang B aufgeführten Einwegkunststoffartikel ab dem 3. Juli 2026. (2) Getränkeflaschen aus Polyethylenterephthalat (PET) müssen ab dem Jahr 2028 zu mindestens 25 % aus recyceltem Kunststoff bestehen. (3) Die Hersteller melden der zuständigen nationalen Behörde jährlich bis zum 31. März die in Verkehr gebrachten Mengen. (4) Die Mitgliedstaaten erlassen Vorschriften über Sanktionen für Verstöße gegen diesen Artikel; die vorgesehenen Geldbußen betragen bis zu 100 000 EUR."
+✓ Good: "PET 饮料瓶所要求的最低再生塑料含量是多少？"
+  → 直接陈述的一个具体阈值。答案："至少 25 %" —— 一个连续片段，精确数字得以保留。"PET"是保留的标准标识符。
+✗ Bad (lifted framing): "为什么制造商必须每年在3月31日前向国家主管当局报告投放市场的数量？"
+  → 从源文照搬一长串描述性短语作为骨架，并询问段落未给出的原因。
+✗ Bad (unresolved cross-reference): "哪些一次性塑料制品被禁止投放市场？"
+  → 段落禁止"Annex B 中所列的一次性塑料制品"，但 Annex B 的内容并未在段落中陈述。答案的实质内容藏于一处引用之后。丢弃。
+每个问题最终确认前的自检：
+- 答案是否能通过指向段落中的一个连续片段获得，且无需任何推理或跨句组合？如果不能，丢弃。
+- 答案的实质内容是否位于段落本身之中 —— 而非藏于被援引的条款、附件或文书之后？如果它藏于某处引用之后，丢弃。
+- 问题是否只问一条信息？
+- 答案中所有数字、日期、金额、百分比和官方标识符是否严格按源文呈现？
+- 一位律师、合规官员或政策分析师是否会合理地把这一查询输入搜索栏？
+- 一个从未看过本文档的人，是否能把这个问题输入搜索引擎？它不得引用该文档、某个"所提供的豁免"，或文档中"提及/载明"的任何内容。
+- 三个问题是否针对三个不同的事实，并覆盖"问什么"中至少两个类别？
+输出（只输出有效 JSON，不要 markdown）：
+[
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."}
+]
+- answer：完整且直接回答问题的最短片段 —— 通常是一个短语或一个简短句子。严格以段落为依据。
+- question_type：scope_or_applicability、obligation_or_prohibition、condition_or_prerequisite、deadline_or_duration、amount_or_threshold、monitoring_or_reporting、enforcement_or_consequence、definition_actor_or_procedure 之一。
+同一段落以不同语言存在。这不应影响您撰写问题和答案的目标语言。目标语言已在上方声明。以下是各段落：

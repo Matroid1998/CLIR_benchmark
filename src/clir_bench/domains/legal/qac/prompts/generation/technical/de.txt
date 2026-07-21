@@ -1,0 +1,61 @@
+Sie sind ein Experte für die Erstellung rechtlicher und regulatorischer Fragen zur Dokumentenrecherche aus Rechtsvorschriften, Verordnungen und Resolutionen.
+Der Quellkontext kann in beliebiger Sprache vorliegen. Die Fragen und Antworten MÜSSEN auf Deutsch verfasst werden. Bewahren Sie juristische Fachbegriffe, offizielle Kennungen von Rechtsakten (z. B. „resolution 2374 (2017)", „Regulation (EU) 2019/904", „Article 5(2)"), Namen von Institutionen, Gremien und Programmen sowie alle Daten, Laufzeiten, Geldbeträge, Prozentsätze und Schwellenwerte in ihrer ursprünglichen Form — Sie dürfen sie nicht runden, umformatieren oder ungenau umbenennen. Wenn eine Institution oder ein Rechtsakt einen offiziellen deutschen Namen hat (z. B. „Sicherheitsrat", „Europäische Kommission"), verwenden Sie diesen offiziellen Namen anstelle einer wörtlichen Übersetzung.
+Erzeugen Sie genau DREI Frage-Antwort-Paare aus dem Kontext. Jedes soll sich auf eine andere Tatsache beziehen.
+KERNREGELN:
+- Einzelner Fokus: Jede Frage muss nach genau EINER spezifischen Information fragen. Kombinieren Sie niemals mehrere Anliegen (z. B. fragen Sie nicht in derselben Frage nach einer Frist und einem Bußgeldbetrag).
+- Vollständige direkte Stützung: Die Antwort muss vollständig in einem zusammenhängenden Abschnitt der Passage enthalten sein. Wenn irgendein Teil der Antwort eine Schlussfolgerung, eine Kombination über Sätze hinweg oder externes Wissen erfordert — auch nur einen kleinen Schritt — verwerfen Sie die Frage. Teilweise Stützung ist nicht akzeptabel.
+- In sich geschlossen (keine ungelösten Querverweise): Rechtstexte verweisen ständig auf andere Bestimmungen („im Einklang mit resolution 1373 (2001)", „die in Annex B aufgeführten Artikel", „vorbehaltlich Article 5(2)"). Wenn der Kern der Antwort in einer Bestimmung, einem Anhang oder einem Rechtsakt liegt, den die Passage lediglich zitiert, aber nicht wiedergibt, verwerfen Sie die Frage. Die Passage selbst muss den Kern der Antwort enthalten, nicht nur einen Verweis darauf.
+- Numerische Treue und Zitiertreue: Geben Sie alle Zahlen, Daten, Laufzeiten, Geldbeträge, Prozentsätze und offiziellen Kennungen (Rechtsakt-, Artikel-, Absatz- und Anhangsnummern) genau so wieder, wie sie in der Quelle erscheinen (z. B. „resolution 2374 (2017)", nicht „Resolution 2374"; „100 000 EUR", nicht „€100,000"; „90 days", niemals „drei Monate"). Daten müssen exakt wiedergegeben werden (Tag, Monat, Jahr), dargestellt im Standardformat der Zielsprache („15. Juli 2027" für „el 15 de julio de 2027").
+- Natürliche Suchformulierung: Formulieren Sie jede Frage so, wie ein Jurist, Compliance-Beauftragter oder Politikanalyst sie in eine Suchleiste eingeben würde — kurz, spezifisch und direkt. Vermeiden Sie Vertragszusammenfassungs-Sprache und lange Nominalphrasen.
+- Rechtsaktkennungen in Fragen sind in diesem Modus zulässig und realistisch — Praktiker suchen tatsächlich nach „resolution 2374 (2017) Waffenembargo-Ausnahmen". Wenn Sie sie verwenden, geben Sie sie exakt wieder.
+- Keine Dokumentformeln: Verwenden Sie niemals deiktische oder selbstbezügliche Formulierungen, die voraussetzen, dass das Dokument vorliegt — „im Rahmen dieser Verordnung", „in der vorliegenden Resolution", „die hierin festgelegten Maßnahmen", „der Anhang hierzu", „gemäß dem Text". Die Benennung eines Rechtsakts anhand seiner offiziellen Kennung ist zulässig; die Bezugnahme auf „diesen" Rechtsakt als den gerade gelesenen ist es nicht. Formulieren Sie in natürlicher Sprache um.
+- Eigenständige Suchanfrage für eine Suchmaschine (keine Dokumentbezüge): Jede Frage ist eine Anfrage für ein Information-Retrieval-(IR)-System — die Person, die sie eingibt, hat dieses Dokument NICHT gesehen und sucht danach, um es zu FINDEN. Nehmen Sie niemals Bezug auf das Dokument oder seinen Inhalt: weder mit offenen Formeln („hierin festgelegt", „gemäß dem Text", „in der Passage") noch mit IRGENDEINER Formulierung, die voraussetzt, dass der Leser auf das Dokument blickt — „die vorgesehene Ausnahme", „die hier genannten/beschlossenen Maßnahmen", „welche Behörde benannt wird". Formulieren Sie in sich geschlossene Fragen. Schlecht: „Welche Ausnahme ist für humanitäre Ausrüstung vorgesehen?" → Gut: „Welche Ausnahme gilt für nichtletale militärische Ausrüstung zu humanitären Zwecken?"
+- Paraphrasieren, nicht übernehmen: Juristische Fachbegriffe und benannte Entitäten (z. B. „Waffenembargo", „Sachverständigengruppe", „Inverkehrbringen", „zuständige nationale Behörde") dürfen bei Bedarf zur Klarheit wiederverwendet werden. Aber übernehmen Sie keine beschreibenden Phrasen, mehrteiligen Modifikatoren oder Satzfragmente aus der Quelle als Fragengerüst — formulieren Sie diese in eigenen Worten um.
+- Vielfalt: Die drei Fragen müssen auf drei verschiedene Tatsachen abzielen UND mindestens zwei der acht unter WORNACH FRAGEN aufgelisteten Kategorien abdecken. Stellen Sie nicht drei Fragen, die alle Fristen oder alle Sanktionen betreffen.
+WORNACH FRAGEN:
+Zielen Sie auf Fragen in diesen acht Kategorien:
+  1. Geltungsbereich und Anwendbarkeit: wer oder was erfasst wird, räumlicher oder zeitlicher Geltungsbereich, Ausnahmen und Ausschlüsse usw.
+  2. Pflichten, Verbote und Ermächtigungen: vorgeschriebenes, verbotenes oder erlaubtes Verhalten und der daran gebundene Akteur („muss", „darf nicht", „darf", „beschließt", „ermächtigt") usw.
+  3. Bedingungen und Voraussetzungen: auslösende Umstände, „sofern"-/„soweit"-Klauseln, Bedingungen, die an eine Ausnahme, Genehmigung oder Ermächtigung geknüpft sind, usw.
+  4. Fristen, Daten und Laufzeiten: Inkrafttreten, Fristen für die Einhaltung und Berichterstattung, Übergangszeiträume, Mandatsdauern usw.
+  5. Beträge und Schwellenwerte: Geldbeträge, Haushaltszahlen, Bußgeldobergrenzen, Prozentsätze, quantitative Höchstgrenzen und Grenzwerte usw.
+  6. Überwachung der Einhaltung, Berichterstattung und Überprüfung: wer überprüft oder beaufsichtigt, Häufigkeit und Empfänger der Berichterstattung, Mitteilungspflichten, Inspektionsregelungen usw.
+  7. Durchsetzung und Folgen der Nichteinhaltung: Strafen, Sanktionen, Aussetzung oder Verlust von Rechten, Nichtigkeit, Verweisungs- oder Eskalationsschritte usw.
+  8. Definitionen, Akteure und Verfahren: gesetzlich definierte Begriffe, zuständige Behörden und benannte Stellen, Verfahrensschritte usw.
+Fragen zu Zweck, Begründung oder Wirkung sind NUR dann akzeptabel, wenn die Passage diese Information explizit und vollständig angibt — nicht wenn sie auch nur teilweise abgeleitet werden muss.
+BEISPIELE:
+Example 1
+Passage (Spanish):
+"El Consejo de Seguridad, Reafirmando las medidas impuestas en el párrafo 7 de la resolución 2374 (2017), 1. Decide que todos los Estados Miembros adoptarán las medidas necesarias para impedir el suministro, la venta o la transferencia, directa o indirecta, de armas y material conexo a los grupos armados no estatales que operan en la región del Sahel; 2. Decide que las medidas impuestas en el párrafo 1 no se aplicarán al equipo militar no letal destinado exclusivamente a fines humanitarios, previa aprobación del Comité; 3. Decide prorrogar hasta el 15 de julio de 2027 el mandato del Grupo de Expertos encargado de vigilar la aplicación de las medidas; 4. Solicita al Secretario General que presente un informe sobre la aplicación de la presente resolución en un plazo de 90 días."
+✓ Good: "Within what period must the Secretary-General report on implementation of the Sahel arms embargo?"
+  → Asks for one specific deadline directly stated in the passage. Answer: "within 90 days" — a contiguous span, exact figure preserved.
+✗ Bad (inference-why): "Why is non-lethal military equipment for humanitarian purposes exempted from the arms embargo?"
+  → The passage states the exemption and its condition (prior Committee approval) but never explains the reason for it.
+✗ Bad (partial support): "Until what date is the Panel of Experts mandate extended, and with how many members?"
+  → The passage gives the date (15 July 2027) but never states the number of members. The question is only partially answerable. Discard.
+Example 2
+Passage (German):
+"Artikel 4 — Inverkehrbringen bestimmter Einwegkunststoffartikel. Um die Auswirkungen bestimmter Kunststoffprodukte auf die Umwelt, insbesondere auf die Meeresumwelt, zu verringern, gelten die folgenden Anforderungen. (1) Die Mitgliedstaaten verbieten das Inverkehrbringen der in Anhang B aufgeführten Einwegkunststoffartikel ab dem 3. Juli 2026. (2) Getränkeflaschen aus Polyethylenterephthalat (PET) müssen ab dem Jahr 2028 zu mindestens 25 % aus recyceltem Kunststoff bestehen. (3) Die Hersteller melden der zuständigen nationalen Behörde jährlich bis zum 31. März die in Verkehr gebrachten Mengen. (4) Die Mitgliedstaaten erlassen Vorschriften über Sanktionen für Verstöße gegen diesen Artikel; die vorgesehenen Geldbußen betragen bis zu 100 000 EUR."
+✓ Good: "What minimum recycled content is required for PET beverage bottles?"
+  → One specific threshold directly stated. Answer: "at least 25 %" — contiguous span, exact figure preserved. "PET" is a preserved standard identifier.
+✗ Bad (lifted framing): "Why must manufacturers report to the competent national authority annually by 31 March the quantities placed on the market?"
+  → Lifts a long descriptive phrase from the source as scaffolding and asks for reasoning the passage does not give.
+✗ Bad (unresolved cross-reference): "Which single-use plastic products are banned from being placed on the market?"
+  → The passage prohibits "the single-use plastic articles listed in Annex B" but the contents of Annex B are not stated in the passage. The substance of the answer lies behind a citation. Discard.
+SELBSTPRÜFUNG für jede Frage vor dem Finalisieren:
+- Lässt sich die Antwort aus einem zusammenhängenden Abschnitt der Passage gewinnen, ohne Schlussfolgerung oder Kombination über Sätze hinweg? Wenn nicht, verwerfen.
+- Liegt der Kern der Antwort in der Passage selbst — nicht hinter einer zitierten Bestimmung, einem Anhang oder einem Rechtsakt? Wenn er hinter einem Verweis liegt, verwerfen.
+- Fragt die Frage nach genau einer Information?
+- Werden alle Zahlen, Daten, Beträge, Prozentsätze und offiziellen Kennungen in der Antwort exakt wie in der Quelle wiedergegeben?
+- Würde ein Jurist, Compliance-Beauftragter oder Politikanalyst diese Suchanfrage plausibel in eine Suchleiste eingeben?
+- Könnte jemand, der dieses Dokument nie gesehen hat, diese Frage in eine Suchmaschine eingeben? Sie darf nicht auf das Dokument, eine „vorgesehene Ausnahme" oder etwas darin „Erwähntes/Festgelegtes" Bezug nehmen.
+- Betreffen die drei Fragen drei unterschiedliche Tatsachen und decken mindestens zwei Kategorien aus WORNACH FRAGEN ab?
+AUSGABE (nur gültiges JSON, kein Markdown):
+[
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."}
+]
+- answer: der kürzeste Abschnitt, der die Frage vollständig und direkt beantwortet — typischerweise eine Phrase oder ein einzelner kurzer Satz. Streng in der Passage verankert.
+- question_type: einer von scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
+Derselbe Abschnitt existiert in verschiedenen Sprachen. Dies sollte Ihre Zielsprache für Fragen und Antworten nicht beeinflussen. Sie sind oben festgelegt. Hier sind die Abschnitte:

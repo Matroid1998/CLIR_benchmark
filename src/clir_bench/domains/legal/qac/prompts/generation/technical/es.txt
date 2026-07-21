@@ -1,0 +1,61 @@
+Eres un experto en crear preguntas de recuperación documental jurídica y normativa a partir de legislación, reglamentos y resoluciones.
+El contexto de origen puede estar en cualquier idioma. Las preguntas y las respuestas DEBEN estar redactadas en español. Conserva los términos jurídicos técnicos, los identificadores oficiales de instrumentos (p. ej., «resolution 2374 (2017)», «Regulation (EU) 2019/904», «Article 5(2)»), los nombres de instituciones, órganos y programas, y todas las fechas, duraciones, importes monetarios, porcentajes y umbrales en su forma original — no los redondees, reformatees ni renombres de forma imprecisa. Cuando una institución o un instrumento tenga un nombre oficial en español (p. ej., «Consejo de Seguridad», «Comisión Europea»), utiliza ese nombre oficial en lugar de una traducción literal.
+Genera exactamente TRES pares pregunta-respuesta a partir del contexto. Cada uno debe centrarse en un hecho distinto.
+REGLAS FUNDAMENTALES:
+- Foco único: Cada pregunta debe solicitar exactamente UN elemento específico de información. Nunca combines varias solicitudes (p. ej., no preguntes por un plazo y un importe de sanción en la misma pregunta).
+- Respaldo directo y completo: La respuesta debe estar enunciada íntegramente en un segmento contiguo del pasaje. Si cualquier parte de la respuesta requiere inferencia, combinación entre oraciones o conocimiento externo — incluso un pequeño paso — descarta la pregunta. El respaldo parcial no es aceptable.
+- Autocontenido (sin referencias cruzadas no resueltas): El texto jurídico cita constantemente otras disposiciones («de conformidad con la resolution 1373 (2001)», «los artículos enumerados en el Annex B», «con sujeción al Article 5(2)»). Si la sustancia de la respuesta reside en una disposición, un anexo o un instrumento que el pasaje se limita a citar pero no enuncia, descarta la pregunta. El propio pasaje debe contener la sustancia de la respuesta, no una remisión a ella.
+- Fidelidad numérica y de citas: Reproduce todos los números, fechas, duraciones, importes monetarios, porcentajes e identificadores oficiales (números de instrumento, artículo, párrafo y anexo) exactamente como aparecen en la fuente (p. ej., «resolution 2374 (2017)», no «Resolution 2374»; «100 000 EUR», no «€100,000»; «90 days», nunca «tres meses»). Las fechas deben reproducirse exactamente (día, mes, año), representadas en el formato estándar del idioma de salida («15 de julio de 2027» para «el 15 de julio de 2027»).
+- Formulación natural de búsqueda: Redacta cada pregunta como la escribiría un abogado, un responsable de cumplimiento o un analista de políticas en una barra de búsqueda — corta, específica y directa. Evita el lenguaje de resumen de tratados y las frases nominales largas.
+- Los identificadores de instrumentos en las preguntas están permitidos y son realistas en este modo — los profesionales buscan realmente «resolution 2374 (2017) exenciones del embargo de armas». Cuando se usen, reprodúcelos exactamente.
+- Sin fórmulas documentales: Nunca uses redacciones deícticas o autorreferenciales que presupongan que el documento está a la vista — «en virtud del presente Reglamento», «en la presente resolución», «las medidas aquí establecidas», «el anexo del presente», «según el texto». Nombrar un instrumento por su identificador oficial es correcto; referirse a «este» instrumento como el que se está leyendo no lo es. Reformula con lenguaje natural.
+- Consulta autónoma para un motor de búsqueda (sin referencias al documento): cada pregunta es una consulta para un sistema de recuperación de información (RI) — la persona que la escribe NO ha visto este documento y busca ENCONTRARLO. Nunca hagas referencia al documento ni a su contenido: ni fórmulas explícitas («aquí establecido», «según el texto», «en el pasaje»), ni NINGUNA redacción que presuponga que el lector está viendo el documento — «la exención prevista», «las medidas mencionadas/adoptadas aquí», «qué autoridad se designa». Redacta preguntas autónomas. Mal: «¿Qué exención se prevé para el equipo humanitario?» → Bien: «¿Qué exención se aplica al equipo militar no letal para uso humanitario?»
+- Parafrasea, no copies: Los términos jurídicos técnicos y las entidades nombradas (p. ej., «embargo de armas», «Grupo de Expertos», «introducción en el mercado», «autoridad nacional competente») pueden reutilizarse cuando sea necesario para mayor claridad. Pero no tomes frases descriptivas, modificadores de varias palabras ni fragmentos oracionales de la fuente como estructura de la pregunta — reformúlalos con tus propias palabras.
+- Diversidad: Las tres preguntas deben abordar tres hechos distintos Y abarcar al menos dos de las ocho categorías listadas en QUÉ PREGUNTAR. No hagas tres preguntas todas sobre plazos ni todas sobre sanciones.
+QUÉ PREGUNTAR:
+Centra las preguntas en estas ocho categorías:
+  1. Ámbito y aplicabilidad: quién o qué está cubierto, ámbito territorial o temporal, exenciones y exclusiones, etc.
+  2. Obligaciones, prohibiciones y autorizaciones: conductas exigidas, prohibidas o permitidas y el actor obligado por ellas («deberá», «no deberá», «podrá», «decide», «autoriza»), etc.
+  3. Condiciones y requisitos previos: circunstancias desencadenantes, cláusulas de «siempre que» / «cuando», condiciones asociadas a una exención, aprobación o autorización, etc.
+  4. Plazos, fechas y duraciones: entrada en vigor, plazos de cumplimiento y de presentación de informes, periodos transitorios, duración de los mandatos, etc.
+  5. Importes y umbrales: importes monetarios, cifras presupuestarias, límites máximos de multas, porcentajes, topes y límites cuantitativos, etc.
+  6. Supervisión del cumplimiento, presentación de informes y verificación: quién verifica o supervisa, frecuencia y destinatarios de los informes, deberes de notificación, disposiciones de inspección, etc.
+  7. Ejecución y consecuencias del incumplimiento: penas, sanciones, suspensión o pérdida de derechos, nulidad, remisión o etapas de escalamiento, etc.
+  8. Definiciones, actores y procedimientos: términos jurídicamente definidos, autoridades competentes y órganos designados, pasos procedimentales, etc.
+Las preguntas sobre finalidad, justificación o efecto son aceptables SOLO cuando el pasaje enuncia esa información de forma explícita y completa — no cuando debe inferirse, ni siquiera parcialmente.
+EJEMPLOS:
+Example 1
+Passage (Spanish):
+"El Consejo de Seguridad, Reafirmando las medidas impuestas en el párrafo 7 de la resolución 2374 (2017), 1. Decide que todos los Estados Miembros adoptarán las medidas necesarias para impedir el suministro, la venta o la transferencia, directa o indirecta, de armas y material conexo a los grupos armados no estatales que operan en la región del Sahel; 2. Decide que las medidas impuestas en el párrafo 1 no se aplicarán al equipo militar no letal destinado exclusivamente a fines humanitarios, previa aprobación del Comité; 3. Decide prorrogar hasta el 15 de julio de 2027 el mandato del Grupo de Expertos encargado de vigilar la aplicación de las medidas; 4. Solicita al Secretario General que presente un informe sobre la aplicación de la presente resolución en un plazo de 90 días."
+✓ Good: "Within what period must the Secretary-General report on implementation of the Sahel arms embargo?"
+  → Asks for one specific deadline directly stated in the passage. Answer: "within 90 days" — a contiguous span, exact figure preserved.
+✗ Bad (inference-why): "Why is non-lethal military equipment for humanitarian purposes exempted from the arms embargo?"
+  → The passage states the exemption and its condition (prior Committee approval) but never explains the reason for it.
+✗ Bad (partial support): "Until what date is the Panel of Experts mandate extended, and with how many members?"
+  → The passage gives the date (15 July 2027) but never states the number of members. The question is only partially answerable. Discard.
+Example 2
+Passage (German):
+"Artikel 4 — Inverkehrbringen bestimmter Einwegkunststoffartikel. Um die Auswirkungen bestimmter Kunststoffprodukte auf die Umwelt, insbesondere auf die Meeresumwelt, zu verringern, gelten die folgenden Anforderungen. (1) Die Mitgliedstaaten verbieten das Inverkehrbringen der in Anhang B aufgeführten Einwegkunststoffartikel ab dem 3. Juli 2026. (2) Getränkeflaschen aus Polyethylenterephthalat (PET) müssen ab dem Jahr 2028 zu mindestens 25 % aus recyceltem Kunststoff bestehen. (3) Die Hersteller melden der zuständigen nationalen Behörde jährlich bis zum 31. März die in Verkehr gebrachten Mengen. (4) Die Mitgliedstaaten erlassen Vorschriften über Sanktionen für Verstöße gegen diesen Artikel; die vorgesehenen Geldbußen betragen bis zu 100 000 EUR."
+✓ Good: "What minimum recycled content is required for PET beverage bottles?"
+  → One specific threshold directly stated. Answer: "at least 25 %" — contiguous span, exact figure preserved. "PET" is a preserved standard identifier.
+✗ Bad (lifted framing): "Why must manufacturers report to the competent national authority annually by 31 March the quantities placed on the market?"
+  → Lifts a long descriptive phrase from the source as scaffolding and asks for reasoning the passage does not give.
+✗ Bad (unresolved cross-reference): "Which single-use plastic products are banned from being placed on the market?"
+  → The passage prohibits "the single-use plastic articles listed in Annex B" but the contents of Annex B are not stated in the passage. The substance of the answer lies behind a citation. Discard.
+AUTOVERIFICACIÓN para cada pregunta antes de finalizarla:
+- ¿Puede obtenerse la respuesta señalando un segmento contiguo del pasaje, sin inferencia ni combinación entre oraciones? Si no, descarta.
+- ¿La sustancia de la respuesta reside en el propio pasaje — no detrás de una disposición, un anexo o un instrumento citado? Si reside detrás de una cita, descarta.
+- ¿La pregunta solicita exactamente un elemento de información?
+- ¿Se reproducen todos los números, fechas, importes, porcentajes e identificadores oficiales en la respuesta exactamente como en la fuente?
+- ¿Escribiría de forma plausible un abogado, un responsable de cumplimiento o un analista de políticas esta consulta en una barra de búsqueda?
+- ¿Podría alguien que nunca ha visto este documento escribir esta pregunta en un motor de búsqueda? No debe hacer referencia al documento, a una «exención prevista», ni a nada «mencionado/establecido» en él.
+- ¿Las tres preguntas se refieren a tres hechos distintos, cubriendo al menos dos categorías de QUÉ PREGUNTAR?
+SALIDA (solo JSON válido, sin markdown):
+[
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."}
+]
+- answer: el segmento más corto que responde de forma completa y directa a la pregunta — normalmente una frase o una sola oración corta. Estrictamente basada en el pasaje.
+- question_type: uno de scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
+El mismo pasaje existe en diferentes idiomas. Esto no debería afectar tu idioma objetivo para las preguntas y respuestas. Están declarados anteriormente. Aquí están los pasajes:

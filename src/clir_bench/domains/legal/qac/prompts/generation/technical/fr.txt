@@ -1,0 +1,61 @@
+Vous êtes un expert dans la création de questions de recherche documentaire juridiques et réglementaires à partir de législations, de règlements et de résolutions.
+Le contexte source peut être dans n'importe quelle langue. Les questions et les réponses DOIVENT être rédigées en français. Conservez les termes juridiques techniques, les identifiants officiels d'instruments (p. ex. « resolution 2374 (2017) », « Regulation (EU) 2019/904 », « Article 5(2) »), les noms d'institutions, d'organes et de programmes, ainsi que toutes les dates, durées, montants monétaires, pourcentages et seuils dans leur forme d'origine — ne les arrondissez pas, ne les reformatez pas et ne les renommez pas de manière approximative. Lorsqu'une institution ou un instrument possède un nom officiel français (p. ex. « Conseil de sécurité », « Commission européenne »), utilisez ce nom officiel plutôt qu'une traduction littérale.
+Générez exactement TROIS paires question-réponse à partir du contexte. Chacune doit cibler un fait différent.
+RÈGLES FONDAMENTALES :
+- Focalisation unique : Chaque question doit demander exactement UN élément d'information spécifique. Ne combinez jamais plusieurs demandes (p. ex. ne demandez pas à la fois un délai et un montant de sanction dans la même question).
+- Support direct et complet : La réponse doit être entièrement énoncée dans un segment continu du passage. Si une partie quelconque de la réponse nécessite une inférence, une combinaison entre phrases, ou des connaissances externes — même un petit pas — écartez la question. Un support partiel n'est pas acceptable.
+- Autonome (aucun renvoi non résolu) : Le texte juridique cite constamment d'autres dispositions (« in accordance with resolution 1373 (2001) », « the articles listed in Annex B », « subject to Article 5(2) »). Si la substance de la réponse se trouve dans une disposition, une annexe ou un instrument que le passage se contente de citer sans l'énoncer, écartez la question. Le passage lui-même doit contenir la substance de la réponse, et non un simple renvoi vers celle-ci.
+- Fidélité numérique et citationnelle : Reproduisez tous les nombres, dates, durées, montants monétaires, pourcentages et identifiants officiels (numéros d'instrument, d'article, de paragraphe et d'annexe) exactement comme ils apparaissent dans la source (p. ex. « resolution 2374 (2017) », et non « Resolution 2374 » ; « 100 000 EUR », et non « €100,000 » ; « 90 days », jamais « trois mois »). Les dates doivent être reproduites exactement (jour, mois, année), rendues dans le format standard de la langue cible (« 15 juillet 2027 » pour « el 15 de julio de 2027 »).
+- Formulation naturelle de recherche : Rédigez chaque question comme un juriste, un responsable de la conformité ou un analyste des politiques la taperait dans une barre de recherche — courte, spécifique et directe. Évitez le langage de résumé de traité et les longs syntagmes nominaux.
+- Les identifiants d'instruments dans les questions sont autorisés et réalistes dans ce mode — les praticiens recherchent réellement « resolution 2374 (2017) exemptions embargo sur les armes ». Lorsqu'ils sont utilisés, reproduisez-les exactement.
+- Pas de formules documentaires : N'utilisez jamais de formulation déictique ou autoréférentielle présupposant que le document est sous la main — « en vertu du présent règlement », « dans la présente résolution », « les mesures énoncées dans les présentes », « l'annexe des présentes », « selon le texte ». Nommer un instrument par son identifiant officiel est acceptable ; désigner « cet » instrument comme celui que l'on est en train de lire ne l'est pas. Reformulez en langage naturel.
+- Requête autonome pour un moteur de recherche (aucune référence au document) : chaque question est une requête pour un système de recherche d'information (RI) — la personne qui la tape n'a PAS vu ce document et cherche à le TROUVER. Ne faites jamais référence au document ni à son contenu : ni les formules explicites (« énoncé dans les présentes », « selon le texte », « dans le passage »), ni AUCUNE formulation présupposant que le lecteur a le document sous les yeux — « l'exemption prévue », « les mesures mentionnées/adoptées ici », « quelle autorité est désignée ». Rédigez des questions autonomes. Mauvais : « Quelle exemption est prévue pour le matériel humanitaire ? » → Bon : « Quelle exemption s'applique au matériel militaire non létal à usage humanitaire ? »
+- Paraphrasez, ne copiez pas : Les termes juridiques techniques et les entités nommées (p. ex. « embargo sur les armes », « Groupe d'experts », « mise sur le marché », « autorité nationale compétente ») peuvent être réutilisés si nécessaire pour la clarté. Mais ne reprenez pas les phrases descriptives, les modificateurs à plusieurs mots ou les fragments de phrase de la source comme structure de question — reformulez-les dans vos propres mots.
+- Diversité : Les trois questions doivent cibler trois faits différents ET couvrir au moins deux des huit catégories listées sous QUE DEMANDER. Ne posez pas trois questions portant toutes sur des délais, ni toutes sur des sanctions.
+QUE DEMANDER :
+Ciblez des questions dans ces huit catégories :
+  1. Champ d'application et applicabilité : qui ou quoi est couvert, portée territoriale ou temporelle, exemptions et exclusions, etc.
+  2. Obligations, interdictions et autorisations : comportement requis, interdit ou permis et l'acteur qui y est tenu (« doit », « ne doit pas », « peut », « décide », « autorise »), etc.
+  3. Conditions et prérequis : circonstances déclencheuses, clauses « à condition que » / « lorsque », conditions attachées à une exemption, une approbation ou une autorisation, etc.
+  4. Délais, dates et durées : entrée en vigueur, délais de mise en conformité et de notification, périodes de transition, durées de mandat, etc.
+  5. Montants et seuils : montants monétaires, chiffres budgétaires, plafonds d'amendes, pourcentages, plafonds et limites quantitatifs, etc.
+  6. Contrôle de conformité, rapports et vérification : qui vérifie ou supervise, fréquence et destinataires des rapports, obligations de notification, modalités d'inspection, etc.
+  7. Exécution et conséquences du non-respect : peines, sanctions, suspension ou perte de droits, nullité, étapes de saisine ou d'escalade, etc.
+  8. Définitions, acteurs et procédures : termes juridiquement définis, autorités compétentes et organes désignés, étapes procédurales, etc.
+Les questions sur l'objet, la justification ou l'effet sont acceptables UNIQUEMENT lorsque le passage énonce cette information de manière explicite et complète — pas lorsqu'elle doit être inférée, même partiellement.
+EXEMPLES :
+Example 1
+Passage (Spanish):
+"El Consejo de Seguridad, Reafirmando las medidas impuestas en el párrafo 7 de la resolución 2374 (2017), 1. Decide que todos los Estados Miembros adoptarán las medidas necesarias para impedir el suministro, la venta o la transferencia, directa o indirecta, de armas y material conexo a los grupos armados no estatales que operan en la región del Sahel; 2. Decide que las medidas impuestas en el párrafo 1 no se aplicarán al equipo militar no letal destinado exclusivamente a fines humanitarios, previa aprobación del Comité; 3. Decide prorrogar hasta el 15 de julio de 2027 el mandato del Grupo de Expertos encargado de vigilar la aplicación de las medidas; 4. Solicita al Secretario General que presente un informe sobre la aplicación de la presente resolución en un plazo de 90 días."
+✓ Good: "Within what period must the Secretary-General report on implementation of the Sahel arms embargo?"
+  → Asks for one specific deadline directly stated in the passage. Answer: "within 90 days" — a contiguous span, exact figure preserved.
+✗ Bad (inference-why): "Why is non-lethal military equipment for humanitarian purposes exempted from the arms embargo?"
+  → The passage states the exemption and its condition (prior Committee approval) but never explains the reason for it.
+✗ Bad (partial support): "Until what date is the Panel of Experts mandate extended, and with how many members?"
+  → The passage gives the date (15 July 2027) but never states the number of members. The question is only partially answerable. Discard.
+Example 2
+Passage (German):
+"Artikel 4 — Inverkehrbringen bestimmter Einwegkunststoffartikel. Um die Auswirkungen bestimmter Kunststoffprodukte auf die Umwelt, insbesondere auf die Meeresumwelt, zu verringern, gelten die folgenden Anforderungen. (1) Die Mitgliedstaaten verbieten das Inverkehrbringen der in Anhang B aufgeführten Einwegkunststoffartikel ab dem 3. Juli 2026. (2) Getränkeflaschen aus Polyethylenterephthalat (PET) müssen ab dem Jahr 2028 zu mindestens 25 % aus recyceltem Kunststoff bestehen. (3) Die Hersteller melden der zuständigen nationalen Behörde jährlich bis zum 31. März die in Verkehr gebrachten Mengen. (4) Die Mitgliedstaaten erlassen Vorschriften über Sanktionen für Verstöße gegen diesen Artikel; die vorgesehenen Geldbußen betragen bis zu 100 000 EUR."
+✓ Good: "What minimum recycled content is required for PET beverage bottles?"
+  → One specific threshold directly stated. Answer: "at least 25 %" — contiguous span, exact figure preserved. "PET" is a preserved standard identifier.
+✗ Bad (lifted framing): "Why must manufacturers report to the competent national authority annually by 31 March the quantities placed on the market?"
+  → Lifts a long descriptive phrase from the source as scaffolding and asks for reasoning the passage does not give.
+✗ Bad (unresolved cross-reference): "Which single-use plastic products are banned from being placed on the market?"
+  → The passage prohibits "the single-use plastic articles listed in Annex B" but the contents of Annex B are not stated in the passage. The substance of the answer lies behind a citation. Discard.
+AUTO-VÉRIFICATION pour chaque question avant de la finaliser :
+- La réponse peut-elle être produite en pointant vers un segment continu du passage, sans inférence ni combinaison entre phrases ? Sinon, écartez.
+- La substance de la réponse se trouve-t-elle dans le passage lui-même — et non derrière une disposition, une annexe ou un instrument cité ? Si elle se trouve derrière un renvoi, écartez.
+- La question demande-t-elle exactement un élément d'information ?
+- Tous les nombres, dates, montants, pourcentages et identifiants officiels dans la réponse sont-ils reproduits exactement comme dans la source ?
+- Un juriste, un responsable de la conformité ou un analyste des politiques taperait-il de manière plausible cette requête dans une barre de recherche ?
+- Quelqu'un qui n'a jamais vu ce document pourrait-il taper cette question dans un moteur de recherche ? Elle ne doit pas faire référence au document, à une « exemption prévue », ni à quoi que ce soit qui y est « mentionné/énoncé ».
+- Les trois questions portent-elles sur trois faits différents, couvrant au moins deux catégories de QUE DEMANDER ?
+SORTIE (JSON valide uniquement, pas de markdown) :
+[
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."}
+]
+- answer : le segment le plus court qui répond entièrement et directement à la question — typiquement une phrase ou une seule phrase courte. Strictement ancrée dans le passage.
+- question_type : l'un de scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
+Le même passage existe dans différentes langues. Cela ne devrait pas influencer votre langue cible pour les questions et les réponses. Elles sont déclarées ci-dessus. Voici les passages :
