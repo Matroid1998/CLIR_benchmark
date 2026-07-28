@@ -2,7 +2,7 @@
 
 QAC prompt pack for the **legal** domain (legislation, regulations, resolutions).
 Extracted verbatim from `legal_qac_prompts_v1.md` at the repo root. As in
-`chem_patents`, the Python code is domain-agnostic plumbing; what makes the output
+`chemistry`, the Python code is domain-agnostic plumbing; what makes the output
 *legal* questions is entirely the text in these files. Treat them as data, not
 prose to tidy — the rubrics and their 1–5 calibration were tuned against real
 generator output.
@@ -20,20 +20,20 @@ source.
     verifiers/semantic_batch.txt    is the question a good semantic query?   (3 candidates)
     verifiers/faithfulness_batch.txt is the answer grounded in the passage?  (3 pairs)
 
-The generation prompts exist in the same five languages as `chem_patents`:
+The generation prompts exist in the same five languages as `chemistry`:
 English, German, Spanish, French and Chinese. Each language variant fully
 translates the instructions and declares its own output language ("MUST be
 written in French", etc.); the JSON output template, the enum values
 (`question_type` / `framing`), the example source passages, and the `✗ Bad (…)`
-failure tags stay in English. Following the chem_patents convention exactly, the
+failure tags stay in English. Following the chemistry convention exactly, the
 German, Spanish and French variants keep the worked example questions in English,
 while the Chinese variant translates them (matching
-`chem_patents/generation/*/{de,es,fr,zh}.txt`).
+`chemistry/generation/*/{de,es,fr,zh}.txt`).
 
 `PromptPack.generation(mode, lang)` reads `generation/<mode>/<lang>.txt`;
 `.quality(mode, arity)` and `.faithfulness(arity)` read from `verifiers/`.
 
-## Differences from the chem_patents pack (per the v1 source note)
+## Differences from the chemistry pack (per the v1 source note)
 
 Pipeline-compatible by design — same three-candidate structure, same JSON
 schemas. The only schema-visible changes:

@@ -74,7 +74,7 @@ src/clir_bench/
   analysis/     per-question, confusion, rescoring, tables (reads saved predictions)
   cli/          command groups
   domains/
-    chem_patents/   schema, vocabulary, attribution, sources, prompts, benchmarks
+    chemistry/   schema, vocabulary, attribution, sources, prompts, benchmarks
 data/           corpora and artifacts (gitignored)
 reports/runs/   evaluation runs, each self-describing
 attic/          one-off scripts, frozen with provenance notes

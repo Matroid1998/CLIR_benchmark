@@ -104,8 +104,8 @@ The old repo had these repeated across files; each now has one home:
 | 5 OpenAI/OpenRouter client constructions | `core/llm.py` |
 | 3 Claude thinking-transport copies | `core/llm.chat_with_thinking` |
 | 3 markdown-fence JSON parsers | `core/llm.parse_json_response` |
-| 4 copies of the 12-column schema | `domains/chem_patents/schema.py` |
-| 7+ restatements of the 5-language set | `domains/chem_patents/vocabulary.py` |
+| 4 copies of the 12-column schema | `domains/chemistry/schema.py` |
+| 7+ restatements of the 5-language set | `domains/chemistry/vocabulary.py` |
 | 5 HF publish skeletons | `core/publish.py` |
 | CSV writer blocks in every builder | `core/corpus.write_rows` |
 | thread-pool-with-progress in every generator | `core/parallel.run_tasks` |

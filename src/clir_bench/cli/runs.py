@@ -4,10 +4,23 @@ from __future__ import annotations
 
 import argparse
 import json
-from typing import Optional
+from typing import Any, Optional
 
 from clir_bench.core.context import AppContext
-from clir_bench.core.runs import list_runs, read_metadata, read_summary, resolve_run_dir
+from clir_bench.core.runs import (
+    list_runs,
+    read_metadata,
+    read_summary,
+    resolve_run_dir,
+    summary_scores,
+)
+
+
+def _scores_map(scores: Any) -> dict[str, Any]:
+    """Metadata ``scores`` as a mapping (older runs recorded a list)."""
+    if isinstance(scores, dict):
+        return scores
+    return summary_scores({"models": scores}) if scores else {}
 
 
 def register(subparsers: argparse._SubParsersAction, context: Optional[AppContext]) -> None:
@@ -61,10 +74,10 @@ def _show(args: argparse.Namespace, context: AppContext) -> int:
     if sizes:
         print(f"sizes     {sizes}")
 
-    models = (summary.get("models") or metadata.get("scores") or {})
-    if models:
+    scores = summary_scores(summary) or _scores_map(metadata.get("scores"))
+    if scores:
         print("\nscores")
-        for model, metrics in models.items():
+        for model, metrics in scores.items():
             main = metrics.get("main_score", "n/a") if isinstance(metrics, dict) else metrics
             print(f"  {model:<52} {main}")
 

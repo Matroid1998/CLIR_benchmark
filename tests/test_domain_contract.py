@@ -15,17 +15,17 @@ from clir_bench.core.domain import DomainSpec
 
 @pytest.fixture(scope="module")
 def spec() -> DomainSpec:
-    return domains.load("chem_patents")
+    return domains.load("chemistry")
 
 
 def test_domains_are_discoverable_without_importing_them() -> None:
-    assert "chem_patents" in domains.available()
+    assert "chemistry" in domains.available()
 
 
 def test_unknown_domain_reports_what_is_available() -> None:
     with pytest.raises(domains.DomainNotFound) as excinfo:
         domains.load("legal")
-    assert "chem_patents" in str(excinfo.value)
+    assert "chemistry" in str(excinfo.value)
 
 
 def test_every_source_declares_an_attribution(spec: DomainSpec) -> None:
@@ -105,7 +105,15 @@ def test_data_layout_resolves_under_the_data_root(spec: DomainSpec) -> None:
     workspace = Workspace.build(
         data_dir=Path("/tmp/data"), reports_dir=Path("/tmp/reports"), domain=spec
     )
-    assert workspace.data("gp_corpus") == Path("/tmp/data/google_patents/multilingual_corpus.csv")
+    # Each domain owns a subtree named after it, so data/chemistry and a future
+    # data/legal never collide.
+    assert workspace.domain_data_dir == Path("/tmp/data") / spec.name
+    assert workspace.data("gp_corpus") == Path(
+        f"/tmp/data/{spec.name}/google_patents/multilingual_corpus.csv"
+    )
+    assert workspace.corpus_csv("gp") == Path(
+        f"/tmp/data/{spec.name}/google_patents/multilingual_corpus.csv"
+    )
     with pytest.raises(KeyError):
         workspace.data("no_such_key")
 

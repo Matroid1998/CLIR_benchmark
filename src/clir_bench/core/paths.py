@@ -48,6 +48,16 @@ class Workspace:
 
     # -- data paths --------------------------------------------------------- #
 
+    @property
+    def domain_data_dir(self) -> Path:
+        """Root of this domain's data subtree, e.g. ``data/chemistry``.
+
+        Each domain owns a subtree named after it, so several domains coexist
+        under one ``data/`` without colliding and a domain's relative paths never
+        have to repeat its own name.
+        """
+        return self.data_dir / self.domain.name
+
     def data(self, key: str) -> Path:
         """Absolute path for a ``data_layout`` key (or a user override)."""
         relative = self.overrides.get(key) or self.domain.data_layout.get(key)
@@ -57,15 +67,15 @@ class Workspace:
                 f"domain {self.domain.name!r} declares no data_layout key {key!r}; known keys: {known}"
             )
         path = Path(relative).expanduser()
-        return path if path.is_absolute() else (self.data_dir / path)
+        return path if path.is_absolute() else (self.domain_data_dir / path)
 
     def corpus_csv(self, source: str | SourceSpec) -> Path:
         spec = source if isinstance(source, SourceSpec) else self.domain.source(source)
-        return self.data_dir / spec.corpus_relpath
+        return self.domain_data_dir / spec.corpus_relpath
 
     def qac_dir(self, source: str | SourceSpec) -> Path:
         spec = source if isinstance(source, SourceSpec) else self.domain.source(source)
-        return self.data_dir / spec.qac_dir_relpath
+        return self.domain_data_dir / spec.qac_dir_relpath
 
     # -- report paths ------------------------------------------------------- #
 

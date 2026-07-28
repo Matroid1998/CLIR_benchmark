@@ -222,7 +222,7 @@ class DomainSpec:
     languages: LanguageSpec
     sources: tuple[SourceSpec, ...]
 
-    # Import anchor for prompt files, e.g. "clir_bench.domains.chem_patents.qac.prompts".
+    # Import anchor for prompt files, e.g. "clir_bench.domains.chemistry.qac.prompts".
     prompts_package: str
 
     # source ``attribution_key`` -> licensing/attribution markdown for dataset cards.

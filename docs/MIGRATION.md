@@ -50,57 +50,52 @@ as defaults in three places. Flags still override them.
 
 | Old flag default | Now |
 |---|---|
-| `--mteb-corpus-repo MehdiAstaraki/multilingual_GP` | `[domains.chem_patents] corpus_repo` |
-| `--mteb-dataset-repo ...chem-patents` | `[domains.chem_patents] benchmark_repo` |
+| `--mteb-corpus-repo MehdiAstaraki/multilingual_GP` | `[domains.chemistry] corpus_repo` |
+| `--mteb-dataset-repo ...chem-patents` | `[domains.chemistry] benchmark_repo` |
 | `--alias-hf-repo`, `--pcs-hf-repo`, `--corpus-hf-repo` | `alias_graph_repo`, `progressive_repo`, `corpus_repo` |
 | `--alias-qa-model`, `--cs-model`, `--pcs-qa-model` (all `gpt-5-mini`) | `[llm] generation_model` |
 | `--pcs-grader-model` | `[llm] concept_verifier_model` |
-| `--chebi-variant full` | `[domains.chem_patents] chebi_variant` |
-| curated 10-model list in `evaluation.py` | `[domains.chem_patents] eval_models` |
+| `--chebi-variant full` | `[domains.chemistry] chebi_variant` |
+| curated 10-model list in `evaluation.py` | `[domains.chemistry] eval_models` |
 
 ## Data
 
-Nothing needs converting. `data_layout` in the domain spec reproduces the old directory
-names exactly, so an existing `data/` tree works unmoved:
+Each domain owns a subtree of `data/` named after it, so several domains coexist without
+colliding. The chemistry domain keeps the old directory names, one level down:
 
 ```
-data/google_patents/{chemistry_patents.ndjson,preprocessed/,multilingual_corpus.csv,qac/}
-data/EPO/{manifest.json,multilingual_corpus.csv,qac/}
-data/{chebi,alias_graph,code_switched,progressive_cs}/
+data/chemistry/google_patents/{chemistry_patents.ndjson,preprocessed/,multilingual_corpus.csv,qac/}
+data/chemistry/EPO/{manifest.json,multilingual_corpus.csv,qac/}
+data/chemistry/{chebi,alias_graph,code_switched,progressive_cs}/
+data/chemistry/human_eval/   # the annotation spreadsheet that used to sit in the repo root
+data/legal/                  # the second domain's subtree (EuroLex, UN parallel corpus)
 ```
 
-Two additions: `data/human_eval/` for the annotation spreadsheet that used to sit in the
-repo root, and `data/baselines/` for the frozen snapshot the coverage plan resumes against.
+`reports/` stays flat: a run records its domain in `run_metadata.json`, so runs from
+different domains can share `reports/runs/` without a per-domain split.
 
-Copy or symlink the old tree:
-
-```bash
-cp -r ../Multi-Lingual-QAC/data  ./data          # or: ln -s ../Multi-Lingual-QAC/data data
-cp -r ../Multi-Lingual-QAC/reports ./reports
-```
-
-`data/EPO/manifest.json` carries ingest resume state — copy it, don't regenerate it, or the
-next EPO ingest re-appends documents already in the corpus.
+`data/chemistry/EPO/manifest.json` carries ingest resume state — keep it, don't regenerate
+it, or the next EPO ingest re-appends documents already in the corpus.
 
 ## What moved where
 
 | Old | New |
 |---|---|
-| `dataloaders/google_patents.py` | `domains/chem_patents/sources/google_patents.py` (+ generic parts to `core/corpus.py`) |
-| `dataloaders/epo_bdds.py` | `domains/chem_patents/sources/epo_bdds.py` (+ streaming/manifest/accumulator to `core/ingest.py`) |
-| `dataloaders/epo_xml.py` | `domains/chem_patents/sources/epo_xml.py` |
+| `dataloaders/google_patents.py` | `domains/chemistry/sources/google_patents.py` (+ generic parts to `core/corpus.py`) |
+| `dataloaders/epo_bdds.py` | `domains/chemistry/sources/epo_bdds.py` (+ streaming/manifest/accumulator to `core/ingest.py`) |
+| `dataloaders/epo_xml.py` | `domains/chemistry/sources/epo_xml.py` |
 | `preprocess/filter_multilingual.py` | `core/corpus.filter_multilingual` |
 | `preprocess/corpus.py` | deleted (was a re-export shim over the loader) |
-| `qac_generation/multilingual_qa.py` | split: engine to `core/qagen.py`, grading to `core/grading.py`, prompts to `domains/chem_patents/qac/prompts/` |
-| `qac_generation/balanced_multilingual_qa.py` | `domains/chem_patents/qac/plans.py` (`balanced`) |
+| `qac_generation/multilingual_qa.py` | split: engine to `core/qagen.py`, grading to `core/grading.py`, prompts to `domains/chemistry/qac/prompts/` |
+| `qac_generation/balanced_multilingual_qa.py` | `domains/chemistry/qac/plans.py` (`balanced`) |
 | `qac_generation/openai_qa.py` | `attic/` (superseded English-first pipeline) |
-| `export/hf_upload.py` | `core/publish.py` + `domains/chem_patents/attribution.py` |
+| `export/hf_upload.py` | `core/publish.py` + `domains/chemistry/attribution.py` |
 | `mteb/evaluation.py` | `evaluation/{harness,models,metrics}.py` + `analysis/tables.py` |
 | `mteb/question_analysis.py` | `analysis/questions.py` (+ shared loaders to `analysis/predictions.py`) |
 | `mteb/runs.py` | `core/runs.py` |
-| `progressive/eval.py` | `domains/chem_patents/codeswitch/progressive_eval.py` |
-| `alias_graph/{chebi,matching,builder}.py` | `domains/chem_patents/aliasgraph/` |
-| `alias_graph/{wikidata_names,cache_all}.py` | `domains/chem_patents/aliasgraph/wikidata.py` |
+| `progressive/eval.py` | `domains/chemistry/codeswitch/progressive_eval.py` |
+| `alias_graph/{chebi,matching,builder}.py` | `domains/chemistry/aliasgraph/` |
+| `alias_graph/{wikidata_names,cache_all}.py` | `domains/chemistry/aliasgraph/wikidata.py` |
 | `alias_graph/confusion_analysis.py` | `analysis/confusion.py` |
 | `alias_graph/retrieval_results.py` | `analysis/rankings.py` |
 | `alias_graph/qac_generation/claude_grading.py` | deleted — `core/grading.GraderConfig` handles the transport |

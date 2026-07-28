@@ -239,6 +239,31 @@ def read_summary(run_dir: Path) -> dict[str, Any]:
         return {}
 
 
+def summary_scores(summary: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    """Per-model metrics as ``{model_name: metrics}``, tolerating both layouts.
+
+    Runs written here store ``models`` as a mapping; runs carried over from the
+    predecessor stored it as a list of per-model records. Reading both keeps the
+    imported history browsable.
+    """
+    models = summary.get("models")
+    if isinstance(models, dict):
+        return {str(name): dict(metrics) if isinstance(metrics, Mapping) else {"main_score": metrics}
+                for name, metrics in models.items()}
+    if isinstance(models, list):
+        scores: dict[str, dict[str, Any]] = {}
+        for entry in models:
+            if not isinstance(entry, Mapping):
+                continue
+            name = str(entry.get("model_name") or entry.get("model") or entry.get("model_slug") or "?")
+            metrics = dict(entry.get("metrics") or {})
+            if "main_score" not in metrics and entry.get("main_score") is not None:
+                metrics["main_score"] = entry["main_score"]
+            scores[name] = metrics
+        return scores
+    return {}
+
+
 def slugify_model(name: str) -> str:
     """Filesystem-safe model directory name (``org/model`` -> ``org__model``)."""
     return re.sub(r"[^a-zA-Z0-9._-]+", "__", name).strip("_")
