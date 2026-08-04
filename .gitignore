@@ -13,6 +13,10 @@ data/
 .cache/
 cluster/out/
 
+# Third-party checkouts driven as subprocesses. eur-lex-visualiser is GPL-3.0:
+# it is cloned locally and invoked as a CLI, never vendored into this tree.
+tools/
+
 # Run artifacts: keep summaries and findings, drop bulk outputs
 reports/runs/*/predictions/
 reports/runs/*/emb/

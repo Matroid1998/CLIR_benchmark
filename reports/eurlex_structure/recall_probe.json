@@ -1,0 +1,33 @@
+{
+  "chars": 945737,
+  "article_heads": 1380,
+  "enumerations": 1281,
+  "heads_absorbed": 99,
+  "unaccounted": 0,
+  "missable": [
+    {
+      "pattern": "anaphoric-this-article",
+      "count": 94
+    },
+    {
+      "pattern": "anaphoric-that-article",
+      "count": 7
+    },
+    {
+      "pattern": "abbreviated-art",
+      "count": 0
+    },
+    {
+      "pattern": "preceding-following",
+      "count": 2
+    },
+    {
+      "pattern": "paragraph-only",
+      "count": 554
+    },
+    {
+      "pattern": "annex-reference",
+      "count": 200
+    }
+  ]
+}
