@@ -11,7 +11,8 @@ Genera exactamente TRES pares pregunta-respuesta. Cada uno debe centrarse en un 
 
 REGLAS FUNDAMENTALES:
 - Foco único: Cada pregunta debe solicitar exactamente UN elemento específico de información. Nunca combines varias solicitudes (p. ej., no preguntes por un plazo y un importe de sanción en la misma pregunta).
-- El artículo objetivo manda: Toda pregunta debe poder responderse únicamente gracias a lo que dice el ARTÍCULO OBJETIVO. Una pregunta cuyo objeto reside enteramente en un artículo referenciado queda fuera de ámbito — ese artículo referenciado sería el objetivo de otra pregunta. Si eliminas el artículo objetivo y la pregunta sigue teniendo sentido, descártala.
+- El artículo objetivo debe aportar el hecho operativo: La pregunta debe girar en torno a lo que el propio ARTÍCULO OBJETIVO establece — su obligación, prohibición, condición, plazo, umbral o procedimiento. Un artículo referenciado solo puede COMPLETAR ese hecho: aportar la identidad de una lista a la que el objetivo remite, la definición de un término que el objetivo emplea o un valor al que el objetivo se remite. El artículo referenciado nunca es el objeto.
+- LA PRUEBA DEL ARTÍCULO ÚNICO (aplícala a cada candidata antes de conservarla): ¿podría un lector responder por completo a esta pregunta leyendo ÚNICAMENTE el artículo referenciado, sin haber visto nunca el artículo objetivo? Si la respuesta es SÍ, la pregunta pertenece a ese artículo referenciado y no a este — DESCÁRTALA. No basta con que el artículo objetivo mencione el tema o remita a él. Este es, con diferencia, el fallo más frecuente en esta tarea: en una ejecución de producción, TODAS las preguntas multiartículo generadas suspendieron esta prueba.
 - Las referencias cruzadas resueltas están permitidas y son deseables: El artículo objetivo puede decir «en las condiciones establecidas en el Article 9» o «los órganos enumerados en el Article 4». Cuando ese artículo citado se facilita en el bloque REFERENCED ARTICLES, PUEDES seguir la remisión y utilizar su contenido para completar la respuesta. Ese es el propósito del bloque de referencias. Si la sustancia de la respuesta reside detrás de una cita que NO se ha facilitado, descarta la pregunta.
 - Respaldo directo y completo: La respuesta debe estar enunciada íntegramente en el texto facilitado — en el artículo objetivo, o en el artículo objetivo combinado con un artículo referenciado facilitado. Sin inferencia más allá de seguir una remisión explícita, y sin conocimiento externo.
 - Declara lo que has usado: Para cada par debes indicar qué artículos son necesarios para responderlo, en el campo "articles_involved". Véase DECLARACIÓN DE ARTÍCULOS IMPLICADOS más abajo. Este campo se evalúa; equivocarse en él es tan grave como dar una respuesta incorrecta.
@@ -64,6 +65,7 @@ Example 2 — answer completed by a referenced article
 "This Regulation applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
 ✓ Good: {"question": "Which single-use plastic products are banned from being placed on the market from 3 July 2026?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "articles_involved": ["3", "4"]}
   → The prohibition and its date come from the target article; the list of products comes from the referenced article. BOTH are needed, so BOTH are listed. Note that without the reference block this question would have had to be discarded.
+  → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to. That is why this passes and the Example 4 failures do not.
 
 Example 3 — the failure modes
 ### TARGET ARTICLE
@@ -79,8 +81,30 @@ Example 3 — the failure modes
 ✗ Bad (unsupplied reference): "What format must the reports use?"
   → Article 12 says the Commission will adopt implementing acts establishing the format, but the format itself is in no supplied article. The substance is behind an unsupplied pointer. Discard.
 
+Example 4 — REAL off-target failures from a production run. Every multi-article question generated failed the one-article test in exactly this way. Study them.
+
+(a) TARGET Article 5: "No UCITS shall pursue activities as such unless it has been authorised … A common fund shall be authorised only if the competent authorities of its home Member State have approved the application of the management company to manage that common fund."
+    REFERENCED Article 20: "a management company which applies to manage a UCITS established in another Member State shall provide the competent authorities of the UCITS home Member State with the following documentation: (a) the written agreement with the depositary …; (b) information on delegation arrangements …"
+✗ Bad (off-target): "For approval of cross-border management of a UCITS, what documentation must the management company give to the UCITS home regulator?"
+  → Article 20 alone answers this completely, so the one-article test FAILS. The target's authorisation rule contributed nothing the question turns on. A retriever would correctly return Article 20, not Article 5. Discard.
+  ✓ Instead ask what Article 5 itself provides: "What condition must be met before a common fund can be authorised?" — answer from the target alone, articles_involved ["5"].
+
+(b) TARGET Article 12: "The Commission shall, in accordance with the advisory procedure referred to in Article 24(2), take an import decision …"
+    REFERENCED Article 24: "Where reference is made to this paragraph, Article 3 and Article 7 of Decision 1999/468/EC shall apply …"
+✗ Bad (off-target): "Which Decision 1999/468/EC provisions apply to the advisory procedure for Commission import decisions on chemicals?"
+  → Answerable from Article 24 alone. The target merely names the procedure it follows. Discard.
+  ✓ Instead: "What must the Commission do with decision guidance documents received from the Secretariat?" — Article 12's own obligation.
+
+(c) TARGET Article 23: sets a three-month deadline for a take back request where the evidence is not a Eurodac hit.
+    REFERENCED Article 20(2): defines when an application for international protection is deemed lodged.
+✗ Bad (off-target): "When is an international protection application treated as lodged?"
+  → That definition is Article 20(2)'s alone. Discard.
+  ✓ Good (legitimately multi-article): "How long does a Member State have to make a take back request when the evidence is not a Eurodac hit?" — the deadline is the TARGET's own rule; Article 20(2) only fixes when the clock starts, so it completes the answer without being its subject. articles_involved ["23", "20"].
+
+The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
+
 AUTOVERIFICACIÓN para cada pregunta antes de finalizarla:
-- ¿Es esta una pregunta sobre el artículo OBJETIVO? Si el artículo objetivo pudiera eliminarse sin que la pregunta cambiara, descártala.
+- LA PRUEBA DEL ARTÍCULO ÚNICO: ¿podría responderse esto por completo a partir de un artículo referenciado por sí solo? Si es así, descártala — no es una pregunta sobre el artículo objetivo.
 - ¿La sustancia de la respuesta está íntegramente presente en el texto facilitado — el artículo objetivo, o el objetivo más un artículo referenciado facilitado?
 - ¿Enumera "articles_involved" exactamente los artículos necesarios, ni más ni menos? ¿Está el artículo objetivo en la lista?
 - ¿La pregunta solicita exactamente un elemento de información?
