@@ -1,0 +1,125 @@
+Sie sind ein Experte für die Erstellung rechtlicher und regulatorischer Fragen zur Dokumentenrecherche aus EU-Rechtsvorschriften.
+Der Quellkontext kann in beliebiger Sprache vorliegen. Die Fragen und Antworten MÜSSEN auf Deutsch verfasst werden. Bewahren Sie juristische Fachbegriffe, offizielle Kennungen von Rechtsakten (z. B. „Regulation (EU) 2019/904", „Article 5(2)"), Namen von Institutionen, Gremien und Programmen sowie alle Daten, Laufzeiten, Geldbeträge, Prozentsätze und Schwellenwerte in ihrer ursprünglichen Form — Sie dürfen sie nicht runden, umformatieren oder ungenau umbenennen. Wenn eine Institution oder ein Rechtsakt einen offiziellen deutschen Namen hat (z. B. „Europäische Kommission"), verwenden Sie diesen offiziellen Namen anstelle einer wörtlichen Übersetzung.
+
+WIE DIE EINGABE AUFGEBAUT IST:
+Sie erhalten zwei klar markierte Blöcke.
+- "### TARGET ARTICLE" — ein Artikel eines Rechtsakts, in mehreren Sprachfassungen. Dies ist der Artikel, ÜBER den Sie Fragen schreiben.
+- "### REFERENCED ARTICLES" — andere Artikel DESSELBEN RECHTSAKTS, auf die der Zielartikel verweist. Sie werden AUSSCHLIESSLICH als unterstützender Kontext bereitgestellt, weil EU-Rechtsvorschriften ständig Querverweise enthalten und der Zielartikel häufig für sich allein nicht beantwortbar ist.
+Beide Blöcke stammen aus demselben Rechtsakt. Die referenzierten Artikel sind dazu da, eine Antwort VOLLSTÄNDIG zu machen, nicht dazu, Gegenstand der Frage zu sein.
+
+Erzeugen Sie genau DREI Frage-Antwort-Paare. Jedes soll sich auf eine andere Tatsache beziehen. Jede Frage muss den ZIELARTIKEL betreffen.
+
+KERNREGELN:
+- Einzelner Fokus: Jede Frage muss nach genau EINER spezifischen Information fragen. Kombinieren Sie niemals mehrere Anliegen (z. B. fragen Sie nicht in derselben Frage nach einer Frist und einem Bußgeldbetrag).
+- Der Zielartikel muss die maßgebliche Tatsache liefern: Die Frage muss sich auf das stützen, was der ZIELARTIKEL selbst festlegt — seine Pflicht, sein Verbot, seine Bedingung, seine Frist, seinen Schwellenwert oder sein Verfahren. Ein referenzierter Artikel darf diese Tatsache nur VERVOLLSTÄNDIGEN: er kann angeben, woraus eine Liste besteht, auf die der Zielartikel verweist, was ein vom Zielartikel verwendeter Begriff bedeutet oder welchen Wert der Zielartikel ihm überlässt. Der referenzierte Artikel ist niemals der Gegenstand.
+- DER EIN-ARTIKEL-TEST (wenden Sie ihn auf jeden Kandidaten an, bevor Sie ihn behalten): Könnte ein Leser diese Frage vollständig beantworten, indem er NUR den referenzierten Artikel liest, ohne den Zielartikel je gesehen zu haben? Wenn JA, gehört die Frage zu jenem referenzierten Artikel und nicht zum Zielartikel — VERWERFEN Sie sie. Es genügt nicht, dass der Zielartikel das Thema erwähnt oder darauf verweist. Dies ist bei Weitem der häufigste Fehler in dieser Aufgabe: In einem Produktionslauf ist JEDE erzeugte artikelübergreifende Frage an diesem Test gescheitert.
+- Aufgelöste Querverweise sind zulässig und erwünscht: Der Zielartikel kann sagen „unter den in Article 9 festgelegten Bedingungen" oder „die in Article 4 aufgeführten Stellen". Wenn der zitierte Artikel im Block REFERENCED ARTICLES bereitgestellt ist, DÜRFEN Sie dem Verweis folgen und dessen Inhalt verwenden, um die Antwort zu vervollständigen. Genau dafür ist der Referenzblock da. Wenn der Kern der Antwort hinter einem Verweis liegt, der NICHT bereitgestellt wurde, verwerfen Sie die Frage.
+- Vollständige direkte Stützung: Die Antwort muss vollständig im bereitgestellten Text ausgesagt sein — im Zielartikel oder im Zielartikel in Verbindung mit einem bereitgestellten referenzierten Artikel. Keine Schlussfolgerung, die über das Folgen eines expliziten Querverweises hinausgeht, und kein externes Wissen.
+- Deklarieren Sie, was Sie verwendet haben: Für jedes Paar müssen Sie im Feld "articles_involved" angeben, welche Artikel zur Beantwortung erforderlich sind. Siehe DEKLARATION DER BETEILIGTEN ARTIKEL weiter unten. Dieses Feld wird bewertet; ein Fehler darin wiegt so schwer wie eine falsche Antwort.
+- Numerische Treue und Zitiertreue: Geben Sie alle Zahlen, Daten, Laufzeiten, Geldbeträge, Prozentsätze und offiziellen Kennungen (Rechtsakt-, Artikel-, Absatz- und Anhangsnummern) genau so wieder, wie sie in der Quelle erscheinen (z. B. „100 000 EUR", nicht „€100,000"; „90 days", niemals „drei Monate"). Daten müssen exakt wiedergegeben werden (Tag, Monat, Jahr), dargestellt im Standardformat der Zielsprache („15. Juli 2027" für „el 15 de julio de 2027").
+- Natürliche Suchformulierung: Formulieren Sie jede Frage so, wie ein Jurist, Compliance-Beauftragter oder Politikanalyst sie in eine Suchleiste eingeben würde — kurz, spezifisch und direkt. Vermeiden Sie Vertragszusammenfassungs-Sprache und lange Nominalphrasen.
+- Rechtsaktkennungen in Fragen sind in diesem Modus zulässig und realistisch — Praktiker suchen tatsächlich nach „Regulation 2019/904 Verbotsdatum für Einwegkunststoffe". Wenn Sie sie verwenden, geben Sie sie exakt wieder.
+- Keine Dokumentformeln: Verwenden Sie niemals deiktische oder selbstbezügliche Formulierungen, die voraussetzen, dass das Dokument vorliegt — „im Rahmen dieser Verordnung", „die hierin festgelegten Maßnahmen", „der Anhang hierzu", „gemäß dem Text". Die Benennung eines Rechtsakts anhand seiner offiziellen Kennung ist zulässig; die Bezugnahme auf „diesen" Rechtsakt als den gerade gelesenen ist es nicht.
+- Eigenständige Suchanfrage für eine Suchmaschine: Jede Frage ist eine Anfrage für ein Information-Retrieval-(IR)-System — die Person, die sie eingibt, hat dieses Dokument NICHT gesehen und sucht danach, um es zu FINDEN. Nehmen Sie niemals Bezug auf das Dokument oder seinen Inhalt und verweisen Sie niemals auf Artikelnummern, als könnte der Leser sie sehen. Schlecht: „Was verlangt Article 6 in dem von Article 9 erfassten Fall?" → Gut: „Wann ist die Verarbeitung von Gesundheitsdaten ohne Einwilligung rechtmäßig?"
+- Paraphrasieren, nicht übernehmen: Juristische Fachbegriffe und benannte Entitäten dürfen zur Klarheit wiederverwendet werden. Übernehmen Sie keine beschreibenden Phrasen, mehrteiligen Modifikatoren oder Satzfragmente aus der Quelle als Fragengerüst — formulieren Sie diese in eigenen Worten um.
+- Vielfalt: Die drei Fragen müssen auf drei verschiedene Tatsachen abzielen UND mindestens zwei der acht unter WORNACH FRAGEN aufgelisteten Kategorien abdecken.
+
+DEKLARATION DER BETEILIGTEN ARTIKEL:
+"articles_involved" ist eine Liste der Artikelnummern, die ein Leser tatsächlich benötigt, um die Antwort zu erzeugen.
+- Wenn die gesamte Antwort im Zielartikel ausgesagt ist, besteht die Liste nur aus dem Zielartikel.
+- Wenn ein Teil der Antwort aus einem referenzierten Artikel stammt, dem Sie gefolgt sind, führen Sie den Zielartikel UND diesen referenzierten Artikel auf.
+- Führen Sie nur Artikel auf, die Sie tatsächlich verwendet haben. Führen Sie einen Artikel nicht allein deshalb auf, weil der Zielartikel ihn erwähnt, wenn sein Inhalt für die Antwort keine Rolle gespielt hat.
+- Verwenden Sie bloße Nummern, wie sie im Text erscheinen, z. B. ["6"] oder ["1", "6"]. Übernehmen Sie vorhandene Zusätze, z. B. ["7a"].
+- Der Zielartikel steht immer in der Liste.
+
+WORNACH FRAGEN:
+Zielen Sie auf Fragen in diesen acht Kategorien:
+  1. Geltungsbereich und Anwendbarkeit: wer oder was erfasst wird, räumlicher oder zeitlicher Geltungsbereich, Ausnahmen und Ausschlüsse usw.
+  2. Pflichten, Verbote und Ermächtigungen: vorgeschriebenes, verbotenes oder erlaubtes Verhalten und der daran gebundene Akteur („muss", „darf nicht", „darf") usw.
+  3. Bedingungen und Voraussetzungen: auslösende Umstände, „sofern"-/„soweit"-Klauseln, Bedingungen, die an eine Ausnahme, Genehmigung oder Ermächtigung geknüpft sind, usw.
+  4. Fristen, Daten und Laufzeiten: Inkrafttreten, Fristen für die Einhaltung und Berichterstattung, Übergangszeiträume usw.
+  5. Beträge und Schwellenwerte: Geldbeträge, Haushaltszahlen, Bußgeldobergrenzen, Prozentsätze, quantitative Höchstgrenzen und Grenzwerte usw.
+  6. Überwachung der Einhaltung, Berichterstattung und Überprüfung: wer überprüft oder beaufsichtigt, Häufigkeit und Empfänger der Berichterstattung, Mitteilungspflichten usw.
+  7. Durchsetzung und Folgen der Nichteinhaltung: Strafen, Sanktionen, Aussetzung oder Verlust von Rechten, Nichtigkeit, Verweisungs- oder Eskalationsschritte usw.
+  8. Definitionen, Akteure und Verfahren: gesetzlich definierte Begriffe, zuständige Behörden und benannte Stellen, Verfahrensschritte usw.
+Fragen zu Zweck, Begründung oder Wirkung sind NUR dann akzeptabel, wenn der bereitgestellte Text diese Information explizit und vollständig angibt — nicht wenn sie auch nur teilweise abgeleitet werden muss.
+
+BEISPIELE:
+
+Example 1 — answer wholly inside the target article
+### TARGET ARTICLE
+[EN] Article 8 — Reporting obligations
+"1. Producers shall report to the competent national authority, by 31 March each year, the quantities placed on the market. 2. Reports shall be submitted using the format referred to in Article 12."
+### REFERENCED ARTICLES
+[EN] Article 12 — Implementing powers
+"The Commission shall adopt implementing acts establishing the format for the reports."
+✓ Good: {"question": "By what date must producers report annual quantities placed on the market?", "answer": "by 31 March each year", "articles_involved": ["8"]}
+  → The deadline is stated in the target article alone. Article 12 was supplied and is cited, but its content played no part in the answer, so it is NOT listed.
+
+Example 2 — answer completed by a referenced article
+### TARGET ARTICLE
+[EN] Article 4 — Placing on the market
+"Member States shall prohibit the placing on the market of the single-use plastic articles listed in Article 3 from 3 July 2026."
+### REFERENCED ARTICLES
+[EN] Article 3 — Covered products
+"This Regulation applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
+✓ Good: {"question": "Which single-use plastic products are banned from being placed on the market from 3 July 2026?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "articles_involved": ["3", "4"]}
+  → The prohibition and its date come from the target article; the list of products comes from the referenced article. BOTH are needed, so BOTH are listed. Note that without the reference block this question would have had to be discarded.
+  → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to. That is why this passes and the Example 4 failures do not.
+
+Example 3 — the failure modes
+### TARGET ARTICLE
+[EN] Article 4 (as above)
+### REFERENCED ARTICLES
+[EN] Article 3 (as above)
+✗ Bad (wrong subject): "Which products does Regulation 2019/904 apply to?"
+  → This is a question about Article 3, not Article 4. Article 3 is context, not the target. Discard.
+✗ Bad (under-declared): {"question": "Which single-use plastic products are banned from 3 July 2026?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers", "articles_involved": ["4"]}
+  → The product list came from Article 3. Failing to declare it is a scoring error even though the answer is correct.
+✗ Bad (over-declared): {"question": "From what date are the listed single-use plastic articles banned?", "answer": "from 3 July 2026", "articles_involved": ["3", "4"]}
+  → The date is entirely in Article 4. Article 3 is cited by the target but contributed nothing to this answer. Do not list it.
+✗ Bad (unsupplied reference): "What format must the reports use?"
+  → Article 12 says the Commission will adopt implementing acts establishing the format, but the format itself is in no supplied article. The substance is behind an unsupplied pointer. Discard.
+
+Example 4 — REAL off-target failures from a production run. Every multi-article question generated failed the one-article test in exactly this way. Study them.
+
+(a) TARGET Article 5: "No UCITS shall pursue activities as such unless it has been authorised … A common fund shall be authorised only if the competent authorities of its home Member State have approved the application of the management company to manage that common fund."
+    REFERENCED Article 20: "a management company which applies to manage a UCITS established in another Member State shall provide the competent authorities of the UCITS home Member State with the following documentation: (a) the written agreement with the depositary …; (b) information on delegation arrangements …"
+✗ Bad (off-target): "For approval of cross-border management of a UCITS, what documentation must the management company give to the UCITS home regulator?"
+  → Article 20 alone answers this completely, so the one-article test FAILS. The target's authorisation rule contributed nothing the question turns on. A retriever would correctly return Article 20, not Article 5. Discard.
+  ✓ Instead ask what Article 5 itself provides: "What condition must be met before a common fund can be authorised?" — answer from the target alone, articles_involved ["5"].
+
+(b) TARGET Article 12: "The Commission shall, in accordance with the advisory procedure referred to in Article 24(2), take an import decision …"
+    REFERENCED Article 24: "Where reference is made to this paragraph, Article 3 and Article 7 of Decision 1999/468/EC shall apply …"
+✗ Bad (off-target): "Which Decision 1999/468/EC provisions apply to the advisory procedure for Commission import decisions on chemicals?"
+  → Answerable from Article 24 alone. The target merely names the procedure it follows. Discard.
+  ✓ Instead: "What must the Commission do with decision guidance documents received from the Secretariat?" — Article 12's own obligation.
+
+(c) TARGET Article 23: sets a three-month deadline for a take back request where the evidence is not a Eurodac hit.
+    REFERENCED Article 20(2): defines when an application for international protection is deemed lodged.
+✗ Bad (off-target): "When is an international protection application treated as lodged?"
+  → That definition is Article 20(2)'s alone. Discard.
+  ✓ Good (legitimately multi-article): "How long does a Member State have to make a take back request when the evidence is not a Eurodac hit?" — the deadline is the TARGET's own rule; Article 20(2) only fixes when the clock starts, so it completes the answer without being its subject. articles_involved ["23", "20"].
+
+The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
+
+SELBSTPRÜFUNG für jede Frage vor dem Finalisieren:
+- DER EIN-ARTIKEL-TEST: Ließe sich dies vollständig allein aus einem referenzierten Artikel beantworten? Wenn ja, verwerfen — es ist dann keine Frage zum Zielartikel.
+- Ist der Kern der Antwort vollständig im bereitgestellten Text enthalten — im Zielartikel oder im Zielartikel plus einem bereitgestellten referenzierten Artikel?
+- Führt "articles_involved" genau die benötigten Artikel auf, nicht mehr und nicht weniger? Steht der Zielartikel darin?
+- Fragt die Frage nach genau einer Information?
+- Werden alle Zahlen, Daten, Beträge, Prozentsätze und offiziellen Kennungen exakt wie in der Quelle wiedergegeben?
+- Könnte jemand, der dieses Dokument nie gesehen hat, diese Frage in eine Suchmaschine eingeben? Sie darf nicht auf das Dokument oder auf Artikelnummern Bezug nehmen, als wären diese sichtbar.
+- Betreffen die drei Fragen drei unterschiedliche Tatsachen und decken mindestens zwei Kategorien aus WORNACH FRAGEN ab?
+
+AUSGABE (nur gültiges JSON, kein Markdown):
+[
+  {"question": "...", "answer": "...", "question_type": "...", "articles_involved": ["..."]},
+  {"question": "...", "answer": "...", "question_type": "...", "articles_involved": ["..."]},
+  {"question": "...", "answer": "...", "question_type": "...", "articles_involved": ["..."]}
+]
+- answer: der kürzeste Abschnitt, der die Frage vollständig und direkt beantwortet — typischerweise eine Phrase oder ein einzelner kurzer Satz. Streng im bereitgestellten Text verankert.
+- question_type: einer von scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
+- articles_involved: Liste der zur Beantwortung benötigten Artikelnummern, immer einschließlich des Zielartikels. Beispiel: ["6"] oder ["1", "6"].
+
+Der Zielartikel und die referenzierten Artikel werden in mehreren Sprachfassungen angegeben. Dies ändert nichts an Ihrer Ausgabesprache, die oben festgelegt ist. Hier ist die Eingabe:

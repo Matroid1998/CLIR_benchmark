@@ -1,0 +1,125 @@
+You are an expert at creating legal and regulatory retrieval questions from EU legislation.
+The source context may be in any language. The questions and answers MUST be written in English. Preserve legal terms of art, official instrument identifiers (e.g., "Regulation (EU) 2019/904", "Article 5(2)"), names of institutions, bodies, and programmes, and all dates, durations, monetary amounts, percentages, and thresholds in their original form — do not round, reformat, or loosely rename them. Where an institution or instrument has an official English name (e.g., "European Commission"), use that official name rather than a literal translation.
+
+HOW THE INPUT IS STRUCTURED:
+You receive two clearly marked blocks.
+- "### TARGET ARTICLE" — one article of one act, in several language versions. This is the article you are writing questions ABOUT.
+- "### REFERENCED ARTICLES" — other articles OF THE SAME ACT that the target article cites. They are supplied as supporting context ONLY, because EU legislation cross-references constantly and the target article is often not answerable on its own.
+Both blocks are the same act. The referenced articles are there to let an answer be COMPLETE, not to be the subject of the question.
+
+Generate exactly THREE question-answer pairs. Each should target a different fact. Every question must be about the TARGET ARTICLE.
+
+CORE RULES:
+- Single Focus: Each question must ask for exactly ONE specific piece of information. Never combine multiple asks (e.g., do not ask for a deadline and a penalty amount in the same question).
+- The Target Article Must Supply the Operative Fact: The question must turn on what the TARGET ARTICLE itself lays down — its obligation, prohibition, condition, deadline, threshold, or procedure. A referenced article may only COMPLETE that fact: supply the identity of a list the target points to, the definition of a term the target uses, or a value the target defers to. The referenced article is never the subject.
+- THE ONE-ARTICLE TEST (apply to every candidate before keeping it): could a reader answer this question completely by reading ONLY the referenced article, never having seen the target article? If YES, the question belongs to that referenced article and not to this one — DISCARD it. It is not enough that the target article mentions the topic or points at it. This is by far the most common failure in this task: in a production run, EVERY multi-article question generated failed this test.
+- Resolved Cross-References Are Allowed and Wanted: The target article may say "under the conditions laid down in Article 9" or "the bodies listed in Article 4". When that cited article is supplied in the REFERENCED ARTICLES block, you MAY follow the citation and use its content to complete the answer. This is the point of the reference block. If the answer's substance lies behind a citation that was NOT supplied, discard the question.
+- Full Direct Support: The answer must be fully stated in the supplied text — in the target article, or in the target article combined with a supplied referenced article. No inference beyond following an explicit cross-reference, and no outside knowledge.
+- Declare What You Used: For every pair you must report which articles are needed to answer it, in the "articles_involved" field. See DECLARING INVOLVED ARTICLES below. This field is graded; getting it wrong is as bad as a wrong answer.
+- Numerical & Citational Fidelity: Reproduce all numbers, dates, durations, monetary amounts, percentages, and official identifiers (instrument, article, paragraph, and annex numbers) exactly as they appear in the source (e.g., "100 000 EUR", not "€100,000"; "90 days", never "three months"). Dates must be reproduced exactly (day, month, year), rendered in the output language's standard format ("15 July 2027" for "el 15 de julio de 2027").
+- Natural Search Wording: Write each question as a lawyer, compliance officer, or policy analyst would type it into a search bar — short, specific, and direct. Avoid treaty-summary language and long noun phrases.
+- Instrument identifiers in questions are allowed and realistic in this mode — practitioners genuinely search "Regulation 2019/904 single-use plastics ban date". When used, reproduce them exactly.
+- No Document Phrases: Never use deictic or self-referential wording that presupposes the document is at hand — "under this Regulation," "the measures set out herein," "the annex hereto," "according to the text." Naming an instrument by its official identifier is fine; referring to "this" instrument as the one being read is not.
+- Standalone query for a search engine: each question is a query for an Information Retrieval (IR) system — the person typing it has NOT seen this document and is searching to FIND it. Never refer to the document or its contents, and never refer to the article numbers as if the reader could see them. Bad: "What does Article 6 require in the case covered by Article 9?" → Good: "When is processing of health data lawful without consent?"
+- Paraphrase, Don't Lift: Legal terms of art and named entities may be reused for clarity. Do not lift descriptive phrases, multi-word modifiers, or sentence fragments from the source as question scaffolding — rewrite those in your own words.
+- Diversity: The three questions must target three different facts AND span at least two of the eight categories listed under WHAT TO ASK.
+
+DECLARING INVOLVED ARTICLES:
+"articles_involved" is a list of the article numbers a reader genuinely needs in order to produce the answer.
+- If the whole answer is stated in the target article, the list is just the target article.
+- If part of the answer comes from a referenced article you followed, list the target article AND that referenced article.
+- List only articles you actually used. Do not list an article merely because the target article mentions it, if its content played no part in the answer.
+- Use bare numbers as they appear in the text, e.g. ["6"] or ["1", "6"]. Include suffixes where present, e.g. ["7a"].
+- The target article is always in the list.
+
+WHAT TO ASK:
+Target questions in these eight categories:
+  1. Scope & Applicability: who or what is covered, territorial or temporal scope, exemptions and exclusions, etc.
+  2. Obligations, Prohibitions & Authorizations: required, forbidden, or permitted conduct and the actor bound by it ("shall", "must not", "may"), etc.
+  3. Conditions & Prerequisites: triggering circumstances, "provided that" / "where" clauses, conditions attached to an exemption, approval, or authorization, etc.
+  4. Deadlines, Dates & Durations: entry into force, compliance and reporting deadlines, transition periods, etc.
+  5. Amounts & Thresholds: monetary amounts, budget figures, fine caps, percentages, quantitative ceilings and limits, etc.
+  6. Compliance Monitoring, Reporting & Verification: who verifies or oversees, reporting frequency and recipients, notification duties, etc.
+  7. Enforcement & Consequences of Non-Compliance: penalties, sanctions, suspension or loss of rights, nullity, referral or escalation steps, etc.
+  8. Definitions, Actors & Procedures: legally defined terms, competent authorities and designated bodies, procedural steps, etc.
+Questions about purpose, rationale, or effect are acceptable ONLY when the supplied text explicitly and completely states that information — not when it must be inferred, even partially.
+
+EXAMPLES:
+
+Example 1 — answer wholly inside the target article
+### TARGET ARTICLE
+[EN] Article 8 — Reporting obligations
+"1. Producers shall report to the competent national authority, by 31 March each year, the quantities placed on the market. 2. Reports shall be submitted using the format referred to in Article 12."
+### REFERENCED ARTICLES
+[EN] Article 12 — Implementing powers
+"The Commission shall adopt implementing acts establishing the format for the reports."
+✓ Good: {"question": "By what date must producers report annual quantities placed on the market?", "answer": "by 31 March each year", "articles_involved": ["8"]}
+  → The deadline is stated in the target article alone. Article 12 was supplied and is cited, but its content played no part in the answer, so it is NOT listed.
+
+Example 2 — answer completed by a referenced article
+### TARGET ARTICLE
+[EN] Article 4 — Placing on the market
+"Member States shall prohibit the placing on the market of the single-use plastic articles listed in Article 3 from 3 July 2026."
+### REFERENCED ARTICLES
+[EN] Article 3 — Covered products
+"This Regulation applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
+✓ Good: {"question": "Which single-use plastic products are banned from being placed on the market from 3 July 2026?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "articles_involved": ["3", "4"]}
+  → The prohibition and its date come from the target article; the list of products comes from the referenced article. BOTH are needed, so BOTH are listed. Note that without the reference block this question would have had to be discarded.
+  → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to. That is why this passes and the Example 4 failures do not.
+
+Example 3 — the failure modes
+### TARGET ARTICLE
+[EN] Article 4 (as above)
+### REFERENCED ARTICLES
+[EN] Article 3 (as above)
+✗ Bad (wrong subject): "Which products does Regulation 2019/904 apply to?"
+  → This is a question about Article 3, not Article 4. Article 3 is context, not the target. Discard.
+✗ Bad (under-declared): {"question": "Which single-use plastic products are banned from 3 July 2026?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers", "articles_involved": ["4"]}
+  → The product list came from Article 3. Failing to declare it is a scoring error even though the answer is correct.
+✗ Bad (over-declared): {"question": "From what date are the listed single-use plastic articles banned?", "answer": "from 3 July 2026", "articles_involved": ["3", "4"]}
+  → The date is entirely in Article 4. Article 3 is cited by the target but contributed nothing to this answer. Do not list it.
+✗ Bad (unsupplied reference): "What format must the reports use?"
+  → Article 12 says the Commission will adopt implementing acts establishing the format, but the format itself is in no supplied article. The substance is behind an unsupplied pointer. Discard.
+
+Example 4 — REAL off-target failures from a production run. Every multi-article question generated failed the one-article test in exactly this way. Study them.
+
+(a) TARGET Article 5: "No UCITS shall pursue activities as such unless it has been authorised … A common fund shall be authorised only if the competent authorities of its home Member State have approved the application of the management company to manage that common fund."
+    REFERENCED Article 20: "a management company which applies to manage a UCITS established in another Member State shall provide the competent authorities of the UCITS home Member State with the following documentation: (a) the written agreement with the depositary …; (b) information on delegation arrangements …"
+✗ Bad (off-target): "For approval of cross-border management of a UCITS, what documentation must the management company give to the UCITS home regulator?"
+  → Article 20 alone answers this completely, so the one-article test FAILS. The target's authorisation rule contributed nothing the question turns on. A retriever would correctly return Article 20, not Article 5. Discard.
+  ✓ Instead ask what Article 5 itself provides: "What condition must be met before a common fund can be authorised?" — answer from the target alone, articles_involved ["5"].
+
+(b) TARGET Article 12: "The Commission shall, in accordance with the advisory procedure referred to in Article 24(2), take an import decision …"
+    REFERENCED Article 24: "Where reference is made to this paragraph, Article 3 and Article 7 of Decision 1999/468/EC shall apply …"
+✗ Bad (off-target): "Which Decision 1999/468/EC provisions apply to the advisory procedure for Commission import decisions on chemicals?"
+  → Answerable from Article 24 alone. The target merely names the procedure it follows. Discard.
+  ✓ Instead: "What must the Commission do with decision guidance documents received from the Secretariat?" — Article 12's own obligation.
+
+(c) TARGET Article 23: sets a three-month deadline for a take back request where the evidence is not a Eurodac hit.
+    REFERENCED Article 20(2): defines when an application for international protection is deemed lodged.
+✗ Bad (off-target): "When is an international protection application treated as lodged?"
+  → That definition is Article 20(2)'s alone. Discard.
+  ✓ Good (legitimately multi-article): "How long does a Member State have to make a take back request when the evidence is not a Eurodac hit?" — the deadline is the TARGET's own rule; Article 20(2) only fixes when the clock starts, so it completes the answer without being its subject. articles_involved ["23", "20"].
+
+The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
+
+SELF-CHECK for each question before finalizing:
+- THE ONE-ARTICLE TEST: could this be answered completely from a referenced article alone? If yes, discard — it is not a question about the target.
+- Is the answer's substance fully present in the supplied text — target article, or target plus a supplied referenced article?
+- Does "articles_involved" list exactly the articles needed, no more and no fewer? Is the target article in it?
+- Does the question ask for exactly one piece of information?
+- Are all numbers, dates, amounts, percentages, and official identifiers reproduced exactly as in the source?
+- Could someone who has never seen this document type this question into a search engine? It must not refer to the document or to article numbers as if visible.
+- Are the three questions about three different facts, covering at least two categories from WHAT TO ASK?
+
+OUTPUT (valid JSON only, no markdown):
+[
+  {"question": "...", "answer": "...", "question_type": "...", "articles_involved": ["..."]},
+  {"question": "...", "answer": "...", "question_type": "...", "articles_involved": ["..."]},
+  {"question": "...", "answer": "...", "question_type": "...", "articles_involved": ["..."]}
+]
+- answer: the shortest span that fully and directly answers the question — typically a phrase or a single short sentence. Strictly grounded in the supplied text.
+- question_type: one of scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
+- articles_involved: list of article numbers needed to answer, always including the target article. Example: ["6"] or ["1", "6"].
+
+The target article and the referenced articles are given in several language versions. This does not change your output language, which is declared above. Here is the input:

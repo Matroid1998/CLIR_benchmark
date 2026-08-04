@@ -1,0 +1,106 @@
+Eres un experto en crear preguntas de recuperación semántica para la legislación de la UE.
+El contexto de origen puede estar en cualquier idioma. Las preguntas y las respuestas DEBEN estar redactadas en español. Conserva los términos jurídicos técnicos, los nombres de instituciones, órganos y programas, y todas las fechas, duraciones, importes monetarios, porcentajes y umbrales en su forma original.
+
+CÓMO ESTÁ ESTRUCTURADA LA ENTRADA:
+Recibes dos bloques claramente marcados.
+- «### TARGET ARTICLE» (el artículo objetivo) — un artículo de un acto, en varias versiones lingüísticas. Este es el artículo SOBRE EL QUE escribes las preguntas.
+- «### REFERENCED ARTICLES» (los artículos referenciados) — otros artículos DEL MISMO ACTO que el artículo objetivo cita. Se proporcionan ÚNICAMENTE como contexto de apoyo, porque la legislación de la UE se remite a sí misma constantemente y el artículo objetivo a menudo no puede responderse por sí solo.
+Ambos bloques pertenecen al mismo acto. Los artículos referenciados están ahí para que una respuesta pueda ser COMPLETA, no para ser el tema de la pregunta.
+
+Genera exactamente TRES pares pregunta-respuesta. Cada uno debe abordar un aspecto distinto. Todas las preguntas deben versar sobre el ARTÍCULO OBJETIVO.
+
+REGLAS FUNDAMENTALES:
+- El artículo objetivo debe aportar el hecho operativo: La pregunta debe girar en torno a lo que el propio ARTÍCULO OBJETIVO establece — la obligación, la prohibición, la condición, el plazo o el procedimiento que instituye. Un artículo referenciado solo puede COMPLETAR ese hecho: nombrar los miembros de una lista a la que el objetivo remite, definir un término que el objetivo emplea o aportar un valor al que el objetivo se remite. El artículo referenciado nunca es el tema.
+- LA PRUEBA DEL ARTÍCULO ÚNICO (aplícala a cada candidata antes de conservarla): ¿podría un lector responder por completo a esta pregunta leyendo ÚNICAMENTE el artículo referenciado, sin haber visto jamás el artículo objetivo? Si la respuesta es SÍ, la pregunta pertenece a ese artículo referenciado — DESCÁRTALA. No basta con que el artículo objetivo mencione el tema. Este es, con diferencia, el fallo más frecuente en esta tarea: en una ejecución de producción, TODAS las preguntas multiartículo generadas suspendieron esta prueba.
+- Las remisiones resueltas están permitidas y son deseables: El artículo objetivo puede decir «en las condiciones establecidas en el artículo 9». Cuando ese artículo se proporciona en el bloque de artículos referenciados, PUEDES seguir la remisión y usar su contenido para completar la respuesta. Si la sustancia queda detrás de una remisión que NO se ha proporcionado, descarta la pregunta.
+- Declara lo que has usado: Para cada par, indica en el campo «articles_involved» qué artículos son necesarios para responderlo. Véase DECLARACIÓN DE LOS ARTÍCULOS IMPLICADOS más abajo. Este campo se evalúa.
+- Distancia léxica: Parafrasea activamente. Un recuperador semántico debe emparejar por significado, no por coincidencia de palabras clave. Evita reutilizar el vocabulario distintivo de la fuente cuando un sinónimo natural funcione. Excepción: los nombres propios, las instituciones, los programas y los términos jurídicos técnicos consagrados (p. ej., «plásticos de un solo uso», «congelación de activos») deben mantenerse tal cual — de lo contrario, la pregunta resulta irrespondible desde cualquier documento.
+- Sin identificadores de instrumentos: Nunca incluyas identificadores oficiales de instrumentos en la pregunta — números de reglamento o directiva («Regulation (EU) 2019/904»), números CELEX, ni números de artículo/apartado/anexo. Un identificador es una clave léxica exacta que frustra la recuperación semántica. Esto difiere del modo técnico, donde los identificadores están permitidos. Los identificadores pueden aparecer dentro del segmento de respuesta; eso es aceptable. Ten en cuenta que esta regla se aplica ÚNICAMENTE a la PREGUNTA — «articles_involved» es metadato, no forma parte de la consulta, y debe rellenarse siempre.
+- Respuesta anclada: Aunque la pregunta sea conceptual, la respuesta debe ser un segmento corto y contiguo tomado del texto proporcionado que la responda directamente. El segmento puede proceder del artículo objetivo, o de un artículo referenciado proporcionado cuando la remisión del artículo objetivo te haya llevado hasta él. Si no puedes señalar tal segmento, descarta la pregunta.
+- Foco único: Cada pregunta pide exactamente una cosa.
+- Sin fórmulas documentales: Nunca uses expresiones deícticas o autorreferenciales — «en virtud del presente Reglamento», «las medidas establecidas en el presente documento», «según el texto». La persona que escribe la consulta NO ha visto este documento.
+- Diversidad: Las tres preguntas deben abordar tres aspectos distinguibles y cubrir al menos dos de los encuadres: problem, solution, application.
+
+DECLARACIÓN DE LOS ARTÍCULOS IMPLICADOS:
+«articles_involved» es una lista de los números de artículo que un lector necesita realmente para producir la respuesta.
+- Si toda la respuesta está enunciada en el artículo objetivo, la lista contiene únicamente el artículo objetivo.
+- Si parte de la respuesta procede de un artículo referenciado que has seguido, enumera el artículo objetivo Y ese artículo referenciado.
+- Enumera solo los artículos que hayas usado realmente. No enumeres un artículo por el mero hecho de que el artículo objetivo lo mencione, si su contenido no ha intervenido en la respuesta.
+- Usa los números escuetos tal como aparecen en el texto, p. ej. ["6"] o ["1", "6"]. Incluye los sufijos cuando existan, p. ej. ["7a"].
+- El artículo objetivo siempre está en la lista.
+
+EJEMPLOS:
+
+Example 1 — answer wholly inside the target article
+### TARGET ARTICLE
+[EN] Article 8 — Reporting obligations
+"1. Producers shall report to the competent national authority, by 31 March each year, the quantities placed on the market. 2. Reports shall be submitted using the format referred to in Article 12."
+### REFERENCED ARTICLES
+[EN] Article 12 — Implementing powers
+"The Commission shall adopt implementing acts establishing the format for the reports."
+✓ Good: {"question": "How often do manufacturers have to tell national regulators how much they sold?", "answer": "by 31 March each year", "framing": "application", "articles_involved": ["8"]}
+  → Paraphrased, no identifiers, grounded in the target article alone. Article 12 is cited by the target but contributed nothing, so it is NOT listed.
+
+Example 2 — answer completed by a referenced article
+### TARGET ARTICLE
+[EN] Article 4 — Placing on the market
+"Member States shall prohibit the placing on the market of the single-use plastic articles listed in Article 3 from 3 July 2026."
+### REFERENCED ARTICLES
+[EN] Article 3 — Covered products
+"This Regulation applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
+✓ Good: {"question": "Which everyday disposable plastic items can no longer be sold in the EU?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "framing": "solution", "articles_involved": ["3", "4"]}
+  → The ban is the target article's; the identity of the products comes from the referenced article. BOTH are needed, so BOTH are listed. Without the reference block this question would have had to be discarded.
+  → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to. That is why this passes and the Example 4 failures do not.
+
+Example 3 — the failure modes
+✗ Bad (wrong subject): "What kinds of plastic products does this legislation cover?"
+  → That is a question about Article 3, the referenced article, not about the target's prohibition. Discard.
+✗ Bad (under-declared): the products question above with "articles_involved": ["4"]
+  → The product list came from Article 3. Failing to declare it is a scoring error even though the answer is correct.
+✗ Bad (over-declared): {"question": "When does the ban on disposable plastic items take effect?", "answer": "from 3 July 2026", "articles_involved": ["3", "4"]}
+  → The date is entirely in Article 4. Article 3 contributed nothing to this answer. Do not list it.
+✗ Bad (identifier in question): "What does Article 4 of Regulation 2019/904 prohibit?"
+  → Instrument and article identifiers are forbidden in the question in this mode.
+
+Example 4 — REAL off-target failures from a production run. Every multi-article question generated failed the one-article test in exactly this way. Study them.
+
+(a) TARGET Article 5: "No UCITS shall pursue activities as such unless it has been authorised … A common fund shall be authorised only if the competent authorities of its home Member State have approved the application of the management company to manage that common fund."
+    REFERENCED Article 20: "a management company which applies to manage a UCITS established in another Member State shall provide the competent authorities of the UCITS home Member State with the following documentation: (a) the written agreement with the depositary …; (b) information on delegation arrangements …"
+✗ Bad (off-target): "For approval of cross-border management of a UCITS, what documentation must the management company give to the UCITS home regulator?"
+  → Article 20 alone answers this completely, so the one-article test FAILS. The target's authorisation rule contributed nothing the question turns on. A retriever would correctly return Article 20, not Article 5. Discard.
+  ✓ Instead ask what Article 5 itself provides: "What condition must be met before a common fund can be authorised?" — answer from the target alone, articles_involved ["5"].
+
+(b) TARGET Article 12: "The Commission shall, in accordance with the advisory procedure referred to in Article 24(2), take an import decision …"
+    REFERENCED Article 24: "Where reference is made to this paragraph, Article 3 and Article 7 of Decision 1999/468/EC shall apply …"
+✗ Bad (off-target): "Which Decision 1999/468/EC provisions apply to the advisory procedure for Commission import decisions on chemicals?"
+  → Answerable from Article 24 alone. The target merely names the procedure it follows. Discard.
+  ✓ Instead: "What must the Commission do with decision guidance documents received from the Secretariat?" — Article 12's own obligation.
+
+(c) TARGET Article 23: sets a three-month deadline for a take back request where the evidence is not a Eurodac hit.
+    REFERENCED Article 20(2): defines when an application for international protection is deemed lodged.
+✗ Bad (off-target): "When is an international protection application treated as lodged?"
+  → That definition is Article 20(2)'s alone. Discard.
+  ✓ Good (legitimately multi-article): "How long does a Member State have to make a take back request when the evidence is not a Eurodac hit?" — the deadline is the TARGET's own rule; Article 20(2) only fixes when the clock starts, so it completes the answer without being its subject. articles_involved ["23", "20"].
+
+El contraste del caso (c) es la forma a la que hay que aspirar: el artículo objetivo aporta la regla y el artículo referenciado aporta un detalle del que esa regla depende.
+
+AUTOVERIFICACIÓN para cada pregunta antes de finalizarla:
+- LA PRUEBA DEL ARTÍCULO ÚNICO: ¿podría responderse por completo a partir de un artículo referenciado por sí solo? Si es así, descártala — no es una pregunta sobre el artículo objetivo.
+- ¿Es la respuesta un segmento contiguo del texto proporcionado — del artículo objetivo, o de un artículo referenciado proporcionado al que condujo la remisión del artículo objetivo?
+- ¿Enumera «articles_involved» exactamente los artículos necesarios, ni más ni menos? ¿Está el artículo objetivo en la lista?
+- ¿Está la pregunta libre de identificadores de instrumentos, artículos y apartados?
+- ¿Está la redacción parafraseada en lugar de copiada literalmente?
+- ¿Podría alguien que nunca ha visto este documento escribir esta pregunta en un motor de búsqueda?
+- ¿Las tres preguntas cubren al menos dos encuadres (problema / solución / aplicación)?
+
+SALIDA (solo JSON válido, sin markdown):
+[
+  {"question": "...", "answer": "...", "framing": "...", "articles_involved": ["..."]},
+  {"question": "...", "answer": "...", "framing": "...", "articles_involved": ["..."]},
+  {"question": "...", "answer": "...", "framing": "...", "articles_involved": ["..."]}
+]
+- answer: el segmento más corto que responda de forma completa y directa a la pregunta. Estrictamente anclado en el texto proporcionado.
+- framing: uno de problem, solution, application.
+- articles_involved: lista de los números de artículo necesarios para responder, incluyendo siempre el artículo objetivo. Ejemplo: ["6"] o ["1", "6"].
+
+El artículo objetivo y los artículos referenciados se proporcionan en varias versiones lingüísticas. Esto no cambia tu idioma de salida, que se declara más arriba. Aquí está la entrada:
