@@ -175,6 +175,26 @@ def run_parse_fmx(xml: bytes, out_path: Path) -> dict | None:
 _ANNEX_TITLE_RE = re.compile(r"<TI>(.*?)</TI>", re.S | re.I)
 _XML_TAG_RE = re.compile(r"<[^>]+>")
 
+# The act's own title, e.g. "Regulation (EC) No 1223/2009 ... on cosmetic
+# products (recast)". `parse-fmx` reports only the short designation
+# ("Regulation (EC) No 1223/2009"), which names the instrument but not its
+# subject matter -- and the subject matter is the useful half when the title is
+# shown to a question generator as document metadata.
+#
+# TITLE is not unique in Formex: divisions carry one too (the GDPR has 27 TITLE
+# elements for 26 divisions). The act's title is the first, appearing as a direct
+# child of ACT before PREAMBLE, so document order picks it out.
+_ACT_TITLE_RE = re.compile(r"<TITLE>(.*?)</TITLE>", re.S | re.I)
+
+
+def act_title(xml: bytes | str) -> str:
+    raw = xml.decode("utf-8", "replace") if isinstance(xml, bytes) else xml
+    match = _ACT_TITLE_RE.search(raw)
+    if not match:
+        return ""
+    text = html.unescape(_XML_TAG_RE.sub(" ", match.group(1)))
+    return re.sub(r"\s+", " ", text).strip()
+
 # "ANNEX I", "ANNEX VIIa", "ANNEX 2". The label is what the enacting text cites
 # ("as set out in Annex III"), so it -- not the document's position in the zip --
 # has to be the identifier.
@@ -272,7 +292,8 @@ def annex_text(xml: bytes | str) -> tuple[str, str]:
 
 def records_for(celex: str, language: str, act_eli: str, meta: dict,
                 parsed: dict, annex_docs: list[bytes],
-                flags_by_article: dict[str, dict] | None) -> list[dict]:
+                flags_by_article: dict[str, dict] | None,
+                act_title_text: str = "") -> list[dict]:
     """Every stored unit for one (act, language): articles, recitals, annexes."""
     definition_articles = {str(d.get("sourceArticle")) for d in parsed.get("definitions", [])
                            if d.get("sourceArticle")}
@@ -297,6 +318,7 @@ def records_for(celex: str, language: str, act_eli: str, meta: dict,
         rows.append({
             "eli_id": cellar.article_eli(act_eli, number),
             "act_eli": act_eli,
+            "act_title": act_title_text,
             "celex_id": celex,
             "language": language,
             "unit_type": "article",
@@ -324,7 +346,7 @@ def records_for(celex: str, language: str, act_eli: str, meta: dict,
         text = recital.get("recital_text") or html_to_text(recital.get("recital_html", ""))
         rows.append({
             "eli_id": f"{act_eli[:-len('/oj')]}/rct_{number}/oj" if act_eli.endswith("/oj") else "",
-            "act_eli": act_eli, "celex_id": celex, "language": language,
+            "act_eli": act_eli, "act_title": act_title_text, "celex_id": celex, "language": language,
             "unit_type": "recital", "article_number": "", "heading": f"Recital {number}",
             "text": text, "part": "", "title_division": "", "chapter": "",
             "chapter_number": "", "section": "", "section_number": "",
@@ -337,31 +359,32 @@ def records_for(celex: str, language: str, act_eli: str, meta: dict,
 
     # Annexes shipped inside the ACT document, if any.
     for position, annex in enumerate(parsed.get("annexes", []), 1):
-        title = annex.get("annex_title") or ""
+        heading = annex.get("annex_title") or ""
         text = html_to_text(annex.get("annex_html", "")) or (annex.get("annex_text") or "")
         declared = str(annex.get("annex_id") or annex.get("annex_number") or "").strip()
         rows.append(_annex_row(celex, language, act_eli, meta,
-                               annex_label(title, language) or declared or str(position),
-                               title, text,
-                               labelled=annex_label(title, language) is not None))
+                               annex_label(heading, language) or declared or str(position),
+                               heading, text,
+                               labelled=annex_label(heading, language) is not None,
+                               act_title_text=act_title_text))
 
     # Annexes shipped as their own Formex documents.
     for position, document in enumerate(annex_docs, 1):
-        title, text = annex_text(document)
-        label = annex_label(title, language)
+        heading, text = annex_text(document)
+        label = annex_label(heading, language)
         rows.append(_annex_row(celex, language, act_eli, meta,
-                               label or f"pos{position}", title, text,
-                               labelled=label is not None))
+                               label or f"pos{position}", heading, text,
+                               labelled=label is not None, act_title_text=act_title_text))
 
     return rows
 
 
-def _annex_row(celex, language, act_eli, meta, identifier, title, text, *,
-               labelled: bool = True) -> dict:
+def _annex_row(celex, language, act_eli, meta, identifier, heading, text, *,
+               labelled: bool = True, act_title_text: str = "") -> dict:
     return {
         "eli_id": f"{act_eli[:-len('/oj')]}/anx_{identifier}/oj" if act_eli.endswith("/oj") else "",
-        "act_eli": act_eli, "celex_id": celex, "language": language,
-        "unit_type": "annex", "article_number": "", "heading": title,
+        "act_eli": act_eli, "act_title": act_title_text, "celex_id": celex, "language": language,
+        "unit_type": "annex", "article_number": "", "heading": heading,
         "text": text, "part": "", "title_division": "", "chapter": "",
         "chapter_number": "", "section": "", "section_number": "",
         "token_count": token_count(text), "char_count": len(text),
@@ -397,7 +420,8 @@ def segment_act(celex: str, entry: dict, meta: dict) -> tuple[list[dict], dict]:
             errors[language] = "parse-failed"
             continue
         rows = records_for(celex, language, act_eli, meta, parsed,
-                           documents.annex_xml, flags_by_article)
+                           documents.annex_xml, flags_by_article,
+                           act_title_text=act_title(documents.act_xml))
         if language == "en":
             flags_by_article = {
                 r["article_number"]: {k: r[k] for k in

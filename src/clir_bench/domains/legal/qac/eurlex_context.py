@@ -49,13 +49,23 @@ CONTEXT_HEADER = ("### REFERENCED ARTICLES — supporting context only, cited by
 
 @dataclass
 class ArticleUnit:
-    """One article, in every language version that exists."""
+    """One article, in every language version that exists.
+
+    Carries its own document metadata -- act title and structural position --
+    because an article shown to a model without them is a page torn out of a
+    book: the generator cannot tell a cosmetics regulation from a customs one,
+    and writes questions that are unanswerable once the document is out of view.
+    Every field here is per-language except the article number, which is
+    language-independent by drafting rule.
+    """
 
     eli_id: str
     celex_id: str
     article_number: str
     headings: dict[str, str] = field(default_factory=dict)
     texts: dict[str, str] = field(default_factory=dict)
+    act_titles: dict[str, str] = field(default_factory=dict)
+    locations: dict[str, str] = field(default_factory=dict)
 
     def languages(self) -> list[str]:
         return [lg for lg in ACT_LANGUAGES if self.texts.get(lg)]
@@ -99,6 +109,8 @@ class ArticleIndex:
                     self.by_act[row["celex_id"]].append(row["eli_id"])
                 unit.texts[row["language"]] = row["text"]
                 unit.headings[row["language"]] = row.get("heading", "")
+                unit.act_titles[row["language"]] = row.get("act_title", "")
+                unit.locations[row["language"]] = structural_location(row)
 
     def _load_edges(self, path) -> None:
         # Ordered by first mention: char_start tracks how central a reference is
@@ -138,15 +150,42 @@ class ArticleIndex:
                                  text)
 
 
+def structural_location(row: dict) -> str:
+    """"PART TWO › TITLE I › CHAPTER 2 › SECTION 3" -- whichever levels exist.
+
+    All four grouping levels are optional in EU acts and most acts have none, so
+    this is built from what is present rather than from a fixed template.
+    """
+    parts = []
+    for number_key, title_key in (("", "part"), ("", "title_division"),
+                                  ("chapter_number", "chapter"),
+                                  ("section_number", "section")):
+        number = (row.get(number_key) or "").strip() if number_key else ""
+        title = (row.get(title_key) or "").strip()
+        if number and title:
+            parts.append(f"{number} {title}")
+        elif number or title:
+            parts.append(number or title)
+    return " › ".join(parts)
+
+
 def _block(unit: ArticleUnit, language: str, *, limit: int | None) -> str:
     heading = unit.headings.get(language) or ""
     body = unit.texts.get(language, "")
     if limit and len(body) > limit:
         body = body[:limit].rstrip() + " […truncated]"
-    title = f"Article {unit.article_number}"
+    label = f"Article {unit.article_number}"
     if heading:
-        title += f" — {heading}"
-    return f"[{language.upper()}] {title}\n{body}"
+        label += f" — {heading}"
+    lines = [f"[{language.upper()}] {label}"]
+    act = unit.act_titles.get(language) or ""
+    if act:
+        lines.append(f"  Act: {act}")
+    location = unit.locations.get(language) or ""
+    if location:
+        lines.append(f"  Location: {location}")
+    lines.append(body)
+    return "\n".join(lines)
 
 
 def render_payload(target: ArticleUnit, references: Iterable[ArticleUnit], *,
