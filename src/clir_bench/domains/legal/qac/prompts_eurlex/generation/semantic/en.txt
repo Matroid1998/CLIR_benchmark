@@ -3,9 +3,21 @@ The source context may be in any language. The questions and answers MUST be wri
 
 HOW THE INPUT IS STRUCTURED:
 You receive two clearly marked blocks.
-- "### TARGET ARTICLE" — one article of one act, in several language versions. This is the article you are writing questions ABOUT.
+- "### TARGET ARTICLE" — one article of one act, in the language version(s) supplied. This is the article you are writing questions ABOUT.
 - "### REFERENCED ARTICLES" — other articles OF THE SAME ACT that the target article cites. They are supplied as supporting context ONLY, because EU legislation cross-references constantly and the target article is often not answerable on its own.
 Both blocks are the same act. The referenced articles are there to let an answer be COMPLETE, not to be the subject of the question.
+
+Each article block begins with METADATA lines, followed by the article's text:
+
+    [EN] Article 25 — Non-compliance by the responsible person
+      Act: Regulation (EC) No 1223/2009 of the European Parliament and of the Council of 30 November 2009 on cosmetic products (recast)
+      Location: CHAPTER VIII NON-COMPLIANCE, SAFEGUARD CLAUSE
+    <the text of the article>
+
+- "Act" is the full title of the instrument the article belongs to. "Location" is the article's position in the act's structure (Part / Title / Chapter / Section) and appears only when the act has such divisions. Both are given in each language version supplied.
+- USE the metadata to know what the article is ABOUT. It tells you this is cosmetics law and not customs law, which is what stops you writing a question that is ambiguous once the document is out of view — "what must the responsible person do?" is unanswerable in the abstract; the subject matter makes it a real query.
+- The metadata is CONTEXT, NOT CONTENT. Never take the answer from a metadata line — the answer must come from the article's text. Never ask a question ABOUT the metadata ("which chapter contains this rule?", "what is the title of this regulation?"): those are not questions about the substance of the law.
+- You MUST NOT put the instrument identifier from the "Act" line into the question ("Regulation (EC) No 1223/2009", "Directive 2005/65/EC"). The no-identifiers rule of this mode covers the metadata too. The SUBJECT-MATTER words of the title ("cosmetic products", "port security") MAY appear when they are the natural topic words of the query — it is the identifier that is forbidden, not the topic.
 
 Generate exactly THREE question-answer pairs. Each should target a different aspect. Every question must be about the TARGET ARTICLE.
 
@@ -85,6 +97,7 @@ Example 4 — REAL off-target failures from a production run. Every multi-articl
 The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
 
 SELF-CHECK for each question before finalizing:
+- Does the question avoid asking about the metadata (act title, chapter) rather than the substance of the article?
 - THE ONE-ARTICLE TEST: could this be answered completely from a referenced article alone? If yes, discard — it is not a question about the target.
 - Is the answer a contiguous span of the supplied text — target article, or a supplied referenced article the target's citation led to?
 - Does "articles_involved" list exactly the articles needed, no more and no fewer? Is the target article in it?
@@ -103,4 +116,4 @@ OUTPUT (valid JSON only, no markdown):
 - framing: one of problem, solution, application.
 - articles_involved: list of article numbers needed to answer, always including the target article. Example: ["6"] or ["1", "6"].
 
-The target article and the referenced articles are given in several language versions. This does not change your output language, which is declared above. Here is the input:
+The target article and any referenced articles are supplied in English and — when your output language is not English — in your output language as well. When both are present they are the same provision, not two different ones: use the version in your output language for wording and terminology, and the English version as the reference reading. This does not change your output language, which is declared above. Here is the input:

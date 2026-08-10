@@ -129,3 +129,34 @@ def test_parse_candidates_drops_empty_pairs(payload) -> None:
         [{"question": "", "answer": "a"}, {"question": "q", "answer": ""}],
         payload, gen.MODE_TECHNICAL)
     assert out == []
+
+
+# -- which language versions get sent --------------------------------------- #
+
+def test_english_question_sends_english_only() -> None:
+    assert ctx.payload_languages("en") == ("en",)
+
+
+@pytest.mark.parametrize("language", ["fr", "de", "es"])
+def test_non_english_question_sends_that_language_plus_english(language: str) -> None:
+    """English is the pivot the references were extracted from, so it always
+    travels with a non-English question language."""
+    assert ctx.payload_languages(language) == (language, "en")
+
+
+def test_payload_honours_the_language_selection() -> None:
+    target = ctx.ArticleUnit(
+        "eli/art_4", "32019R0904", "4",
+        headings={"en": "Placing on the market", "fr": "Mise sur le marché",
+                  "de": "Inverkehrbringen", "es": "Comercialización"},
+        texts={"en": "EN body", "fr": "FR body", "de": "DE body", "es": "ES body"},
+    )
+    french = ctx.render_payload(target, [], languages=ctx.payload_languages("fr"))
+    assert "[FR]" in french and "[EN]" in french
+    assert "[DE]" not in french and "[ES]" not in french
+    # the question language leads, English follows as the reference reading
+    assert french.index("[FR]") < french.index("[EN]")
+
+    english = ctx.render_payload(target, [], languages=ctx.payload_languages("en"))
+    assert "[EN]" in english
+    assert all(tag not in english for tag in ("[FR]", "[DE]", "[ES]"))

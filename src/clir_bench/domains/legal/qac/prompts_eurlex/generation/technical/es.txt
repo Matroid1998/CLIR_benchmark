@@ -3,9 +3,21 @@ El contexto de origen puede estar en cualquier idioma. Las preguntas y las respu
 
 CÓMO ESTÁ ESTRUCTURADA LA ENTRADA:
 Recibes dos bloques claramente marcados.
-- "### TARGET ARTICLE" — un artículo de un acto, en varias versiones lingüísticas. Es el artículo SOBRE el que escribes las preguntas.
+- "### TARGET ARTICLE" — un artículo de un acto, en la o las versiones lingüísticas facilitadas. Es el artículo SOBRE el que escribes las preguntas.
 - "### REFERENCED ARTICLES" — otros artículos DEL MISMO ACTO que el artículo objetivo cita. Se facilitan ÚNICAMENTE como contexto de apoyo, porque la legislación de la UE contiene remisiones constantes y a menudo el artículo objetivo no puede responderse por sí solo.
 Ambos bloques pertenecen al mismo acto. Los artículos referenciados están ahí para que una respuesta pueda ser COMPLETA, no para ser el objeto de la pregunta.
+
+Cada bloque de artículo comienza con líneas de METADATOS, seguidas del texto del artículo:
+
+    [EN] Article 25 — Non-compliance by the responsible person
+      Act: Regulation (EC) No 1223/2009 of the European Parliament and of the Council of 30 November 2009 on cosmetic products (recast)
+      Location: CHAPTER VIII NON-COMPLIANCE, SAFEGUARD CLAUSE
+    <el texto del artículo>
+
+- «Act:» es el título completo del instrumento al que pertenece el artículo. «Location:» es la posición del artículo en la estructura del acto (Parte / Título / Capítulo / Sección) y solo aparece cuando el acto tiene tales divisiones. Ambos se facilitan en cada versión lingüística suministrada.
+- USA los metadatos para saber DE QUÉ TRATA el artículo. Te indican que se trata de legislación sobre cosméticos y no de legislación aduanera, que es lo que impide que escribas una pregunta ambigua una vez que el documento deja de estar a la vista: «¿qué debe hacer la persona responsable?» es irrespondible en abstracto; la materia la convierte en una consulta real.
+- Los metadatos son CONTEXTO, NO CONTENIDO. Nunca tomes la respuesta de una línea de metadatos — la respuesta debe proceder del texto del artículo. Nunca formules una pregunta SOBRE los metadatos («¿qué capítulo contiene esta norma?», «¿cuál es el título de este reglamento?»): no son preguntas sobre la sustancia de la norma jurídica.
+- PUEDES nombrar el instrumento en la pregunta utilizando el identificador oficial de la línea «Act:» (p. ej., «Regulation (EC) No 1223/2009»), porque en este modo los profesionales buscan realmente así. Reprodúcelo exactamente tal como está escrito. Aun así, NO puedes emplear redacciones deícticas como «en virtud del presente Reglamento».
 
 Genera exactamente TRES pares pregunta-respuesta. Cada uno debe centrarse en un hecho distinto. Toda pregunta debe versar sobre el ARTÍCULO OBJETIVO.
 
@@ -104,6 +116,7 @@ Example 4 — REAL off-target failures from a production run. Every multi-articl
 The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
 
 AUTOVERIFICACIÓN para cada pregunta antes de finalizarla:
+- ¿Evita la pregunta versar sobre los metadatos (título del acto, capítulo) en lugar de sobre la sustancia del artículo?
 - LA PRUEBA DEL ARTÍCULO ÚNICO: ¿podría responderse esto por completo a partir de un artículo referenciado por sí solo? Si es así, descártala — no es una pregunta sobre el artículo objetivo.
 - ¿La sustancia de la respuesta está íntegramente presente en el texto facilitado — el artículo objetivo, o el objetivo más un artículo referenciado facilitado?
 - ¿Enumera "articles_involved" exactamente los artículos necesarios, ni más ni menos? ¿Está el artículo objetivo en la lista?
@@ -122,4 +135,4 @@ SALIDA (solo JSON válido, sin markdown):
 - question_type: uno de scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
 - articles_involved: lista de los números de artículo necesarios para responder, incluyendo siempre el artículo objetivo. Ejemplo: ["6"] o ["1", "6"].
 
-El artículo objetivo y los artículos referenciados se facilitan en varias versiones lingüísticas. Esto no cambia tu idioma de salida, que está declarado más arriba. Esta es la entrada:
+El artículo objetivo y los artículos referenciados se facilitan en tu idioma de salida, el español, y también en inglés. Cuando ambas versiones están presentes, no son dos disposiciones distintas, sino la misma: utiliza la versión en tu idioma de salida para la redacción y la terminología, y la versión inglesa como lectura de referencia. Esto no cambia tu idioma de salida, que está declarado más arriba. Esta es la entrada:

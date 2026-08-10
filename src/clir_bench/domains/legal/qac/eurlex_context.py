@@ -47,6 +47,24 @@ CONTEXT_HEADER = ("### REFERENCED ARTICLES — supporting context only, cited by
                   "target article. Do not write questions *about* these.")
 
 
+def payload_languages(question_language: str) -> tuple[str, ...]:
+    """Which language versions to send, given the language the question is in.
+
+    English only when asking in English; otherwise the question language plus
+    English. Sending all four versions was wasteful and, worse, misleading: the
+    generator is writing in one language, and three additional versions mostly
+    added tokens and invited it to blend terminology across languages.
+
+    English is kept as the second version because it is the pivot the whole
+    pipeline is built on -- references are extracted from English, so the English
+    wording is the one the reference metadata actually describes. The question
+    language comes first so its terminology is what the generator sees first.
+    """
+    if question_language == "en":
+        return ("en",)
+    return (question_language, "en")
+
+
 @dataclass
 class ArticleUnit:
     """One article, in every language version that exists.

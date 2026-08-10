@@ -3,9 +3,21 @@ Der Quellkontext kann in beliebiger Sprache vorliegen. Die Fragen und Antworten 
 
 AUFBAU DER EINGABE:
 Sie erhalten zwei klar gekennzeichnete Blöcke.
-- „### TARGET ARTICLE" — ein Artikel eines Rechtsakts in mehreren Sprachfassungen. Dies ist der Artikel, ÜBER den Sie Fragen schreiben.
+- „### TARGET ARTICLE" — ein Artikel eines Rechtsakts in der bzw. den bereitgestellten Sprachfassungen. Dies ist der Artikel, ÜBER den Sie Fragen schreiben.
 - „### REFERENCED ARTICLES" — andere Artikel DESSELBEN RECHTSAKTS, die der Zielartikel zitiert. Sie werden AUSSCHLIESSLICH als unterstützender Kontext bereitgestellt, denn EU-Rechtsvorschriften verweisen ständig aufeinander, und der Zielartikel ist für sich allein oft nicht beantwortbar.
 Beide Blöcke stammen aus demselben Rechtsakt. Die referenzierten Artikel sind dazu da, eine Antwort VOLLSTÄNDIG zu machen, nicht um Gegenstand der Frage zu sein.
+
+Jeder Artikelblock beginnt mit METADATEN-Zeilen, gefolgt vom Text des Artikels:
+
+    [EN] Article 25 — Non-compliance by the responsible person
+      Act: Regulation (EC) No 1223/2009 of the European Parliament and of the Council of 30 November 2009 on cosmetic products (recast)
+      Location: CHAPTER VIII NON-COMPLIANCE, SAFEGUARD CLAUSE
+    <the text of the article>
+
+- „Act" ist der vollständige Titel des Rechtsakts, zu dem der Artikel gehört. „Location" ist die Position des Artikels in der Gliederung des Rechtsakts (Teil / Titel / Kapitel / Abschnitt) und erscheint nur dann, wenn der Rechtsakt solche Untergliederungen aufweist. Beide werden in jeder mitgelieferten Sprachfassung angegeben.
+- NUTZEN Sie die Metadaten, um zu erkennen, WOVON der Artikel handelt. Sie sagen Ihnen, dass es sich um Kosmetikrecht und nicht um Zollrecht handelt — und genau das verhindert, dass Sie eine Frage schreiben, die mehrdeutig wird, sobald das Dokument nicht mehr vorliegt: „Was muss die verantwortliche Person tun?" ist im luftleeren Raum nicht beantwortbar; erst der Sachgegenstand macht daraus eine echte Suchanfrage.
+- Die Metadaten sind KONTEXT, NICHT INHALT. Entnehmen Sie die Antwort niemals einer Metadaten-Zeile — die Antwort muss aus dem Text des Artikels stammen. Stellen Sie niemals eine Frage ÜBER die Metadaten („Welches Kapitel enthält diese Regel?", „Wie lautet der Titel dieser Verordnung?"): Das sind keine Fragen zur Substanz des Rechts.
+- Sie DÜRFEN die Rechtsakt-Kennung aus der Zeile „Act" NICHT in die Frage aufnehmen („Regulation (EC) No 1223/2009", „Directive 2005/65/EC"). Die Regel „Keine Rechtsakt-Kennungen" dieses Modus gilt auch für die Metadaten. Die SACHBEZOGENEN Wörter des Titels („kosmetische Mittel", „Gefahrenabwehr im Hafen") DÜRFEN erscheinen, wenn sie die natürlichen Themenwörter der Anfrage sind — verboten ist die Kennung, nicht das Thema.
 
 Erzeugen Sie genau DREI Frage-Antwort-Paare. Jedes soll einen anderen Aspekt ansprechen. Jede Frage muss sich auf den ZIELARTIKEL beziehen.
 
@@ -85,6 +97,7 @@ Example 4 — REAL off-target failures from a production run. Every multi-articl
 Der Kontrast in (c) ist die anzustrebende Form: Der Zielartikel liefert die Regel, der Verweis liefert ein Detail, von dem die Regel abhängt.
 
 SELBSTPRÜFUNG für jede Frage vor dem Finalisieren:
+- Vermeidet die Frage es, nach den Metadaten (Titel des Rechtsakts, Kapitel) statt nach der Substanz des Artikels zu fragen?
 - DER EIN-ARTIKEL-TEST: Könnte dies allein aus einem referenzierten Artikel vollständig beantwortet werden? Wenn ja, verwerfen — es ist keine Frage zum Zielartikel.
 - Ist die Antwort ein zusammenhängender Abschnitt des gelieferten Textes — aus dem Zielartikel oder aus einem mitgelieferten referenzierten Artikel, zu dem der Verweis des Zielartikels geführt hat?
 - Führt „articles_involved" genau die benötigten Artikel auf, nicht mehr und nicht weniger? Ist der Zielartikel darin enthalten?
@@ -103,4 +116,4 @@ AUSGABE (nur gültiges JSON, kein Markdown):
 - framing: einer von problem, solution, application.
 - articles_involved: Liste der Artikelnummern, die zur Beantwortung benötigt werden, immer einschließlich des Zielartikels. Beispiel: ["6"] oder ["1", "6"].
 
-Der Zielartikel und die referenzierten Artikel werden in mehreren Sprachfassungen angegeben. Dies ändert nichts an Ihrer Ausgabesprache, die oben festgelegt ist. Hier ist die Eingabe:
+Der Zielartikel und etwaige referenzierte Artikel werden in Ihrer Ausgabesprache Deutsch sowie zusätzlich auf Englisch bereitgestellt. Beide Fassungen betreffen dieselbe Vorschrift, es sind nicht zwei verschiedene: Nutzen Sie die deutsche Fassung für Wortlaut und Terminologie und die englische Fassung als Referenzlesart. Dies ändert nichts an Ihrer Ausgabesprache, die oben festgelegt ist. Hier ist die Eingabe:

@@ -143,7 +143,8 @@ def main() -> None:
     if target_eli is None:
         raise SystemExit(f"no article {args.article} in {args.celex}")
 
-    payload = index.build(target_eli, max_references=args.max_references)
+    payload = index.build(target_eli, max_references=args.max_references,
+                          languages=ctx.payload_languages(args.language))
     if payload is None:
         raise SystemExit("target article has no text")
 

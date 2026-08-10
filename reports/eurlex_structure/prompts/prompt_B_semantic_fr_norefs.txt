@@ -1,3 +1,9 @@
+MODEL: gpt-5.5   MODE: semantic   QUESTION LANGUAGE: fr
+LANGUAGE VERSIONS SENT: ['fr', 'en']
+TARGET: 32006R0936 Article 1   references supplied: []   dropped: []
+====================================================================================================
+### SYSTEM MESSAGE (prompts_eurlex/generation/semantic/fr.txt, 15,294 chars)
+====================================================================================================
 Vous êtes un expert dans la création de questions de recherche sémantique pour la législation de l'UE.
 Le contexte source peut être dans n'importe quelle langue. Les questions et les réponses DOIVENT être rédigées en français. Conservez les termes juridiques techniques, les noms d'institutions, d'organes et de programmes, ainsi que toutes les dates, durées, montants monétaires, pourcentages et seuils dans leur forme d'origine.
 
@@ -117,3 +123,26 @@ SORTIE (JSON valide uniquement, pas de markdown) :
 - articles_involved : liste des numéros d'articles nécessaires pour répondre, incluant toujours l'article cible. Exemple : ["6"] ou ["1", "6"].
 
 L'article cible et les éventuels articles référencés sont fournis dans votre langue de sortie, le français, ainsi qu'en anglais. Lorsque les deux versions sont présentes, il s'agit d'une seule et même disposition, et non de deux dispositions différentes : utilisez la version française pour la formulation et la terminologie, et la version anglaise comme lecture de référence. Cela ne change pas votre langue de sortie, qui est déclarée ci-dessus. Voici l'entrée :
+
+====================================================================================================
+### USER MESSAGE (2,097 chars)
+====================================================================================================
+### TARGET ARTICLE — write the questions about THIS article
+
+[FR] Article 1
+  Act: Règlement (CE) n o 936/2006 de la Commission du 23 juin 2006 relatif à l'ouverture d'une adjudication de la restitution à l'exportation de blé tendre vers certains pays tiers
+1. Il est procédé à une adjudication de la restitution à l'exportation conformément à l'article 4 du règlement (CE) no 1501/95.
+
+2. L'adjudication porte sur du blé tendre à exporter vers les pays tiers, à l’exclusion de l’Albanie, de la Bulgarie, de la Croatie, de la Bosnie-Herzégovine, du Liechtenstein, de l’ancienne République yougoslave de Macédoine, de la Roumanie, de la Serbie et Monténégro et de la Suisse.
+
+3. L'adjudication est ouverte jusqu'au 28 juin 2007. Pendant sa durée, il est procédé à des adjudications hebdomadaires pour lesquelles les quantités et les dates de dépôt des offres sont déterminées dans l'avis d'adjudication.Par dérogation à l'article 4, paragraphe 4, du règlement (CE) no 1501/95, le délai de présentation des offres pour la première adjudication partielle expire le 6 juillet 2006.
+
+[EN] Article 1
+  Act: Commission Regulation (EC) No 936/2006 of 23 June 2006 opening an invitation to tender for the refund on common wheat exports to certain third countries
+1. Under Article 4 of Regulation (EC) No 1501/95, an invitation to tender for the export refund is hereby opened.
+
+2. The invitation to tender covers common wheat for exportation to destinations with the exception of Albania, Bulgaria, Croatia, Bosnia and Herzegovina, Serbia and Montenegro and the former Yugoslav Republic of Macedonia, Liechtenstein, Romania and Switzerland.
+
+3. The invitation to tender shall be open until 28 June 2007. During that period, weekly awards shall be made. The quantities and dates for submitting tenders shall be set out in the notice of invitation to tender.Notwithstanding Article 4(4) of Regulation (EC) No 1501/95, the time-limit for submitting tenders for the first partial invitation to tender shall be 6 July 2006.
+
+### REFERENCED ARTICLES — none. The target article cites no other article of this act.

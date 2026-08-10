@@ -147,7 +147,8 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     from clir_bench.core.grading import (GraderConfig, grade_faithfulness,
                                          grade_quality, rank_candidates)
 
-    payload = index.build(target.eli_id, max_references=max_references)
+    payload = index.build(target.eli_id, max_references=max_references,
+                          languages=ctx.payload_languages(target.language))
     if payload is None:
         return []
     grader = GraderConfig(model=grade_model, reasoning_effort="low")

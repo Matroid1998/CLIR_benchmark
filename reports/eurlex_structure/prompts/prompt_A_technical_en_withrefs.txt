@@ -1,3 +1,9 @@
+MODEL: gpt-5.5   MODE: technical   QUESTION LANGUAGE: en
+LANGUAGE VERSIONS SENT: ['en']
+TARGET: 32005R1947 Article 4   references supplied: ['1', '10']   dropped: []
+====================================================================================================
+### SYSTEM MESSAGE (prompts_eurlex/generation/technical/en.txt, 17,232 chars)
+====================================================================================================
 You are an expert at creating legal and regulatory retrieval questions from EU legislation.
 The source context may be in any language. The questions and answers MUST be written in English. Preserve legal terms of art, official instrument identifiers (e.g., "Regulation (EU) 2019/904", "Article 5(2)"), names of institutions, bodies, and programmes, and all dates, durations, monetary amounts, percentages, and thresholds in their original form — do not round, reformat, or loosely rename them. Where an institution or instrument has an official English name (e.g., "European Commission"), use that official name rather than a literal translation.
 
@@ -136,3 +142,34 @@ OUTPUT (valid JSON only, no markdown):
 - articles_involved: list of article numbers needed to answer, always including the target article. Example: ["6"] or ["1", "6"].
 
 The target article and any referenced articles are supplied in English and — when your output language is not English — in your output language as well. When both are present they are the same provision, not two different ones: use the version in your output language for wording and terminology, and the English version as the reference reading. This does not change your output language, which is declared above. Here is the input:
+
+====================================================================================================
+### USER MESSAGE (3,378 chars)
+====================================================================================================
+### TARGET ARTICLE — write the questions about THIS article
+
+[EN] Article 4
+  Act: Council Regulation (EC) No 1947/2005 of 23 November 2005 on the common organisation of the market in seeds and repealing Regulations (EEC) No 2358/71 and (EEC) No 1674/72
+  Location: CHAPTER II TRADE WITH THIRD COUNTRIES
+1. Imports into the Community of any of the products listed in Article 1 may be subject to the presentation of an import licence. The products for which import licences are required shall be determined in accordance with the procedure referred to in Article 10(2).
+
+2. Import licences shall be issued by the Member States to any persons who so request, irrespective of their place of establishment in the Community.
+
+3. Licences shall be valid for imports carried out anywhere in the Community. Their issue shall be subject to the lodging of a security guaranteeing that the products are imported during the validity period of the licence. Except in cases of force majeure , the security shall be forfeited in whole or in part if the transaction is not carried out, or is carried out only partially, within that period.
+
+### REFERENCED ARTICLES — supporting context only, cited by the target article. Do not write questions *about* these.
+
+[EN] Article 1
+  Act: Council Regulation (EC) No 1947/2005 of 23 November 2005 on the common organisation of the market in seeds and repealing Regulations (EEC) No 2358/71 and (EEC) No 1674/72
+  Location: CHAPTER I INTRODUCTORY PROVISIONS
+A common organisation of the market in seeds shall be established and shall cover the following products:
+CN codeDescription of goods07129011Sweetcorn hybrids for sowing07131010Peas ( Pisum sativum ) for sowingex07132000Chickpeas for sowingex07133100Beans of the species Vigna mungo (L.) Hepper or Vigna radiata (L.) Wilczek for sowingex07133200Small red (Adzuki) beans ( Phaseolus or Vigna angularis ) for sowing07133310Kidney beans, including white pea beans ( Phaseolus vulgaris ) for sowingex07133900Other beans for sowingex07134000Lentils for sowingex07135000Broad beans ( Vicia faba var. major ) and horse beans ( Vicia faba var. equina , Vicia faba var. mino )ex07139000Other dried leguminous vegetables for sowing10019010Spelt for sowingex100510Hybrid maize (corn) seed10061010Rice in the husk (paddy or rough) for sowing10070010Grain sorghum hybrids for sowing12010010Soya beans, whether or not broken, for sowing12021010Groundnuts, not roasted or otherwise cooked, in shell, for sowing12040010Linseed, whether or not broken, for sowing12051010Rape or colza seeds, whether or not broken, for sowing12060010Sunflower seeds, whether or not broken, for sowingex1207Other oil seeds and oleaginous fruits, whether or not broken, for sowing1209Seeds, fruit and spores, of a kind used for sowing
+
+[EN] Article 10
+  Act: Council Regulation (EC) No 1947/2005 of 23 November 2005 on the common organisation of the market in seeds and repealing Regulations (EEC) No 2358/71 and (EEC) No 1674/72
+  Location: CHAPTER III GENERAL PROVISIONS
+1. The Commission shall be assisted by a Management Committee for Seeds (hereinafter referred to as ‘the Committee’).
+
+2. Where reference is made to this paragraph, Articles 4 and 7 of Decision 1999/468/EC shall apply.The period laid down in Article 4(3) of Decision 1999/468/EC shall be set at one month.
+
+3. The Committee shall adopt its Rules of Procedure.
