@@ -36,6 +36,7 @@ from typing import Any, Mapping, Sequence
 
 from clir_bench.core.prompts import PromptPack
 from clir_bench.domains.legal.qac import eurlex_context as ctx
+from clir_bench.domains.legal.qac.env import load_env
 
 PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_eurlex")
 
@@ -133,6 +134,7 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true",
                         help="print the exact payload and prompt instead of calling the model")
     args = parser.parse_args()
+    load_env()
 
     index = ctx.ArticleIndex()
     target_eli = None

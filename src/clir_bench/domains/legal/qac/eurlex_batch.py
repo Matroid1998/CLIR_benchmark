@@ -42,6 +42,7 @@ from typing import Any, Sequence
 from clir_bench.domains.legal.structure import paths as struct_paths
 from clir_bench.domains.legal.qac import eurlex_context as ctx
 from clir_bench.domains.legal.qac import eurlex_generate as gen
+from clir_bench.domains.legal.qac.env import load_env
 
 OUT_DIR = struct_paths.EURLEX_DIR / "qac"
 
@@ -229,6 +230,7 @@ def main() -> None:
     parser.add_argument("--dry-run", action="store_true",
                         help="show the selected targets and the call budget, make no calls")
     args = parser.parse_args()
+    load_env()
 
     languages = [x.strip() for x in args.languages.split(",") if x.strip()]
     modes = [x.strip() for x in args.modes.split(",") if x.strip()]
@@ -257,6 +259,14 @@ def main() -> None:
         print("   ...", file=sys.stderr)
         return
 
+    # Build the clients before spending an hour discovering the key is missing.
+    from clir_bench.core.llm import client_for
+    for model in (args.gen_model, args.grade_model):
+        try:
+            client_for(model)
+        except Exception as error:  # noqa: BLE001
+            raise SystemExit(f"cannot reach {model}: {error}") from error
+
     from clir_bench.core.parallel import run_tasks
     rows: list[dict[str, Any]] = []
     failed = 0
@@ -279,6 +289,14 @@ def main() -> None:
         writer = csv.DictWriter(fh, fieldnames=FIELDS)
         writer.writeheader()
         writer.writerows(rows)
+
+    if not rows:
+        raise SystemExit(
+            f"no queries produced: all {len(targets)} targets failed. "
+            "The output file contains only a header. See the errors above.")
+
+    if failed:
+        print(f"  WARNING: {failed} of {len(targets)} targets failed", file=sys.stderr)
 
     multi = sum(1 for r in rows if r["multi_article"])
     print(f"\nwrote {len(rows)} queries -> {out}", file=sys.stderr)
