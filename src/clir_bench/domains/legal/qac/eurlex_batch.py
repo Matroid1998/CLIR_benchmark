@@ -170,10 +170,13 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
         grade_client, grader, gen.PROMPTS.quality(target.mode, "batch"),
         payload.text, qa, target.mode), retries=3, label="quality")
 
+    # Ranked best-first. Row order carries the ranking, so no rank column is
+    # needed: the caller writes the whole list to the all-candidates file and the
+    # first row of each target to the best-only file.
     ranked = rank_candidates(qa, faith, quality, target.mode)
     order = {c["question"]: i for i, c in enumerate(qa)}
     rows: list[dict[str, Any]] = []
-    for rank_index, graded in enumerate(ranked[:keep], start=1):
+    for graded in ranked[:keep]:
         candidate = candidates[order[graded.qa["question"]]]
         rows.append({
             "celex_id": target.celex_id,
@@ -185,7 +188,6 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "reference_articles_dropped": ",".join(payload.dropped_references),
             "question_language": target.language,
             "mode": target.mode,
-            "candidate_rank": rank_index,
             "question": candidate.question,
             "answer": candidate.answer,
             "question_type": candidate.classification if target.mode == "technical" else "",
@@ -206,7 +208,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
 FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           "n_references_available", "reference_articles_supplied",
           "reference_articles_dropped", "question_language", "mode",
-          "candidate_rank", "question", "answer", "question_type", "framing",
+          "question", "answer", "question_type", "framing",
           "articles_involved", "articles_involved_eli", "multi_article",
           "rejected_involved", "faith_grounding", "faith_precision",
           "faith_numerical_fidelity", "qual_overall", "total_score")
@@ -215,7 +217,8 @@ FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--n", type=int, default=100, help="target articles (= queries when keep=1)")
-    parser.add_argument("--keep", type=int, default=1, help="candidates kept per target")
+    parser.add_argument("--keep", type=int, default=3,
+                        help="candidates written to the all-candidates file")
     parser.add_argument("--languages", default="en,fr,de,es")
     parser.add_argument("--modes", default="technical,semantic")
     parser.add_argument("--gen-model", default="gpt-5.5")
@@ -282,13 +285,27 @@ def main() -> None:
         else:
             rows.extend(produced)
 
-    rows.sort(key=lambda r: (r["celex_id"], r["target_article_number"], r["candidate_rank"]))
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    with out.open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.DictWriter(fh, fieldnames=FIELDS)
-        writer.writeheader()
-        writer.writerows(rows)
+    # `rows` arrives grouped per target, best-first within each group, because
+    # run_one returns its ranked list intact. Only the grouping is normalised
+    # here; the within-target order is the ranking and must not be re-sorted.
+    grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in rows:
+        grouped.setdefault((row["celex_id"], row["target_article_number"]), []).append(row)
+
+    ordered = [r for key in sorted(grouped) for r in grouped[key]]
+    best = [grouped[key][0] for key in sorted(grouped)]
+
+    def write(path: Path, data: list[dict[str, Any]]) -> None:
+        with path.open("w", newline="", encoding="utf-8") as fh:
+            writer = csv.DictWriter(fh, fieldnames=FIELDS)
+            writer.writeheader()
+            writer.writerows(data)
+
+    best_path = out.with_name(out.stem + "_best" + out.suffix)
+    write(out, ordered)
+    write(best_path, best)
 
     if not rows:
         raise SystemExit(
@@ -298,11 +315,12 @@ def main() -> None:
     if failed:
         print(f"  WARNING: {failed} of {len(targets)} targets failed", file=sys.stderr)
 
-    multi = sum(1 for r in rows if r["multi_article"])
-    print(f"\nwrote {len(rows)} queries -> {out}", file=sys.stderr)
+    multi = sum(1 for r in best if r["multi_article"])
+    print(f"\nwrote {len(ordered)} candidates -> {out}", file=sys.stderr)
+    print(f"      {len(best)} best-per-target -> {best_path}", file=sys.stderr)
     print(f"  targets that failed  : {failed}", file=sys.stderr)
-    print(f"  multi-article queries: {multi} ({multi / max(len(rows), 1):.0%})", file=sys.stderr)
-    print(f"  by stratum           : {dict(Counter(r['stratum'] for r in rows))}", file=sys.stderr)
+    print(f"  multi-article (best set): {multi} ({multi / max(len(best), 1):.0%})", file=sys.stderr)
+    print(f"  by stratum (best set): {dict(Counter(r['stratum'] for r in best))}", file=sys.stderr)
 
 
 def _safe(fn, *a, **kw):
