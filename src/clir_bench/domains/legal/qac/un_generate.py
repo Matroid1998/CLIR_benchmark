@@ -1,0 +1,142 @@
+"""
+UN question generation: one target block, the document as context.
+
+The flow mirrors ``eurlex_generate`` with one structural simplification: there
+is no ``articles_involved`` field to validate, because the UN payload's context
+is disambiguation-only -- the prompts require every answer to come from the
+target block, and the faithfulness verifier caps grounding when it does not.
+What comes back is just ``{question, answer, question_type|framing}``.
+
+Usage:
+    python -m clir_bench.domains.legal.qac.un_generate \
+        --doc 1994/s/res/918_1994_ --block 1 --mode technical --language en --dry-run
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+from dataclasses import dataclass
+from typing import Any, Mapping
+
+from clir_bench.core.prompts import PromptPack
+from clir_bench.domains.legal.qac import un_context as ctx
+from clir_bench.domains.legal.qac.env import load_env
+
+PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_un")
+
+MODE_TECHNICAL = "technical"
+MODE_SEMANTIC = "semantic"
+
+
+@dataclass
+class Candidate:
+    question: str
+    answer: str
+    classification: str     # question_type (technical) or framing (semantic)
+
+
+def parse_candidates(data: Any, mode: str) -> list[Candidate]:
+    """Validate the model's JSON."""
+    if isinstance(data, Mapping):
+        data = [data]
+    key = "question_type" if mode == MODE_TECHNICAL else "framing"
+    out: list[Candidate] = []
+    for item in list(data or []):
+        if not isinstance(item, Mapping):
+            continue
+        question = str(item.get("question", "")).strip()
+        answer = str(item.get("answer", "")).strip()
+        if not question or not answer:
+            continue
+        out.append(Candidate(question=question, answer=answer,
+                             classification=str(item.get(key, "other")).strip()))
+    return out
+
+
+def build_messages(payload: ctx.GenerationPayload, mode: str,
+                   language: str) -> list[dict[str, str]]:
+    return [
+        {"role": "system", "content": PROMPTS.generation(mode, language)},
+        {"role": "user", "content": payload.text},
+    ]
+
+
+def generate(payload: ctx.GenerationPayload, *, mode: str, language: str,
+             model: str, client: Any, reasoning_effort: str = "medium") -> list[Candidate]:
+    from clir_bench.core.llm import chat, parse_json_response
+
+    raw = chat(client, model, build_messages(payload, mode, language),
+               reasoning_effort=reasoning_effort)
+    return parse_candidates(parse_json_response(raw), mode)
+
+
+def rows_for(payload: ctx.GenerationPayload, candidates: list[Candidate], *,
+             mode: str, language: str) -> list[dict[str, Any]]:
+    return [{
+        "doc_id": payload.target.doc_id,
+        "symbol": payload.target.symbol,
+        "block_id": payload.target.block_id,
+        "block_index": payload.target.block_index,
+        "n_blocks": payload.target.n_blocks,
+        "line_start": payload.target.line_start,
+        "line_end": payload.target.line_end,
+        "question_language": language,
+        "mode": mode,
+        "question": c.question,
+        "answer": c.answer,
+        ("question_type" if mode == MODE_TECHNICAL else "framing"): c.classification,
+        "context_blocks_supplied": len(payload.context_blocks),
+        "context_blocks_dropped": payload.n_context_dropped,
+    } for c in candidates]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--doc", required=True, help="document id (`.ids` first token)")
+    parser.add_argument("--block", type=int, required=True, help="target block index (0-based)")
+    parser.add_argument("--mode", default=MODE_TECHNICAL,
+                        choices=[MODE_TECHNICAL, MODE_SEMANTIC])
+    parser.add_argument("--language", default="en")
+    parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
+    parser.add_argument("--blocks", default=None, help="override blocks_en.jsonl path")
+    parser.add_argument("--docs", default=None, help="override docs_en.jsonl path")
+    parser.add_argument("--model", default="gpt-5-mini")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="print the exact payload and prompt instead of calling the model")
+    args = parser.parse_args()
+    load_env()
+
+    index = ctx.BlockIndex(blocks_path=args.blocks, docs_path=args.docs)
+    if args.doc not in index.docs:
+        raise SystemExit(f"unknown document: {args.doc}")
+    payload = index.build(args.doc, args.block, context_chars=args.context_chars,
+                          languages=ctx.payload_languages(args.language))
+    if payload is None:
+        raise SystemExit(f"no block {args.block} in {args.doc} "
+                         f"({index.docs[args.doc]['n_blocks']} blocks)")
+
+    if args.dry_run:
+        print("=" * 78)
+        print(f"SYSTEM PROMPT: prompts_un/generation/{args.mode}/{args.language}.txt")
+        print(f"  ({len(PROMPTS.generation(args.mode, args.language)):,} chars)")
+        print("=" * 78)
+        print("USER MESSAGE:")
+        print(payload.text)
+        print("=" * 78)
+        print(f"target          : {payload.target.block_id} "
+              f"({payload.target.token_count} tokens, "
+              f"lines {payload.target.line_start}-{payload.target.line_end})")
+        print(f"context supplied: {len(payload.context_blocks)} blocks")
+        print(f"context dropped : {payload.n_context_dropped} blocks")
+        return
+
+    from clir_bench.core.llm import client_for
+    candidates = generate(payload, mode=args.mode, language=args.language,
+                          model=args.model, client=client_for(args.model))
+    for row in rows_for(payload, candidates, mode=args.mode, language=args.language):
+        print(json.dumps(row, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()

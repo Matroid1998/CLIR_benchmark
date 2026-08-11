@@ -26,8 +26,7 @@ The prompts describe — and therefore pin — the user message the future
 `un_context` renderer must emit (the analog of `eurlex_context.render_payload`):
 
     ### TARGET BLOCK — write the questions about THIS text
-    [EN] Block 4 of 12
-      Document: S/2001/535
+    [EN] Document: S/2001/535
       Title: Letter dated 1 June 2001 from the Permanent Representatives ...
     <block text>
 

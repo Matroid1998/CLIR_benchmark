@@ -11,8 +11,7 @@ The context exists so you can UNDERSTAND the target block — never so you can a
 
 The target block begins with METADATA lines, followed by the text:
 
-    [EN] Block 4 of 12
-      Document: S/2001/535
+    [EN] Document: S/2001/535
       Title: Letter dated 1 June 2001 from the Permanent Representatives of Canada, India and the Netherlands to the United Nations addressed to the President of the Security Council
     <the text of the target block>
 
@@ -56,8 +55,7 @@ EXAMPLES:
 
 Example 1 — operative resolution passage
 ### TARGET BLOCK
-[EN] Block 2 of 3
-  Document: S/RES/918 (1994)
+[EN] Document: S/RES/918 (1994)
   Title: RESOLUTION 918 (1994) Adopted by the Security Council at its 3377th meeting, on 17 May 1994
 "3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations;
 4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;
@@ -71,8 +69,7 @@ Example 1 — operative resolution passage
 
 Example 2 — report passage; the context resolves the referring expressions
 ### TARGET BLOCK
-[EN] Block 5 of 9
-  Document: S/1994/565
+[EN] Document: S/1994/565
   Title: Report of the Secretary-General on the situation in Rwanda
 "The humanitarian situation has deteriorated dramatically since my last report. An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April. The Mission's remaining personnel continue to protect several thousand civilians who have sought refuge at sites under its control."
 ### DOCUMENT CONTEXT
