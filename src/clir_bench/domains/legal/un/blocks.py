@@ -193,6 +193,11 @@ def classify_lines(lines: list["Line"]) -> list[str]:
 
 SYMBOL_RE = re.compile(r"\b[A-Z]{1,4}(?:/[A-Za-z0-9.\-]+){2,}")
 BUDGET_RE = re.compile(r"^(Part [IVXL]+\.|Total, part|Grand total|\(United States dollars\))")
+# Structural markers end in digits without being table rows: "Article 18" lines
+# in annexed declarations tripped num_tail on purely substantive blocks
+# (validated against UNDRIP in the LLM-vs-rules experiment).
+STRUCT_MARKER_RE = re.compile(
+    r"^(Article|Rule|Chapter|Section|Part|Annex|Principle|Guideline|Regulation)s? [IVXLC0-9]+\.?$")
 
 
 def junk_flags(text: str) -> list[str]:
@@ -206,7 +211,8 @@ def junk_flags(text: str) -> list[str]:
     if len(SYMBOL_RE.findall(text)) >= 6:
         flags.append("symbol_soup")
     if len(lines) >= 5:
-        tails = sum(1 for l in lines if l.rstrip()[-1:].isdigit())
+        tails = sum(1 for l in lines
+                    if l.rstrip()[-1:].isdigit() and not STRUCT_MARKER_RE.match(l.strip()))
         if tails / len(lines) >= 0.5:
             flags.append("num_tail")
     if len(lines) >= 9:

@@ -236,6 +236,19 @@ def test_flag_symbol_soup():
     assert "symbol_soup" in junk_flags(text)
 
 
+def test_declaration_articles_are_not_num_tail():
+    # "Article N" structural markers end in digits without being table rows.
+    text = "\n".join([
+        "Article 41",
+        "The organs and specialized agencies of the United Nations system shall contribute.",
+        "Article 42",
+        "The United Nations and its bodies shall promote respect for this Declaration.",
+        "Article 43",
+        "The rights recognized herein constitute the minimum standards for survival.",
+    ])
+    assert "num_tail" not in junk_flags(text)
+
+
 def test_prose_with_figures_is_usable():
     text = ("The Security Council authorized an expansion of the UNAMIR force "
             "level up to 5,500 troops and requested the Secretary-General to "
