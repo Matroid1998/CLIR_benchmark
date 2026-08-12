@@ -54,7 +54,12 @@ def payload_languages(question_language: str) -> tuple[str, ...]:
 
 @dataclass
 class BlockUnit:
-    """One block, with the document metadata the prompts expect."""
+    """One block, with the document metadata the prompts expect.
+
+    Junk lines (mastheads, TOC rows, vote rosters) live in the gaps between
+    blocks, so they are silently absent from any rendered context -- a block's
+    text is always exactly the corpus lines of its range.
+    """
 
     block_id: str
     doc_id: str
@@ -66,6 +71,8 @@ class BlockUnit:
     line_end: int
     token_count: int
     in_range: bool
+    usable: bool = True
+    heading: str = ""
     texts: dict[str, str] = field(default_factory=dict)
 
     @classmethod
@@ -76,6 +83,7 @@ class BlockUnit:
             block_index=row["block_index"], n_blocks=row["n_blocks"],
             line_start=row["line_start"], line_end=row["line_end"],
             token_count=row["token_count"], in_range=row.get("in_range", True),
+            usable=row.get("usable", True), heading=row.get("heading", ""),
             texts={"en": row["text"]},
         )
 

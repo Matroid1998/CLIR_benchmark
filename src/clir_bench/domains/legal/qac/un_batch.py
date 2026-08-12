@@ -8,16 +8,27 @@ Selection is stratified by **document class** (the ``.ids`` body prefix). The
 corpus is 45% General Assembly, 23% Security Council, 12% ECOSOC, 20% treaty
 bodies and conference documents; the default mix keeps roughly that balance so
 the set reads like the corpus rather than like whichever class happens to hash
-first. One block per document by default -- with 86k documents there is no
-reason to double up.
+first.
+
+Within a stratum the sampling unit is the **block**, not the document -- the
+same way the EUR-Lex batch samples articles. Every block that survives the
+filters is an independent pool member ranked by a seeded hash of its block id,
+so a document contributes targets in proportion to its content: a one-block
+resolution offers one candidate, a 2,000-token report five, a long report
+hundreds -- and with ~1.5M eligible blocks even the largest document is under
+0.1% of the pool, so no aggressive per-document cap is needed
+(``--max-per-doc`` remains as a safety knob, default uncapped).
 
 Filters applied before sampling:
 
-* only blocks inside the token window (``in_range``) become targets -- the
-  out-of-window remainder exists so documents stay reconstructable, not to be
-  queried;
-* documents whose only content is one undersized block (agendas, cover notes)
-  drop out with the same filter.
+* document classes that are pure meeting logistics are excluded whole:
+  Security Council provisional-agenda stubs (``s/*/agenda/``) and the daily
+  Journal (``journal*``) -- schedules and symbol listings, not content;
+* only blocks inside the token window (``in_range``) AND free of Layer-2
+  shape flags (``usable``: no vote rosters, flattened tables, symbol soups)
+  become targets -- the remainder exists as document context, not to be
+  queried. The builder records the surviving indices per document
+  (``target_idxs``), so selection never scans the 2.6 GB blocks file.
 
 Usage:
     python -m clir_bench.domains.legal.qac.un_batch --n 100 --dry-run
@@ -69,47 +80,64 @@ def _stratum_for(body: str, strata=DEFAULT_STRATA) -> str:
     return next(name for name, prefixes, _ in strata if prefixes is None)
 
 
+def _excluded_doc(doc_id: str) -> bool:
+    """Layer 0: document classes that are meeting logistics, not content."""
+    pieces = doc_id.split("/")
+    body = pieces[1] if len(pieces) > 1 else ""
+    return "/agenda/" in doc_id or body.startswith("journal")
+
+
 def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str],
            modes: Sequence[str], strata=DEFAULT_STRATA,
-           max_per_doc: int = 1) -> list[Target]:
-    """Stratified, deterministic target selection.
+           max_per_doc: int = 0) -> list[Target]:
+    """Stratified, deterministic, block-level target selection.
 
-    Documents are ranked per stratum by a seeded hash; blocks are loaded only
-    for documents actually reached, so selection cost scales with ``n``, not
-    with the corpus.
+    The pool is enumerated from the docs index alone (``target_idxs``), ranked
+    by a seeded hash of the block id -- documents contribute in proportion to
+    their eligible-block count, and the 2.6 GB blocks file is never opened
+    here. ``max_per_doc`` is a safety cap only; 0 means uncapped.
     """
     def rank(key: str) -> str:
         return hashlib.sha256(f"{seed}:{key}".encode()).hexdigest()
 
-    pools: dict[str, list[str]] = {name: [] for name, _, _ in strata}
+    pools: dict[str, list[tuple[str, int]]] = {name: [] for name, _, _ in strata}
+    missing_idxs = 0
     for doc_id, doc in index.docs.items():
-        if doc.get("n_in_range", 0) < 1:
+        if _excluded_doc(doc_id):
             continue
-        pools[_stratum_for(doc.get("body", ""), strata)].append(doc_id)
+        idxs = doc.get("target_idxs")
+        if idxs is None:
+            missing_idxs += 1
+            continue
+        stratum = _stratum_for(doc.get("body", ""), strata)
+        pools[stratum].extend((doc_id, idx) for idx in idxs)
+    if missing_idxs and not any(pools.values()):
+        raise SystemExit(
+            "docs index has no target_idxs -- rebuild the blocks "
+            "(python -m clir_bench.domains.legal.un.blocks)")
 
     chosen: list[Target] = []
+    per_doc: Counter = Counter()
     for name, _, share in strata:
         want = round(n * share)
         taken = 0
-        for doc_id in sorted(pools[name], key=rank):
+        for doc_id, idx in sorted(pools[name], key=lambda p: rank(f"{p[0]}#{p[1]}")):
             if taken >= want:
                 break
-            eligible = [b for b in index.blocks_for(doc_id) if b.in_range]
-            eligible.sort(key=lambda b: rank(b.block_id))
-            for block in eligible[:max_per_doc]:
-                if taken >= want:
-                    break
-                position = len(chosen)
-                chosen.append(Target(
-                    doc_id=doc_id, block_id=block.block_id,
-                    block_index=block.block_index, n_blocks=block.n_blocks,
-                    stratum=name,
-                    # Alternate deterministically so the set is balanced across
-                    # modes and question languages rather than randomly lumpy.
-                    mode=modes[position % len(modes)],
-                    language=languages[position % len(languages)],
-                ))
-                taken += 1
+            if max_per_doc and per_doc[doc_id] >= max_per_doc:
+                continue
+            per_doc[doc_id] += 1
+            position = len(chosen)
+            chosen.append(Target(
+                doc_id=doc_id, block_id=f"{doc_id}#{idx}",
+                block_index=idx, n_blocks=index.docs[doc_id]["n_blocks"],
+                stratum=name,
+                # Alternate deterministically so the set is balanced across
+                # modes and question languages rather than randomly lumpy.
+                mode=modes[position % len(modes)],
+                language=languages[position % len(languages)],
+            ))
+            taken += 1
     return chosen
 
 
@@ -205,7 +233,9 @@ def main() -> None:
     parser.add_argument("--gen-model", default="gpt-5.5")
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
-    parser.add_argument("--max-per-doc", type=int, default=1)
+    parser.add_argument("--max-per-doc", type=int, default=0,
+                        help="safety cap on targets per document (0 = uncapped; "
+                             "documents contribute proportionally to size)")
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--seed", type=int, default=20260811)
     parser.add_argument("--blocks", default=None, help="override blocks_en.jsonl path")

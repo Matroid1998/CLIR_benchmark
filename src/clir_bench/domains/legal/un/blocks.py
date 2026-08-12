@@ -1,24 +1,35 @@
 """
 Segment the UN 6-way corpus into generation blocks.
 
-A block is a run of consecutive whole paragraphs of one document, packed to a
-token window (150-220 whitespace tokens by default). Paragraph boundaries come
-from the ``en:P:S`` tokens of the ``.ids`` file; document boundaries are runs of
-consecutive lines sharing the ``.ids`` first token. Because every block is a
-line range into the aligned files, the segmentation computed here from English
-applies to all six languages unchanged.
+A block is a contiguous run of lines of one document, packed to a token window
+(150-220 whitespace tokens by default). Paragraph boundaries come from the
+``en:P:S`` tokens of the ``.ids`` file; document boundaries are runs of
+consecutive lines sharing the ``.ids`` first token.
+
+**The invariant everything depends on**: a block is a contiguous line range
+``line_start..line_end`` into the original 6-way files, and every line inside
+the range belongs to the block. The corpus files are never modified, so the
+same range read from the ``.fr``/``.ar``/``.es``/``.ru``/``.zh`` file is the
+exact translation of the block.
+
+Text hygiene therefore happens *between* blocks, not inside them: a line
+classifier marks mastheads, TOC rows, vote rosters, adoption formulas, and
+meeting furniture as junk, and junk lines act as hard block boundaries -- they
+fall into the gaps between blocks, owned by none. Section headings are soft
+boundaries that close a full-enough block and open the next one, so a block
+carries its section title. Blocks deliberately do NOT cover every line;
+reconstructing a full document means reading its line range from the corpus
+files, not concatenating its blocks.
 
 Two files are written:
 
-* ``blocks_en.jsonl`` -- one row per block, carrying the English text and the
-  line range that defines it in every language.
-* ``docs_en.jsonl``   -- one row per document with its title, symbol, and the
-  byte offset of its first block row, so a consumer can load one document's
-  blocks with a seek instead of holding 2 GB in memory.
-
-Out-of-window blocks are kept but flagged (``in_range: false``) rather than
-dropped: a document must remain fully reconstructable from its blocks, and the
-QAC batch samples only in-range targets anyway.
+* ``blocks_en.jsonl`` -- one row per block: English text, the defining line
+  range, and the Layer-2 ``usable`` flag (shape checks for rosters, flattened
+  tables, symbol listings that survive inside otherwise-valid blocks).
+* ``docs_en.jsonl``   -- one row per document: title (first *content* line),
+  symbol, ``target_idxs`` (indices of blocks that are in-range AND usable,
+  which is what the QAC batch samples from), and the byte offset of the
+  document's first block row for seek-based access.
 
 Usage:
     python -m clir_bench.domains.legal.un.blocks                 # full build
@@ -29,6 +40,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -38,9 +50,178 @@ from clir_bench.domains.legal.un import paths
 
 MIN_TOKENS, MAX_TOKENS = 150, 220
 
-# Titles are stored on every block for prompt metadata; documents whose opening
-# line is a whole paragraph of prose get cut, not carried.
 TITLE_MAX_CHARS = 400
+HEADING_MAX_CHARS = 200
+
+# ---------------------------------------------------------------------------
+# Line classification (Layer 1).
+#
+# Ordered, first match wins. JUNK classes are hard block boundaries; heading
+# is a soft boundary; everything else is content. Rules are precision-first:
+# the only expensive error is content->junk, which silently removes translated
+# text from every language's block. Every pattern was validated against the
+# corpus (117k-line systematic sample); the naive trailing-page-number rule
+# was rejected there for false positives ("Rule 44", "Article 5").
+# ---------------------------------------------------------------------------
+
+CLS_MASTHEAD = "masthead"
+CLS_TOC = "toc"
+CLS_VOTE = "vote_roster"
+CLS_ADOPTION = "adoption_formula"
+CLS_FURNITURE = "furniture"
+CLS_HEADING = "heading"
+CLS_CONTENT = "content"
+
+JUNK_CLASSES = {CLS_MASTHEAD, CLS_TOC, CLS_VOTE, CLS_ADOPTION, CLS_FURNITURE}
+
+# Masthead patterns apply ONLY inside the unbroken leading run of a document:
+# bare symbols are 84% mid-document content (citations) and bare dates 92%
+# (chronology day-headers, letter dates), so these forms must never fire
+# after the first content line.
+MASTHEAD_RES = [re.compile(p) for p in (
+    r"^(United Nations|UNITED NATIONS)\s*\*{0,3}$",
+    r"^(General Assembly|Security Council|Economic and Social Council|Trusteeship Council"
+    r"|Human Rights Council|Conference on Disarmament|GENERAL ASSEMBLY|SECURITY COUNCIL"
+    r"|ECONOMIC AND SOCIAL COUNCIL)\s*$",
+    r"^(First|Second|Third|Fourth|Fifth|Sixth) Committee$",
+    r"^Distr\.?\s*:?\s*(GENERAL|General|LIMITED|Limited|RESTRICTED|Restricted)?\.?\s*$",
+    r"^[A-Z]{1,4}(/[A-Za-z0-9.\-()]{1,20}){1,6}\*{0,3}$",       # bare document symbol
+    r"(?i)^\[?\s*original\s*:\s*[a-z/, ]+\]?$",
+    r"^\d{1,2} [A-Z][a-z]+ \d{4}$",                              # bare date
+    r"(?i)^[a-z]+([-—–][a-z]+)*( special| regular| emergency special)? session$",
+    r"(?i)^(agenda items? \d|items? \d+( and \d+)? of the provisional agenda)",
+    r"(?i)^(summary|verbatim|provisional verbatim) record of the",
+    r"^Held at\b",
+    r"(?i)^(chair(man|person|main)?|president|rapporteur|vice-chair\w*|later)\s*:",  # 'Chairmain' is a real corpus typo
+    r"^\[(on the report of|without reference to|on a proposal)",
+    r"(?i)^(new york|geneva|vienna|nairobi|bangkok)[, ].{0,60}\d{4}$",
+    r"^\*{1,3}$",
+)]
+
+TOC_RES = [re.compile(p) for p in (
+    r"^(Contents|CONTENTS)$",
+    r"^(Paragraphs\s+)?(Page|PAGE)$",
+    r"^.{0,90}?[\.\s]\d{1,4}\s*[-–—]\s*\d{1,4}\s+\d{1,3}$",  # 'Title 12 - 15 7'
+    r"\.{4,}\s*\d{1,4}$",                                              # dotted leader + page
+    r"^([IVXLC]{1,6}|[A-H])\.\s+\D{3,70}\s\d{1,3}$",                   # heading row w/ page no.
+)]
+
+VOTE_RES = [re.compile(p) for p in (
+    r"^(In favour|Against|Abstaining)\s*:",
+    r"^(?:[A-Z][\w'’.\- ]{1,40},\s+){8,}[A-Z][\w'’.\- ]{1,40}[.,]?$",
+)]
+
+PLENARY_RE = re.compile(r"^\d{1,4}(st|nd|rd|th) (plenary |formal )?meeting$")
+DATE_RE = re.compile(r"^\d{1,2} [A-Z][a-z]+ \d{4}$")
+FURNITURE_RE = re.compile(
+    r"^The meeting (was called to order|was suspended|was resumed|resumed|rose) at .{0,40}$")
+
+# Bare 'Annex' is a heading (it legitimately precedes substantive annex text);
+# Annex rows carrying a paragraph-range/page number match TOC first because
+# TOC is tested before heading.
+HEADING_RES = [re.compile(p) for p in (
+    r"^(ANNEX|Annex)(\s+[IVXLC0-9]+)?$",
+    r"^[IVXLC]{1,6}\.\s+\S",
+    r"^[A-H]\.\s+[A-Z]",
+    r"^Article \d+\s*$",
+    r"^(Section|Chapter|Part)\s+[IVXLC0-9]+",
+    r"(?i)^agenda items? \d+",  # mid-document: SR/PV agenda-section marker
+)]
+
+
+def _matches_any(patterns: list[re.Pattern], text: str) -> bool:
+    return any(p.search(text) for p in patterns)
+
+
+def classify_lines(lines: list["Line"]) -> list[str]:
+    """One class per line, aligned with ``lines``."""
+    n = len(lines)
+    cls = [CLS_CONTENT] * n
+
+    # Leading run: masthead/TOC patterns hold until the first line matching
+    # neither -- after that, masthead patterns never fire again.
+    body_start = 0
+    while body_start < n:
+        text = lines[body_start].text.strip()
+        if _matches_any(MASTHEAD_RES, text):
+            cls[body_start] = CLS_MASTHEAD
+        elif _matches_any(TOC_RES, text):
+            cls[body_start] = CLS_TOC
+        else:
+            break
+        body_start += 1
+
+    for i in range(body_start, n):
+        text = lines[i].text.strip()
+        if _matches_any(TOC_RES, text):
+            cls[i] = CLS_TOC
+        elif _matches_any(VOTE_RES, text):
+            cls[i] = CLS_VOTE
+        elif PLENARY_RE.match(text):
+            cls[i] = CLS_ADOPTION
+        elif FURNITURE_RE.match(text):
+            cls[i] = CLS_FURNITURE
+        elif _matches_any(HEADING_RES, text):
+            cls[i] = CLS_HEADING
+
+    # Bare dates in the body are content (chronology day-headers, letter
+    # dates) EXCEPT next to a plenary-meeting line or at the document tail --
+    # the GA adoption formula, whose plenary line is sometimes lost.
+    for i in range(body_start, n):
+        if cls[i] == CLS_CONTENT and DATE_RE.match(lines[i].text.strip()):
+            prev_plenary = i > 0 and PLENARY_RE.match(lines[i - 1].text.strip())
+            next_plenary = i + 1 < n and PLENARY_RE.match(lines[i + 1].text.strip())
+            if prev_plenary or next_plenary or i == n - 1:
+                cls[i] = CLS_ADOPTION
+    # Trailing scrub: a bare date whose following lines are all junk.
+    i = n - 1
+    while i >= body_start:
+        if cls[i] in JUNK_CLASSES:
+            i -= 1
+        elif cls[i] == CLS_CONTENT and DATE_RE.match(lines[i].text.strip()):
+            cls[i] = CLS_ADOPTION
+            i -= 1
+        else:
+            break
+    return cls
+
+
+# ---------------------------------------------------------------------------
+# Layer 2: shape flags on packed block text. A block with any flag is kept
+# (context stays complete) but never becomes a generation target.
+# ---------------------------------------------------------------------------
+
+SYMBOL_RE = re.compile(r"\b[A-Z]{1,4}(?:/[A-Za-z0-9.\-]+){2,}")
+BUDGET_RE = re.compile(r"^(Part [IVXL]+\.|Total, part|Grand total|\(United States dollars\))")
+
+
+def junk_flags(text: str) -> list[str]:
+    flags: list[str] = []
+    lines = [l for l in text.split("\n") if l.strip()]
+    tokens = text.split()
+    if text.count(", ") >= 15 and tokens:
+        caps = sum(1 for t in tokens if t[:1].isupper())
+        if caps / len(tokens) >= 0.45:
+            flags.append("country_list")
+    if len(SYMBOL_RE.findall(text)) >= 6:
+        flags.append("symbol_soup")
+    if len(lines) >= 5:
+        tails = sum(1 for l in lines if l.rstrip()[-1:].isdigit())
+        if tails / len(lines) >= 0.5:
+            flags.append("num_tail")
+    if len(lines) >= 9:
+        per_line = sorted(len(l.split()) for l in lines)
+        short = sum(1 for l in lines if len(l.split()) <= 6)
+        if per_line[len(per_line) // 2] <= 6 and short / len(lines) > 0.5:
+            flags.append("short_table")
+    if sum(1 for l in lines if BUDGET_RE.match(l.strip())) >= 3:
+        flags.append("budget_labels")
+    return flags
+
+
+# ---------------------------------------------------------------------------
+# Streaming and packing.
+# ---------------------------------------------------------------------------
 
 
 @dataclass
@@ -55,11 +236,7 @@ class Line:
 
 
 def _en_paragraph(ids_line: str, fallback: int) -> int:
-    """Paragraph number of the line's first ``en:P:S`` token.
-
-    Every 6-way line should carry an ``en:`` token; the fallback covers
-    malformed tokens so one bad line cannot abort an 11M-line pass.
-    """
+    """Paragraph number of the line's first ``en:P:S`` token."""
     for token in ids_line.split()[1:]:
         if token.startswith("en:"):
             parts = token.split(":")
@@ -74,8 +251,7 @@ def read_documents(ids_path: Path, text_path: Path) -> Iterator[tuple[str, list[
     """Stream (document id, lines) pairs, one document at a time.
 
     Documents are consecutive runs of one ``.ids`` first token -- verified over
-    the full corpus: 86,307 runs for 86,307 distinct ids, so no regrouping is
-    needed.
+    the full corpus: 86,307 runs for 86,307 distinct ids.
     """
     doc_id: str | None = None
     lines: list[Line] = []
@@ -95,37 +271,70 @@ def read_documents(ids_path: Path, text_path: Path) -> Iterator[tuple[str, list[
         yield doc_id, lines
 
 
-def pack(lines: list[Line], *, min_tokens: int = MIN_TOKENS,
-         max_tokens: int = MAX_TOKENS) -> list[list[Line]]:
-    """Greedy paragraph packing into the token window.
+def pack(lines: list[Line], cls: list[str] | None = None, *,
+         min_tokens: int = MIN_TOKENS, max_tokens: int = MAX_TOKENS) -> list[list[Line]]:
+    """Pack classified lines into contiguous blocks within the token window.
 
-    A block closes at a paragraph boundary once it holds ``min_tokens``, or
-    mid-paragraph when the next line would push it past ``max_tokens`` -- lines
-    are the alignment unit, so a mid-paragraph cut is still a clean line range.
-    A single line longer than ``max_tokens`` becomes its own oversize block:
-    there is nothing below a line to cut at. An undersize tail is merged back
-    into the previous block when that stays within the window.
+    Junk lines are hard boundaries (they fall into the gaps between blocks and
+    clear any pending heading). Heading lines are soft boundaries: they close
+    a block that already holds ``min_tokens`` and open the next one, so the
+    block carries its section title; against an under-min block they ride
+    inline. Content packs under the existing rules: close at a paragraph
+    boundary once >= min, or immediately before overflowing max. A single
+    line longer than ``max_tokens`` becomes its own oversize block. An
+    undersize tail merges into the previous block only when the two are
+    line-adjacent -- never across a junk gap.
     """
+    if cls is None:
+        cls = [CLS_CONTENT] * len(lines)
+
     blocks: list[list[Line]] = []
     current: list[Line] = []
     current_tokens = 0
-    for line in lines:
+    pending: list[Line] = []            # heading lines that open the next block
+
+    def close() -> None:
+        nonlocal current, current_tokens
         if current:
-            starts_paragraph = line.paragraph != current[-1].paragraph
-            if current_tokens + line.tokens > max_tokens or (
-                    current_tokens >= min_tokens and starts_paragraph):
-                blocks.append(current)
-                current, current_tokens = [], 0
-        current.append(line)
-        current_tokens += line.tokens
-    if current:
-        blocks.append(current)
+            blocks.append(current)
+        current, current_tokens = [], 0
+
+    for line, kind in zip(lines, cls):
+        if kind in JUNK_CLASSES:
+            close()
+            pending.clear()             # heading followed by junk -> gap
+        elif kind == CLS_HEADING:
+            if current_tokens >= min_tokens or (
+                    current and current_tokens + line.tokens > max_tokens):
+                close()
+            if current:                 # under-min block: heading rides inline
+                current.append(line)
+                current_tokens += line.tokens
+            else:
+                pending.append(line)
+        else:
+            if pending:
+                current = pending[:]
+                current_tokens = sum(l.tokens for l in pending)
+                pending = []
+            if current:
+                starts_paragraph = line.paragraph != current[-1].paragraph
+                if current_tokens + line.tokens > max_tokens or (
+                        current_tokens >= min_tokens and starts_paragraph):
+                    close()
+            current.append(line)
+            current_tokens += line.tokens
+    pending.clear()                     # trailing headings with no content -> gap
+    close()
 
     if len(blocks) > 1:
-        tail_tokens = sum(l.tokens for l in blocks[-1])
-        prev_tokens = sum(l.tokens for l in blocks[-2])
-        if tail_tokens < min_tokens and prev_tokens + tail_tokens <= max_tokens:
-            blocks[-2].extend(blocks.pop())
+        tail, prev = blocks[-1], blocks[-2]
+        tail_tokens = sum(l.tokens for l in tail)
+        prev_tokens = sum(l.tokens for l in prev)
+        if (prev[-1].number + 1 == tail[0].number
+                and tail_tokens < min_tokens
+                and prev_tokens + tail_tokens <= max_tokens):
+            prev.extend(blocks.pop())
     return blocks
 
 
@@ -134,8 +343,6 @@ def symbol_for(doc_id: str) -> str:
 
     ``1994/s/res/918_1994_`` -> ``S/RES/918(1994)``;
     ``2005/a/c_6/60/sr_9``   -> ``A/C.6/60/SR.9``.
-    A trailing underscore marks a parenthesised suffix; interior underscores
-    are dots. Heuristic only -- the raw ``doc_id`` stays the join key.
     """
     parts = doc_id.split("/")[1:] or doc_id.split("/")
     out = []
@@ -160,19 +367,36 @@ def build(*, ids_path: Path = paths.IDS_FILE,
     blocks_path = out_dir / paths.BLOCKS_JSONL.name
     docs_path = out_dir / paths.DOCS_JSONL.name
 
-    n_docs = n_blocks = n_in_range = 0
+    n_docs = n_blocks = n_targets_total = n_junk_total = 0
     with open(blocks_path, "wb") as blocks_fh, open(docs_path, "wb") as docs_fh:
         for doc_id, lines in read_documents(ids_path, text_path):
-            packed = pack(lines, min_tokens=min_tokens, max_tokens=max_tokens)
-            title = lines[0].text[:TITLE_MAX_CHARS]
+            cls = classify_lines(lines)
+            kind_of = dict(zip((l.number for l in lines), cls))
+            n_junk = sum(1 for k in cls if k in JUNK_CLASSES)
+            packed = pack(lines, cls, min_tokens=min_tokens, max_tokens=max_tokens)
+
+            title = next((l.text for l, k in zip(lines, cls) if k == CLS_CONTENT),
+                         lines[0].text)[:TITLE_MAX_CHARS]
             pieces = doc_id.split("/")
             offset = blocks_fh.tell()
-            doc_in_range = 0
+            target_idxs: list[int] = []
             for index, block in enumerate(packed):
+                numbers = [l.number for l in block]
+                assert numbers == list(range(numbers[0], numbers[-1] + 1)), \
+                    f"non-contiguous block in {doc_id}"
                 tokens = sum(l.tokens for l in block)
                 text = "\n".join(l.text for l in block)
                 in_range = min_tokens <= tokens <= max_tokens
-                doc_in_range += in_range
+                flags = junk_flags(text)
+                usable = not flags
+                if in_range and usable:
+                    target_idxs.append(index)
+                heading_lines = []
+                for l in block:
+                    if kind_of[l.number] == CLS_HEADING:
+                        heading_lines.append(l.text.strip())
+                    else:
+                        break
                 starts_mid = index > 0 and block[0].paragraph == packed[index - 1][-1].paragraph
                 ends_mid = (index + 1 < len(packed)
                             and block[-1].paragraph == packed[index + 1][0].paragraph)
@@ -192,7 +416,10 @@ def build(*, ids_path: Path = paths.IDS_FILE,
                     "token_count": tokens,
                     "char_count": len(text),
                     "in_range": in_range,
+                    "usable": usable,
+                    "junk_flags": flags,
                     "splits_paragraph": starts_mid or ends_mid,
+                    "heading": " / ".join(heading_lines)[:HEADING_MAX_CHARS],
                     "title": title,
                     "text": text,
                 }
@@ -204,8 +431,12 @@ def build(*, ids_path: Path = paths.IDS_FILE,
                 "year": pieces[0],
                 "title": title,
                 "n_blocks": len(packed),
-                "n_in_range": doc_in_range,
+                "n_targets": len(target_idxs),
+                "target_idxs": target_idxs,
+                "n_in_range": sum(1 for i in range(len(packed))
+                                  if min_tokens <= sum(l.tokens for l in packed[i]) <= max_tokens),
                 "n_lines": len(lines),
+                "n_junk_lines": n_junk,
                 "line_start": lines[0].number,
                 "line_end": lines[-1].number,
                 "token_count": sum(l.tokens for l in lines),
@@ -215,14 +446,16 @@ def build(*, ids_path: Path = paths.IDS_FILE,
 
             n_docs += 1
             n_blocks += len(packed)
-            n_in_range += doc_in_range
+            n_targets_total += len(target_idxs)
+            n_junk_total += n_junk
             if n_docs % 10000 == 0:
                 print(f"  {n_docs:,} documents, {n_blocks:,} blocks", file=sys.stderr)
             if limit_docs and n_docs >= limit_docs:
                 break
 
-    print(f"wrote {n_blocks:,} blocks ({n_in_range:,} in the {min_tokens}-{max_tokens} "
-          f"token window) across {n_docs:,} documents", file=sys.stderr)
+    print(f"wrote {n_blocks:,} blocks ({n_targets_total:,} targets: in the "
+          f"{min_tokens}-{max_tokens} token window AND usable) across {n_docs:,} documents; "
+          f"{n_junk_total:,} junk lines left in gaps", file=sys.stderr)
     print(f"  -> {blocks_path}\n  -> {docs_path}", file=sys.stderr)
     return n_docs, n_blocks
 

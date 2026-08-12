@@ -1,8 +1,11 @@
 # UN Parallel Corpus prompts
 
 Prompt pack for the UN Parallel Corpus source (`data/legal/un_parallel/`), where
-the retrievable unit is a **block** — a run of whole paragraphs of one UN
-document, packed to a size window at English paragraph boundaries. It exists as
+the retrievable unit is a **block** — a contiguous run of lines of one UN
+document, packed to a size window at English paragraph boundaries. Junk lines
+(mastheads, TOC rows, vote rosters, adoption formulas) act as block boundaries
+and fall into the gaps between blocks; section headings open the block that
+follows them, so a block carries its section title. It exists as
 a separate pack rather than an edit to `prompts_eurlex/` because the central
 rule of that pack is **inverted back** here, and because the corpus mixes
 genres (resolutions, reports, letters, meeting records) that EU legislation
@@ -34,9 +37,9 @@ The prompts describe — and therefore pin — the user message the future
     <document opening + neighbouring blocks, or the whole document when it fits the budget>
 
 Both `###` markers are literal strings. Metadata lines are `Document:` (the UN
-document symbol) and `Title:` (the document's own title/opening line); they get
-the same "context, not content" treatment as EUR-Lex's `Act:`/`Location:`
-lines. Non-English payload variants add the question-language version of each
+document symbol) and `Title:` (the document's first content line, masthead
+stripped); they get the same "context, not content" treatment as EUR-Lex's
+`Act:`/`Location:` lines. Non-English payload variants add the question-language version of each
 block alongside English, as in the EUR-Lex flow.
 
 ## What changed vs. `prompts_eurlex`, and why
