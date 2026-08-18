@@ -63,6 +63,14 @@ GENRE_STRATA: tuple[tuple[str, float], ...] = (
     ("letter", 0.10),
 )
 
+# The reject floor: a candidate whose faithfulness grader gave GROUNDING <= 2
+# was judged NOT fully answerable from the target block (substance drawn from a
+# referenced document, the context, or outside knowledge). Such a candidate is
+# never kept as a target's best question; if none of the three clears the
+# floor, the target yields no question at all. All candidates and grades are
+# still written to the all-candidates file, so rejects stay auditable.
+MIN_GROUNDING_FOR_BEST = 3
+
 # The fit filter: a target qualifies only when its whole document PLUS the
 # whole text of every referenced document stays inside the context budget --
 # then nothing the model sees is ever truncated or windowed.
@@ -261,6 +269,30 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
     return rows
 
 
+def pick_best(grouped: dict[str, list[dict[str, Any]]]
+              ) -> tuple[list[dict[str, Any]], int]:
+    """(best rows, rejected-target count).
+
+    Each group is one target's candidates, ranked best-first. The best is the
+    first candidate whose GROUNDING clears ``MIN_GROUNDING_FOR_BEST``; a target
+    with no such candidate contributes nothing to the best file.
+    """
+    best: list[dict[str, Any]] = []
+    rejected = 0
+    for key in sorted(grouped):
+        for row in grouped[key]:
+            try:
+                grounding = int(row.get("faith_grounding") or 0)
+            except (TypeError, ValueError):
+                grounding = 0
+            if grounding >= MIN_GROUNDING_FOR_BEST:
+                best.append(row)
+                break
+        else:
+            rejected += 1
+    return best, rejected
+
+
 # Grade columns are the union of both modes' rubrics (grade_columns emits only
 # the scoring mode's keys; DictWriter leaves the other mode's cells empty).
 FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
@@ -374,7 +406,7 @@ def main() -> None:
         grouped.setdefault(row["block_id"], []).append(row)
 
     ordered = [r for key in sorted(grouped) for r in grouped[key]]
-    best = [grouped[key][0] for key in sorted(grouped)]
+    best, rejected = pick_best(grouped)
 
     def write(path: Path, data: list[dict[str, Any]]) -> None:
         with path.open("w", newline="", encoding="utf-8") as fh:
@@ -397,6 +429,8 @@ def main() -> None:
     print(f"\nwrote {len(ordered)} candidates -> {out}", file=sys.stderr)
     print(f"      {len(best)} best-per-target -> {best_path}", file=sys.stderr)
     print(f"  targets that failed  : {failed}", file=sys.stderr)
+    print(f"  targets rejected (no candidate with grounding >= "
+          f"{MIN_GROUNDING_FOR_BEST}): {rejected}", file=sys.stderr)
     print(f"  by stratum (best set): {dict(Counter(r['stratum'] for r in best))}",
           file=sys.stderr)
 

@@ -111,3 +111,38 @@ def test_unresolved_citations_cost_nothing():
     doc = DOCS["1994/s/res/918_1994_"]
     # resolution 48/141 is not in the fake corpus -> contributes 0 chars
     assert fits(doc, "Recalling General Assembly resolution 48/141,", index)
+
+
+# --------------------------------------------------------------------------- #
+# Reject floor: best candidate must clear MIN_GROUNDING_FOR_BEST
+# --------------------------------------------------------------------------- #
+
+def _row(block_id: str, grounding, total: int) -> dict:
+    return {"block_id": block_id, "faith_grounding": grounding, "total_score": total}
+
+
+def test_pick_best_skips_ungrounded_leader():
+    from clir_bench.domains.legal.qac.un_batch import pick_best
+    grouped = {"d#0": [_row("d#0", 2, 30), _row("d#0", 3, 27), _row("d#0", 4, 20)]}
+    best, rejected = pick_best(grouped)
+    # ranked leader has grounding 2 -> skipped; the grounding-3 runner-up wins
+    assert [r["total_score"] for r in best] == [27]
+    assert rejected == 0
+
+
+def test_pick_best_rejects_target_with_no_grounded_candidate():
+    from clir_bench.domains.legal.qac.un_batch import pick_best
+    grouped = {
+        "d#0": [_row("d#0", 2, 30), _row("d#0", 1, 25), _row("d#0", 2, 20)],
+        "d#1": [_row("d#1", 5, 29)],
+    }
+    best, rejected = pick_best(grouped)
+    assert [r["block_id"] for r in best] == ["d#1"]
+    assert rejected == 1
+
+
+def test_pick_best_tolerates_missing_or_malformed_grades():
+    from clir_bench.domains.legal.qac.un_batch import pick_best
+    grouped = {"d#0": [_row("d#0", None, 30), _row("d#0", "n/a", 28), _row("d#0", "4", 26)]}
+    best, rejected = pick_best(grouped)
+    assert [r["total_score"] for r in best] == [26] and rejected == 0

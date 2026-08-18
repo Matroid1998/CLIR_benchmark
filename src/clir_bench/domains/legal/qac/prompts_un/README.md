@@ -33,7 +33,7 @@ The prompts describe — and therefore pin — the user message the future
       Title: Letter dated 1 June 2001 from the Permanent Representatives ...
     <block text>
 
-    ### REFERENCED DOCUMENTS — other documents CITED by the target block, supplied so an answer can be complete
+    ### REFERENCED DOCUMENTS — other documents CITED by the target block, supplied so you can UNDERSTAND those citations. Context only: never a source of answers, never the subject of a question.
     Reference: S/RES/1559(2004) — Resolution 1559 (2004) (cited paragraph 3)
     <the cited document's FULL text on whole-fit runs (reference_chars=None);
      otherwise the cited paragraph's block or the opening block, capped at 1500 chars>
@@ -49,25 +49,35 @@ block alongside English, as in the EUR-Lex flow.
 
 ## What changed vs. `prompts_eurlex`, and why
 
-### 1. Two kinds of supporting material, two different rules
+### 1. Two kinds of supporting material — both understanding-only
 
-The payload carries both EUR-Lex-style **resolved references** and a section
-EUR-Lex never had — the **surrounding document** — and they obey different
-rules:
+The payload carries **resolved references** (instruments the target block
+cites, found by `un_references.py` regex extraction against the corpus's own
+symbol index) and a section EUR-Lex never had — the **surrounding document**.
+Unlike EUR-Lex, where a referenced article may *complete* an answer, here
+**neither section may ever contribute answer substance**:
 
-- **REFERENCED DOCUMENTS** (instruments the target block cites, resolved by
-  `un_references.py` regex extraction against the corpus's own symbol index)
-  follow the EUR-Lex semantics: a supplied excerpt may **complete** an answer
-  whose operative fact lives in the target block; the ONE-DOCUMENT TEST
-  discards questions answerable from a reference alone; candidates declare
-  what they used in **`documents_involved`** (symbols, validated in
-  `un_generate.normalise_involved` against what was actually supplied).
-- **DOCUMENT CONTEXT** stays disambiguation-only: it resolves "the Mission",
-  "the present report", "the reporting period" — and is never a source of
-  answer substance (the BLOCK TEST; faithfulness caps GROUNDING at 2 on
-  violations).
+- **REFERENCED DOCUMENTS** exist so the model understands what the block's
+  citations refer to (what kind of instrument resolution 918 (1994) is, what
+  subject it concerns) — the way a footnote helps a reader. A question whose
+  answer sits behind a citation is discarded *even when the cited document was
+  supplied*; a question answerable from a reference alone is off-target.
+- **DOCUMENT CONTEXT** resolves "the Mission", "the present report", "the
+  reporting period".
 
-Output is `{question, answer, question_type|framing, documents_involved}`.
+The single rule is the **BLOCK TEST**: the answer must be producible from the
+target block alone, with both supporting sections used only to resolve
+referring expressions and citations. Enforcement is layered: the faithfulness
+verifier caps GROUNDING at 2 when any answer substance comes from a reference
+or the context; the quality verifiers cap off-target questions
+(`off-target-reference`, `off-target-context`); and `un_batch.pick_best`
+refuses to keep any candidate with `faith_grounding < 3` as a target's best
+question — a target with no grounded candidate yields no question (rejects
+remain auditable in the all-candidates file).
+
+There is consequently no `documents_involved` field. Output is
+`{question, answer, question_type}` (technical) or `{question, answer, framing}`
+(semantic).
 
 ### 2. Naming for retrievability is promoted to the top rule
 
