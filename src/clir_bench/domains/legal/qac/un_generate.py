@@ -1,11 +1,13 @@
 """
-UN question generation: one target block, the document as context.
+UN question generation: one target block, cited documents and the rest of the
+document as understanding-only context.
 
-The flow mirrors ``eurlex_generate`` with one structural simplification: there
-is no ``articles_involved`` field to validate, because the UN payload's context
-is disambiguation-only -- the prompts require every answer to come from the
-target block, and the faithfulness verifier caps grounding when it does not.
-What comes back is just ``{question, answer, question_type|framing}``.
+The payload separates the TARGET BLOCK (questions are about it, and every
+answer must exist fully inside it), REFERENCED DOCUMENTS (cited instruments,
+supplied only so the model understands the block's citations), and DOCUMENT
+CONTEXT (the surrounding document). Neither supporting section may contribute
+answer substance -- the faithfulness verifier caps grounding when one does,
+and the batch driver refuses to keep a best candidate below that floor.
 
 Usage:
     python -m clir_bench.domains.legal.qac.un_generate \
@@ -86,6 +88,8 @@ def rows_for(payload: ctx.GenerationPayload, candidates: list[Candidate], *,
         "question": c.question,
         "answer": c.answer,
         ("question_type" if mode == MODE_TECHNICAL else "framing"): c.classification,
+        "references_supplied": ",".join(r.symbol for r in payload.references),
+        "references_dropped": ",".join(payload.dropped_references),
         "context_blocks_supplied": len(payload.context_blocks),
         "context_blocks_dropped": payload.n_context_dropped,
     } for c in candidates]
@@ -127,6 +131,8 @@ def main() -> None:
         print(f"target          : {payload.target.block_id} "
               f"({payload.target.token_count} tokens, "
               f"lines {payload.target.line_start}-{payload.target.line_end})")
+        print(f"references      : {[r.symbol for r in payload.references]}")
+        print(f"references drop : {payload.dropped_references}")
         print(f"context supplied: {len(payload.context_blocks)} blocks")
         print(f"context dropped : {payload.n_context_dropped} blocks")
         return

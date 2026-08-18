@@ -4,31 +4,30 @@ Build a UN question set: select target blocks, generate, grade, rank, write.
 One target block yields three candidates; the best-scoring one is kept. So a
 100-query set is 100 target blocks: 100 generation calls plus 200 grading calls.
 
-Selection is stratified by **document class** (the ``.ids`` body prefix). The
-corpus is 45% General Assembly, 23% Security Council, 12% ECOSOC, 20% treaty
-bodies and conference documents; the default mix keeps roughly that balance so
-the set reads like the corpus rather than like whichever class happens to hash
-first.
-
-Within a stratum the sampling unit is the **block**, not the document -- the
-same way the EUR-Lex batch samples articles. Every block that survives the
-filters is an independent pool member ranked by a seeded hash of its block id,
-so a document contributes targets in proportion to its content: a one-block
-resolution offers one candidate, a 2,000-token report five, a long report
-hundreds -- and with ~1.5M eligible blocks even the largest document is under
-0.1% of the pool, so no aggressive per-document cap is needed
-(``--max-per-doc`` remains as a safety knob, default uncapped).
+Selection is stratified by **genre** with user-fixed shares: resolutions &
+decisions 50%, meeting records 40%, letters 10% (``GENRE_STRATA``; override
+with ``--shares``, or ``--all-genres`` for the unfiltered pool). Within a
+stratum the sampling unit is the **block**, ranked by a seeded hash of its
+block id -- documents contribute targets in proportion to their content, the
+same way the EUR-Lex batch samples articles (``--max-per-doc`` remains a
+safety knob, default uncapped).
 
 Filters applied before sampling:
 
-* document classes that are pure meeting logistics are excluded whole:
-  Security Council provisional-agenda stubs (``s/*/agenda/``) and the daily
-  Journal (``journal*``) -- schedules and symbol listings, not content;
+* **genre filter** -- only resolutions/decisions, meeting records, and
+  letters become question sources (``genre_for``); everything else, plus the
+  logistics classes (agenda stubs, the daily Journal, corrigenda), is
+  excluded;
+* **whole-fit filter** -- a target qualifies only when its whole document
+  PLUS the whole text of every referenced document stays inside the 30k-char
+  context budget (``_fits_whole``, checked lazily along the ranked walk), so
+  nothing the model sees is ever windowed or truncated; references are then
+  rendered as full documents (``--no-fit`` reverts to windowed context and
+  capped excerpts);
 * only blocks inside the token window (``in_range``) AND free of Layer-2
-  shape flags (``usable``: no vote rosters, flattened tables, symbol soups)
-  become targets -- the remainder exists as document context, not to be
-  queried. The builder records the surviving indices per document
-  (``target_idxs``), so selection never scans the 2.6 GB blocks file.
+  shape flags (``usable``) become targets -- the builder records the
+  surviving indices per document (``target_idxs``), so pool enumeration
+  never scans the 2.6 GB blocks file.
 
 Usage:
     python -m clir_bench.domains.legal.qac.un_batch --n 100 --dry-run
@@ -49,17 +48,53 @@ from typing import Any, Sequence
 from clir_bench.domains.legal.un import paths as un_paths
 from clir_bench.domains.legal.qac import un_context as ctx
 from clir_bench.domains.legal.qac import un_generate as gen
+from clir_bench.domains.legal.qac import un_references as refs
 from clir_bench.domains.legal.qac.env import load_env
 
 OUT_DIR = un_paths.QAC_DIR
 
-# (name, body prefixes, share of the set). Prefix None catches everything else.
-DEFAULT_STRATA: tuple[tuple[str, tuple[str, ...] | None, float], ...] = (
-    ("ga", ("a",), 0.40),
-    ("sc", ("s",), 0.25),
-    ("ecosoc", ("e",), 0.10),
-    ("other", None, 0.25),
+# Question-source genres and their shares of the set (user-fixed 50/40/10).
+# Measured pool under both filters: resolutions 30,043 targets / meeting
+# records 31,072 / letters 2,416 -- the letters quota of a 10k set uses ~41%
+# of what exists, the other two are barely dented.
+GENRE_STRATA: tuple[tuple[str, float], ...] = (
+    ("resolution", 0.50),
+    ("meeting", 0.40),
+    ("letter", 0.10),
 )
+
+# The fit filter: a target qualifies only when its whole document PLUS the
+# whole text of every referenced document stays inside the context budget --
+# then nothing the model sees is ever truncated or windowed.
+FIT_BUDGET = ctx.DEFAULT_CONTEXT_CHARS
+
+
+def genre_for(doc_id: str, title: str) -> str | None:
+    """Question-source genre, or None when the document class is ineligible.
+
+    Letters are recognised by their title line and undercounted when that line
+    is corrupted -- a safe direction: never misclassifies, only misses.
+    """
+    if "/res/" in doc_id or "/dec/" in doc_id:
+        return "resolution"
+    if "sr_" in doc_id or "pv_" in doc_id:
+        return "meeting"
+    if title.lower().startswith(("letter dated", "note verbale", "identical letters")):
+        return "letter"
+    return None
+
+
+def _fits_whole(doc: dict, block_text: str, index: ctx.BlockIndex) -> bool:
+    """Whole document + whole referenced documents within the context budget."""
+    if doc["char_count"] > FIT_BUDGET:
+        return False
+    citations = refs.resolve_citations(
+        refs.extract_citations(block_text), index.symbol_map,
+        citing_doc_id=doc["doc_id"])
+    kept, _ = refs.referenced_docs(citations)
+    total = doc["char_count"] + sum(
+        index.docs[c.doc_id]["char_count"] for c in kept)
+    return total <= FIT_BUDGET
 
 
 @dataclass
@@ -73,34 +108,38 @@ class Target:
     language: str
 
 
-def _stratum_for(body: str, strata=DEFAULT_STRATA) -> str:
-    for name, prefixes, _ in strata:
-        if prefixes is not None and body in prefixes:
-            return name
-    return next(name for name, prefixes, _ in strata if prefixes is None)
-
-
 def _excluded_doc(doc_id: str) -> bool:
-    """Layer 0: document classes that are meeting logistics, not content."""
+    """Layer 0: document classes that cannot anchor questions.
+
+    Agenda stubs and the Journal are meeting logistics; corrigenda are edit
+    instructions ("Replace paragraph X with...") about a *different* document
+    -- both sampled corrigendum targets in the verification audit were bad.
+    """
     pieces = doc_id.split("/")
     body = pieces[1] if len(pieces) > 1 else ""
-    return "/agenda/" in doc_id or body.startswith("journal")
+    return ("/agenda/" in doc_id or body.startswith("journal")
+            or any(p.startswith("corr") for p in pieces[2:]))
 
 
 def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str],
-           modes: Sequence[str], strata=DEFAULT_STRATA,
-           max_per_doc: int = 0) -> list[Target]:
+           modes: Sequence[str], strata=GENRE_STRATA,
+           max_per_doc: int = 0, genre_filter: bool = True,
+           fit_filter: bool = True) -> list[Target]:
     """Stratified, deterministic, block-level target selection.
 
-    The pool is enumerated from the docs index alone (``target_idxs``), ranked
-    by a seeded hash of the block id -- documents contribute in proportion to
-    their eligible-block count, and the 2.6 GB blocks file is never opened
-    here. ``max_per_doc`` is a safety cap only; 0 means uncapped.
+    The pool is enumerated from the docs index alone (``target_idxs``) and
+    ranked by a seeded hash of the block id; documents contribute in
+    proportion to their eligible-block count. The fit check is applied lazily
+    while walking the ranked pool -- only candidates actually reached get
+    their block text read and citations resolved, so cost scales with ``n``.
+    ``max_per_doc`` is a safety cap only; 0 means uncapped.
     """
     def rank(key: str) -> str:
         return hashlib.sha256(f"{seed}:{key}".encode()).hexdigest()
 
-    pools: dict[str, list[tuple[str, int]]] = {name: [] for name, _, _ in strata}
+    if not genre_filter:
+        strata = (("all", 1.0),)
+    pools: dict[str, list[tuple[str, int]]] = {name: [] for name, _ in strata}
     missing_idxs = 0
     for doc_id, doc in index.docs.items():
         if _excluded_doc(doc_id):
@@ -109,7 +148,14 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
         if idxs is None:
             missing_idxs += 1
             continue
-        stratum = _stratum_for(doc.get("body", ""), strata)
+        if fit_filter and doc["char_count"] > FIT_BUDGET:
+            continue
+        if genre_filter:
+            stratum = genre_for(doc_id, doc.get("title", ""))
+            if stratum is None:
+                continue
+        else:
+            stratum = "all"
         pools[stratum].extend((doc_id, idx) for idx in idxs)
     if missing_idxs and not any(pools.values()):
         raise SystemExit(
@@ -118,7 +164,7 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
 
     chosen: list[Target] = []
     per_doc: Counter = Counter()
-    for name, _, share in strata:
+    for name, share in strata:
         want = round(n * share)
         taken = 0
         for doc_id, idx in sorted(pools[name], key=lambda p: rank(f"{p[0]}#{p[1]}")):
@@ -126,11 +172,15 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
                 break
             if max_per_doc and per_doc[doc_id] >= max_per_doc:
                 continue
+            doc = index.docs[doc_id]
+            if fit_filter and not _fits_whole(
+                    doc, index.blocks_for(doc_id)[idx].texts["en"], index):
+                continue
             per_doc[doc_id] += 1
             position = len(chosen)
             chosen.append(Target(
                 doc_id=doc_id, block_id=f"{doc_id}#{idx}",
-                block_index=idx, n_blocks=index.docs[doc_id]["n_blocks"],
+                block_index=idx, n_blocks=doc["n_blocks"],
                 stratum=name,
                 # Alternate deterministically so the set is balanced across
                 # modes and question languages rather than randomly lumpy.
@@ -142,14 +192,18 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
 
 
 def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
-            grade_model: str, context_chars: int, keep: int) -> list[dict[str, Any]]:
+            grade_model: str, context_chars: int, keep: int,
+            reference_chars: int | None = None) -> list[dict[str, Any]]:
     from clir_bench.core.llm import call_with_retries, client_for
     from clir_bench.core.grading import (GraderConfig, grade_columns,
                                          grade_faithfulness, grade_quality,
                                          rank_candidates)
 
+    # reference_chars=None renders each referenced document WHOLE -- safe
+    # because the fit filter guaranteed doc + references fit the budget.
     payload = index.build(target.doc_id, target.block_index,
                           context_chars=context_chars,
+                          reference_chars=reference_chars,
                           languages=ctx.payload_languages(target.language))
     if payload is None:
         return []
@@ -196,6 +250,8 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             "answer": candidate.answer,
             "question_type": candidate.classification if target.mode == "technical" else "",
             "framing": candidate.classification if target.mode == "semantic" else "",
+            "references_supplied": ",".join(r.symbol for r in payload.references),
+            "references_dropped": ",".join(payload.dropped_references),
         }
         # Every score the verifiers returned, not just the aggregates: the
         # three faithfulness sub-criteria, the five mode-specific quality
@@ -212,6 +268,7 @@ FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "context_blocks_supplied", "context_blocks_dropped",
           "question_language", "mode", "question", "answer",
           "question_type", "framing",
+          "references_supplied", "references_dropped",
           "faith_grounding", "faith_precision", "faith_numerical_fidelity",
           "faith_overall",
           "qual_search_bar_realism", "qual_specificity", "qual_phrasing_economy",
@@ -233,6 +290,14 @@ def main() -> None:
     parser.add_argument("--gen-model", default="gpt-5.5")
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
+    parser.add_argument("--shares", default=None,
+                        help="genre shares as resolution,meeting,letter "
+                             "(e.g. 0.5,0.4,0.1)")
+    parser.add_argument("--all-genres", action="store_true",
+                        help="disable the genre filter (uniform pool)")
+    parser.add_argument("--no-fit", action="store_true",
+                        help="disable the whole-document fit filter; references "
+                             "fall back to capped excerpts")
     parser.add_argument("--max-per-doc", type=int, default=0,
                         help="safety cap on targets per document (0 = uncapped; "
                              "documents contribute proportionally to size)")
@@ -249,9 +314,16 @@ def main() -> None:
     languages = [x.strip() for x in args.languages.split(",") if x.strip()]
     modes = [x.strip() for x in args.modes.split(",") if x.strip()]
 
+    strata = GENRE_STRATA
+    if args.shares:
+        values = [float(x) for x in args.shares.split(",")]
+        strata = tuple(zip((name for name, _ in GENRE_STRATA), values))
+
     index = ctx.BlockIndex(blocks_path=args.blocks, docs_path=args.docs)
     targets = select(index, n=args.n, seed=args.seed, languages=languages,
-                     modes=modes, max_per_doc=args.max_per_doc)
+                     modes=modes, strata=strata, max_per_doc=args.max_per_doc,
+                     genre_filter=not args.all_genres,
+                     fit_filter=not args.no_fit)
 
     print(f"selected {len(targets)} target blocks "
           f"across {len({t.doc_id for t in targets})} documents", file=sys.stderr)
@@ -283,7 +355,9 @@ def main() -> None:
             targets,
             lambda t: (t, _safe(run_one, t, index, gen_model=args.gen_model,
                                 grade_model=args.grade_model,
-                                context_chars=args.context_chars, keep=args.keep)),
+                                context_chars=args.context_chars, keep=args.keep,
+                                reference_chars=(refs.DEFAULT_REFERENCE_CHARS
+                                                 if args.no_fit else None))),
             workers=args.workers, description="generating"):
         _, produced = result
         if produced is None:

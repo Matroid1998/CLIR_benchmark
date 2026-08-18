@@ -236,6 +236,26 @@ def test_flag_symbol_soup():
     assert "symbol_soup" in junk_flags(text)
 
 
+def test_bare_distr_value_is_masthead():
+    cls = classify_texts([
+        "GENERAL",                        # 'Distr.:' value printed alone
+        "E/CN.4/1997/93",
+        "The Commission considered the item at its fifty-third session today.",
+    ])
+    assert cls[0] == CLS_MASTHEAD
+    assert cls[1] == CLS_MASTHEAD
+    assert cls[2] == CLS_CONTENT
+
+
+def test_rules_of_procedure_are_not_short_table():
+    # "Rule N" markers are short lines without being table rows.
+    text = "\n".join(x for i in range(5) for x in (
+        f"Rule {40 + i}",
+        "The Committee shall elect its officers for a term of two years of service.",
+    ))
+    assert "short_table" not in junk_flags(text)
+
+
 def test_declaration_articles_are_not_num_tail():
     # "Article N" structural markers end in digits without being table rows.
     text = "\n".join([

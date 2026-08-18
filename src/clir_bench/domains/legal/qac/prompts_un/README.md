@@ -33,6 +33,11 @@ The prompts describe — and therefore pin — the user message the future
       Title: Letter dated 1 June 2001 from the Permanent Representatives ...
     <block text>
 
+    ### REFERENCED DOCUMENTS — other documents CITED by the target block, supplied so an answer can be complete
+    Reference: S/RES/1559(2004) — Resolution 1559 (2004) (cited paragraph 3)
+    <the cited document's FULL text on whole-fit runs (reference_chars=None);
+     otherwise the cited paragraph's block or the opening block, capped at 1500 chars>
+
     ### DOCUMENT CONTEXT — surrounding text of the SAME document, supporting context only
     <document opening + neighbouring blocks, or the whole document when it fits the budget>
 
@@ -44,23 +49,25 @@ block alongside English, as in the EUR-Lex flow.
 
 ## What changed vs. `prompts_eurlex`, and why
 
-### 1. The context rule inverts back
+### 1. Two kinds of supporting material, two different rules
 
-EUR-Lex supplies *resolved cross-references*, and its prompts allow a
-referenced article to **complete** an answer. Here the second block is the
-*surrounding document*, supplied only because a passage cut from the middle of
-a report is uninterpretable alone ("the Mission", "the present report", "the
-reporting period"). So:
+The payload carries both EUR-Lex-style **resolved references** and a section
+EUR-Lex never had — the **surrounding document** — and they obey different
+rules:
 
-- context may resolve referring expressions and supply **naming**;
-- the answer's substance must sit **entirely in the target block**;
-- the ONE-ARTICLE TEST becomes the **BLOCK TEST**: any answer fact stated only
-  in the context → discard.
+- **REFERENCED DOCUMENTS** (instruments the target block cites, resolved by
+  `un_references.py` regex extraction against the corpus's own symbol index)
+  follow the EUR-Lex semantics: a supplied excerpt may **complete** an answer
+  whose operative fact lives in the target block; the ONE-DOCUMENT TEST
+  discards questions answerable from a reference alone; candidates declare
+  what they used in **`documents_involved`** (symbols, validated in
+  `un_generate.normalise_involved` against what was actually supplied).
+- **DOCUMENT CONTEXT** stays disambiguation-only: it resolves "the Mission",
+  "the present report", "the reporting period" — and is never a source of
+  answer substance (the BLOCK TEST; faithfulness caps GROUNDING at 2 on
+  violations).
 
-Consequence: there is **no `articles_involved` field**. Output is
-`{question, answer, question_type}` (technical) or `{question, answer, framing}`
-(semantic). Enforcement lives in the faithfulness verifier, which caps
-GROUNDING at 2 when answer substance comes from the context.
+Output is `{question, answer, question_type|framing, documents_involved}`.
 
 ### 2. Naming for retrievability is promoted to the top rule
 

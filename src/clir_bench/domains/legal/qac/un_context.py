@@ -23,6 +23,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from clir_bench.domains.legal.un import paths
+from clir_bench.domains.legal.qac import un_references as refs
 
 # Whole-document context fits this budget for roughly three quarters of the
 # corpus (median document is ~8k chars, p75 ~29k). Beyond it, context becomes
@@ -30,9 +31,14 @@ from clir_bench.domains.legal.un import paths
 DEFAULT_CONTEXT_CHARS = 30_000
 
 TARGET_HEADER = "### TARGET BLOCK — write the questions about THIS text"
+REFERENCES_HEADER = ("### REFERENCED DOCUMENTS — other documents CITED by the target "
+                     "block, supplied so you can UNDERSTAND those citations. Context "
+                     "only: never a source of answers, never the subject of a question.")
+REFERENCES_NONE = ("### REFERENCED DOCUMENTS — none. "
+                   "The target block cites no other document available in the corpus.")
 CONTEXT_HEADER = ("### DOCUMENT CONTEXT — surrounding text of the SAME document, "
                   "supporting context only. It resolves what the target block "
-                  "leaves implicit; the answer must come from the target block itself.")
+                  "leaves implicit; it is never a source of answers.")
 CONTEXT_NONE = ("### DOCUMENT CONTEXT — none. "
                 "The target block is the whole document.")
 TARGET_PLACEHOLDER = "[... the TARGET BLOCK appears here ...]"
@@ -89,12 +95,25 @@ class BlockUnit:
 
 
 @dataclass
+class ReferencedDoc:
+    """A document cited by the target block, rendered for the payload."""
+
+    symbol: str
+    doc_id: str
+    title: str
+    text: str                   # anchored-paragraph block or head block, capped
+    paragraph: int | None       # set only when the anchor was actually located
+
+
+@dataclass
 class GenerationPayload:
     """What gets sent, plus the bookkeeping to interpret what comes back."""
 
     target: BlockUnit
     context_blocks: list[BlockUnit]     # in document order, target excluded
     n_context_dropped: int              # blocks that did not fit the budget
+    references: list[ReferencedDoc]     # cited documents, first-mention order
+    dropped_references: list[str]       # resolved but beyond the cap
     text: str
 
 
@@ -115,6 +134,11 @@ class BlockIndex:
             for line in fh:
                 row = json.loads(line)
                 self.docs[row["doc_id"]] = row
+        # Collision-free over the whole corpus; the resolution mechanism for
+        # cross-references found in target-block text.
+        self.symbol_map: dict[str, str] = {
+            refs.normalise_symbol(row["symbol"]): doc_id
+            for doc_id, row in self.docs.items()}
 
     def blocks_for(self, doc_id: str) -> list[BlockUnit]:
         doc = self.docs[doc_id]
@@ -127,6 +151,8 @@ class BlockIndex:
 
     def build(self, doc_id: str, block_index: int, *,
               context_chars: int = DEFAULT_CONTEXT_CHARS,
+              max_references: int = refs.DEFAULT_MAX_REFERENCES,
+              reference_chars: int | None = refs.DEFAULT_REFERENCE_CHARS,
               languages: tuple[str, ...] = ("en",)) -> GenerationPayload | None:
         blocks = self.blocks_for(doc_id)
         if not 0 <= block_index < len(blocks):
@@ -135,10 +161,49 @@ class BlockIndex:
         if not target.texts.get("en"):
             return None
 
+        citations = refs.resolve_citations(
+            refs.extract_citations(target.texts["en"]), self.symbol_map,
+            citing_doc_id=doc_id)
+        kept, dropped = refs.referenced_docs(citations, max_references)
+        references = [self._render_reference(c, reference_chars) for c in kept]
+
         chosen = _select_context(blocks, block_index, context_chars)
-        text = render_payload(target, chosen, languages=languages)
-        return GenerationPayload(target, chosen,
-                                 len(blocks) - 1 - len(chosen), text)
+        text = render_payload(target, chosen, references=references,
+                              languages=languages)
+        return GenerationPayload(target, chosen, len(blocks) - 1 - len(chosen),
+                                 references, dropped, text)
+
+    def _render_reference(self, citation: refs.Citation,
+                          limit: int | None) -> ReferencedDoc:
+        """The cited material that travels.
+
+        With a character limit (the windowed pipeline): one excerpt -- the
+        paragraph-anchored block when the citation names a paragraph we can
+        locate (and is not a lettered section, where the anchor is
+        unreliable), else the document's opening block.
+
+        With ``limit=None`` (the whole-fit pipeline): the ENTIRE cited
+        document, blocks joined in order -- the fit filter has already
+        guaranteed it fits the budget.
+        """
+        doc = self.docs[citation.doc_id]
+        blocks = self.blocks_for(citation.doc_id)
+        hit = None
+        if (citation.paragraph is not None and citation.section_letter is None
+                and blocks):
+            hit = refs.anchored_block_index(
+                [b.texts["en"] for b in blocks], citation.paragraph)
+        paragraph = citation.paragraph if hit is not None else None
+        if limit is None:
+            text = "\n\n".join(b.texts["en"] for b in blocks)
+        else:
+            body = blocks[hit] if hit is not None else (blocks[0] if blocks else None)
+            text = body.texts["en"] if body else ""
+            if len(text) > limit:
+                text = text[:limit].rstrip() + " […truncated]"
+        return ReferencedDoc(symbol=citation.symbol or doc["symbol"],
+                             doc_id=citation.doc_id, title=doc["title"],
+                             text=text, paragraph=paragraph)
 
 
 def _select_context(blocks: list[BlockUnit], target_index: int,
@@ -182,10 +247,11 @@ def _metadata(unit: BlockUnit, language: str) -> str:
 
 
 def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
+                   references: list[ReferencedDoc] = (),
                    languages: tuple[str, ...] = ("en",)) -> str:
-    """The user message: target block, then the document context, clearly
-    separated -- the literal ``###`` markers are the contract pinned by the
-    ``prompts_un`` pack.
+    """The user message: target block, referenced documents, then the document
+    context, clearly separated -- the literal ``###`` markers are the contract
+    pinned by the ``prompts_un`` pack.
 
     The context is rendered in document order with a placeholder where the
     target sits and gap markers where blocks were dropped for budget, so the
@@ -195,6 +261,14 @@ def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
     parts = [TARGET_HEADER]
     for language in present:
         parts.append(f"{_metadata(target, language)}\n{target.texts[language]}")
+
+    if references:
+        parts.append(REFERENCES_HEADER)
+        for r in references:
+            anchor = f" (cited paragraph {r.paragraph})" if r.paragraph else ""
+            parts.append(f"Reference: {r.symbol} — {r.title}{anchor}\n{r.text}")
+    else:
+        parts.append(REFERENCES_NONE)
 
     if not context_blocks:
         parts.append(CONTEXT_NONE)
@@ -231,7 +305,7 @@ def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
 
 
 __all__ = [
-    "BlockIndex", "BlockUnit", "GenerationPayload", "render_payload",
-    "payload_languages", "DEFAULT_CONTEXT_CHARS",
-    "TARGET_HEADER", "CONTEXT_HEADER",
+    "BlockIndex", "BlockUnit", "GenerationPayload", "ReferencedDoc",
+    "render_payload", "payload_languages", "DEFAULT_CONTEXT_CHARS",
+    "TARGET_HEADER", "REFERENCES_HEADER", "CONTEXT_HEADER",
 ]

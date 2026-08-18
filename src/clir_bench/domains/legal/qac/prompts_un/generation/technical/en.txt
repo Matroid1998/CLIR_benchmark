@@ -2,12 +2,13 @@ You are an expert at creating legal and policy retrieval questions from United N
 The source context may be in any language. The questions and answers MUST be written in English. Preserve official identifiers and terms of art — document symbols and resolution numbers (e.g., "resolution 918 (1994)", "S/2001/535"), names of missions, organs, bodies, and programmes (e.g., "UNAMIR", "the Committee established pursuant to resolution 1533 (2004)") — and all dates, durations, monetary amounts, percentages, troop figures, and thresholds in their original form — do not round, reformat, or loosely rename them. Where an organ, body, or instrument has an official English name (e.g., "the Economic and Social Council"), use that official name rather than a literal translation.
 
 HOW THE INPUT IS STRUCTURED:
-You receive two clearly marked blocks.
+You receive three clearly marked sections.
 - "### TARGET BLOCK" — one contiguous passage (a run of whole paragraphs) of one UN document. This is the text you are writing questions ABOUT.
-- "### DOCUMENT CONTEXT" — surrounding text OF THE SAME DOCUMENT: its opening (title and introductory paragraphs) and, for long documents, the passages around the target block. It is supplied because a passage cut from the middle of a document often cannot be understood on its own.
-The context exists so you can UNDERSTAND the target block — never so you can answer from it.
-- USE the context to resolve what the target block leaves implicit: which mission "the Mission" is, which country "the Government" governs, what period "the reporting period" covers, who "the Special Representative" is, which conflict is at issue.
-- The ANSWER must be fully stated in the TARGET BLOCK itself. If any part of the answer's substance is stated only in the DOCUMENT CONTEXT, the question belongs to a different passage — DISCARD it. Context resolves references; it never supplies facts.
+- "### REFERENCED DOCUMENTS" — other documents that the target block CITES ("resolution 918 (1994)", "(S/2004/616)"), each supplied as its symbol, title, and text. They are supplied ONLY so you can UNDERSTAND what the block's citations refer to — what kind of instrument a cited resolution is, what subject it concerns — the way a footnote helps a reader.
+- "### DOCUMENT CONTEXT" — surrounding text OF THE SAME DOCUMENT: its opening and, for long documents, the passages around the target block.
+The roles are strict:
+- The ANSWER must be fully stated in the TARGET BLOCK. Not partly — fully.
+- Both supporting sections exist so you can UNDERSTAND the target block — never so you can answer from them. USE them to resolve what the block leaves implicit: which mission "the Mission" is, which country "the Government" governs, what a cited resolution is about, what period "the reporting period" covers. If any part of the answer's substance is stated only in a REFERENCED DOCUMENT or only in the DOCUMENT CONTEXT, DISCARD the question. Supporting text resolves references and names; it never supplies facts.
 
 The target block begins with METADATA lines, followed by the text:
 
@@ -29,9 +30,10 @@ Each question is a query for an Information Retrieval (IR) system. The person ty
 
 CORE RULES:
 - Single Focus: Each question must ask for exactly ONE specific piece of information. Never combine multiple asks (e.g., do not ask for a deadline and a troop figure in the same question).
-- THE BLOCK TEST (apply to every candidate before keeping it): could a reader produce the COMPLETE answer from the TARGET BLOCK alone, using the DOCUMENT CONTEXT only to know what the block's referring expressions mean? If a fact, figure, list, or condition needed by the answer is stated only in the context, DISCARD the question. This is the most common grounding failure in this task.
-- Full Direct Support: The answer must be fully stated in the target block. No inference and no outside knowledge — not even well-known facts about the situation.
-- Unresolved Citations: UN texts constantly cite other instruments ("the measures imposed by paragraph 20 of resolution 1493 (2003)"). Those instruments are NOT supplied. If the substance of the answer sits behind such a citation rather than in the target block's own words, discard the question.
+- THE BLOCK TEST (apply to every candidate before keeping it): could a reader produce the COMPLETE answer from the TARGET BLOCK alone, using the referenced documents and the document context only to know what the block's referring expressions and citations mean? If a fact, figure, list, or condition needed by the answer is stated only in a referenced document or only in the context, DISCARD the question. This is the most common grounding failure in this task.
+- Off-Target Questions: a question answerable entirely from a referenced document is a question ABOUT that document, not about the target block — DISCARD it. It is not enough that the target block cites the instrument.
+- Citations Never Complete Answers: The target block may say "the measures imposed by paragraph 13 of resolution 918 (1994)". If the substance of the answer (what those measures ARE) sits behind that citation rather than in the target block's own words, discard the question — even when the cited document is supplied. The reference tells you what resolution 918 is so you can understand and name it; it does not become answer material.
+- Full Direct Support: The answer must be fully stated in the target block. No inference and no outside knowledge — not even facts from the supplied supporting sections.
 - Numerical & Citational Fidelity: Reproduce all numbers, dates, durations, monetary amounts, percentages, troop figures, and official identifiers (document symbols, resolution and paragraph numbers) exactly as they appear in the source (e.g., "resolution 2374 (2017)", not "Resolution 2374"; "up to 5,500 troops", not "about 5,000 troops"; "within 30 days", never "one month"). Dates must be reproduced exactly (day, month, year).
 - Natural Search Wording: Write each question as a diplomat, legal adviser, policy analyst, or journalist would type it into a search bar — short, specific, and direct. Avoid treaty-summary language and long noun phrases.
 - No Document Phrases: Never use deictic or self-referential wording that presupposes the document is at hand — "under this resolution", "the present report", "the annex hereto", "according to the text". Naming an instrument by its official identifier is fine; referring to "this" instrument as the one being read is not.
@@ -95,12 +97,26 @@ Example 3 — the failure modes
   → Asks about a preambular recital — framing, not substance.
 ✗ Bad (attribution dropped): "How many refugees fled Rwanda into Tanzania on 28 and 29 April 1994?" answered as a bare fact
   → The 250,000 figure is the Secretary-General's estimate in a specific report. Presenting it as an established count drops the attribution the source carries. Anchor it: "according to the Secretary-General's May 1994 report".
-✗ Bad (unresolved citation): "Which measures imposed by paragraph 13 of resolution 918 (1994) apply to non-governmental forces?" where the target block merely cites the paragraph without stating the measures
-  → The substance sits behind a citation the payload does not resolve. Discard.
+✗ Bad (unresolved citation): "Which measures imposed by paragraph 13 of resolution 918 (1994) apply to non-governmental forces?" where resolution 918 (1994) is NOT among the referenced documents supplied
+  → The substance sits behind a citation the payload did not resolve. Discard.
+
+Example 4 — a referenced document is for understanding, never for answering
+### TARGET BLOCK (from report S/2005/673)
+"3. In its resolution 1559 (2004), the Security Council reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out in the resolution have not yet been fully met."
+### REFERENCED DOCUMENTS
+Reference: S/RES/1559(2004) — Resolution 1559 (2004)
+"…Calls upon all remaining foreign forces to withdraw from Lebanon; Calls for the disbanding and disarmament of all Lebanese and non-Lebanese militias;…"
+✓ Good: {"question": "What did the Secretary-General conclude in late 2005 about the implementation of resolution 1559 (2004) on Lebanon?", "answer": "The requirements set out in the resolution have not yet been fully met", "question_type": "finding_event_or_assessment"}
+  → The answer is wholly inside the target block. The reference was used only to UNDERSTAND what resolution 1559 (2004) is (Lebanese sovereignty), which sharpens the question's naming — exactly what it is for.
+✗ Bad (answer-from-reference): {"question": "Which requirements of resolution 1559 (2004) remained unmet in late 2005?", "answer": "the withdrawal of all remaining foreign forces from Lebanon and the disbanding and disarmament of all militias"}
+  → The list of requirements is stated only in the REFERENCED DOCUMENT; the target block merely points at it. The BLOCK TEST fails. Discard.
+✗ Bad (off-target): "What did the Security Council call for in resolution 1559 (2004)?"
+  → Answerable from the referenced document alone — a question about that document, not about this block. Discard.
 
 SELF-CHECK for each question before finalizing:
 - NAMING: does the question explicitly name the situation, country, mission, body, or instrument, so that a stranger could type it into a search engine and land on this subject matter? No "this resolution", no "the present report", no bare paragraph number as the only anchor.
-- THE BLOCK TEST: is every part of the answer stated in the TARGET BLOCK itself, with the context used only to resolve referring expressions?
+- THE BLOCK TEST: is every part of the answer stated in the TARGET BLOCK itself, with the referenced documents and the context used only to understand referring expressions and citations?
+- Could this question be answered from a referenced document alone? If yes, discard — it is not a question about the target block.
 - Does the question avoid asking about the metadata (document symbol, title) rather than the substance of the passage?
 - If the block attributes a claim, estimate, or assessment to a speaker or body, do the question and answer preserve that attribution?
 - Does the question target operative or substantive content rather than a preambular recital?

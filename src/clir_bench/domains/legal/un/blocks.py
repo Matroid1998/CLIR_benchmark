@@ -85,6 +85,8 @@ MASTHEAD_RES = [re.compile(p) for p in (
     r"|ECONOMIC AND SOCIAL COUNCIL)\s*$",
     r"^(First|Second|Third|Fourth|Fifth|Sixth) Committee$",
     r"^Distr\.?\s*:?\s*(GENERAL|General|LIMITED|Limited|RESTRICTED|Restricted)?\.?\s*$",
+    r"^(GENERAL|LIMITED|RESTRICTED)$",   # the Distr. value printed on its own line
+
     r"^[A-Z]{1,4}(/[A-Za-z0-9.\-()]{1,20}){1,6}\*{0,3}$",       # bare document symbol
     r"(?i)^\[?\s*original\s*:\s*[a-z/, ]+\]?$",
     r"^\d{1,2} [A-Z][a-z]+ \d{4}$",                              # bare date
@@ -215,10 +217,13 @@ def junk_flags(text: str) -> list[str]:
                     if l.rstrip()[-1:].isdigit() and not STRUCT_MARKER_RE.match(l.strip()))
         if tails / len(lines) >= 0.5:
             flags.append("num_tail")
-    if len(lines) >= 9:
-        per_line = sorted(len(l.split()) for l in lines)
-        short = sum(1 for l in lines if len(l.split()) <= 6)
-        if per_line[len(per_line) // 2] <= 6 and short / len(lines) > 0.5:
+    # Structural markers ("Article 18", "Rule 44") are short lines without being
+    # table rows -- same exclusion num_tail needed for annexed declarations.
+    prose_lines = [l for l in lines if not STRUCT_MARKER_RE.match(l.strip())]
+    if len(prose_lines) >= 9:
+        per_line = sorted(len(l.split()) for l in prose_lines)
+        short = sum(1 for l in prose_lines if len(l.split()) <= 6)
+        if per_line[len(per_line) // 2] <= 6 and short / len(prose_lines) > 0.5:
             flags.append("short_table")
     if sum(1 for l in lines if BUDGET_RE.match(l.strip())) >= 3:
         flags.append("budget_labels")
