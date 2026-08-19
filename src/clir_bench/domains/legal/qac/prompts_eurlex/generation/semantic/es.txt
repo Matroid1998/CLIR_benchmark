@@ -2,10 +2,11 @@ Eres un experto en crear preguntas de recuperación semántica para la legislaci
 El contexto de origen puede estar en cualquier idioma. Las preguntas y las respuestas DEBEN estar redactadas en español. Conserva los términos jurídicos técnicos, los nombres de instituciones, órganos y programas, y todas las fechas, duraciones, importes monetarios, porcentajes y umbrales en su forma original.
 
 CÓMO ESTÁ ESTRUCTURADA LA ENTRADA:
-Recibes dos bloques claramente marcados.
+Recibes tres bloques claramente marcados.
 - «### TARGET ARTICLE» (el artículo objetivo) — un artículo de un acto, en la o las versiones lingüísticas facilitadas. Este es el artículo SOBRE EL QUE escribes las preguntas.
 - «### REFERENCED ARTICLES» (los artículos referenciados) — otros artículos DEL MISMO ACTO que el artículo objetivo cita. Se proporcionan ÚNICAMENTE como contexto de apoyo, porque la legislación de la UE se remite a sí misma constantemente y el artículo objetivo a menudo no puede responderse por sí solo.
-Ambos bloques pertenecen al mismo acto. Los artículos referenciados están ahí para que una respuesta pueda ser COMPLETA, no para ser el tema de la pregunta.
+- «### REFERENCED ARTICLES FROM OTHER ACTS» (artículos referenciados de otros actos) — artículos de OTROS actos que el artículo objetivo cita por su nombre (p. ej., «Article 5 of Regulation (EC) No 21/2004»), proporcionados cuando ese acto está en el corpus. Mismo estatus que el bloque anterior: contexto de apoyo ÚNICAMENTE, nunca el tema de una pregunta. Cada uno de estos bloques nombra su propio acto en su línea «Act:» y lleva una clave «Cite as:».
+Los dos primeros bloques pertenecen al mismo acto; el tercero no. Un bloque vacío lo indica explícitamente. Los artículos referenciados están ahí para que una respuesta pueda ser COMPLETA, no para ser el tema de la pregunta.
 
 Cada bloque de artículo comienza con líneas de METADATOS, seguidas del texto del artículo:
 
@@ -17,14 +18,14 @@ Cada bloque de artículo comienza con líneas de METADATOS, seguidas del texto d
 - «Act» es el título completo del instrumento al que pertenece el artículo. «Location» es la posición del artículo dentro de la estructura del acto (Parte / Título / Capítulo / Sección) y solo aparece cuando el acto tiene tales divisiones. Ambos se proporcionan en cada versión lingüística facilitada.
 - USA los metadatos para saber DE QUÉ trata el artículo. Te indican que se trata de legislación sobre cosméticos y no de legislación aduanera, que es lo que evita que escribas una pregunta ambigua una vez que el documento deja de estar a la vista: «¿qué debe hacer la persona responsable?» resulta irrespondible en abstracto; la materia es lo que la convierte en una consulta real.
 - Los metadatos son CONTEXTO, NO CONTENIDO. Nunca tomes la respuesta de una línea de metadatos — la respuesta debe proceder del texto del artículo. Nunca formules una pregunta SOBRE los metadatos («¿qué capítulo contiene esta norma?», «¿cuál es el título de este reglamento?»): esas no son preguntas sobre la sustancia de la ley.
-- NO DEBES incluir en la pregunta el identificador del instrumento que figura en la línea «Act» («Regulation (EC) No 1223/2009», «Directive 2005/65/EC»). La regla de este modo sobre la ausencia de identificadores abarca también los metadatos. Las palabras de la MATERIA del título («productos cosméticos», «protección portuaria») SÍ PUEDEN aparecer cuando son las palabras temáticas naturales de la consulta — lo prohibido es el identificador, no el tema.
+- NO DEBES incluir en la pregunta el identificador del instrumento que figura en cualquier línea «Act» («Regulation (EC) No 1223/2009», «Directive 2005/65/EC»), ni un número CELEX ni una clave «Cite as». La regla de este modo sobre la ausencia de identificadores abarca los metadatos de todos los bloques, incluidos los actos mostrados en el bloque FROM OTHER ACTS. Las palabras de la MATERIA del título («productos cosméticos», «protección portuaria») SÍ PUEDEN aparecer cuando son las palabras temáticas naturales de la consulta — lo prohibido es el identificador, no el tema.
 
 Genera exactamente TRES pares pregunta-respuesta. Cada uno debe abordar un aspecto distinto. Todas las preguntas deben versar sobre el ARTÍCULO OBJETIVO.
 
 REGLAS FUNDAMENTALES:
-- El artículo objetivo debe aportar el hecho operativo: La pregunta debe girar en torno a lo que el propio ARTÍCULO OBJETIVO establece — la obligación, la prohibición, la condición, el plazo o el procedimiento que instituye. Un artículo referenciado solo puede COMPLETAR ese hecho: nombrar los miembros de una lista a la que el objetivo remite, definir un término que el objetivo emplea o aportar un valor al que el objetivo se remite. El artículo referenciado nunca es el tema.
+- El artículo objetivo debe aportar el hecho operativo: La pregunta debe girar en torno a lo que el propio ARTÍCULO OBJETIVO establece — la obligación, la prohibición, la condición, el plazo o el procedimiento que instituye. Un artículo referenciado solo puede COMPLETAR ese hecho: nombrar los miembros de una lista a la que el objetivo remite, definir un término que el objetivo emplea o aportar un valor al que el objetivo se remite. El artículo referenciado nunca es el tema. Esto se aplica igualmente a los artículos de otros actos.
 - LA PRUEBA DEL ARTÍCULO ÚNICO (aplícala a cada candidata antes de conservarla): ¿podría un lector responder por completo a esta pregunta leyendo ÚNICAMENTE el artículo referenciado, sin haber visto jamás el artículo objetivo? Si la respuesta es SÍ, la pregunta pertenece a ese artículo referenciado — DESCÁRTALA. No basta con que el artículo objetivo mencione el tema. Este es, con diferencia, el fallo más frecuente en esta tarea: en una ejecución de producción, TODAS las preguntas multiartículo generadas suspendieron esta prueba.
-- Las remisiones resueltas están permitidas y son deseables: El artículo objetivo puede decir «en las condiciones establecidas en el artículo 9». Cuando ese artículo se proporciona en el bloque de artículos referenciados, PUEDES seguir la remisión y usar su contenido para completar la respuesta. Si la sustancia queda detrás de una remisión que NO se ha proporcionado, descarta la pregunta.
+- Las remisiones resueltas están permitidas y son deseables: El artículo objetivo puede decir «en las condiciones establecidas en el artículo 9» o «los controles previstos en el artículo 5 del Reglamento (CE) n.º 21/2004». Cuando ese artículo se proporciona — en el bloque REFERENCED ARTICLES o en el bloque REFERENCED ARTICLES FROM OTHER ACTS — PUEDES seguir la remisión y usar su contenido para completar la respuesta. Si la sustancia queda detrás de una remisión que NO se ha proporcionado, descarta la pregunta.
 - Declara lo que has usado: Para cada par, indica en el campo «articles_involved» qué artículos son necesarios para responderlo. Véase DECLARACIÓN DE LOS ARTÍCULOS IMPLICADOS más abajo. Este campo se evalúa.
 - Distancia léxica: Parafrasea activamente. Un recuperador semántico debe emparejar por significado, no por coincidencia de palabras clave. Evita reutilizar el vocabulario distintivo de la fuente cuando un sinónimo natural funcione. Excepción: los nombres propios, las instituciones, los programas y los términos jurídicos técnicos consagrados (p. ej., «plásticos de un solo uso», «congelación de activos») deben mantenerse tal cual — de lo contrario, la pregunta resulta irrespondible desde cualquier documento.
 - Sin identificadores de instrumentos: Nunca incluyas identificadores oficiales de instrumentos en la pregunta — números de reglamento o directiva («Regulation (EU) 2019/904»), números CELEX, ni números de artículo/apartado/anexo. Un identificador es una clave léxica exacta que frustra la recuperación semántica. Esto difiere del modo técnico, donde los identificadores están permitidos. Los identificadores pueden aparecer dentro del segmento de respuesta; eso es aceptable. Ten en cuenta que esta regla se aplica ÚNICAMENTE a la PREGUNTA — «articles_involved» es metadato, no forma parte de la consulta, y debe rellenarse siempre.
@@ -38,7 +39,8 @@ DECLARACIÓN DE LOS ARTÍCULOS IMPLICADOS:
 - Si toda la respuesta está enunciada en el artículo objetivo, la lista contiene únicamente el artículo objetivo.
 - Si parte de la respuesta procede de un artículo referenciado que has seguido, enumera el artículo objetivo Y ese artículo referenciado.
 - Enumera solo los artículos que hayas usado realmente. No enumeres un artículo por el mero hecho de que el artículo objetivo lo mencione, si su contenido no ha intervenido en la respuesta.
-- Usa los números escuetos tal como aparecen en el texto, p. ej. ["6"] o ["1", "6"]. Incluye los sufijos cuando existan, p. ej. ["7a"].
+- Usa los números escuetos tal como aparecen en el texto, p. ej. ["6"] o ["1", "6"]. Incluye los sufijos cuando existan, p. ej. ["7a"]. Un número escueto designa SIEMPRE un artículo del acto propio del objetivo.
+- Para un artículo DE OTRO ACTO, usa exactamente la clave «Cite as» impresa en su bloque, p. ej. ["4", "32004R0021:5"]. Nunca escribas un número escueto para un artículo de otro acto.
 - El artículo objetivo siempre está en la lista.
 
 EJEMPLOS:
@@ -96,12 +98,27 @@ Example 4 — REAL off-target failures from a production run. Every multi-articl
 
 El contraste del caso (c) es la forma a la que hay que aspirar: el artículo objetivo aporta la regla y el artículo referenciado aporta un detalle del que esa regla depende.
 
+Example 5 — an article of ANOTHER act completes the answer
+### TARGET ARTICLE
+[EN] Article 2 — Payment of the aid
+  Act: Commission Regulation (EC) No 796/2004 laying down detailed rules for the aid to sheep and goat holdings …
+"The aid shall be paid only after the checks provided for in Article 5 of Council Regulation (EC) No 21/2004 have been carried out."
+### REFERENCED ARTICLES FROM OTHER ACTS
+[EN] Article 5 — Checks
+  Act: Council Regulation (EC) No 21/2004 establishing a system for the identification and registration of ovine and caprine animals …
+  Cite as: 32004R0021:5
+"Member States shall carry out on-the-spot checks covering at least 3 % of holdings each year."
+✓ Good: {"question": "What has to happen on sheep and goat farms before their support money is released?", "answer": "the on-the-spot checks covering at least 3 % of holdings each year", "framing": "application", "articles_involved": ["2", "32004R0021:5"]}
+  → The payment condition is the TARGET's own rule; the other act's article only says what the checks are. Both are needed, and the other act's article is declared by its "Cite as" key, never by a bare "5". No identifier appears in the question.
+✗ Bad (off-target): "What share of livestock holdings has to be inspected on the spot every year?"
+  → Article 5 of the other Regulation alone answers this. It would retrieve that Regulation, not the target. Discard.
+
 AUTOVERIFICACIÓN para cada pregunta antes de finalizarla:
 - ¿Evita la pregunta versar sobre los metadatos (título del acto, capítulo) en lugar de sobre la sustancia del artículo?
 - LA PRUEBA DEL ARTÍCULO ÚNICO: ¿podría responderse por completo a partir de un artículo referenciado por sí solo? Si es así, descártala — no es una pregunta sobre el artículo objetivo.
 - ¿Es la respuesta un segmento contiguo del texto proporcionado — del artículo objetivo, o de un artículo referenciado proporcionado al que condujo la remisión del artículo objetivo?
-- ¿Enumera «articles_involved» exactamente los artículos necesarios, ni más ni menos? ¿Está el artículo objetivo en la lista?
-- ¿Está la pregunta libre de identificadores de instrumentos, artículos y apartados?
+- ¿Enumera «articles_involved» exactamente los artículos necesarios, ni más ni menos? ¿Está el artículo objetivo en la lista? ¿Se designan los artículos de otros actos por su clave «Cite as», nunca por un número escueto?
+- ¿Está la pregunta libre de identificadores de instrumentos, artículos y apartados — incluidos los de cualquier otro acto mostrado, los números CELEX y las claves «Cite as»?
 - ¿Está la redacción parafraseada en lugar de copiada literalmente?
 - ¿Podría alguien que nunca ha visto este documento escribir esta pregunta en un motor de búsqueda?
 - ¿Las tres preguntas cubren al menos dos encuadres (problema / solución / aplicación)?
@@ -114,6 +131,6 @@ SALIDA (solo JSON válido, sin markdown):
 ]
 - answer: el segmento más corto que responda de forma completa y directa a la pregunta. Estrictamente anclado en el texto proporcionado.
 - framing: uno de problem, solution, application.
-- articles_involved: lista de los números de artículo necesarios para responder, incluyendo siempre el artículo objetivo. Ejemplo: ["6"] o ["1", "6"].
+- articles_involved: lista de los artículos necesarios para responder, incluyendo siempre el artículo objetivo — números escuetos para el acto propio del objetivo, claves «Cite as» para los artículos de otros actos. Ejemplo: ["6"], ["1", "6"] o ["6", "32004R0021:5"] cuando se ha utilizado un artículo de otro acto.
 
 El artículo objetivo y los artículos referenciados se proporcionan en inglés y, dado que tu idioma de salida no es el inglés, también en tu idioma de salida (el español). Cuando ambas versiones están presentes, se trata de la misma disposición, no de dos disposiciones distintas: usa la versión en tu idioma de salida para la redacción y la terminología, y la versión inglesa como lectura de referencia. Esto no cambia tu idioma de salida, que se declara más arriba. Aquí está la entrada:

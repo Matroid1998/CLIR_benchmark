@@ -14,6 +14,9 @@ references English-only extraction                 internal_edges.jsonl,
                                                    external_references.jsonl,
                                                    dropped_references.jsonl
 project   cross-language join, annotate            quarantine.jsonl
+resolve_external  cross-act references -> edges    external_edges.jsonl,
+          when the cited act is in the corpus      unresolved_external.jsonl,
+                                                   reference_status.jsonl
 audit     sample, recall probe, cross-check        reports/eurlex_structure/
 ```
 
@@ -24,7 +27,7 @@ audit     sample, recall probe, cross-check        reports/eurlex_structure/
 | acts fetched in all four languages | **18 of 20** |
 | article records (4 languages) | **5,488** — 3,260 article, 1,968 recital, 260 annex |
 | internal edges (article → article, intra-act) | **1,884** |
-| external references (flagged, never resolved) | **228** |
+| external references (flagged; resolved by `resolve_external` when the cited act is in the corpus) | **228** |
 | dropped and logged | **165** |
 | acts quarantined by the cross-language join | **0** |
 
@@ -202,9 +205,29 @@ plausible-looking false edges.
 - **`thereof` is routed to external** (6 cases). In an enacting article it nearly
   always refers to an act named earlier, and inventing an internal edge would be
   indistinguishable from a real one. Conservative for internal precision.
-- **Recitals and annexes are stored but are not edge sources.** The spec scopes
-  edges to article-to-article. Recital → article edges are recoverable from the
-  same artifacts without re-fetching if wanted.
+- **Recitals and annexes are edge sources too** (`source_unit_type` /
+  `target_unit_type` on every edge), but question generation reads only
+  article → article edges.
+- **Cross-act references are resolved conservatively** by
+  `resolve_external`: the act's identifier is parsed with the year/number order
+  fixed by its shape (`No N/YYYY`, `YYYY/N/EC`, `(EU) YYYY/N`) and never guessed
+  the other way round — `Regulation (EC) No 2004/2003` read backwards is a real
+  act in this corpus, so "does the candidate exist?" is not a safe tie-breaker.
+  Only regulations and directives can resolve (the corpus holds no decisions);
+  anaphoric citations ("of that Regulation", "thereof", a bare "the Directive")
+  and unnumbered instruments (Treaty, Financial Regulation) are recorded in
+  `unresolved_external.jsonl` with a reason. On the full corpus this yields
+  ~15.6k article → article edges into ~930 acts (43 % of the article-level
+  citations that name an act; the rest name acts outside the corpus).
+  `--audit` compares the result with the parse-fmx `crossReferences` block from
+  the second-opinion tool: act-level agreement is 98.6 %, and every sampled
+  disagreement was the other tool reversing the year/number order.
+- **`reference_status.jsonl` says, per article, whether every article citation
+  it makes is resolved** (same act in inventory, or another act resolved to an
+  article in the corpus). `qac/eurlex_batch` samples question targets from
+  complete articles only, so the generator never writes about a citation it
+  could not follow. Annex citations are flagged (`cites_annex`) but do not
+  affect the verdict, because annexes are not supplied to the generator.
 - **Structural flags are computed on English and copied** to the other languages,
   for the same reason references are. `is_definitions` fires on 8 articles,
   `is_final_provision` on 28, `is_amending` on 8.
@@ -221,6 +244,9 @@ python -m clir_bench.domains.legal.structure.cellar --pilot
 python -m clir_bench.domains.legal.structure.segment --pilot
 python -m clir_bench.domains.legal.structure.references
 python -m clir_bench.domains.legal.structure.project
+python -m clir_bench.domains.legal.structure.resolve_external
+python -m clir_bench.domains.legal.structure.resolve_external --audit
+python -m clir_bench.domains.legal.structure.resolve_external --sample 300
 python -m clir_bench.domains.legal.structure.audit sample --n 100
 python -m clir_bench.domains.legal.structure.audit recall
 python -m clir_bench.domains.legal.structure.audit crosscheck --python <env-with-eurlex-parser>

@@ -101,14 +101,18 @@ def annotate(good: set[str], inventories, unit_ids) -> tuple[int, int]:
                 if celex not in good:
                     continue
                 # Membership is tested on the ELI ids of the endpoints, so the
-                # same check covers article, annex and recital units alike.
+                # same check covers article, annex and recital units alike. The
+                # target is looked up in its own act: same as the source for
+                # intra-act edges, but a row that names a ``target_celex`` (a
+                # cross-act edge) must not be checked against the source act.
                 per_language = unit_ids[celex]
+                target_language = unit_ids[row.get("target_celex") or celex]
                 source_id = row["source_article_id"]
                 target_id = row.get("target_article_id")
                 row["available_languages"] = [
                     lg for lg in ACT_LANGUAGES
                     if source_id in per_language.get(lg, set())
-                    and (target_id is None or target_id in per_language.get(lg, set()))]
+                    and (target_id is None or target_id in target_language.get(lg, set()))]
                 row["surface_language"] = "en"
                 out_fh.write(json.dumps(row, ensure_ascii=False) + "\n")
                 kept += 1

@@ -2,10 +2,11 @@ Vous êtes un expert dans la création de questions de recherche documentaire ju
 Le contexte source peut être dans n'importe quelle langue. Les questions et les réponses DOIVENT être rédigées en français. Conservez les termes juridiques techniques, les identifiants officiels d'instruments (p. ex. « Regulation (EU) 2019/904 », « Article 5(2) »), les noms d'institutions, d'organes et de programmes, ainsi que toutes les dates, durées, montants monétaires, pourcentages et seuils dans leur forme d'origine — ne les arrondissez pas, ne les reformatez pas et ne les renommez pas de manière approximative. Lorsqu'une institution ou un instrument possède un nom officiel français (p. ex. « Commission européenne »), utilisez ce nom officiel plutôt qu'une traduction littérale.
 
 STRUCTURE DE L'ENTRÉE :
-Vous recevez deux blocs clairement délimités.
+Vous recevez trois blocs clairement délimités.
 - « ### TARGET ARTICLE » — un article d'un acte, dans la ou les versions linguistiques fournies. C'est l'article SUR LEQUEL vous rédigez les questions.
 - « ### REFERENCED ARTICLES » — d'autres articles DU MÊME ACTE que l'article cible cite. Ils sont fournis UNIQUEMENT comme contexte d'appui, car la législation de l'UE recourt constamment aux renvois et l'article cible ne permet souvent pas à lui seul de répondre.
-Les deux blocs relèvent du même acte. Les articles référencés sont là pour permettre à une réponse d'être COMPLÈTE, et non pour être le sujet de la question.
+- « ### REFERENCED ARTICLES FROM OTHER ACTS » — des articles D'AUTRES ACTES que l'article cible cite nommément (p. ex. « Article 5 of Regulation (EC) No 21/2004 »), fournis lorsque cet acte figure dans le corpus. Même statut que le bloc précédent : contexte d'appui UNIQUEMENT, jamais le sujet d'une question. Chacun de ces blocs nomme son propre acte sur sa ligne « Act: » et porte une clé « Cite as: ».
+Les deux premiers blocs relèvent du même acte ; le troisième non. Un bloc vide l'indique explicitement. Les articles référencés sont là pour permettre à une réponse d'être COMPLÈTE, et non pour être le sujet de la question.
 
 Chaque bloc d'article commence par des lignes de MÉTADONNÉES, suivies du texte de l'article :
 
@@ -17,20 +18,21 @@ Chaque bloc d'article commence par des lignes de MÉTADONNÉES, suivies du texte
 - « Act » est le titre complet de l'instrument auquel l'article appartient. « Location » est la position de l'article dans la structure de l'acte (Partie / Titre / Chapitre / Section) et n'apparaît que lorsque l'acte comporte de telles divisions. Les deux sont fournis dans chaque version linguistique fournie.
 - UTILISEZ les métadonnées pour savoir DE QUOI traite l'article. Elles vous indiquent qu'il s'agit du droit des cosmétiques et non du droit douanier, ce qui vous évite de rédiger une question devenue ambiguë une fois le document hors de vue — « que doit faire la personne responsable ? » est sans réponse dans l'abstrait ; la matière traitée en fait une véritable requête.
 - Les métadonnées sont du CONTEXTE, PAS DU CONTENU. Ne tirez jamais la réponse d'une ligne de métadonnées — la réponse doit provenir du texte de l'article. Ne posez jamais de question PORTANT SUR les métadonnées (« quel chapitre contient cette règle ? », « quel est le titre de ce règlement ? ») : ce ne sont pas des questions sur la substance du droit.
-- Vous POUVEZ nommer l'instrument dans la question au moyen de l'identifiant officiel figurant sur la ligne « Act » (p. ex. « Regulation (EC) No 1223/2009 »), car les praticiens recherchent réellement de cette manière dans ce mode. Reproduisez-le exactement tel qu'il est écrit. Vous ne pouvez toujours PAS utiliser de formulation déictique telle que « en vertu du présent règlement ».
+- Vous POUVEZ nommer l'instrument PROPRE À LA CIBLE dans la question au moyen de l'identifiant officiel figurant sur la ligne « Act » de la cible (p. ex. « Regulation (EC) No 1223/2009 »), car les praticiens recherchent réellement de cette manière dans ce mode. Reproduisez-le exactement tel qu'il est écrit. Vous ne pouvez toujours PAS utiliser de formulation déictique telle que « en vertu du présent règlement ».
+- Ne construisez jamais une question autour de l'identifiant d'un AUTRE acte — qu'il soit affiché dans le bloc FROM OTHER ACTS ou simplement cité dans le texte — et n'écrivez jamais un numéro CELEX ni une clé « Cite as » dans une question : une requête ancrée sur un autre acte retrouve cet acte, pas la cible. L'identifiant d'un autre acte peut figurer dans le segment de réponse lorsque le texte source l'énonce.
 
 Générez exactement TROIS paires question-réponse. Chacune doit cibler un fait différent. Chaque question doit porter sur l'ARTICLE CIBLE.
 
 RÈGLES FONDAMENTALES :
 - Focalisation unique : Chaque question doit demander exactement UN élément d'information spécifique. Ne combinez jamais plusieurs demandes (p. ex. ne demandez pas à la fois un délai et un montant de sanction dans la même question).
-- L'article cible doit fournir le fait opérant : La question doit reposer sur ce que l'ARTICLE CIBLE lui-même établit — son obligation, son interdiction, sa condition, son délai, son seuil ou sa procédure. Un article référencé ne peut que COMPLÉTER ce fait : fournir l'identité d'une liste vers laquelle l'article cible renvoie, la définition d'un terme que l'article cible emploie, ou une valeur à laquelle l'article cible s'en remet. L'article référencé n'est jamais le sujet.
+- L'article cible doit fournir le fait opérant : La question doit reposer sur ce que l'ARTICLE CIBLE lui-même établit — son obligation, son interdiction, sa condition, son délai, son seuil ou sa procédure. Un article référencé ne peut que COMPLÉTER ce fait : fournir l'identité d'une liste vers laquelle l'article cible renvoie, la définition d'un terme que l'article cible emploie, ou une valeur à laquelle l'article cible s'en remet. L'article référencé n'est jamais le sujet. Cela vaut tout autant pour les articles d'autres actes.
 - LE TEST DE L'ARTICLE UNIQUE (à appliquer à chaque question candidate avant de la retenir) : un lecteur pourrait-il répondre complètement à cette question en lisant UNIQUEMENT l'article référencé, sans jamais avoir vu l'article cible ? Si OUI, la question appartient à cet article référencé et non à celui-ci — ÉCARTEZ-LA. Il ne suffit pas que l'article cible mentionne le sujet ou y renvoie. C'est de loin l'échec le plus fréquent dans cette tâche : lors d'une exécution en production, TOUTES les questions multi-articles générées ont échoué à ce test.
-- Les renvois résolus sont autorisés et recherchés : L'article cible peut indiquer « under the conditions laid down in Article 9 » ou « the bodies listed in Article 4 ». Lorsque l'article cité est fourni dans le bloc REFERENCED ARTICLES, vous POUVEZ suivre le renvoi et utiliser son contenu pour compléter la réponse. C'est là tout l'intérêt du bloc de références. Si la substance de la réponse se trouve derrière un renvoi qui n'a PAS été fourni, écartez la question.
+- Les renvois résolus sont autorisés et recherchés : L'article cible peut indiquer « under the conditions laid down in Article 9 », « the bodies listed in Article 4 » ou « the checks provided for in Article 5 of Regulation (EC) No 21/2004 ». Lorsque l'article cité est fourni — dans le bloc REFERENCED ARTICLES ou dans le bloc REFERENCED ARTICLES FROM OTHER ACTS — vous POUVEZ suivre le renvoi et utiliser son contenu pour compléter la réponse. C'est là tout l'intérêt des blocs de références. Si la substance de la réponse se trouve derrière un renvoi qui n'a PAS été fourni, écartez la question.
 - Support direct et complet : La réponse doit être entièrement énoncée dans le texte fourni — dans l'article cible, ou dans l'article cible combiné à un article référencé fourni. Aucune inférence au-delà du fait de suivre un renvoi explicite, et aucune connaissance externe.
 - Déclarez ce que vous avez utilisé : Pour chaque paire, vous devez indiquer quels articles sont nécessaires pour y répondre, dans le champ « articles_involved ». Voir DÉCLARATION DES ARTICLES IMPLIQUÉS ci-dessous. Ce champ est évalué ; s'y tromper est aussi grave qu'une réponse erronée.
 - Fidélité numérique et citationnelle : Reproduisez tous les nombres, dates, durées, montants monétaires, pourcentages et identifiants officiels (numéros d'instrument, d'article, de paragraphe et d'annexe) exactement comme ils apparaissent dans la source (p. ex. « 100 000 EUR », et non « €100,000 » ; « 90 days », jamais « trois mois »). Les dates doivent être reproduites exactement (jour, mois, année), rendues dans le format standard de la langue cible (« 15 juillet 2027 » pour « el 15 de julio de 2027 »).
 - Formulation naturelle de recherche : Rédigez chaque question comme un juriste, un responsable de la conformité ou un analyste des politiques la taperait dans une barre de recherche — courte, spécifique et directe. Évitez le langage de résumé de traité et les longs syntagmes nominaux.
-- Les identifiants d'instruments dans les questions sont autorisés et réalistes dans ce mode — les praticiens recherchent réellement « Regulation 2019/904 date interdiction plastiques à usage unique ». Lorsqu'ils sont utilisés, reproduisez-les exactement.
+- L'identifiant de l'instrument PROPRE À LA CIBLE est autorisé et réaliste dans une question dans ce mode — les praticiens recherchent réellement « Regulation 2019/904 date interdiction plastiques à usage unique ». Lorsqu'il est utilisé, reproduisez-le exactement. Les identifiants d'autres actes ne le sont pas (voir ci-dessus).
 - Pas de formules documentaires : N'utilisez jamais de formulation déictique ou autoréférentielle présupposant que le document est sous la main — « en vertu du présent règlement », « les mesures énoncées dans les présentes », « l'annexe des présentes », « selon le texte ». Nommer un instrument par son identifiant officiel est acceptable ; désigner « cet » instrument comme celui que l'on est en train de lire ne l'est pas.
 - Requête autonome pour un moteur de recherche : chaque question est une requête pour un système de recherche d'information (RI) — la personne qui la tape n'a PAS vu ce document et cherche à le TROUVER. Ne faites jamais référence au document ni à son contenu, et ne renvoyez jamais aux numéros d'articles comme si le lecteur pouvait les voir. Mauvais : « Que requiert l'article 6 dans le cas couvert par l'article 9 ? » → Bon : « Quand le traitement des données de santé est-il licite sans consentement ? »
 - Paraphrasez, ne copiez pas : Les termes juridiques techniques et les entités nommées peuvent être réutilisés pour la clarté. Ne reprenez pas les phrases descriptives, les modificateurs à plusieurs mots ou les fragments de phrase de la source comme structure de question — reformulez-les dans vos propres mots.
@@ -41,7 +43,8 @@ DÉCLARATION DES ARTICLES IMPLIQUÉS :
 - Si toute la réponse est énoncée dans l'article cible, la liste se limite à l'article cible.
 - Si une partie de la réponse provient d'un article référencé que vous avez suivi, listez l'article cible ET cet article référencé.
 - Ne listez que les articles que vous avez effectivement utilisés. Ne listez pas un article au seul motif que l'article cible le mentionne, si son contenu n'a joué aucun rôle dans la réponse.
-- Utilisez les numéros bruts tels qu'ils apparaissent dans le texte, p. ex. ["6"] ou ["1", "6"]. Incluez les suffixes lorsqu'ils sont présents, p. ex. ["7a"].
+- Utilisez les numéros bruts tels qu'ils apparaissent dans le texte, p. ex. ["6"] ou ["1", "6"]. Incluez les suffixes lorsqu'ils sont présents, p. ex. ["7a"]. Un numéro brut désigne TOUJOURS un article de l'acte propre à la cible.
+- Pour un article D'UN AUTRE ACTE, utilisez exactement la clé « Cite as » imprimée dans son bloc, p. ex. ["4", "32004R0021:5"]. N'écrivez jamais un numéro brut pour un article d'un autre acte.
 - L'article cible figure toujours dans la liste.
 
 QUE DEMANDER :
@@ -115,11 +118,29 @@ Example 4 — REAL off-target failures from a production run. Every multi-articl
 
 The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
 
+Example 5 — an article of ANOTHER act completes the answer
+### TARGET ARTICLE
+[EN] Article 2 — Payment of the aid
+  Act: Commission Regulation (EC) No 796/2004 laying down detailed rules for the aid to sheep and goat holdings …
+"The aid shall be paid only after the checks provided for in Article 5 of Council Regulation (EC) No 21/2004 have been carried out."
+### REFERENCED ARTICLES FROM OTHER ACTS
+[EN] Article 5 — Checks
+  Act: Council Regulation (EC) No 21/2004 establishing a system for the identification and registration of ovine and caprine animals …
+  Cite as: 32004R0021:5
+"Member States shall carry out on-the-spot checks covering at least 3 % of holdings each year."
+✓ Good: {"question": "Which checks must be completed before the aid for sheep and goat holdings is paid?", "answer": "the on-the-spot checks covering at least 3 % of holdings each year provided for in Article 5 of Council Regulation (EC) No 21/2004", "articles_involved": ["2", "32004R0021:5"]}
+  → The payment condition is the TARGET's own rule; the other act's article only says what the checks are. Both are needed, and the other act's article is declared by its "Cite as" key, never by a bare "5".
+✗ Bad (off-target): "What minimum share of holdings must be checked on the spot each year?"
+  → Article 5 of Regulation (EC) No 21/2004 alone answers this. It would retrieve that Regulation, not the target. Discard.
+✗ Bad (wrong anchor): "Under Regulation (EC) No 21/2004, when is the aid paid?"
+  → The question is anchored on the other act's identifier; a retriever would return that act. The target's own instrument may be named, another act's may not.
+
 AUTO-VÉRIFICATION pour chaque question avant de la finaliser :
 - La question évite-t-elle de porter sur les métadonnées (titre de l'acte, chapitre) plutôt que sur la substance de l'article ?
 - LE TEST DE L'ARTICLE UNIQUE : cette question pourrait-elle trouver une réponse complète à partir du seul article référencé ? Si oui, écartez-la — ce n'est pas une question portant sur l'article cible.
 - La substance de la réponse est-elle entièrement présente dans le texte fourni — article cible, ou article cible plus un article référencé fourni ?
-- Le champ « articles_involved » liste-t-il exactement les articles nécessaires, ni plus ni moins ? L'article cible y figure-t-il ?
+- Le champ « articles_involved » liste-t-il exactement les articles nécessaires, ni plus ni moins ? L'article cible y figure-t-il ? Les articles d'autres actes sont-ils désignés par leur clé « Cite as », jamais par un numéro brut ?
+- La question est-elle ancrée sur l'acte propre à la cible, jamais sur l'identifiant, le numéro CELEX ou la clé « Cite as » d'un autre acte ?
 - La question demande-t-elle exactement un élément d'information ?
 - Tous les nombres, dates, montants, pourcentages et identifiants officiels sont-ils reproduits exactement comme dans la source ?
 - Quelqu'un qui n'a jamais vu ce document pourrait-il taper cette question dans un moteur de recherche ? Elle ne doit pas faire référence au document ni aux numéros d'articles comme s'ils étaient visibles.
@@ -133,6 +154,6 @@ SORTIE (JSON valide uniquement, pas de markdown) :
 ]
 - answer : le segment le plus court qui répond entièrement et directement à la question — typiquement une expression ou une seule phrase courte. Strictement ancré dans le texte fourni.
 - question_type : l'un de scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
-- articles_involved : liste des numéros d'articles nécessaires pour répondre, incluant toujours l'article cible. Exemple : ["6"] ou ["1", "6"].
+- articles_involved : liste des articles nécessaires pour répondre, incluant toujours l'article cible — numéros bruts pour l'acte propre à la cible, clés « Cite as » pour les articles d'autres actes. Exemple : ["6"], ["1", "6"], ou ["6", "32004R0021:5"] lorsqu'un article d'un autre acte a été utilisé.
 
 L'article cible et les éventuels articles référencés sont fournis en français et en anglais. Lorsque les deux versions sont présentes, il s'agit de la même disposition, et non de deux dispositions différentes : utilisez la version française pour la formulation et la terminologie, et la version anglaise comme lecture de référence. Cela ne change pas votre langue de sortie, qui est déclarée ci-dessus. Voici l'entrée :

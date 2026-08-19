@@ -5,12 +5,14 @@ One target article yields three candidates; the best-scoring one is kept. So a
 100-query set is 100 target articles, and the run costs 100 generation calls plus
 200 grading calls.
 
-Selection is stratified by **reference count**, which is the axis that matters
-here: the corpus median citing article references exactly one other article, so a
-uniform sample would be almost entirely single-article and the reference graph
-would buy nothing. The default mix deliberately over-samples articles with
-references relative to their corpus frequency, and records the stratum on every
-row so the resulting set can be re-weighted or split later.
+Selection is stratified by **reference count** -- same-act and cross-act
+references together, since both travel with the target -- and records the
+stratum on every row so the resulting set can be re-weighted or split later.
+Measured on the reference-complete eligible pool (16.9k articles): 36% cite no
+other article and 64% cite at least one (one 21%, two-three 23%, four-plus 19%).
+The default mix therefore *under*-samples citing articles (``CROSS_REFERENCE_SHARE``
+below): the no-reference control must dominate, and multi-article gold is meant
+to be a measured minority rather than the norm.
 
 Filters applied before sampling, each for a reason found the hard way:
 
@@ -20,7 +22,12 @@ Filters applied before sampling, each for a reason found the hard way:
 * amending articles are excluded by default -- they quote the text of *another*
   act, so a question drawn from one is about a document that is not in the corpus;
 * very short and very long articles are excluded -- the first cannot support
-  three distinct questions, the second buries the operative fact.
+  three distinct questions, the second buries the operative fact;
+* articles whose citation graph is not **reference-complete** are excluded by
+  default (``reference_status.jsonl`` from ``structure.resolve_external``): if
+  any article the target cites could not be resolved -- another act outside the
+  corpus, the Treaty, "of that Regulation" -- the generator would be writing
+  about text it only half saw. ``--allow-incomplete`` lifts this.
 
 Usage:
     python -m clir_bench.domains.legal.qac.eurlex_batch --n 100 --dry-run
@@ -46,13 +53,13 @@ from clir_bench.domains.legal.qac.env import load_env
 
 OUT_DIR = struct_paths.EURLEX_DIR / "qac"
 
-# (name, min refs, max refs, share of the set). Weighted towards articles that
-# can actually produce a multi-article question, which uniform sampling cannot.
-# Only this share of the set is drawn from articles that cite another article;
-# the rest have no references at all and act as the control that must never
-# produce a multi-article answer. Cross-referenced questions are the interesting
-# minority, not the norm -- overweighting them would misrepresent how EU acts
-# actually read and would make the benchmark easier than the corpus.
+# (name, min refs, max refs, share of the set). Only this share of the set is
+# drawn from articles that cite another article (same act or another act in the
+# corpus); the rest have no references at all and act as the control that must
+# never produce a multi-article answer. Cross-referenced questions are the
+# interesting minority, not the norm: 64% of the eligible pool cites something,
+# so 0.20 is a deliberate under-sampling that keeps multi-article gold a measured
+# minority. Raise it with --cross-ref-share when the reference graph is the point.
 CROSS_REFERENCE_SHARE = 0.20
 
 DEFAULT_STRATA: tuple[tuple[str, int, int, float], ...] = (
@@ -70,10 +77,13 @@ class Target:
     eli_id: str
     celex_id: str
     article_number: str
-    n_refs: int
+    n_refs: int            # same-act references
     stratum: str
     mode: str
     language: str
+    n_external: int = 0    # resolved references to articles of other acts
+    complete: bool = True  # every article citation resolved (reference_status)
+    cites_annex: bool = False
 
 
 def _quarantined() -> set[str]:
@@ -86,9 +96,22 @@ def _quarantined() -> set[str]:
 def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[str],
            modes: Sequence[str], strata=DEFAULT_STRATA,
            include_amending: bool = False,
-           max_per_act: int = 2) -> list[Target]:
-    """Stratified, deterministic target selection."""
+           max_per_act: int = 2,
+           require_complete: bool = True) -> list[Target]:
+    """Stratified, deterministic target selection.
+
+    ``require_complete`` restricts the pool to articles whose citations are all
+    resolved (see module docstring); it needs ``reference_status.jsonl`` and
+    refuses to silently sample everything when that file is missing.
+    """
     bad_acts = _quarantined()
+    status = getattr(index, "status", {}) or {}
+    if require_complete and not status:
+        raise SystemExit(
+            "reference_status.jsonl not loaded: run "
+            "`python -m clir_bench.domains.legal.structure.resolve_external` "
+            "or pass --allow-incomplete")
+    external_refs = getattr(index, "external_references", {}) or {}
     amending: set[str] = set()
     if not include_amending:
         with struct_paths.ARTICLES_JSONL.open(encoding="utf-8") as fh:
@@ -107,10 +130,19 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
             continue
         if len(unit.languages()) < len(languages):
             continue
-        refs = len([t for t in index.references.get(eli, []) if t != eli])
+        verdict = status.get(eli, {})
+        if require_complete and not verdict.get("complete"):
+            continue
+        internal = len([t for t in index.references.get(eli, []) if t != eli])
+        external = len(external_refs.get(eli, []))
+        refs = internal + external
         for name, low, high, _ in strata:
             if low <= refs <= high:
-                pools[name].append((eli, refs))
+                # Without a status file nothing is verified complete, so the
+                # flag is False rather than assumed -- the row says what we know.
+                pools[name].append((eli, internal, external,
+                                    bool(verdict.get("complete")),
+                                    bool(verdict.get("cites_annex"))))
                 break
 
     def rank(eli: str) -> str:
@@ -122,7 +154,7 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
         want = round(n * share)
         pool = sorted(pools.get(name, []), key=lambda x: rank(x[0]))
         taken = 0
-        for eli, refs in pool:
+        for eli, internal, external, complete, cites_annex in pool:
             if taken >= want:
                 break
             unit = index.by_eli[eli]
@@ -133,11 +165,12 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
             position = len(chosen)
             chosen.append(Target(
                 eli_id=eli, celex_id=unit.celex_id,
-                article_number=unit.article_number, n_refs=refs, stratum=name,
+                article_number=unit.article_number, n_refs=internal, stratum=name,
                 # Alternate deterministically so the set is balanced across
                 # modes and question languages rather than randomly lumpy.
                 mode=modes[position % len(modes)],
                 language=languages[position % len(languages)],
+                n_external=external, complete=complete, cites_annex=cites_annex,
             ))
     return chosen
 
@@ -162,7 +195,10 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     if not candidates:
         return []
 
-    qa = [{"question": c.question, "answer": c.answer} for c in candidates]
+    # The graders see the declaration too: the faithfulness rubric caps the
+    # grade when ``articles_involved`` is wrong, which it can only judge if shown.
+    qa = [{"question": c.question, "answer": c.answer,
+           "articles_involved": list(c.articles_involved)} for c in candidates]
     faith = call_with_retries(lambda: grade_faithfulness(
         grade_client, grader, gen.PROMPTS.faithfulness("batch"), payload.text, qa),
         retries=3, label="faith")
@@ -186,6 +222,12 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "n_references_available": target.n_refs,
             "reference_articles_supplied": ",".join(r.article_number for r in payload.references),
             "reference_articles_dropped": ",".join(payload.dropped_references),
+            "n_external_available": target.n_external,
+            "external_references_supplied": ",".join(
+                ctx.external_key(u) for u in payload.external_references),
+            "external_references_dropped": ",".join(payload.dropped_external_references),
+            "reference_complete": target.complete,
+            "cites_annex": target.cites_annex,
             "question_language": target.language,
             "mode": target.mode,
             "question": candidate.question,
@@ -195,6 +237,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "articles_involved": ",".join(candidate.articles_involved),
             "articles_involved_eli": ",".join(candidate.involved_elis),
             "multi_article": candidate.multi_article,
+            "cross_act": candidate.cross_act,
             "rejected_involved": ",".join(candidate.rejected_involved),
             "faith_grounding": graded.faith.get("grounding"),
             "faith_precision": graded.faith.get("precision"),
@@ -205,12 +248,16 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     return rows
 
 
+# ``n_references_available`` counts same-act references only (as it always
+# did); ``stratum`` is binned on same-act + other-act references together.
 FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           "n_references_available", "reference_articles_supplied",
-          "reference_articles_dropped", "question_language", "mode",
+          "reference_articles_dropped", "n_external_available",
+          "external_references_supplied", "external_references_dropped",
+          "reference_complete", "cites_annex", "question_language", "mode",
           "question", "answer", "question_type", "framing",
           "articles_involved", "articles_involved_eli", "multi_article",
-          "rejected_involved", "faith_grounding", "faith_precision",
+          "cross_act", "rejected_involved", "faith_grounding", "faith_precision",
           "faith_numerical_fidelity", "qual_overall", "total_score")
 
 
@@ -229,6 +276,8 @@ def main() -> None:
                         help="share of targets drawn from articles that cite another article")
     parser.add_argument("--seed", type=int, default=20260804)
     parser.add_argument("--include-amending", action="store_true")
+    parser.add_argument("--allow-incomplete", action="store_true",
+                        help="also sample articles whose citations are not all resolved")
     parser.add_argument("--out", default=str(OUT_DIR / "qac_eurlex.csv"))
     parser.add_argument("--dry-run", action="store_true",
                         help="show the selected targets and the call budget, make no calls")
@@ -245,20 +294,25 @@ def main() -> None:
     index = ctx.ArticleIndex()
     targets = select(index, n=args.n, seed=args.seed, languages=languages,
                      modes=modes, strata=strata,
-                     include_amending=args.include_amending)
+                     include_amending=args.include_amending,
+                     require_complete=not args.allow_incomplete)
 
     print(f"selected {len(targets)} target articles "
           f"across {len({t.celex_id for t in targets})} acts", file=sys.stderr)
     print(f"  by stratum : {dict(Counter(t.stratum for t in targets))}", file=sys.stderr)
     print(f"  by language: {dict(Counter(t.language for t in targets))}", file=sys.stderr)
     print(f"  by mode    : {dict(Counter(t.mode for t in targets))}", file=sys.stderr)
+    print(f"  with other-act refs: {sum(1 for t in targets if t.n_external)}; "
+          f"reference-complete: {sum(1 for t in targets if t.complete)}; "
+          f"cite an annex: {sum(1 for t in targets if t.cites_annex)}", file=sys.stderr)
 
     if args.dry_run:
         print(f"\ncall budget: {len(targets)} generation + {2 * len(targets)} grading "
               f"= {3 * len(targets)} calls", file=sys.stderr)
         for t in targets[:12]:
             print(f"   {t.celex_id} art {t.article_number:<5} refs={t.n_refs:<3} "
-                  f"{t.stratum:<10} {t.mode:<9} {t.language}", file=sys.stderr)
+                  f"ext={t.n_external:<3} {t.stratum:<10} {t.mode:<9} {t.language}",
+                  file=sys.stderr)
         print("   ...", file=sys.stderr)
         return
 

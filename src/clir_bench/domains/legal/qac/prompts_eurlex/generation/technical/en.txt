@@ -2,10 +2,11 @@ You are an expert at creating legal and regulatory retrieval questions from EU l
 The source context may be in any language. The questions and answers MUST be written in English. Preserve legal terms of art, official instrument identifiers (e.g., "Regulation (EU) 2019/904", "Article 5(2)"), names of institutions, bodies, and programmes, and all dates, durations, monetary amounts, percentages, and thresholds in their original form — do not round, reformat, or loosely rename them. Where an institution or instrument has an official English name (e.g., "European Commission"), use that official name rather than a literal translation.
 
 HOW THE INPUT IS STRUCTURED:
-You receive two clearly marked blocks.
+You receive three clearly marked blocks.
 - "### TARGET ARTICLE" — one article of one act, in the language version(s) supplied. This is the article you are writing questions ABOUT.
 - "### REFERENCED ARTICLES" — other articles OF THE SAME ACT that the target article cites. They are supplied as supporting context ONLY, because EU legislation cross-references constantly and the target article is often not answerable on its own.
-Both blocks are the same act. The referenced articles are there to let an answer be COMPLETE, not to be the subject of the question.
+- "### REFERENCED ARTICLES FROM OTHER ACTS" — articles of OTHER acts that the target article cites by name (e.g. "Article 5 of Regulation (EC) No 21/2004"), supplied when that act is in the corpus. Same status as the block above: supporting context ONLY, never the subject of a question. Each such block names its own act on its "Act:" line and carries a "Cite as:" key.
+The first two blocks are the same act; the third is not. A block that is empty says so explicitly. The referenced articles are there to let an answer be COMPLETE, not to be the subject of the question.
 
 Each article block begins with METADATA lines, followed by the article's text:
 
@@ -17,20 +18,21 @@ Each article block begins with METADATA lines, followed by the article's text:
 - "Act" is the full title of the instrument the article belongs to. "Location" is the article's position in the act's structure (Part / Title / Chapter / Section) and appears only when the act has such divisions. Both are given in each language version supplied.
 - USE the metadata to know what the article is ABOUT. It tells you this is cosmetics law and not customs law, which is what stops you writing a question that is ambiguous once the document is out of view — "what must the responsible person do?" is unanswerable in the abstract; the subject matter makes it a real query.
 - The metadata is CONTEXT, NOT CONTENT. Never take the answer from a metadata line — the answer must come from the article's text. Never ask a question ABOUT the metadata ("which chapter contains this rule?", "what is the title of this regulation?"): those are not questions about the substance of the law.
-- You MAY name the instrument in the question using the official identifier from the "Act" line (e.g. "Regulation (EC) No 1223/2009"), because practitioners genuinely search that way in this mode. Reproduce it exactly as written. You still may NOT use deictic wording such as "under this Regulation".
+- You MAY name the TARGET's own instrument in the question using the official identifier from the target's "Act" line (e.g. "Regulation (EC) No 1223/2009"), because practitioners genuinely search that way in this mode. Reproduce it exactly as written. You still may NOT use deictic wording such as "under this Regulation".
+- Never build a question around ANOTHER act's identifier — whether that act is shown in the FROM OTHER ACTS block or merely cited in the text — and never write a CELEX number or a "Cite as" key in a question: a query anchored on another act retrieves that act, not the target. Another act's identifier may appear inside the answer span when the source text states it.
 
 Generate exactly THREE question-answer pairs. Each should target a different fact. Every question must be about the TARGET ARTICLE.
 
 CORE RULES:
 - Single Focus: Each question must ask for exactly ONE specific piece of information. Never combine multiple asks (e.g., do not ask for a deadline and a penalty amount in the same question).
-- The Target Article Must Supply the Operative Fact: The question must turn on what the TARGET ARTICLE itself lays down — its obligation, prohibition, condition, deadline, threshold, or procedure. A referenced article may only COMPLETE that fact: supply the identity of a list the target points to, the definition of a term the target uses, or a value the target defers to. The referenced article is never the subject.
+- The Target Article Must Supply the Operative Fact: The question must turn on what the TARGET ARTICLE itself lays down — its obligation, prohibition, condition, deadline, threshold, or procedure. A referenced article may only COMPLETE that fact: supply the identity of a list the target points to, the definition of a term the target uses, or a value the target defers to. The referenced article is never the subject. This applies equally to articles of other acts.
 - THE ONE-ARTICLE TEST (apply to every candidate before keeping it): could a reader answer this question completely by reading ONLY the referenced article, never having seen the target article? If YES, the question belongs to that referenced article and not to this one — DISCARD it. It is not enough that the target article mentions the topic or points at it. This is by far the most common failure in this task: in a production run, EVERY multi-article question generated failed this test.
-- Resolved Cross-References Are Allowed and Wanted: The target article may say "under the conditions laid down in Article 9" or "the bodies listed in Article 4". When that cited article is supplied in the REFERENCED ARTICLES block, you MAY follow the citation and use its content to complete the answer. This is the point of the reference block. If the answer's substance lies behind a citation that was NOT supplied, discard the question.
+- Resolved Cross-References Are Allowed and Wanted: The target article may say "under the conditions laid down in Article 9", "the bodies listed in Article 4" or "the checks provided for in Article 5 of Regulation (EC) No 21/2004". When that cited article is supplied — in the REFERENCED ARTICLES block or in the REFERENCED ARTICLES FROM OTHER ACTS block — you MAY follow the citation and use its content to complete the answer. This is the point of the reference blocks. If the answer's substance lies behind a citation that was NOT supplied, discard the question.
 - Full Direct Support: The answer must be fully stated in the supplied text — in the target article, or in the target article combined with a supplied referenced article. No inference beyond following an explicit cross-reference, and no outside knowledge.
 - Declare What You Used: For every pair you must report which articles are needed to answer it, in the "articles_involved" field. See DECLARING INVOLVED ARTICLES below. This field is graded; getting it wrong is as bad as a wrong answer.
 - Numerical & Citational Fidelity: Reproduce all numbers, dates, durations, monetary amounts, percentages, and official identifiers (instrument, article, paragraph, and annex numbers) exactly as they appear in the source (e.g., "100 000 EUR", not "€100,000"; "90 days", never "three months"). Dates must be reproduced exactly (day, month, year), rendered in the output language's standard format ("15 July 2027" for "el 15 de julio de 2027").
 - Natural Search Wording: Write each question as a lawyer, compliance officer, or policy analyst would type it into a search bar — short, specific, and direct. Avoid treaty-summary language and long noun phrases.
-- Instrument identifiers in questions are allowed and realistic in this mode — practitioners genuinely search "Regulation 2019/904 single-use plastics ban date". When used, reproduce them exactly.
+- The TARGET's own instrument identifier is allowed and realistic in a question in this mode — practitioners genuinely search "Regulation 2019/904 single-use plastics ban date". When used, reproduce it exactly. Other acts' identifiers are not (see above).
 - No Document Phrases: Never use deictic or self-referential wording that presupposes the document is at hand — "under this Regulation," "the measures set out herein," "the annex hereto," "according to the text." Naming an instrument by its official identifier is fine; referring to "this" instrument as the one being read is not.
 - Standalone query for a search engine: each question is a query for an Information Retrieval (IR) system — the person typing it has NOT seen this document and is searching to FIND it. Never refer to the document or its contents, and never refer to the article numbers as if the reader could see them. Bad: "What does Article 6 require in the case covered by Article 9?" → Good: "When is processing of health data lawful without consent?"
 - Paraphrase, Don't Lift: Legal terms of art and named entities may be reused for clarity. Do not lift descriptive phrases, multi-word modifiers, or sentence fragments from the source as question scaffolding — rewrite those in your own words.
@@ -41,7 +43,8 @@ DECLARING INVOLVED ARTICLES:
 - If the whole answer is stated in the target article, the list is just the target article.
 - If part of the answer comes from a referenced article you followed, list the target article AND that referenced article.
 - List only articles you actually used. Do not list an article merely because the target article mentions it, if its content played no part in the answer.
-- Use bare numbers as they appear in the text, e.g. ["6"] or ["1", "6"]. Include suffixes where present, e.g. ["7a"].
+- Use bare numbers as they appear in the text, e.g. ["6"] or ["1", "6"]. Include suffixes where present, e.g. ["7a"]. A bare number ALWAYS means an article of the target's own act.
+- For an article FROM ANOTHER ACT, use the exact "Cite as" key printed in its block, e.g. ["4", "32004R0021:5"]. Never write a bare number for an article of another act.
 - The target article is always in the list.
 
 WHAT TO ASK:
@@ -115,11 +118,29 @@ Example 4 — REAL off-target failures from a production run. Every multi-articl
 
 The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
 
+Example 5 — an article of ANOTHER act completes the answer
+### TARGET ARTICLE
+[EN] Article 2 — Payment of the aid
+  Act: Commission Regulation (EC) No 796/2004 laying down detailed rules for the aid to sheep and goat holdings …
+"The aid shall be paid only after the checks provided for in Article 5 of Council Regulation (EC) No 21/2004 have been carried out."
+### REFERENCED ARTICLES FROM OTHER ACTS
+[EN] Article 5 — Checks
+  Act: Council Regulation (EC) No 21/2004 establishing a system for the identification and registration of ovine and caprine animals …
+  Cite as: 32004R0021:5
+"Member States shall carry out on-the-spot checks covering at least 3 % of holdings each year."
+✓ Good: {"question": "Which checks must be completed before the aid for sheep and goat holdings is paid?", "answer": "the on-the-spot checks covering at least 3 % of holdings each year provided for in Article 5 of Council Regulation (EC) No 21/2004", "articles_involved": ["2", "32004R0021:5"]}
+  → The payment condition is the TARGET's own rule; the other act's article only says what the checks are. Both are needed, and the other act's article is declared by its "Cite as" key, never by a bare "5".
+✗ Bad (off-target): "What minimum share of holdings must be checked on the spot each year?"
+  → Article 5 of Regulation (EC) No 21/2004 alone answers this. It would retrieve that Regulation, not the target. Discard.
+✗ Bad (wrong anchor): "Under Regulation (EC) No 21/2004, when is the aid paid?"
+  → The question is anchored on the other act's identifier; a retriever would return that act. The target's own instrument may be named, another act's may not.
+
 SELF-CHECK for each question before finalizing:
 - Does the question avoid asking about the metadata (act title, chapter) rather than the substance of the article?
 - THE ONE-ARTICLE TEST: could this be answered completely from a referenced article alone? If yes, discard — it is not a question about the target.
 - Is the answer's substance fully present in the supplied text — target article, or target plus a supplied referenced article?
-- Does "articles_involved" list exactly the articles needed, no more and no fewer? Is the target article in it?
+- Does "articles_involved" list exactly the articles needed, no more and no fewer? Is the target article in it? Are articles of other acts given by their "Cite as" key, never by a bare number?
+- Is the question anchored on the target's own act, never on another act's identifier, CELEX number or "Cite as" key?
 - Does the question ask for exactly one piece of information?
 - Are all numbers, dates, amounts, percentages, and official identifiers reproduced exactly as in the source?
 - Could someone who has never seen this document type this question into a search engine? It must not refer to the document or to article numbers as if visible.
@@ -133,6 +154,6 @@ OUTPUT (valid JSON only, no markdown):
 ]
 - answer: the shortest span that fully and directly answers the question — typically a phrase or a single short sentence. Strictly grounded in the supplied text.
 - question_type: one of scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
-- articles_involved: list of article numbers needed to answer, always including the target article. Example: ["6"] or ["1", "6"].
+- articles_involved: list of the articles needed to answer, always including the target article — bare numbers for the target's own act, "Cite as" keys for articles of other acts. Example: ["6"], ["1", "6"], or ["6", "32004R0021:5"] when an article of another act was used.
 
 The target article and any referenced articles are supplied in English and — when your output language is not English — in your output language as well. When both are present they are the same provision, not two different ones: use the version in your output language for wording and terminology, and the English version as the reference reading. This does not change your output language, which is declared above. Here is the input:

@@ -1,11 +1,17 @@
 """
 Article-level structure and cross-reference metadata for EUR-Lex acts.
 
-This subtree turns whole-act EUR-Lex texts into three flat JSONL artifacts:
+This subtree turns whole-act EUR-Lex texts into flat JSONL artifacts:
 
     article records      one row per (act, article, language)
     internal edges       article -> article, intra-act only
-    external references  flagged, never resolved
+    external references  cross-act citations as extracted (act named by surface)
+    external edges       article -> article of ANOTHER act, resolved only when
+                         the cited act is in the corpus and its identifier is
+                         unambiguous (``resolve_external``); the rest is kept in
+                         ``unresolved_external.jsonl`` with a reason
+    reference status     per-article verdict: are all of its article citations
+                         resolved? Question generation samples only those.
 
 It is deliberately self-contained. The legal domain has no ``DomainSpec`` yet,
 so nothing here is wired into the ``clir`` CLI and ``domains.available()`` still

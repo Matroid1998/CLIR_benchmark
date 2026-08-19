@@ -21,13 +21,24 @@ bury the target, blow the context window, and make "which articles are involved"
 meaningless. References are taken in order of first mention (which tracks how
 central they are to the article's argument) and capped; whatever is dropped is
 recorded, never silently discarded.
+
+**Articles of other acts travel too, in their own block.** "the conditions of
+Article 15 of Regulation (EC) No 2792/1999" is as unanswerable alone as a
+same-act citation is. When ``structure/resolve_external`` could pin the cited
+act down to one in the corpus, its article is supplied under a third header
+and identified to the model by a ``Cite as:`` key of the form ``CELEX:number``
+(``32004R0021:5``), so that a bare number in ``articles_involved`` always means
+the target's own act and nothing can collide. Same-act and cross-act references
+share one cap, ranked by first mention.
 """
 
 from __future__ import annotations
 
 import json
+import re
 from collections import defaultdict
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Iterable, Sequence
 
 from clir_bench.domains.legal.structure import ACT_LANGUAGES, paths
@@ -45,6 +56,23 @@ DEFAULT_REFERENCE_CHARS = 4000
 TARGET_HEADER = "### TARGET ARTICLE — write the questions about THIS article"
 CONTEXT_HEADER = ("### REFERENCED ARTICLES — supporting context only, cited by the "
                   "target article. Do not write questions *about* these.")
+CONTEXT_NONE = ("### REFERENCED ARTICLES — none. "
+                "The target article cites no other article of this act.")
+EXTERNAL_HEADER = ("### REFERENCED ARTICLES FROM OTHER ACTS — supporting context only, "
+                   "cited by the target article. Do not write questions *about* these.")
+EXTERNAL_NONE = ("### REFERENCED ARTICLES FROM OTHER ACTS — none. "
+                 "The target article cites no article of another act in the corpus.")
+
+
+def external_key(unit: "ArticleUnit") -> str:
+    """How the model names an article of another act: ``CELEX:number``.
+
+    Bare numbers are reserved for the target's own act, so a cross-act article
+    needs a token that cannot be mistaken for one. The CELEX id is short, is
+    already printed in the block's ``Cite as:`` line, and maps back to the ELI
+    through the payload -- no parsing of act titles required.
+    """
+    return f"{unit.celex_id}:{unit.article_number}"
 
 
 def payload_languages(question_language: str) -> tuple[str, ...]:
@@ -91,28 +119,61 @@ class ArticleUnit:
 
 @dataclass
 class GenerationPayload:
-    """What gets sent, plus the bookkeeping needed to interpret what comes back."""
+    """What gets sent, plus the bookkeeping needed to interpret what comes back.
+
+    ``references`` are same-act articles (named by bare number),
+    ``external_references`` are articles of other acts (named by
+    ``external_key``); both dropped lists hold the tokens that were cut by the
+    cap, in the same vocabulary.
+    """
 
     target: ArticleUnit
     references: list[ArticleUnit]
     dropped_references: list[str]
     text: str
+    external_references: list[ArticleUnit] = field(default_factory=list)
+    dropped_external_references: list[str] = field(default_factory=list)
 
     @property
     def involved_universe(self) -> list[str]:
-        """Article numbers the model is allowed to name as involved."""
-        return [self.target.article_number] + [r.article_number for r in self.references]
+        """Tokens the model is allowed to name as involved: bare numbers for the
+        target's act, ``CELEX:number`` keys for articles of other acts."""
+        return ([self.target.article_number]
+                + [r.article_number for r in self.references]
+                + [external_key(u) for u in self.external_references])
 
 
 class ArticleIndex:
-    """Articles and their intra-act reference edges, keyed for lookup."""
+    """Articles and their reference edges -- same-act and cross-act -- keyed for lookup.
 
-    def __init__(self, articles_path=None, edges_path=None) -> None:
+    ``references`` holds intra-act article targets, ``external_references`` the
+    resolved cross-act ones (both in first-mention order), ``first_mention``
+    the character offset at which each target is first cited so the two kinds
+    can be ranked together, and ``status`` the per-article completeness verdict
+    from ``reference_status.jsonl``. The cross-act and status files are optional
+    inputs: an index built before stage 5 ran simply has none.
+    """
+
+    def __init__(self, articles_path=None, edges_path=None, *,
+                 external_edges_path=None, status_path=None) -> None:
         self.by_eli: dict[str, ArticleUnit] = {}
         self.by_act: dict[str, list[str]] = defaultdict(list)
         self._load_articles(articles_path or paths.ARTICLES_JSONL)
         self.references: dict[str, list[str]] = defaultdict(list)
+        self.external_references: dict[str, list[str]] = defaultdict(list)
+        self.first_mention: dict[tuple[str, str], int] = {}
+        self.status: dict[str, dict] = {}
         self._load_edges(edges_path or paths.INTERNAL_EDGES_JSONL)
+        # The corpus-level cross-act and status files are only assumed when the
+        # corpus-level edge file is: an index built on a custom edge set must not
+        # be gated by verdicts computed against a different one.
+        if edges_path is None:
+            external_edges_path = external_edges_path or paths.EXTERNAL_EDGES_JSONL
+            status_path = status_path or paths.REFERENCE_STATUS_JSONL
+        if external_edges_path and Path(external_edges_path).exists():
+            self._load_external_edges(external_edges_path)
+        if status_path and Path(status_path).exists():
+            self._load_status(status_path)
 
     def _load_articles(self, path) -> None:
         with open(path, encoding="utf-8") as fh:
@@ -130,9 +191,7 @@ class ArticleIndex:
                 unit.act_titles[row["language"]] = row.get("act_title", "")
                 unit.locations[row["language"]] = structural_location(row)
 
-    def _load_edges(self, path) -> None:
-        # Ordered by first mention: char_start tracks how central a reference is
-        # to the article's argument better than any ranking we could invent.
+    def _article_edges(self, path) -> list[dict]:
         rows = []
         with open(path, encoding="utf-8") as fh:
             for line in fh:
@@ -142,11 +201,37 @@ class ArticleIndex:
                 if edge.get("target_unit_type") != "article":
                     continue
                 rows.append(edge)
+        # Ordered by first mention: char_start tracks how central a reference is
+        # to the article's argument better than any ranking we could invent.
         rows.sort(key=lambda e: (e["source_article_id"], e["char_start"]))
-        for edge in rows:
-            targets = self.references[edge["source_article_id"]]
-            if edge["target_article_id"] not in targets:
-                targets.append(edge["target_article_id"])
+        return rows
+
+    def _load_edges(self, path) -> None:
+        for edge in self._article_edges(path):
+            source, target = edge["source_article_id"], edge["target_article_id"]
+            targets = self.references[source]
+            if target not in targets:
+                targets.append(target)
+                self.first_mention.setdefault((source, target), edge["char_start"])
+
+    def _load_external_edges(self, path) -> None:
+        # Targets are articles of other acts; ``by_eli`` spans the whole corpus,
+        # so they are loadable exactly like same-act ones. An edge whose target
+        # is not indexed (act failed the article load) is skipped, not invented.
+        for edge in self._article_edges(path):
+            source, target = edge["source_article_id"], edge["target_article_id"]
+            if target not in self.by_eli:
+                continue
+            targets = self.external_references[source]
+            if target not in targets:
+                targets.append(target)
+                self.first_mention.setdefault((source, target), edge["char_start"])
+
+    def _load_status(self, path) -> None:
+        with open(path, encoding="utf-8") as fh:
+            for line in fh:
+                row = json.loads(line)
+                self.status[row["eli_id"]] = row
 
     def build(self, target_eli: str, *,
               max_references: int = DEFAULT_MAX_REFERENCES,
@@ -156,16 +241,30 @@ class ArticleIndex:
         if target is None or not target.languages():
             return None
 
-        wanted = [t for t in self.references.get(target_eli, []) if t != target_eli]
-        kept, dropped = wanted[:max_references], wanted[max_references:]
-        references = [self.by_eli[e] for e in kept if e in self.by_eli]
+        # One cap over both kinds, ranked by first mention. Same-act references
+        # win ties (a target the extractor placed at the same offset is the
+        # same citation site) and, when no offsets are known, keep their order.
+        internal = [t for t in self.references.get(target_eli, [])
+                    if t != target_eli and t in self.by_eli]
+        external = [t for t in getattr(self, "external_references", {}).get(target_eli, [])
+                    if t in self.by_eli]
+        mention = getattr(self, "first_mention", {})
+        ranked = sorted([(t, "internal") for t in internal] + [(t, "external") for t in external],
+                        key=lambda item: (mention.get((target_eli, item[0]), 10 ** 9),
+                                          0 if item[1] == "internal" else 1))
+        kept, dropped = ranked[:max_references], ranked[max_references:]
+        references = [self.by_eli[t] for t, kind in kept if kind == "internal"]
+        externals = [self.by_eli[t] for t, kind in kept if kind == "external"]
 
-        text = render_payload(target, references, languages=languages,
-                              reference_chars=reference_chars)
-        return GenerationPayload(target, references,
-                                 [self.by_eli[e].article_number for e in dropped
-                                  if e in self.by_eli],
-                                 text)
+        text = render_payload(target, references, external=externals,
+                              languages=languages, reference_chars=reference_chars)
+        return GenerationPayload(
+            target, references,
+            [self.by_eli[t].article_number for t, kind in dropped if kind == "internal"],
+            text,
+            external_references=externals,
+            dropped_external_references=[external_key(self.by_eli[t])
+                                         for t, kind in dropped if kind == "external"])
 
 
 def structural_location(row: dict) -> str:
@@ -187,7 +286,8 @@ def structural_location(row: dict) -> str:
     return " › ".join(parts)
 
 
-def _block(unit: ArticleUnit, language: str, *, limit: int | None) -> str:
+def _block(unit: ArticleUnit, language: str, *, limit: int | None,
+           key: str | None = None) -> str:
     heading = unit.headings.get(language) or ""
     body = unit.texts.get(language, "")
     if limit and len(body) > limit:
@@ -199,6 +299,8 @@ def _block(unit: ArticleUnit, language: str, *, limit: int | None) -> str:
     act = unit.act_titles.get(language) or ""
     if act:
         lines.append(f"  Act: {act}")
+    if key:
+        lines.append(f"  Cite as: {key}")
     location = unit.locations.get(language) or ""
     if location:
         lines.append(f"  Location: {location}")
@@ -206,14 +308,28 @@ def _block(unit: ArticleUnit, language: str, *, limit: int | None) -> str:
     return "\n".join(lines)
 
 
+def _reference_blocks(units: Iterable[ArticleUnit], *, languages: Sequence[str],
+                      reference_chars: int | None, keyed: bool) -> list[str]:
+    blocks = []
+    for unit in units:
+        unit_langs = [lg for lg in languages if unit.texts.get(lg)]
+        key = external_key(unit) if keyed else None
+        blocks.append("\n\n".join(
+            _block(unit, lg, limit=reference_chars, key=key) for lg in unit_langs))
+    return blocks
+
+
 def render_payload(target: ArticleUnit, references: Iterable[ArticleUnit], *,
+                   external: Iterable[ArticleUnit] = (),
                    languages: Sequence[str] = ACT_LANGUAGES,
                    reference_chars: int | None = DEFAULT_REFERENCE_CHARS) -> str:
-    """The user message: target block, then reference blocks, clearly separated.
+    """The user message: target block, same-act references, cross-act references.
 
-    Every language version of each article is included, preserving the
-    pipeline's cross-lingual grounding property -- the generator and the graders
-    see the same act in all its language versions rather than one translation.
+    Three headers, always in this order, each present even when empty so the
+    model never has to infer which block is missing. Every language version of
+    each article is included, preserving the pipeline's cross-lingual grounding
+    property -- the generator and the graders see the same act in all its
+    language versions rather than one translation.
     """
     present = [lg for lg in languages if target.texts.get(lg)]
     parts = [TARGET_HEADER,
@@ -222,23 +338,56 @@ def render_payload(target: ArticleUnit, references: Iterable[ArticleUnit], *,
     references = list(references)
     if references:
         parts.append(CONTEXT_HEADER)
-        for unit in references:
-            unit_langs = [lg for lg in languages if unit.texts.get(lg)]
-            parts.append("\n\n".join(
-                _block(unit, lg, limit=reference_chars) for lg in unit_langs))
+        parts.extend(_reference_blocks(references, languages=languages,
+                                       reference_chars=reference_chars, keyed=False))
     else:
-        parts.append("### REFERENCED ARTICLES — none. "
-                     "The target article cites no other article of this act.")
+        parts.append(CONTEXT_NONE)
+
+    external = list(external)
+    if external:
+        parts.append(EXTERNAL_HEADER)
+        parts.extend(_reference_blocks(external, languages=languages,
+                                       reference_chars=reference_chars, keyed=True))
+    else:
+        parts.append(EXTERNAL_NONE)
     return "\n\n".join(parts)
 
 
-def normalise_involved(raw, payload: GenerationPayload) -> tuple[list[str], list[str]]:
-    """(accepted article numbers, rejected tokens) from the model's answer.
+def _canonical_token(item: str, payload: GenerationPayload) -> str:
+    """One declared article, in the vocabulary of ``involved_universe``.
 
-    The model names plain article numbers because that is what it can see in the
-    text. They are validated against the articles actually supplied -- a number
-    the model never received cannot be an honest citation -- and the target is
-    always included, since the question is by construction about it.
+    ``"Article 6"`` -> ``"6"``; ``"32004R0021: Article 5"`` -> ``"32004R0021:5"``;
+    a full ELI id of a supplied article -> its universe token. Anything else is
+    returned stripped so it can be reported as rejected.
+    """
+    text = str(item).strip()
+    by_eli = {payload.target.eli_id: payload.target.article_number}
+    by_eli.update({r.eli_id: r.article_number for r in payload.references})
+    by_eli.update({u.eli_id: external_key(u) for u in payload.external_references})
+    if text in by_eli:
+        return by_eli[text]
+    # "Article 6", "Art. 6", "article 32004R0021:5" -- the word is noise either way.
+    bare = re.sub(r"^\s*(?:articles?|art\.?)\s*", "", text, flags=re.I).strip(" .()")
+    if ":" in bare and not bare.lower().startswith("http"):
+        celex, number = bare.split(":", 1)
+        celex = celex.strip().upper()
+        number = re.sub(r"^\s*(?:articles?|art\.?)\s*", "", number, flags=re.I).strip(" .()").lower()
+        # A key naming the target's own act is just a same-act number.
+        if celex == payload.target.celex_id.upper():
+            return number
+        return f"{celex}:{number}"
+    return bare.lower()
+
+
+def normalise_involved(raw, payload: GenerationPayload) -> tuple[list[str], list[str]]:
+    """(accepted tokens, rejected tokens) from the model's answer.
+
+    The model names plain article numbers for the target's act and
+    ``CELEX:number`` keys for articles of other acts, because that is what it
+    can see in the text. They are validated against the articles actually
+    supplied -- a token the model never received cannot be an honest citation
+    -- and the target is always included, since the question is by construction
+    about it.
     """
     universe = set(payload.involved_universe)
     accepted: list[str] = []
@@ -249,7 +398,7 @@ def normalise_involved(raw, payload: GenerationPayload) -> tuple[list[str], list
     elif isinstance(raw, Iterable):
         items = [str(p).strip() for p in raw]
     for item in items:
-        token = item.lower().removeprefix("article").strip(" .()")
+        token = _canonical_token(item, payload)
         if not token:
             continue
         if token in universe:
@@ -264,15 +413,17 @@ def normalise_involved(raw, payload: GenerationPayload) -> tuple[list[str], list
     return accepted, rejected
 
 
-def involved_elis(numbers: Sequence[str], payload: GenerationPayload) -> list[str]:
-    """Map involved article numbers back to ELI ids, for downstream qrels."""
+def involved_elis(tokens: Sequence[str], payload: GenerationPayload) -> list[str]:
+    """Map involved tokens back to ELI ids, for downstream qrels."""
     lookup = {payload.target.article_number: payload.target.eli_id}
     lookup.update({r.article_number: r.eli_id for r in payload.references})
-    return [lookup[n] for n in numbers if n in lookup]
+    lookup.update({external_key(u): u.eli_id for u in payload.external_references})
+    return [lookup[n] for n in tokens if n in lookup]
 
 
 __all__ = [
     "ArticleIndex", "ArticleUnit", "GenerationPayload", "render_payload",
-    "normalise_involved", "involved_elis",
+    "normalise_involved", "involved_elis", "external_key",
+    "TARGET_HEADER", "CONTEXT_HEADER", "EXTERNAL_HEADER",
     "DEFAULT_MAX_REFERENCES", "DEFAULT_REFERENCE_CHARS",
 ]

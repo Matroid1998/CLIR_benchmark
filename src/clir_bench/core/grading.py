@@ -115,12 +115,22 @@ class GraderConfig:
         return provider_of(self.model) == "openrouter"
 
 
-def candidates_block(qa_pairs: Sequence[Mapping[str, str]]) -> str:
-    """The candidate serialization every grader prompt expects."""
-    return "\n\n".join(
-        f"Candidate {i}:\n  Question: {qa.get('question', '')}\n  Answer: {qa.get('answer', '')}"
-        for i, qa in enumerate(qa_pairs)
-    )
+def candidates_block(qa_pairs: Sequence[Mapping[str, Any]]) -> str:
+    """The candidate serialization every grader prompt expects.
+
+    A candidate may carry ``articles_involved`` (the EUR-Lex flow's declaration
+    of which articles the answer drew on); when present it is shown so the
+    grader can verify it, otherwise the block is question and answer only.
+    """
+    lines = []
+    for i, qa in enumerate(qa_pairs):
+        entry = f"Candidate {i}:\n  Question: {qa.get('question', '')}\n  Answer: {qa.get('answer', '')}"
+        involved = qa.get("articles_involved")
+        if involved:
+            declared = ", ".join(involved) if not isinstance(involved, str) else involved
+            entry += f"\n  Articles involved (declared): {declared}"
+        lines.append(entry)
+    return "\n\n".join(lines)
 
 
 def _invoke(client: Any, config: GraderConfig, system_prompt: str, user_content: str) -> str:

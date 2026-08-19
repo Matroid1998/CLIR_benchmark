@@ -5,17 +5,19 @@ Differs from the generic pipeline in exactly two ways, both EUR-Lex specific and
 both confined to this package:
 
 1. **What is sent.** The generic pipeline sends one document's language versions
-   as an undifferentiated block. Here the payload is two labelled blocks -- the
-   target article, then the articles it cites -- built by ``eurlex_context``.
-   Nothing in ``core/`` knows about this; the assembled string is handed to the
-   same chat helper the rest of the pipeline uses.
+   as an undifferentiated block. Here the payload is three labelled blocks -- the
+   target article, the articles of the same act it cites, and the articles of
+   OTHER acts it cites when those acts are in the corpus -- built by
+   ``eurlex_context``. Nothing in ``core/`` knows about this; the assembled
+   string is handed to the same chat helper the rest of the pipeline uses.
 
 2. **What comes back.** Candidates carry ``articles_involved``, the articles the
-   generator says are needed to answer. It is validated here against the
-   articles actually supplied: a number the model never received cannot be an
-   honest citation, and the target article is always included because the
-   question is by construction about it. The LLM grader judges whether the
-   declaration is *semantically* right; this code checks that it is
+   generator says are needed to answer: bare numbers for the target's own act,
+   ``CELEX:number`` keys for articles of other acts. It is validated here
+   against the articles actually supplied: a token the model never received
+   cannot be an honest citation, and the target article is always included
+   because the question is by construction about it. The LLM grader judges
+   whether the declaration is *semantically* right; this code checks that it is
    *structurally* valid, which is the part a rubric grades badly.
 
 The prompts live in ``prompts_eurlex`` rather than ``prompts`` because the legal
@@ -53,6 +55,8 @@ class Candidate:
     involved_elis: list[str]
     rejected_involved: list[str]
     multi_article: bool
+    # True when an article of ANOTHER act (a ``CELEX:number`` token) was used.
+    cross_act: bool = False
 
 
 def parse_candidates(data: Any, payload: ctx.GenerationPayload,
@@ -78,6 +82,7 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
             involved_elis=ctx.involved_elis(involved, payload),
             rejected_involved=rejected,
             multi_article=len(involved) > 1,
+            cross_act=any(":" in token for token in involved),
         ))
     return out
 
@@ -116,8 +121,12 @@ def rows_for(payload: ctx.GenerationPayload, candidates: Sequence[Candidate], *,
         "articles_involved": ",".join(c.articles_involved),
         "articles_involved_eli": ",".join(c.involved_elis),
         "multi_article": c.multi_article,
+        "cross_act": c.cross_act,
         "reference_articles_supplied": ",".join(r.article_number for r in payload.references),
         "reference_articles_dropped": ",".join(payload.dropped_references),
+        "external_references_supplied": ",".join(
+            ctx.external_key(u) for u in payload.external_references),
+        "external_references_dropped": ",".join(payload.dropped_external_references),
         "rejected_involved": ",".join(c.rejected_involved),
     } for c in candidates]
 
@@ -162,7 +171,14 @@ def main() -> None:
               f"({payload.target.eli_id})")
         print(f"references supplied   : {[r.article_number for r in payload.references]}")
         print(f"references dropped    : {payload.dropped_references}")
+        print(f"other-act supplied    : {[ctx.external_key(u) for u in payload.external_references]}")
+        print(f"other-act dropped     : {payload.dropped_external_references}")
         print(f"declarable universe   : {payload.involved_universe}")
+        status = index.status.get(target_eli)
+        if status is not None:
+            print(f"reference-complete    : {status['complete']} "
+                  f"(internal {status['n_internal']}, external {status['n_external_resolved']}, "
+                  f"unresolved {status['unresolved_reasons']})")
         return
 
     from clir_bench.core.llm import client_for

@@ -65,6 +65,91 @@ def test_references_are_capped_and_the_drop_is_recorded() -> None:
     built = index.build(target.eli_id, max_references=3)
     assert [r.article_number for r in built.references] == ["2", "3", "4"]
     assert built.dropped_references == ["5", "6", "7", "8", "9", "10", "11"]
+    assert built.external_references == [] and built.dropped_external_references == []
+
+
+# -- articles of other acts --------------------------------------------------- #
+
+def other(number: str, text: str = "other body", celex: str = "32004R0021") -> ctx.ArticleUnit:
+    return ctx.ArticleUnit(
+        eli_id=f"http://data.europa.eu/eli/reg/2004/21/art_{number}/oj",
+        celex_id=celex, article_number=number,
+        headings={"en": f"Other {number}"}, texts={"en": text},
+        act_titles={"en": "Council Regulation (EC) No 21/2004 on sheep and goats"},
+    )
+
+
+def test_external_articles_get_their_own_block_with_a_cite_as_key() -> None:
+    target = unit("4", "checks under Article 5 of Council Regulation (EC) No 21/2004")
+    same = [unit("3", "same act")]
+    ext = [other("5", "on-the-spot checks")]
+    text = ctx.render_payload(target, same, external=ext)
+    assert text.index(ctx.TARGET_HEADER) < text.index(ctx.CONTEXT_HEADER) < text.index(ctx.EXTERNAL_HEADER)
+    assert "Cite as: 32004R0021:5" in text
+    # same-act blocks never carry a key
+    assert text.count("Cite as:") == 1
+    # and the block is explicit when empty
+    assert ctx.EXTERNAL_NONE in ctx.render_payload(target, same)
+
+
+def test_one_cap_over_both_kinds_ranked_by_first_mention() -> None:
+    index = object.__new__(ctx.ArticleIndex)
+    index.by_eli, index.by_act = {}, {}
+    target = unit("1", "cites both kinds")
+    same = [unit("2"), unit("3")]
+    ext = [other("5"), other("6"), other("7")]
+    for u in [target] + same + ext:
+        index.by_eli[u.eli_id] = u
+    index.references = {target.eli_id: [u.eli_id for u in same]}
+    index.external_references = {target.eli_id: [u.eli_id for u in ext]}
+    index.first_mention = {
+        (target.eli_id, same[0].eli_id): 300, (target.eli_id, same[1].eli_id): 900,
+        (target.eli_id, ext[0].eli_id): 100, (target.eli_id, ext[1].eli_id): 500,
+        (target.eli_id, ext[2].eli_id): 950,
+    }
+    built = index.build(target.eli_id, max_references=3)
+    # kept: ext5 (100), same2 (300), ext6 (500); dropped: same3 (900), ext7 (950)
+    assert [r.article_number for r in built.references] == ["2"]
+    assert [ctx.external_key(u) for u in built.external_references] == ["32004R0021:5", "32004R0021:6"]
+    assert built.dropped_references == ["3"]
+    assert built.dropped_external_references == ["32004R0021:7"]
+    assert built.involved_universe == ["1", "2", "32004R0021:5", "32004R0021:6"]
+
+
+def test_same_act_and_other_act_numbers_cannot_collide() -> None:
+    target = unit("4")
+    same = [unit("15", "same-act fifteen")]
+    ext = [other("15", "other-act fifteen"), other("5")]
+    p = ctx.GenerationPayload(target, same, [], ctx.render_payload(target, same, external=ext),
+                              external_references=ext)
+    accepted, rejected = ctx.normalise_involved(["15", "32004R0021:15"], p)
+    assert accepted == ["4", "15", "32004R0021:15"] and rejected == []
+    # a bare number that only exists in the other act is not an honest citation
+    accepted, rejected = ctx.normalise_involved(["4", "5"], p)
+    assert accepted == ["4"] and rejected == ["5"]
+    # surface variants of the key are normalised
+    accepted, _ = ctx.normalise_involved(["32004r0021: Article 5", "Article 4"], p)
+    assert accepted == ["4", "32004R0021:5"]
+    # a full ELI is accepted too
+    accepted, _ = ctx.normalise_involved([ext[1].eli_id], p)
+    assert accepted == ["4", "32004R0021:5"]
+    # "Article" in front of a key, and a key that names the target's own act
+    accepted, rejected = ctx.normalise_involved(["Article 32004R0021:5", "32019R0904:15"], p)
+    assert accepted == ["4", "15", "32004R0021:5"] and rejected == []
+    assert ctx.involved_elis(["4", "32004R0021:5"], p) == [target.eli_id, ext[1].eli_id]
+
+
+def test_parse_candidates_flags_cross_act() -> None:
+    target = unit("4"); ext = [other("5")]
+    p = ctx.GenerationPayload(target, [], [], ctx.render_payload(target, [], external=ext),
+                              external_references=ext)
+    out = gen.parse_candidates([
+        {"question": "q", "answer": "a", "question_type": "x", "articles_involved": ["4", "32004R0021:5"]},
+        {"question": "q2", "answer": "a2", "question_type": "x", "articles_involved": ["4"]},
+    ], p, gen.MODE_TECHNICAL)
+    assert [c.cross_act for c in out] == [True, False]
+    assert [c.multi_article for c in out] == [True, False]
+    assert out[0].involved_elis == [target.eli_id, ext[0].eli_id]
 
 
 # -- articles_involved ------------------------------------------------------ #
@@ -160,3 +245,50 @@ def test_payload_honours_the_language_selection() -> None:
     english = ctx.render_payload(target, [], languages=ctx.payload_languages("en"))
     assert "[EN]" in english
     assert all(tag not in english for tag in ("[FR]", "[DE]", "[ES]"))
+
+
+# -- target selection honours reference completeness --------------------------- #
+
+def test_select_samples_only_reference_complete_articles(monkeypatch) -> None:
+    from clir_bench.domains.legal.qac import eurlex_batch as batch
+
+    monkeypatch.setattr(batch, "_quarantined", lambda: set())
+    index = object.__new__(ctx.ArticleIndex)
+    index.by_eli, index.by_act = {}, {}
+    body = "x" * 700
+    units = {n: ctx.ArticleUnit(f"eli/act{n}/art_1", f"ACT{n}", "1",
+                                texts={lg: body for lg in ("en", "fr", "de", "es")})
+             for n in range(6)}
+    for u in units.values():
+        index.by_eli[u.eli_id] = u
+    index.references = {units[1].eli_id: [units[2].eli_id]}
+    index.external_references = {units[3].eli_id: [units[4].eli_id]}
+    index.first_mention = {}
+    # 0: complete, no refs; 1: complete, one same-act ref; 3: complete, one
+    # other-act ref; 2, 4: incomplete; 5: no status row at all
+    index.status = {units[0].eli_id: {"complete": True},
+                    units[1].eli_id: {"complete": True},
+                    units[3].eli_id: {"complete": True, "cites_annex": True},
+                    units[2].eli_id: {"complete": False},
+                    units[4].eli_id: {"complete": False}}
+    strata = (("no_refs", 0, 0, 0.5), ("one_ref", 1, 1, 0.5))
+    chosen = batch.select(index, n=4, seed=1, languages=["en", "fr", "de", "es"],
+                          modes=["technical"], strata=strata, include_amending=True)
+    picked = {t.eli_id for t in chosen}
+    assert picked == {units[0].eli_id, units[1].eli_id, units[3].eli_id}
+    by_eli = {t.eli_id: t for t in chosen}
+    assert by_eli[units[3].eli_id].n_external == 1 and by_eli[units[3].eli_id].n_refs == 0
+    assert by_eli[units[3].eli_id].stratum == "one_ref" and by_eli[units[3].eli_id].cites_annex
+    assert all(t.complete for t in chosen)
+
+    everything = batch.select(index, n=6, seed=1, languages=["en", "fr", "de", "es"],
+                              modes=["technical"], strata=strata, include_amending=True,
+                              require_complete=False)
+    # 3 wanted from no_refs (4 available incl. incomplete/unknown), 2 from one_ref
+    assert len(everything) == 5
+    assert not all(t.complete for t in everything)
+
+    index.status = {}
+    with pytest.raises(SystemExit):
+        batch.select(index, n=4, seed=1, languages=["en"], modes=["technical"],
+                     strata=strata, include_amending=True)

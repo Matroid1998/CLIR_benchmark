@@ -255,3 +255,43 @@ def test_longer_ordinal_is_not_shadowed_by_a_shorter_prefix() -> None:
     from clir_bench.domains.legal.structure.segment import annex_label
     assert annex_label("ANNEXE 13 terdecies", "fr") == "13l"
     assert annex_label("ANNEXE 13 ter", "fr") == "13b"
+
+
+# -- act identifiers: recall gaps and self-citation --------------------------- #
+
+def surfaces(text: str) -> list[str]:
+    return [refs.classify(text, e)[2] for e in refs.find_enumerations(text)]
+
+
+def test_one_digit_act_number_is_kept_in_the_surface() -> None:
+    assert surfaces("in Article 4 of Directive 98/8/EC the") == ["Directive 98/8/EC"]
+    assert surfaces("under Article 2 of Directive 2014/6/EU,") == ["Directive 2014/6/EU"]
+
+
+def test_whitespace_around_the_slash_does_not_truncate_the_surface() -> None:
+    assert surfaces("Article 9 of Regulation (EU) No 1303 /2013 shall") == [
+        "Regulation (EU) No 1303 /2013"]
+
+
+def test_own_act_cited_by_identifier_is_internal() -> None:
+    text = "as provided in Article 3 of Regulation (EC) No 1334/2008 and"
+    (enum,) = refs.find_enumerations(text)
+    assert refs.classify(text, enum, own_celex="32008R1334")[:2] == ("internal", "own_act_identifier")
+    assert refs.classify(text, enum, own_celex="32009R0001")[:2] == ("external", "external_of_act")
+    assert refs.classify(text, enum)[:2] == ("external", "external_of_act")
+
+
+def test_anaphoric_citation_is_never_claimed_as_own_act() -> None:
+    text = "Article 4 of that Regulation shall"
+    (enum,) = refs.find_enumerations(text)
+    kind, rule, _, anaphoric = refs.classify(text, enum, own_celex="32008R1334")
+    assert (kind, rule, anaphoric) == ("external", "external_of_act", True)
+
+
+def test_paragraph_range_is_not_an_article_range() -> None:
+    # "41(2) to (5)" spans paragraphs of Article 41; 45 is the next list item,
+    # not the end of a 41-45 range.
+    assert targets("Articles 28(1) and (2), 38, 41(2) to (5), 45(1) and (3), 48") == [
+        "28", "38", "41", "45", "48"]
+    # A genuine article range still expands.
+    assert targets("Articles 41(2) to 45(1)") == ["41", "42", "43", "44", "45"]

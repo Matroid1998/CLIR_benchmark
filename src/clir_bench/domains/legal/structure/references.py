@@ -38,6 +38,7 @@ import sys
 from collections import Counter, defaultdict
 
 from clir_bench.domains.legal.structure import cellar, paths
+from clir_bench.domains.legal.structure.act_designation import parse_act_designation
 
 # How far right of an enumeration an act designator may sit and still govern it.
 BRIDGE_WINDOW = 80
@@ -64,10 +65,14 @@ _ITEM_RE = re.compile(r"(\d+[a-z]?)((?:[ \t]*\([0-9a-z]{1,4}\))*)", re.I)
 #   ", and Articles 380 to 390"    -- comma *and* conjunction together
 #   "Articles 2(2) and (3), 4"     -- list resuming after a parenthesised
 #                                     sub-reference of the previous item
+# The parenthesised run after the connector is captured as ``subs`` because it
+# changes what a range means: in "Articles 41(2) to (5), 45" the "to" spans
+# paragraphs 2-5 of Article 41, not Articles 41-45, so a range word followed by
+# a sub-reference must not turn the next article number into a range end.
 _CONNECTOR_RE = re.compile(
     r"\s*(?:(?P<comma>,)\s*)?"
     r"(?:\b(?P<list>and|or)\b|\b(?P<range>to|through|until)\b)?\s*"
-    r"(?:\(\s*[0-9a-z]{1,4}\s*\)\s*(?:,|\band\b|\bor\b)?\s*)*"
+    r"(?P<subs>(?:\(\s*[0-9a-z]{1,4}\s*\)\s*(?:,|\band\b|\bor\b)?\s*)*)"
     r"(?:Articles?\s+)?(?=\d)", re.I)
 
 # -- steps 3 and 4: what governs the enumeration ---------------------------- #
@@ -93,12 +98,16 @@ _ANAPHORIC_DET = r"(?:that|the\s+said|the\s+same|those|such)"
 _ACT_MODIFIER = r"(?:(?-i:[A-Z])[\w./-]*\s+)"
 
 # "(EC) No 847/96", "83/349/EEC", "2016/679". Optional: an anaphoric citation
-# ("of that Regulation") names no identifier at all, which is precisely why these
-# are never resolved here.
+# ("of that Regulation") names no identifier at all, which is precisely why those
+# are never resolved. Both components allow a single digit -- "Directive 98/8/EC",
+# "Directive 2014/6/EU": 170 acts in the corpus are numbered below 10 and were
+# unreachable while the second component demanded two digits -- and whitespace
+# is tolerated around the slash ("No 1303 /2013" used to truncate the surface
+# to "Regulation (EU) No", losing the identifier entirely).
 _ACT_IDENTIFIER = (
     r"(?:\s*\((?:EU|EC|EEC|Euratom|CE|CEE)[^)]{0,24}\))?"
     r"(?:\s*No\s*)?"
-    r"(?:\s*\d{1,4}/\d{2,4}(?:/[A-Z]{2,8})?)?")
+    r"(?:\s*\d{1,4}\s*/\s*\d{1,4}(?:/[A-Z]{2,8})?)?")
 
 _EXTERNAL_RE = re.compile(
     rf"\bof\s+(?:(?P<anaphoric>{_ANAPHORIC_DET})\s+|the\s+)?"
@@ -248,7 +257,7 @@ def find_enumerations(text: str) -> list[dict]:
             if not connector or not any(connector.group(name)
                                         for name in ("comma", "list", "range")):
                 break
-            pending_range = bool(connector.group("range"))
+            pending_range = bool(connector.group("range")) and not connector.group("subs")
             cursor = connector.end()
         if not items:
             continue
@@ -306,10 +315,14 @@ def expand(enumeration: dict, *, log: list[dict], source: str) -> list[dict]:
 
 # -- steps 3 and 4: classify ------------------------------------------------ #
 
-def classify(text: str, enumeration: dict) -> tuple[str, str, str, bool]:
+def classify(text: str, enumeration: dict, *,
+             own_celex: str | None = None) -> tuple[str, str, str, bool]:
     """(kind, rule, target_act_surface, anaphoric) for one enumeration.
 
-    kind is "internal" or "external".
+    kind is "internal" or "external". ``own_celex`` is the CELEX id of the act
+    being read: an act occasionally cites itself by full identifier ("Article 3
+    of Regulation (EC) No 1334/2008" inside that very regulation), which is an
+    internal reference wearing external clothes.
     """
     window = text[enumeration["end"]:enumeration["end"] + BRIDGE_WINDOW]
 
@@ -323,7 +336,12 @@ def classify(text: str, enumeration: dict) -> tuple[str, str, str, bool]:
     external = _EXTERNAL_RE.search(window)
     if external and _BRIDGE_RE.match(window[:external.start()]):
         surface = re.sub(r"\s+", " ", external.group("act")).strip(" ,;:")
-        return "external", "external_of_act", surface, bool(external.group("anaphoric"))
+        anaphoric = bool(external.group("anaphoric"))
+        if own_celex and not anaphoric:
+            parsed = parse_act_designation(surface)
+            if parsed is not None and parsed.celex == own_celex:
+                return "internal", "own_act_identifier", "", False
+        return "external", "external_of_act", surface, anaphoric
 
     # "Article 5 thereof" points at an act named earlier in the sentence, which
     # in an enacting article is nearly always a different act. Routed to the
@@ -441,7 +459,8 @@ def extract() -> None:
                     stats["internal:article->annex" if source_kind == "article"
                           else f"internal:{source_kind}->annex"] += 1
             for enumeration in find_enumerations(text):
-                kind, rule, act_surface, anaphoric = classify(text, enumeration)
+                kind, rule, act_surface, anaphoric = classify(
+                    text, enumeration, own_celex=celex)
                 stats[f"enumeration:{rule}"] += 1
 
                 if kind == "external":
@@ -457,6 +476,9 @@ def extract() -> None:
                         # True when the act is named only by back-reference
                         # ("of that Regulation", "thereof"), so the surface
                         # alone cannot identify it. Recorded, never resolved.
+                        # Named acts are resolved by ``resolve_external`` when
+                        # the cited act is itself in the corpus; this file is
+                        # left as extracted, and ``resolved`` stays False here.
                         "target_act_anaphoric": anaphoric,
                         "rule": rule,
                         "resolved": False,

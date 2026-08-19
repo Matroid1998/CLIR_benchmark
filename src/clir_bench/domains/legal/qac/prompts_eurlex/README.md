@@ -4,8 +4,9 @@ A variant of the `legal` prompt pack for acts whose **cross-references have been
 resolved**. It exists as a separate pack rather than an edit to `legal/` because
 the two disagree on a central rule, and that disagreement is the whole point.
 
-Used by `clir_bench.domains.legal.qac.eurlex_generate`, which sends a two-block
-payload instead of a single passage. Nothing in `core/` knows about any of this.
+Used by `clir_bench.domains.legal.qac.eurlex_generate`, which sends a three-block
+payload (target, same-act references, other-act references) instead of a single
+passage. Nothing in `core/` knows about any of this.
 
     generation/technical/{en,fr,de,es}.txt
     generation/semantic/{en,fr,de,es}.txt
@@ -13,7 +14,7 @@ payload instead of a single passage. Nothing in `core/` knows about any of this.
 
 ## What changed, and why
 
-### 1. The input is two labelled blocks, not one passage
+### 1. The input is three labelled blocks, not one passage
 
 The user message now looks like:
 
@@ -23,16 +24,26 @@ The user message now looks like:
     ### REFERENCED ARTICLES — supporting context only, cited by the target article.
     [EN] Article 3 — Covered products
     ...
+    ### REFERENCED ARTICLES FROM OTHER ACTS — supporting context only, cited by the target article.
+    [EN] Article 5 — Checks
+      Act: Council Regulation (EC) No 21/2004 ...
+      Cite as: 32004R0021:5
+    ...
 
-Both markers are literal strings emitted by `eurlex_context.render_payload`.
-Translations keep them in English verbatim; only the explanatory text after them
-is translated.
+All three markers are literal strings emitted by `eurlex_context.render_payload`;
+an empty block is rendered as an explicit "— none." line rather than omitted.
+The third block holds articles of *other* acts that the target cites by name,
+present only when `structure.resolve_external` could pin the cited act down to
+one in the corpus (see that module: the year/number order is fixed by the
+identifier's shape and never guessed). Each such article carries a `Cite as:`
+key, `CELEX:number`, which is how the model refers to it. Translations keep the
+markers and keys in English verbatim; only the explanatory text is translated.
 
 Why separate rather than concatenate: given one undifferentiated blob the model
 asks about whichever article reads most interestingly, which is usually not the
 one we meant. The prompt therefore says the question is *about* the target, and
-adds a deletion test — "if you delete the target article and the question still
-makes sense, discard it".
+adds THE ONE-ARTICLE TEST — "could a reader answer this completely by reading
+ONLY the referenced article, never having seen the target? If yes, discard it".
 
 ### 2. The cross-reference rule is **inverted**
 
@@ -48,9 +59,10 @@ precisely because Annex B was not supplied.
 The EUR-Lex pack says instead:
 
 > **Resolved Cross-References Are Allowed and Wanted:** … When that cited article
-> is supplied in the REFERENCED ARTICLES block, you MAY follow the citation and
-> use its content to complete the answer. … If the answer's substance lies behind
-> a citation that was NOT supplied, discard the question.
+> is supplied — in the REFERENCED ARTICLES block or in the REFERENCED ARTICLES
+> FROM OTHER ACTS block — you MAY follow the citation and use its content to
+> complete the answer. … If the answer's substance lies behind a citation that
+> was NOT supplied, discard the question.
 
 So the discard rule survives, but its trigger moves from *"is it behind a
 citation"* to *"was the cited article actually supplied"*. Questions the old pack
@@ -65,16 +77,24 @@ Every candidate declares which articles a reader genuinely needs:
 
 - answer wholly inside the target → `["4"]`
 - answer completed by a followed reference → `["3", "4"]`
+- answer completed by an article of another act → `["4", "32004R0021:5"]` — the
+  `Cite as` key, never a bare number, so that a bare number can only ever mean
+  the target's own act and nothing collides
 - the target article is always present
 - an article merely *cited* by the target, whose content was not used, must **not**
   be listed
+
+Identifiers of *other* acts are forbidden in the question in **both** modes:
+a query anchored on another act's identifier, CELEX number or `Cite as` key
+retrieves that act, not the target. Technical mode may still name the target's
+own instrument.
 
 The field is a JSON key and stays untranslated in every language variant. In
 semantic mode the prompt states explicitly that the no-identifiers rule applies
 to the *question* only — `articles_involved` is metadata, not part of the query —
 because otherwise the two rules appear to contradict each other.
 
-### 4. Three worked examples, including both mis-declaration failures
+### 4. Worked examples, including both mis-declaration failures and the cross-act case
 
 Each generation prompt carries an example of the field being right in the
 single-article case, right in the multi-article case, and wrong in **both**
@@ -86,6 +106,11 @@ directions:
 - **over-declared** — listed `["3", "4"]` for a date that is entirely in Article
   4, on the reasoning that Article 3 is cited nearby. This is the opposite
   failure and needs its own example; a single example teaches "list everything".
+- **cross-act** (Example 5) — the target's payment condition is completed by an
+  article of another act; the good answer declares `["2", "32004R0021:5"]`, the
+  off-target question is answerable from the other act alone, and the
+  "wrong anchor" question is built around the other act's identifier — the one
+  identifier that is forbidden even in technical mode.
 
 Plus a **wrong subject** example (a question that is really about the referenced
 article) and an **unsupplied reference** example (the discard rule that survives).
@@ -95,7 +120,8 @@ article) and an **unsupplied reference** example (the discard rule that survives
 `faithfulness_batch.txt` had to change or it would have failed every
 multi-article answer:
 
-- the input description now describes both blocks;
+- the input description now describes all three blocks and the `Cite as` keys,
+  and the candidates it grades carry their declared `articles_involved`;
 - the `CROSS-REFERENCE RULE` splits into case (a) *cited article was supplied* —
   following it is legitimate support, not inference — and case (b) *not supplied*
   — score at most 2, as before;
