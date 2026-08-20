@@ -5,8 +5,9 @@ One target article yields three candidates; the best-scoring one is kept. So a
 100-query set is 100 target articles, and the run costs 100 generation calls plus
 200 grading calls.
 
-Selection is stratified by **reference count** -- same-act and cross-act
-references together, since both travel with the target -- and records the
+Selection is stratified by **reference count** -- same-act articles, other
+acts' articles and annexes together, since all of them travel with the target
+-- and records the
 stratum on every row so the resulting set can be re-weighted or split later.
 Measured on the reference-complete eligible pool (16.9k articles): 36% cite no
 other article and 64% cite at least one (one 21%, two-three 23%, four-plus 19%).
@@ -82,7 +83,8 @@ class Target:
     mode: str
     language: str
     n_external: int = 0    # resolved references to articles of other acts
-    complete: bool = True  # every article citation resolved (reference_status)
+    n_annex: int = 0       # resolved annex references (this act or another)
+    complete: bool = True  # every citation resolved (reference_status)
     cites_annex: bool = False
 
 
@@ -112,6 +114,7 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
             "`python -m clir_bench.domains.legal.structure.resolve_external` "
             "or pass --allow-incomplete")
     external_refs = getattr(index, "external_references", {}) or {}
+    annex_refs = getattr(index, "annex_references", {}) or {}
     amending: set[str] = set()
     if not include_amending:
         with struct_paths.ARTICLES_JSONL.open(encoding="utf-8") as fh:
@@ -123,6 +126,10 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
 
     pools: dict[str, list[tuple[str, int]]] = defaultdict(list)
     for eli, unit in index.by_eli.items():
+        # The index also holds cited ANNEX bodies; a question target is always
+        # an article.
+        if unit.unit_type != "article":
+            continue
         if unit.celex_id in bad_acts or eli in amending:
             continue
         text = unit.texts.get("en", "")
@@ -135,12 +142,13 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
             continue
         internal = len([t for t in index.references.get(eli, []) if t != eli])
         external = len(external_refs.get(eli, []))
-        refs = internal + external
+        annexes = len(annex_refs.get(eli, []))
+        refs = internal + external + annexes
         for name, low, high, _ in strata:
             if low <= refs <= high:
                 # Without a status file nothing is verified complete, so the
                 # flag is False rather than assumed -- the row says what we know.
-                pools[name].append((eli, internal, external,
+                pools[name].append((eli, internal, external, annexes,
                                     bool(verdict.get("complete")),
                                     bool(verdict.get("cites_annex"))))
                 break
@@ -154,7 +162,7 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
         want = round(n * share)
         pool = sorted(pools.get(name, []), key=lambda x: rank(x[0]))
         taken = 0
-        for eli, internal, external, complete, cites_annex in pool:
+        for eli, internal, external, annexes, complete, cites_annex in pool:
             if taken >= want:
                 break
             unit = index.by_eli[eli]
@@ -170,7 +178,8 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
                 # modes and question languages rather than randomly lumpy.
                 mode=modes[position % len(modes)],
                 language=languages[position % len(languages)],
-                n_external=external, complete=complete, cites_annex=cites_annex,
+                n_external=external, n_annex=annexes,
+                complete=complete, cites_annex=cites_annex,
             ))
     return chosen
 
@@ -226,6 +235,10 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "external_references_supplied": ",".join(
                 ctx.external_key(u) for u in payload.external_references),
             "external_references_dropped": ",".join(payload.dropped_external_references),
+            "n_annex_available": target.n_annex,
+            "annex_references_supplied": ",".join(
+                ctx.external_key(u) for u in payload.annexes),
+            "annex_references_dropped": ",".join(payload.dropped_annex_references),
             "reference_complete": target.complete,
             "cites_annex": target.cites_annex,
             "question_language": target.language,
@@ -254,6 +267,8 @@ FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           "n_references_available", "reference_articles_supplied",
           "reference_articles_dropped", "n_external_available",
           "external_references_supplied", "external_references_dropped",
+          "n_annex_available", "annex_references_supplied",
+          "annex_references_dropped",
           "reference_complete", "cites_annex", "question_language", "mode",
           "question", "answer", "question_type", "framing",
           "articles_involved", "articles_involved_eli", "multi_article",
@@ -303,16 +318,16 @@ def main() -> None:
     print(f"  by language: {dict(Counter(t.language for t in targets))}", file=sys.stderr)
     print(f"  by mode    : {dict(Counter(t.mode for t in targets))}", file=sys.stderr)
     print(f"  with other-act refs: {sum(1 for t in targets if t.n_external)}; "
-          f"reference-complete: {sum(1 for t in targets if t.complete)}; "
-          f"cite an annex: {sum(1 for t in targets if t.cites_annex)}", file=sys.stderr)
+          f"with annex refs: {sum(1 for t in targets if t.n_annex)}; "
+          f"reference-complete: {sum(1 for t in targets if t.complete)}", file=sys.stderr)
 
     if args.dry_run:
         print(f"\ncall budget: {len(targets)} generation + {2 * len(targets)} grading "
               f"= {3 * len(targets)} calls", file=sys.stderr)
         for t in targets[:12]:
             print(f"   {t.celex_id} art {t.article_number:<5} refs={t.n_refs:<3} "
-                  f"ext={t.n_external:<3} {t.stratum:<10} {t.mode:<9} {t.language}",
-                  file=sys.stderr)
+                  f"ext={t.n_external:<3} anx={t.n_annex:<3} {t.stratum:<10} "
+                  f"{t.mode:<9} {t.language}", file=sys.stderr)
         print("   ...", file=sys.stderr)
         return
 

@@ -295,3 +295,98 @@ def test_paragraph_range_is_not_an_article_range() -> None:
         "28", "38", "41", "45", "48"]
     # A genuine article range still expands.
     assert targets("Articles 41(2) to 45(1)") == ["41", "42", "43", "44", "45"]
+
+
+# -- annex citations: governing act and the bare "the Annex" ------------------- #
+
+def annex_kinds(text: str) -> list[tuple[str, str]]:
+    return [refs.classify_annex(text, r["start"], r["end"])[:2]
+            for r in refs.find_annex_references(text)]
+
+
+def test_annex_to_named_act_is_external() -> None:
+    assert annex_kinds("set out in Annex I to Regulation (EC) No 376/2008.") == [
+        ("external", "external_annex_of_act")]
+    text = "fixed by Annex IV to Regulation (EC) No 2792/1999 for such aid"
+    (r,) = refs.find_annex_references(text)
+    kind, rule, surface, anaphoric = refs.classify_annex(text, r["start"], r["end"])
+    assert (kind, surface, anaphoric) == ("external", "Regulation (EC) No 2792/1999", False)
+
+
+def test_annex_to_this_act_is_internal() -> None:
+    assert annex_kinds("listed in Annex II to this Regulation shall") == [
+        ("internal", "annex_this_act")]
+    assert annex_kinds("listed in Annex II of this Directive shall") == [
+        ("internal", "annex_this_act")]
+
+
+def test_annex_own_act_identifier_is_internal() -> None:
+    text = "listed in Annex I to Regulation (EC) No 1334/2008 shall"
+    (r,) = refs.find_annex_references(text)
+    assert refs.classify_annex(text, r["start"], r["end"],
+                               own_celex="32008R1334")[:2] == ("internal", "annex_own_act_identifier")
+
+
+def test_annex_anaphora_is_split_by_direction() -> None:
+    assert annex_kinds("in Annex III to that Regulation") == [("external", "external_annex_of_act")]
+    assert annex_kinds("in Annex III thereto,") == [("external", "external_annex_thereto")]
+    assert annex_kinds("in Annex III hereto,") == [("internal", "annex_this_act")]
+
+
+def test_annex_bridge_carries_a_part_over_to_the_governing_act() -> None:
+    assert annex_kinds("in Annex I, part A, to Regulation (EU) No 543/2011") == [
+        ("external", "external_annex_of_act")]
+
+
+def test_bare_annex_is_found_only_without_a_label() -> None:
+    assert [r["raw"] for r in refs.find_bare_annex_references(
+        "listed in the Annex. See the Annexes I and II and the Annex I")] == ["the Annex"]
+    text = "amounts fixed in the Annex to this Regulation"
+    (r,) = refs.find_bare_annex_references(text)
+    assert refs.classify_annex(text, r["start"], r["end"])[:2] == ("internal", "annex_this_act")
+    text2 = "amounts fixed in the Annex to Regulation (EC) No 376/2008"
+    (r2,) = refs.find_bare_annex_references(text2)
+    assert refs.classify_annex(text2, r2["start"], r2["end"])[0] == "external"
+
+
+def test_roman_item_never_swallows_the_next_words_capital() -> None:
+    # "C" of "Council" is not annex 100, and the governing act stays visible.
+    text = "set out in Annex I to Council Regulation (EC) No 1234/2007"
+    (r,) = refs.find_annex_references(text)
+    assert r["raw"] == "Annex I"
+    assert refs.classify_annex(text, r["start"], r["end"])[0] == "external"
+    text2 = "listed in Annex II to Implementing Regulation (EU) No 543/2011"
+    (r2,) = refs.find_annex_references(text2)
+    assert r2["raw"] == "Annex II"
+    assert refs.classify_annex(text2, r2["start"], r2["end"])[0] == "external"
+
+
+def test_annex_citation_never_crosses_a_blank_line() -> None:
+    assert refs.find_annex_references("header\n\nAnnex\n\nII to IV\n\nDefinition") == []
+    (r,) = refs.find_annex_references("Annexes II\nto IV")
+    assert r["raw"] == "Annexes II"
+
+
+def test_bare_annex_survives_prose_starting_with_a_roman_letter() -> None:
+    assert [r["raw"] for r in refs.find_bare_annex_references(
+        "the Annex is amended and the Annex contains rules")] == ["the Annex", "the Annex"]
+    assert refs.find_bare_annex_references("in the Annex I and the Annex V") == []
+
+
+def test_non_act_governor_is_external_not_a_self_edge() -> None:
+    text = "calculated as in Annex I to the standard IOC/T 20/Doc. No 15."
+    (r,) = refs.find_annex_references(text)
+    kind, rule, surface, _ = refs.classify_annex(text, r["start"], r["end"])
+    assert (kind, rule) == ("external", "external_annex_nonact")
+    # datives and infinitives stay internal
+    for ok in ("amounts in Annex I to the competent authority",
+               "criteria of Annex III to determine whether"):
+        (rr,) = refs.find_annex_references(ok)
+        assert refs.classify_annex(ok, rr["start"], rr["end"])[0] == "internal"
+
+
+def test_annex_range_is_capped() -> None:
+    ref = {"items": [
+        {"label": "1", "number": 1, "suffix": "", "end": 0, "via_range": False},
+        {"label": "500", "number": 500, "suffix": "", "end": 0, "via_range": True}]}
+    assert refs.expand_annexes(ref) == ["1", "500"]

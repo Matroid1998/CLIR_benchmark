@@ -82,7 +82,11 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
             involved_elis=ctx.involved_elis(involved, payload),
             rejected_involved=rejected,
             multi_article=len(involved) > 1,
-            cross_act=any(":" in token for token in involved),
+            # Own-act annex keys carry the target's own CELEX and are not
+            # cross-act; any other key is.
+            cross_act=any(":" in token
+                          and not token.startswith(payload.target.celex_id + ":")
+                          for token in involved),
         ))
     return out
 
@@ -127,6 +131,9 @@ def rows_for(payload: ctx.GenerationPayload, candidates: Sequence[Candidate], *,
         "external_references_supplied": ",".join(
             ctx.external_key(u) for u in payload.external_references),
         "external_references_dropped": ",".join(payload.dropped_external_references),
+        "annex_references_supplied": ",".join(
+            ctx.external_key(u) for u in payload.annexes),
+        "annex_references_dropped": ",".join(payload.dropped_annex_references),
         "rejected_involved": ",".join(c.rejected_involved),
     } for c in candidates]
 
@@ -173,6 +180,8 @@ def main() -> None:
         print(f"references dropped    : {payload.dropped_references}")
         print(f"other-act supplied    : {[ctx.external_key(u) for u in payload.external_references]}")
         print(f"other-act dropped     : {payload.dropped_external_references}")
+        print(f"annexes supplied      : {[ctx.external_key(u) for u in payload.annexes]}")
+        print(f"annexes dropped       : {payload.dropped_annex_references}")
         print(f"declarable universe   : {payload.involved_universe}")
         status = index.status.get(target_eli)
         if status is not None:

@@ -139,6 +139,38 @@ def test_same_act_and_other_act_numbers_cannot_collide() -> None:
     assert ctx.involved_elis(["4", "32004R0021:5"], p) == [target.eli_id, ext[1].eli_id]
 
 
+def test_annex_units_are_never_question_targets() -> None:
+    from clir_bench.domains.legal.qac import eurlex_batch as batch
+    index = object.__new__(ctx.ArticleIndex)
+    anx = annex_unit(text="x" * 700)
+    anx.texts = {lg: "x" * 700 for lg in ("en", "fr", "de", "es")}
+    index.by_eli = {anx.eli_id: anx}
+    index.by_act = {}
+    index.references, index.annex_references, index.external_references = {}, {}, {}
+    index.first_mention, index.status = {}, {anx.eli_id: {"complete": True}}
+    chosen = batch.select(index, n=4, seed=1, languages=["en", "fr", "de", "es"],
+                          modes=["technical"], include_amending=True)
+    assert chosen == []
+    assert index.build(anx.eli_id) is None
+
+
+def test_own_act_annex_key_is_not_cross_act() -> None:
+    target = unit("4")
+    anx = annex_unit()           # same act as the target
+    ext = other("5")             # another act
+    p = ctx.GenerationPayload(target, [], [],
+                              ctx.render_payload(target, [], annexes=[anx], external=[ext]),
+                              external_references=[ext], annexes=[anx])
+    out = gen.parse_candidates([
+        {"question": "q", "answer": "a", "question_type": "x",
+         "articles_involved": ["4", "32019R0904:anx_1"]},
+        {"question": "q2", "answer": "a2", "question_type": "x",
+         "articles_involved": ["4", "32004R0021:5"]},
+    ], p, gen.MODE_TECHNICAL)
+    assert [c.cross_act for c in out] == [False, True]
+    assert [c.multi_article for c in out] == [True, True]
+
+
 def test_parse_candidates_flags_cross_act() -> None:
     target = unit("4"); ext = [other("5")]
     p = ctx.GenerationPayload(target, [], [], ctx.render_payload(target, [], external=ext),
@@ -245,6 +277,74 @@ def test_payload_honours_the_language_selection() -> None:
     english = ctx.render_payload(target, [], languages=ctx.payload_languages("en"))
     assert "[EN]" in english
     assert all(tag not in english for tag in ("[FR]", "[DE]", "[ES]"))
+
+
+# -- annexes travel as keyed units --------------------------------------------- #
+
+def annex_unit(subdiv: str = "anx_1", celex: str = "32019R0904",
+               heading: str = "ANNEX I", text: str = "annex body") -> ctx.ArticleUnit:
+    return ctx.ArticleUnit(
+        eli_id=f"http://data.europa.eu/eli/reg/2019/904/{subdiv}/oj",
+        celex_id=celex, article_number="",
+        headings={"en": heading}, texts={"en": text},
+        act_titles={"en": "Regulation (EU) 2019/904 on single-use plastics"},
+        unit_type="annex",
+    )
+
+
+def test_annex_key_is_the_eli_subdivision() -> None:
+    assert ctx.external_key(annex_unit()) == "32019R0904:anx_1"
+    assert ctx.external_key(annex_unit("anx_pos1")) == "32019R0904:anx_pos1"
+
+
+def test_annex_block_is_rendered_with_its_key() -> None:
+    target = unit("4", "amounts fixed in the Annex")
+    anx = annex_unit()
+    text = ctx.render_payload(target, [], annexes=[anx])
+    assert ctx.ANNEX_HEADER in text
+    assert text.index(ctx.EXTERNAL_NONE) < text.index(ctx.ANNEX_HEADER)
+    assert "[EN] ANNEX I" in text and "Cite as: 32019R0904:anx_1" in text
+    # empty annex block is explicit
+    assert ctx.ANNEX_NONE in ctx.render_payload(target, [])
+
+
+def test_annex_tokens_are_keys_never_bare_numbers() -> None:
+    target = unit("4")
+    anx = annex_unit()   # same act as the target
+    p = ctx.GenerationPayload(target, [], [], ctx.render_payload(target, [], annexes=[anx]),
+                              annexes=[anx])
+    assert p.involved_universe == ["4", "32019R0904:anx_1"]
+    accepted, rejected = ctx.normalise_involved(["4", "32019R0904:anx_1"], p)
+    assert accepted == ["4", "32019R0904:anx_1"] and rejected == []
+    # the own-act collapse never turns an annex key into a bare number,
+    # and surface variants normalise onto the subdivision
+    accepted, _ = ctx.normalise_involved(["32019r0904:ANX 1"], p)
+    assert accepted == ["4", "32019R0904:anx_1"]
+    assert ctx.involved_elis(["32019R0904:anx_1"], p) == [anx.eli_id]
+
+
+def test_shared_cap_ranks_annexes_with_everything_else() -> None:
+    index = object.__new__(ctx.ArticleIndex)
+    index.by_eli, index.by_act = {}, {}
+    target = unit("1")
+    same = unit("2")
+    anx = annex_unit()
+    ext = other("5")
+    for u in (target, same, anx, ext):
+        index.by_eli[u.eli_id] = u
+    index.references = {target.eli_id: [same.eli_id]}
+    index.annex_references = {target.eli_id: [anx.eli_id]}
+    index.external_references = {target.eli_id: [ext.eli_id]}
+    index.first_mention = {
+        (target.eli_id, same.eli_id): 500,
+        (target.eli_id, anx.eli_id): 100,
+        (target.eli_id, ext.eli_id): 300,
+    }
+    built = index.build(target.eli_id, max_references=2)
+    assert [ctx.external_key(u) for u in built.annexes] == ["32019R0904:anx_1"]
+    assert [ctx.external_key(u) for u in built.external_references] == ["32004R0021:5"]
+    assert built.references == [] and built.dropped_references == ["2"]
+    assert built.involved_universe == ["1", "32004R0021:5", "32019R0904:anx_1"]
 
 
 # -- target selection honours reference completeness --------------------------- #

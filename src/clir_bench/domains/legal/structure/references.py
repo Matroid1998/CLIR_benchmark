@@ -127,14 +127,66 @@ _THEREOF_RE = re.compile(r"^[\s,;:]*thereof\b", re.I)
 # "Annex I", "Annexes II and III", "Annex VIIa", "Annex 2". Annexes are cited by
 # label, and the label -- not the document's position in the Formex zip -- is
 # what `segment.annex_label` uses as the identifier.
-_ANNEX_HEAD_RE = re.compile(r"\bAnnexe?s?\s+(?=[IVXLC\d])", re.I)
+# Same-line whitespace only, like _ITEM_RE: a citation never breaks across
+# lines, but a flattened Formex table puts "Annex" and "II to IV" in adjacent
+# cells, and \s+ glued them into a citation the drafter never wrote.
+_ANNEX_HEAD_RE = re.compile(r"\bAnnexe?s?[ \t]+(?=[IVXLC\d])", re.I)
+
+# Annexes are governed by "to" where articles are governed by "of": "Annex I to
+# Regulation (EC) No 376/2008" is that regulation's annex, not this act's, and
+# 2,549 of the 20,751 article->annex edges in the first extraction were exactly
+# this mistake. The whitelist-before-external ordering of the module docstring
+# applies here unchanged.
+_ANNEX_THIS_ACT_RE = re.compile(
+    r"^[\s,;:]*(?:to|of)\s+this\s+(Regulation|Directive|Decision|Act)\b", re.I)
+_ANNEX_GOVERNS_RE = re.compile(
+    rf"\b(?:to|of)\s+(?:(?P<anaphoric>{_ANAPHORIC_DET})\s+|the\s+)?"
+    rf"(?P<act>{_ACT_MODIFIER}{{0,5}}{_ACT_DESIGNATOR}\b{_ACT_IDENTIFIER})", re.I)
+# "the Annex thereto" points at an act named earlier; "the Annex hereto" is this
+# act's own annex by the same suffix logic.
+_ANNEX_THERETO_RE = re.compile(r"^[\s,;:]*(?:thereto|thereof)\b", re.I)
+_ANNEX_HERETO_RE = re.compile(r"^[\s,;:]*hereto\b", re.I)
+# Structural units that may sit between an annex label and its governing "to":
+# "Annex I, part A, to Regulation ...". Kept separate from _BRIDGE_RE so the
+# article rules are untouched.
+_ANNEX_BRIDGE_RE = re.compile(
+    r"^(?:[\s,;:()\-‐-―]|\b(?:parts?|points?|paragraphs?|sections?|tables?"
+    r"|appendix|appendices|chapters?|first|second|third|fourth|last|and|or|to|the)\b"
+    # A part/point designator: "part A", "point 3", "Section IV". A single
+    # capital only -- lower-case single letters are prose, not designators.
+    r"|\b(?:(?-i:[A-Z])|[IVXLC]{1,4}|\d{1,3})\b"
+    r"|\(\s*[0-9a-zIVXLC]{1,6}\s*\))*$", re.I)
+
+# "Annex I to the standard IOC/T 20/Doc. No 15", "to the international
+# standard ISO 3166-1": governed by something that is not an EU act at all.
+# Not this act's annex, and not resolvable -- routed external so it blocks
+# completeness instead of minting a wrong internal edge. The governor must
+# carry an identifier-like token (digits, or a run of capitals), which keeps
+# datives ("to the competent authority") and infinitives out.
+_ANNEX_NONACT_GOVERNOR_RE = re.compile(
+    r"^[\s,;:]*(?:to|of)\s+the\s+(?:(?-i:[a-z])[\w-]*\s+){0,4}"
+    r"(?:(?-i:[A-Z]{2,})[\w./-]*|[\w./-]*\d[\w./-]*)")
+
+# "the Annex" with no label: the drafting style for an act with a single annex.
+# The lookahead keeps labelled citations ("the Annex I" never occurs, but "the
+# Annexes ..." must stay with the labelled path via its own head pattern).
+# The lookahead's roman class is case-sensitive: under re.I it also matched
+# the "i" of "is" and the "c" of "contains", silently skipping bare citations
+# in ordinary prose ("the Annex is amended ...").
+_BARE_ANNEX_RE = re.compile(r"\bthe\s+Annex\b(?!\s+(?:(?-i:[IVXLC])|\d))", re.I)
 # The optional suffix consumes preceding space only when a letter actually
 # follows, so a bare "Annex III to ..." does not trail whitespace into the
 # recorded surface form.
-_ANNEX_ITEM_RE = re.compile(r"([IVXLC]+|\d+)(?:[ \t]*([a-z])\b)?")
+# The trailing lookahead stops a roman core from swallowing the first letter
+# of the next word: without it, "Annex I to Council Regulation ..." read the
+# "C" of "Council" as annex 100, the citation span ended mid-word, the
+# governing act became invisible, and the citation range-exploded into false
+# internal edges. A letter may not follow the item (the optional single-letter
+# suffix has already been consumed).
+_ANNEX_ITEM_RE = re.compile(r"([IVXLC]+|\d+)(?:[ \t]*([a-z])\b)?(?![A-Za-z])")
 _ANNEX_CONNECTOR_RE = re.compile(
-    r"\s*(?:(?P<comma>,)\s*)?(?:\b(?P<list>and|or)\b|\b(?P<range>to)\b)?\s*"
-    r"(?:Annexe?s?\s+)?(?=[IVXLC\d])", re.I)
+    r"[ \t]*(?:(?P<comma>,)[ \t]*)?(?:\b(?P<list>and|or)\b|\b(?P<range>to)\b)?[ \t]*"
+    r"(?:Annexe?s?[ \t]+)?(?=[IVXLC\d])", re.I)
 
 # A correlation table is a flat two-column mapping between a repealed act's
 # articles and this one's. Every cell looks like a citation, so extracting from
@@ -153,6 +205,50 @@ def looks_like_correlation_table(text: str) -> bool:
     gaps = [citations[i + 1].start() - citations[i].end() for i in range(len(citations) - 1)]
     tight = sum(1 for g in gaps if g <= 12)
     return tight / len(gaps) > 0.6
+
+
+def classify_annex(text: str, start: int, end: int, *,
+                   own_celex: str | None = None) -> tuple[str, str, str, bool]:
+    """(kind, rule, target_act_surface, anaphoric) for one annex citation.
+
+    Mirrors ``classify`` for articles, with "to" accepted alongside "of" as the
+    governing preposition because that is how annexes are cited.
+    """
+    window = text[end:end + BRIDGE_WINDOW]
+
+    if _ANNEX_THIS_ACT_RE.match(window) or _ANNEX_HERETO_RE.match(window):
+        return "internal", "annex_this_act", "", False
+
+    governs = _ANNEX_GOVERNS_RE.search(window)
+    if governs and _ANNEX_BRIDGE_RE.match(window[:governs.start()]):
+        surface = re.sub(r"\s+", " ", governs.group("act")).strip(" ,;:")
+        anaphoric = bool(governs.group("anaphoric"))
+        if own_celex and not anaphoric:
+            parsed = parse_act_designation(surface)
+            if parsed is not None and parsed.celex == own_celex:
+                return "internal", "annex_own_act_identifier", "", False
+        return "external", "external_annex_of_act", surface, anaphoric
+
+    if _ANNEX_THERETO_RE.match(window):
+        return "external", "external_annex_thereto", "", True
+
+    nonact = _ANNEX_NONACT_GOVERNOR_RE.match(window)
+    if nonact:
+        surface = re.sub(r"\s+", " ", nonact.group(0)).strip(" ,;:")
+        return "external", "external_annex_nonact", surface, False
+
+    return "internal", "annex_reference", "", False
+
+
+def find_bare_annex_references(text: str) -> list[dict]:
+    """"the Annex" citations that carry no label at all.
+
+    Resolvable only when the act has exactly one annex -- which is precisely
+    the drafting situation that produces this form. The labelled path never
+    sees these because ``_ANNEX_HEAD_RE`` requires a label.
+    """
+    return [{"start": m.start(), "end": m.end(), "raw": m.group(0)}
+            for m in _BARE_ANNEX_RE.finditer(text)]
 
 
 def find_annex_references(text: str) -> list[dict]:
@@ -206,13 +302,19 @@ def _roman(value: str) -> int | None:
 
 
 def expand_annexes(reference: dict) -> list[str]:
-    """Annex labels a citation resolves to, expanding ranges and lists."""
+    """Annex labels a citation resolves to, expanding ranges and lists.
+
+    Ranges wider than ``MAX_RANGE_SIZE`` are parse artefacts, not citations --
+    no act has hundreds of annexes -- and yield only their endpoints.
+    """
     items = reference["items"]
     out: list[str] = []
     for index, item in enumerate(items):
         if item["via_range"] and index > 0:
             low = items[index - 1]
-            if not low["suffix"] and not item["suffix"] and low["number"] < item["number"]:
+            if (not low["suffix"] and not item["suffix"]
+                    and low["number"] < item["number"]
+                    and item["number"] - low["number"] <= MAX_RANGE_SIZE):
                 out += [str(n) for n in range(low["number"] + 1, item["number"] + 1)]
                 continue
         out.append(item["label"])
@@ -408,10 +510,19 @@ def extract() -> None:
         # Annexes are addressable targets too, but only those that carried a real
         # "ANNEX <n>" heading -- a positional fallback id is not something a
         # citation in the text can legitimately resolve to.
-        annex_inventory = {r["annex_id"] for r in all_rows
-                           if r["unit_type"] == "annex" and r.get("annex_labelled")}
+        # A label two annex records share cannot be resolved to either --
+        # "ANNEX I" and "ANNEX 1" normalise to the same id in a handful of
+        # acts -- so colliding labels leave the inventory entirely.
+        label_counts = Counter(r["annex_id"] for r in all_rows
+                               if r["unit_type"] == "annex" and r.get("annex_labelled"))
+        annex_inventory = {label for label, n in label_counts.items() if n == 1}
         annex_eli = {r["annex_id"]: r["eli_id"] for r in all_rows
-                     if r["unit_type"] == "annex" and r.get("annex_labelled")}
+                     if r["unit_type"] == "annex" and r.get("annex_labelled")
+                     and label_counts[r["annex_id"]] == 1}
+        # Every annex, labelled or not: "the Annex" can only be resolved when
+        # there is exactly one, and that one may well be unlabelled.
+        all_annexes = [(r["annex_id"], r["eli_id"]) for r in all_rows
+                       if r["unit_type"] == "annex"]
 
         for row in all_rows:
             text = row["text"]
@@ -428,36 +539,105 @@ def extract() -> None:
                 continue
 
             # -- annex targets ------------------------------------------------ #
+            def write_annex_edge(target_eli: str, label: str, reference: dict,
+                                 rule: str) -> None:
+                key = (source_id, "anx", label, reference["start"])
+                if key in emitted:
+                    return
+                emitted.add(key)
+                internal.write({
+                    "source_article_id": source_id,
+                    "target_article_id": target_eli,
+                    "source_celex": celex,
+                    "source_unit_type": source_kind,
+                    "target_unit_type": "annex",
+                    "source_article_number": row.get("article_number", ""),
+                    "target_article_number": "",
+                    "target_annex_id": label,
+                    "surface_form": reference["raw"],
+                    "char_start": reference["start"],
+                    "char_end": reference["end"],
+                    "target_paragraph_surface": "",
+                    "rule": rule,
+                    "expansion": "single",
+                    "source_is_amending": bool(row.get("is_amending")),
+                })
+                stats[f"internal:{source_kind}->annex"] += 1
+
+            def write_annex_external(reference: dict, rule: str,
+                                     act_surface: str, anaphoric: bool) -> None:
+                external.write({
+                    "source_article_id": source_id,
+                    "source_celex": celex,
+                    "source_unit_type": source_kind,
+                    "source_article_number": row.get("article_number", ""),
+                    "surface_form": reference["raw"],
+                    "char_start": reference["start"],
+                    "char_end": reference["end"],
+                    "target_act_surface": act_surface,
+                    "target_act_anaphoric": anaphoric,
+                    "rule": rule,
+                    "resolved": False,
+                })
+                stats["external-annex"] += 1
+
             for reference in find_annex_references(text):
+                kind, rule, act_surface, anaphoric = classify_annex(
+                    text, reference["start"], reference["end"], own_celex=celex)
+                stats[f"annex:{rule}"] += 1
+                if kind == "external":
+                    write_annex_external(reference, rule, act_surface, anaphoric)
+                    continue
                 for label in expand_annexes(reference):
                     if label not in annex_inventory:
                         stats["dropped:annex-not-in-inventory"] += 1
+                        dropped.write({
+                            "source_article_id": source_id, "source_celex": celex,
+                            "source_unit_type": source_kind,
+                            "source_article_number": row.get("article_number", ""),
+                            "surface_form": reference["raw"],
+                            "char_start": reference["start"],
+                            "target_annex_id": label,
+                            "reason": "annex-not-in-inventory",
+                        })
                         continue
                     if annex_eli[label] == source_id:
                         continue
-                    key = (source_id, "anx", label, reference["start"])
-                    if key in emitted:
-                        continue
-                    emitted.add(key)
-                    internal.write({
-                        "source_article_id": source_id,
-                        "target_article_id": annex_eli[label],
-                        "source_celex": celex,
+                    write_annex_edge(annex_eli[label], label, reference, rule)
+
+            # "the Annex" -- no label, resolvable only against a single annex.
+            for reference in find_bare_annex_references(text):
+                kind, rule, act_surface, anaphoric = classify_annex(
+                    text, reference["start"], reference["end"], own_celex=celex)
+                if kind == "external":
+                    stats[f"annex:{rule}:bare"] += 1
+                    write_annex_external(reference, rule, act_surface, anaphoric)
+                    continue
+                if len(all_annexes) == 1:
+                    label, target_eli = all_annexes[0]
+                    if target_eli != source_id:
+                        stats["annex:annex_single"] += 1
+                        write_annex_edge(target_eli, label, reference, "annex_single")
+                elif all_annexes:
+                    stats["dropped:annex-bare-ambiguous"] += 1
+                    dropped.write({
+                        "source_article_id": source_id, "source_celex": celex,
                         "source_unit_type": source_kind,
-                        "target_unit_type": "annex",
                         "source_article_number": row.get("article_number", ""),
-                        "target_article_number": "",
-                        "target_annex_id": label,
                         "surface_form": reference["raw"],
                         "char_start": reference["start"],
-                        "char_end": reference["end"],
-                        "target_paragraph_surface": "",
-                        "rule": "annex_reference",
-                        "expansion": "single",
-                        "source_is_amending": bool(row.get("is_amending")),
+                        "reason": "annex-bare-ambiguous",
                     })
-                    stats["internal:article->annex" if source_kind == "article"
-                          else f"internal:{source_kind}->annex"] += 1
+                else:
+                    stats["dropped:annex-bare-no-annex"] += 1
+                    dropped.write({
+                        "source_article_id": source_id, "source_celex": celex,
+                        "source_unit_type": source_kind,
+                        "source_article_number": row.get("article_number", ""),
+                        "surface_form": reference["raw"],
+                        "char_start": reference["start"],
+                        "reason": "annex-bare-no-annex",
+                    })
             for enumeration in find_enumerations(text):
                 kind, rule, act_surface, anaphoric = classify(
                     text, enumeration, own_celex=celex)

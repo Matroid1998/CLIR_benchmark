@@ -1,11 +1,11 @@
 {
-  "acts_compared": 8135,
+  "acts_compared": 9422,
   "triples_agree": 12269,
   "triples_only_ours": 512,
-  "triples_only_theirs_target_in_corpus": 3081,
-  "triples_only_theirs_target_out_of_corpus": 18232,
-  "act_level_agree": 18749,
-  "act_level_disagree": 265,
+  "triples_only_theirs_target_in_corpus": 3100,
+  "triples_only_theirs_target_out_of_corpus": 18248,
+  "act_level_agree": 21336,
+  "act_level_disagree": 302,
   "only_ours_samples": [
     {
       "source_celex": "32005R1277",
@@ -44,12 +44,12 @@
     },
     {
       "source_celex": "32009R1187",
-      "article": "32",
+      "article": "25",
       "target": "32008R0376:32"
     },
     {
       "source_celex": "32009R1187",
-      "article": "25",
+      "article": "32",
       "target": "32008R0376:32"
     },
     {
@@ -135,7 +135,12 @@
     {
       "source_celex": "32013R0575",
       "article": "410",
-      "target": "32010R1093:14"
+      "target": "32010R1093:12"
+    },
+    {
+      "source_celex": "32013R0575",
+      "article": "410",
+      "target": "32010R1093:13"
     },
     {
       "source_celex": "32013R0575",
@@ -150,12 +155,7 @@
     {
       "source_celex": "32013R0575",
       "article": "410",
-      "target": "32010R1093:13"
-    },
-    {
-      "source_celex": "32013R0575",
-      "article": "410",
-      "target": "32010R1093:12"
+      "target": "32010R1093:14"
     },
     {
       "source_celex": "32013R0990",
@@ -169,23 +169,13 @@
     },
     {
       "source_celex": "32013R1271",
-      "article": "50",
-      "target": "32012R0966:143"
+      "article": "91",
+      "target": "32012R0966:58"
     },
     {
       "source_celex": "32013R1271",
-      "article": "8",
-      "target": "32012R0966:60"
-    },
-    {
-      "source_celex": "32013R1271",
-      "article": "20",
-      "target": "32012R0966:39"
-    },
-    {
-      "source_celex": "32013R1271",
-      "article": "29",
-      "target": "32012R0966:50"
+      "article": "85",
+      "target": "32012R0966:108"
     },
     {
       "source_celex": "32013R1271",
@@ -194,18 +184,28 @@
     },
     {
       "source_celex": "32013R1271",
-      "article": "107",
-      "target": "32012R0966:160"
+      "article": "2",
+      "target": "32012R0966:208"
     },
     {
       "source_celex": "32013R1271",
-      "article": "107",
-      "target": "32012R0966:162"
+      "article": "20",
+      "target": "32012R0966:39"
     },
     {
       "source_celex": "32013R1271",
-      "article": "101",
-      "target": "32012R0966:152"
+      "article": "113",
+      "target": "32012R0966:208"
+    },
+    {
+      "source_celex": "32013R1271",
+      "article": "95",
+      "target": "32012R0966:143"
+    },
+    {
+      "source_celex": "32013R1271",
+      "article": "109",
+      "target": "32012R0966:165"
     }
   ],
   "only_theirs_in_corpus_samples": [
@@ -231,13 +231,18 @@
     },
     {
       "source_celex": "32005R2183",
+      "article": "3",
+      "target": "32004R0795:48c"
+    },
+    {
+      "source_celex": "32005R2183",
       "article": "1",
       "target": "32004R0795:48a"
     },
     {
-      "source_celex": "32005R2183",
-      "article": "3",
-      "target": "32004R0795:48c"
+      "source_celex": "32006L0048",
+      "article": "75",
+      "target": "32006L0049:13"
     },
     {
       "source_celex": "32006L0048",
@@ -250,19 +255,14 @@
       "target": "32006L0049:18"
     },
     {
-      "source_celex": "32006L0048",
-      "article": "75",
-      "target": "32006L0049:13"
+      "source_celex": "32006L0070",
+      "article": "4",
+      "target": "32005L0060:3"
     },
     {
       "source_celex": "32006L0070",
       "article": "3",
       "target": "32005L0060:4"
-    },
-    {
-      "source_celex": "32006L0070",
-      "article": "4",
-      "target": "32005L0060:3"
     },
     {
       "source_celex": "32006L0141",
@@ -287,17 +287,12 @@
     {
       "source_celex": "32006R0318",
       "article": "41",
-      "target": "32006R0247:16"
+      "target": "32006R0247:23"
     },
     {
       "source_celex": "32006R0318",
       "article": "41",
-      "target": "32006R0247:23"
-    },
-    {
-      "source_celex": "32006R0320",
-      "article": "14",
-      "target": "32005R1290:3"
+      "target": "32006R0247:16"
     },
     {
       "source_celex": "32006R0320",
@@ -308,6 +303,11 @@
       "source_celex": "32006R0320",
       "article": "13",
       "target": "32005R1290:13"
+    },
+    {
+      "source_celex": "32006R0320",
+      "article": "14",
+      "target": "32005R1290:3"
     },
     {
       "source_celex": "32006R0320",
@@ -322,12 +322,12 @@
     {
       "source_celex": "32006R0493",
       "article": "3",
-      "target": "32006R0318:12"
+      "target": "32006R0318:19"
     },
     {
       "source_celex": "32006R0493",
       "article": "3",
-      "target": "32006R0318:19"
+      "target": "32006R0318:12"
     },
     {
       "source_celex": "32006R0659",
@@ -347,22 +347,7 @@
     {
       "source_celex": "32006R0883",
       "article": "18",
-      "target": "32006R0885:15"
-    },
-    {
-      "source_celex": "32006R0883",
-      "article": "18",
-      "target": "32006R0885:11"
-    },
-    {
-      "source_celex": "32006R0883",
-      "article": "18",
       "target": "32006R0885:14"
-    },
-    {
-      "source_celex": "32006R0883",
-      "article": "18",
-      "target": "32006R0885:17"
     },
     {
       "source_celex": "32006R0883",
@@ -372,12 +357,27 @@
     {
       "source_celex": "32006R0883",
       "article": "18",
-      "target": "32006R0885:5"
+      "target": "32006R0885:15"
     },
     {
       "source_celex": "32006R0883",
       "article": "9",
       "target": "32005R1290:31"
+    },
+    {
+      "source_celex": "32006R0883",
+      "article": "18",
+      "target": "32006R0885:17"
+    },
+    {
+      "source_celex": "32006R0883",
+      "article": "18",
+      "target": "32006R0885:5"
+    },
+    {
+      "source_celex": "32006R0883",
+      "article": "18",
+      "target": "32006R0885:11"
     },
     {
       "source_celex": "32006R0884",
@@ -411,6 +411,15 @@
     }
   ],
   "act_level_disagree_samples": [
+    {
+      "source_celex": "32004L0045",
+      "article": "1",
+      "surface": "Directive 96/77/EC",
+      "ours": "31996L0077",
+      "theirs": [
+        "31977L0096"
+      ]
+    },
     {
       "source_celex": "32004L0107",
       "article": "2",
@@ -459,12 +468,69 @@
       ]
     },
     {
+      "source_celex": "32004R1109",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31999L0077",
+        "31999R1254"
+      ]
+    },
+    {
+      "source_celex": "32004R1184",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31975R2759",
+        "31999L0077"
+      ]
+    },
+    {
       "source_celex": "32004R1206",
       "article": "4",
       "surface": "Directive 77/99/EEC",
       "ours": "31977L0099",
       "theirs": [
         "31972L0462",
+        "31999L0077"
+      ]
+    },
+    {
+      "source_celex": "32004R1386",
+      "article": "1",
+      "surface": "Decision 2002/602/ECSC",
+      "ours": "32002D0602",
+      "theirs": [
+        "32002S0602"
+      ]
+    },
+    {
+      "source_celex": "32004R1604",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31999L0077",
+        "31999R1254"
+      ]
+    },
+    {
+      "source_celex": "32004R1624",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31975R2759",
         "31999L0077"
       ]
     },
@@ -492,6 +558,15 @@
         "31994D0729",
         "32000D0597",
         "32000R2040"
+      ]
+    },
+    {
+      "source_celex": "32004R2059",
+      "article": "1",
+      "surface": "Decision No 1469/2002/ECSC",
+      "ours": "32002D1469",
+      "theirs": [
+        "32002S1469"
       ]
     },
     {
@@ -559,6 +634,30 @@
       ]
     },
     {
+      "source_celex": "32005R0393",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31999L0077",
+        "31999R1254"
+      ]
+    },
+    {
+      "source_celex": "32005R0399",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31975R2759",
+        "31999L0077"
+      ]
+    },
+    {
       "source_celex": "32005R0605",
       "article": "1",
       "surface": "Council Regulation (EC, Euratom) No 1605/2002",
@@ -592,6 +691,42 @@
       ]
     },
     {
+      "source_celex": "32005R0901",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31975R2759",
+        "31999L0077"
+      ]
+    },
+    {
+      "source_celex": "32005R0903",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31999L0077",
+        "31999R1254"
+      ]
+    },
+    {
+      "source_celex": "32005R1110",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31999L0077",
+        "31999R1254"
+      ]
+    },
+    {
       "source_celex": "32005R1346",
       "article": "10",
       "surface": "Directive 92/50/EEC",
@@ -599,6 +734,18 @@
       "theirs": [
         "31950L0092",
         "31999R2702"
+      ]
+    },
+    {
+      "source_celex": "32005R1527",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31975R2759",
+        "31999L0077"
       ]
     },
     {
@@ -638,6 +785,27 @@
         "32004L0028",
         "32004R0726",
         "32005R1518"
+      ]
+    },
+    {
+      "source_celex": "32005R2147",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31999L0077",
+        "31999R1254"
+      ]
+    },
+    {
+      "source_celex": "32006L0002",
+      "article": "1",
+      "surface": "Directive 96/73/EC",
+      "ours": "31996L0073",
+      "theirs": [
+        "31973L0096"
       ]
     },
     {
@@ -687,6 +855,15 @@
       ]
     },
     {
+      "source_celex": "32006L0063",
+      "article": "1",
+      "surface": "Directive 98/57/EC",
+      "ours": "31998L0057",
+      "theirs": [
+        "31957L0098"
+      ]
+    },
+    {
       "source_celex": "32006L0116",
       "article": "3",
       "surface": "Directive 93/98/EEC",
@@ -731,6 +908,18 @@
       "ours": "31995R2988",
       "theirs": [
         "31999R1073"
+      ]
+    },
+    {
+      "source_celex": "32006R0403",
+      "article": "1",
+      "surface": "Directive 94/65/EC",
+      "ours": "31994L0065",
+      "theirs": [
+        "31964L0433",
+        "31965L0094",
+        "31999L0077",
+        "31999R1254"
       ]
     },
     {
@@ -829,220 +1018,44 @@
       ]
     },
     {
+      "source_celex": "32007L0004",
+      "article": "1",
+      "surface": "Directive 96/73/EC",
+      "ours": "31996L0073",
+      "theirs": [
+        "31973L0096"
+      ]
+    },
+    {
+      "source_celex": "32007L0033",
+      "article": "14",
+      "surface": "Council Directive 77/93/EEC",
+      "ours": "31977L0093",
+      "theirs": [
+        "31993L0077",
+        "31995L0044",
+        "31997L0046",
+        "32000L0029"
+      ]
+    },
+    {
+      "source_celex": "32007L0060",
+      "article": "6",
+      "surface": "Council Directive 96/61/EC",
+      "ours": "31996L0061",
+      "theirs": [
+        "31961L0096",
+        "32000L0060",
+        "32006R0166"
+      ]
+    },
+    {
       "source_celex": "32007R0318",
       "article": "2",
       "surface": "Directive 92/65/EEC",
       "ours": "31992L0065",
       "theirs": [
         "31965L0092"
-      ]
-    },
-    {
-      "source_celex": "32007R0614",
-      "article": "12",
-      "surface": "Regulation (EC, Euratom) No 2988/95",
-      "ours": "31995R2988",
-      "theirs": [
-        "31999R1073"
-      ]
-    },
-    {
-      "source_celex": "32007R0718",
-      "article": "62",
-      "surface": "Regulation (EC, Euratom) No 1650/2002",
-      "ours": "32002R1650",
-      "theirs": [
-        "32001R0045"
-      ]
-    },
-    {
-      "source_celex": "32007R0951",
-      "article": "23",
-      "surface": "Council Regulation (EC, Euratom) No 1605/2002",
-      "ours": "32002R1605",
-      "theirs": [
-        "32006R1638"
-      ]
-    },
-    {
-      "source_celex": "32007R0951",
-      "article": "23",
-      "surface": "Commission Regulation (EC, Euratom) No 2342/2002",
-      "ours": "32002R2342",
-      "theirs": [
-        "32006R1638"
-      ]
-    },
-    {
-      "source_celex": "32007R1233",
-      "article": "1",
-      "surface": "Council Regulation (EC, Euratom) No 2988/95",
-      "ours": "31995R2988",
-      "theirs": [
-        "32005R1290",
-        "32006R0883",
-        "32006R0885"
-      ]
-    },
-    {
-      "source_celex": "32007R1437",
-      "article": "1",
-      "surface": "Regulation (EC, Euratom) No 1605/2002",
-      "ours": "32002R1605",
-      "theirs": [
-        "31989R4045",
-        "31990D0424",
-        "31999R1260",
-        "32002R2154",
-        "32003R1782",
-        "32005R1290",
-        "32006D0965",
-        "32006R1198"
-      ]
-    },
-    {
-      "source_celex": "32007R1524",
-      "article": "1",
-      "surface": "Regulation (EC, Euratom) No 1605/2002",
-      "ours": "32002R1605",
-      "theirs": [
-        "32003R2004",
-        "32007R1525"
-      ]
-    },
-    {
-      "source_celex": "32008L0028",
-      "article": "3",
-      "surface": "Directive 96/57/EC",
-      "ours": "31996L0057",
-      "theirs": [
-        "31957L0096",
-        "32005L0032"
-      ]
-    },
-    {
-      "source_celex": "32008L0050",
-      "article": "31",
-      "surface": "Directive 96/62/EC",
-      "ours": "31996L0062",
-      "theirs": [
-        "31962L0096",
-        "31997D0101",
-        "31999L0030",
-        "32000L0069",
-        "32002L0003"
-      ]
-    },
-    {
-      "source_celex": "32008L0054",
-      "article": "1",
-      "surface": "Directive 95/50/EC",
-      "ours": "31995L0050",
-      "theirs": [
-        "31950L0095",
-        "31955L0094",
-        "31999D0468"
-      ]
-    },
-    {
-      "source_celex": "32008L0054",
-      "article": "1",
-      "surface": "Directive 94/55/EC",
-      "ours": "31994L0055",
-      "theirs": [
-        "31950L0095",
-        "31955L0094",
-        "31999D0468"
-      ]
-    },
-    {
-      "source_celex": "32008L0098",
-      "article": "3",
-      "surface": "Directive 96/61/EC",
-      "ours": "31996L0061",
-      "theirs": [
-        "31961L0096"
-      ]
-    },
-    {
-      "source_celex": "32008L0098",
-      "article": "28",
-      "surface": "Directive 94/62/EC",
-      "ours": "31994L0062",
-      "theirs": [
-        "31962L0094",
-        "31999L0031"
-      ]
-    },
-    {
-      "source_celex": "32008R0216",
-      "article": "60",
-      "surface": "Council Regulation (EC, Euratom) No 1605/2002",
-      "ours": "32002R1605",
-      "theirs": [
-        "32007R1525"
-      ]
-    },
-    {
-      "source_celex": "32008R0271",
-      "article": "1",
-      "surface": "Regulation (EEC, Euratom) No 1182/71",
-      "ours": "31971R1182",
-      "theirs": [
-        "32004R0794"
-      ]
-    },
-    {
-      "source_celex": "32008R0282",
-      "article": "2",
-      "surface": "Directive 94/62/EC",
-      "ours": "31994L0062",
-      "theirs": [
-        "31962L0094",
-        "32002L0072",
-        "32004R1935"
-      ]
-    },
-    {
-      "source_celex": "32008R0447",
-      "article": "1",
-      "surface": "Regulation (EC, Euratom) No 1605/2002",
-      "ours": "32002R1605",
-      "theirs": [
-        "32003R1782",
-        "32006R0883",
-        "32007R0378"
-      ]
-    },
-    {
-      "source_celex": "32008R0651",
-      "article": "1",
-      "surface": "Regulation (EC, Euratom) No 2342/2002",
-      "ours": "32002R2342",
-      "theirs": [
-        "32001R0045",
-        "32003R0058",
-        "32004R1653"
-      ]
-    },
-    {
-      "source_celex": "32008R0652",
-      "article": "1",
-      "surface": "Regulation (EC, Euratom) No 2342/2002",
-      "ours": "32002R2342",
-      "theirs": [
-        "31994R2965",
-        "32001R0045"
-      ]
-    },
-    {
-      "source_celex": "32008R0683",
-      "article": "21",
-      "surface": "Regulation (EC, Euratom) No 2988/95",
-      "ours": "31995R2988",
-      "theirs": [
-        "31999R1073",
-        "32007R1233"
       ]
     }
   ]

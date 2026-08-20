@@ -4,9 +4,9 @@ A variant of the `legal` prompt pack for acts whose **cross-references have been
 resolved**. It exists as a separate pack rather than an edit to `legal/` because
 the two disagree on a central rule, and that disagreement is the whole point.
 
-Used by `clir_bench.domains.legal.qac.eurlex_generate`, which sends a three-block
-payload (target, same-act references, other-act references) instead of a single
-passage. Nothing in `core/` knows about any of this.
+Used by `clir_bench.domains.legal.qac.eurlex_generate`, which sends a four-block
+payload (target, same-act articles, other-act articles, annexes) instead of a
+single passage. Nothing in `core/` knows about any of this.
 
     generation/technical/{en,fr,de,es}.txt
     generation/semantic/{en,fr,de,es}.txt
@@ -14,7 +14,7 @@ passage. Nothing in `core/` knows about any of this.
 
 ## What changed, and why
 
-### 1. The input is three labelled blocks, not one passage
+### 1. The input is four labelled blocks, not one passage
 
 The user message now looks like:
 
@@ -29,14 +29,21 @@ The user message now looks like:
       Act: Council Regulation (EC) No 21/2004 ...
       Cite as: 32004R0021:5
     ...
+    ### REFERENCED ANNEXES — annexes cited by the target article, of this act or of another act ...
+    [EN] ANNEX I
+      Act: Regulation (EU) 2019/904 ...
+      Cite as: 32019R0904:anx_1
+    ...
 
-All three markers are literal strings emitted by `eurlex_context.render_payload`;
+All four markers are literal strings emitted by `eurlex_context.render_payload`;
 an empty block is rendered as an explicit "— none." line rather than omitted.
 The third block holds articles of *other* acts that the target cites by name,
 present only when `structure.resolve_external` could pin the cited act down to
 one in the corpus (see that module: the year/number order is fixed by the
 identifier's shape and never guessed). Each such article carries a `Cite as:`
-key, `CELEX:number`, which is how the model refers to it. Translations keep the
+key, `CELEX:number`, which is how the model refers to it. The fourth block
+holds annexes the target cites — of this act or of another act in the corpus —
+each with a `Cite as:` key of the form `CELEX:anx_<id>`, declared the same way. Translations keep the
 markers and keys in English verbatim; only the explanatory text is translated.
 
 Why separate rather than concatenate: given one undifferentiated blob the model
@@ -59,10 +66,10 @@ precisely because Annex B was not supplied.
 The EUR-Lex pack says instead:
 
 > **Resolved Cross-References Are Allowed and Wanted:** … When that cited article
-> is supplied — in the REFERENCED ARTICLES block or in the REFERENCED ARTICLES
-> FROM OTHER ACTS block — you MAY follow the citation and use its content to
-> complete the answer. … If the answer's substance lies behind a citation that
-> was NOT supplied, discard the question.
+> is supplied — in the REFERENCED ARTICLES block, the REFERENCED ARTICLES FROM
+> OTHER ACTS block, or the REFERENCED ANNEXES block — you MAY follow the
+> citation and use its content to complete the answer. … If the answer's
+> substance lies behind a citation that was NOT supplied, discard the question.
 
 So the discard rule survives, but its trigger moves from *"is it behind a
 citation"* to *"was the cited article actually supplied"*. Questions the old pack
@@ -80,6 +87,8 @@ Every candidate declares which articles a reader genuinely needs:
 - answer completed by an article of another act → `["4", "32004R0021:5"]` — the
   `Cite as` key, never a bare number, so that a bare number can only ever mean
   the target's own act and nothing collides
+- answer completed by an annex (of any act) → `["4", "32019R0904:anx_1"]` — annexes
+  are always declared by their `Cite as` key
 - the target article is always present
 - an article merely *cited* by the target, whose content was not used, must **not**
   be listed
@@ -120,8 +129,9 @@ article) and an **unsupplied reference** example (the discard rule that survives
 `faithfulness_batch.txt` had to change or it would have failed every
 multi-article answer:
 
-- the input description now describes all three blocks and the `Cite as` keys,
-  and the candidates it grades carry their declared `articles_involved`;
+- the input description now describes all four blocks (including REFERENCED
+  ANNEXES) and the `Cite as` keys, and the candidates it grades carry their
+  declared `articles_involved`;
 - the `CROSS-REFERENCE RULE` splits into case (a) *cited article was supplied* —
   following it is legitimate support, not inference — and case (b) *not supplied*
   — score at most 2, as before;
@@ -133,8 +143,9 @@ The JSON keys the grader emits are unchanged (`grounding`, `precision`,
 `numerical_fidelity`), so `core.grading` needs no modification.
 
 `technical_batch.txt` and `semantic_batch.txt` gain one rule: a question whose
-subject matter lives entirely in a referenced article scores at most 2 for
-retrieval quality, because it would retrieve the wrong article.
+subject matter lives entirely in a referenced article or annex — of the same
+act or of another — scores at most 2 for retrieval quality, because it would
+retrieve the wrong document. Their TARGET SCOPE line names the annex block too.
 
 ## Division of labour on `articles_involved`
 

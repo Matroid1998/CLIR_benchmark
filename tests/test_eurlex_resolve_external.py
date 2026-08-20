@@ -134,3 +134,99 @@ def test_resolve_end_to_end(tmp_path):
     # art_1 cites only an out-of-corpus act -> incomplete; untouched articles are complete.
     assert status[other]["complete"] is False
     assert status["http://data.europa.eu/eli/reg/2004/21/art_1/oj"]["complete"] is True
+
+
+# -- annex resolution --------------------------------------------------------- #
+
+def _annex_corpus() -> rx.Corpus:
+    corpus = _corpus()
+    # 32004R0021 has labelled Annexes 1 and 2 (Annex 2 missing in French);
+    # 32009R0999 (quarantined) irrelevant; give 32004R0796 a single unlabelled annex.
+    corpus.annex_eli["32004R0021"] = {
+        "1": "http://data.europa.eu/eli/reg/2004/21/anx_1/oj",
+        "2": "http://data.europa.eu/eli/reg/2004/21/anx_2/oj"}
+    for lg in ("en", "fr", "de", "es"):
+        corpus.annex_langs["32004R0021"][lg].update({"1", "2"})
+    corpus.annex_langs["32004R0021"]["fr"].discard("2")
+    corpus.annexes_en["32004R0021"] = [
+        ("1", "http://data.europa.eu/eli/reg/2004/21/anx_1/oj"),
+        ("2", "http://data.europa.eu/eli/reg/2004/21/anx_2/oj")]
+    corpus.annexes_en["32009R0999"] = []
+    return corpus
+
+
+def _annex_row(surface_form: str, act: str, **kw) -> dict:
+    row = _row(surface_form, act, **kw)
+    row["rule"] = "external_annex_of_act"
+    return row
+
+
+def test_labelled_annex_resolves_against_the_target_acts_inventory():
+    edges, misses = rx.resolve_row(
+        _annex_row("Annexes I and III", "Council Regulation (EC) No 21/2004"), _annex_corpus())
+    assert [(e["target_annex_id"], e["target_unit_type"]) for e in edges] == [("1", "annex")]
+    assert edges[0]["target_article_id"].endswith("/anx_1/oj")
+    assert edges[0]["available_languages"] == ["en", "fr", "de", "es"]
+    assert [m["reason"] for m in misses] == ["target_annex_not_in_inventory"]
+    assert misses[0]["target_annex_id"] == "3"
+
+
+def test_annex_language_availability_follows_the_target_annex():
+    edges, _ = rx.resolve_row(
+        _annex_row("Annex II", "Council Regulation (EC) No 21/2004"), _annex_corpus())
+    assert edges[0]["available_languages"] == ["en", "de", "es"]
+
+
+def test_bare_annex_resolves_only_against_a_single_annex():
+    corpus = _annex_corpus()
+    # two annexes -> ambiguous
+    edges, misses = rx.resolve_row(
+        _annex_row("the Annex", "Council Regulation (EC) No 21/2004"), corpus)
+    assert edges == [] and misses[0]["reason"] == "target_annex_ambiguous"
+    # exactly one -> resolved
+    corpus.annexes_en["32004R0021"] = [("pos1", "http://data.europa.eu/eli/reg/2004/21/anx_pos1/oj")]
+    corpus.annex_langs["32004R0021"] = {lg: {"pos1"} for lg in ("en", "fr", "de", "es")}
+    edges, misses = rx.resolve_row(
+        _annex_row("the Annex", "Council Regulation (EC) No 21/2004"), corpus)
+    assert misses == [] and edges[0]["target_annex_id"] == "pos1"
+
+
+def test_annex_thereto_is_anaphoric():
+    row = _annex_row("Annex I", "", anaphoric=True)
+    row["rule"] = "external_annex_thereto"
+    edges, misses = rx.resolve_row(row, _annex_corpus())
+    assert edges == [] and misses[0]["reason"] == "anaphoric"
+
+
+def test_unresolved_annex_citations_block_completeness():
+    tally = rx._Tally()
+    tally.annex_targets.add("anx")
+    assert rx.status_row("e", "c", "1", tally)["complete"]
+    tally.unresolved["annex_bare_ambiguous"] += 1
+    tally.annex_unresolved += 1
+    row = rx.status_row("e", "c", "1", tally)
+    assert not row["complete"] and row["cites_annex"]
+
+
+def test_act_level_annex_misses_still_count_as_citing_an_annex():
+    tally = rx._Tally()
+    tally.unresolved["out_of_corpus"] += 1
+    tally.annex_unresolved += 1
+    row = rx.status_row("e", "c", "1", tally)
+    assert not row["complete"] and row["cites_annex"]
+
+
+def test_colliding_annex_labels_never_resolve():
+    corpus = _annex_corpus()
+    corpus.annex_eli["32004R0021"]["1"] = None   # label seen twice at load
+    edges, misses = rx.resolve_row(
+        _annex_row("Annex I", "Council Regulation (EC) No 21/2004"), corpus)
+    assert edges == [] and misses[0]["reason"] == "target_annex_not_in_inventory"
+
+
+def test_bare_annex_against_an_act_with_no_annexes_has_its_own_reason():
+    corpus = _annex_corpus()
+    corpus.annexes_en["32004R0021"] = []
+    edges, misses = rx.resolve_row(
+        _annex_row("the Annex", "Council Regulation (EC) No 21/2004"), corpus)
+    assert edges == [] and misses[0]["reason"] == "target_annex_bare_no_annex"

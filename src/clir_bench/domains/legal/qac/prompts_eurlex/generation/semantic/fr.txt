@@ -2,11 +2,12 @@ Vous êtes un expert dans la création de questions de recherche sémantique pou
 Le contexte source peut être dans n'importe quelle langue. Les questions et les réponses DOIVENT être rédigées en français. Conservez les termes juridiques techniques, les noms d'institutions, d'organes et de programmes, ainsi que toutes les dates, durées, montants monétaires, pourcentages et seuils dans leur forme d'origine.
 
 STRUCTURE DE L'ENTRÉE :
-Vous recevez trois blocs clairement délimités.
+Vous recevez quatre blocs clairement délimités.
 - « ### TARGET ARTICLE » — un article d'un acte, dans la ou les versions linguistiques fournies. C'est l'article SUR LEQUEL vous rédigez les questions.
 - « ### REFERENCED ARTICLES » — d'autres articles DU MÊME ACTE que l'article cible cite. Ils sont fournis UNIQUEMENT comme contexte d'appui, car la législation de l'UE recourt constamment aux renvois et l'article cible ne se suffit souvent pas à lui-même.
 - « ### REFERENCED ARTICLES FROM OTHER ACTS » — des articles D'AUTRES ACTES que l'article cible cite nommément (p. ex. « Article 5 of Regulation (EC) No 21/2004 »), fournis lorsque cet acte figure dans le corpus. Même statut que le bloc précédent : contexte d'appui UNIQUEMENT, jamais le sujet d'une question. Chacun de ces blocs nomme son propre acte sur sa ligne « Act: » et porte une clé « Cite as: ».
-Les deux premiers blocs relèvent du même acte ; le troisième non. Un bloc vide l'indique explicitement. Les articles référencés sont là pour permettre à une réponse d'être COMPLÈTE, non pour être le sujet de la question.
+- « ### REFERENCED ANNEXES » — les annexes citées par l'article cible, de son propre acte ou d'un autre acte du corpus. Même statut : contexte d'appui UNIQUEMENT, jamais le sujet d'une question. Chaque bloc d'annexe nomme son acte sur sa ligne « Act: » et porte une clé « Cite as: ».
+Les deux premiers blocs relèvent du même acte ; les blocs suivants indiquent chacun sur leur ligne « Act: » l'acte dont ils relèvent. Un bloc vide l'indique explicitement. Les articles référencés sont là pour permettre à une réponse d'être COMPLÈTE, non pour être le sujet de la question.
 
 Chaque bloc d'article commence par des lignes de MÉTADONNÉES, suivies du texte de l'article :
 
@@ -25,7 +26,7 @@ Générez exactement TROIS paires question-réponse. Chacune doit cibler un aspe
 RÈGLES FONDAMENTALES :
 - L'article cible doit fournir le fait opératoire : La question doit reposer sur ce que prévoit l'ARTICLE CIBLE lui-même — l'obligation, l'interdiction, la condition, le délai ou la procédure qu'il établit. Un article référencé ne peut que COMPLÉTER ce fait : nommer les éléments d'une liste vers laquelle la cible renvoie, définir un terme qu'elle emploie, ou fournir une valeur à laquelle elle s'en remet. L'article référencé n'est jamais le sujet. Cela vaut tout autant pour les articles d'autres actes.
 - LE TEST DE L'ARTICLE UNIQUE (à appliquer à chaque candidate avant de la retenir) : un lecteur pourrait-il répondre entièrement à cette question en lisant UNIQUEMENT l'article référencé, sans jamais avoir vu l'article cible ? Si OUI, la question appartient à cet article référencé — ÉCARTEZ-LA. Il ne suffit pas que l'article cible mentionne le sujet. C'est de loin l'échec le plus fréquent dans cette tâche : lors d'une exécution en production, TOUTES les questions multi-articles générées ont échoué à ce test.
-- Les renvois résolus sont autorisés et souhaités : L'article cible peut indiquer « dans les conditions prévues à l'article 9 » ou « les contrôles prévus à l'article 5 du règlement (CE) no 21/2004 ». Lorsque cet article est fourni — dans le bloc REFERENCED ARTICLES ou dans le bloc REFERENCED ARTICLES FROM OTHER ACTS — vous POUVEZ suivre le renvoi et utiliser son contenu pour compléter la réponse. Si la substance se trouve derrière un renvoi qui n'a PAS été fourni, écartez la question.
+- Les renvois résolus sont autorisés et souhaités : L'article cible peut indiquer « dans les conditions prévues à l'article 9 » ou « les contrôles prévus à l'article 5 du règlement (CE) no 21/2004 ». Lorsque cet article est fourni — dans le bloc REFERENCED ARTICLES, le bloc REFERENCED ARTICLES FROM OTHER ACTS ou le bloc REFERENCED ANNEXES — vous POUVEZ suivre le renvoi et utiliser son contenu pour compléter la réponse. Si la substance se trouve derrière un renvoi qui n'a PAS été fourni, écartez la question.
 - Déclarez ce que vous avez utilisé : Pour chaque paire, indiquez dans le champ « articles_involved » quels articles sont nécessaires pour y répondre. Voir DÉCLARATION DES ARTICLES IMPLIQUÉS ci-dessous. Ce champ est évalué.
 - Distance lexicale : Paraphrasez activement. Un moteur de recherche sémantique doit établir la correspondance par le sens, non par le recouvrement de mots-clés. Évitez de réutiliser le vocabulaire distinctif de la source lorsqu'un synonyme naturel convient. Exception : les noms propres, les institutions, les programmes et les termes juridiques techniques établis (p. ex. « plastiques à usage unique », « gel des avoirs ») doivent rester tels quels — sinon la question devient impossible à répondre depuis n'importe quel document.
 - Pas d'identifiants d'instrument : N'incluez jamais d'identifiants officiels d'instrument dans la question — numéros de règlement ou de directive (« Regulation (EU) 2019/904 »), numéros CELEX, ou numéros d'article/de paragraphe/d'annexe. Un identifiant est une clé lexicale exacte qui va à l'encontre de la recherche sémantique. Cela diffère du mode technique, où les identifiants sont autorisés. Les identifiants peuvent apparaître à l'intérieur du segment de réponse ; cela est acceptable. Notez que cette règle s'applique uniquement à la QUESTION — « articles_involved » est une métadonnée, ne fait pas partie de la requête, et doit toujours être renseigné.
@@ -41,6 +42,7 @@ DÉCLARATION DES ARTICLES IMPLIQUÉS :
 - N'indiquez que les articles que vous avez effectivement utilisés. N'indiquez pas un article au seul motif que l'article cible le mentionne, si son contenu n'a joué aucun rôle dans la réponse.
 - Utilisez les numéros nus tels qu'ils apparaissent dans le texte, p. ex. ["6"] ou ["1", "6"]. Incluez les suffixes lorsqu'ils sont présents, p. ex. ["7a"]. Un numéro nu désigne TOUJOURS un article de l'acte propre à la cible.
 - Pour un article D'UN AUTRE ACTE, utilisez exactement la clé « Cite as » imprimée dans son bloc, p. ex. ["4", "32004R0021:5"]. N'écrivez jamais un numéro nu pour un article d'un autre acte.
+- Pour une ANNEXE — de l'acte propre à la cible ou d'un autre acte — utilisez exactement la clé « Cite as » imprimée dans son bloc, p. ex. ["4", "32019R0904:anx_1"]. Une annexe ne se déclare jamais par un numéro nu.
 - L'article cible figure toujours dans la liste.
 
 EXEMPLES :
@@ -117,7 +119,7 @@ AUTO-VÉRIFICATION pour chaque question avant de la finaliser :
 - La question évite-t-elle de porter sur les métadonnées (titre de l'acte, chapitre) plutôt que sur la substance de l'article ?
 - LE TEST DE L'ARTICLE UNIQUE : cette question pourrait-elle recevoir une réponse entière à partir d'un article référencé seul ? Si oui, écartez — ce n'est pas une question portant sur la cible.
 - La réponse est-elle un segment continu du texte fourni — article cible, ou article référencé fourni auquel le renvoi de la cible a conduit ?
-- Le champ « articles_involved » énumère-t-il exactement les articles nécessaires, ni plus ni moins ? L'article cible y figure-t-il ? Les articles d'autres actes sont-ils désignés par leur clé « Cite as », jamais par un numéro nu ?
+- Le champ « articles_involved » énumère-t-il exactement les articles nécessaires, ni plus ni moins ? L'article cible y figure-t-il ? Les articles d'autres actes, et toutes les annexes, sont-ils désignés par leur clé « Cite as », jamais par un numéro nu ?
 - La question est-elle exempte d'identifiants d'instrument, d'article et de paragraphe — y compris ceux de tout autre acte affiché, des numéros CELEX et des clés « Cite as » ?
 - La formulation est-elle paraphrasée plutôt que reprise telle quelle ?
 - Quelqu'un qui n'a jamais vu ce document pourrait-il taper cette question dans un moteur de recherche ?
@@ -131,6 +133,6 @@ SORTIE (JSON valide uniquement, pas de markdown) :
 ]
 - answer : le segment le plus court qui répond entièrement et directement à la question. Strictement ancré dans le texte fourni.
 - framing : l'un de problem, solution, application.
-- articles_involved : liste des articles nécessaires pour répondre, incluant toujours l'article cible — numéros nus pour l'acte propre à la cible, clés « Cite as » pour les articles d'autres actes. Exemple : ["6"], ["1", "6"], ou ["6", "32004R0021:5"] lorsqu'un article d'un autre acte a été utilisé.
+- articles_involved : liste des dispositions nécessaires pour répondre, incluant toujours l'article cible — numéros nus pour les articles de l'acte propre à la cible, clés « Cite as » pour les articles d'autres actes et pour TOUTES les annexes (même celles de l'acte propre à la cible). Exemple : ["6"], ["1", "6"], ["6", "32004R0021:5"] lorsqu'un article d'un autre acte a été utilisé, ou ["6", "32019R0904:anx_1"] lorsqu'une annexe a été utilisée.
 
 L'article cible et les éventuels articles référencés sont fournis dans votre langue de sortie, le français, ainsi qu'en anglais. Lorsque les deux versions sont présentes, il s'agit d'une seule et même disposition, et non de deux dispositions différentes : utilisez la version française pour la formulation et la terminologie, et la version anglaise comme lecture de référence. Cela ne change pas votre langue de sortie, qui est déclarée ci-dessus. Voici l'entrée :

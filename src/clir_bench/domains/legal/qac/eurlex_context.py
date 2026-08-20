@@ -22,6 +22,12 @@ meaningless. References are taken in order of first mention (which tracks how
 central they are to the article's argument) and capped; whatever is dropped is
 recorded, never silently discarded.
 
+**Annexes travel too.** "the amounts fixed in Annex IV" is unanswerable
+without Annex IV, so annexes the target cites -- of its own act or of another
+act in the corpus -- are supplied under their own header, clipped hard because
+annex tables run long. The model cites an annex by its ``Cite as:`` key,
+``CELEX:anx_<id>``, never by a bare number.
+
 **Articles of other acts travel too, in their own block.** "the conditions of
 Article 15 of Regulation (EC) No 2792/1999" is as unanswerable alone as a
 same-act citation is. When ``structure/resolve_external`` could pin the cited
@@ -62,16 +68,30 @@ EXTERNAL_HEADER = ("### REFERENCED ARTICLES FROM OTHER ACTS — supporting conte
                    "cited by the target article. Do not write questions *about* these.")
 EXTERNAL_NONE = ("### REFERENCED ARTICLES FROM OTHER ACTS — none. "
                  "The target article cites no article of another act in the corpus.")
+ANNEX_HEADER = ("### REFERENCED ANNEXES — annexes cited by the target article, of this "
+                "act or of another act (see each block's Act line). Supporting context "
+                "only. Do not write questions *about* these.")
+ANNEX_NONE = ("### REFERENCED ANNEXES — none. "
+              "The target article cites no resolvable annex.")
+
+# Annex bodies can run to megabytes of tables; they are clipped at load so the
+# index stays in memory, and clipped again per payload like any reference.
+ANNEX_LOAD_CHARS = 20_000
 
 
 def external_key(unit: "ArticleUnit") -> str:
-    """How the model names an article of another act: ``CELEX:number``.
+    """How the model names anything that is not an article of the target's act.
 
-    Bare numbers are reserved for the target's own act, so a cross-act article
-    needs a token that cannot be mistaken for one. The CELEX id is short, is
-    already printed in the block's ``Cite as:`` line, and maps back to the ELI
-    through the payload -- no parsing of act titles required.
+    ``CELEX:number`` for another act's article (``32004R0021:5``);
+    ``CELEX:anx_<id>`` for an annex of any act (``32009R1122:anx_1``). Bare
+    numbers are reserved for the target's own act's articles, so these tokens
+    cannot be mistaken for one. The CELEX id is short, is already printed in
+    the block's ``Cite as:`` line, and maps back to the ELI through the payload
+    -- no parsing of act titles required.
     """
+    if unit.unit_type == "annex":
+        subdivision = unit.eli_id.rstrip("/").rsplit("/", 2)[-2]
+        return f"{unit.celex_id}:{subdivision}"
     return f"{unit.celex_id}:{unit.article_number}"
 
 
@@ -112,6 +132,9 @@ class ArticleUnit:
     texts: dict[str, str] = field(default_factory=dict)
     act_titles: dict[str, str] = field(default_factory=dict)
     locations: dict[str, str] = field(default_factory=dict)
+    # "article" or "annex". An annex has no article_number; its heading
+    # ("ANNEX I") is its label and its ELI subdivision is its citation key.
+    unit_type: str = "article"
 
     def languages(self) -> list[str]:
         return [lg for lg in ACT_LANGUAGES if self.texts.get(lg)]
@@ -133,14 +156,18 @@ class GenerationPayload:
     text: str
     external_references: list[ArticleUnit] = field(default_factory=list)
     dropped_external_references: list[str] = field(default_factory=list)
+    annexes: list[ArticleUnit] = field(default_factory=list)
+    dropped_annex_references: list[str] = field(default_factory=list)
 
     @property
     def involved_universe(self) -> list[str]:
         """Tokens the model is allowed to name as involved: bare numbers for the
-        target's act, ``CELEX:number`` keys for articles of other acts."""
+        target's act's articles, ``CELEX:number`` keys for articles of other
+        acts, ``CELEX:anx_<id>`` keys for annexes of any act."""
         return ([self.target.article_number]
                 + [r.article_number for r in self.references]
-                + [external_key(u) for u in self.external_references])
+                + [external_key(u) for u in self.external_references]
+                + [external_key(u) for u in self.annexes])
 
 
 class ArticleIndex:
@@ -158,47 +185,82 @@ class ArticleIndex:
                  external_edges_path=None, status_path=None) -> None:
         self.by_eli: dict[str, ArticleUnit] = {}
         self.by_act: dict[str, list[str]] = defaultdict(list)
-        self._load_articles(articles_path or paths.ARTICLES_JSONL)
         self.references: dict[str, list[str]] = defaultdict(list)
+        self.annex_references: dict[str, list[str]] = defaultdict(list)
         self.external_references: dict[str, list[str]] = defaultdict(list)
         self.first_mention: dict[tuple[str, str], int] = {}
         self.status: dict[str, dict] = {}
-        self._load_edges(edges_path or paths.INTERNAL_EDGES_JSONL)
+
         # The corpus-level cross-act and status files are only assumed when the
         # corpus-level edge file is: an index built on a custom edge set must not
         # be gated by verdicts computed against a different one.
         if edges_path is None:
             external_edges_path = external_edges_path or paths.EXTERNAL_EDGES_JSONL
             status_path = status_path or paths.REFERENCE_STATUS_JSONL
+
+        # Edges are read before articles: annex bodies are loaded only for the
+        # annexes something actually cites, because a handful of them run to
+        # megabytes and the corpus holds nineteen thousand.
+        internal_rows = self._article_edges(edges_path or paths.INTERNAL_EDGES_JSONL,
+                                            targets=("article", "annex"))
+        external_rows = []
         if external_edges_path and Path(external_edges_path).exists():
-            self._load_external_edges(external_edges_path)
+            external_rows = self._article_edges(external_edges_path,
+                                                targets=("article", "annex"))
+        wanted_annexes = {e["target_article_id"]
+                          for e in internal_rows + external_rows
+                          if e.get("target_unit_type") == "annex"}
+        self._load_articles(articles_path or paths.ARTICLES_JSONL,
+                            annex_whitelist=wanted_annexes)
+
+        for edge in internal_rows:
+            self._record_edge(edge, self.annex_references
+                              if edge.get("target_unit_type") == "annex"
+                              else self.references)
+        for edge in external_rows:
+            self._record_edge(edge, self.annex_references
+                              if edge.get("target_unit_type") == "annex"
+                              else self.external_references)
         if status_path and Path(status_path).exists():
             self._load_status(status_path)
 
-    def _load_articles(self, path) -> None:
+    def _load_articles(self, path, annex_whitelist: set[str] | None = None) -> None:
+        annex_whitelist = annex_whitelist or set()
         with open(path, encoding="utf-8") as fh:
             for line in fh:
                 row = json.loads(line)
-                if row["unit_type"] != "article" or not row.get("eli_id"):
+                unit_type = row.get("unit_type")
+                if not row.get("eli_id"):
+                    continue
+                if unit_type == "annex":
+                    if row["eli_id"] not in annex_whitelist:
+                        continue
+                elif unit_type != "article":
                     continue
                 unit = self.by_eli.get(row["eli_id"])
                 if unit is None:
-                    unit = ArticleUnit(row["eli_id"], row["celex_id"], row["article_number"])
+                    unit = ArticleUnit(row["eli_id"], row["celex_id"],
+                                       row.get("article_number", ""),
+                                       unit_type=unit_type)
                     self.by_eli[row["eli_id"]] = unit
-                    self.by_act[row["celex_id"]].append(row["eli_id"])
-                unit.texts[row["language"]] = row["text"]
+                    if unit_type == "article":
+                        self.by_act[row["celex_id"]].append(row["eli_id"])
+                text = row["text"]
+                if unit_type == "annex" and len(text) > ANNEX_LOAD_CHARS:
+                    text = text[:ANNEX_LOAD_CHARS].rstrip() + " […truncated]"
+                unit.texts[row["language"]] = text
                 unit.headings[row["language"]] = row.get("heading", "")
                 unit.act_titles[row["language"]] = row.get("act_title", "")
                 unit.locations[row["language"]] = structural_location(row)
 
-    def _article_edges(self, path) -> list[dict]:
+    def _article_edges(self, path, *, targets=("article",)) -> list[dict]:
         rows = []
         with open(path, encoding="utf-8") as fh:
             for line in fh:
                 edge = json.loads(line)
                 if edge.get("source_unit_type") != "article":
                     continue
-                if edge.get("target_unit_type") != "article":
+                if edge.get("target_unit_type", "article") not in targets:
                     continue
                 rows.append(edge)
         # Ordered by first mention: char_start tracks how central a reference is
@@ -206,26 +268,15 @@ class ArticleIndex:
         rows.sort(key=lambda e: (e["source_article_id"], e["char_start"]))
         return rows
 
-    def _load_edges(self, path) -> None:
-        for edge in self._article_edges(path):
-            source, target = edge["source_article_id"], edge["target_article_id"]
-            targets = self.references[source]
-            if target not in targets:
-                targets.append(target)
-                self.first_mention.setdefault((source, target), edge["char_start"])
-
-    def _load_external_edges(self, path) -> None:
-        # Targets are articles of other acts; ``by_eli`` spans the whole corpus,
-        # so they are loadable exactly like same-act ones. An edge whose target
-        # is not indexed (act failed the article load) is skipped, not invented.
-        for edge in self._article_edges(path):
-            source, target = edge["source_article_id"], edge["target_article_id"]
-            if target not in self.by_eli:
-                continue
-            targets = self.external_references[source]
-            if target not in targets:
-                targets.append(target)
-                self.first_mention.setdefault((source, target), edge["char_start"])
+    def _record_edge(self, edge: dict, store: dict[str, list[str]]) -> None:
+        # A target that is not indexed (its act failed the article load) is
+        # skipped in build(), not invented here; recording it is harmless and
+        # keeps this loader ignorant of load order.
+        source, target = edge["source_article_id"], edge["target_article_id"]
+        targets = store[source]
+        if target not in targets:
+            targets.append(target)
+            self.first_mention.setdefault((source, target), edge["char_start"])
 
     def _load_status(self, path) -> None:
         with open(path, encoding="utf-8") as fh:
@@ -238,33 +289,43 @@ class ArticleIndex:
               reference_chars: int = DEFAULT_REFERENCE_CHARS,
               languages: Sequence[str] = ACT_LANGUAGES) -> GenerationPayload | None:
         target = self.by_eli.get(target_eli)
-        if target is None or not target.languages():
+        if target is None or target.unit_type != "article" or not target.languages():
             return None
 
-        # One cap over both kinds, ranked by first mention. Same-act references
-        # win ties (a target the extractor placed at the same offset is the
-        # same citation site) and, when no offsets are known, keep their order.
+        # One cap over every kind of reference, ranked by first mention.
+        # Same-act articles win ties, then annexes, then other acts' articles;
+        # with no offsets known each kind keeps its stored order.
         internal = [t for t in self.references.get(target_eli, [])
                     if t != target_eli and t in self.by_eli]
+        annexes = [t for t in getattr(self, "annex_references", {}).get(target_eli, [])
+                   if t in self.by_eli]
         external = [t for t in getattr(self, "external_references", {}).get(target_eli, [])
                     if t in self.by_eli]
         mention = getattr(self, "first_mention", {})
-        ranked = sorted([(t, "internal") for t in internal] + [(t, "external") for t in external],
+        order = {"internal": 0, "annex": 1, "external": 2}
+        ranked = sorted([(t, "internal") for t in internal]
+                        + [(t, "annex") for t in annexes]
+                        + [(t, "external") for t in external],
                         key=lambda item: (mention.get((target_eli, item[0]), 10 ** 9),
-                                          0 if item[1] == "internal" else 1))
+                                          order[item[1]]))
         kept, dropped = ranked[:max_references], ranked[max_references:]
         references = [self.by_eli[t] for t, kind in kept if kind == "internal"]
+        kept_annexes = [self.by_eli[t] for t, kind in kept if kind == "annex"]
         externals = [self.by_eli[t] for t, kind in kept if kind == "external"]
 
-        text = render_payload(target, references, external=externals,
-                              languages=languages, reference_chars=reference_chars)
+        text = render_payload(target, references, annexes=kept_annexes,
+                              external=externals, languages=languages,
+                              reference_chars=reference_chars)
         return GenerationPayload(
             target, references,
             [self.by_eli[t].article_number for t, kind in dropped if kind == "internal"],
             text,
             external_references=externals,
             dropped_external_references=[external_key(self.by_eli[t])
-                                         for t, kind in dropped if kind == "external"])
+                                         for t, kind in dropped if kind == "external"],
+            annexes=kept_annexes,
+            dropped_annex_references=[external_key(self.by_eli[t])
+                                      for t, kind in dropped if kind == "annex"])
 
 
 def structural_location(row: dict) -> str:
@@ -292,9 +353,13 @@ def _block(unit: ArticleUnit, language: str, *, limit: int | None,
     body = unit.texts.get(language, "")
     if limit and len(body) > limit:
         body = body[:limit].rstrip() + " […truncated]"
-    label = f"Article {unit.article_number}"
-    if heading:
-        label += f" — {heading}"
+    if unit.unit_type == "annex":
+        # An annex's heading IS its label ("ANNEX I"); there is no number.
+        label = heading or "Annex"
+    else:
+        label = f"Article {unit.article_number}"
+        if heading:
+            label += f" — {heading}"
     lines = [f"[{language.upper()}] {label}"]
     act = unit.act_titles.get(language) or ""
     if act:
@@ -321,13 +386,14 @@ def _reference_blocks(units: Iterable[ArticleUnit], *, languages: Sequence[str],
 
 def render_payload(target: ArticleUnit, references: Iterable[ArticleUnit], *,
                    external: Iterable[ArticleUnit] = (),
+                   annexes: Iterable[ArticleUnit] = (),
                    languages: Sequence[str] = ACT_LANGUAGES,
                    reference_chars: int | None = DEFAULT_REFERENCE_CHARS) -> str:
-    """The user message: target block, same-act references, cross-act references.
+    """The user message: target, same-act articles, other acts' articles, annexes.
 
-    Three headers, always in this order, each present even when empty so the
+    Four headers, always in this order, each present even when empty so the
     model never has to infer which block is missing. Every language version of
-    each article is included, preserving the pipeline's cross-lingual grounding
+    each unit is included, preserving the pipeline's cross-lingual grounding
     property -- the generator and the graders see the same act in all its
     language versions rather than one translation.
     """
@@ -350,6 +416,14 @@ def render_payload(target: ArticleUnit, references: Iterable[ArticleUnit], *,
                                        reference_chars=reference_chars, keyed=True))
     else:
         parts.append(EXTERNAL_NONE)
+
+    annexes = list(annexes)
+    if annexes:
+        parts.append(ANNEX_HEADER)
+        parts.extend(_reference_blocks(annexes, languages=languages,
+                                       reference_chars=reference_chars, keyed=True))
+    else:
+        parts.append(ANNEX_NONE)
     return "\n\n".join(parts)
 
 
@@ -364,6 +438,7 @@ def _canonical_token(item: str, payload: GenerationPayload) -> str:
     by_eli = {payload.target.eli_id: payload.target.article_number}
     by_eli.update({r.eli_id: r.article_number for r in payload.references})
     by_eli.update({u.eli_id: external_key(u) for u in payload.external_references})
+    by_eli.update({u.eli_id: external_key(u) for u in payload.annexes})
     if text in by_eli:
         return by_eli[text]
     # "Article 6", "Art. 6", "article 32004R0021:5" -- the word is noise either way.
@@ -372,8 +447,11 @@ def _canonical_token(item: str, payload: GenerationPayload) -> str:
         celex, number = bare.split(":", 1)
         celex = celex.strip().upper()
         number = re.sub(r"^\s*(?:articles?|art\.?)\s*", "", number, flags=re.I).strip(" .()").lower()
-        # A key naming the target's own act is just a same-act number.
-        if celex == payload.target.celex_id.upper():
+        # "anx 1" / "ANNEX_1" -> "anx_1": the key is the ELI subdivision.
+        number = re.sub(r"^annex", "anx", re.sub(r"[\s]+", "_", number))
+        # A key naming the target's own act's ARTICLE is just a same-act
+        # number; its annexes keep the key (bare numbers never mean annexes).
+        if celex == payload.target.celex_id.upper() and not number.startswith("anx"):
             return number
         return f"{celex}:{number}"
     return bare.lower()
@@ -418,12 +496,13 @@ def involved_elis(tokens: Sequence[str], payload: GenerationPayload) -> list[str
     lookup = {payload.target.article_number: payload.target.eli_id}
     lookup.update({r.article_number: r.eli_id for r in payload.references})
     lookup.update({external_key(u): u.eli_id for u in payload.external_references})
+    lookup.update({external_key(u): u.eli_id for u in payload.annexes})
     return [lookup[n] for n in tokens if n in lookup]
 
 
 __all__ = [
     "ArticleIndex", "ArticleUnit", "GenerationPayload", "render_payload",
     "normalise_involved", "involved_elis", "external_key",
-    "TARGET_HEADER", "CONTEXT_HEADER", "EXTERNAL_HEADER",
+    "TARGET_HEADER", "CONTEXT_HEADER", "EXTERNAL_HEADER", "ANNEX_HEADER",
     "DEFAULT_MAX_REFERENCES", "DEFAULT_REFERENCE_CHARS",
 ]

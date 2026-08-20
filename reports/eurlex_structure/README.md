@@ -61,7 +61,7 @@ longer chain, **0 unaccounted**. What remains invisible by construction is small
 | `that`/`the said`/`the same Article` | 7 | genuine ceiling |
 | `preceding`/`following Article` | 2 | genuine ceiling |
 | `Art. 5` | 0 | not used in EN acts |
-| `Annex N` | 200 | not an article reference |
+| `Annex N` | 200 | not an article reference — now extracted separately as annex citations (see Known limitations) |
 
 So the article-to-article recall ceiling is ~9 phrases in the whole pilot.
 
@@ -208,6 +208,13 @@ plausible-looking false edges.
 - **Recitals and annexes are edge sources too** (`source_unit_type` /
   `target_unit_type` on every edge), but question generation reads only
   article → article edges.
+- **Annex citations are classified like article ones**: "Annex I *to
+  Regulation (EC) No 376/2008*" is that regulation's annex and goes to the
+  external file (annexes are governed by "to" where articles are governed by
+  "of"); "the Annex", the drafting style for an act with a single annex, is
+  linked to that annex (rule `annex_single`) and is ambiguous otherwise; a bare
+  label not in the act's own labelled annex inventory is dropped *and logged
+  per source*, because it now blocks question-generation completeness.
 - **Cross-act references are resolved conservatively** by
   `resolve_external`: the act's identifier is parsed with the year/number order
   fixed by its shape (`No N/YYYY`, `YYYY/N/EC`, `(EU) YYYY/N`) and never guessed
@@ -222,12 +229,14 @@ plausible-looking false edges.
   `--audit` compares the result with the parse-fmx `crossReferences` block from
   the second-opinion tool: act-level agreement is 98.6 %, and every sampled
   disagreement was the other tool reversing the year/number order.
-- **`reference_status.jsonl` says, per article, whether every article citation
-  it makes is resolved** (same act in inventory, or another act resolved to an
-  article in the corpus). `qac/eurlex_batch` samples question targets from
-  complete articles only, so the generator never writes about a citation it
-  could not follow. Annex citations are flagged (`cites_annex`) but do not
-  affect the verdict, because annexes are not supplied to the generator.
+- **`reference_status.jsonl` says, per article, whether every citation it
+  makes — article or annex, same act or another — is resolved.**
+  `qac/eurlex_batch` samples question targets from complete articles only, so
+  the generator never writes about a citation it could not follow. Resolved
+  annexes are supplied to the generator in their own payload block, clipped
+  hard because annex tables run long; an annex citation that cannot be pinned
+  down (act outside the corpus, anaphoric, label not in inventory, bare "the
+  Annex" in a multi-annex act) makes the article incomplete.
 - **Structural flags are computed on English and copied** to the other languages,
   for the same reason references are. `is_definitions` fires on 8 articles,
   `is_final_provision` on 28, `is_amending` on 8.

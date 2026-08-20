@@ -25,8 +25,11 @@ and derives a third:
 ``complete`` is what question generation keys on. A question written about an
 article whose citations cannot all be followed is a question about text the
 generator only half saw; ``eurlex_batch.select`` therefore draws targets from
-complete articles only. Annex citations are recorded (``cites_annex``) but do
-not affect the verdict, because annexes are not supplied to the generator.
+complete articles only. Annex citations count the same way: resolved annexes
+are supplied to the generator (the REFERENCED ANNEXES payload block), and an
+annex citation that cannot be pinned to one annex in the corpus -- label not
+in the cited act's inventory, a bare "the Annex" with zero or several
+candidates, or an act outside the corpus -- makes the article incomplete.
 
 Resolution is deliberately conservative -- see ``act_designation`` for the
 rules and why the year/number order is never guessed. Anaphoric citations
@@ -68,7 +71,8 @@ REASONS = (
     "anaphoric", "truncated_surface", "designator_unsupported", "no_identifier",
     "malformed_surface", "compound_surface", "doc_type_not_in_corpus", "self_reference",
     "out_of_corpus", "target_act_quarantined", "target_article_not_in_inventory",
-    "unparseable_enumeration",
+    "unparseable_enumeration", "target_annex_not_in_inventory", "target_annex_ambiguous",
+    "target_annex_bare_no_annex",
 )
 
 
@@ -91,6 +95,15 @@ class Corpus:
     # celex -> [(article_number, eli_id)] in English, file order.
     articles_en: dict[str, list[tuple[str, str]]] = field(
         default_factory=lambda: defaultdict(list))
+    # Annexes of each act: labelled ones by label (what "Annex I to X" can
+    # name), every one per language (for availability), and the full English
+    # list (a bare "the Annex to X" resolves only against exactly one).
+    annex_eli: dict[str, dict[str, str]] = field(
+        default_factory=lambda: defaultdict(dict))
+    annex_langs: dict[str, dict[str, set[str]]] = field(
+        default_factory=lambda: defaultdict(lambda: defaultdict(set)))
+    annexes_en: dict[str, list[tuple[str, str]]] = field(
+        default_factory=lambda: defaultdict(list))
     quarantined: set[str] = field(default_factory=set)
 
     def __contains__(self, celex: object) -> bool:
@@ -107,11 +120,26 @@ def load_corpus(articles_path: Path | None = None,
     with (articles_path or paths.ARTICLES_JSONL).open(encoding="utf-8") as fh:
         for line in fh:
             row = json.loads(line)
-            if row.get("unit_type") != "article" or not row.get("eli_id"):
+            unit_type = row.get("unit_type")
+            if unit_type not in ("article", "annex") or not row.get("eli_id"):
                 continue
             celex, language = row["celex_id"], row["language"]
             if row.get("act_eli"):
                 corpus.act_eli.setdefault(celex, row["act_eli"])
+            if unit_type == "annex":
+                annex_id = row.get("annex_id") or ""
+                corpus.annex_langs[celex][language].add(annex_id)
+                if language == "en":
+                    if row.get("annex_labelled"):
+                        # A label seen twice in one act identifies neither
+                        # record; resolving against it would serve whichever
+                        # happened to load last. Collisions are dropped.
+                        if annex_id in corpus.annex_eli[celex]:
+                            corpus.annex_eli[celex][annex_id] = None
+                        else:
+                            corpus.annex_eli[celex][annex_id] = row["eli_id"]
+                    corpus.annexes_en[celex].append((annex_id, row["eli_id"]))
+                continue
             corpus.inventories[celex][language].add(row["article_number"])
             if language == "en":
                 corpus.articles_en[celex].append((row["article_number"], row["eli_id"]))
@@ -141,7 +169,8 @@ def resolve_row(row: dict, corpus: Corpus) -> tuple[list[dict], list[dict]]:
     def unresolved(reason: str, **extra) -> dict:
         return {**base, "reason": reason, **extra}
 
-    if row.get("target_act_anaphoric") or row.get("rule") == "external_thereof" \
+    anaphoric_rules = ("external_thereof", "external_annex_thereto")
+    if row.get("target_act_anaphoric") or row.get("rule") in anaphoric_rules \
             or is_bare_designator(surface):
         return [], [unresolved("anaphoric")]
 
@@ -152,6 +181,9 @@ def resolve_row(row: dict, corpus: Corpus) -> tuple[list[dict], list[dict]]:
         return [], [unresolved(reason, **extra)]
     if celex in corpus.quarantined:
         return [], [unresolved("target_act_quarantined", parsed_celex=celex)]
+
+    if row.get("rule") == "external_annex_of_act":
+        return _resolve_annex_row(row, corpus, celex, unresolved)
 
     enumerations = references.find_enumerations(row["surface_form"])
     if not enumerations:
@@ -199,6 +231,64 @@ def resolve_row(row: dict, corpus: Corpus) -> tuple[list[dict], list[dict]]:
     return edges, misses
 
 
+def _annex_edge(row: dict, corpus: "Corpus", celex: str, annex_id: str,
+                target_eli: str) -> dict:
+    source_languages = row.get("available_languages") or list(ACT_LANGUAGES)
+    parsed = parse_act_designation(row.get("target_act_surface", ""))
+    return {
+        "source_article_id": row["source_article_id"],
+        "source_celex": row["source_celex"],
+        "source_unit_type": row.get("source_unit_type", "article"),
+        "source_article_number": row.get("source_article_number", ""),
+        "target_article_id": target_eli,
+        "target_celex": celex,
+        "target_article_number": "",
+        "target_annex_id": annex_id,
+        "target_unit_type": "annex",
+        "target_act_surface": row.get("target_act_surface", ""),
+        "target_act_eli": corpus.act_eli[celex],
+        "shape": parsed.shape if parsed else "",
+        "surface_form": row["surface_form"],
+        "char_start": row["char_start"],
+        "char_end": row["char_end"],
+        "target_paragraph_surface": "",
+        "rule": "external_annex_of_act",
+        "expansion": "single",
+        "available_languages": [lg for lg in source_languages
+                                if annex_id in corpus.annex_langs[celex].get(lg, set())],
+        "surface_language": "en",
+    }
+
+
+def _resolve_annex_row(row: dict, corpus: "Corpus", celex: str,
+                       unresolved) -> tuple[list[dict], list[dict]]:
+    """Edges for "Annex I to Regulation X" / "the Annex to Regulation X".
+
+    Labelled citations are validated against the target act's labelled annex
+    inventory; a bare "the Annex" resolves only when the target act has exactly
+    one annex. Anything else is a miss, never a guess.
+    """
+    labelled = references.find_annex_references(row["surface_form"])
+    if not labelled:
+        annexes = corpus.annexes_en.get(celex, [])
+        if len(annexes) == 1:
+            annex_id, target_eli = annexes[0]
+            return [_annex_edge(row, corpus, celex, annex_id, target_eli)], []
+        reason = "target_annex_ambiguous" if annexes else "target_annex_bare_no_annex"
+        return [], [unresolved(reason, target_celex=celex)]
+    edges: list[dict] = []
+    misses: list[dict] = []
+    inventory = corpus.annex_eli.get(celex, {})
+    for label in references.expand_annexes(labelled[0]):
+        target_eli = inventory.get(label)
+        if target_eli is None:   # absent, or a colliding label stored as None
+            misses.append(unresolved("target_annex_not_in_inventory",
+                                     target_celex=celex, target_annex_id=label))
+            continue
+        edges.append(_annex_edge(row, corpus, celex, label, target_eli))
+    return edges, misses
+
+
 # -- per-article status ----------------------------------------------------- #
 
 @dataclass
@@ -208,6 +298,10 @@ class _Tally:
     external: set[str] = field(default_factory=set)
     unresolved: Counter = field(default_factory=Counter)
     annex_targets: set[str] = field(default_factory=set)
+    annex_external: set[str] = field(default_factory=set)
+    # Unresolved citations that were ANNEX citations, whatever the reason --
+    # so cites_annex is true even when the miss is act-level (out_of_corpus).
+    annex_unresolved: int = 0
 
 
 def status_row(eli_id: str, celex: str, number: str, tally: _Tally | None) -> dict:
@@ -222,8 +316,12 @@ def status_row(eli_id: str, celex: str, number: str, tally: _Tally | None) -> di
         "n_external_resolved": len(t.external),
         "n_external_unresolved": n_unresolved,
         "unresolved_reasons": dict(t.unresolved),
-        "cites_annex": bool(t.annex_targets),
+        "cites_annex": bool(t.annex_targets or t.annex_external or t.annex_unresolved),
         "n_annex_targets": len(t.annex_targets),
+        "n_annex_external_resolved": len(t.annex_external),
+        # Unresolved annex citations count in ``unresolved`` alongside article
+        # ones, so one condition covers both: nothing the article cites may be
+        # left unresolved.
         "complete": t.internal_not_in_inventory == 0 and n_unresolved == 0,
     }
 
@@ -262,11 +360,15 @@ def resolve(*, external_path: Path | None = None, internal_path: Path | None = N
         stats["rows"] += 1
         edges, misses = resolve_row(row, corpus)
         is_article = row.get("source_unit_type") == "article"
+        is_annex_citation = str(row.get("rule", "")).startswith("external_annex")
         for entry in misses:
             unresolved_sink.write(entry)
             stats[f"unresolved:{entry['reason']}"] += 1
             if is_article:
-                tallies[row["source_article_id"]].unresolved[entry["reason"]] += 1
+                tally = tallies[row["source_article_id"]]
+                tally.unresolved[entry["reason"]] += 1
+                if is_annex_citation:
+                    tally.annex_unresolved += 1
         for edge in edges:
             key = (edge["source_article_id"], edge["target_article_id"], edge["char_start"])
             if key in emitted:
@@ -274,11 +376,15 @@ def resolve(*, external_path: Path | None = None, internal_path: Path | None = N
                 continue
             emitted.add(key)
             edges_sink.write(edge)
-            stats[f"edges:{edge['source_unit_type']}->article"] += 1
+            stats[f"edges:{edge['source_unit_type']}->{edge['target_unit_type']}"] += 1
             target_acts.add(edge["target_celex"])
             if is_article:
                 source_articles.add(edge["source_article_id"])
-                tallies[edge["source_article_id"]].external.add(edge["target_article_id"])
+                tally = tallies[edge["source_article_id"]]
+                if edge["target_unit_type"] == "annex":
+                    tally.annex_external.add(edge["target_article_id"])
+                else:
+                    tally.external.add(edge["target_article_id"])
         # Audit only: would reading the identifier the other way round ALSO
         # have named an act in the corpus? The parser never does this; the
         # count is here to show how often the guess would have been available.
@@ -302,9 +408,20 @@ def resolve(*, external_path: Path | None = None, internal_path: Path | None = N
         elif edge.get("target_unit_type") == "annex":
             tally.annex_targets.add(edge["target_article_id"])
     if dropped_path.exists():
+        annex_drop_reasons = {"annex-not-in-inventory": "annex_not_in_inventory",
+                              "annex-bare-ambiguous": "annex_bare_ambiguous",
+                              "annex-bare-no-annex": "annex_bare_no_annex"}
         for row in _iter_jsonl(dropped_path):
-            if row.get("reason") == "not-in-inventory" and row.get("source_unit_type") == "article":
+            if row.get("source_unit_type") != "article":
+                continue
+            if row.get("reason") == "not-in-inventory":
                 tallies[row["source_article_id"]].internal_not_in_inventory += 1
+            elif row.get("reason") in annex_drop_reasons:
+                # A citation of an annex that cannot be pinned down blocks the
+                # article exactly as an unresolvable article citation does.
+                tally = tallies[row["source_article_id"]]
+                tally.unresolved[annex_drop_reasons[row["reason"]]] += 1
+                tally.annex_unresolved += 1
 
     status_sink = references._Sink(status_out)
     for celex, articles in corpus.articles_en.items():
@@ -316,7 +433,8 @@ def resolve(*, external_path: Path | None = None, internal_path: Path | None = N
                 stats["status:with_external"] += 1
     status_sink.close()
 
-    article_rows = sum(v for k, v in stats.items() if k.startswith("edges:article"))
+    article_rows = sum(v for k, v in stats.items()
+                       if k.startswith("edges:article->"))
     summary = {
         "external_rows": stats["rows"],
         "edges": edges_sink.count,
@@ -374,6 +492,8 @@ def audit(*, edges_path: Path | None = None, unresolved_path: Path | None = None
     for edge in _iter_jsonl(edges_path):
         if edge.get("source_unit_type") != "article":
             continue
+        if edge.get("target_unit_type") == "annex":
+            continue  # the second-opinion parser records article targets only
         key = edge["source_celex"]
         ours[key].add((edge["source_article_number"], edge["target_celex"], edge["target_article_number"]))
         ours_acts[(key, edge["source_article_number"])].setdefault(
