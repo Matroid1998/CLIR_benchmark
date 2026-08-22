@@ -106,11 +106,71 @@ def test_fails_when_document_alone_bursts_budget():
     assert not fits(big, "No citations at all here.", index)
 
 
-def test_unresolved_citations_cost_nothing():
+def test_unresolved_citations_cost_nothing_in_the_fit_check():
+    # The FIT check only budgets material that will actually travel; an
+    # unresolvable citation contributes 0 chars here because the completeness
+    # gate upstream (select(require_complete=True)) has already excluded such
+    # blocks from the pool -- this function never sees one in production.
     index = _FakeIndex(DOCS)
     doc = DOCS["1994/s/res/918_1994_"]
-    # resolution 48/141 is not in the fake corpus -> contributes 0 chars
     assert fits(doc, "Recalling General Assembly resolution 48/141,", index)
+
+
+# --------------------------------------------------------------------------- #
+# Completeness gate
+# --------------------------------------------------------------------------- #
+
+class _GateIndex(_FakeIndex):
+    def __init__(self, docs, incomplete):
+        super().__init__(docs)
+        self.incomplete = incomplete
+
+    def blocks_for(self, doc_id):
+        raise AssertionError("gate tests never read block text")
+
+
+def _gate_docs():
+    return {
+        "1999/s/res/1_1999_": {
+            "doc_id": "1999/s/res/1_1999_", "symbol": "S/RES/1(1999)",
+            "char_count": 100, "n_blocks": 3, "title": "RESOLUTION 1",
+            "target_idxs": [0, 1, 2]},
+    }
+
+
+def test_select_exits_without_status_file():
+    import pytest
+    from clir_bench.domains.legal.qac.un_batch import select
+    index = _GateIndex(_gate_docs(), incomplete=None)
+    with pytest.raises(SystemExit, match="references_status"):
+        select(index, n=2, seed=1, languages=["en"], modes=["technical"],
+               fit_filter=False)
+
+
+def test_select_skips_incomplete_blocks():
+    from clir_bench.domains.legal.qac.un_batch import select
+    bad = {"1999/s/res/1_1999_#1": {"complete": False,
+                                    "reasons": {"out_of_corpus": 2}}}
+    index = _GateIndex(_gate_docs(), incomplete=bad)
+    chosen = select(index, n=3, seed=1, languages=["en"], modes=["technical"],
+                    fit_filter=False, genre_filter=False)
+    assert {t.block_id for t in chosen} == {"1999/s/res/1_1999_#0",
+                                            "1999/s/res/1_1999_#2"}
+    assert all(t.reference_complete for t in chosen)
+
+
+def test_allow_incomplete_lifts_the_gate_and_labels_the_rows():
+    from clir_bench.domains.legal.qac.un_batch import select
+    bad = {"1999/s/res/1_1999_#1": {"complete": False,
+                                    "reasons": {"out_of_corpus": 2}}}
+    index = _GateIndex(_gate_docs(), incomplete=bad)
+    chosen = select(index, n=3, seed=1, languages=["en"], modes=["technical"],
+                    fit_filter=False, genre_filter=False, require_complete=False)
+    assert len(chosen) == 3
+    flagged = next(t for t in chosen if t.block_id == "1999/s/res/1_1999_#1")
+    assert not flagged.reference_complete
+    assert flagged.n_unresolved == 2
+    assert flagged.unresolved_reasons == "out_of_corpus:2"
 
 
 # --------------------------------------------------------------------------- #

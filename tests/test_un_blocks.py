@@ -275,3 +275,72 @@ def test_prose_with_figures_is_usable():
             "report by 31 March on the deployment, including the cooperation "
             "of the parties and progress towards a ceasefire in Rwanda.")
     assert junk_flags(text) == []
+
+
+# ---------------------------------------------------------------------------
+# Annex / appendix part assignment
+# ---------------------------------------------------------------------------
+
+def test_appendix_heading_recognised():
+    from clir_bench.domains.legal.un.blocks import classify_lines
+    lines = make_lines(["Appendix II", "technical detail follows here now"])
+    assert classify_lines(lines)[0] == CLS_HEADING
+
+
+def test_assign_parts_body_annex_appendix():
+    from clir_bench.domains.legal.un.blocks import assign_parts, classify_lines
+    lines = make_lines([
+        "The Security Council decides to act with resolve today",
+        "Annex I",
+        "one two three four five six seven eight nine ten",
+        "Appendix",
+        "appendix content line with several more words here",
+    ])
+    cls = classify_lines(lines)
+    parts = assign_parts(lines, cls)
+    assert parts[0] == ("body", "", "")
+    assert parts[1] == ("annex", "anx_1", "Annex I")
+    assert parts[2] == ("annex", "anx_1", "Annex I")
+    assert parts[3] == ("appendix", "app_pos1", "Appendix")
+    assert parts[4] == ("appendix", "app_pos1", "Appendix")
+
+
+def test_assign_parts_labels_normalise_and_position_fallback():
+    from clir_bench.domains.legal.un.blocks import assign_parts, classify_lines
+    lines = make_lines([
+        "Annex 2",
+        "content of the second annex with words enough",
+        "Annex",
+        "content of the unlabelled annex with words enough",
+    ])
+    cls = classify_lines(lines)
+    parts = assign_parts(lines, cls)
+    assert parts[0][1] == "anx_2"
+    assert parts[2][1] == "anx_pos2"      # positional: second annex heading
+
+
+def test_build_writes_parts_and_annex_inventory(tmp_path):
+    import json
+    from clir_bench.domains.legal.un import blocks as B
+    ids = tmp_path / "ids.txt"
+    en = tmp_path / "en.txt"
+    body = ["The Council, recalling all of its previous relevant resolutions "
+            "and statements, decides to keep the situation under review now"] * 6
+    annex = ["Annex I"] + ["The annexed plan sets out the detailed technical "
+                           "arrangements for implementation of the mission"] * 6
+    lines = body + annex
+    ids.write_text("".join(f"1999/s/res/1__1999_ en:{i+1}:1\n" for i in range(len(lines))))
+    en.write_text("".join(t + "\n" for t in lines))
+    B.build(ids_path=ids, text_path=en, out_dir=tmp_path / "out",
+            min_tokens=10, max_tokens=40)
+    blocks = [json.loads(l) for l in (tmp_path / "out" / "blocks_en.jsonl").open()]
+    (doc,) = [json.loads(l) for l in (tmp_path / "out" / "docs_en.jsonl").open()]
+    assert doc["symbol"] == "S/RES/1(1999)"      # doubled underscore cleaned
+    assert {b["part"] for b in blocks} == {"body", "annex"}
+    annex_blocks = [b for b in blocks if b["part"] == "annex"]
+    assert all(b["part_id"] == "anx_1" and b["part_label"] == "Annex I"
+               for b in annex_blocks)
+    (inv,) = doc["annexes"]
+    assert inv["part_id"] == "anx_1" and inv["kind"] == "annex" and inv["label"] == "I"
+    assert inv["block_start"] == annex_blocks[0]["block_index"]
+    assert inv["block_end"] == annex_blocks[-1]["block_index"]

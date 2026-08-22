@@ -120,9 +120,14 @@ FURNITURE_RE = re.compile(
 
 # Bare 'Annex' is a heading (it legitimately precedes substantive annex text);
 # Annex rows carrying a paragraph-range/page number match TOC first because
-# TOC is tested before heading.
+# TOC is tested before heading. ANNEX_HEADING_RE is the same first pattern with
+# the label captured: it decides where a document's annex/appendix parts begin,
+# so that every block can carry the part it belongs to.
+ANNEX_HEADING_RE = re.compile(
+    r"^(ANNEX|Annex|APPENDIX|Appendix)(?:\s+([IVXLC]+|\d{1,2}))?\s*$")
+
 HEADING_RES = [re.compile(p) for p in (
-    r"^(ANNEX|Annex)(\s+[IVXLC0-9]+)?$",
+    r"^(ANNEX|Annex|APPENDIX|Appendix)(\s+[IVXLC0-9]+)?$",
     r"^[IVXLC]{1,6}\.\s+\S",
     r"^[A-H]\.\s+[A-Z]",
     r"^Article \d+\s*$",
@@ -360,11 +365,58 @@ def symbol_for(doc_id: str) -> str:
     for part in parts:
         if part.endswith("_") and "_" in part[:-1]:
             head, rest = part[:-1].split("_", 1)
-            part = f"{head}({rest.replace('_', '.')})"
+            # "1173__1998_" carries a doubled underscore; without the strip the
+            # symbol came out "S/RES/1173(.1998)" and the document was
+            # unreachable behind a key nothing ever cites.
+            part = f"{head}({rest.strip('_').replace('_', '.')})"
         else:
             part = part.rstrip("_").replace("_", ".")
         out.append(part.upper())
     return "/".join(out)
+
+
+_ROMAN_VALUES = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100}
+
+
+def _label_int(label: str) -> int | None:
+    if label.isdigit():
+        return int(label)
+    total, previous = 0, 0
+    for char in reversed(label):
+        digit = _ROMAN_VALUES.get(char)
+        if digit is None:
+            return None
+        total = total - digit if digit < previous else total + digit
+        previous = max(previous, digit)
+    return total or None
+
+
+def assign_parts(lines: list[Line], cls: list[str]) -> list[tuple[str, str, str]]:
+    """(part, part_id, part_label) per line: "body" until an ANNEX/APPENDIX
+    heading, then that part until the next such heading or document end.
+
+    Labels normalise to integers ("Annex I" and "Annex 1" both become anx_1);
+    an unlabelled heading gets a positional id (anx_pos1). The resolver treats
+    duplicate ids as ambiguous, so collisions are represented, never hidden.
+    """
+    parts: list[tuple[str, str, str]] = []
+    current = ("body", "", "")
+    counters = {"annex": 0, "appendix": 0}
+    for line, kind in zip(lines, cls):
+        if kind == CLS_HEADING:
+            heading = ANNEX_HEADING_RE.match(line.text.strip())
+            if heading:
+                word = heading.group(1).lower()
+                part_kind = "appendix" if word.startswith("append") else "annex"
+                counters[part_kind] += 1
+                prefix = "app" if part_kind == "appendix" else "anx"
+                label = heading.group(2) or ""
+                number = _label_int(label) if label else None
+                part_id = (f"{prefix}_{number}" if number is not None
+                           else f"{prefix}_pos{counters[part_kind]}")
+                current = (part_kind, part_id, line.text.strip())
+        parts.append(current)
+    return parts
 
 
 def build(*, ids_path: Path = paths.IDS_FILE,
@@ -385,6 +437,7 @@ def build(*, ids_path: Path = paths.IDS_FILE,
             kind_of = dict(zip((l.number for l in lines), cls))
             n_junk = sum(1 for k in cls if k in JUNK_CLASSES)
             packed = pack(lines, cls, min_tokens=min_tokens, max_tokens=max_tokens)
+            part_of = dict(zip((l.number for l in lines), assign_parts(lines, cls)))
 
             title = next((l.text for l, k in zip(lines, cls) if k == CLS_CONTENT),
                          lines[0].text)[:TITLE_MAX_CHARS]
@@ -408,6 +461,7 @@ def build(*, ids_path: Path = paths.IDS_FILE,
                         heading_lines.append(l.text.strip())
                     else:
                         break
+                part, part_id, part_label = part_of[block[0].number]
                 starts_mid = index > 0 and block[0].paragraph == packed[index - 1][-1].paragraph
                 ends_mid = (index + 1 < len(packed)
                             and block[-1].paragraph == packed[index + 1][0].paragraph)
@@ -430,11 +484,33 @@ def build(*, ids_path: Path = paths.IDS_FILE,
                     "usable": usable,
                     "junk_flags": flags,
                     "splits_paragraph": starts_mid or ends_mid,
+                    "part": part,
+                    "part_id": part_id,
+                    "part_label": part_label,
                     "heading": " / ".join(heading_lines)[:HEADING_MAX_CHARS],
                     "title": title,
                     "text": text,
                 }
                 blocks_fh.write(json.dumps(row, ensure_ascii=False).encode() + b"\n")
+
+            # The document's annex inventory, from the block-level parts:
+            # contiguous runs of one part_id, in block order. Duplicate labels
+            # stay duplicated -- the resolver's ">1 match" rule reads that as
+            # ambiguous, which is the truthful answer.
+            annexes: list[dict] = []
+            for index, block in enumerate(packed):
+                part, part_id, part_label = part_of[block[0].number]
+                if part == "body":
+                    continue
+                if annexes and annexes[-1]["part_id"] == part_id \
+                        and annexes[-1]["block_end"] == index - 1:
+                    annexes[-1]["block_end"] = index
+                    continue
+                label_match = ANNEX_HEADING_RE.match(part_label)
+                label = (label_match.group(2) or "") if label_match else ""
+                annexes.append({"part_id": part_id, "kind": part,
+                                "label": label, "block_start": index,
+                                "block_end": index})
             docs_fh.write(json.dumps({
                 "doc_id": doc_id,
                 "symbol": symbol_for(doc_id),
@@ -452,6 +528,7 @@ def build(*, ids_path: Path = paths.IDS_FILE,
                 "line_end": lines[-1].number,
                 "token_count": sum(l.tokens for l in lines),
                 "char_count": sum(len(l.text) + 1 for l in lines),
+                "annexes": annexes,
                 "offset": offset,
             }, ensure_ascii=False).encode() + b"\n")
 

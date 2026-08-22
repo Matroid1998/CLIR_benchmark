@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Sequence
 
 from clir_bench.domains.legal.un import paths
 from clir_bench.domains.legal.qac import un_references as refs
@@ -79,6 +80,9 @@ class BlockUnit:
     in_range: bool
     usable: bool = True
     heading: str = ""
+    part: str = "body"          # body | annex | appendix
+    part_id: str = ""
+    part_label: str = ""
     texts: dict[str, str] = field(default_factory=dict)
 
     @classmethod
@@ -90,6 +94,8 @@ class BlockUnit:
             line_start=row["line_start"], line_end=row["line_end"],
             token_count=row["token_count"], in_range=row.get("in_range", True),
             usable=row.get("usable", True), heading=row.get("heading", ""),
+            part=row.get("part", "body"), part_id=row.get("part_id", ""),
+            part_label=row.get("part_label", ""),
             texts={"en": row["text"]},
         )
 
@@ -103,6 +109,7 @@ class ReferencedDoc:
     title: str
     text: str                   # anchored-paragraph block or head block, capped
     paragraph: int | None       # set only when the anchor was actually located
+    part_label: str = ""        # "Annex I" when the citation named that annex
 
 
 @dataclass
@@ -127,18 +134,49 @@ class BlockIndex:
     """
 
     def __init__(self, blocks_path: Path | None = None,
-                 docs_path: Path | None = None) -> None:
+                 docs_path: Path | None = None, *,
+                 status_path: Path | None = None) -> None:
         self.blocks_path = Path(blocks_path or paths.BLOCKS_JSONL)
         self.docs: dict[str, dict] = {}
         with open(docs_path or paths.DOCS_JSONL, encoding="utf-8") as fh:
             for line in fh:
                 row = json.loads(line)
                 self.docs[row["doc_id"]] = row
-        # Collision-free over the whole corpus; the resolution mechanism for
-        # cross-references found in target-block text.
-        self.symbol_map: dict[str, str] = {
-            refs.normalise_symbol(row["symbol"]): doc_id
-            for doc_id, row in self.docs.items()}
+        # One builder for every consumer: hygiene, collision handling and the
+        # special-session facts all live in SymbolIndex.
+        self.symbols = refs.SymbolIndex.from_docs(self.docs)
+        # The corpus-level status file is only assumed for the corpus-level
+        # blocks/docs: an index over custom files must not be gated by
+        # verdicts computed against different data.
+        if status_path is None and blocks_path is None and docs_path is None:
+            status_path = paths.REFERENCE_STATUS_JSONL
+        self._status_path = Path(status_path) if status_path else None
+        self._incomplete: dict[str, dict] | None = None
+        self._status_loaded = False
+
+    @property
+    def symbol_map(self) -> dict[str, str]:
+        return self.symbols.map
+
+    @property
+    def incomplete(self) -> dict[str, dict] | None:
+        """block_id -> status row, for blocks whose citations are NOT all
+        resolved. ``None`` means the status stage has not been run; a block
+        absent from the mapping is reference-complete (the stage writes rows
+        only for citing blocks, and completeness is the default)."""
+        if not self._status_loaded:
+            if self._status_path is not None and self._status_path.exists():
+                rows: dict[str, dict] = {}
+                with open(self._status_path, encoding="utf-8") as fh:
+                    for line in fh:
+                        row = json.loads(line)
+                        if not row.get("complete"):
+                            rows[row["block_id"]] = row
+                # Assign the finished mapping before the flag, so a concurrent
+                # reader can never observe "loaded" with a half-built result.
+                self._incomplete = rows
+            self._status_loaded = True
+        return self._incomplete
 
     def blocks_for(self, doc_id: str) -> list[BlockUnit]:
         doc = self.docs[doc_id]
@@ -162,12 +200,26 @@ class BlockIndex:
             return None
 
         citations = refs.resolve_citations(
-            refs.extract_citations(target.texts["en"]), self.symbol_map,
-            citing_doc_id=doc_id)
+            refs.extract_citations(target.texts["en"], doc_id=doc_id),
+            self.symbols, citing_doc_id=doc_id)
+        refs.resolve_external_annexes(
+            citations, lambda d: self.docs.get(d, {}).get("annexes", []))
+        refs.resolve_internal(
+            citations, block_index=block_index,
+            block_texts=[b.texts["en"] for b in blocks],
+            block_parts=[b.part_id for b in blocks],
+            annexes=self.docs[doc_id].get("annexes", []))
         kept, dropped = refs.referenced_docs(citations, max_references)
         references = [self._render_reference(c, reference_chars) for c in kept]
 
-        chosen = _select_context(blocks, block_index, context_chars)
+        # An internally cited sibling block is guaranteed a context slot: it is
+        # what the citation points at, so it may not be squeezed out by
+        # generic neighbours.
+        priority = sorted({i for c in citations
+                           if c.scope == refs.SCOPE_INTERNAL
+                           for i in c.anchor_blocks if i != block_index})
+        chosen = _select_context(blocks, block_index, context_chars,
+                                 priority=priority)
         text = render_payload(target, chosen, references=references,
                               languages=languages)
         return GenerationPayload(target, chosen, len(blocks) - 1 - len(chosen),
@@ -189,11 +241,21 @@ class BlockIndex:
         doc = self.docs[citation.doc_id]
         blocks = self.blocks_for(citation.doc_id)
         hit = None
-        if (citation.paragraph is not None and citation.section_letter is None
-                and blocks):
+        part_label = ""
+        if citation.part_id:
+            # The citation named an annex of the cited document and resolution
+            # pinned it to exactly one part: that part's opening block is the
+            # cited material, not the document's head block.
+            part = next((a for a in doc.get("annexes", [])
+                         if a["part_id"] == citation.part_id), None)
+            if part is not None and part["block_start"] < len(blocks):
+                hit = part["block_start"]
+                part_label = blocks[hit].part_label or f"Annex {part.get('label', '')}".strip()
+        if (hit is None and citation.paragraph is not None
+                and citation.section_letter is None and blocks):
             hit = refs.anchored_block_index(
                 [b.texts["en"] for b in blocks], citation.paragraph)
-        paragraph = citation.paragraph if hit is not None else None
+        paragraph = citation.paragraph if hit is not None and not part_label else None
         if limit is None:
             text = "\n\n".join(b.texts["en"] for b in blocks)
         else:
@@ -203,21 +265,30 @@ class BlockIndex:
                 text = text[:limit].rstrip() + " […truncated]"
         return ReferencedDoc(symbol=citation.symbol or doc["symbol"],
                              doc_id=citation.doc_id, title=doc["title"],
-                             text=text, paragraph=paragraph)
+                             text=text, paragraph=paragraph,
+                             part_label=part_label)
 
 
 def _select_context(blocks: list[BlockUnit], target_index: int,
-                    budget: int) -> list[BlockUnit]:
+                    budget: int, *, priority: Sequence[int] = ()) -> list[BlockUnit]:
     """Context blocks within the character budget, in document order.
 
     Priority: the document opening first (it resolves "the present report" and
-    names the mission), then neighbours expanding outward from the target (they
-    resolve local anaphora). For most documents the budget admits everything
-    and the context is simply the whole rest of the document.
+    names the mission), then any ``priority`` blocks -- siblings an internal
+    citation anchored to, which the payload must not squeeze out -- then
+    neighbours expanding outward from the target (they resolve local
+    anaphora). For most documents the budget admits everything and the context
+    is simply the whole rest of the document.
     """
+    priority_set: set[int] = set()
     candidates: list[int] = []
     if target_index != 0:
         candidates.append(0)
+    for index in priority:
+        if 0 <= index < len(blocks) and index != target_index \
+                and index not in candidates:
+            candidates.append(index)
+            priority_set.add(index)
     step = 1
     while len(candidates) < len(blocks) - 1:
         for index in (target_index - step, target_index + step):
@@ -230,6 +301,10 @@ def _select_context(blocks: list[BlockUnit], target_index: int,
     for index in candidates:
         cost = len(blocks[index].texts.get("en", ""))
         if cost > remaining:
+            # An oversized anchor must not end the walk -- the guaranteed slot
+            # for the NEXT anchor, and the neighbours after it, still stand.
+            if index in priority_set:
+                continue
             break
         chosen.add(index)
         remaining -= cost
@@ -265,7 +340,12 @@ def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
     if references:
         parts.append(REFERENCES_HEADER)
         for r in references:
-            anchor = f" (cited paragraph {r.paragraph})" if r.paragraph else ""
+            if r.part_label:
+                anchor = f" (cited annex {r.part_label})"
+            elif r.paragraph:
+                anchor = f" (cited paragraph {r.paragraph})"
+            else:
+                anchor = ""
             parts.append(f"Reference: {r.symbol} — {r.title}{anchor}\n{r.text}")
     else:
         parts.append(REFERENCES_NONE)

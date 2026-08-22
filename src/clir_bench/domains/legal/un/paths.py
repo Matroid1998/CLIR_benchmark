@@ -28,13 +28,25 @@ DOCS_JSONL = BLOCKS_DIR / "docs_en.jsonl"        # one row per document + offset
 
 QAC_DIR = UN_DIR / "qac"
 
+# Stage: references_status. Per-target-block completeness of the citation
+# graph, the resolved external edges, and everything that could not be
+# resolved with its reason.
+REFERENCE_STATUS_JSONL = BLOCKS_DIR / "reference_status_en.jsonl"
+CITATION_EDGES_JSONL = BLOCKS_DIR / "un_citation_edges.jsonl"
+UNRESOLVED_JSONL = BLOCKS_DIR / "un_unresolved.jsonl"
+REPORTS_DIR = ROOT / "reports/un_references"
+STATS_JSON = REPORTS_DIR / "un_reference_stats.json"
+REVIEW_MD = UN_DIR / "references_review_sample.md"
+
 
 def ensure_dirs() -> None:
-    for path in (BLOCKS_DIR, QAC_DIR):
+    for path in (BLOCKS_DIR, QAC_DIR, REPORTS_DIR):
         path.mkdir(parents=True, exist_ok=True)
 
 
 __all__ = [
     "UN_DIR", "SIXWAY_DIR", "IDS_FILE", "text_file",
-    "BLOCKS_DIR", "BLOCKS_JSONL", "DOCS_JSONL", "QAC_DIR", "ensure_dirs",
+    "BLOCKS_DIR", "BLOCKS_JSONL", "DOCS_JSONL", "QAC_DIR",
+    "REFERENCE_STATUS_JSONL", "CITATION_EDGES_JSONL", "UNRESOLVED_JSONL",
+    "REPORTS_DIR", "STATS_JSON", "REVIEW_MD", "ensure_dirs",
 ]

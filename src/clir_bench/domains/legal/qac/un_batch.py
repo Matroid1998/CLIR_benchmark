@@ -97,7 +97,8 @@ def _fits_whole(doc: dict, block_text: str, index: ctx.BlockIndex) -> bool:
     if doc["char_count"] > FIT_BUDGET:
         return False
     citations = refs.resolve_citations(
-        refs.extract_citations(block_text), index.symbol_map,
+        refs.extract_citations(block_text),
+        getattr(index, "symbols", None) or index.symbol_map,
         citing_doc_id=doc["doc_id"])
     kept, _ = refs.referenced_docs(citations)
     total = doc["char_count"] + sum(
@@ -114,6 +115,9 @@ class Target:
     stratum: str
     mode: str
     language: str
+    reference_complete: bool = True
+    n_unresolved: int = 0
+    unresolved_reasons: str = ""    # "reason:count;..." for gated-in blocks
 
 
 def _excluded_doc(doc_id: str) -> bool:
@@ -132,7 +136,7 @@ def _excluded_doc(doc_id: str) -> bool:
 def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str],
            modes: Sequence[str], strata=GENRE_STRATA,
            max_per_doc: int = 0, genre_filter: bool = True,
-           fit_filter: bool = True) -> list[Target]:
+           fit_filter: bool = True, require_complete: bool = True) -> list[Target]:
     """Stratified, deterministic, block-level target selection.
 
     The pool is enumerated from the docs index alone (``target_idxs``) and
@@ -141,9 +145,23 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
     while walking the ranked pool -- only candidates actually reached get
     their block text read and citations resolved, so cost scales with ``n``.
     ``max_per_doc`` is a safety cap only; 0 means uncapped.
+
+    ``require_complete`` restricts the pool to reference-complete blocks: a
+    block citing anything that could not be resolved -- another document
+    outside the corpus, a treaty article, an annex that cannot be pinned down
+    -- is not a question target. Needs ``reference_status_en.jsonl``.
     """
     def rank(key: str) -> str:
         return hashlib.sha256(f"{seed}:{key}".encode()).hexdigest()
+
+    incomplete = index.incomplete
+    if require_complete and incomplete is None:
+        raise SystemExit(
+            "reference_status_en.jsonl not found: run "
+            "`python -m clir_bench.domains.legal.un.references_status` "
+            "or pass --allow-incomplete")
+    if not require_complete and incomplete is None:
+        incomplete = {}
 
     if not genre_filter:
         strata = (("all", 1.0),)
@@ -164,6 +182,9 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
                 continue
         else:
             stratum = "all"
+        if require_complete:
+            idxs = [idx for idx in idxs
+                    if f"{doc_id}#{idx}" not in incomplete]
         pools[stratum].extend((doc_id, idx) for idx in idxs)
     if missing_idxs and not any(pools.values()):
         raise SystemExit(
@@ -186,6 +207,7 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
                 continue
             per_doc[doc_id] += 1
             position = len(chosen)
+            status = incomplete.get(f"{doc_id}#{idx}")
             chosen.append(Target(
                 doc_id=doc_id, block_id=f"{doc_id}#{idx}",
                 block_index=idx, n_blocks=doc["n_blocks"],
@@ -194,6 +216,12 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
                 # modes and question languages rather than randomly lumpy.
                 mode=modes[position % len(modes)],
                 language=languages[position % len(languages)],
+                reference_complete=status is None,
+                n_unresolved=(sum(status.get("reasons", {}).values())
+                              if status else 0),
+                unresolved_reasons=";".join(
+                    f"{k}:{v}" for k, v in
+                    (status.get("reasons", {}) if status else {}).items()),
             ))
             taken += 1
     return chosen
@@ -260,6 +288,9 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             "framing": candidate.classification if target.mode == "semantic" else "",
             "references_supplied": ",".join(r.symbol for r in payload.references),
             "references_dropped": ",".join(payload.dropped_references),
+            "reference_complete": target.reference_complete,
+            "n_unresolved": target.n_unresolved,
+            "unresolved_reasons": target.unresolved_reasons,
         }
         # Every score the verifiers returned, not just the aggregates: the
         # three faithfulness sub-criteria, the five mode-specific quality
@@ -301,6 +332,7 @@ FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "question_language", "mode", "question", "answer",
           "question_type", "framing",
           "references_supplied", "references_dropped",
+          "reference_complete", "n_unresolved", "unresolved_reasons",
           "faith_grounding", "faith_precision", "faith_numerical_fidelity",
           "faith_overall",
           "qual_search_bar_realism", "qual_specificity", "qual_phrasing_economy",
@@ -330,6 +362,8 @@ def main() -> None:
     parser.add_argument("--no-fit", action="store_true",
                         help="disable the whole-document fit filter; references "
                              "fall back to capped excerpts")
+    parser.add_argument("--allow-incomplete", action="store_true",
+                        help="also sample blocks whose citations are not all resolved")
     parser.add_argument("--max-per-doc", type=int, default=0,
                         help="safety cap on targets per document (0 = uncapped; "
                              "documents contribute proportionally to size)")
@@ -349,19 +383,34 @@ def main() -> None:
     strata = GENRE_STRATA
     if args.shares:
         values = [float(x) for x in args.shares.split(",")]
+        if len(values) != len(GENRE_STRATA):
+            raise SystemExit(f"--shares needs {len(GENRE_STRATA)} values "
+                             f"({', '.join(n for n, _ in GENRE_STRATA)})")
         strata = tuple(zip((name for name, _ in GENRE_STRATA), values))
 
     index = ctx.BlockIndex(blocks_path=args.blocks, docs_path=args.docs)
+    if index.incomplete is not None:
+        status_mtime = ctx.paths.REFERENCE_STATUS_JSONL.stat().st_mtime
+        blocks_file = Path(args.blocks or ctx.paths.BLOCKS_JSONL)
+        if blocks_file.exists() and blocks_file.stat().st_mtime > status_mtime:
+            print("WARNING: blocks_en.jsonl is newer than reference_status_en.jsonl "
+                  "-- re-run clir_bench.domains.legal.un.references_status",
+                  file=sys.stderr)
     targets = select(index, n=args.n, seed=args.seed, languages=languages,
                      modes=modes, strata=strata, max_per_doc=args.max_per_doc,
                      genre_filter=not args.all_genres,
-                     fit_filter=not args.no_fit)
+                     fit_filter=not args.no_fit,
+                     require_complete=not args.allow_incomplete)
 
     print(f"selected {len(targets)} target blocks "
           f"across {len({t.doc_id for t in targets})} documents", file=sys.stderr)
     print(f"  by stratum : {dict(Counter(t.stratum for t in targets))}", file=sys.stderr)
     print(f"  by language: {dict(Counter(t.language for t in targets))}", file=sys.stderr)
     print(f"  by mode    : {dict(Counter(t.mode for t in targets))}", file=sys.stderr)
+    if index.incomplete is not None:
+        print(f"  reference-complete: {sum(1 for t in targets if t.reference_complete)}"
+              f"/{len(targets)}; incomplete blocks known to the gate: "
+              f"{len(index.incomplete):,}", file=sys.stderr)
 
     if args.dry_run:
         print(f"\ncall budget: {len(targets)} generation + {2 * len(targets)} grading "

@@ -1,45 +1,49 @@
 """
-Extract and resolve cross-references from UN block text.
+Extract, classify and resolve cross-references from UN block text.
 
 UN documents cite each other in rigidly formulaic ways -- "resolution 918
 (1994)", "resolution 51/210", "(S/PRST/1994/16)", "paragraph 11 (j) of
 Security Council resolution 1244 (1999)" -- which makes regex extraction
-reliable. This module finds those citations in a target block's English text
-and resolves them to documents in our own corpus via the symbol index that
-``blocks.py`` already writes, so the cited material can travel in the
-generation payload as supporting context (the EUR-Lex pattern: the target
-block stays fixed; references complete, never replace, it).
+reliable. This module finds those citations in a block's English text,
+classifies each one (external document, internal part of the same document,
+or a family this corpus cannot model), and resolves it only when the surface
+pins exactly one target:
 
-Everything here was measured before it was written (60,328 target blocks):
-the regex inventory, the body allowlist that kills non-UN symbols
-(OEA/..., MSC/..., IMO circulars), and the resolution chain for slash-form
-citations -- ``A/RES -> A/HRC/RES -> E/RES`` is safe because those three key
-spaces are fully disjoint in this corpus (GA sessions >= 51, HRC <= 27,
-ECOSOC year-like; zero collisions), so the chain can never pick a wrong
-document, only miss. Internal references ("paragraph 5 above", "the present
-resolution") never match by construction: every pattern requires an explicit
-resolution/symbol token.
+* **External documents** resolve through candidate chains against the corpus
+  symbol index. Every chain is measured-disjoint -- ``A/RES`` (GA sessions
+  >= 51), ``A/HRC/RES`` (<= 27) and ``E/RES`` (year-like) share no numeric
+  tails, Security Council numbers map to one year each -- so a chain can miss
+  but never pick a wrong document. A citation with a section letter
+  ("resolution 51/153 B") names ONLY the lettered document; when the corpus
+  holds just the plain twin the citation stays unresolved, because 118 of the
+  169 lettered symbols coexist with a plain sibling and resolving to it was a
+  measured wrong-document channel.
+* **Internal parts** ("paragraph 5 above", "annex II to the present
+  resolution") anchor against the citing document's own blocks and annex
+  inventory; an anchor that is missing or matches more than one block is a
+  named failure, never a guess. A bare "paragraph 5" is anchored only inside
+  resolutions and decisions -- in a meeting record it usually names the report
+  under discussion, exactly the mis-anchor this module exists to avoid.
+* **Unmodelled families** (treaty articles, rules of procedure, general
+  comments) are detected so the completeness gate can see them; agenda items
+  and coarse structural pointers are recorded without blocking.
 
-Usage (validation harness -- writes a manual-review file):
-    python -m clir_bench.domains.legal.qac.un_references --sample 400
+Every citation ends with either a resolved target or a ``reason`` from
+``REASONS``; ``is_blocking`` says whether that reason disqualifies the citing
+block from question generation. The corpus-wide pass that persists this lives
+in ``domains/legal/un/references_status.py``.
 """
 
 from __future__ import annotations
 
-import argparse
-import json
 import re
-import sys
 from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Iterable, Sequence
-
-from clir_bench.domains.legal.un import paths
+from typing import Callable, Iterable, Mapping, Sequence
 
 # References must stay visibly smaller than the same-document context
-# (30k chars): cap 4 carries 96.3% of citing blocks whole (p95 of the
-# measured references-per-block distribution, the same place EUR-Lex put
-# its cap); one UN block is ~1.0-1.4k chars, so 1500 fits it untruncated.
+# (30k chars): cap 4 carries 92% of citing blocks whole (the references-per-
+# block distribution's p92, the same place EUR-Lex put its cap); one UN block
+# is ~1.0-1.4k chars, so 1500 fits it untruncated.
 DEFAULT_MAX_REFERENCES = 4
 DEFAULT_REFERENCE_CHARS = 1500
 
@@ -49,6 +53,37 @@ KIND_DECISION = "decision"
 KIND_SYMBOL = "symbol"
 KIND_ROMAN = "roman_resolution"
 KIND_ES = "es_resolution"
+KIND_INTERNAL_PARA = "internal_paragraph"
+KIND_INTERNAL_ANNEX = "internal_annex"
+KIND_TREATY = "treaty_article"
+KIND_RULE = "rules_of_procedure"
+KIND_GC = "general_comment"
+KIND_AGENDA = "agenda_item"
+KIND_STRUCT = "structural_part"
+KIND_PARA_OTHER = "paragraph_of_other"
+
+SCOPE_EXTERNAL = "external_doc"
+SCOPE_INTERNAL = "internal"
+SCOPE_UNMODELLED = "unmodelled"
+
+# Why a citation did not resolve cleanly. ``*_recorded`` reasons are
+# observations, not failures; everything else disqualifies the citing block.
+REASONS = (
+    "out_of_corpus", "pre_corpus", "ambiguous_candidates", "self_reference",
+    "external_annex_not_found", "external_annex_ambiguous",
+    "internal_paragraph_not_found", "internal_paragraph_ambiguous",
+    "internal_annex_not_found", "internal_annex_ambiguous",
+    "treaty_article_unmodelled", "rules_of_procedure_unmodelled",
+    "general_comment_unmodelled",
+    "agenda_item_recorded", "structural_part_recorded",
+    "paragraph_of_other_recorded", "annex_of_other_recorded",
+    "bare_paragraph_nonres_recorded",
+)
+NON_BLOCKING_REASONS = frozenset({
+    "self_reference", "agenda_item_recorded", "structural_part_recorded",
+    "paragraph_of_other_recorded", "annex_of_other_recorded",
+    "bare_paragraph_nonres_recorded",
+})
 
 _NUM_YR = r"\d{1,4}\s*\(\s*\d{4}\s*\)"
 SC_RUN_RE = re.compile(
@@ -73,18 +108,87 @@ SYMBOL_BODIES = frozenset({
 })
 
 ROMAN_RES_RE = re.compile(r"\bresolutions?\s+\d{1,4}\s*(?:[A-Z]\s+)?\(\s*[IVXLC]+\s*\)")
-ES_RES_RE = re.compile(r"\bresolutions?\s+((?:ES|S)-\d+/\d+)")
+# Special sessions: "resolution ES-10/2" (GA emergency, always A/RES/ES.N/M)
+# and "resolution S-20/1" (GA special OR HRC special -- the organ surface, or
+# a session number that exists in exactly one space, must pin it).
+ES_RES_RE = re.compile(
+    r"\b(?:(General\s+Assembly|Human\s+Rights\s+Council)\s+)?"
+    r"resolutions?\s+((ES|S)-(\d{1,2})/(\d{1,3}))")
 
 PARA_OF_RE = re.compile(
     r"\b(?:operative\s+)?paragraphs?\s+(\d+(?:\s*\([a-z]\))?)"
     r"(?:(?:\s*,\s*|\s*,?\s+and\s+)\d+(?:\s*\([a-z]\))?)*"
-    r"\s+(?:of|in)\s+"
+    r"\s*,?\s+(?:of|in)\s+"
     r"((?:its\s+|General\s+Assembly\s+|Security\s+Council\s+|Council\s+|Assembly\s+)?"
     r"resolutions?\s+[^,;.]{0,40})", re.IGNORECASE)
+
+# -- unmodelled families ---------------------------------------------------- #
+
+# The comma before "of" is standard drafting ("article 5, paragraph 4, of the
+# Optional Protocol"); without it the whole family fell through to the
+# paragraph classifier, ~20k times corpus-wide.
+TREATY_ARTICLE_RE = re.compile(
+    r"\b(?:articles?|paragraphs?)\s+\d{1,3}(?:\s*\([a-z0-9]+\))?"
+    r"(?:(?:\s*,\s*|\s*,?\s+and\s+)\d{1,3}(?:\s*\([a-z0-9]+\))?)*"
+    r"(?:\s*,?\s+paragraphs?\s+\d{1,2}(?:\s*\([a-z0-9]+\))?)?"
+    r"\s*,?\s+of\s+(?:the\s+)?[^.;:]{0,70}?"
+    r"\b(Charter|Covenant|Convention|Protocol|Statute|Treaty)\b", re.IGNORECASE)
+RULES_OF_PROCEDURE_RE = re.compile(
+    r"\brules?\s+\d{1,3}(?:\s*\([a-z0-9]+\))?"
+    r"(?:(?:\s*,\s*|\s*,?\s+and\s+)\d{1,3}(?:\s*\([a-z0-9]+\))?)*"
+    r"\s+of\s+(?:its|the|their)\s+(?:provisional\s+)?rules\s+of\s+procedure",
+    re.IGNORECASE)
+GENERAL_COMMENT_RE = re.compile(
+    r"\bgeneral\s+(?:comment|recommendation)s?\s+No\.?\s*\d{1,3}", re.IGNORECASE)
+AGENDA_ITEM_RE = re.compile(
+    r"\bagenda\s+items?\s+\d{1,3}(?:\s*\([a-z]\))?", re.IGNORECASE)
+STRUCTURAL_PART_RE = re.compile(
+    r"\b(?i:section|chapter|part|table|figure)s?\s+"
+    r"(?:[IVXLC]{1,6}|\d{1,3}|[A-H])(?![\w/])")
+
+# -- internal parts --------------------------------------------------------- #
+
+PARA_RUN_RE = re.compile(
+    r"\b(?:operative\s+)?paragraphs?\s+(\d{1,3})(?:\s*\([a-z]\))?"
+    r"((?:(?:\s*,\s*|\s*,?\s+and\s+)\d{1,3}(?:\s*\([a-z]\))?)*)", re.IGNORECASE)
+INTERNAL_TAIL_RE = re.compile(
+    r"^\s*,?\s*(?:above|below)\b"
+    r"|^\s*,?\s*(?:of|in)\s+the\s+present\s+(?:resolution|decision|statement|report"
+    r"|note|letter|document|declaration)\b"
+    r"|^\s*,?\s*(?:of|in)\s+this\s+(?:resolution|decision)\b", re.IGNORECASE)
+OF_TAIL_RE = re.compile(r"^\s*,?\s*(?:of|in)\s+", re.IGNORECASE)
+PARA_OF_ANNEX_TAIL_RE = re.compile(
+    r"^\s*,?\s*(?:of|in)\s+(?:the\s+annex(?:es)?|annex\s+([IVXLC]{1,6}|\d{1,2}))(?![\w-])",
+    re.IGNORECASE)
+
+_ANNEX_LABEL = r"(?:[IVXLC]{1,6}|\d{1,2})"
+ANNEX_REF_RE = re.compile(
+    rf"\b(?:(the|its)\s+)?(annex(?:es)?|appendix|appendices)"
+    rf"(?:\s+({_ANNEX_LABEL}))?(?![\w-])", re.IGNORECASE)
+ANNEX_INTERNAL_TAIL_RE = re.compile(
+    r"^\s+to\s+(?:the\s+present|this)\s+\w+", re.IGNORECASE)
+ANNEX_TO_TAIL_RE = re.compile(r"^\s+to\s+", re.IGNORECASE)
+ANNEXED_RE = re.compile(
+    r"\bannexed\s+(?:hereto|to\s+(?:the\s+present|this)\s+\w+)", re.IGNORECASE)
 
 _ORGANS = ("General Assembly", "Security Council", "Human Rights Council",
            "Economic and Social Council", "Commission on Human Rights",
            "Sub-Commission")
+
+_ROMAN_VALUES = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100}
+
+
+def _roman_or_int(label: str) -> int | None:
+    if label.isdigit():
+        return int(label)
+    total, previous = 0, 0
+    for char in reversed(label.upper()):
+        digit = _ROMAN_VALUES.get(char)
+        if digit is None:
+            return None
+        total = total - digit if digit < previous else total + digit
+        previous = max(previous, digit)
+    return total or None
 
 
 @dataclass
@@ -101,6 +205,19 @@ class Citation:
     section_letter: str | None = None   # "B" in "resolution 57/270 B"
     organ_hint: str | None = None       # from the 60-char pre-window; metadata
     candidates: tuple[str, ...] = field(default=())
+    scope: str = SCOPE_EXTERNAL         # external_doc | internal | unmodelled
+    reason: str | None = None           # from REASONS; None once cleanly resolved
+    numbers: tuple[int, ...] = ()       # internal paragraph run
+    annex_label: str | None = None      # "" = bare "the annex"; "I"/"2" = labelled
+    annex_plural: bool = False
+    part_kind: str | None = None        # "annex" | "appendix"
+    part_id: str | None = None          # resolved annex part
+    anchor_blocks: tuple[int, ...] = () # resolved internal target block indices
+
+
+def is_blocking(citation: Citation) -> bool:
+    """Does this citation disqualify its block from question generation?"""
+    return citation.reason is not None and citation.reason not in NON_BLOCKING_REASONS
 
 
 def normalise_symbol(text: str) -> str:
@@ -114,14 +231,74 @@ def normalise_symbol(text: str) -> str:
     return "".join(s.split())
 
 
-def build_symbol_map(docs_path: Path | None = None) -> dict[str, str]:
-    """normalise_symbol(symbol) -> doc_id over the whole corpus (collision-free)."""
-    out: dict[str, str] = {}
-    with open(docs_path or paths.DOCS_JSONL, encoding="utf-8") as fh:
-        for line in fh:
-            row = json.loads(line)
-            out[normalise_symbol(row["symbol"])] = row["doc_id"]
-    return out
+# A handful of stored symbols carry a stray dot from double-underscore doc ids:
+# "S/RES/1173(.1998)". The document exists; only its key was unreachable.
+_DIRTY_PAREN_RE = re.compile(r"\(\.(?=\d)")
+
+
+@dataclass(frozen=True)
+class SymbolIndex:
+    """The corpus symbol inventory, plus what safe resolution needs to know.
+
+    Built in exactly one place so every consumer -- resolver, payload builder,
+    status stage -- sees the same keys, the same hygiene, and the same
+    special-session facts. Colliding keys are dropped as ambiguous rather than
+    silently letting the last document win.
+    """
+
+    map: dict[str, str]
+    ga_special_sessions: frozenset[int] = frozenset()
+    hrc_special_sessions: frozenset[int] = frozenset()
+    n_collisions: int = 0
+    n_dirty_keys: int = 0
+
+    def __contains__(self, key: object) -> bool:
+        return key in self.map
+
+    @classmethod
+    def from_pairs(cls, pairs: Iterable[tuple[str, str]]) -> "SymbolIndex":
+        mapping: dict[str, str] = {}
+        dropped: set[str] = set()
+        dirty = 0
+        for doc_id, symbol in pairs:
+            key = normalise_symbol(symbol)
+            cleaned = _DIRTY_PAREN_RE.sub("(", key)
+            if cleaned != key:
+                dirty += 1
+            key = cleaned
+            if key in dropped:
+                continue
+            if key in mapping and mapping[key] != doc_id:
+                dropped.add(key)
+                del mapping[key]
+                continue
+            mapping[key] = doc_id
+        ga = frozenset(int(m.group(1)) for k in mapping
+                       if (m := re.match(r"A/RES/S\.(\d+)/", k)))
+        hrc = frozenset(int(m.group(1)) for k in mapping
+                        if (m := re.match(r"A/HRC/RES/S\.(\d+)/", k)))
+        return cls(map=mapping, ga_special_sessions=ga, hrc_special_sessions=hrc,
+                   n_collisions=len(dropped), n_dirty_keys=dirty)
+
+    @classmethod
+    def from_docs(cls, docs: Mapping[str, Mapping]) -> "SymbolIndex":
+        return cls.from_pairs((doc_id, row["symbol"]) for doc_id, row in docs.items())
+
+    @classmethod
+    def from_map(cls, mapping: Mapping[str, str]) -> "SymbolIndex":
+        return cls.from_pairs((doc_id, symbol) for symbol, doc_id in mapping.items())
+
+
+def build_symbol_map(pairs: Iterable[tuple[str, str]]) -> SymbolIndex:
+    """(doc_id, symbol) pairs -> SymbolIndex. See SymbolIndex.from_pairs."""
+    return SymbolIndex.from_pairs(pairs)
+
+
+def is_resolution_doc(doc_id: str | None) -> bool:
+    """Resolutions and decisions carry their own operative numbering; a bare
+    "paragraph 5" inside one names that numbering. Anywhere else it usually
+    names the document under discussion."""
+    return bool(doc_id) and ("/res/" in doc_id or "/dec/" in doc_id)
 
 
 def _organ_hint(text: str, start: int) -> str | None:
@@ -134,8 +311,20 @@ def _organ_hint(text: str, start: int) -> str | None:
     return found[1] if found else None
 
 
-def extract_citations(text: str) -> list[Citation]:
-    """Pure regex pass over one block's text. ``doc_id`` stays None here."""
+def _own_heading_line(text: str, start: int, end: int) -> bool:
+    """True when [start, end) is an entire line of the block -- the block's own
+    "Annex II" heading, not a citation of it."""
+    line_start = text.rfind("\n", 0, start) + 1
+    if line_start != start:
+        return False
+    line_end = text.find("\n", end)
+    tail = text[end:] if line_end < 0 else text[end:line_end]
+    return not tail.strip()
+
+
+def extract_citations(text: str, *, doc_id: str | None = None) -> list[Citation]:
+    """Pure regex pass over one block's text. ``doc_id`` (the citing document)
+    only decides whether a bare "paragraph N" may be treated as internal."""
     citations: list[Citation] = []
     symbol_spans: list[tuple[int, int]] = []
 
@@ -148,11 +337,14 @@ def extract_citations(text: str) -> list[Citation]:
         symbol = raw
         if m.group(2) and "/RES/" in raw.upper():
             symbol = raw + m.group(2)           # prose form "S/RES/918 (1994)"
+        key = normalise_symbol(symbol)
         citations.append(Citation(
             start=m.start(), end=m.end(), raw=m.group(0).strip(),
-            kind=KIND_SYMBOL, symbol=normalise_symbol(symbol),
+            kind=KIND_SYMBOL, symbol=key,
             organ_hint=_organ_hint(text, m.start()),
-            candidates=(normalise_symbol(symbol),)))
+            # The (SUPP) twin is the same document published as an Official
+            # Records supplement; no other suffix extension is safe.
+            candidates=(key, key + "(SUPP)")))
         symbol_spans.append((m.start(), m.end()))
 
     def covered(a: int, b: int) -> bool:
@@ -169,22 +361,54 @@ def extract_citations(text: str) -> list[Citation]:
                 start=a, end=b, raw=item.group(0), kind=KIND_SC, symbol=symbol,
                 organ_hint=_organ_hint(text, m.start()), candidates=(symbol,)))
 
+    es_spans: list[tuple[int, int]] = []
+    for m in ES_RES_RE.finditer(text):
+        if covered(m.start(2), m.end(2)):
+            continue
+        organ, tag, session, number = (m.group(1), m.group(3),
+                                       int(m.group(4)), m.group(5))
+        if tag == "ES":
+            candidates = (normalise_symbol(f"A/RES/ES.{session}/{number}"),)
+        elif organ and organ.startswith("General"):
+            candidates = (normalise_symbol(f"A/RES/S.{session}/{number}"),)
+        elif organ:
+            candidates = (normalise_symbol(f"A/HRC/RES/S.{session}/{number}"),)
+        else:
+            # Un-pinned "resolution S-20/1": both spaces are candidates and
+            # resolve_citations decides from the corpus session inventory.
+            candidates = (normalise_symbol(f"A/RES/S.{session}/{number}"),
+                          normalise_symbol(f"A/HRC/RES/S.{session}/{number}"))
+        citations.append(Citation(
+            start=m.start(2), end=m.end(2), raw=m.group(2), kind=KIND_ES,
+            organ_hint=_organ_hint(text, m.start()), candidates=candidates))
+        es_spans.append((m.start(2), m.end(2)))
+
+    def in_es(a: int, b: int) -> bool:
+        return any(s <= a and b <= e for s, e in es_spans)
+
     for m in SLASH_RUN_RE.finditer(text):
         for item in SLASH_ITEM_RE.finditer(m.group(1)):
             a = m.start(1) + item.start()
             b = m.start(1) + item.end()
-            if covered(a, b):
+            if covered(a, b) or in_es(a, b):
                 continue
-            x, y = item.group(1), item.group(2)
-            citations.append(Citation(
-                start=a, end=b, raw=item.group(0), kind=KIND_SLASH,
-                section_letter=item.group(3),
-                organ_hint=_organ_hint(text, m.start()),
+            x, y, letter = item.group(1), item.group(2), item.group(3)
+            if letter:
+                # "resolution 51/153 B" names ONLY the lettered document.
+                # Falling back to the plain twin was a measured wrong-document
+                # channel (118 of 169 lettered symbols have a plain sibling).
+                chain = (normalise_symbol(f"A/RES/{x}/{y}{letter}"),)
+            else:
                 # Safe by measurement: these three key spaces are disjoint in
                 # this corpus, so at most one candidate can ever resolve.
-                candidates=(normalise_symbol(f"A/RES/{x}/{y}"),
-                            normalise_symbol(f"A/HRC/RES/{x}/{y}"),
-                            normalise_symbol(f"E/RES/{x}/{y}"))))
+                chain = (normalise_symbol(f"A/RES/{x}/{y}"),
+                         normalise_symbol(f"A/HRC/RES/{x}/{y}"),
+                         normalise_symbol(f"E/RES/{x}/{y}"))
+            citations.append(Citation(
+                start=a, end=b, raw=item.group(0), kind=KIND_SLASH,
+                section_letter=letter,
+                organ_hint=_organ_hint(text, m.start()),
+                candidates=chain))
 
     for m in DEC_RUN_RE.finditer(text):
         for item in SLASH_ITEM_RE.finditer(m.group(1)):
@@ -192,49 +416,204 @@ def extract_citations(text: str) -> list[Citation]:
             b = m.start(1) + item.end()
             if covered(a, b):
                 continue
+            # The only */DEC/ space in the corpus is A/HRC/DEC (sessions 13-27,
+            # disjoint from GA sessions 48-69 and ECOSOC year forms). GA and
+            # ECOSOC decisions have no documents here and stay unresolved.
             citations.append(Citation(
                 start=a, end=b, raw=item.group(0), kind=KIND_DECISION,
                 organ_hint=_organ_hint(text, m.start()),
                 candidates=(normalise_symbol(
                     f"A/HRC/DEC/{item.group(1)}/{item.group(2)}"),)))
 
-    for regex, kind in ((ROMAN_RES_RE, KIND_ROMAN), (ES_RES_RE, KIND_ES)):
+    for m in ROMAN_RES_RE.finditer(text):
+        if covered(m.start(), m.end()):
+            continue
+        citations.append(Citation(
+            start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_ROMAN,
+            organ_hint=_organ_hint(text, m.start())))
+
+    doc_spans = [(c.start, c.end) for c in citations]
+
+    def overlaps_doc(a: int, b: int) -> bool:
+        return any(not (b <= s or e <= a) for s, e in doc_spans)
+
+    def doc_citation_starting_in(a: int, b: int) -> Citation | None:
+        best = None
+        for c in citations:
+            if c.scope == SCOPE_EXTERNAL and a <= c.start < b:
+                if best is None or c.start < best.start:
+                    best = c
+        return best
+
+    # Unmodelled but detected: the completeness gate must see these.
+    unmodelled_spans: list[tuple[int, int]] = []
+    for regex, kind, reason in (
+            (TREATY_ARTICLE_RE, KIND_TREATY, "treaty_article_unmodelled"),
+            (RULES_OF_PROCEDURE_RE, KIND_RULE, "rules_of_procedure_unmodelled"),
+            (GENERAL_COMMENT_RE, KIND_GC, "general_comment_unmodelled")):
         for m in regex.finditer(text):
-            if covered(m.start(), m.end()):
-                continue
+            if overlaps_doc(m.start(), m.end()):
+                continue  # "paragraph 11 of resolution 1244 (1999)" is a
+                          # document citation, not a treaty article
             citations.append(Citation(
-                start=m.start(), end=m.end(), raw=m.group(0), kind=kind,
-                organ_hint=_organ_hint(text, m.start())))
+                start=m.start(), end=m.end(), raw=m.group(0).strip(), kind=kind,
+                scope=SCOPE_UNMODELLED, reason=reason))
+            unmodelled_spans.append((m.start(), m.end()))
+
+    def in_unmodelled(a: int) -> bool:
+        return any(s <= a < e for s, e in unmodelled_spans)
 
     # Paragraph anchors: "paragraph 11 (j) of ... resolution 1244 (1999)"
     # annotates the first citation inside the phrase's resolution part.
+    para_of_spans: list[tuple[int, int]] = []
     for m in PARA_OF_RE.finditer(text):
         number = int(re.match(r"\d+", m.group(1)).group(0))
         lo, hi = m.start(2), m.end(2)
         for c in citations:
-            if lo <= c.start < hi and c.paragraph is None:
+            if c.scope == SCOPE_EXTERNAL and lo <= c.start < hi and c.paragraph is None:
                 c.paragraph = number
+                para_of_spans.append((m.start(), m.end()))
                 break
+
+    def in_para_of(a: int) -> bool:
+        return any(s <= a < e for s, e in para_of_spans)
+
+    # Internal / other paragraph references.
+    for m in PARA_RUN_RE.finditer(text):
+        if in_para_of(m.start()) or in_unmodelled(m.start()):
+            continue
+        numbers = tuple(int(n) for n in re.findall(r"\d{1,3}", m.group(0)))
+        tail = text[m.end():m.end() + 90]
+        annex_tail = PARA_OF_ANNEX_TAIL_RE.match(tail)
+        if INTERNAL_TAIL_RE.match(tail):
+            citations.append(Citation(
+                start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_INTERNAL_PARA,
+                scope=SCOPE_INTERNAL, numbers=numbers))
+        elif annex_tail:
+            # "paragraph 5 of the annex" -- an internal annex citation that
+            # also needs the paragraph anchored inside the resolved part.
+            citations.append(Citation(
+                start=m.start(), end=m.end() + annex_tail.end(),
+                raw=m.group(0) + annex_tail.group(0), kind=KIND_INTERNAL_ANNEX,
+                scope=SCOPE_INTERNAL, numbers=numbers,
+                annex_label=annex_tail.group(1) or "", part_kind="annex"))
+        elif OF_TAIL_RE.match(tail):
+            target = doc_citation_starting_in(m.end(), m.end() + 60)
+            if target is not None:
+                if target.paragraph is None:
+                    target.paragraph = numbers[0]
+                continue
+            citations.append(Citation(
+                start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_PARA_OTHER,
+                scope=SCOPE_UNMODELLED, numbers=numbers,
+                reason="paragraph_of_other_recorded"))
+        elif is_resolution_doc(doc_id):
+            citations.append(Citation(
+                start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_INTERNAL_PARA,
+                scope=SCOPE_INTERNAL, numbers=numbers))
+        else:
+            citations.append(Citation(
+                start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_INTERNAL_PARA,
+                scope=SCOPE_UNMODELLED, numbers=numbers,
+                reason="bare_paragraph_nonres_recorded"))
+
+    # Annex / appendix references. A mention already folded into a
+    # "paragraph N of the annex" citation must not fire twice.
+    folded_spans = [(c.start, c.end) for c in citations
+                    if c.kind == KIND_INTERNAL_ANNEX]
+    for m in ANNEX_REF_RE.finditer(text):
+        if any(s <= m.start() < e for s, e in folded_spans):
+            continue
+        determiner, word, label = m.group(1), m.group(2), m.group(3)
+        if label is None and determiner is None:
+            continue                     # "an annex", the verb, prose
+        if _own_heading_line(text, m.start(), m.end()):
+            continue                     # the block's own "Annex II" heading
+        if overlaps_doc(m.start(), m.end()) or in_unmodelled(m.start()):
+            continue
+        part_kind = "appendix" if word.lower().startswith("append") else "annex"
+        plural = word.lower() in ("annexes", "appendices")
+        tail = text[m.end():m.end() + 90]
+        if ANNEX_INTERNAL_TAIL_RE.match(tail) or not ANNEX_TO_TAIL_RE.match(tail):
+            citations.append(Citation(
+                start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_INTERNAL_ANNEX,
+                scope=SCOPE_INTERNAL, annex_label=label or "",
+                annex_plural=plural, part_kind=part_kind))
+        else:
+            target = doc_citation_starting_in(m.end(), m.end() + 80)
+            if target is not None:
+                if target.annex_label is None:
+                    target.annex_label = label or ""
+                    target.annex_plural = plural
+                    target.part_kind = part_kind
+            else:
+                citations.append(Citation(
+                    start=m.start(), end=m.end(), raw=m.group(0),
+                    kind=KIND_INTERNAL_ANNEX, scope=SCOPE_UNMODELLED,
+                    annex_label=label or "", annex_plural=plural,
+                    part_kind=part_kind, reason="annex_of_other_recorded"))
+
+    for m in ANNEXED_RE.finditer(text):
+        citations.append(Citation(
+            start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_INTERNAL_ANNEX,
+            scope=SCOPE_INTERNAL, annex_label="", part_kind="annex"))
+
+    # Recorded, never blocking.
+    for m in AGENDA_ITEM_RE.finditer(text):
+        citations.append(Citation(
+            start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_AGENDA,
+            scope=SCOPE_UNMODELLED, reason="agenda_item_recorded"))
+    for m in STRUCTURAL_PART_RE.finditer(text):
+        if overlaps_doc(m.start(), m.end()) or in_unmodelled(m.start()):
+            continue
+        if _own_heading_line(text, m.start(), m.end()):
+            continue
+        citations.append(Citation(
+            start=m.start(), end=m.end(), raw=m.group(0), kind=KIND_STRUCT,
+            scope=SCOPE_UNMODELLED, reason="structural_part_recorded"))
 
     citations.sort(key=lambda c: c.start)
     return citations
 
 
-def resolve_citations(citations: list[Citation], symbol_map: dict[str, str], *,
+def resolve_citations(citations: list[Citation],
+                      symbols: SymbolIndex | Mapping[str, str], *,
                       citing_doc_id: str | None = None) -> list[Citation]:
-    """Fill ``symbol``/``doc_id`` from the candidate chains.
+    """Fill ``symbol``/``doc_id``/``reason`` for external-document citations.
 
-    Self-references stay in the list with ``doc_id=None`` -- the document's own
-    header line matches the SC pattern, and its own material already travels as
-    document context.
+    Invariant on return: for every ``scope == "external_doc"`` citation,
+    ``reason is None`` exactly when ``doc_id`` is set. Self-references keep
+    ``doc_id=None`` (their material already travels as document context) with
+    the benign reason ``self_reference``.
     """
+    index = symbols if isinstance(symbols, SymbolIndex) else SymbolIndex.from_map(symbols)
     hint_prefix = {"Human Rights Council": "A/HRC/RES/",
                    "Economic and Social Council": "E/RES/"}
     for c in citations:
+        if c.scope != SCOPE_EXTERNAL:
+            continue
+        if c.kind == KIND_ROMAN:
+            c.reason = "pre_corpus"
+            continue
+        if c.kind == KIND_ES and len(c.candidates) == 2:
+            session = int(re.search(r"S\.(\d+)/", c.candidates[0]).group(1))
+            in_ga = session in index.ga_special_sessions
+            in_hrc = session in index.hrc_special_sessions
+            if in_ga and in_hrc:
+                # "resolution S-20/1" with no organ surface: both spaces hold
+                # session 20. Nothing in the text pins one; never guess.
+                c.reason = "ambiguous_candidates"
+                c.symbol = c.candidates[0]
+                continue
+            if in_ga:
+                c.candidates = (c.candidates[0],)
+            elif in_hrc:
+                c.candidates = (c.candidates[1],)
         for candidate in c.candidates:
-            if candidate in symbol_map:
+            if candidate in index.map:
                 c.symbol = candidate
-                c.doc_id = symbol_map[candidate]
+                c.doc_id = index.map[candidate]
+                c.reason = None
                 break
         else:
             if c.symbol is None and c.candidates:
@@ -244,9 +623,150 @@ def resolve_citations(citations: list[Citation], symbol_map: dict[str, str], *,
                 c.symbol = next(
                     (x for x in c.candidates if prefix and x.startswith(prefix)),
                     c.candidates[0])
+            if c.reason is None:
+                c.reason = "out_of_corpus"
         if citing_doc_id is not None and c.doc_id == citing_doc_id:
             c.doc_id = None
+            c.reason = "self_reference"
     return citations
+
+
+def resolve_external_annexes(citations: Iterable[Citation],
+                             annexes_for: Callable[[str], Sequence[Mapping]]) -> None:
+    """Resolve "annex I to resolution X" annotations against the cited
+    document's annex inventory. Unique or nothing."""
+    for c in citations:
+        if c.scope != SCOPE_EXTERNAL or c.annex_label is None:
+            continue
+        if c.doc_id is None:
+            continue        # the document-level reason already covers it
+        inventory = [a for a in annexes_for(c.doc_id)
+                     if a.get("kind", "annex") == (c.part_kind or "annex")]
+        if c.annex_plural:
+            if not inventory:
+                c.reason = "external_annex_not_found"
+            continue        # every annex travels; whole doc is the target
+        if c.annex_label:
+            wanted = _roman_or_int(c.annex_label)
+            matches = [a for a in inventory
+                       if a.get("label") and _roman_or_int(str(a["label"])) == wanted]
+        else:
+            matches = inventory
+        if len(matches) == 1:
+            c.part_id = matches[0]["part_id"]
+        elif not matches:
+            c.reason = "external_annex_not_found"
+        else:
+            c.reason = "external_annex_ambiguous"
+
+
+def anchored_block_indices(block_texts: Sequence[str], paragraph: int) -> list[int]:
+    """Every block containing a line that starts the numbered paragraph."""
+    pattern = re.compile(rf"(?m)^\s*{paragraph}\.\s")
+    return [i for i, text in enumerate(block_texts) if pattern.search(text)]
+
+
+def anchored_block_index(block_texts: Sequence[str], paragraph: int) -> int | None:
+    """First block (document order) containing a line that starts the cited
+    operative paragraph. Measured: 92% unique, 95% found; first-match wins
+    because operative numbering precedes annex/section restarts."""
+    hits = anchored_block_indices(block_texts, paragraph)
+    return hits[0] if hits else None
+
+
+def resolve_internal(citations: Iterable[Citation], *, block_index: int,
+                     block_texts: Sequence[str], block_parts: Sequence[str],
+                     annexes: Sequence[Mapping]) -> None:
+    """Anchor internal citations against the citing document's own structure.
+
+    A paragraph number anchors only among blocks of the SAME part (operative
+    numbering restarts inside annexes); the citing block itself satisfies its
+    own numbers. An annex label must match exactly one inventory entry.
+    Anything else is a named miss -- never the closest block.
+    """
+    own_part = block_parts[block_index] if block_index < len(block_parts) else ""
+    for c in citations:
+        if c.scope != SCOPE_INTERNAL:
+            continue
+        if c.kind == KIND_INTERNAL_PARA:
+            anchors: list[int] = []
+            for number in c.numbers:
+                hits = [i for i in anchored_block_indices(block_texts, number)
+                        if block_parts[i] == own_part]
+                if block_index in hits:
+                    continue            # the block cites its own paragraph
+                if len(hits) == 1:
+                    anchors.append(hits[0])
+                elif not hits:
+                    c.reason = c.reason or "internal_paragraph_not_found"
+                else:
+                    c.reason = c.reason or "internal_paragraph_ambiguous"
+            c.anchor_blocks = tuple(dict.fromkeys(anchors))
+            continue
+        if c.kind == KIND_INTERNAL_ANNEX:
+            inventory = [a for a in annexes
+                         if a.get("kind", "annex") == (c.part_kind or "annex")]
+            if c.annex_plural:
+                if inventory:
+                    c.anchor_blocks = tuple(a["block_start"] for a in inventory)
+                else:
+                    c.reason = "internal_annex_not_found"
+                continue
+            if c.annex_label:
+                wanted = _roman_or_int(c.annex_label)
+                matches = [a for a in inventory
+                           if a.get("label") and _roman_or_int(str(a["label"])) == wanted]
+            else:
+                matches = inventory
+            if len(matches) == 1:
+                part = matches[0]
+                c.part_id = part["part_id"]
+                c.anchor_blocks = (part["block_start"],)
+                if c.numbers:
+                    # "paragraph 5 of the annex": the number must anchor
+                    # inside the resolved part's block range.
+                    lo, hi = part["block_start"], part.get("block_end", part["block_start"])
+                    for number in c.numbers:
+                        hits = [i for i in anchored_block_indices(block_texts, number)
+                                if lo <= i <= hi]
+                        if len(hits) == 1:
+                            c.anchor_blocks = tuple(dict.fromkeys(
+                                list(c.anchor_blocks) + hits))
+                        elif not hits:
+                            c.reason = c.reason or "internal_paragraph_not_found"
+                        else:
+                            c.reason = c.reason or "internal_paragraph_ambiguous"
+            elif not matches:
+                c.reason = "internal_annex_not_found"
+            else:
+                c.reason = "internal_annex_ambiguous"
+
+
+def citation_status(citations: Sequence[Citation]) -> dict:
+    """The per-block verdict the completeness gate consumes.
+
+    A citation whose document resolved but whose cited annex did not counts as
+    unresolved, not resolved: the material the text points at is still
+    missing.
+    """
+    from collections import Counter
+    reasons: Counter = Counter(c.reason for c in citations if c.reason)
+    external = [c for c in citations if c.scope == SCOPE_EXTERNAL]
+    internal = [c for c in citations if c.scope == SCOPE_INTERNAL]
+    unmodelled = [c for c in citations if c.scope == SCOPE_UNMODELLED]
+    return {
+        "n_citations": len(citations),
+        "n_external_resolved": sum(1 for c in external
+                                   if c.doc_id and not is_blocking(c)),
+        "n_external_unresolved": sum(1 for c in external if is_blocking(c)),
+        "n_internal_resolved": sum(1 for c in internal if c.reason is None),
+        "n_internal_unresolved": sum(1 for c in internal if is_blocking(c)),
+        "n_unmodelled_blocking": sum(1 for c in unmodelled if is_blocking(c)),
+        "n_recorded": sum(1 for c in citations
+                          if c.reason in NON_BLOCKING_REASONS),
+        "reasons": dict(reasons),
+        "complete": not any(is_blocking(c) for c in citations),
+    }
 
 
 def referenced_docs(citations: Iterable[Citation],
@@ -269,122 +789,10 @@ def referenced_docs(citations: Iterable[Citation],
     return kept, dropped
 
 
-def anchored_block_index(block_texts: Sequence[str], paragraph: int) -> int | None:
-    """First block (document order) containing a line that starts the cited
-    operative paragraph. Measured: 91% unique, 94% found; first-match wins
-    because operative numbering precedes annex/section restarts."""
-    pattern = re.compile(rf"(?m)^\s*{paragraph}\.\s")
-    for index, text in enumerate(block_texts):
-        if pattern.search(text):
-            return index
-    return None
-
-
-# --------------------------------------------------------------------------- #
-# Validation harness: sample citing blocks, write a manual-review file.
-# --------------------------------------------------------------------------- #
-
-def _context(text: str, start: int, end: int, width: int = 80) -> str:
-    before = text[max(0, start - width):start].replace("\n", " ")
-    after = text[end:end + width].replace("\n", " ")
-    return f"…{before}«{text[start:end]}»{after}…"
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--sample", type=int, default=400,
-                        help="citing target blocks to include in the review file")
-    parser.add_argument("--seed", type=int, default=7)
-    parser.add_argument("--docs", default=None)
-    parser.add_argument("--blocks", default=None)
-    parser.add_argument("--out", default=str(
-        paths.UN_DIR / "references_review_sample.md"))
-    args = parser.parse_args()
-
-    import random
-    from collections import Counter
-    from clir_bench.domains.legal.qac.un_context import BlockIndex
-
-    random.seed(args.seed)
-    index = BlockIndex(blocks_path=args.blocks, docs_path=args.docs)
-    symbol_map = {normalise_symbol(d["symbol"]): did
-                  for did, d in index.docs.items()}
-
-    doc_ids = [d for d, row in index.docs.items() if row.get("n_targets", 0)]
-    random.shuffle(doc_ids)
-
-    kinds: Counter = Counter()
-    resolved_kinds: Counter = Counter()
-    anchors_found = anchors_missed = self_cites = 0
-    blocks_seen = 0
-    sections: list[str] = []
-
-    for doc_id in doc_ids:
-        if len(sections) >= args.sample:
-            break
-        doc = index.docs[doc_id]
-        blocks = index.blocks_for(doc_id)
-        for idx in doc.get("target_idxs", []):
-            if len(sections) >= args.sample:
-                break
-            block = blocks[idx]
-            blocks_seen += 1
-            cites = resolve_citations(extract_citations(block.texts["en"]),
-                                      symbol_map, citing_doc_id=doc_id)
-            if not cites:
-                continue
-            lines = [f"## {block.block_id}", ""]
-            for c in cites:
-                kinds[c.kind] += 1
-                if c.doc_id:
-                    resolved_kinds[c.kind] += 1
-                    title = index.docs[c.doc_id]["title"][:100]
-                    status = f"→ **{c.symbol}** — {title}"
-                    if c.paragraph is not None and c.section_letter is None:
-                        cited = index.blocks_for(c.doc_id)
-                        hit = anchored_block_index(
-                            [b.texts["en"] for b in cited], c.paragraph)
-                        if hit is None:
-                            anchors_missed += 1
-                            status += f"  ·  ¶{c.paragraph}: NOT FOUND (head block fallback)"
-                        else:
-                            anchors_found += 1
-                            preview = cited[hit].texts["en"].split("\n")[0][:90]
-                            status += f"  ·  ¶{c.paragraph} → block {hit}: “{preview}”"
-                elif c.kind in (KIND_ROMAN, KIND_ES):
-                    status = "→ UNRESOLVED (pre-1994 / no such docs in corpus)"
-                elif c.symbol and normalise_symbol(index.docs[doc_id]["symbol"]) == c.symbol:
-                    self_cites += 1
-                    status = "→ SELF-CITATION (dropped)"
-                else:
-                    status = f"→ UNRESOLVED ({c.symbol or c.raw}: not in corpus)"
-                lines.append(f"- `{c.kind}` {_context(block.texts['en'], c.start, c.end)}")
-                lines.append(f"  {status}")
-            lines.append("")
-            sections.append("\n".join(lines))
-
-    total = sum(kinds.values())
-    resolved = sum(resolved_kinds.values())
-    header = [
-        "# UN cross-reference extraction — manual review sample",
-        "",
-        f"Scanned {blocks_seen:,} target blocks (seed {args.seed}); "
-        f"{len(sections)} citing blocks shown; {total} citations, "
-        f"{resolved} resolved ({resolved / max(total, 1):.0%}); "
-        f"{self_cites} self-citations dropped.",
-        "",
-        "| kind | found | resolved |", "|---|---|---|",
-    ]
-    for kind, n in kinds.most_common():
-        header.append(f"| {kind} | {n} | {resolved_kinds.get(kind, 0)} |")
-    header.append(
-        f"\nParagraph anchors: {anchors_found} located, {anchors_missed} "
-        "fell back to the head block.\n")
-
-    out = Path(args.out)
-    out.write_text("\n".join(header) + "\n" + "\n".join(sections),
-                   encoding="utf-8")
-    print(f"wrote {len(sections)} citing blocks -> {out}", file=sys.stderr)
+def main() -> None:  # pragma: no cover
+    raise SystemExit(
+        "the review harness moved: run "
+        "`python -m clir_bench.domains.legal.un.references_status --sample 400`")
 
 
 if __name__ == "__main__":

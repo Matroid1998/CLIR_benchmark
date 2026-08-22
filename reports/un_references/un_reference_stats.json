@@ -1,0 +1,122 @@
+{
+  "n_docs": 86307,
+  "n_target_blocks": 1505850,
+  "n_citing_target_blocks": 476647,
+  "n_no_citation": 1029203,
+  "n_complete_with_citations": 228996,
+  "n_incomplete": 247651,
+  "complete_share_of_targets": 0.8355,
+  "citations_found": 1097787,
+  "citations_resolved": 362064,
+  "kinds": {
+    "symbol": {
+      "found": 274964,
+      "resolved": 155005
+    },
+    "slash_resolution": {
+      "found": 186268,
+      "resolved": 108595
+    },
+    "internal_paragraph": {
+      "found": 112443,
+      "resolved": 12513
+    },
+    "structural_part": {
+      "found": 111322,
+      "resolved": 0
+    },
+    "sc_resolution": {
+      "found": 98728,
+      "resolved": 81041
+    },
+    "treaty_article": {
+      "found": 92299,
+      "resolved": 0
+    },
+    "internal_annex": {
+      "found": 68038,
+      "resolved": 3701
+    },
+    "paragraph_of_other": {
+      "found": 49550,
+      "resolved": 0
+    },
+    "agenda_item": {
+      "found": 39864,
+      "resolved": 0
+    },
+    "decision": {
+      "found": 28288,
+      "resolved": 310
+    },
+    "roman_resolution": {
+      "found": 14523,
+      "resolved": 0
+    },
+    "rules_of_procedure": {
+      "found": 10962,
+      "resolved": 0
+    },
+    "general_comment": {
+      "found": 8510,
+      "resolved": 0
+    },
+    "es_resolution": {
+      "found": 2028,
+      "resolved": 899
+    }
+  },
+  "reasons": {
+    "out_of_corpus": 241467,
+    "structural_part_recorded": 111322,
+    "treaty_article_unmodelled": 92299,
+    "bare_paragraph_nonres_recorded": 90440,
+    "internal_annex_not_found": 52629,
+    "paragraph_of_other_recorded": 49550,
+    "agenda_item_recorded": 39864,
+    "pre_corpus": 14523,
+    "annex_of_other_recorded": 11294,
+    "rules_of_procedure_unmodelled": 10962,
+    "general_comment_unmodelled": 8510,
+    "internal_paragraph_not_found": 5383,
+    "internal_paragraph_ambiguous": 4283,
+    "self_reference": 1644,
+    "external_annex_not_found": 1114,
+    "internal_annex_ambiguous": 238,
+    "ambiguous_candidates": 197,
+    "external_annex_ambiguous": 4
+  },
+  "incomplete_by_genre": {
+    "resolution": 10674,
+    "other": 209265,
+    "meeting": 27124,
+    "letter": 588
+  },
+  "symbol_map": {
+    "keys": 86305,
+    "collisions_dropped": 1,
+    "dirty_keys_normalised": 0,
+    "ga_special_sessions": [
+      20,
+      21,
+      23,
+      24,
+      27,
+      29
+    ],
+    "hrc_special_sessions": [
+      14,
+      15,
+      16,
+      20,
+      21
+    ],
+    "special_session_overlap": [
+      20,
+      21
+    ]
+  },
+  "rows:edges": 345850,
+  "rows:status": 476647,
+  "rows:unresolved": 735723
+}
