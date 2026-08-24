@@ -1,0 +1,282 @@
+{
+ "technical": {
+  "type": "object",
+  "properties": {
+   "ratings": {
+    "type": "array",
+    "minItems": 6,
+    "maxItems": 6,
+    "items": {
+     "type": "object",
+     "properties": {
+      "slot": {
+       "type": "string",
+       "enum": [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6"
+       ]
+      },
+      "faith_grounding": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "faith_precision": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "faith_numerical_fidelity": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_search_bar_realism": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_specificity": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_phrasing_economy": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_focus": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "linguistic_quality": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "accept": {
+       "type": "string",
+       "enum": [
+        "yes",
+        "no"
+       ]
+      },
+      "reason": {
+       "type": "string",
+       "description": "One sentence justifying the scores and the keep decision."
+      }
+     },
+     "required": [
+      "slot",
+      "faith_grounding",
+      "faith_precision",
+      "faith_numerical_fidelity",
+      "qual_search_bar_realism",
+      "qual_specificity",
+      "qual_phrasing_economy",
+      "qual_focus",
+      "linguistic_quality",
+      "accept",
+      "reason"
+     ],
+     "additionalProperties": false
+    }
+   },
+   "shared_notes": {
+    "type": "string",
+    "description": "Optional note for the whole document; empty string if none."
+   }
+  },
+  "required": [
+   "ratings",
+   "shared_notes"
+  ],
+  "additionalProperties": false
+ },
+ "semantic": {
+  "type": "object",
+  "properties": {
+   "ratings": {
+    "type": "array",
+    "minItems": 6,
+    "maxItems": 6,
+    "items": {
+     "type": "object",
+     "properties": {
+      "slot": {
+       "type": "string",
+       "enum": [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "Q5",
+        "Q6"
+       ]
+      },
+      "faith_grounding": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "faith_precision": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "faith_numerical_fidelity": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_search_realism": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_lexical_distance": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_conceptual_framing": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "qual_retrievability": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "linguistic_quality": {
+       "type": "integer",
+       "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ]
+      },
+      "accept": {
+       "type": "string",
+       "enum": [
+        "yes",
+        "no"
+       ]
+      },
+      "reason": {
+       "type": "string",
+       "description": "One sentence justifying the scores and the keep decision."
+      }
+     },
+     "required": [
+      "slot",
+      "faith_grounding",
+      "faith_precision",
+      "faith_numerical_fidelity",
+      "qual_search_realism",
+      "qual_lexical_distance",
+      "qual_conceptual_framing",
+      "qual_retrievability",
+      "linguistic_quality",
+      "accept",
+      "reason"
+     ],
+     "additionalProperties": false
+    }
+   },
+   "shared_notes": {
+    "type": "string",
+    "description": "Optional note for the whole document; empty string if none."
+   }
+  },
+  "required": [
+   "ratings",
+   "shared_notes"
+  ],
+  "additionalProperties": false
+ }
+}

@@ -1,0 +1,655 @@
+[
+ {
+  "doc_id": "MX-2025006624-A",
+  "agent_id": "a06d15ef51631fdda",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025006624-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1408,
+   "cache_read_input_tokens": 32955,
+   "cache_creation_input_tokens": 7611
+  }
+ },
+ {
+  "doc_id": "MX-2025010190-A",
+  "agent_id": "a0a9b86b725aa0a0c",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025010190-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1254,
+   "cache_read_input_tokens": 32944,
+   "cache_creation_input_tokens": 6742
+  }
+ },
+ {
+  "doc_id": "EP-4627127-A1",
+  "agent_id": "a1491507d6da12d44",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4627127-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 130,
+   "cache_read_input_tokens": 18483,
+   "cache_creation_input_tokens": 21106
+  }
+ },
+ {
+  "doc_id": "WO-2025054647-A1",
+  "agent_id": "a162433c0fdc06c40",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025054647-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1273,
+   "cache_read_input_tokens": 32956,
+   "cache_creation_input_tokens": 8080
+  }
+ },
+ {
+  "doc_id": "MX-2025004470-A",
+  "agent_id": "a2b85c03fbcfbacf3",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025004470-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1293,
+   "cache_read_input_tokens": 32955,
+   "cache_creation_input_tokens": 7197
+  }
+ },
+ {
+  "doc_id": "WO-2025212655-A1",
+  "agent_id": "a2f56bbef31ef80fa",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025212655-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1261,
+   "cache_read_input_tokens": 32956,
+   "cache_creation_input_tokens": 7336
+  }
+ },
+ {
+  "doc_id": "WO-2025211336-A1",
+  "agent_id": "a3556e1363deba17c",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025211336-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1329,
+   "cache_read_input_tokens": 32956,
+   "cache_creation_input_tokens": 6718
+  }
+ },
+ {
+  "doc_id": "WO-2023149795-A1",
+  "agent_id": "a3b8bad976eb27612",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2023149795-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1308,
+   "cache_read_input_tokens": 32945,
+   "cache_creation_input_tokens": 7126
+  }
+ },
+ {
+  "doc_id": "WO-2025215167-A1",
+  "agent_id": "a3cf285cb401d6f1e",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025215167-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1379,
+   "cache_read_input_tokens": 32956,
+   "cache_creation_input_tokens": 7594
+  }
+ },
+ {
+  "doc_id": "MX-2025009131-A",
+  "agent_id": "a4ac49fc3f580341d",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 3,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025009131-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 420,
+   "output_tokens": 2400,
+   "cache_read_input_tokens": 54073,
+   "cache_creation_input_tokens": 8220
+  }
+ },
+ {
+  "doc_id": "EP-4634436-A1",
+  "agent_id": "a4b86017ff674d7a0",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4634436-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1310,
+   "cache_read_input_tokens": 32955,
+   "cache_creation_input_tokens": 7157
+  }
+ },
+ {
+  "doc_id": "EP-4577789-A1",
+  "agent_id": "a4f909b2a7483625d",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4577789-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 726,
+   "output_tokens": 1847,
+   "cache_read_input_tokens": 51427,
+   "cache_creation_input_tokens": 13654
+  }
+ },
+ {
+  "doc_id": "WO-2025187661-A8",
+  "agent_id": "a54c0a0cfef2b69b4",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 3,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025187661-A8.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 420,
+   "output_tokens": 2572,
+   "cache_read_input_tokens": 54037,
+   "cache_creation_input_tokens": 8256
+  }
+ },
+ {
+  "doc_id": "EP-4504821-A1",
+  "agent_id": "a57a141f81d712a78",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4504821-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1269,
+   "cache_read_input_tokens": 32944,
+   "cache_creation_input_tokens": 8980
+  }
+ },
+ {
+  "doc_id": "MX-2025009666-A",
+  "agent_id": "a5e6842a78e014d1f",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025009666-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 129,
+   "cache_read_input_tokens": 32944,
+   "cache_creation_input_tokens": 7548
+  }
+ },
+ {
+  "doc_id": "EP-4627881-A1",
+  "agent_id": "a5e6e840f58146963",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4627881-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1315,
+   "cache_read_input_tokens": 32955,
+   "cache_creation_input_tokens": 6998
+  }
+ },
+ {
+  "doc_id": "EP-4630021-A1",
+  "agent_id": "a68ee7aae1bb22fb4",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4630021-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1275,
+   "cache_read_input_tokens": 32944,
+   "cache_creation_input_tokens": 6808
+  }
+ },
+ {
+  "doc_id": "WO-2025210445-A1",
+  "agent_id": "a8526cc34df87f503",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025210445-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1316,
+   "cache_read_input_tokens": 32945,
+   "cache_creation_input_tokens": 8184
+  }
+ },
+ {
+  "doc_id": "MX-2025007510-A",
+  "agent_id": "a8bdc02378f634c4e",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025007510-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1218,
+   "cache_read_input_tokens": 18490,
+   "cache_creation_input_tokens": 20994
+  }
+ },
+ {
+  "doc_id": "EP-4633645-A1",
+  "agent_id": "a917abe51c7289233",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4633645-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1306,
+   "cache_read_input_tokens": 32944,
+   "cache_creation_input_tokens": 6579
+  }
+ },
+ {
+  "doc_id": "WO-2025207810-A1",
+  "agent_id": "a9b135bb2061965ee",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025207810-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1211,
+   "cache_read_input_tokens": 32945,
+   "cache_creation_input_tokens": 6586
+  }
+ },
+ {
+  "doc_id": "EP-4584229-A1",
+  "agent_id": "aa1fa3ee4741d6279",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4584229-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1164,
+   "cache_read_input_tokens": 32944,
+   "cache_creation_input_tokens": 9072
+  }
+ },
+ {
+  "doc_id": "WO-2025211128-A1",
+  "agent_id": "aaf67025ba6f99e2d",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025211128-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1190,
+   "cache_read_input_tokens": 32945,
+   "cache_creation_input_tokens": 6390
+  }
+ },
+ {
+  "doc_id": "MX-2025005046-A",
+  "agent_id": "ab37ac3e89f19d33c",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025005046-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1396,
+   "cache_read_input_tokens": 32955,
+   "cache_creation_input_tokens": 7585
+  }
+ },
+ {
+  "doc_id": "WO-2025202347-A1",
+  "agent_id": "ac4ea4a23ba092329",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025202347-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1328,
+   "cache_read_input_tokens": 32956,
+   "cache_creation_input_tokens": 7763
+  }
+ },
+ {
+  "doc_id": "MX-2025007206-A",
+  "agent_id": "ac58c91ef5c0ae62c",
+  "model": "claude-opus-5",
+  "models_in_run": [
+   "claude-fable-5",
+   "claude-opus-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": true,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025007206-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 1450,
+   "output_tokens": 3471,
+   "cache_read_input_tokens": 14461,
+   "cache_creation_input_tokens": 88150
+  }
+ },
+ {
+  "doc_id": "EP-4633791-A1",
+  "agent_id": "ad603365579a8c323",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 3,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/EP-4633791-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 782,
+   "output_tokens": 3506,
+   "cache_read_input_tokens": 72273,
+   "cache_creation_input_tokens": 11276
+  }
+ },
+ {
+  "doc_id": "MX-2025002756-A",
+  "agent_id": "ad883144da019215c",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025002756-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1213,
+   "cache_read_input_tokens": 32944,
+   "cache_creation_input_tokens": 6261
+  }
+ },
+ {
+  "doc_id": "WO-2025177605-A1",
+  "agent_id": "ae4114d43acd1a06e",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2025177605-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1242,
+   "cache_read_input_tokens": 32945,
+   "cache_creation_input_tokens": 6921
+  }
+ },
+ {
+  "doc_id": "WO-2022005333-A1",
+  "agent_id": "ae5750df54be65494",
+  "model": "claude-fable-5",
+  "models_in_run": [
+   "claude-fable-5"
+  ],
+  "n_tool_uses": 2,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/WO-2022005333-A1.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 364,
+   "output_tokens": 1385,
+   "cache_read_input_tokens": 32956,
+   "cache_creation_input_tokens": 7469
+  }
+ },
+ {
+  "doc_id": "MX-2025007206-A",
+  "agent_id": "a45e9d412402ba20b",
+  "model": "claude-opus-5",
+  "models_in_run": [
+   "claude-fable-5",
+   "claude-opus-5"
+  ],
+  "n_tool_uses": 3,
+  "superseded": false,
+  "reads": [
+   "/home/mehdi/Projects/CLIR_benchmark/reports/qa_generation_model_comparison/llm_annotation/prompts_claude/MX-2025007206-A.md"
+  ],
+  "other_tools": [],
+  "blind_protocol_ok": true,
+  "usage": {
+   "input_tokens": 1452,
+   "output_tokens": 4734,
+   "cache_read_input_tokens": 123643,
+   "cache_creation_input_tokens": 3685
+  }
+ }
+]

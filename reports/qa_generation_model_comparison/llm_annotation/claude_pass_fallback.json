@@ -1,0 +1,18 @@
+{
+ "doc_id": "MX-2025007206-A",
+ "annotator_pass": "claude",
+ "rated_by": "claude-opus-5",
+ "why": "Fable 5 declines this document: two harness runs (wf_ef9e6d1a-8bd, wf_8d0102fe-39f pinned to fable) both emitted a 'fallback' block from claude-fable-5 to claude-opus-5 right after the prompt file was read; a direct API call (OpenRouter anthropic/claude-fable-5, provider Google) returned finish_reason=content_filter with 0 completion tokens. The passage concerns rAAV (viral vector) formulations, consistent with Fable 5's dual-use safety measures.",
+ "handling": "The Opus 5 rating produced by the harness fallback (same blind protocol, same prompt file, Read used once) is kept in the Claude pass and flagged; headline numbers are also reported with this document excluded (sensitivity check).",
+ "evidence": {
+  "harness_runs": [
+   "wf_ef9e6d1a-8bd",
+   "wf_8d0102fe-39f"
+  ],
+  "api_attempt": {
+   "model": "anthropic/claude-fable-5",
+   "finish_reason": "content_filter",
+   "completion_tokens": 2
+  }
+ }
+}

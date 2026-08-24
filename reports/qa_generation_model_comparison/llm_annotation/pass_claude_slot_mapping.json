@@ -1,0 +1,375 @@
+{
+  "pass": "claude",
+  "seed": 20260822,
+  "models": [
+    "gpt-5-mini",
+    "gpt-5.4-mini",
+    "sonnet-4.6",
+    "grok-4.3",
+    "gemini-3.5-flash",
+    "qwen3.6-35b-a3b"
+  ],
+  "note": "Private de-anonymisation key for this LLM pass. slots maps q1..q6 -> model.",
+  "records": {
+    "EP-4504821-A1": {
+      "mode": "technical",
+      "question_language": "es",
+      "slots": {
+        "q1": "grok-4.3",
+        "q2": "qwen3.6-35b-a3b",
+        "q3": "sonnet-4.6",
+        "q4": "gpt-5.4-mini",
+        "q5": "gpt-5-mini",
+        "q6": "gemini-3.5-flash"
+      }
+    },
+    "EP-4577789-A1": {
+      "mode": "technical",
+      "question_language": "zh",
+      "slots": {
+        "q1": "grok-4.3",
+        "q2": "gemini-3.5-flash",
+        "q3": "qwen3.6-35b-a3b",
+        "q4": "sonnet-4.6",
+        "q5": "gpt-5-mini",
+        "q6": "gpt-5.4-mini"
+      }
+    },
+    "EP-4584229-A1": {
+      "mode": "technical",
+      "question_language": "es",
+      "slots": {
+        "q1": "gemini-3.5-flash",
+        "q2": "sonnet-4.6",
+        "q3": "gpt-5.4-mini",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "grok-4.3",
+        "q6": "gpt-5-mini"
+      }
+    },
+    "EP-4627127-A1": {
+      "mode": "technical",
+      "question_language": "de",
+      "slots": {
+        "q1": "gemini-3.5-flash",
+        "q2": "grok-4.3",
+        "q3": "sonnet-4.6",
+        "q4": "gpt-5.4-mini",
+        "q5": "gpt-5-mini",
+        "q6": "qwen3.6-35b-a3b"
+      }
+    },
+    "EP-4627881-A1": {
+      "mode": "semantic",
+      "question_language": "zh",
+      "slots": {
+        "q1": "gemini-3.5-flash",
+        "q2": "grok-4.3",
+        "q3": "gpt-5.4-mini",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "sonnet-4.6",
+        "q6": "gpt-5-mini"
+      }
+    },
+    "EP-4630021-A1": {
+      "mode": "technical",
+      "question_language": "de",
+      "slots": {
+        "q1": "gpt-5.4-mini",
+        "q2": "qwen3.6-35b-a3b",
+        "q3": "grok-4.3",
+        "q4": "gpt-5-mini",
+        "q5": "gemini-3.5-flash",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "EP-4633645-A1": {
+      "mode": "technical",
+      "question_language": "fr",
+      "slots": {
+        "q1": "grok-4.3",
+        "q2": "gpt-5.4-mini",
+        "q3": "gpt-5-mini",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "gemini-3.5-flash",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "EP-4633791-A1": {
+      "mode": "semantic",
+      "question_language": "zh",
+      "slots": {
+        "q1": "grok-4.3",
+        "q2": "sonnet-4.6",
+        "q3": "gpt-5.4-mini",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "gpt-5-mini",
+        "q6": "gemini-3.5-flash"
+      }
+    },
+    "EP-4634436-A1": {
+      "mode": "semantic",
+      "question_language": "fr",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "sonnet-4.6",
+        "q3": "qwen3.6-35b-a3b",
+        "q4": "gemini-3.5-flash",
+        "q5": "gpt-5.4-mini",
+        "q6": "grok-4.3"
+      }
+    },
+    "MX-2025002756-A": {
+      "mode": "technical",
+      "question_language": "en",
+      "slots": {
+        "q1": "gemini-3.5-flash",
+        "q2": "sonnet-4.6",
+        "q3": "grok-4.3",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "gpt-5-mini",
+        "q6": "gpt-5.4-mini"
+      }
+    },
+    "MX-2025004470-A": {
+      "mode": "semantic",
+      "question_language": "en",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "gpt-5.4-mini",
+        "q3": "grok-4.3",
+        "q4": "gemini-3.5-flash",
+        "q5": "qwen3.6-35b-a3b",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "MX-2025005046-A": {
+      "mode": "semantic",
+      "question_language": "de",
+      "slots": {
+        "q1": "qwen3.6-35b-a3b",
+        "q2": "gpt-5.4-mini",
+        "q3": "gemini-3.5-flash",
+        "q4": "grok-4.3",
+        "q5": "sonnet-4.6",
+        "q6": "gpt-5-mini"
+      }
+    },
+    "MX-2025006624-A": {
+      "mode": "semantic",
+      "question_language": "fr",
+      "slots": {
+        "q1": "gpt-5.4-mini",
+        "q2": "grok-4.3",
+        "q3": "qwen3.6-35b-a3b",
+        "q4": "gpt-5-mini",
+        "q5": "gemini-3.5-flash",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "MX-2025007206-A": {
+      "mode": "technical",
+      "question_language": "de",
+      "slots": {
+        "q1": "qwen3.6-35b-a3b",
+        "q2": "grok-4.3",
+        "q3": "sonnet-4.6",
+        "q4": "gpt-5.4-mini",
+        "q5": "gpt-5-mini",
+        "q6": "gemini-3.5-flash"
+      }
+    },
+    "MX-2025007510-A": {
+      "mode": "semantic",
+      "question_language": "es",
+      "slots": {
+        "q1": "gpt-5.4-mini",
+        "q2": "gemini-3.5-flash",
+        "q3": "gpt-5-mini",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "grok-4.3",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "MX-2025009131-A": {
+      "mode": "technical",
+      "question_language": "zh",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "grok-4.3",
+        "q3": "qwen3.6-35b-a3b",
+        "q4": "gpt-5.4-mini",
+        "q5": "gemini-3.5-flash",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "MX-2025009666-A": {
+      "mode": "technical",
+      "question_language": "en",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "qwen3.6-35b-a3b",
+        "q3": "sonnet-4.6",
+        "q4": "gemini-3.5-flash",
+        "q5": "grok-4.3",
+        "q6": "gpt-5.4-mini"
+      }
+    },
+    "MX-2025010190-A": {
+      "mode": "technical",
+      "question_language": "en",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "gpt-5.4-mini",
+        "q3": "qwen3.6-35b-a3b",
+        "q4": "sonnet-4.6",
+        "q5": "grok-4.3",
+        "q6": "gemini-3.5-flash"
+      }
+    },
+    "WO-2022005333-A1": {
+      "mode": "semantic",
+      "question_language": "en",
+      "slots": {
+        "q1": "qwen3.6-35b-a3b",
+        "q2": "gpt-5-mini",
+        "q3": "grok-4.3",
+        "q4": "sonnet-4.6",
+        "q5": "gpt-5.4-mini",
+        "q6": "gemini-3.5-flash"
+      }
+    },
+    "WO-2023149795-A1": {
+      "mode": "technical",
+      "question_language": "en",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "gpt-5.4-mini",
+        "q3": "grok-4.3",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "gemini-3.5-flash",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "WO-2025054647-A1": {
+      "mode": "semantic",
+      "question_language": "es",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "sonnet-4.6",
+        "q3": "gemini-3.5-flash",
+        "q4": "gpt-5.4-mini",
+        "q5": "qwen3.6-35b-a3b",
+        "q6": "grok-4.3"
+      }
+    },
+    "WO-2025177605-A1": {
+      "mode": "technical",
+      "question_language": "fr",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "qwen3.6-35b-a3b",
+        "q3": "grok-4.3",
+        "q4": "sonnet-4.6",
+        "q5": "gpt-5.4-mini",
+        "q6": "gemini-3.5-flash"
+      }
+    },
+    "WO-2025187661-A8": {
+      "mode": "semantic",
+      "question_language": "es",
+      "slots": {
+        "q1": "gemini-3.5-flash",
+        "q2": "qwen3.6-35b-a3b",
+        "q3": "grok-4.3",
+        "q4": "gpt-5.4-mini",
+        "q5": "sonnet-4.6",
+        "q6": "gpt-5-mini"
+      }
+    },
+    "WO-2025202347-A1": {
+      "mode": "semantic",
+      "question_language": "de",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "qwen3.6-35b-a3b",
+        "q3": "gemini-3.5-flash",
+        "q4": "gpt-5.4-mini",
+        "q5": "grok-4.3",
+        "q6": "sonnet-4.6"
+      }
+    },
+    "WO-2025207810-A1": {
+      "mode": "technical",
+      "question_language": "zh",
+      "slots": {
+        "q1": "gemini-3.5-flash",
+        "q2": "sonnet-4.6",
+        "q3": "qwen3.6-35b-a3b",
+        "q4": "gpt-5.4-mini",
+        "q5": "grok-4.3",
+        "q6": "gpt-5-mini"
+      }
+    },
+    "WO-2025210445-A1": {
+      "mode": "technical",
+      "question_language": "fr",
+      "slots": {
+        "q1": "sonnet-4.6",
+        "q2": "gpt-5-mini",
+        "q3": "grok-4.3",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "gemini-3.5-flash",
+        "q6": "gpt-5.4-mini"
+      }
+    },
+    "WO-2025211128-A1": {
+      "mode": "technical",
+      "question_language": "en",
+      "slots": {
+        "q1": "sonnet-4.6",
+        "q2": "gemini-3.5-flash",
+        "q3": "qwen3.6-35b-a3b",
+        "q4": "grok-4.3",
+        "q5": "gpt-5.4-mini",
+        "q6": "gpt-5-mini"
+      }
+    },
+    "WO-2025211336-A1": {
+      "mode": "semantic",
+      "question_language": "en",
+      "slots": {
+        "q1": "qwen3.6-35b-a3b",
+        "q2": "gpt-5.4-mini",
+        "q3": "gpt-5-mini",
+        "q4": "sonnet-4.6",
+        "q5": "gemini-3.5-flash",
+        "q6": "grok-4.3"
+      }
+    },
+    "WO-2025212655-A1": {
+      "mode": "semantic",
+      "question_language": "de",
+      "slots": {
+        "q1": "gpt-5-mini",
+        "q2": "grok-4.3",
+        "q3": "sonnet-4.6",
+        "q4": "gemini-3.5-flash",
+        "q5": "qwen3.6-35b-a3b",
+        "q6": "gpt-5.4-mini"
+      }
+    },
+    "WO-2025215167-A1": {
+      "mode": "semantic",
+      "question_language": "de",
+      "slots": {
+        "q1": "sonnet-4.6",
+        "q2": "gpt-5.4-mini",
+        "q3": "gemini-3.5-flash",
+        "q4": "qwen3.6-35b-a3b",
+        "q5": "grok-4.3",
+        "q6": "gpt-5-mini"
+      }
+    }
+  }
+}

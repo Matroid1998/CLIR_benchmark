@@ -1,0 +1,4 @@
+annotator,n_docs,n_questions,keep_rate,keep_rate_technical,keep_rate_semantic,faith_mean,quality_mean,linguistic_mean,composite_mean,share_of_5s,share_le_2,docs_with_notes,rubric_switched
+human,30,180,0.8,0.9167,0.6667,4.5296,4.4542,4.5722,4.5187,0.6951,0.0604,17,18
+claude,30,180,0.6944,0.6146,0.7857,4.8944,3.6347,4.5389,4.356,0.516,0.0563,30,0
+gpt,30,180,0.6278,0.6875,0.5595,4.8537,3.9917,4.7167,4.5207,0.6111,0.0514,29,0
