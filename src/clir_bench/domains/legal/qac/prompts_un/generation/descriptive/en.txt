@@ -1,0 +1,120 @@
+You are an expert at creating legal and policy retrieval questions from United Nations documents (resolutions, reports, letters, and meeting records).
+The source context may be in any language. The questions and answers MUST be written in English. Preserve terms of art and named entities — missions, organs, bodies, programmes (e.g., "UNAMIR", "the Economic and Social Council"), and all dates, durations, monetary amounts, percentages, troop figures, and thresholds — in their original form. Where an organ, body, or instrument has an official English name, use that name rather than a literal translation.
+
+THIS MODE — DESCRIBE THE INSTRUMENT, DO NOT CITE IT:
+This is a fact-extraction mode (same eight categories as the identifier mode), but with ONE rule reversed. The QUESTION MUST NOT contain any official identifier — no resolution numbers ("resolution 918 (1994)"), no document symbols ("S/1994/565"), no paragraph numbers. Instead, when the block or its subject involves an instrument, you must NAME THAT INSTRUMENT BY DESCRIPTION: its organ, its year, and its subject ("the 1994 Security Council resolution expanding the UN mission in Rwanda", "the 2004 Security Council resolution on Lebanese sovereignty").
+Why: an identifier is a language-invariant string — "1559" is identical in every language — so a query carrying it retrieves the document by string overlap alone, with no cross-lingual or semantic challenge. Forcing description turns a lookup into a real retrieval problem: the searcher must convey WHAT the instrument is, and the system must match that description against text that phrases it differently, across languages.
+The REFERENCED DOCUMENTS section is what makes this possible: it tells you what a cited instrument actually is, so you can describe it accurately without ever printing its number.
+
+HOW THE INPUT IS STRUCTURED:
+You receive three clearly marked sections.
+- "### TARGET BLOCK" — one contiguous passage (a run of whole paragraphs) of one UN document. This is the text you are writing questions ABOUT.
+- "### REFERENCED DOCUMENTS" — other documents that the target block CITES, each supplied as its symbol, title, and text. They are supplied ONLY so you can UNDERSTAND what the block's citations refer to — what a cited resolution is, what subject it concerns — so that you can DESCRIBE it in the question instead of citing its number.
+- "### DOCUMENT CONTEXT" — surrounding text OF THE SAME DOCUMENT: its opening and, for long documents, the passages around the target block.
+The roles are strict:
+- The ANSWER must be fully stated in the TARGET BLOCK. Not partly — fully.
+- Both supporting sections exist so you can UNDERSTAND and DESCRIBE — never so you can answer from them. USE them to resolve what the block leaves implicit: which mission "the Mission" is, which country "the Government" governs, what a cited resolution is about. If any part of the answer's substance is stated only in a REFERENCED DOCUMENT or only in the DOCUMENT CONTEXT, DISCARD the question. Supporting text supplies descriptions and names; it never supplies answer facts.
+
+The target block begins with METADATA lines, followed by the text:
+
+    [EN] Document: S/2005/673
+      Title: Report of the Secretary-General on the implementation of Security Council resolution 1559 (2004)
+    <the text of the target block>
+
+- "Document" is the UN document symbol; "Title" is the document's own title or opening line. USE them to know what the passage is ABOUT.
+- The metadata is CONTEXT, NOT CONTENT. Never take the answer from a metadata line. Never ask a question ABOUT the metadata. And in THIS mode, never copy the document symbol or a resolution number OUT of the metadata into the question — describe the instrument instead.
+
+Generate exactly THREE question-answer pairs. Each should target a different fact. Every question must be about the TARGET BLOCK.
+
+NAMING BY DESCRIPTION FOR RETRIEVABILITY — the most important rule of this task:
+Each question is a query for an Information Retrieval (IR) system. The person typing it has NOT seen this document and is searching to FIND it among hundreds of thousands of UN documents. UN documents are repetitive by design: thousands of resolutions authorize troop levels, extend mandates, and set reporting deadlines in nearly identical language. A question that does not say WHICH situation it is about matches all of them and finds none.
+- Every question MUST name its subject by DESCRIPTION: the situation or country ("the situation in Rwanda"), the mission or operation ("UNAMIR"), the body ("the Panel of Experts on the Sudan"), or a cited instrument described by organ + year + subject ("the 2004 Security Council resolution on Lebanese sovereignty"). Mission acronyms, body names, country and situation names are PROPER NOUNS, not identifiers — they are exactly the anchors this mode wants. What is forbidden is the NUMBER: resolution/decision numbers, document symbols, paragraph numbers.
+- Never write "this resolution", "the present report", "this document", or a bare paragraph number. "The Council" alone is not an anchor either — say which council, about what.
+- Test every question two ways. (1) Anchor: typed by a stranger, would it lead to THIS document's subject matter? (2) No-identifier: does the question contain any resolution number, document symbol, or paragraph number? If yes, rewrite it as a description or discard.
+
+CORE RULES:
+- Single Focus: Each question must ask for exactly ONE specific piece of information.
+- THE BLOCK TEST (apply to every candidate before keeping it): could a reader produce the COMPLETE answer from the TARGET BLOCK alone, using the referenced documents and the document context only to know what the block's referring expressions and citations mean? If a fact needed by the answer is stated only in a referenced document or only in the context, DISCARD the question.
+- Off-Target Questions: a question answerable entirely from a referenced document is a question ABOUT that document, not the target block — DISCARD it.
+- Citations Never Complete Answers: if the substance of the answer sits behind a citation rather than in the target block's own words, discard the question — even when the cited document is supplied. The reference tells you what the instrument is so you can DESCRIBE it; it does not become answer material.
+- No Official Identifiers in the Question: never include a resolution or decision number, a UN document symbol, or a paragraph number in the question. This is the defining rule of this mode. Identifiers MAY appear inside the answer span; that is acceptable.
+- Full Direct Support: The answer must be fully stated in the target block. No inference and no outside knowledge.
+- Numerical Fidelity: Reproduce all numbers, dates, durations, amounts, percentages, and troop figures in the ANSWER exactly as they appear in the source. (Identifiers stay out of the question but must be exact if they appear in an answer.)
+- Natural Search Wording: Write each question as a diplomat, legal adviser, policy analyst, or journalist would type it — short, specific, direct.
+- No Document Phrases: Never use deictic wording that presupposes the document is at hand.
+- Paraphrase, Don't Lift: rewrite descriptive phrases in your own words; keep only unavoidable terms of art and named entities.
+- Diversity: The three questions must target three different facts AND span at least two of the eight categories under WHAT TO ASK.
+
+DOCUMENT STRUCTURE — PREAMBULAR vs OPERATIVE:
+Resolutions open with preambular clauses ("Reaffirming...", "Recalling...") that restate context, and operative paragraphs ("Decides...", "Requests...", "Authorizes...") that carry the actions. Target operative or substantive content; preambular text is framing, not answer material.
+
+ATTRIBUTION:
+Much of this corpus reports what someone SAID rather than established fact: summary records report delegates' statements, letters convey a government's position, reports state the reporting body's findings. When the block attributes a statement, claim, estimate, or assessment, the question and answer must preserve that attribution ("According to the Secretary-General...", "What did the Panel of Experts conclude...") and never present an attributed claim as established fact. Anchor report findings to the source or reporting period.
+
+WHAT TO ASK:
+Target questions in these eight categories:
+  1. Situations, Scope & Coverage: which country, conflict, territory, population group, or subject a measure or report covers, the reporting period, exemptions and carve-outs, etc.
+  2. Operative Actions: Decisions, Demands & Authorizations: what the organ decides, authorizes, approves, endorses, demands, urges, requests, or condemns, and the actor it is addressed to, etc.
+  3. Sanctions, Conditions & Consequences: measures imposed (arms embargo, asset freeze, travel ban), designation and exemption criteria, conditions for imposing/reviewing/lifting measures, etc.
+  4. Dates, Deadlines & Mandate Periods: mandate start/extension/expiry, reporting deadlines, effective dates, review dates, transition timelines, etc.
+  5. Quantities, Forces & Finances: troop and police ceilings, appropriations and contributions, reported statistics, percentages, ceilings and limits, etc.
+  6. Reporting, Monitoring & Verification: who reports to whom and at what frequency, monitoring bodies, verification and inspection arrangements, notification duties, etc.
+  7. Findings, Events & Assessments: concrete facts stated in reports, and the reporting body's assessments, conclusions, and recommendations, etc.
+  8. Actors, Bodies & Procedures: named officials and bodies and their composition/roles/appointment, procedural steps, formally designated terms, etc.
+Questions about purpose, rationale, or effect are acceptable ONLY when the target block explicitly and completely states that information.
+
+EXAMPLES:
+
+Example 1 — describing a cited instrument instead of citing it
+### TARGET BLOCK (from a report on Lebanon)
+"3. In its resolution 1559 (2004), the Security Council reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out in the resolution have not yet been fully met."
+### REFERENCED DOCUMENTS
+Reference: S/RES/1559(2004) — Resolution 1559 (2004)
+"…Reaffirming the sovereignty and political independence of Lebanon; Calls upon all remaining foreign forces to withdraw from Lebanon; Calls for the disbanding and disarmament of all Lebanese and non-Lebanese militias;…"
+✓ Good: {"question": "Did the UN Secretary-General consider the requirements of the 2004 Security Council resolution on Lebanese sovereignty fulfilled in his late-2005 assessment?", "answer": "The requirements set out in the resolution have not yet been fully met", "question_type": "finding_event_or_assessment"}
+  → The instrument is named by DESCRIPTION (organ + year + subject), taken from the reference — no "1559", no symbol. The answer is wholly in the block, with attribution preserved.
+✗ Bad (identifier in the question): "What did the Secretary-General conclude in late 2005 about the implementation of resolution 1559 (2004) on Lebanon?"
+  → Contains the resolution number. In this mode that is forbidden — the number lets a retriever match by string alone. Rewrite it as a description (the ✓ version).
+
+Example 2 — operative resolution passage
+### TARGET BLOCK
+[EN] Document: S/RES/918 (1994)
+  Title: RESOLUTION 918 (1994) Adopted by the Security Council on 17 May 1994
+"4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;"
+### DOCUMENT CONTEXT
+(preamble naming UNAMIR — the United Nations Assistance Mission for Rwanda — and the situation in Rwanda)
+✓ Good: {"question": "What troop ceiling did the Security Council authorize for the UN assistance mission in Rwanda in mid-1994?", "answer": "up to 5,500 troops", "question_type": "quantity_force_or_finance"}
+  → "UNAMIR" could be used (it is a proper noun, not an identifier), but here it is described; either way NO resolution number appears. The figure is the block's own content.
+✗ Bad (no anchor): "What is the authorized troop ceiling?"
+  → No mission, country, or instrument named — matches every peacekeeping resolution.
+
+Example 3 — the failure modes
+✗ Bad (identifier leak): "What did resolution 918 (1994) decide about protecting civilians in Rwanda?"
+  → The resolution number is forbidden in this mode. Describe it: "the mid-1994 Security Council resolution expanding the UN mission in Rwanda".
+✗ Bad (symbol leak): "What did the Secretary-General report in S/1994/565 about refugee flows?"
+  → A document symbol is an identifier. Describe the source instead: "in his May 1994 report on Rwanda".
+✗ Bad (answer-from-reference): "Which foreign forces did the 2004 Lebanon resolution call to withdraw?"
+  → The list of forces is stated only in the REFERENCED DOCUMENT; the block merely points at it. The BLOCK TEST fails. Discard.
+✗ Bad (attribution dropped): "How many refugees fled Rwanda into Tanzania at the end of April 1994?" answered as bare fact
+  → The figure is the Secretary-General's estimate; keep the attribution ("according to the Secretary-General's May 1994 report").
+
+SELF-CHECK for each question before finalizing:
+- NO IDENTIFIER: does the question contain any resolution/decision number, document symbol, or paragraph number? If yes, rewrite as a description or discard. (This is the defining check of this mode.)
+- NAMING: does the question name its subject by description (situation, country, mission, body, or instrument-by-organ+year+subject) so a stranger could find this subject matter?
+- THE BLOCK TEST: is every part of the answer stated in the TARGET BLOCK itself, with references/context used only to understand and describe?
+- Could this question be answered from a referenced document alone? If yes, discard.
+- If the block attributes a claim/estimate/assessment, do the question and answer preserve the attribution?
+- Does the question target operative or substantive content rather than a preambular recital?
+- Does the question ask for exactly one piece of information, well written, with all numbers in the ANSWER exact?
+- Are the three questions about three different facts, covering at least two categories?
+
+OUTPUT (valid JSON only, no markdown):
+[
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."}
+]
+- answer: the shortest span that fully and directly answers the question — typically a phrase or a single short sentence. Strictly grounded in the target block.
+- question_type: one of situation_scope_or_coverage, operative_action, sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance, reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure.
+
+The target block and the document context are supplied in English and — when your output language is not English — in your output language as well. When both are present they are the same text: use the version in your output language for wording, and the English version as the reference reading. This does not change your output language, which is declared above. Here is the input:

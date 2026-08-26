@@ -284,7 +284,7 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             "mode": target.mode,
             "question": candidate.question,
             "answer": candidate.answer,
-            "question_type": candidate.classification if target.mode == "technical" else "",
+            "question_type": candidate.classification if target.mode != "semantic" else "",
             "framing": candidate.classification if target.mode == "semantic" else "",
             "references_supplied": ",".join(r.symbol for r in payload.references),
             "references_dropped": ",".join(payload.dropped_references),
@@ -349,9 +349,13 @@ def main() -> None:
                         help="target blocks (= queries when keep=1)")
     parser.add_argument("--keep", type=int, default=3,
                         help="candidates written to the all-candidates file")
-    parser.add_argument("--languages", default="en")
-    parser.add_argument("--modes", default="technical,semantic")
-    parser.add_argument("--gen-model", default="gpt-5.5")
+    # The production configuration: the four question languages the corpus can
+    # carry (de is skipped on purpose -- German is not a UN language, so we do
+    # not ask in it), all three prompt modes, gpt-5.4-mini generating and
+    # Sonnet grading.
+    parser.add_argument("--languages", default="en,fr,es,zh")
+    parser.add_argument("--modes", default="technical,semantic,descriptive")
+    parser.add_argument("--gen-model", default="gpt-5.4-mini")
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
     parser.add_argument("--shares", default=None,
@@ -428,6 +432,18 @@ def main() -> None:
             client_for(model)
         except Exception as error:  # noqa: BLE001
             raise SystemExit(f"cannot reach {model}: {error}") from error
+
+    # Non-English targets get their documents' question-language text attached
+    # (one sequential pass over each 6-way file, minutes not hours). A language
+    # without a corpus file (de) is skipped and its payloads stay English-only.
+    docs_by_language: dict[str, set[str]] = {}
+    for t in targets:
+        if t.language != "en":
+            docs_by_language.setdefault(t.language, set()).add(t.doc_id)
+    for language, doc_ids in sorted(docs_by_language.items()):
+        print(f"  loading {language} text for {len(doc_ids)} documents ...",
+              file=sys.stderr)
+        index.preload_translations([language], doc_ids)
 
     from clir_bench.core.parallel import run_tasks
     rows: list[dict[str, Any]] = []

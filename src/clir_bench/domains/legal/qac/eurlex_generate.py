@@ -44,6 +44,7 @@ PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_eurlex")
 
 MODE_TECHNICAL = "technical"
 MODE_SEMANTIC = "semantic"
+MODE_DESCRIPTIVE = "descriptive"
 
 
 @dataclass
@@ -72,7 +73,7 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
         answer = str(item.get("answer", "")).strip()
         if not question or not answer:
             continue
-        key = "question_type" if mode == MODE_TECHNICAL else "framing"
+        key = "framing" if mode == MODE_SEMANTIC else "question_type"
         involved, rejected = ctx.normalise_involved(item.get("articles_involved"), payload)
         out.append(Candidate(
             question=question,
@@ -119,7 +120,7 @@ def rows_for(payload: ctx.GenerationPayload, candidates: Sequence[Candidate], *,
         "mode": mode,
         "question": c.question,
         "answer": c.answer,
-        ("question_type" if mode == MODE_TECHNICAL else "framing"): c.classification,
+        ("framing" if mode == MODE_SEMANTIC else "question_type"): c.classification,
         # The deliverable: which articles a reader needs. One entry means the
         # target alone; more means the answer crossed a resolved cross-reference.
         "articles_involved": ",".join(c.articles_involved),
@@ -143,7 +144,7 @@ def main() -> None:
     parser.add_argument("--celex", required=True)
     parser.add_argument("--article", required=True, help="target article number")
     parser.add_argument("--mode", default=MODE_TECHNICAL,
-                        choices=[MODE_TECHNICAL, MODE_SEMANTIC])
+                        choices=[MODE_TECHNICAL, MODE_SEMANTIC, MODE_DESCRIPTIVE])
     parser.add_argument("--language", default="en")
     parser.add_argument("--max-references", type=int, default=ctx.DEFAULT_MAX_REFERENCES)
     parser.add_argument("--model", default="gpt-5-mini")

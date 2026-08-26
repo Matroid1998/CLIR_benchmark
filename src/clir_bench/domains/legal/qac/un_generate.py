@@ -29,6 +29,7 @@ PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_un")
 
 MODE_TECHNICAL = "technical"
 MODE_SEMANTIC = "semantic"
+MODE_DESCRIPTIVE = "descriptive"
 
 
 @dataclass
@@ -42,7 +43,7 @@ def parse_candidates(data: Any, mode: str) -> list[Candidate]:
     """Validate the model's JSON."""
     if isinstance(data, Mapping):
         data = [data]
-    key = "question_type" if mode == MODE_TECHNICAL else "framing"
+    key = "framing" if mode == MODE_SEMANTIC else "question_type"
     out: list[Candidate] = []
     for item in list(data or []):
         if not isinstance(item, Mapping):
@@ -87,7 +88,7 @@ def rows_for(payload: ctx.GenerationPayload, candidates: list[Candidate], *,
         "mode": mode,
         "question": c.question,
         "answer": c.answer,
-        ("question_type" if mode == MODE_TECHNICAL else "framing"): c.classification,
+        ("framing" if mode == MODE_SEMANTIC else "question_type"): c.classification,
         "references_supplied": ",".join(r.symbol for r in payload.references),
         "references_dropped": ",".join(payload.dropped_references),
         "context_blocks_supplied": len(payload.context_blocks),
@@ -100,7 +101,7 @@ def main() -> None:
     parser.add_argument("--doc", required=True, help="document id (`.ids` first token)")
     parser.add_argument("--block", type=int, required=True, help="target block index (0-based)")
     parser.add_argument("--mode", default=MODE_TECHNICAL,
-                        choices=[MODE_TECHNICAL, MODE_SEMANTIC])
+                        choices=[MODE_TECHNICAL, MODE_SEMANTIC, MODE_DESCRIPTIVE])
     parser.add_argument("--language", default="en")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
     parser.add_argument("--blocks", default=None, help="override blocks_en.jsonl path")

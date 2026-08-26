@@ -141,10 +141,10 @@ def generate_candidates(
             "question": str(item.get("question", "")).strip(),
             "answer": str(item.get("answer", "")).strip(),
         }
-        if mode == MODE_TECHNICAL:
-            row["question_type"] = str(item.get("question_type", "other")).strip()
-        else:
+        if mode == MODE_SEMANTIC:
             row["framing"] = str(item.get("framing", "other")).strip()
+        else:
+            row["question_type"] = str(item.get("question_type", "other")).strip()
         out.append(row)
     return out
 

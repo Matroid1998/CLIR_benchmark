@@ -1,0 +1,120 @@
+Sie sind ein Experte für die Erstellung rechtlicher und politischer Fragen zur Dokumentenrecherche aus Dokumenten der Vereinten Nationen (Resolutionen, Berichten, Schreiben und Sitzungsprotokollen).
+Der Quellkontext kann in beliebiger Sprache vorliegen. Die Fragen und Antworten MÜSSEN auf Deutsch verfasst werden. Bewahren Sie Fachbegriffe und benannte Entitäten — Missionen, Organe, Gremien, Programme (z. B. „UNAMIR", „der Wirtschafts- und Sozialrat") — sowie alle Daten, Zeiträume, Geldbeträge, Prozentsätze, Truppenzahlen und Schwellenwerte in ihrer ursprünglichen Form. Wenn ein Organ, ein Gremium oder ein Instrument einen offiziellen deutschen Namen hat, verwenden Sie diesen Namen anstelle einer wörtlichen Übersetzung.
+
+DIESER MODUS — BESCHREIBEN SIE DAS INSTRUMENT, ZITIEREN SIE ES NICHT:
+Dies ist ein Faktenextraktions-Modus (dieselben acht Kategorien wie im Kennungs-Modus), jedoch mit EINER umgekehrten Regel. Die FRAGE DARF KEINE offizielle Kennung enthalten — keine Resolutionsnummern („resolution 918 (1994)"), keine Dokumentensymbole („S/1994/565"), keine Absatznummern. Stattdessen müssen Sie, wenn der Block oder sein Gegenstand ein Instrument betrifft, DIESES INSTRUMENT DURCH BESCHREIBUNG BENENNEN: sein Organ, sein Jahr und sein Thema („die Resolution des Sicherheitsrats von 1994 zur Erweiterung der UN-Mission in Ruanda", „die Resolution des Sicherheitsrats von 2004 zur Souveränität Libanons").
+Warum: Eine Kennung ist eine sprachinvariante Zeichenkette — „1559" ist in jeder Sprache identisch —, sodass eine Anfrage, die sie enthält, das Dokument allein über Zeichenketten-Überlappung findet, ohne jede cross-linguale oder semantische Herausforderung. Die erzwungene Beschreibung verwandelt ein bloßes Nachschlagen in ein echtes Retrieval-Problem: Der Suchende muss vermitteln, WAS das Instrument ist, und das System muss diese Beschreibung mit Text abgleichen, der sie anders formuliert, über Sprachen hinweg.
+Der Abschnitt REFERENCED DOCUMENTS macht dies möglich: Er sagt Ihnen, was ein zitiertes Instrument tatsächlich ist, damit Sie es präzise beschreiben können, ohne jemals seine Nummer zu schreiben.
+
+WIE DIE EINGABE AUFGEBAUT IST:
+Sie erhalten drei klar markierte Abschnitte.
+- "### TARGET BLOCK" — eine zusammenhängende Passage (eine Folge vollständiger Absätze) eines UN-Dokuments. Dies ist der Text, ÜBER den Sie Fragen schreiben.
+- "### REFERENCED DOCUMENTS" — andere Dokumente, die der Zielblock ZITIERT, jeweils bereitgestellt mit Symbol, Titel und Text. Sie werden AUSSCHLIESSLICH bereitgestellt, damit Sie VERSTEHEN können, worauf sich die Zitate des Blocks beziehen — was eine zitierte Resolution ist, welches Thema sie betrifft —, damit Sie sie in der Frage BESCHREIBEN können, statt ihre Nummer zu zitieren.
+- "### DOCUMENT CONTEXT" — umgebender Text DESSELBEN DOKUMENTS: sein Anfang und, bei langen Dokumenten, die Passagen um den Zielblock herum.
+Die Rollen sind strikt:
+- Die ANTWORT muss vollständig im TARGET BLOCK ausgesagt sein. Nicht teilweise — vollständig.
+- Beide unterstützenden Abschnitte existieren, damit Sie VERSTEHEN und BESCHREIBEN können — niemals, damit Sie aus ihnen antworten. NUTZEN Sie sie, um aufzulösen, was der Block implizit lässt: welche Mission „die Mission" ist, welches Land „die Regierung" regiert, worum es in einer zitierten Resolution geht. Wenn irgendein Teil des Antwortkerns nur in einem REFERENCED DOCUMENT oder nur im DOCUMENT CONTEXT ausgesagt ist, VERWERFEN Sie die Frage. Unterstützender Text liefert Beschreibungen und Namen; er liefert niemals Antwortfakten.
+
+Der Zielblock beginnt mit METADATA-Zeilen, gefolgt vom Text:
+
+    [EN] Document: S/2005/673
+      Title: Report of the Secretary-General on the implementation of Security Council resolution 1559 (2004)
+    <the text of the target block>
+
+- "Document" ist das UN-Dokumentensymbol; "Title" ist der eigene Titel oder die Eröffnungszeile des Dokuments. NUTZEN Sie beide, um zu wissen, WOVON die Passage handelt.
+- Die Metadaten sind KONTEXT, NICHT INHALT. Entnehmen Sie die Antwort niemals einer Metadaten-Zeile. Stellen Sie niemals eine Frage ÜBER die Metadaten. Und kopieren Sie in DIESEM Modus niemals das Dokumentensymbol oder eine Resolutionsnummer AUS den Metadaten in die Frage — beschreiben Sie stattdessen das Instrument.
+
+Erzeugen Sie genau DREI Frage-Antwort-Paare. Jedes soll sich auf eine andere Tatsache beziehen. Jede Frage muss den TARGET BLOCK betreffen.
+
+BENENNUNG DURCH BESCHREIBUNG FÜR AUFFINDBARKEIT — die wichtigste Regel dieser Aufgabe:
+Jede Frage ist eine Anfrage für ein Information-Retrieval-(IR)-System. Die Person, die sie eingibt, hat dieses Dokument NICHT gesehen und sucht danach, um es unter Hunderttausenden von UN-Dokumenten zu FINDEN. UN-Dokumente sind konstruktionsbedingt repetitiv: Tausende Resolutionen genehmigen Truppenstärken, verlängern Mandate und setzen Berichtsfristen in nahezu identischer Sprache. Eine Frage, die nicht sagt, um WELCHE Situation es geht, passt auf alle und findet keines.
+- Jede Frage MUSS ihren Gegenstand durch BESCHREIBUNG benennen: die Situation oder das Land („die Situation in Ruanda"), die Mission oder Operation („UNAMIR"), das Gremium („die Sachverständigengruppe für Sudan") oder ein zitiertes Instrument, beschrieben durch Organ + Jahr + Thema („die Resolution des Sicherheitsrats von 2004 zur Souveränität Libanons"). Missionsakronyme, Gremiennamen, Länder- und Situationsnamen sind EIGENNAMEN, keine Kennungen — sie sind genau die Anker, die dieser Modus will. Verboten ist die NUMMER: Resolutions-/Beschlussnummern, Dokumentensymbole, Absatznummern.
+- Schreiben Sie niemals „diese Resolution", „der vorliegende Bericht", „dieses Dokument" oder eine bloße Absatznummer. „Der Rat" allein ist ebenfalls kein Anker — sagen Sie, welcher Rat, und worüber.
+- Testen Sie jede Frage auf zwei Arten. (1) Anker: Würde sie, von einem Fremden eingegeben, zum Gegenstand DIESES Dokuments führen? (2) Keine Kennung: Enthält die Frage irgendeine Resolutionsnummer, ein Dokumentensymbol oder eine Absatznummer? Wenn ja, formulieren Sie sie als Beschreibung um oder verwerfen Sie sie.
+
+KERNREGELN:
+- Einzelner Fokus: Jede Frage muss nach genau EINER spezifischen Information fragen.
+- DER BLOCK-TEST (wenden Sie ihn auf jeden Kandidaten an, bevor Sie ihn behalten): Könnte ein Leser die VOLLSTÄNDIGE Antwort allein aus dem TARGET BLOCK erzeugen und die referenzierten Dokumente und den Dokumentkontext nur dazu nutzen, zu wissen, was die verweisenden Ausdrücke und Zitate des Blocks bedeuten? Wenn eine Tatsache, die die Antwort benötigt, nur in einem referenzierten Dokument oder nur im Kontext ausgesagt ist, VERWERFEN Sie die Frage.
+- Fragen am Ziel vorbei: Eine Frage, die sich vollständig aus einem referenzierten Dokument beantworten lässt, ist eine Frage ÜBER dieses Dokument, nicht über den Zielblock — VERWERFEN Sie sie.
+- Zitate vervollständigen niemals Antworten: Wenn der Kern der Antwort hinter einem Zitat liegt statt in den eigenen Worten des Zielblocks, verwerfen Sie die Frage — auch dann, wenn das zitierte Dokument bereitgestellt ist. Der Verweis sagt Ihnen, was das Instrument ist, damit Sie es BESCHREIBEN können; er wird nicht zu Antwortmaterial.
+- Keine offiziellen Kennungen in der Frage: Nehmen Sie niemals eine Resolutions- oder Beschlussnummer, ein UN-Dokumentensymbol oder eine Absatznummer in die Frage auf. Dies ist die definierende Regel dieses Modus. Kennungen DÜRFEN innerhalb der Antwortspanne erscheinen; das ist akzeptabel.
+- Vollständige direkte Stützung: Die Antwort muss vollständig im Zielblock ausgesagt sein. Keine Schlussfolgerung und kein externes Wissen.
+- Numerische Treue: Geben Sie alle Zahlen, Daten, Zeiträume, Beträge, Prozentsätze und Truppenzahlen in der ANTWORT exakt so wieder, wie sie in der Quelle erscheinen. (Kennungen bleiben aus der Frage heraus, müssen aber exakt sein, wenn sie in einer Antwort erscheinen.)
+- Natürliche Suchformulierung: Formulieren Sie jede Frage so, wie ein Diplomat, Rechtsberater, Politikanalyst oder Journalist sie eingeben würde — kurz, spezifisch, direkt.
+- Keine Dokumentformeln: Verwenden Sie niemals deiktische Formulierungen, die voraussetzen, dass das Dokument vorliegt.
+- Paraphrasieren, nicht übernehmen: Formulieren Sie beschreibende Phrasen in eigenen Worten um; behalten Sie nur unvermeidbare Fachbegriffe und benannte Entitäten bei.
+- Vielfalt: Die drei Fragen müssen auf drei verschiedene Tatsachen abzielen UND mindestens zwei der acht Kategorien unter WORNACH FRAGEN abdecken.
+
+DOKUMENTSTRUKTUR — PRÄAMBEL vs. OPERATIVER TEIL:
+Resolutionen beginnen mit Präambelklauseln („bekräftigend ...", „unter Hinweis auf ..."), die Kontext wiedergeben, und operativen Absätzen („beschließt ...", „ersucht ...", „ermächtigt ..."), die die Handlungen tragen. Richten Sie sich auf operative oder substanzielle Inhalte; Präambeltext ist Rahmung, kein Antwortmaterial.
+
+ATTRIBUTION:
+Ein Großteil dieses Korpus berichtet, was jemand GESAGT hat, und nicht feststehende Tatsachen: Kurzprotokolle geben die Erklärungen von Delegierten wieder, Schreiben übermitteln die Position einer Regierung, Berichte enthalten die Feststellungen des berichtenden Gremiums. Wenn der Block eine Aussage, Behauptung, Schätzung oder Einschätzung zuschreibt, müssen Frage und Antwort diese Zuschreibung bewahren („Nach Angaben des Generalsekretärs ...", „Was schlussfolgerte die Sachverständigengruppe ...") und eine zugeschriebene Behauptung niemals als feststehende Tatsache darstellen. Verankern Sie Berichtsfeststellungen an der Quelle oder am Berichtszeitraum.
+
+WORNACH FRAGEN:
+Zielen Sie auf Fragen in diesen acht Kategorien:
+  1. Situationen, Geltungsbereich und Erfassung: welches Land, welcher Konflikt, welches Gebiet, welche Bevölkerungsgruppe oder welches Thema von einer Maßnahme oder einem Bericht erfasst wird, der Berichtszeitraum, Ausnahmen und Sonderregelungen usw.
+  2. Operative Handlungen: Beschlüsse, Forderungen und Ermächtigungen: was das Organ beschließt, genehmigt, billigt, unterstützt, verlangt, eindringlich auffordert, erbittet oder verurteilt, und der Akteur, an den es sich richtet, usw.
+  3. Sanktionen, Bedingungen und Konsequenzen: verhängte Maßnahmen (Waffenembargo, Einfrieren von Vermögenswerten, Reiseverbot), Benennungs- und Ausnahmekriterien, Bedingungen für das Verhängen/Überprüfen/Aufheben von Maßnahmen usw.
+  4. Daten, Fristen und Mandatszeiträume: Beginn/Verlängerung/Ablauf von Mandaten, Berichtsfristen, Wirksamkeitsdaten, Überprüfungstermine, Übergangszeitpläne usw.
+  5. Mengen, Truppen und Finanzen: Truppen- und Polizeiobergrenzen, Mittelzuweisungen und Beiträge, berichtete Statistiken, Prozentsätze, Obergrenzen und Grenzwerte usw.
+  6. Berichterstattung, Überwachung und Überprüfung: wer wem und in welcher Häufigkeit berichtet, Überwachungsgremien, Verifikations- und Inspektionsregelungen, Mitteilungspflichten usw.
+  7. Feststellungen, Ereignisse und Einschätzungen: konkrete Tatsachen in Berichten sowie die Einschätzungen, Schlussfolgerungen und Empfehlungen des berichtenden Gremiums usw.
+  8. Akteure, Gremien und Verfahren: benannte Amtsträger und Gremien und ihre Zusammensetzung/Rollen/Ernennung, Verfahrensschritte, förmlich benannte Begriffe usw.
+Fragen zu Zweck, Begründung oder Wirkung sind NUR dann akzeptabel, wenn der Zielblock diese Information explizit und vollständig angibt.
+
+BEISPIELE:
+
+Example 1 — describing a cited instrument instead of citing it
+### TARGET BLOCK (from a report on Lebanon)
+"3. In its resolution 1559 (2004), the Security Council reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out in the resolution have not yet been fully met."
+### REFERENCED DOCUMENTS
+Reference: S/RES/1559(2004) — Resolution 1559 (2004)
+"…Reaffirming the sovereignty and political independence of Lebanon; Calls upon all remaining foreign forces to withdraw from Lebanon; Calls for the disbanding and disarmament of all Lebanese and non-Lebanese militias;…"
+✓ Good: {"question": "Did the UN Secretary-General consider the requirements of the 2004 Security Council resolution on Lebanese sovereignty fulfilled in his late-2005 assessment?", "answer": "The requirements set out in the resolution have not yet been fully met", "question_type": "finding_event_or_assessment"}
+  → The instrument is named by DESCRIPTION (organ + year + subject), taken from the reference — no "1559", no symbol. The answer is wholly in the block, with attribution preserved.
+✗ Bad (identifier in the question): "What did the Secretary-General conclude in late 2005 about the implementation of resolution 1559 (2004) on Lebanon?"
+  → Contains the resolution number. In this mode that is forbidden — the number lets a retriever match by string alone. Rewrite it as a description (the ✓ version).
+
+Example 2 — operative resolution passage
+### TARGET BLOCK
+[EN] Document: S/RES/918 (1994)
+  Title: RESOLUTION 918 (1994) Adopted by the Security Council on 17 May 1994
+"4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;"
+### DOCUMENT CONTEXT
+(preamble naming UNAMIR — the United Nations Assistance Mission for Rwanda — and the situation in Rwanda)
+✓ Good: {"question": "What troop ceiling did the Security Council authorize for the UN assistance mission in Rwanda in mid-1994?", "answer": "up to 5,500 troops", "question_type": "quantity_force_or_finance"}
+  → "UNAMIR" could be used (it is a proper noun, not an identifier), but here it is described; either way NO resolution number appears. The figure is the block's own content.
+✗ Bad (no anchor): "What is the authorized troop ceiling?"
+  → No mission, country, or instrument named — matches every peacekeeping resolution.
+
+Example 3 — the failure modes
+✗ Bad (identifier leak): "What did resolution 918 (1994) decide about protecting civilians in Rwanda?"
+  → The resolution number is forbidden in this mode. Describe it: "the mid-1994 Security Council resolution expanding the UN mission in Rwanda".
+✗ Bad (symbol leak): "What did the Secretary-General report in S/1994/565 about refugee flows?"
+  → A document symbol is an identifier. Describe the source instead: "in his May 1994 report on Rwanda".
+✗ Bad (answer-from-reference): "Which foreign forces did the 2004 Lebanon resolution call to withdraw?"
+  → The list of forces is stated only in the REFERENCED DOCUMENT; the block merely points at it. The BLOCK TEST fails. Discard.
+✗ Bad (attribution dropped): "How many refugees fled Rwanda into Tanzania at the end of April 1994?" answered as bare fact
+  → The figure is the Secretary-General's estimate; keep the attribution ("according to the Secretary-General's May 1994 report").
+
+SELBSTPRÜFUNG für jede Frage vor dem Finalisieren:
+- KEINE KENNUNG: Enthält die Frage irgendeine Resolutions-/Beschlussnummer, ein Dokumentensymbol oder eine Absatznummer? Wenn ja, als Beschreibung umformulieren oder verwerfen. (Dies ist die definierende Prüfung dieses Modus.)
+- BENENNUNG: Benennt die Frage ihren Gegenstand durch Beschreibung (Situation, Land, Mission, Gremium oder Instrument über Organ+Jahr+Thema), sodass ein Fremder diesen Gegenstand finden könnte?
+- DER BLOCK-TEST: Ist jeder Teil der Antwort im TARGET BLOCK selbst ausgesagt, wobei Referenzen/Kontext nur zum Verstehen und Beschreiben genutzt wurden?
+- Ließe sich diese Frage allein aus einem referenzierten Dokument beantworten? Wenn ja, verwerfen.
+- Wenn der Block eine Behauptung/Schätzung/Einschätzung zuschreibt, bewahren Frage und Antwort die Zuschreibung?
+- Zielt die Frage auf operative oder substanzielle Inhalte statt auf eine Präambelformel?
+- Fragt die Frage nach genau einer Information, gut formuliert, mit allen Zahlen in der ANTWORT exakt?
+- Betreffen die drei Fragen drei unterschiedliche Tatsachen und decken mindestens zwei Kategorien ab?
+
+AUSGABE (nur gültiges JSON, kein Markdown):
+[
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."},
+  {"question": "...", "answer": "...", "question_type": "..."}
+]
+- answer: der kürzeste Abschnitt, der die Frage vollständig und direkt beantwortet — typischerweise eine Phrase oder ein einzelner kurzer Satz. Streng im Zielblock verankert.
+- question_type: einer von situation_scope_or_coverage, operative_action, sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance, reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure.
+
+Der Zielblock und der Dokumentkontext werden in Ihrer Ausgabesprache Deutsch und zusätzlich auf Englisch bereitgestellt. Wenn beide Fassungen vorliegen, handelt es sich um denselben Text: Verwenden Sie die deutsche Fassung für die Formulierung und die englische Fassung als Referenzlesart. Dies ändert nichts an Ihrer Ausgabesprache, die oben festgelegt ist. Hier ist die Eingabe:

@@ -27,6 +27,10 @@ from clir_bench.core.llm import (
 
 MODE_TECHNICAL = "technical"
 MODE_SEMANTIC = "semantic"
+# A fact-extraction mode like technical -- same categories, same quality
+# columns -- differing only in that the QUESTION must describe an instrument
+# rather than cite it. It therefore shares the technical quality rubric.
+MODE_DESCRIPTIVE = "descriptive"
 
 # CSV column names. Load-bearing: published datasets carry these headers.
 FAITHFULNESS_FIELDS = (
@@ -71,11 +75,11 @@ SEMANTIC_QUALITY_KEYS = (
 
 
 def quality_keys(mode: str) -> tuple[str, ...]:
-    return TECHNICAL_QUALITY_KEYS if mode == MODE_TECHNICAL else SEMANTIC_QUALITY_KEYS
+    return SEMANTIC_QUALITY_KEYS if mode == MODE_SEMANTIC else TECHNICAL_QUALITY_KEYS
 
 
 def quality_fields(mode: str) -> tuple[str, ...]:
-    return TECHNICAL_QUALITY_FIELDS if mode == MODE_TECHNICAL else SEMANTIC_QUALITY_FIELDS
+    return SEMANTIC_QUALITY_FIELDS if mode == MODE_SEMANTIC else TECHNICAL_QUALITY_FIELDS
 
 
 def faith_overall(scores: Mapping[str, Any]) -> int:
@@ -316,6 +320,7 @@ __all__ = [
     "FAITHFULNESS_KEYS",
     "GradedCandidate",
     "GraderConfig",
+    "MODE_DESCRIPTIVE",
     "MODE_SEMANTIC",
     "MODE_TECHNICAL",
     "SEMANTIC_QUALITY_FIELDS",

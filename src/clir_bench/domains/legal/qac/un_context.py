@@ -153,6 +153,10 @@ class BlockIndex:
         self._status_path = Path(status_path) if status_path else None
         self._incomplete: dict[str, dict] | None = None
         self._status_loaded = False
+        # language -> doc_id -> the document's corpus lines in that language,
+        # filled by preload_translations. Read-only after preloading, so safe
+        # under the batch driver's threads.
+        self._translations: dict[str, dict[str, list[str]]] = {}
 
     @property
     def symbol_map(self) -> dict[str, str]:
@@ -187,6 +191,58 @@ class BlockIndex:
                 units.append(BlockUnit.from_row(json.loads(fh.readline())))
         return units
 
+    def preload_translations(self, languages: Sequence[str],
+                             doc_ids: Sequence[str] | set[str]) -> None:
+        """Load the given documents' text in the given languages.
+
+        The 6-way corpus is line-aligned, so a document's language version is
+        exactly the document's line range read from that language's file. One
+        sequential pass per language collects every requested range; ``build``
+        then attaches each block's slice alongside the English text, giving
+        non-English question runs the same "question language first, English
+        pivot" payload the EUR-Lex flow sends. A language with no corpus file
+        (``de`` is not a UN language) is skipped, and the payload stays
+        English-only for it.
+        """
+        wanted = [lg for lg in dict.fromkeys(languages)
+                  if lg != "en" and paths.text_file(lg).exists()]
+        ranges = sorted((self.docs[d]["line_start"], self.docs[d]["line_end"], d)
+                        for d in set(doc_ids) if d in self.docs)
+        for language in wanted:
+            store = self._translations.setdefault(language, {})
+            todo = [r for r in ranges if r[2] not in store]
+            if not todo:
+                continue
+            pointer = 0
+            with open(paths.text_file(language), encoding="utf-8") as fh:
+                for number, line in enumerate(fh, start=1):
+                    while pointer < len(todo) and number > todo[pointer][1]:
+                        pointer += 1
+                    if pointer >= len(todo):
+                        break
+                    start, _, doc_id = todo[pointer]
+                    if number >= start:
+                        store.setdefault(doc_id, []).append(line.rstrip("\n"))
+
+    def _attach_translation(self, unit: BlockUnit, language: str) -> None:
+        """Set ``unit.texts[language]`` from preloaded document lines.
+
+        Blocks are contiguous line ranges (asserted at build time in
+        ``un.blocks``), so the slice is the block's exact text in the other
+        language -- same lines, same ``\\n`` join as the English builder.
+        """
+        if language in unit.texts:
+            return
+        lines = self._translations.get(language, {}).get(unit.doc_id)
+        if lines is None:
+            return
+        doc_start = self.docs[unit.doc_id]["line_start"]
+        start, end = unit.line_start - doc_start, unit.line_end - doc_start + 1
+        if 0 <= start < end <= len(lines):
+            text = "\n".join(lines[start:end])
+            if text.strip():
+                unit.texts[language] = text
+
     def build(self, doc_id: str, block_index: int, *,
               context_chars: int = DEFAULT_CONTEXT_CHARS,
               max_references: int = refs.DEFAULT_MAX_REFERENCES,
@@ -220,6 +276,11 @@ class BlockIndex:
                            for i in c.anchor_blocks if i != block_index})
         chosen = _select_context(blocks, block_index, context_chars,
                                  priority=priority)
+        for language in languages:
+            if language != "en":
+                self._attach_translation(target, language)
+                for unit in chosen:
+                    self._attach_translation(unit, language)
         text = render_payload(target, chosen, references=references,
                               languages=languages)
         return GenerationPayload(target, chosen, len(blocks) - 1 - len(chosen),

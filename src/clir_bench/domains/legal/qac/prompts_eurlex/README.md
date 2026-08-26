@@ -8,9 +8,16 @@ Used by `clir_bench.domains.legal.qac.eurlex_generate`, which sends a four-block
 payload (target, same-act articles, other-act articles, annexes) instead of a
 single passage. Nothing in `core/` knows about any of this.
 
-    generation/technical/{en,fr,de,es}.txt
-    generation/semantic/{en,fr,de,es}.txt
-    verifiers/{faithfulness,technical,semantic}_batch.txt
+    generation/technical/{en,fr,de,es,zh}.txt
+    generation/descriptive/{en,fr,de,es,zh}.txt
+    generation/semantic/{en,fr,de,es,zh}.txt
+    verifiers/{faithfulness,technical,descriptive,semantic}_batch.txt
+
+The production question languages are en, fr, de, es (the batch driver's
+default): the corpus has no zh act versions, so Chinese is not generated. The
+zh prompt files exist as complete translations should a cross-language run
+(question in a language the corpus lacks) ever be wanted, but no default run
+uses them.
 
 ## What changed, and why
 
@@ -154,3 +161,15 @@ The LLM grader judges whether the declaration is *semantically* right. Code in
 articles the model was never sent are rejected outright, the target is inserted
 if omitted, and surface variants (`"Article 3"`, `"3"`, `"3 and 4"`) are
 normalised. Rubrics grade that kind of thing badly; a validator does not.
+
+## `descriptive` mode
+
+A third technical-family mode whose QUESTION may not carry any instrument
+identifier, CELEX number, or article/paragraph/annex number — not even the
+target act's own. The instrument is named by description (type + year +
+subject) instead, so the query cannot be matched by the language-invariant
+identifier string alone. It keeps everything else technical: the eight
+categories, the `articles_involved` field and its validation, and the technical
+quality columns. Only the quality verifier differs (`descriptive_batch.txt`
+adds an IDENTIFIER-LEAK check). Available in all five question languages
+(full-file translations, same convention as the other modes).

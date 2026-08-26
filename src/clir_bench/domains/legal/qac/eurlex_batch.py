@@ -124,6 +124,13 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
                         and row.get("is_amending") and row.get("eli_id")):
                     amending.add(row["eli_id"])
 
+    # A question language the corpus has no version of (zh) is legitimate --
+    # the chemistry pipeline asks in languages the document does not exist in
+    # by design, and the payload then carries English alone. What a target must
+    # actually have is every REQUESTED language the corpus can supply, so any
+    # article can serve any assigned language.
+    needed = [lg for lg in languages if lg in ctx.ACT_LANGUAGES]
+
     pools: dict[str, list[tuple[str, int]]] = defaultdict(list)
     for eli, unit in index.by_eli.items():
         # The index also holds cited ANNEX bodies; a question target is always
@@ -135,7 +142,7 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
         text = unit.texts.get("en", "")
         if not (MIN_CHARS <= len(text) <= MAX_CHARS):
             continue
-        if len(unit.languages()) < len(languages):
+        if any(not unit.texts.get(lg) for lg in needed):
             continue
         verdict = status.get(eli, {})
         if require_complete and not verdict.get("complete"):
@@ -245,7 +252,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "mode": target.mode,
             "question": candidate.question,
             "answer": candidate.answer,
-            "question_type": candidate.classification if target.mode == "technical" else "",
+            "question_type": candidate.classification if target.mode != "semantic" else "",
             "framing": candidate.classification if target.mode == "semantic" else "",
             "articles_involved": ",".join(candidate.articles_involved),
             "articles_involved_eli": ",".join(candidate.involved_elis),
@@ -281,9 +288,12 @@ def main() -> None:
     parser.add_argument("--n", type=int, default=100, help="target articles (= queries when keep=1)")
     parser.add_argument("--keep", type=int, default=3,
                         help="candidates written to the all-candidates file")
+    # The production configuration: all four corpus languages (zh is skipped
+    # on purpose -- no EUR-Lex zh versions exist, so we do not ask in it), all
+    # three prompt modes, gpt-5.4-mini generating and Sonnet grading.
     parser.add_argument("--languages", default="en,fr,de,es")
-    parser.add_argument("--modes", default="technical,semantic")
-    parser.add_argument("--gen-model", default="gpt-5.5")
+    parser.add_argument("--modes", default="technical,semantic,descriptive")
+    parser.add_argument("--gen-model", default="gpt-5.4-mini")
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
     parser.add_argument("--max-references", type=int, default=ctx.DEFAULT_MAX_REFERENCES)
     parser.add_argument("--workers", type=int, default=6)

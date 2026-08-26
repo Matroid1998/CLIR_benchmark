@@ -14,14 +14,20 @@ does not have.
 Loaded with `PromptPack("clir_bench.domains.legal.qac.prompts_un")`. Nothing in
 `core/` knows about any of this.
 
-    generation/technical/{en}.txt
-    generation/semantic/{en}.txt
-    verifiers/{faithfulness,technical,semantic}_batch.txt
+    generation/technical/{en,de,fr,es,zh}.txt
+    generation/descriptive/{en,de,fr,es,zh}.txt
+    generation/semantic/{en,de,fr,es,zh}.txt
+    verifiers/{faithfulness,technical,descriptive,semantic}_batch.txt
 
-English question-language only for now. Adding a language is a full-file
-translation with the same convention as `prompts_eurlex`: the literal markers,
-JSON keys, and enum values stay in English verbatim; only the explanatory text
-is translated.
+Each language file is a full-file translation with the same convention as
+`prompts_eurlex`: the literal markers, JSON keys, and enum values stay in
+English verbatim; only the explanatory text is translated. The production
+question languages are en, fr, es, zh (the batch driver's default): for
+fr/es/zh the payload carries the question-language text of the target and
+context blocks (read from the 6-way files by line range) alongside English.
+German is not a UN language and is not generated; its prompt files exist as
+complete translations should a cross-language run ever be wanted, but no
+default run uses them.
 
 ## The payload contract
 
@@ -78,6 +84,21 @@ remain auditable in the all-candidates file).
 There is consequently no `documents_involved` field. Output is
 `{question, answer, question_type}` (technical) or `{question, answer, framing}`
 (semantic).
+
+### 1b. Two technical flavours: `technical` and `descriptive`
+
+`technical` allows official identifiers in the question ("resolution 918
+(1994)") — realistic known-item search. `descriptive` forbids them and requires
+the instrument to be named by **organ + year + subject** ("the 1994 Security
+Council resolution expanding the UN mission in Rwanda"). An identifier is a
+language-invariant string that a retriever can match without any cross-lingual
+or semantic work; describing the instrument turns a lookup into a real retrieval
+problem — which is what the referenced documents make possible. Both are
+fact-extraction modes: same eight categories, same `question_type` field, same
+quality columns (`quality_keys('descriptive')` returns the technical keys). Only
+the quality verifier differs — `descriptive_batch.txt` adds an IDENTIFIER-LEAK
+check (a number in the question caps SPECIFICITY at 2). Faithfulness is shared
+and unchanged: the answer must still live wholly in the target block.
 
 ### 2. Naming for retrievability is promoted to the top rule
 
