@@ -40,9 +40,17 @@ The prompts describe — and therefore pin — the user message the future
     <block text>
 
     ### REFERENCED DOCUMENTS — other documents CITED by the target block, supplied so you can UNDERSTAND those citations. Context only: never a source of answers, never the subject of a question.
-    Reference: S/RES/1559(2004) — Resolution 1559 (2004) (cited paragraph 3)
+    [EN] Reference: S/RES/1559(2004) — Resolution 1559 (2004) (cited paragraph 3)
     <the cited document's FULL text on whole-fit runs (reference_chars=None);
      otherwise the cited paragraph's block or the opening block, capped at 1500 chars>
+
+Referenced documents are rendered in **every payload language**, one `[XX]`-tagged
+block each, exactly like the target block: a French question sends the cited
+document in French and in English. The other-language rendering is the block's
+own line range read from that language's 6-way file, so it is the same text, not
+a translation. A language is emitted only when every block of the cited document
+is available in it -- a partial document would mislead -- so English (the pivot)
+is always present.
 
     ### DOCUMENT CONTEXT — surrounding text of the SAME document, supporting context only
     <document opening + neighbouring blocks, or the whole document when it fits the budget>

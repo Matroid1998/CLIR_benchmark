@@ -45,6 +45,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Sequence
 
+from clir_bench.domains.legal.un import UN_LANGUAGES
 from clir_bench.domains.legal.un import paths as un_paths
 from clir_bench.domains.legal.qac import un_context as ctx
 from clir_bench.domains.legal.qac import un_generate as gen
@@ -104,6 +105,21 @@ def _fits_whole(doc: dict, block_text: str, index: ctx.BlockIndex) -> bool:
     total = doc["char_count"] + sum(
         index.docs[c.doc_id]["char_count"] for c in kept)
     return total <= FIT_BUDGET
+
+
+def _cited_doc_ids(index: ctx.BlockIndex, target: "Target") -> set[str]:
+    """In-corpus documents whose text will travel as this target's references.
+
+    Mirrors the resolution ``un_context.build`` performs, so the preloader and
+    the payload agree on exactly which documents are needed.
+    """
+    block = index.blocks_for(target.doc_id)[target.block_index]
+    citations = refs.resolve_citations(
+        refs.extract_citations(block.texts["en"], doc_id=target.doc_id),
+        getattr(index, "symbols", None) or index.symbol_map,
+        citing_doc_id=target.doc_id)
+    kept, _ = refs.referenced_docs(citations)
+    return {c.doc_id for c in kept if c.doc_id}
 
 
 @dataclass
@@ -382,6 +398,15 @@ def main() -> None:
     load_env()
 
     languages = [x.strip() for x in args.languages.split(",") if x.strip()]
+    # A language without a 6-way corpus file (notably German) would silently
+    # degrade to an English-only payload: the model would be asked to write in
+    # a language it never sees the source in. Refuse instead of degrading.
+    unsupported = [l for l in languages if l not in UN_LANGUAGES]
+    if unsupported:
+        raise SystemExit(
+            f"unsupported question language(s) for the UN corpus: {', '.join(unsupported)}. "
+            f"The 6-way corpus carries {', '.join(UN_LANGUAGES)} -- a language without a "
+            "corpus file has no source text to generate from.")
     modes = [x.strip() for x in args.modes.split(",") if x.strip()]
 
     strata = GENRE_STRATA
@@ -434,12 +459,21 @@ def main() -> None:
             raise SystemExit(f"cannot reach {model}: {error}") from error
 
     # Non-English targets get their documents' question-language text attached
-    # (one sequential pass over each 6-way file, minutes not hours). A language
-    # without a corpus file (de) is skipped and its payloads stay English-only.
+    # (one sequential pass over each 6-way file, minutes not hours). The
+    # language guard above has already refused anything without a corpus file,
+    # so every requested language really is available.
+    #
+    # Cited documents are preloaded too: a reference travels in the payload as
+    # supporting material, and rendering it in English while the question is
+    # French would show the generator the wrong language's terminology for the
+    # instrument it must name.
     docs_by_language: dict[str, set[str]] = {}
     for t in targets:
-        if t.language != "en":
-            docs_by_language.setdefault(t.language, set()).add(t.doc_id)
+        if t.language == "en":
+            continue
+        wanted = docs_by_language.setdefault(t.language, set())
+        wanted.add(t.doc_id)
+        wanted |= _cited_doc_ids(index, t)
     for language, doc_ids in sorted(docs_by_language.items()):
         print(f"  loading {language} text for {len(doc_ids)} documents ...",
               file=sys.stderr)

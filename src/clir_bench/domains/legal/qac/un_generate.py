@@ -24,6 +24,8 @@ from typing import Any, Mapping
 from clir_bench.core.prompts import PromptPack
 from clir_bench.domains.legal.qac import un_context as ctx
 from clir_bench.domains.legal.qac.env import load_env
+from clir_bench.domains.legal.un import UN_LANGUAGES
+from clir_bench.domains.legal.un import paths as un_paths
 
 PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_un")
 
@@ -96,6 +98,19 @@ def rows_for(payload: ctx.GenerationPayload, candidates: list[Candidate], *,
     } for c in candidates]
 
 
+def _cited_docs(index: ctx.BlockIndex, doc_id: str, block_index: int) -> set[str]:
+    """In-corpus documents this block cites -- the references that will travel."""
+    from clir_bench.domains.legal.qac import un_references as refs
+    blocks = index.blocks_for(doc_id)
+    if not 0 <= block_index < len(blocks):
+        return set()
+    citations = refs.resolve_citations(
+        refs.extract_citations(blocks[block_index].texts["en"], doc_id=doc_id),
+        index.symbols, citing_doc_id=doc_id)
+    kept, _ = refs.referenced_docs(citations)
+    return {c.doc_id for c in kept if c.doc_id}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--doc", required=True, help="document id (`.ids` first token)")
@@ -115,6 +130,15 @@ def main() -> None:
     index = ctx.BlockIndex(blocks_path=args.blocks, docs_path=args.docs)
     if args.doc not in index.docs:
         raise SystemExit(f"unknown document: {args.doc}")
+    if args.language != "en":
+        if not un_paths.text_file(args.language).exists():
+            raise SystemExit(
+                f"no 6-way corpus file for '{args.language}': the UN corpus carries "
+                f"{', '.join(UN_LANGUAGES)}.")
+        # The target document AND the documents it cites, so a non-English
+        # dry-run shows the real payload rather than an English-only stand-in.
+        cited = _cited_docs(index, args.doc, args.block)
+        index.preload_translations([args.language], {args.doc} | cited)
     payload = index.build(args.doc, args.block, context_chars=args.context_chars,
                           languages=ctx.payload_languages(args.language))
     if payload is None:

@@ -107,9 +107,14 @@ class ReferencedDoc:
     symbol: str
     doc_id: str
     title: str
-    text: str                   # anchored-paragraph block or head block, capped
+    texts: dict[str, str]       # per language: anchored block, cited part, or whole doc
     paragraph: int | None       # set only when the anchor was actually located
     part_label: str = ""        # "Annex I" when the citation named that annex
+
+    @property
+    def text(self) -> str:
+        """The English rendering -- always present, and the pivot reading."""
+        return self.texts.get("en", "")
 
 
 @dataclass
@@ -266,7 +271,8 @@ class BlockIndex:
             block_parts=[b.part_id for b in blocks],
             annexes=self.docs[doc_id].get("annexes", []))
         kept, dropped = refs.referenced_docs(citations, max_references)
-        references = [self._render_reference(c, reference_chars) for c in kept]
+        references = [self._render_reference(c, reference_chars, languages)
+                      for c in kept]
 
         # An internally cited sibling block is guaranteed a context slot: it is
         # what the citation points at, so it may not be squeezed out by
@@ -286,8 +292,8 @@ class BlockIndex:
         return GenerationPayload(target, chosen, len(blocks) - 1 - len(chosen),
                                  references, dropped, text)
 
-    def _render_reference(self, citation: refs.Citation,
-                          limit: int | None) -> ReferencedDoc:
+    def _render_reference(self, citation: refs.Citation, limit: int | None,
+                          languages: tuple[str, ...] = ("en",)) -> ReferencedDoc:
         """The cited material that travels.
 
         With a character limit (the windowed pipeline): one excerpt -- the
@@ -317,16 +323,33 @@ class BlockIndex:
             hit = refs.anchored_block_index(
                 [b.texts["en"] for b in blocks], citation.paragraph)
         paragraph = citation.paragraph if hit is not None and not part_label else None
-        if limit is None:
-            text = "\n\n".join(b.texts["en"] for b in blocks)
-        else:
-            body = blocks[hit] if hit is not None else (blocks[0] if blocks else None)
-            text = body.texts["en"] if body else ""
-            if len(text) > limit:
-                text = text[:limit].rstrip() + " […truncated]"
+
+        # The cited document travels in every payload language. Blocks are
+        # contiguous line ranges, so the other-language rendering is the same
+        # ranges read from that language's 6-way file -- the anchor itself is
+        # still located on English, where paragraph numbering was validated.
+        texts: dict[str, str] = {}
+        for language in languages:
+            if language != "en":
+                for unit in blocks:
+                    self._attach_translation(unit, language)
+            if limit is None:
+                # A partial document would be misleading, so a language is
+                # rendered only when every block of it is available.
+                if blocks and all(b.texts.get(language) for b in blocks):
+                    text = "\n\n".join(b.texts[language] for b in blocks)
+                else:
+                    text = ""
+            else:
+                body = blocks[hit] if hit is not None else (blocks[0] if blocks else None)
+                text = body.texts.get(language, "") if body else ""
+                if len(text) > limit:
+                    text = text[:limit].rstrip() + " […truncated]"
+            if text.strip():
+                texts[language] = text
         return ReferencedDoc(symbol=citation.symbol or doc["symbol"],
                              doc_id=citation.doc_id, title=doc["title"],
-                             text=text, paragraph=paragraph,
+                             texts=texts, paragraph=paragraph,
                              part_label=part_label)
 
 
@@ -407,7 +430,11 @@ def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
                 anchor = f" (cited paragraph {r.paragraph})"
             else:
                 anchor = ""
-            parts.append(f"Reference: {r.symbol} — {r.title}{anchor}\n{r.text}")
+            for language in (present or ["en"]):
+                body = r.texts.get(language)
+                if body:
+                    parts.append(f"[{language.upper()}] Reference: {r.symbol} — "
+                                 f"{r.title}{anchor}\n{body}")
     else:
         parts.append(REFERENCES_NONE)
 

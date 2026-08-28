@@ -47,6 +47,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Sequence
 
+from clir_bench.domains.legal.structure import ACT_LANGUAGES
 from clir_bench.domains.legal.structure import paths as struct_paths
 from clir_bench.domains.legal.qac import eurlex_context as ctx
 from clir_bench.domains.legal.qac import eurlex_generate as gen
@@ -310,6 +311,14 @@ def main() -> None:
     load_env()
 
     languages = [x.strip() for x in args.languages.split(",") if x.strip()]
+    # Acts are parsed in ACT_LANGUAGES only; any other question language would
+    # get an English-only payload and be written from a language the generator
+    # never sees the source in. Refuse instead of degrading.
+    unsupported = [l for l in languages if l not in ACT_LANGUAGES]
+    if unsupported:
+        raise SystemExit(
+            f"unsupported question language(s) for EUR-Lex: {', '.join(unsupported)}. "
+            f"Acts are available in {', '.join(ACT_LANGUAGES)}.")
     modes = [x.strip() for x in args.modes.split(",") if x.strip()]
 
     share = args.cross_ref_share

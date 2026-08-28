@@ -101,3 +101,66 @@ def test_custom_paths_do_not_gate_against_the_production_status(tmp_path):
     index = ctx.BlockIndex(blocks_path=tmp_path / "blocks.jsonl",
                            docs_path=docs_path)
     assert index.incomplete is None
+
+
+def test_references_travel_in_every_payload_language(tmp_path):
+    """A cited document is rendered in the question language, not only English.
+
+    Blocks are contiguous line ranges, so the other-language rendering is the
+    same ranges read from that language's 6-way file; the payload must show
+    both, exactly as it does for the target block.
+    """
+    cited, citing = "1999/s/res/1265_1999_", "1999/s/res/1_1999_"
+    docs = {
+        cited: {"doc_id": cited, "symbol": "S/RES/1265(1999)", "n_blocks": 1,
+                "title": "PROTECTION OF CIVILIANS", "char_count": 60,
+                "line_start": 0, "line_end": 0, "target_idxs": [0], "annexes": []},
+        citing: {"doc_id": citing, "symbol": "S/RES/1(1999)", "n_blocks": 1,
+                 "title": "RESOLUTION 1", "char_count": 60,
+                 "line_start": 0, "line_end": 0, "target_idxs": [0], "annexes": []},
+    }
+    blocks = {
+        cited: [_row(cited, 0, "1. Demands the protection of civilians;")],
+        citing: [_row(citing, 0, "Recalling resolution 1265 (1999), decides;")],
+    }
+    index = _MiniIndex(docs, blocks, tmp_path)
+    # Stand in for preload_translations: the French lines of both documents.
+    index._translations["fr"] = {
+        cited: ["1. Exige la protection des civils;"],
+        citing: ["Rappelant la résolution 1265 (1999), décide;"],
+    }
+
+    payload = index.build(citing, 0, languages=ctx.payload_languages("fr"))
+    (ref,) = payload.references
+    assert sorted(ref.texts) == ["en", "fr"]
+    assert ref.texts["fr"] == "1. Exige la protection des civils;"
+    assert ref.text == "1. Demands the protection of civilians;"   # pivot stays English
+    # Both language versions of the reference reach the payload.
+    assert "[FR] Reference: S/RES/1265(1999)" in payload.text
+    assert "[EN] Reference: S/RES/1265(1999)" in payload.text
+    assert "Exige la protection des civils" in payload.text
+
+
+def test_reference_language_is_omitted_when_the_translation_is_missing(tmp_path):
+    """No partial documents: a language with no lines falls back to English."""
+    cited, citing = "1999/s/res/1265_1999_", "1999/s/res/1_1999_"
+    docs = {
+        cited: {"doc_id": cited, "symbol": "S/RES/1265(1999)", "n_blocks": 1,
+                "title": "PROTECTION OF CIVILIANS", "char_count": 60,
+                "line_start": 0, "line_end": 0, "target_idxs": [0], "annexes": []},
+        citing: {"doc_id": citing, "symbol": "S/RES/1(1999)", "n_blocks": 1,
+                 "title": "RESOLUTION 1", "char_count": 60,
+                 "line_start": 0, "line_end": 0, "target_idxs": [0], "annexes": []},
+    }
+    blocks = {
+        cited: [_row(cited, 0, "1. Demands the protection of civilians;")],
+        citing: [_row(citing, 0, "Recalling resolution 1265 (1999), decides;")],
+    }
+    index = _MiniIndex(docs, blocks, tmp_path)
+    index._translations["fr"] = {citing: ["Rappelant la résolution 1265 (1999), décide;"]}
+
+    payload = index.build(citing, 0, languages=ctx.payload_languages("fr"))
+    (ref,) = payload.references
+    assert sorted(ref.texts) == ["en"]                 # cited doc has no FR lines
+    assert "[EN] Reference: S/RES/1265(1999)" in payload.text
+    assert "[FR] Reference:" not in payload.text
