@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Mapping
 
 from clir_bench.core.prompts import PromptPack
@@ -32,6 +32,12 @@ PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_un")
 MODE_TECHNICAL = "technical"
 MODE_SEMANTIC = "semantic"
 MODE_DESCRIPTIVE = "descriptive"
+MODE_LOOKUP = "lookup"
+MODE_PRACTITIONERS = "practitioners"
+
+# ``particulars``-style multi-valued fields are joined for the CSV; ``anchors``
+# routinely contains commas ("Abkhazia, Georgia"), so it cannot use one.
+ANCHOR_SEP = " | "
 
 
 @dataclass
@@ -39,10 +45,42 @@ class Candidate:
     question: str
     answer: str
     classification: str     # question_type (technical) or framing (semantic)
+    # ``lookup`` only: the same question with the instrument's official
+    # identifier swapped in for the description, plus the subject anchor.
+    question_cited: str = ""
+    anchor: str = ""
+    # ``practitioners`` only: the two-or-more substantive anchor phrases.
+    anchors: list[str] = field(default_factory=list)
+
+
+def is_skip(data: Any) -> bool:
+    """True when the model declined the block, e.g. ``[{"skip_reason": ...}]``.
+
+    The ``lookup`` and ``practitioners`` prompts answer a meeting record or a
+    boilerplate-only block with a single ``skip_reason`` object instead of an
+    empty list, so a skip is distinguishable from a parse failure.
+    """
+    items = [data] if isinstance(data, Mapping) else list(data or [])
+    return bool(items) and all(
+        isinstance(item, Mapping) and item.get("skip_reason") and not item.get("question")
+        for item in items)
+
+
+def skip_reason(data: Any) -> str:
+    items = [data] if isinstance(data, Mapping) else list(data or [])
+    for item in items:
+        if isinstance(item, Mapping) and item.get("skip_reason"):
+            return str(item["skip_reason"]).strip()
+    return ""
 
 
 def parse_candidates(data: Any, mode: str) -> list[Candidate]:
-    """Validate the model's JSON."""
+    """Validate the model's JSON.
+
+    ``mode`` selects which of the prompts' extra fields are read, so a field
+    belonging to another mode cannot leak into a row: ``lookup`` carries
+    ``question_cited`` and ``anchor``, ``practitioners`` carries ``anchors``.
+    """
     if isinstance(data, Mapping):
         data = [data]
     key = "framing" if mode == MODE_SEMANTIC else "question_type"
@@ -54,8 +92,20 @@ def parse_candidates(data: Any, mode: str) -> list[Candidate]:
         answer = str(item.get("answer", "")).strip()
         if not question or not answer:
             continue
-        out.append(Candidate(question=question, answer=answer,
-                             classification=str(item.get(key, "other")).strip()))
+        raw_anchors = item.get("anchors")
+        if isinstance(raw_anchors, str):
+            raw_anchors = [raw_anchors]
+        out.append(Candidate(
+            question=question,
+            answer=answer,
+            classification=str(item.get(key, "other")).strip(),
+            question_cited=(str(item.get("question_cited", "")).strip()
+                            if mode == MODE_LOOKUP else ""),
+            anchor=(str(item.get("anchor", "")).strip()
+                    if mode == MODE_LOOKUP else ""),
+            anchors=([str(x).strip() for x in (raw_anchors or []) if str(x).strip()]
+                     if mode == MODE_PRACTITIONERS else []),
+        ))
     return out
 
 
