@@ -31,6 +31,11 @@ MODE_SEMANTIC = "semantic"
 # columns -- differing only in that the QUESTION must describe an instrument
 # rather than cite it. It therefore shares the technical quality rubric.
 MODE_DESCRIPTIVE = "descriptive"
+# The two EUR-Lex practitioner modes. Unlike the three above they do NOT share
+# the technical rubric: each is graded on criteria its own prompt turns on, so
+# each brings its own five quality keys.
+MODE_LOOKUP = "lookup"
+MODE_FACT_PATTERN = "fact_pattern"
 
 # CSV column names. Load-bearing: published datasets carry these headers.
 FAITHFULNESS_FIELDS = (
@@ -55,6 +60,22 @@ SEMANTIC_QUALITY_FIELDS = (
     "qual_linguistic_quality",
     "qual_overall",
 )
+LOOKUP_QUALITY_FIELDS = (
+    "qual_practitioner_realism",
+    "qual_anchoring",
+    "qual_informativeness",
+    "qual_focus",
+    "qual_linguistic_quality",
+    "qual_overall",
+)
+FACT_PATTERN_QUALITY_FIELDS = (
+    "qual_situation",
+    "qual_regime_fixing",
+    "qual_terminology_and_distance",
+    "qual_focus",
+    "qual_linguistic_quality",
+    "qual_overall",
+)
 
 # Rubric sub-scores summed into each aggregate.
 FAITHFULNESS_KEYS = ("grounding", "precision", "numerical_fidelity")
@@ -72,14 +93,41 @@ SEMANTIC_QUALITY_KEYS = (
     "retrievability",
     "linguistic_quality",
 )
+LOOKUP_QUALITY_KEYS = (
+    "practitioner_realism",
+    "anchoring",
+    "informativeness",
+    "focus",
+    "linguistic_quality",
+)
+FACT_PATTERN_QUALITY_KEYS = (
+    "situation",
+    "regime_fixing",
+    "terminology_and_distance",
+    "focus",
+    "linguistic_quality",
+)
+
+# Modes whose rubric is not the technical one. A mode absent here falls back to
+# the technical five, which is what ``descriptive`` and the chemistry flows want.
+_QUALITY_KEYS_BY_MODE = {
+    MODE_SEMANTIC: SEMANTIC_QUALITY_KEYS,
+    MODE_LOOKUP: LOOKUP_QUALITY_KEYS,
+    MODE_FACT_PATTERN: FACT_PATTERN_QUALITY_KEYS,
+}
+_QUALITY_FIELDS_BY_MODE = {
+    MODE_SEMANTIC: SEMANTIC_QUALITY_FIELDS,
+    MODE_LOOKUP: LOOKUP_QUALITY_FIELDS,
+    MODE_FACT_PATTERN: FACT_PATTERN_QUALITY_FIELDS,
+}
 
 
 def quality_keys(mode: str) -> tuple[str, ...]:
-    return SEMANTIC_QUALITY_KEYS if mode == MODE_SEMANTIC else TECHNICAL_QUALITY_KEYS
+    return _QUALITY_KEYS_BY_MODE.get(mode, TECHNICAL_QUALITY_KEYS)
 
 
 def quality_fields(mode: str) -> tuple[str, ...]:
-    return SEMANTIC_QUALITY_FIELDS if mode == MODE_SEMANTIC else TECHNICAL_QUALITY_FIELDS
+    return _QUALITY_FIELDS_BY_MODE.get(mode, TECHNICAL_QUALITY_FIELDS)
 
 
 def faith_overall(scores: Mapping[str, Any]) -> int:
@@ -119,16 +167,43 @@ class GraderConfig:
         return provider_of(self.model) == "openrouter"
 
 
+# Rendered between the question and the answer, in this order, when present.
+_CANDIDATE_EXTRAS = (
+    ("question_cited", "Question (cited rendering)"),
+    ("instrument_short_name", "Instrument short name"),
+    ("anchor", "Anchor (declared)"),
+    ("particulars", "Particulars (declared)"),
+    ("question_type", "Question type (declared)"),
+)
+
+
 def candidates_block(qa_pairs: Sequence[Mapping[str, Any]]) -> str:
     """The candidate serialization every grader prompt expects.
 
     A candidate may carry ``articles_involved`` (the EUR-Lex flow's declaration
     of which articles the answer drew on); when present it is shown so the
     grader can verify it, otherwise the block is question and answer only.
+
+    It may also carry the EUR-Lex modes' own fields -- ``question_cited`` /
+    ``instrument_short_name`` / ``anchor`` for ``lookup``, ``particulars`` for
+    ``fact_pattern``, and ``question_type`` for both. Those rubrics run
+    consistency checks *on* those fields (is the anchor actually in the
+    question? is the short name invented? does the cited rendering differ only
+    by the identifier?), which is impossible unless the grader is shown them.
+    Every extra is optional, so a caller that passes only question/answer gets
+    exactly the block it always got.
     """
     lines = []
     for i, qa in enumerate(qa_pairs):
-        entry = f"Candidate {i}:\n  Question: {qa.get('question', '')}\n  Answer: {qa.get('answer', '')}"
+        entry = f"Candidate {i}:\n  Question: {qa.get('question', '')}"
+        for key, label in _CANDIDATE_EXTRAS:
+            value = qa.get(key)
+            if not value:
+                continue
+            if isinstance(value, (list, tuple)):
+                value = "; ".join(str(v) for v in value)
+            entry += f"\n  {label}: {value}"
+        entry += f"\n  Answer: {qa.get('answer', '')}"
         involved = qa.get("articles_involved")
         if involved:
             declared = ", ".join(involved) if not isinstance(involved, str) else involved
@@ -320,7 +395,13 @@ __all__ = [
     "FAITHFULNESS_KEYS",
     "GradedCandidate",
     "GraderConfig",
+    "FACT_PATTERN_QUALITY_FIELDS",
+    "FACT_PATTERN_QUALITY_KEYS",
+    "LOOKUP_QUALITY_FIELDS",
+    "LOOKUP_QUALITY_KEYS",
     "MODE_DESCRIPTIVE",
+    "MODE_FACT_PATTERN",
+    "MODE_LOOKUP",
     "MODE_SEMANTIC",
     "MODE_TECHNICAL",
     "SEMANTIC_QUALITY_FIELDS",

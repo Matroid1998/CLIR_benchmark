@@ -219,9 +219,25 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     faith = call_with_retries(lambda: grade_faithfulness(
         grade_client, grader, gen.PROMPTS.faithfulness("batch"), payload.text, qa),
         retries=3, label="faith")
+    # The quality rubrics run consistency checks ON the mode's own fields -- is
+    # the declared anchor actually present in the question, is the short name
+    # invented, does the cited rendering differ from the base one by nothing but
+    # the identifier, do the particulars appear in the situation -- none of which
+    # is checkable unless the grader is shown them. Faithfulness keeps the lean
+    # block: it grades the answer against the text and the extra fields are noise.
+    qa_quality = [
+        dict(pair, **{key: value for key, value in (
+            ("question_cited", c.question_cited),
+            ("instrument_short_name", c.instrument_short_name),
+            ("anchor", c.anchor),
+            ("particulars", list(c.particulars)),
+            ("question_type", c.classification),
+        ) if value})
+        for pair, c in zip(qa, candidates)
+    ]
     quality = call_with_retries(lambda: grade_quality(
         grade_client, grader, gen.PROMPTS.quality(target.mode, "batch"),
-        payload.text, qa, target.mode), retries=3, label="quality")
+        payload.text, qa_quality, target.mode), retries=3, label="quality")
 
     # Ranked best-first. Row order carries the ranking, so no rank column is
     # needed: the caller writes the whole list to the all-candidates file and the

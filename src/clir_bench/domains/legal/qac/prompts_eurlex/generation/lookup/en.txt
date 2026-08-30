@@ -29,11 +29,12 @@ Every question, in both renderings, must contain at least one REGIME ANCHOR: a p
   (c) a term of art that exists only in this regime — "qualifying holding", "undertaking-specific parameters", "active food contact materials", "IRB approach", "take back request".
 Generic actors are NOT anchors, because each appears in hundreds of acts: "Member States", "the Commission", "the competent authority", "the manufacturer", "the applicant", "the operator", "the jury", "the advisory body", "the compliance officer", "the supervisory authority". Take the anchor from the subject-matter words of the Act line and from the article text. Terms of art and named entities may be reused verbatim for this purpose; that is not lifting.
 
-THE SIBLING TEST: EU legislation repeats the same provision across sister acts — the transposition clause in every directive; near-identical authorisation, qualifying-holding and compliance-function rules across the UCITS, AIFMD, MiFID, CRD and Solvency II regimes; identical jury and design-contest rules in the 2014 procurement directives; the same "all other companies" residual-duty clause in every anti-dumping regulation; the same 20–25 % random-sampling rule across the CAP control regulations. Before keeping a question ask: would this question, word for word, be an equally sensible question about a DIFFERENT act? If yes, the anchor is missing. Add it or discard the question. A question that only its identifier could disambiguate is a known-item lookup, not a retrieval question.
+THE SIBLING TEST: EU legislation repeats the same provision across sister acts — the transposition clause in every directive; near-identical authorisation, qualifying-holding and compliance-function rules across the UCITS, AIFMD, MiFID, CRD and Solvency II regimes; identical jury and design-contest rules in the 2014 procurement directives; the same "all other companies" residual-duty clause in every anti-dumping regulation, and identical procedural articles (verification visits, confidentiality, hearings) in the anti-dumping and anti-subsidy basic regulations; the same 20–25 % random-sampling rule across the CAP control regulations. Before keeping a question ask: would this question, word for word, be an equally sensible question about a DIFFERENT act? If yes, the anchor is missing. Add it or discard the question. A question that only its identifier could disambiguate is a known-item lookup, not a retrieval question.
 
 THE COLLEAGUE TEST: read the question as a colleague who has not seen the article. Every "the X" must be resolvable from the question alone. "What must the advisory body monitor regarding the inventory of assets?" — which advisory body, what inventory? "What must Member States send the Commission about the material approved?" — what material, approved under what? These are reading-comprehension questions written by someone looking at the text. Name the actor and the regime, or turn the question into a yes/no question about the rule.
 
 THE INFORMATIVENESS TEST: the answer must tell the asker something the question does not already contain. If the answer merely restates the question's own words or the pointer the question was built from — "in relation to matters to which it applies"; "the support schemes referred to in Regulation (EU) No 1308/2013"; "a list of material approved" in reply to "what must they send about the material approved" — the question is empty. Discard it and ask about the substance instead: what the rule requires, permits or forbids, in which respects, for whom, by when.
+WRITE FROM THE CONDITIONS, NEVER FROM THE CONSEQUENCE: the number, date, list or decision that constitutes the answer must not appear in the question. "Is the maritime accident investigation regime excluded for fishing vessels with a length of less than 15 metres?" contains its own answer; ask "Below what length are fishing vessels excluded from the maritime accident investigation regime?" (answer "15 metres"). Test: delete the answer span from the article — if the question could not have been written from what remains, it contains the answer.
 
 QUESTION SHAPES — write in these shapes:
 - Applicability / scope: "Does [regime] apply to [actor / product / situation]?", "Is [X] excluded from [regime]?", "Which [products / entities] are covered by [regime]?"
@@ -46,15 +47,14 @@ QUESTION SHAPES — write in these shapes:
 - Competence / procedure: "Which body [decides / monitors / approves] [X] under [regime]?", "What is the procedure for [X]?"
 Yes/no questions are welcome; they are the most common practitioner form. Their answer is still the span of the article that decides the question — never the word "yes" or "no". Wh-questions must name the regime and the actor; a bare slot ("What must be taken into account when ...?", "What factors deserve special consideration ...?") is not a question shape.
 
-BOILERPLATE — DO NOT ASK ABOUT: transposition clauses ("Member States shall adopt and publish ... the laws, regulations and administrative provisions necessary to comply with this Directive"), application-date and entry-into-force clauses, addressee clauses ("This Directive is addressed to the Member States"), "binding in its entirety and directly applicable" clauses, repeal clauses that only name the repealed act, committee-procedure clauses that only name the procedure, and definitive-collection clauses in anti-dumping regulations ("amounts secured by way of provisional anti-dumping duty shall be definitively collected"). These are identical across hundreds of acts and fail the sibling test by construction. If the target article consists only of such text, return a skip (see OUTPUT). If it contains such a clause alongside substantive rules, ask about the substantive rules only.
+BOILERPLATE — DO NOT ASK ABOUT: transposition clauses ("Member States shall adopt and publish ... the laws, regulations and administrative provisions necessary to comply with this Directive"), application-date and entry-into-force clauses, addressee clauses ("This Directive is addressed to the Member States"), "binding in its entirety and directly applicable" clauses, repeal clauses that only name the repealed act, committee-procedure clauses that only name the procedure, and definitive-collection clauses in anti-dumping regulations ("amounts secured by way of provisional anti-dumping duty shall be definitively collected"). Institutional boilerplate is boilerplate too: Commission review and report clauses ("the Commission shall submit a report ... accompanied, if necessary, by appropriate proposals or recommendations"), annual implementation-report clauses of financing instruments, agency evaluation clauses ("within three years ... and every five years thereafter, the Management Board shall commission an independent external evaluation"), protection-of-financial-interests and audit-access clauses (Commission, Court of Auditors, OLAF), exercise-of-the-delegation clauses, penalties clauses that only require penalties to be "effective, proportionate and dissuasive", and data-protection clauses that only cross-refer to the general data-protection acts. All of these are identical across hundreds of acts and fail the sibling test by construction. If the target article consists only of such text, return a skip (see OUTPUT). If it contains such a clause alongside substantive rules, ask about the substantive rules only.
 
 TWO RENDERINGS OF EACH QUESTION:
 - "question": regime-anchored; contains NO instrument identifier of any act and no article, paragraph or annex number.
-- "question_cited": the same question with the TARGET act's official identifier inserted where a practitioner would put it ("Under Directive 2009/65/EC, ...", "... under Commission Regulation (EU) No 1300/2014?"). Copy the identifier exactly from the opening words of the target's Act line — type and number only, without the institution, date and title. Keep the regime anchor and every other word; change nothing but the insertion. Never insert another act's identifier.
+- "question_cited": the same question with the TARGET act's official identifier inserted where a practitioner would put it ("Under Directive 2009/65/EC, ...", "... under Commission Regulation (EU) No 1300/2014?"). Copy the identifier exactly from the opening words of the target's Act line — type and number only, without the institution, date and title. Keep the regime anchor and every other word; change nothing but the insertion. Never insert another act's identifier. Dropping the anchor is the commonest rendering error: base "How often must the Commission submit a report on the implementation of the assistance under the Instrument for Stability?" must not become "Under Regulation (EC) No 1717/2006, how often must the Commission submit a report on the implementation of the assistance?" — the anchor stays.
 - "instrument_short_name": the conventional short name practitioners use for the TARGET act, if and only if one is in established use — "Mortgage Credit Directive", "UCITS Directive", "VAT Directive", "Tobacco Products Directive", "Utilities Directive", "EMIR", "Shareholder Rights Directive", "Service Regulation". Otherwise null. Most Commission implementing, delegated and amending acts, and all anti-dumping regulations, have none: do not invent one, and never build one from the year and the title ("the 2014 EU directive on credit agreements for consumers relating to residential immovable property" is not a name anyone uses).
 
 Generate up to THREE question-answer pairs. Each must target a different fact and pass every test above. Every question must be about the TARGET ARTICLE.
-
 CORE RULES:
 - Single Focus: Each question must ask for exactly ONE specific piece of information. Never combine multiple asks (e.g., do not ask for a deadline and a penalty amount in the same question).
 - The Target Article Must Supply the Operative Fact: The question must turn on what the TARGET ARTICLE itself lays down — its obligation, prohibition, condition, deadline, threshold, or procedure. A referenced article may only COMPLETE that fact: supply the identity of a list the target points to, the definition of a term the target uses, or a value the target defers to. The referenced article is never the subject. This applies equally to articles of other acts.
@@ -65,7 +65,6 @@ CORE RULES:
 - Numerical & Citational Fidelity: Reproduce all numbers, dates, durations, monetary amounts, percentages, and official identifiers (instrument, article, paragraph, and annex numbers) exactly as they appear in the source (e.g., "100 000 EUR", not "€100,000"; "90 days", never "three months"). Dates must be reproduced exactly (day, month, year), rendered in the output language's standard format ("15 July 2027" for "el 15 de julio de 2027").
 - Paraphrase, Don't Lift: Legal terms of art and named entities may be reused — they are the anchors. Do not lift descriptive phrases, multi-word modifiers, or sentence fragments from the source as question scaffolding — rewrite those in your own words.
 - Diversity: The questions must target different facts AND span at least two of the eight categories listed under WHAT TO ASK.
-
 DECLARING INVOLVED ARTICLES:
 "articles_involved" is a list of the article numbers a reader genuinely needs in order to produce the answer.
 - If the whole answer is stated in the target article, the list is just the target article.
@@ -75,7 +74,6 @@ DECLARING INVOLVED ARTICLES:
 - For an article FROM ANOTHER ACT, use the exact "Cite as" key printed in its block, e.g. ["4", "32004R0021:5"]. Never write a bare number for an article of another act.
 - For an ANNEX — of the target's own act or of another act — use the exact "Cite as" key printed in its block, e.g. ["4", "32019L0904:anx_1"]. Annexes are never declared by a bare number.
 - The target article is always in the list.
-
 WHAT TO ASK:
 Target questions in these eight categories:
   1. Scope & Applicability: who or what is covered, territorial or temporal scope, exemptions and exclusions, precedence over other instruments, etc.
@@ -87,9 +85,7 @@ Target questions in these eight categories:
   7. Enforcement & Consequences of Non-Compliance: penalties, sanctions, suspension or loss of rights, nullity, referral or escalation steps, refusal or withdrawal of an authorisation, etc.
   8. Definitions, Actors & Procedures: legally defined terms, competent authorities and designated bodies, procedural steps, etc.
 Questions about purpose, rationale, or effect are acceptable ONLY when the supplied text explicitly and completely states that information — not when it must be inferred, even partially.
-
 EXAMPLES:
-
 Example 1 — answer wholly inside the target article
 ### TARGET ARTICLE
 [EN] Article 8 — Reporting obligations
@@ -101,7 +97,6 @@ Example 1 — answer wholly inside the target article
 ✓ Good: {"question": "By what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "question_cited": "Under Directive (EU) 2019/904, by what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "by 31 March each year", "question_type": "deadline_or_duration", "anchor": "producers of single-use plastic products", "articles_involved": ["8"]}
   → The anchor is the regulated actor, built from the subject matter of the Act line. Sibling test: producer-reporting deadlines exist in the packaging, WEEE and batteries regimes too, so "producers" alone would fail; "single-use plastic" fixes the regime. Article 12 was supplied and is cited, but its content played no part in the answer, so it is NOT listed.
 ✗ Bad (no anchor): "By what date must producers report annual quantities placed on the market?" → which producers, under which regime? Fails the sibling test.
-
 Example 2 — answer completed by a referenced article
 ### TARGET ARTICLE
 [EN] Article 4 — Placing on the market
@@ -113,7 +108,6 @@ Example 2 — answer completed by a referenced article
 ✓ Good: {"question": "Which single-use plastic products are banned from being placed on the EU market from 3 July 2026?", "question_cited": "Under Directive (EU) 2019/904, which single-use plastic products are banned from being placed on the EU market from 3 July 2026?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "question_type": "scope_or_applicability", "anchor": "single-use plastic products", "articles_involved": ["3", "4"]}
   → The prohibition and its date come from the target article; the list of products comes from the referenced article. BOTH are needed, so BOTH are listed. Without the reference block this question would have had to be discarded.
   → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to. That is why this passes and the Example 4 failures do not.
-
 Example 3 — the failure modes
 ### TARGET ARTICLE
 [EN] Article 4 (as above)
@@ -129,29 +123,23 @@ Example 3 — the failure modes
   → Article 12 says the Commission will adopt implementing acts establishing the format, but the format itself is in no supplied article. The substance is behind an unsupplied pointer. Discard.
 ✗ Bad (identifier in the base rendering): {"question": "Which products does Directive (EU) 2019/904 ban from 3 July 2026?", ...}
   → Identifiers go into "question_cited" only. The base "question" must stand on its regime anchor.
-
 Example 4 — REAL off-target failures from a production run. Every multi-article question generated failed the one-article test in exactly this way. Study them.
-
 (a) TARGET Article 5 (UCITS Directive): "No UCITS shall pursue activities as such unless it has been authorised … A common fund shall be authorised only if the competent authorities of its home Member State have approved the application of the management company to manage that common fund."
     REFERENCED Article 20: "a management company which applies to manage a UCITS established in another Member State shall provide the competent authorities of the UCITS home Member State with the following documentation: (a) the written agreement with the depositary …; (b) information on delegation arrangements …"
 ✗ Bad (off-target): "For approval of cross-border management of a UCITS, what documentation must the management company give to the UCITS home regulator?"
   → Article 20 alone answers this completely, so the one-article test FAILS. The target's authorisation rule contributed nothing the question turns on. A retriever would correctly return Article 20, not Article 5. Discard.
   ✓ Instead ask what Article 5 itself provides: "Under the UCITS rules, what must the home Member State's competent authorities have approved before a common fund can be authorised?" — answer "the application of the management company to manage that common fund", articles_involved ["5"].
-
 (b) TARGET Article 12 (EU rules on the export and import of dangerous chemicals): "The Commission shall, in accordance with the advisory procedure referred to in Article 24(2), take an import decision …"
     REFERENCED Article 24: "Where reference is made to this paragraph, Article 3 and Article 7 of Decision 1999/468/EC shall apply …"
 ✗ Bad (off-target): "Which Decision 1999/468/EC provisions apply to the advisory procedure for Commission import decisions on chemicals?"
   → Answerable from Article 24 alone. The target merely names the procedure it follows. Discard.
   ✓ Instead: "Which procedure must the Commission follow when it takes an import decision under the EU rules on the export and import of dangerous chemicals?" — answer "in accordance with the advisory procedure referred to in Article 24(2)", articles_involved ["12"]. Article 24 is not listed: the target names the procedure; only the procedure's content is Article 24's.
-
 (c) TARGET Article 23 (Dublin rules): sets a three-month deadline for a take back request where the evidence is not a Eurodac hit.
     REFERENCED Article 20(2): defines when an application for international protection is deemed lodged.
 ✗ Bad (off-target): "When is an international protection application treated as lodged?"
   → That definition is Article 20(2)'s alone. Discard.
   ✓ Good (legitimately multi-article): "Under the Dublin rules, how long does a Member State have to make a take back request when the evidence is not a Eurodac hit?" — the deadline is the TARGET's own rule; Article 20(2) only fixes when the clock starts, so it completes the answer without being its subject. articles_involved ["23", "20"].
-
 The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
-
 Example 5 — an article of ANOTHER act completes the answer
 ### TARGET ARTICLE
 [EN] Article 2 — Payment of the aid
@@ -168,64 +156,60 @@ Example 5 — an article of ANOTHER act completes the answer
   → Article 5 of Regulation (EC) No 21/2004 alone answers this. It would retrieve that Regulation, not the target. Discard.
 ✗ Bad (wrong anchor): "Under Regulation (EC) No 21/2004, when is the aid paid?"
   → Anchored on the OTHER act's identifier; a retriever would return that act. Only the target's own identifier may appear, and only in "question_cited".
-
 Example 6 — REAL question-shape failures from a production run on EUR-Lex, and their repairs. Each generated question was grounded, precise and numerically faithful — and still not a question a practitioner would ask.
-
 (a) BOILERPLATE. TARGET Article 2 of Commission Directive 2012/4/EU (amending the directive on identification and traceability of explosives for civil uses): "Member States shall adopt and publish, by 4 April 2012 at the latest, the laws, regulations and administrative provisions necessary to comply with this Directive. …"
 ✗ Generated: "By what date did Member States have to adopt and publish the laws, regulations and administrative provisions needed to comply?"
   → The same clause stands in every directive in the corpus; only an identifier could disambiguate it. Same failure, dressed up: "From what date must Member States apply the compliance measures for the 2014 EU directive on credit agreements for consumers relating to residential immovable property?" (Article 42 of the Mortgage Credit Directive) — a year-and-title paraphrase is not a name anyone uses, and the clause is still boilerplate.
 ✓ Output: [{"skip_reason": "transposition clause only"}]
-
 (b) SIBLING TEST. TARGET Article 10 of Commission Directive 2010/43/EU (organisational requirements for UCITS management companies): "… a compliance officer must be appointed and must be responsible for the compliance function and for any reporting on a frequent basis, and at least annually, to the senior management on matters of compliance …"
 ✗ Generated: "How often must the compliance officer report to senior management on matters of compliance?"
   → The MiFID and AIFMD implementing measures contain the same rule in almost the same words; the question fits all three regimes equally.
 ✓ {"question": "How often must a UCITS management company's compliance officer report to senior management on compliance matters?", "question_cited": "Under Commission Directive 2010/43/EU, how often must a UCITS management company's compliance officer report to senior management on compliance matters?", "instrument_short_name": null, "answer": "on a frequent basis, and at least annually", "question_type": "monitoring_or_reporting", "anchor": "UCITS management company", "articles_involved": ["10"]}
-
 (c) SIBLING TEST. TARGET Article 98 of Directive 2014/25/EU (procurement by entities in the water, energy, transport and postal services sectors) — Decisions of the jury: "The jury shall examine the plans and projects submitted by the candidates anonymously and solely on the basis of the criteria indicated in the contest notice."
 ✗ Generated: "On what basis must the jury assess the submitted plans and projects?"
   → Word for word the same rule exists in the classic procurement directive of the same year; "the jury" resolves nothing.
 ✓ {"question": "In a design contest run by a utilities-sector contracting entity, may the jury assess the projects on criteria that were not stated in the contest notice?", "question_cited": "Under Directive 2014/25/EU, in a design contest run by a utilities-sector contracting entity, may the jury assess the projects on criteria that were not stated in the contest notice?", "instrument_short_name": "Utilities Directive", "answer": "solely on the basis of the criteria indicated in the contest notice", "question_type": "obligation_or_prohibition", "anchor": "design contest run by a utilities-sector contracting entity", "articles_involved": ["98"]}
-
 (d) COLLEAGUE TEST. TARGET Article 9 of Commission Regulation (EU) No 1300/2014 (technical specification for interoperability relating to accessibility of the rail system for persons with reduced mobility) — Advisory body: "The tasks of the advisory body shall include: (a) monitoring the development of a minimum data structure for the inventory of assets, …"
 ✗ Generated: "What must the advisory body monitor regarding the inventory of assets?"
   → Which advisory body? Which inventory? Only a reader of the article can tell.
 ✓ {"question": "Which body monitors the development of the minimum data structure for the inventory of assets in the EU rail accessibility TSI for persons with reduced mobility?", "question_cited": "Under Commission Regulation (EU) No 1300/2014, which body monitors the development of the minimum data structure for the inventory of assets in the EU rail accessibility TSI for persons with reduced mobility?", "instrument_short_name": "PRM TSI", "answer": "The tasks of the advisory body shall include: (a) monitoring the development of a minimum data structure for the inventory of assets", "question_type": "definition_actor_or_procedure", "anchor": "EU rail accessibility TSI for persons with reduced mobility", "articles_involved": ["9"]}
-
 (e) COLLEAGUE TEST + INFORMATIVENESS. TARGET Article 23 of Commission Regulation (EC) No 501/2008 (information provision and promotion measures for agricultural products) — Use of material: "The Member States shall check that the information and promotion material produced and used under the programmes financed under this Regulation complies with the Community rules. They shall send the Commission a list of material approved."
 ✗ Generated: "What must Member States send the Commission about the material approved?"
   → "The material approved" presupposes the article, and the answer ("a list of material approved") repeats the question.
 ✓ {"question": "Do Member States have to notify the Commission of the information and promotion material for agricultural products that they have approved?", "question_cited": "Under Commission Regulation (EC) No 501/2008, do Member States have to notify the Commission of the information and promotion material for agricultural products that they have approved?", "instrument_short_name": null, "answer": "They shall send the Commission a list of material approved.", "question_type": "monitoring_or_reporting", "anchor": "information and promotion material for agricultural products", "articles_involved": ["23"]}
-
 (f) INFORMATIVENESS. TARGET Article 20 of Regulation (EC) No 1393/2007 (service of judicial and extrajudicial documents in civil or commercial matters): "This Regulation shall, in relation to matters to which it applies, prevail over other provisions contained in bilateral or multilateral agreements or arrangements concluded by the Member States, and in particular Article IV of the Protocol to the Brussels Convention of 1968 and the Hague Convention of 15 November 1965."
 ✗ Generated: "In what matters does the 2007 EU regulation on service of judicial and extrajudicial documents prevail over bilateral or multilateral agreements concluded by Member States?"
   → The answer, "in relation to matters to which it applies", says nothing.
 ✓ {"question": "Does the EU regulation on the service of judicial and extrajudicial documents in civil and commercial matters take precedence over the 1965 Hague Service Convention as between Member States?", "question_cited": "Does Regulation (EC) No 1393/2007 on the service of judicial and extrajudicial documents in civil and commercial matters take precedence over the 1965 Hague Service Convention as between Member States?", "instrument_short_name": "Service Regulation", "answer": "This Regulation shall, in relation to matters to which it applies, prevail over other provisions contained in bilateral or multilateral agreements or arrangements concluded by the Member States, and in particular Article IV of the Protocol to the Brussels Convention of 1968 and the Hague Convention of 15 November 1965.", "question_type": "scope_or_applicability", "anchor": "service of judicial and extrajudicial documents in civil and commercial matters", "articles_involved": ["20"]}
-
 (g) INFORMATIVENESS. TARGET Article 61 of Regulation (EU) No 1306/2013 (financing, management and monitoring of the common agricultural policy): "For the purposes of applying the support schemes in the wine sector as referred to in Regulation (EU) No 1308/2013, Member States shall ensure that the administration and control procedures applied to those schemes are compatible with the integrated system referred to in Chapter II of this Title as regards the following elements: (a) the computerised database; (b) the identification systems for agricultural parcels; (c) the administrative checks."
 ✗ Generated: "Which support schemes are covered by the compatibility requirement for checks in the wine sector?"
   → The answer ("the support schemes in the wine sector as referred to in Regulation (EU) No 1308/2013") restates the question's own pointer.
 ✓ {"question": "In which respects must the administration and control procedures for wine sector support schemes be compatible with the CAP integrated administration and control system?", "question_cited": "Under Regulation (EU) No 1306/2013, in which respects must the administration and control procedures for wine sector support schemes be compatible with the CAP integrated administration and control system?", "instrument_short_name": null, "answer": "(a) the computerised database; (b) the identification systems for agricultural parcels; (c) the administrative checks", "question_type": "obligation_or_prohibition", "anchor": "wine sector support schemes", "articles_involved": ["61"]}
-
 (h) ANCHOR — regulated product. TARGET Article 1 of Commission Regulation (EU) No 833/2012 (provisional anti-dumping duty on aluminium foil in rolls from China): duty-rate table ending with "All other companies — 35,4 %".
 ✗ Generated: "What provisional anti-dumping duty applies to imports made by all other companies?"
   → Every anti-dumping regulation has an "all other companies" rate.
 ✓ {"question": "What is the residual 'all other companies' rate of the provisional anti-dumping duty on aluminium foil in rolls from China?", "question_cited": "Under Commission Regulation (EU) No 833/2012, what is the residual 'all other companies' rate of the provisional anti-dumping duty on aluminium foil in rolls from China?", "instrument_short_name": null, "answer": "35,4 %", "question_type": "amount_or_threshold", "anchor": "provisional anti-dumping duty on aluminium foil in rolls from China", "articles_involved": ["1"]}
-
 (i) ANCHOR — term of art, generated question kept. TARGET Article 2 of Regulation (EC) No 1935/2004 (materials and articles intended to come into contact with food) — Definitions.
 ✓ Generated: "What are 'active food contact materials and articles'?" → the term exists only in this regime; it is the anchor and needs no further regime words. Cited rendering: "How does Regulation (EC) No 1935/2004 define 'active food contact materials and articles'?"
-
+(j) ANSWER IN THE QUESTION. TARGET Article 2 of Directive 2009/18/EC (investigation of accidents in the maritime transport sector) — Scope: the Directive does not apply to marine casualties involving only "fishing vessels with a length of less than 15 metres".
+✗ Generated: "Is the maritime accident investigation regime excluded for marine casualties and incidents involving only fishing vessels with a length of less than 15 metres?" — answer "fishing vessels with a length of less than 15 metres"
+  → Anchored and natural, but the 15-metre threshold is the answer and it is in the question; the answer restates the question. Written from the consequence.
+✓ {"question": "Below what length are fishing vessels outside the scope of the EU maritime accident investigation regime?", "question_cited": "Under Directive 2009/18/EC, below what length are fishing vessels outside the scope of the EU maritime accident investigation regime?", "instrument_short_name": null, "answer": "fishing vessels with a length of less than 15 metres", "question_type": "scope_or_applicability", "anchor": "EU maritime accident investigation regime", "articles_involved": ["2"]}
+(k) INSTITUTIONAL BOILERPLATE. TARGET Article 37 of Regulation (EU) No 608/2013 (customs enforcement of intellectual property rights) — Reporting: "The Commission shall submit to the European Parliament and to the Council a report on the implementation of this Regulation ... If necessary, that report shall be accompanied by appropriate recommendations."
+✗ Generated: "When the Commission's implementation report on customs enforcement of intellectual property rights shows that follow-up may be needed, what can accompany it?" — answer "appropriate recommendations"
+  → A review clause that stands, in the same words, in hundreds of regulations; the answer is near-empty. Skip: [{"skip_reason": "Commission review clause only"}]
 Example 7 — the two renderings and the short name
 TARGET Article 8 of Directive 2009/65/EC (UCITS): "The competent authorities shall not grant authorisation to take up the business of management companies until they have been informed of the identities of the shareholders or members, whether direct or indirect, natural or legal persons, that have qualifying holdings and of the amounts of those holdings."
 ✗ Generated: "What shareholder or member information must be known before authorisation is granted to a management company?"
   → "management company" without "UCITS" is a weak anchor (the AIFMD and MiFID regimes impose the same rule on AIFMs and investment firms), and "must be known" hides who must know it.
 ✓ {"question": "Before authorising a UCITS management company, what must the competent authorities have been told about its shareholders?", "question_cited": "Under Directive 2009/65/EC, before authorising a UCITS management company, what must the competent authorities have been told about its shareholders?", "instrument_short_name": "UCITS Directive", "answer": "the identities of the shareholders or members, whether direct or indirect, natural or legal persons, that have qualifying holdings and of the amounts of those holdings", "question_type": "condition_or_prerequisite", "anchor": "UCITS management company", "articles_involved": ["8"]}
-
 SELF-CHECK for each question before finalizing:
 - ANCHOR: does the question — in both renderings — contain a regime anchor that is not a generic actor? Is the anchor phrase reported in "anchor" exactly as it appears in the question?
 - SIBLING TEST: would this question, word for word, be an equally sensible question about a different act? If yes, add the anchor or discard.
 - COLLEAGUE TEST: can a colleague who has not seen the article resolve every "the X" in the question?
 - INFORMATIVENESS: does the answer add something the question does not already say?
-- BOILERPLATE: is the fact a transposition, application, entry-into-force, addressee, repeal, committee-procedure or definitive-collection clause? If so, skip it.
+- BOILERPLATE: is the fact a transposition, application, entry-into-force, addressee, repeal, committee-procedure or definitive-collection clause, or an institutional clause (Commission review/report, agency evaluation, financial-interests audit access, exercise of the delegation, "effective, proportionate and dissuasive" penalties)? If so, skip it.
+- CONDITIONS, NOT CONSEQUENCE: does the question avoid stating the number, date, list or decision that is the answer?
 - Does the question avoid asking about the metadata (act title, chapter) rather than the substance of the article?
 - THE ONE-ARTICLE TEST: could this be answered completely from a referenced article alone? If yes, discard — it is not a question about the target.
 - Is the answer's substance fully present in the supplied text — target article, or target plus a supplied referenced article?
@@ -235,7 +219,6 @@ SELF-CHECK for each question before finalizing:
 - Are all numbers, dates, amounts, percentages, and official identifiers reproduced exactly as in the source?
 - Could someone who has never seen this document ask this question? No deixis, no article numbers as if visible.
 - Do the questions cover different facts and at least two categories from WHAT TO ASK?
-
 OUTPUT (valid JSON only, no markdown):
 [
   {"question": "...", "question_cited": "...", "instrument_short_name": "... or null", "answer": "...", "question_type": "...", "anchor": "...", "articles_involved": ["..."]},
@@ -247,5 +230,4 @@ Return up to three entries — fewer if fewer pass every test. If the target art
 - question_type: one of scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
 - anchor: the regime anchor phrase, exactly as it appears in the question.
 - articles_involved: list of the provisions needed to answer, always including the target article — bare numbers for the target's own act's articles, "Cite as" keys for articles of other acts and for ALL annexes (even the target's own act's). Example: ["6"], ["1", "6"], ["6", "32004R0021:5"] when an article of another act was used, or ["6", "32019L0904:anx_1"] when an annex was used.
-
 The target article and any referenced articles are supplied in English and — when your output language is not English — in your output language as well. When both are present they are the same provision, not two different ones: use the version in your output language for wording and terminology, and the English version as the reference reading. This does not change your output language, which is declared above. Here is the input:

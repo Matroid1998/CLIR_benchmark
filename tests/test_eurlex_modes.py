@@ -14,10 +14,14 @@ invisible in the CSV -- it just silently fills the wrong column.
 
 from __future__ import annotations
 
+import re
+
 import pytest
 
 from clir_bench.core.grading import (
-    TECHNICAL_QUALITY_FIELDS, TECHNICAL_QUALITY_KEYS, quality_fields, quality_keys,
+    FACT_PATTERN_QUALITY_FIELDS, FACT_PATTERN_QUALITY_KEYS,
+    LOOKUP_QUALITY_FIELDS, LOOKUP_QUALITY_KEYS,
+    TECHNICAL_QUALITY_KEYS, candidates_block, quality_fields, quality_keys,
 )
 from clir_bench.core.prompts import PromptPack
 from clir_bench.domains.legal.qac import eurlex_batch as batch
@@ -67,30 +71,6 @@ def test_the_retired_modes_are_gone(mode: str) -> None:
 
 # -- the graders ------------------------------------------------------------ #
 
-@pytest.mark.parametrize("mode", gen.MODES)
-def test_both_modes_use_the_technical_quality_columns(mode: str) -> None:
-    assert quality_keys(mode) == TECHNICAL_QUALITY_KEYS
-    assert quality_fields(mode) == TECHNICAL_QUALITY_FIELDS
-
-
-@pytest.mark.parametrize("mode", gen.MODES)
-def test_every_mode_has_a_quality_verifier_emitting_those_columns(mode: str) -> None:
-    rubric = EURLEX.quality(mode, "batch")
-    for key in TECHNICAL_QUALITY_KEYS:
-        assert f'"{key}": <1-5>' in rubric
-    assert "retrievability" not in rubric.lower()   # that is the semantic rubric
-
-
-def test_each_verifier_carries_its_defining_check() -> None:
-    assert "ANCHOR CHECK" in EURLEX.quality(gen.MODE_LOOKUP, "batch")
-    assert "FACT-PATTERN CHECK" in EURLEX.quality(gen.MODE_FACT_PATTERN, "batch")
-    for mode in gen.MODES:
-        # both modes forbid identifiers in the question they are shown
-        assert "identifier-leak" in EURLEX.quality(mode, "batch")
-
-
-# -- the mode-specific fields do not cross over ----------------------------- #
-
 LOOKUP_JSON = {
     "question": "Must a UCITS management company disclose indirect holdings?",
     "question_cited": "Under Directive 2009/65/EC, must a UCITS management company disclose indirect holdings?",
@@ -108,6 +88,85 @@ FACT_PATTERN_JSON = {
     "articles_involved": ["4"],
 }
 
+
+EXPECTED_QUALITY = {
+    gen.MODE_LOOKUP: (LOOKUP_QUALITY_KEYS, LOOKUP_QUALITY_FIELDS),
+    gen.MODE_FACT_PATTERN: (FACT_PATTERN_QUALITY_KEYS, FACT_PATTERN_QUALITY_FIELDS),
+}
+
+
+@pytest.mark.parametrize("mode", gen.MODES)
+def test_each_mode_has_its_own_quality_columns(mode: str) -> None:
+    """Unlike technical/descriptive, these two do NOT share a rubric: each is
+    graded on the criteria its own generation prompt turns on."""
+    keys, fields = EXPECTED_QUALITY[mode]
+    assert quality_keys(mode) == keys
+    assert quality_fields(mode) == fields
+    assert keys != TECHNICAL_QUALITY_KEYS
+
+
+def test_the_two_modes_are_graded_on_different_criteria() -> None:
+    lookup, fact_pattern = LOOKUP_QUALITY_KEYS, FACT_PATTERN_QUALITY_KEYS
+    assert lookup != fact_pattern
+    # they overlap only on the two criteria that are mode-independent
+    assert set(lookup) & set(fact_pattern) == {"focus", "linguistic_quality"}
+
+
+RUBRIC_SCORE = re.compile(r'"([a-z_]+)": <1-5>')
+
+
+@pytest.mark.parametrize("mode", gen.MODES)
+def test_the_rubric_scores_exactly_the_keys_grading_sums(mode: str) -> None:
+    """The regression this file exists for.
+
+    ``quality_overall`` sums ``quality_keys(mode)``; ``_normalize_quality``
+    defaults a missing key to 1. So if a rubric is edited to emit different
+    criteria and the key tuple is not updated with it, nothing raises -- every
+    candidate simply scores a uniform 5/25 on quality and the ranking silently
+    degrades to faithfulness alone. Only an equality check catches that.
+    """
+    emitted = set(RUBRIC_SCORE.findall(EURLEX.quality(mode, "batch")))
+    assert emitted == set(quality_keys(mode))
+
+
+def test_each_verifier_carries_its_defining_check() -> None:
+    lookup = EURLEX.quality(gen.MODE_LOOKUP, "batch")
+    fact_pattern = EURLEX.quality(gen.MODE_FACT_PATTERN, "batch")
+    assert "REGIME ANCHOR" in lookup
+    assert "PARTICULARS" in fact_pattern
+    for rubric in (lookup, fact_pattern):
+        # both are hostile-reviewer rubrics with a fatal-flaw floor and a verdict
+        assert "FATAL FLAW RULE" in rubric
+        assert "SIBLING REGIMES" in rubric
+        assert '"verdict"' in rubric
+        assert "off-target" in rubric
+
+
+def test_the_lookup_rubric_checks_the_fields_only_lookup_emits() -> None:
+    rubric = EURLEX.quality(gen.MODE_LOOKUP, "batch")
+    for check in ("rendering_check", "short_name_check", "anchor_check"):
+        assert check in rubric
+
+
+def test_the_quality_grader_is_shown_the_fields_its_rubric_checks() -> None:
+    """A consistency check on `anchor` or `question_cited` is impossible unless
+    the grader sees them, so they must survive serialization."""
+    block = candidates_block([dict(LOOKUP_JSON, articles_involved=["4"])])
+    for value in (LOOKUP_JSON["question_cited"], LOOKUP_JSON["instrument_short_name"],
+                  LOOKUP_JSON["anchor"], LOOKUP_JSON["question_type"]):
+        assert value in block
+    fp_block = candidates_block([FACT_PATTERN_JSON])
+    for particular in FACT_PATTERN_JSON["particulars"]:
+        assert particular in fp_block
+
+
+def test_a_plain_candidate_serializes_exactly_as_before() -> None:
+    """The other domains pass question/answer only; their block must not move."""
+    assert candidates_block([{"question": "Q", "answer": "A"}]) == (
+        "Candidate 0:\n  Question: Q\n  Answer: A")
+
+
+# -- the mode-specific fields do not cross over ----------------------------- #
 
 def test_lookup_captures_its_own_fields(payload) -> None:
     (c,) = gen.parse_candidates([LOOKUP_JSON], payload, gen.MODE_LOOKUP)
