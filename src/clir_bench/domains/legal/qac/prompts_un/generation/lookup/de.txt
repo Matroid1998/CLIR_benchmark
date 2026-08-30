@@ -1,0 +1,122 @@
+Sie sind ein Experte für die Erstellung rechtlicher und politischer Fragen zur Dokumentenrecherche aus Dokumenten der Vereinten Nationen (Resolutionen, Berichten und Schreiben).
+
+LOOKUP-MODUS — DER PRAKTIKER KENNT DAS INSTRUMENT UND WILL EINEN PUNKT DARAUS:
+Jede Frage ist eine Anfrage, die ein Praktiker — ein Sanktionsrechtsberater, ein Rechtsberater, ein Missionsplaner, ein Politikanalyst — an ein Suchsystem richtet, wenn er weiß, WELCHES Instrument oder welche Quelle maßgeblich ist, und EINE präzise Tatsache daraus benötigt: eine Maßnahme, eine Frist, eine Obergrenze, ein Kriterium, eine Mandatsaufgabe, eine berichtete Zahl. Jede Frage wird in ZWEI FASSUNGEN geliefert, die außerhalb der Instrumentenstelle wortwörtlich identisch sind: In der einen wird das Instrument durch BESCHREIBUNG benannt, in der anderen durch seine offizielle KENNUNG (siehe ZWEI FASSUNGEN unten). Schreiben Sie ausgehend vom Bedarf, nicht vom Text: keine Verständnisfrage danach, was eine Passage sagt, sondern eine praxisnahe Frage, deren Antwort zufällig in dieser Passage steht.
+
+SPRACHE:
+Die Fragen und Antworten MÜSSEN auf Deutsch verfasst werden. Bewahren Sie offizielle Kennungen und Fachbegriffe — Dokumentensymbole und Resolutionsnummern („resolution 918 (1994)", „S/2001/535"), Namen von Missionen, Organen, Gremien und Programmen („UNAMIR", „the Committee established pursuant to resolution 1533 (2004)") — sowie alle Daten, Zeiträume, Geldbeträge, Prozentsätze, Truppenzahlen und Schwellenwerte in ihrer ursprünglichen Form; Sie dürfen sie nicht runden, umformatieren oder ungenau umbenennen. Wenn ein Organ, ein Gremium oder ein Instrument einen offiziellen deutschen Namen hat („der Wirtschafts- und Sozialrat"), verwenden Sie diesen anstelle einer wörtlichen Übersetzung.
+
+WIE DIE EINGABE AUFGEBAUT IST:
+Sie erhalten drei markierte Abschnitte.
+- "### TARGET BLOCK" — eine zusammenhängende Passage (vollständige Absätze) eines UN-Dokuments. Sie schreiben Fragen ÜBER diesen Text.
+- "### REFERENCED DOCUMENTS" — Dokumente, die der Zielblock ZITIERT, jeweils bereitgestellt mit Symbol, Titel und Text — AUSSCHLIESSLICH, damit Sie VERSTEHEN können, was ein zitiertes Instrument ist, und es präzise beschreiben oder zitieren können.
+- "### DOCUMENT CONTEXT" — umgebender Text DESSELBEN DOKUMENTS: sein Anfang und, bei langen Dokumenten, die Passagen um den Zielblock herum.
+Die Rollen sind strikt:
+- Die ANTWORT muss vollständig im TARGET BLOCK ausgesagt sein. Nicht teilweise — vollständig.
+- Die unterstützenden Abschnitte existieren, damit Sie den Block VERSTEHEN können — niemals, damit Sie aus ihnen antworten. NUTZEN Sie sie, um aufzulösen, was der Block implizit lässt: welche Mission „die Mission" ist, welche Parteien „die Seiten" sind, welcher Ausschuss „der Ausschuss" ist, worum es in einer zitierten Resolution geht und welche Kalenderdaten die Frage zeitlich verankern. Wenn irgendein Teil des Antwortkerns nur in einem referenzierten Dokument oder nur im Kontext ausgesagt ist, VERWERFEN Sie die Frage. Unterstützender Text liefert Namen, Beschreibungen und Daten; er liefert niemals Fakten.
+Der Zielblock beginnt mit METADATA-Zeilen ([EN] Document: <symbol> / Title: <title>), gefolgt vom Text. Nutzen Sie sie, um zu wissen, WOVON die Passage handelt und wann sie entstanden ist. Die Metadaten sind KONTEXT, NICHT INHALT: Entnehmen Sie eine Antwort niemals einer Metadaten-Zeile, und stellen Sie niemals eine Frage über die Metadaten selbst.
+GENRE-SPERRE: Wenn der Zielblock ein Sitzungsprotokoll ist (jedes Symbol, das „PV" oder „SR" enthält), findet dieser Modus keine Anwendung — kein Praktiker zitiert die Signatur eines Kurzprotokolls, sodass die zitierende Fassung nicht existieren kann. Geben Sie [{"skip_reason": "meeting record"}] zurück.
+
+DIE DEFINIERENDE REGEL — ZWEI FASSUNGEN JEDER FRAGE:
+- "question": benennt das Instrument oder die Quelle DURCH BESCHREIBUNG — Organ + Jahr + Thema („die Resolution des Sicherheitsrats von 2004 zur Souveränität Libanons", „der Bericht des Generalsekretärs vom Juli 1999 über die Erdölindustrie Iraks"). In dieser Fassung darf nirgends eine Kennung irgendeiner Art stehen: keine Resolutions- oder Beschlussnummer, kein Dokumentensymbol, keine Absatznummer. Wenn mehrere Instrumente desselben Jahres dieselbe Situation betreffen, müssen die Themenwörter GENAU DIESES herausgreifen — „die Resolution des Sicherheitsrats von 2011 zur Einrichtung der Flugverbotszone über Libyen", nicht „die Resolution des Sicherheitsrats von 2011 zu Libyen".
+- "question_cited": dieselbe Frage, wobei die Beschreibung durch die exakte offizielle Kennung ersetzt ist, in natürlicher Praktikerformulierung („in resolution 918 (1994)", „in S/1999/746"); die Wörter für die Quellenart dürfen vor einem Symbol stehen bleiben, wo der Satz sie braucht („der Bericht des Generalsekretärs S/1999/746"). Übernehmen Sie die Kennung exakt aus dem Block, aus einer aufgelösten Referenz oder aus den Metadaten. Geltungsbereich der Kennungen: Resolutions- und Beschlussnummern sowie Symbole von Berichten und Schreiben — NIEMALS ein PV/SR-Symbol. Außerhalb der Instrumentenstelle müssen die beiden Fassungen wortwörtlich identisch sein.
+- Zeit: Das Jahr der Beschreibung ist die Zeitverankerung der Grundfassung. Wenn die Kennung kein Jahr trägt und die Frage kein anderes absolutes Datum enthält, ergänzen Sie eines — es erscheint dann in beiden Fassungen.
+- Warum zwei Fassungen: Eine Kennung ist eine sprachinvariante Zeichenkette, in jeder Sprachfassung identisch, sodass die zitierende Fassung allein über Zeichenketten-Überlappung abgeglichen werden kann; die Beschreibung muss semantisch und über Sprachen hinweg abgeglichen werden. Das Paar isoliert genau das, was die Zeichenkette einbringt.
+
+ANKER UND DER GESCHWISTER-TEST:
+Neben der Instrumentenstelle braucht jede Frage einen materiellen Gegenstandsanker: die Situation oder das Land, die Mission, das Gremium oder die Maßnahme („UNAMIR", „das Waffenembargo gegen Ruanda", „die Sachverständigengruppe für Sudan"). Platzieren Sie ihn vorzugsweise AUSSERHALB der Instrumentenstelle, damit er in beiden Fassungen erscheint; wenn er nur innerhalb der Beschreibung stehen kann, ist das akzeptabel — die Kennung verankert die zitierende Fassung.
+GESCHWISTER-TEST: UN-Dokumente wiederholen sich planmäßig — dasselbe Mandat wird jedes Jahr in nahezu identischen Worten verlängert, dieselben Klauseln zum Einfrieren von Vermögenswerten und zum Reiseverbot werden über Sanktionsregime hinweg geklont, jede Resolution zu einem Internationalen Tag folgt demselben Gerüst, und die Resolution zu den „Auswirkungen atomarer Strahlung" kehrt auf jeder Tagung wieder. Bevor Sie eine Frage behalten, blenden Sie die Instrumentenstelle aus und fragen Sie: Wäre der Rest, Wort für Wort, eine ebenso sinnvolle Frage zur Verlängerung eines anderen Jahres oder zum Zwilling einer anderen Situation? Wenn ja, fehlt der Anker oder die Zeitangabe — ergänzen Sie sie oder verwerfen Sie die Frage.
+
+ZEITANGABEN IN DER FRAGE:
+Jeder Zeitausdruck in der FRAGE muss absolut sein. Nennen Sie zu jedem Datum das Jahr. Verwenden Sie NIEMALS dokumentrelative Zeitangaben: „aktuell", „jetzt", „kürzlich", „heute", „am Vortag", „auf seiner nächsten Tagung", „im vergangenen Monat", „der Berichtszeitraum". Lösen Sie diese mithilfe des Kontexts und der Metadaten in Kalenderangaben auf; lassen sie sich nicht auflösen, verwerfen Sie die Frage. Die exakte Wiedergabe regelt die ANTWORT („within 30 days" bleibt „within 30 days"); in der FRAGE muss aufgelöst werden.
+
+NUR INHALTE MIT TRAGWEITE:
+Eine Frage ist es nur dann wert, gestellt zu werden, wenn ihre Antwortspanne operative oder rechtliche Wirkung oder eine konkrete Tatsache trägt:
+- QUALIFIZIERENDE Spannen: beschließt, ermächtigt, richtet ein, verlängert, beendet, verhängt, verkündet, benennt, ernennt, weist Mittel zu, billigt; ersucht oder weist an MIT einem benannten Ergebnis oder einer Frist; Bedingungen und Kriterien; Ausnahmen; exakte Zahlen, Daten, Obergrenzen, Mittelzuweisungen; benannte Akteure und förmlich definierte Begriffe; konkrete berichtete Ereignisse und Feststellungen.
+- DISQUALIFIZIERTE Spannen, in jedem Teil des Dokuments: lobt, begrüßt, bekundet Anerkennung oder Besorgnis, nimmt Kenntnis, bekräftigt oder bekundet erneut ein Bekenntnis, ermutigt oder lädt in allgemeinen Worten ein, fordert „die internationale Gemeinschaft" auf, Bestrebungen und Hoffnungen. Präambelabsätze sind Rahmung, niemals Antwortmaterial.
+- DER FORMELSPRACHE-TEST: Wenn die Antwortspanne unverändert in Dutzenden anderer UN-Dokumente stehen könnte, kann sie keine Frage verankern — auch dann nicht, wenn sie in einem operativen Absatz steht.
+
+ATTRIBUTION:
+Kurzprotokolle geben Erklärungen wieder, Schreiben übermitteln Positionen, und Berichte enthalten die Feststellungen des berichtenden Gremiums. Wenn der Block eine Behauptung, Schätzung oder Einschätzung zuschreibt, müssen Frage und Antwort die Zuschreibung bewahren — an den STAAT oder das AMT („der Generalsekretär", „die Delegation der Vereinigten Staaten"), niemals an einen bloßen Personennamen; ein Personenname darf nur neben der Amtsbezeichnung erscheinen. Zugeschriebene Inhalte sind nur dann erfragbar, wenn es sich um eine Position zu einem identifizierbaren Vorschlag, Instrument oder einer Maßnahme, um eine erklärte Begründung oder um eine konkrete Zahl oder ein konkretes Ereignis handelt — niemals um eine Bestrebung, eine Höflichkeitsfloskel oder eine allgemeine Ermahnung. Stellen Sie eine zugeschriebene Behauptung niemals als feststehende Tatsache dar.
+
+DER INFORMATIONSGEHALT-TEST:
+Die Antwort muss dem Fragenden etwas sagen, was die Frage nicht bereits enthält. Wenn die Antwort lediglich die Worte der Frage selbst oder den Verweis wiederholt, aus dem die Frage gebildet wurde — „eine Aktualisierung zu den auf der Sondertagung über Kinder eingegangenen Verpflichtungen" als Antwort auf „welche Aktualisierung zu den Verpflichtungen für Kinder wurde erbeten" —, ist die Frage leer. Verwerfen Sie sie und fragen Sie stattdessen nach dem materiellen Gehalt: was genau, bis wann, an wen.
+
+FRAGEFORMEN:
+- Maßnahme / Mandat: „Welche Truppenstärke genehmigte der Sicherheitsrat für [Mission] in [Instrument]?", „Welche Maßnahmen verhängte [Instrument] gegen [Regime]?"
+- Frist / Zeitraum: „Bis zu welchem Datum musste [Akteur] nach [Instrument] [X]?", „Bis wann verlängerte [Instrument] das Mandat von [Mission]?"
+- Bedingung / Kriterium: „Unter welcher Bedingung war [X] nach [Instrument] zu [Y]?"
+- Akteur / Verfahren: „Welches Gremium wurde in [Instrument] [beauftragt/eingerichtet], [X] zu tun?"
+- Zahl / Feststellung (zugeschrieben): „Wie hoch war laut [beschriebenem/zitiertem Bericht] [Zahl] zum [Datum]?"
+- Ja/Nein: „Weitete [Instrument] das Waffenembargo gegen [Regime] auf [Akteure] aus?" — erwünscht und häufig. Die Antwort ist weiterhin die Spanne des Blocks, die die Frage entscheidet, niemals das Wort „ja" oder „nein".
+Eine bloße Leerstelle („Was war zu prüfen ...?", „Worum ersuchte die Generalversammlung ...?" ohne benannten Gegenstand) ist keine Frageform.
+
+KERNREGELN:
+- Einzelner Fokus, kleinste Einheit: genau EINE Information pro Frage — eine Frist, eine Zahl, ein Kriterium, eine Ausnahme, ein Akteur. Wenn der Block ein Bündel bietet, fragen Sie nach EINEM Element, ausgewählt nach seiner Tragweite. Bevorzugen Sie Fragen, deren vollständige Antwort eine kurze Spanne ist; wenn die natürliche Antwort ein Absatz oder eine lange Liste wäre, engen Sie die Frage ein oder verwerfen Sie sie.
+- DER BLOCK-TEST (wenden Sie ihn auf jeden Kandidaten an): Könnte ein Leser die VOLLSTÄNDIGE Antwort allein aus dem TARGET BLOCK erzeugen und die Referenzen und den Kontext nur dazu nutzen, verweisende Ausdrücke, Namen, Daten und Zitate zu verstehen? Wenn eine benötigte Tatsache nur in einer Referenz oder im Kontext steht, VERWERFEN Sie die Frage. Dies ist der häufigste Verankerungsfehler in dieser Aufgabe.
+- Fragen am Ziel vorbei: Eine Frage, die sich vollständig aus einem referenzierten Dokument beantworten lässt, ist eine Frage über JENES Dokument — verwerfen. Zitate vervollständigen niemals Antworten: Wenn der materielle Gehalt hinter einem Zitat liegt („the measures imposed by paragraph 13 of resolution 918 (1994)"), verwerfen Sie die Frage, auch dann, wenn der zitierte Text bereitgestellt ist.
+- Vollständige direkte Stützung: keine Schlussfolgerung, kein externes Wissen — nicht einmal Fakten aus den unterstützenden Abschnitten.
+- Jede bestimmte Beschreibung muss in der Frage selbst benannt werden — kein bloßes „der Ausschuss", „die Seiten", „die Sitzung", „der Redner". Lösen Sie den Namen aus dem Kontext auf; genau dafür ist er da.
+- Numerische Treue und Zitiertreue (ANTWORT): Geben Sie Zahlen, Daten, Zeiträume, Beträge, Prozentsätze, Truppenzahlen und Kennungen exakt wieder („up to 5,500 troops", nicht „about 5,000"; „resolution 2374 (2017)", nicht „Resolution 2374").
+- Formulierung und Länge: direkte Frageform, 8–20 Wörter je Fassung, hartes Maximum 25. Fachbegriffe und benannte Entitäten dürfen wiederverwendet werden; mehrteilige beschreibende Fragmente aus der Quelle dürfen nicht als Fragengerüst dienen — formulieren Sie sie um.
+- Vielfalt: Die Fragen müssen auf verschiedene Tatsachen abzielen und mindestens zwei der acht Kategorien abdecken.
+- LIEBER VERZICHTEN ALS AUFFÜLLEN: Erzeugen Sie bis zu DREI Paare; weniger, wenn weniger jede Regel bestehen. Wenn der Block keine trägt — nur Zeremoniell, nur Formelsprache oder ein Sitzungsprotokoll — geben Sie genau [{"skip_reason": "<one short phrase>"}] zurück. Erfinden Sie niemals eine Frage, um auf drei zu kommen.
+
+WORNACH FRAGEN — acht Kategorien, in der Prioritätsreihenfolge dieses Modus:
+  1. Sanktionen, Bedingungen und Konsequenzen: verhängte Maßnahmen, Benennungs- und Ausnahmekriterien, Bedingungen für das Verhängen, Überprüfen oder Aufheben von Maßnahmen, Eskalationsschritte.
+  2. Daten, Fristen und Mandatszeiträume: Beginn, Verlängerung und Ablauf von Mandaten; Berichts- und Einhaltungsfristen; Wirksamkeits- und Überprüfungsdaten.
+  3. Mengen, Truppen und Finanzen: Truppen- und Polizeiobergrenzen, Haushaltsmittel und Beiträge, berichtete Statistiken, Prozentsätze, Grenzwerte.
+  4. Berichterstattung, Überwachung und Überprüfung: wer wem und in welcher Häufigkeit berichtet, Überwachungsgremien, Verifikationsregelungen, Mitteilungspflichten.
+  5. Akteure, Gremien und Verfahren: benannte Amtsträger und Gremien, Zusammensetzung, Rollen, Ernennung, Verfahrensschritte, definierte Begriffe.
+  6. Operative Handlungen: was das Organ beschließt, genehmigt, verlangt oder erbittet, und von wem — sofern es unter NUR INHALTE MIT TRAGWEITE qualifiziert.
+  7. Situationen, Geltungsbereich und Erfassung: welches Land, welches Gebiet, welche Bevölkerungsgruppe oder welchen Zeitraum eine Maßnahme oder ein Bericht erfasst; Sonderregelungen.
+  8. Feststellungen, Ereignisse und Einschätzungen: konkrete datierte Tatsachen und Schlussfolgerungen — mit Zuschreibung und nur Tatsachen, die ein Praktiker überprüfen würde, niemals Rhetorik.
+
+BEISPIELE — kanonisch gut, beide Fassungen:
+Target block: S/RES/918 (1994), adopted 17 May 1994: "3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda...; 4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;"
+✓ {"question": "What force level did the Security Council authorize for UNAMIR in the May 1994 resolution expanding the mission's mandate in Rwanda?", "question_cited": "What force level did the Security Council authorize for UNAMIR in resolution 918 (1994)?", "answer": "up to 5,500 troops", "question_type": "quantity_force_or_finance", "anchor": "UNAMIR"}
+  → Word-identical outside the instrument slot; the anchor sits outside the slot and survives in both renderings; the description carries organ + year + distinguishing subject.
+Target block (from report S/2005/673): "In its resolution 1559 (2004), the Security Council reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out in the resolution have not yet been fully met." Reference supplied: S/RES/1559 (2004), listing the requirements (withdrawal of foreign forces, disbanding of militias).
+✓ {"question": "By late 2005, did the Secretary-General consider the requirements of the 2004 Security Council resolution on Lebanese sovereignty fulfilled?", "question_cited": "By late 2005, did the Secretary-General consider the requirements of resolution 1559 (2004) fulfilled?", "answer": "The requirements set out in the resolution have not yet been fully met", "question_type": "finding_event_or_assessment", "anchor": "Lebanese sovereignty"}
+  → A yes/no question whose answer is the deciding span; attribution preserved; the reference was used only to describe the cited instrument.
+✗ "Which requirements of the 2004 resolution on Lebanese sovereignty remained unmet in late 2005?" → the list of requirements is stated only in the REFERENCED DOCUMENT; the block merely points at it. BLOCK TEST fails. Discard.
+✗ "What did the Security Council call for in the 2004 resolution on Lebanese sovereignty?" → answerable from the reference alone; off-target. Discard.
+
+TATSÄCHLICHE FEHLER AUS EINEM FRÜHEREN LAUF DIESER PIPELINE — reproduzieren Sie diese Muster niemals:
+✗ "According to CARICOM in A/C.2/58/SR.18, what was South-South cooperation considered to be in relation to a global cooperation system?"
+  → A summary-record symbol as citation, and a rhetorical-positioning target. The block is a meeting record: [{"skip_reason": "meeting record"}].
+✗ "In the General Assembly resolution on effects of atomic radiation, what did the Assembly request the Scientific Committee to do at its next session?"
+  → The description lacks its year; "at its next session" is document-relative; "what did the Assembly request X to do" is a comprehension frame. Fix (base rendering): "By which session was UNSCEAR to report its review of ionizing radiation, under the 2001 General Assembly resolution on atomic radiation?" — the cited rendering swaps the description for the resolution number from the metadata.
+✗ "How much did the United States say it had paid the day before for the regular budget and peacekeeping operations for 1999?"
+  → "The day before" is document-relative and "say it had paid" is comprehension stance. Resolve the date from the context: "...report paying toward 1999 regular-budget and peacekeeping assessments in 1998?"
+✗ "Which countries did one group of the Panel of Experts on the sanctions regime relating to the Islamic Republic of Iran visit from 10 to 14 September to meet with relevant Government officials on issues related to its mandate?"
+  → A date without a year, lifted filler ("one group of", "on issues related to its mandate"), 38 words. Fix: "Which countries did the Panel of Experts on the Iran sanctions regime visit in September 2012?"
+✗ "What was the current ceiling for the maximum rate of assessment for the least developed countries?"
+  → "Current" is document-relative. Fix: "What ceiling applied to the least developed countries' rate of assessment in 2005?"
+✗ "What development commitment did the General Assembly reaffirm in resolution 66/185 on international trade and development?"
+  → A reaffirmation is ceremony, not effect: DISQUALIFIED span even in an operative paragraph. Discard; take a qualifying fact or skip.
+✗ "What update on children's commitments did the General Assembly ask the Secretary-General to prepare?" answered "an update on the commitments made at the special session on children"
+  → The answer restates the question's own pointer: fails the INFORMATIVENESS TEST. Ask for the substance — what the update had to cover, by when, to which body.
+
+SELBSTPRÜFUNG jeder Frage, in dieser Reihenfolge:
+1. Sitzungsprotokoll (PV/SR)? → [{"skip_reason": "meeting record"}].
+2. FASSUNGEN: Ist "question" frei von jeder Kennung und trägt "question_cited" genau eine Kennung im zulässigen Geltungsbereich, exakt übernommen — und sind die beiden außerhalb der Instrumentenstelle wortwörtlich identisch?
+3. Beschreibung = Organ + Jahr + Thema, unterscheidend zwischen Geschwistern desselben Jahres? Eine Zeitverankerung in beiden Fassungen vorhanden?
+4. GESCHWISTER-TEST bestanden, mit ausgeblendeter Instrumentenstelle?
+5. Materieller Anker vorhanden; jede bestimmte Beschreibung benannt; keine dokumentrelative Zeitangabe?
+6. Ist die Antwortspanne unter NUR INHALTE MIT TRAGWEITE QUALIFIZIEREND und besteht sie den Formelsprache-Test? INFORMATIONSGEHALT bestanden?
+7. BLOCK-TEST bestanden; nicht allein aus einer Referenz beantwortbar; keine Antworten aus den Metadaten?
+8. Zuschreibung bewahrt, an Staat oder Amt, und des Fragens wert?
+9. Eine Tatsache in kleinster Einheit; 8–20 Wörter je Fassung (max. 25); Zahlen und Kennungen in der Antwort exakt?
+10. Haben weniger als drei Fragen bestanden? Geben Sie weniger aus. Keine bestanden? Geben Sie die Skip-Ausgabe aus.
+
+AUSGABE (nur gültiges JSON, kein Markdown): eine Liste von bis zu DREI Objekten:
+[
+  {"question": "...", "question_cited": "...", "answer": "...", "question_type": "...", "anchor": "..."}
+]
+Wenn keine Frage jeden Test besteht, geben Sie genau Folgendes zurück: [{"skip_reason": "<one short phrase>"}]
+- answer: der kürzeste Abschnitt, der die Frage vollständig und direkt beantwortet — bei einer Ja/Nein-Frage der kürzeste Abschnitt, der sie entscheidet. Streng im Zielblock verankert.
+- question_type: einer von situation_scope_or_coverage, operative_action, sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance, reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure.
+- anchor: die Phrase des materiellen Gegenstandsankers, exakt so, wie sie in der Grundfassung erscheint.
+
+Der Zielblock und der Dokumentkontext werden in Ihrer Ausgabesprache Deutsch und zusätzlich auf Englisch bereitgestellt. Wenn beide Fassungen vorliegen, handelt es sich um denselben Text und nicht um zwei verschiedene Passagen: Verwenden Sie die deutsche Fassung für Formulierung und Terminologie und die englische Fassung als Referenzlesart. Dies ändert nichts an Ihrer Ausgabesprache, die oben festgelegt ist. Hier ist die Eingabe:
