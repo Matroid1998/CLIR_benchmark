@@ -166,7 +166,7 @@ def test_own_act_annex_key_is_not_cross_act() -> None:
          "articles_involved": ["4", "32019R0904:anx_1"]},
         {"question": "q2", "answer": "a2", "question_type": "x",
          "articles_involved": ["4", "32004R0021:5"]},
-    ], p, gen.MODE_TECHNICAL)
+    ], p, gen.MODE_LOOKUP)
     assert [c.cross_act for c in out] == [False, True]
     assert [c.multi_article for c in out] == [True, True]
 
@@ -178,7 +178,7 @@ def test_parse_candidates_flags_cross_act() -> None:
     out = gen.parse_candidates([
         {"question": "q", "answer": "a", "question_type": "x", "articles_involved": ["4", "32004R0021:5"]},
         {"question": "q2", "answer": "a2", "question_type": "x", "articles_involved": ["4"]},
-    ], p, gen.MODE_TECHNICAL)
+    ], p, gen.MODE_LOOKUP)
     assert [c.cross_act for c in out] == [True, False]
     assert [c.multi_article for c in out] == [True, False]
     assert out[0].involved_elis == [target.eli_id, ext[0].eli_id]
@@ -236,7 +236,7 @@ def test_parse_candidates_flags_multi_article(payload) -> None:
         {"question": "q2", "answer": "a2", "question_type": "obligation_or_prohibition",
          "articles_involved": ["3", "4"]},
     ]
-    out = gen.parse_candidates(data, payload, gen.MODE_TECHNICAL)
+    out = gen.parse_candidates(data, payload, gen.MODE_LOOKUP)
     assert [c.multi_article for c in out] == [False, True]
     assert out[1].articles_involved == ["4", "3"]
 
@@ -244,7 +244,7 @@ def test_parse_candidates_flags_multi_article(payload) -> None:
 def test_parse_candidates_drops_empty_pairs(payload) -> None:
     out = gen.parse_candidates(
         [{"question": "", "answer": "a"}, {"question": "q", "answer": ""}],
-        payload, gen.MODE_TECHNICAL)
+        payload, gen.MODE_LOOKUP)
     assert out == []
 
 

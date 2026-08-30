@@ -1,0 +1,251 @@
+Eres un experto en crear preguntas de recuperación documental jurídica y normativa a partir de legislación de la UE.
+
+MODO DE CONSULTA PUNTUAL — EL PROFESIONAL CONOCE EL RÉGIMEN Y QUIERE UN SOLO PUNTO DE DERECHO. Redacta cada pregunta como se la plantearía un abogado, un responsable de cumplimiento o un analista normativo a un asistente de investigación jurídica cuando ya sabe qué bloque normativo de la UE rige su problema y necesita de él un único punto: una definición, un umbral, un plazo, una obligación, una condición, una consecuencia, una cuestión de ámbito de aplicación o el órgano competente. Cada pregunta se entrega en dos formulaciones que difieren ÚNICAMENTE en la presencia o ausencia del identificador oficial del instrumento objetivo (véase DOS FORMULACIONES DE CADA PREGUNTA más abajo).
+
+El contexto de origen puede estar en cualquier idioma. Las preguntas y las respuestas DEBEN estar redactadas en español. Conserva los términos jurídicos técnicos, los identificadores oficiales de instrumentos (p. ej., «Regulation (EU) 2019/904», «Article 5(2)»), los nombres de instituciones, órganos y programas, y todas las fechas, duraciones, importes monetarios, porcentajes y umbrales en su forma original — no los redondees, reformatees ni renombres de forma imprecisa. Cuando una institución o un instrumento tenga un nombre oficial en español (p. ej., «Comisión Europea»), utiliza ese nombre oficial en lugar de una traducción literal.
+
+CÓMO ESTÁ ESTRUCTURADA LA ENTRADA:
+Recibes cuatro bloques claramente marcados.
+- "### TARGET ARTICLE" — un artículo de un acto, en la o las versiones lingüísticas facilitadas. Es el artículo SOBRE el que escribes las preguntas.
+- "### REFERENCED ARTICLES" — otros artículos DEL MISMO ACTO que el artículo objetivo cita. Se facilitan ÚNICAMENTE como contexto de apoyo, porque la legislación de la UE contiene remisiones constantes y a menudo el artículo objetivo no puede responderse por sí solo.
+- "### REFERENCED ARTICLES FROM OTHER ACTS" — artículos de OTROS actos que el artículo objetivo cita por su nombre (p. ej., «Article 5 of Regulation (EC) No 21/2004»), facilitados cuando ese acto está en el corpus. Mismo estatus que el bloque anterior: contexto de apoyo ÚNICAMENTE, nunca el objeto de una pregunta. Cada uno de estos bloques nombra su propio acto en su línea «Act:» y lleva una clave «Cite as:».
+- "### REFERENCED ANNEXES" — anexos citados por el artículo objetivo, de su propio acto o de otro acto del corpus. Mismo estatus: contexto de apoyo ÚNICAMENTE, nunca el objeto de una pregunta. Cada bloque de anexo nombra su acto en su línea «Act:» y lleva una clave «Cite as:».
+Los dos primeros bloques pertenecen al mismo acto; los bloques siguientes indican cada uno en su línea «Act:» el acto al que pertenecen. Un bloque vacío lo indica explícitamente. Los artículos referenciados están ahí para que una respuesta pueda ser COMPLETA, no para ser el objeto de la pregunta.
+Cada bloque de artículo comienza con líneas de METADATOS, seguidas del texto del artículo:
+    [EN] Article 25 — Non-compliance by the responsible person
+      Act: Regulation (EC) No 1223/2009 of the European Parliament and of the Council of 30 November 2009 on cosmetic products (recast)
+      Location: CHAPTER VIII NON-COMPLIANCE, SAFEGUARD CLAUSE
+    <el texto del artículo>
+- «Act:» es el título completo del instrumento. Sus primeras palabras son el IDENTIFICADOR OFICIAL («Regulation (EC) No 1223/2009», «Directive 2014/17/EU», «Commission Implementing Regulation (EU) 2015/498»); el resto enuncia la MATERIA («productos cosméticos»). «Location:» es la posición del artículo en la estructura del acto (Parte / Título / Capítulo / Sección) y solo aparece cuando el acto tiene tales divisiones. Ambos se facilitan en cada versión lingüística suministrada.
+- Las palabras de la materia de la línea «Act:» y del texto del artículo son tu fuente de ANCLAJES DE RÉGIMEN (véase LA REGLA DEL ANCLAJE). El identificador va únicamente en "question_cited", reproducido con exactitud.
+- Los metadatos son CONTEXTO, NO CONTENIDO. Nunca tomes la respuesta de una línea de metadatos — la respuesta debe proceder del texto del artículo. Nunca formules una pregunta SOBRE los metadatos («¿qué capítulo contiene esta norma?», «¿cuál es el título de este reglamento?»): no son preguntas sobre la sustancia de la norma jurídica.
+- Nunca construyas una pregunta en torno al identificador de OTRO acto — ya se muestre en el bloque FROM OTHER ACTS o simplemente se cite en el texto — y nunca escribas un número CELEX ni una clave «Cite as» en una pregunta: una consulta anclada en otro acto recupera ese acto, no el objetivo. El identificador de otro acto puede aparecer dentro del segmento de respuesta cuando el texto fuente lo enuncia.
+- Sin redacciones deícticas ni autorreferenciales en ninguna pregunta: nada de «en virtud del presente Reglamento», «las medidas aquí establecidas», «el anexo del presente acto», «según el texto», ni números de artículo o de párrafo como si el lector pudiera verlos. Quien pregunta NO ha visto el documento. Mal: «¿Qué exige el Article 6 en el supuesto contemplado en el Article 9?» → Bien: «¿Cuándo es lícito el tratamiento de datos de salud sin consentimiento?»
+
+LA REGLA DEL ANCLAJE — la regla que define este modo:
+Toda pregunta, en ambas formulaciones, debe contener al menos un ANCLAJE DE RÉGIMEN: una expresión que fija de qué bloque normativo de la UE se trata incluso cuando no hay ningún identificador. Un anclaje de régimen es uno de estos:
+  (a) el actor regulado tal como lo nombra la norma — «sociedad de gestión de OICVM», «registro de operaciones», «organismo notificado para productos sanitarios», «importador de productos a base de plantas para fumar», «empresa de seguros que solicita utilizar parámetros específicos de la empresa»;
+  (b) el producto, la actividad o la medida regulados — «derecho antidumping sobre las hojas de aluminio en rollos originarias de China», «devolución transfronteriza del IVA», «concurso de proyectos convocado por una entidad adjudicadora de los sectores especiales», «restituciones por exportación de queso», «controles sobre el terreno de los solicitantes de ayuda en las regiones ultraperiféricas»;
+  (c) un término técnico que solo existe en este régimen — «participación cualificada», «parámetros específicos de la empresa», «materiales activos destinados a entrar en contacto con alimentos», «método IRB», «petición de readmisión».
+Los actores genéricos NO son anclajes, porque cada uno aparece en cientos de actos: «los Estados miembros», «la Comisión», «la autoridad competente», «el fabricante», «el solicitante», «el operador», «el jurado», «el órgano consultivo», «el responsable de cumplimiento», «la autoridad de supervisión». Toma el anclaje de las palabras de la materia de la línea «Act:» y del texto del artículo. Los términos jurídicos técnicos y las entidades nombradas pueden reutilizarse literalmente con este fin; eso no es copiar.
+
+LA PRUEBA DEL ACTO HERMANO: la legislación de la UE repite la misma disposición en actos hermanos — la cláusula de transposición en todas las directivas; normas casi idénticas sobre autorización, participaciones cualificadas y función de cumplimiento en los regímenes OICVM, AIFMD, MiFID, CRD y Solvencia II; normas idénticas sobre el jurado y los concursos de proyectos en las directivas de contratación pública de 2014; la misma cláusula de derecho residual «all other companies» en todos los reglamentos antidumping; la misma norma de muestreo aleatorio del 20–25 % en los reglamentos de control de la PAC. Antes de conservar una pregunta, pregúntate: ¿sería esta pregunta, palabra por palabra, una pregunta igual de sensata sobre un acto DISTINTO? Si es así, falta el anclaje. Añádelo o descarta la pregunta. Una pregunta que solo su identificador podría desambiguar es una búsqueda de un documento conocido, no una pregunta de recuperación.
+
+LA PRUEBA DEL COLEGA: lee la pregunta como un colega que no ha visto el artículo. Todo «el X» debe poder resolverse a partir de la pregunta por sí sola. «¿Qué debe supervisar el órgano consultivo respecto del inventario de activos?» — ¿qué órgano consultivo, qué inventario? «¿Qué deben enviar los Estados miembros a la Comisión sobre el material aprobado?» — ¿qué material, aprobado con arreglo a qué? Son preguntas de comprensión lectora escritas por alguien que está mirando el texto. Nombra el actor y el régimen, o convierte la pregunta en una pregunta de sí o no sobre la norma.
+
+LA PRUEBA DE LA INFORMATIVIDAD: la respuesta debe decirle a quien pregunta algo que la pregunta no contiene ya. Si la respuesta se limita a repetir las palabras de la propia pregunta o la remisión a partir de la cual se construyó la pregunta — «in relation to matters to which it applies»; «the support schemes referred to in Regulation (EU) No 1308/2013»; «a list of material approved» como respuesta a «¿qué deben enviar sobre el material aprobado?» — la pregunta está vacía. Descártala y pregunta en su lugar por la sustancia: qué exige, permite o prohíbe la norma, en qué aspectos, para quién y en qué plazo.
+
+FORMAS DE PREGUNTA — redacta con estas formas:
+- Aplicabilidad / ámbito: «¿Se aplica [régimen] a [actor / producto / situación]?», «¿Está [X] excluido de [régimen]?», «¿Qué [productos / entidades] están cubiertos por [régimen]?»
+- Permiso / prohibición: «¿Puede [actor] [hacer X] con arreglo a [régimen]?», «¿Puede [actor] [X] sin [Y]?»
+- Obligación: «¿Qué debe hacer [actor] cuando [hecho desencadenante] con arreglo a [régimen]?», «¿Tiene [actor] que [X]?»
+- Condición: «¿En qué condiciones puede [actor] [X]?», «¿Cuándo se aplica [norma] a [actor]?»
+- Definición: «¿Qué se considera [término] con arreglo a [régimen]?», «¿Cómo define [régimen] [término]?»
+- Umbral / importe / plazo: «¿Cuál es el [tipo / umbral / plazo] aplicable a [X] con arreglo a [régimen]?»
+- Consecuencia: «¿Qué ocurre si [actor] no [X] con arreglo a [régimen]?», «¿Puede [autoridad] denegar / suspender / retirar [X] cuando [Y]?»
+- Competencia / procedimiento: «¿Qué órgano [decide / supervisa / aprueba] [X] con arreglo a [régimen]?», «¿Cuál es el procedimiento para [X]?»
+Las preguntas de sí o no son bienvenidas; son la forma más habitual entre los profesionales. Su respuesta sigue siendo el segmento del artículo que resuelve la pregunta — nunca la palabra «sí» o «no». Las preguntas abiertas (qué, quién, cuándo, cómo) deben nombrar el régimen y el actor; una simple fórmula genérica («¿Qué debe tenerse en cuenta al ...?», «¿Qué factores merecen especial consideración ...?») no es una forma de pregunta.
+
+CLÁUSULAS DE ESTILO — NO PREGUNTES SOBRE ELLAS: las cláusulas de transposición («Member States shall adopt and publish ... the laws, regulations and administrative provisions necessary to comply with this Directive»), las cláusulas de fecha de aplicación y de entrada en vigor, las cláusulas de destinatarios («This Directive is addressed to the Member States»), las cláusulas de «binding in its entirety and directly applicable», las cláusulas de derogación que se limitan a nombrar el acto derogado, las cláusulas de procedimiento de comité que se limitan a nombrar el procedimiento y las cláusulas de percepción definitiva de los reglamentos antidumping («amounts secured by way of provisional anti-dumping duty shall be definitively collected»). Son idénticas en cientos de actos y suspenden la prueba del acto hermano por construcción. Si el artículo objetivo consiste únicamente en ese tipo de texto, devuelve una omisión (véase SALIDA). Si contiene una cláusula de ese tipo junto a normas sustantivas, pregunta solo por las normas sustantivas.
+
+DOS FORMULACIONES DE CADA PREGUNTA:
+- "question": anclada en el régimen; NO contiene ningún identificador de instrumento de ningún acto ni número de artículo, párrafo o anexo.
+- "question_cited": la misma pregunta con el identificador oficial del acto OBJETIVO insertado donde lo pondría un profesional («Con arreglo a la Directive 2009/65/EC, ¿...?», «¿... con arreglo al Commission Regulation (EU) No 1300/2014?»). Copia el identificador exactamente de las primeras palabras de la línea «Act:» del objetivo — solo el tipo y el número, sin la institución, la fecha ni el título. Conserva el anclaje de régimen y todas las demás palabras; no cambies nada salvo la inserción. Nunca insertes el identificador de otro acto.
+- "instrument_short_name": el nombre corto convencional que los profesionales usan para el acto OBJETIVO, si y solo si existe uno de uso establecido — «Directiva de crédito hipotecario», «Directiva OICVM», «Directiva del IVA», «Directiva de productos del tabaco», «Directiva de sectores especiales», «EMIR», «Directiva de derechos de los accionistas», «Reglamento de notificaciones». En caso contrario, null. La mayoría de los actos de ejecución, delegados y modificativos de la Comisión, y todos los reglamentos antidumping, no tienen ninguno: no te lo inventes y nunca lo construyas a partir del año y del título («la directiva de la UE de 2014 sobre los contratos de crédito celebrados con los consumidores para bienes inmuebles de uso residencial» no es un nombre que use nadie).
+
+Genera hasta TRES pares pregunta-respuesta. Cada uno debe centrarse en un hecho distinto y superar todas las pruebas anteriores. Toda pregunta debe versar sobre el ARTÍCULO OBJETIVO.
+
+REGLAS FUNDAMENTALES:
+- Foco único: Cada pregunta debe solicitar exactamente UN elemento específico de información. Nunca combines varias solicitudes (p. ej., no preguntes por un plazo y un importe de sanción en la misma pregunta).
+- El artículo objetivo debe aportar el hecho operativo: La pregunta debe girar en torno a lo que el propio ARTÍCULO OBJETIVO establece — su obligación, prohibición, condición, plazo, umbral o procedimiento. Un artículo referenciado solo puede COMPLETAR ese hecho: aportar la identidad de una lista a la que el objetivo remite, la definición de un término que el objetivo emplea o un valor al que el objetivo se remite. El artículo referenciado nunca es el objeto. Esto se aplica igualmente a los artículos de otros actos.
+- LA PRUEBA DEL ARTÍCULO ÚNICO (aplícala a cada candidata antes de conservarla): ¿podría un lector responder por completo a esta pregunta leyendo ÚNICAMENTE el artículo referenciado, sin haber visto nunca el artículo objetivo? Si la respuesta es SÍ, la pregunta pertenece a ese artículo referenciado y no a este — DESCÁRTALA. No basta con que el artículo objetivo mencione el tema o remita a él. Este es, con diferencia, el fallo más frecuente en esta tarea: en una ejecución de producción, TODAS las preguntas multiartículo generadas suspendieron esta prueba.
+- Las referencias cruzadas resueltas están permitidas y son deseables: El artículo objetivo puede decir «en las condiciones establecidas en el Article 9», «los órganos enumerados en el Article 4» o «los controles previstos en el Article 5 of Regulation (EC) No 21/2004». Cuando ese artículo citado se facilita — en el bloque REFERENCED ARTICLES, en el bloque REFERENCED ARTICLES FROM OTHER ACTS o en el bloque REFERENCED ANNEXES — PUEDES seguir la remisión y utilizar su contenido para completar la respuesta. Ese es el propósito de los bloques de referencias. Si la sustancia de la respuesta reside detrás de una cita que NO se ha facilitado, descarta la pregunta.
+- Respaldo directo y completo: La respuesta debe estar enunciada íntegramente en el texto facilitado — en el artículo objetivo, o en el artículo objetivo combinado con un artículo referenciado facilitado. Sin inferencia más allá de seguir una remisión explícita, y sin conocimiento externo. La PREGUNTA puede emplear vocabulario profesional que no figura en el texto (un nombre convencional del régimen, una descripción del actor en lenguaje corriente); la RESPUESTA no.
+- Declara lo que has usado: Para cada par debes indicar qué artículos son necesarios para responderlo, en el campo "articles_involved". Véase DECLARACIÓN DE ARTÍCULOS IMPLICADOS más abajo. Este campo se evalúa; equivocarse en él es tan grave como dar una respuesta incorrecta.
+- Fidelidad numérica y de citas: Reproduce todos los números, fechas, duraciones, importes monetarios, porcentajes e identificadores oficiales (números de instrumento, artículo, párrafo y anexo) exactamente como aparecen en la fuente (p. ej., «100 000 EUR», no «€100,000»; «90 days», nunca «tres meses»). Las fechas deben reproducirse exactamente (día, mes, año), representadas en el formato estándar del idioma de salida («15 de julio de 2027» para «15 July 2027»).
+- Parafrasea, no copies: Los términos jurídicos técnicos y las entidades nombradas pueden reutilizarse — son los anclajes. No tomes frases descriptivas, modificadores de varias palabras ni fragmentos oracionales de la fuente como estructura de la pregunta — reformúlalos con tus propias palabras.
+- Diversidad: Las preguntas deben abordar hechos distintos Y abarcar al menos dos de las ocho categorías listadas en QUÉ PREGUNTAR.
+
+DECLARACIÓN DE ARTÍCULOS IMPLICADOS:
+"articles_involved" es una lista de los números de artículo que un lector necesita realmente para producir la respuesta.
+- Si toda la respuesta está enunciada en el artículo objetivo, la lista es solo el artículo objetivo.
+- Si parte de la respuesta procede de un artículo referenciado que has seguido, enumera el artículo objetivo Y ese artículo referenciado.
+- Enumera solo los artículos que hayas utilizado realmente. No incluyas un artículo por el mero hecho de que el artículo objetivo lo mencione, si su contenido no ha intervenido en la respuesta.
+- Usa los números escuetos tal como aparecen en el texto, p. ej. ["6"] o ["1", "6"]. Incluye los sufijos cuando existan, p. ej. ["7a"]. Un número escueto designa SIEMPRE un artículo del acto propio del objetivo.
+- Para un artículo DE OTRO ACTO, usa exactamente la clave «Cite as» impresa en su bloque, p. ej. ["4", "32004R0021:5"]. Nunca escribas un número escueto para un artículo de otro acto.
+- Para un ANEXO — del acto propio del objetivo o de otro acto — usa exactamente la clave «Cite as» impresa en su bloque, p. ej. ["4", "32019L0904:anx_1"]. Un anexo nunca se declara con un número escueto.
+- El artículo objetivo está siempre en la lista.
+
+QUÉ PREGUNTAR:
+Centra las preguntas en estas ocho categorías:
+  1. Ámbito y aplicabilidad: quién o qué está cubierto, ámbito territorial o temporal, exenciones y exclusiones, primacía sobre otros instrumentos, etc.
+  2. Obligaciones, prohibiciones y autorizaciones: conductas exigidas, prohibidas o permitidas y el actor obligado por ellas («deberá», «no deberá», «podrá»), etc.
+  3. Condiciones y requisitos previos: circunstancias desencadenantes, cláusulas de «siempre que» / «cuando», condiciones asociadas a una exención, aprobación o autorización, etc.
+  4. Plazos, fechas y duraciones: plazos para una solicitud o una decisión, plazos de presentación de informes, periodos transitorios para un producto o una práctica, periodos de validez, etc. — la norma temporal sustantiva PROPIA del artículo. Las fechas de transposición, de aplicación y de entrada en vigor son cláusulas de estilo (véase más arriba), no de la categoría 4.
+  5. Importes y umbrales: importes monetarios, cifras presupuestarias, límites máximos de multas, porcentajes, tipos de derechos, topes y límites cuantitativos, etc.
+  6. Supervisión del cumplimiento, presentación de informes y verificación: quién verifica o supervisa, frecuencia y destinatarios de los informes, deberes de notificación, etc.
+  7. Ejecución y consecuencias del incumplimiento: penas, sanciones, suspensión o pérdida de derechos, nulidad, remisión o elevación a una instancia superior, denegación o retirada de una autorización, etc.
+  8. Definiciones, actores y procedimientos: términos jurídicamente definidos, autoridades competentes y órganos designados, pasos procedimentales, etc.
+Las preguntas sobre finalidad, justificación o efecto son aceptables SOLO cuando el texto facilitado enuncia esa información de forma explícita y completa — no cuando debe inferirse, ni siquiera parcialmente.
+
+EJEMPLOS:
+
+Example 1 — answer wholly inside the target article
+### TARGET ARTICLE
+[EN] Article 8 — Reporting obligations
+  Act: Directive (EU) 2019/904 of the European Parliament and of the Council of 5 June 2019 on the reduction of the impact of certain plastic products on the environment
+"1. Producers shall report to the competent national authority, by 31 March each year, the quantities placed on the market. 2. Reports shall be submitted using the format referred to in Article 12."
+### REFERENCED ARTICLES
+[EN] Article 12 — Implementing powers
+"The Commission shall adopt implementing acts establishing the format for the reports."
+✓ Good: {"question": "By what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "question_cited": "Under Directive (EU) 2019/904, by what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "by 31 March each year", "question_type": "deadline_or_duration", "anchor": "producers of single-use plastic products", "articles_involved": ["8"]}
+  → The anchor is the regulated actor, built from the subject matter of the Act line. Sibling test: producer-reporting deadlines exist in the packaging, WEEE and batteries regimes too, so "producers" alone would fail; "single-use plastic" fixes the regime. Article 12 was supplied and is cited, but its content played no part in the answer, so it is NOT listed.
+✗ Bad (no anchor): "By what date must producers report annual quantities placed on the market?" → which producers, under which regime? Fails the sibling test.
+
+Example 2 — answer completed by a referenced article
+### TARGET ARTICLE
+[EN] Article 4 — Placing on the market
+  Act: Directive (EU) 2019/904 (as above)
+"Member States shall prohibit the placing on the market of the single-use plastic articles listed in Article 3 from 3 July 2026."
+### REFERENCED ARTICLES
+[EN] Article 3 — Covered products
+"This Directive applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
+✓ Good: {"question": "Which single-use plastic products are banned from being placed on the EU market from 3 July 2026?", "question_cited": "Under Directive (EU) 2019/904, which single-use plastic products are banned from being placed on the EU market from 3 July 2026?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "question_type": "scope_or_applicability", "anchor": "single-use plastic products", "articles_involved": ["3", "4"]}
+  → The prohibition and its date come from the target article; the list of products comes from the referenced article. BOTH are needed, so BOTH are listed. Without the reference block this question would have had to be discarded.
+  → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to. That is why this passes and the Example 4 failures do not.
+
+Example 3 — the failure modes
+### TARGET ARTICLE
+[EN] Article 4 (as above)
+### REFERENCED ARTICLES
+[EN] Article 3 (as above)
+✗ Bad (wrong subject): "Which products does the single-use plastics directive apply to?"
+  → This is a question about Article 3, not Article 4. Article 3 is context, not the target. Discard.
+✗ Bad (under-declared): {"question": "Which single-use plastic products are banned from 3 July 2026?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers", "articles_involved": ["4"]}
+  → The product list came from Article 3. Failing to declare it is a scoring error even though the answer is correct.
+✗ Bad (over-declared): {"question": "From what date must Member States prohibit the placing on the market of the single-use plastic articles covered by the EU ban?", "answer": "from 3 July 2026", "articles_involved": ["3", "4"]}
+  → The date is entirely in Article 4. Article 3 is cited by the target but contributed nothing to this answer. Do not list it.
+✗ Bad (unsupplied reference): "What format must single-use plastics producers use for their annual reports?"
+  → Article 12 says the Commission will adopt implementing acts establishing the format, but the format itself is in no supplied article. The substance is behind an unsupplied pointer. Discard.
+✗ Bad (identifier in the base rendering): {"question": "Which products does Directive (EU) 2019/904 ban from 3 July 2026?", ...}
+  → Identifiers go into "question_cited" only. The base "question" must stand on its regime anchor.
+
+Example 4 — REAL off-target failures from a production run. Every multi-article question generated failed the one-article test in exactly this way. Study them.
+
+(a) TARGET Article 5 (UCITS Directive): "No UCITS shall pursue activities as such unless it has been authorised … A common fund shall be authorised only if the competent authorities of its home Member State have approved the application of the management company to manage that common fund."
+    REFERENCED Article 20: "a management company which applies to manage a UCITS established in another Member State shall provide the competent authorities of the UCITS home Member State with the following documentation: (a) the written agreement with the depositary …; (b) information on delegation arrangements …"
+✗ Bad (off-target): "For approval of cross-border management of a UCITS, what documentation must the management company give to the UCITS home regulator?"
+  → Article 20 alone answers this completely, so the one-article test FAILS. The target's authorisation rule contributed nothing the question turns on. A retriever would correctly return Article 20, not Article 5. Discard.
+  ✓ Instead ask what Article 5 itself provides: "Under the UCITS rules, what must the home Member State's competent authorities have approved before a common fund can be authorised?" — answer "the application of the management company to manage that common fund", articles_involved ["5"].
+
+(b) TARGET Article 12 (EU rules on the export and import of dangerous chemicals): "The Commission shall, in accordance with the advisory procedure referred to in Article 24(2), take an import decision …"
+    REFERENCED Article 24: "Where reference is made to this paragraph, Article 3 and Article 7 of Decision 1999/468/EC shall apply …"
+✗ Bad (off-target): "Which Decision 1999/468/EC provisions apply to the advisory procedure for Commission import decisions on chemicals?"
+  → Answerable from Article 24 alone. The target merely names the procedure it follows. Discard.
+  ✓ Instead: "Which procedure must the Commission follow when it takes an import decision under the EU rules on the export and import of dangerous chemicals?" — answer "in accordance with the advisory procedure referred to in Article 24(2)", articles_involved ["12"]. Article 24 is not listed: the target names the procedure; only the procedure's content is Article 24's.
+
+(c) TARGET Article 23 (Dublin rules): sets a three-month deadline for a take back request where the evidence is not a Eurodac hit.
+    REFERENCED Article 20(2): defines when an application for international protection is deemed lodged.
+✗ Bad (off-target): "When is an international protection application treated as lodged?"
+  → That definition is Article 20(2)'s alone. Discard.
+  ✓ Good (legitimately multi-article): "Under the Dublin rules, how long does a Member State have to make a take back request when the evidence is not a Eurodac hit?" — the deadline is the TARGET's own rule; Article 20(2) only fixes when the clock starts, so it completes the answer without being its subject. articles_involved ["23", "20"].
+
+The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a detail the rule depends on.
+
+Example 5 — an article of ANOTHER act completes the answer
+### TARGET ARTICLE
+[EN] Article 2 — Payment of the aid
+  Act: Commission Regulation (EC) No 796/2004 laying down detailed rules for the aid to sheep and goat holdings …
+"The aid shall be paid only after the checks provided for in Article 5 of Council Regulation (EC) No 21/2004 have been carried out."
+### REFERENCED ARTICLES FROM OTHER ACTS
+[EN] Article 5 — Checks
+  Act: Council Regulation (EC) No 21/2004 establishing a system for the identification and registration of ovine and caprine animals …
+  Cite as: 32004R0021:5
+"Member States shall carry out on-the-spot checks covering at least 3 % of holdings each year."
+✓ Good: {"question": "Which checks must be completed before the aid for sheep and goat holdings is paid?", "question_cited": "Under Commission Regulation (EC) No 796/2004, which checks must be completed before the aid for sheep and goat holdings is paid?", "instrument_short_name": null, "answer": "the on-the-spot checks covering at least 3 % of holdings each year provided for in Article 5 of Council Regulation (EC) No 21/2004", "question_type": "condition_or_prerequisite", "anchor": "aid for sheep and goat holdings", "articles_involved": ["2", "32004R0021:5"]}
+  → The payment condition is the TARGET's own rule; the other act's article only says what the checks are. Both are needed, and the other act's article is declared by its "Cite as" key, never by a bare "5".
+✗ Bad (off-target): "What minimum share of sheep and goat holdings must be checked on the spot each year?"
+  → Article 5 of Regulation (EC) No 21/2004 alone answers this. It would retrieve that Regulation, not the target. Discard.
+✗ Bad (wrong anchor): "Under Regulation (EC) No 21/2004, when is the aid paid?"
+  → Anchored on the OTHER act's identifier; a retriever would return that act. Only the target's own identifier may appear, and only in "question_cited".
+
+Example 6 — REAL question-shape failures from a production run on EUR-Lex, and their repairs. Each generated question was grounded, precise and numerically faithful — and still not a question a practitioner would ask.
+
+(a) BOILERPLATE. TARGET Article 2 of Commission Directive 2012/4/EU (amending the directive on identification and traceability of explosives for civil uses): "Member States shall adopt and publish, by 4 April 2012 at the latest, the laws, regulations and administrative provisions necessary to comply with this Directive. …"
+✗ Generated: "By what date did Member States have to adopt and publish the laws, regulations and administrative provisions needed to comply?"
+  → The same clause stands in every directive in the corpus; only an identifier could disambiguate it. Same failure, dressed up: "From what date must Member States apply the compliance measures for the 2014 EU directive on credit agreements for consumers relating to residential immovable property?" (Article 42 of the Mortgage Credit Directive) — a year-and-title paraphrase is not a name anyone uses, and the clause is still boilerplate.
+✓ Output: [{"skip_reason": "transposition clause only"}]
+
+(b) SIBLING TEST. TARGET Article 10 of Commission Directive 2010/43/EU (organisational requirements for UCITS management companies): "… a compliance officer must be appointed and must be responsible for the compliance function and for any reporting on a frequent basis, and at least annually, to the senior management on matters of compliance …"
+✗ Generated: "How often must the compliance officer report to senior management on matters of compliance?"
+  → The MiFID and AIFMD implementing measures contain the same rule in almost the same words; the question fits all three regimes equally.
+✓ {"question": "How often must a UCITS management company's compliance officer report to senior management on compliance matters?", "question_cited": "Under Commission Directive 2010/43/EU, how often must a UCITS management company's compliance officer report to senior management on compliance matters?", "instrument_short_name": null, "answer": "on a frequent basis, and at least annually", "question_type": "monitoring_or_reporting", "anchor": "UCITS management company", "articles_involved": ["10"]}
+
+(c) SIBLING TEST. TARGET Article 98 of Directive 2014/25/EU (procurement by entities in the water, energy, transport and postal services sectors) — Decisions of the jury: "The jury shall examine the plans and projects submitted by the candidates anonymously and solely on the basis of the criteria indicated in the contest notice."
+✗ Generated: "On what basis must the jury assess the submitted plans and projects?"
+  → Word for word the same rule exists in the classic procurement directive of the same year; "the jury" resolves nothing.
+✓ {"question": "In a design contest run by a utilities-sector contracting entity, may the jury assess the projects on criteria that were not stated in the contest notice?", "question_cited": "Under Directive 2014/25/EU, in a design contest run by a utilities-sector contracting entity, may the jury assess the projects on criteria that were not stated in the contest notice?", "instrument_short_name": "Utilities Directive", "answer": "solely on the basis of the criteria indicated in the contest notice", "question_type": "obligation_or_prohibition", "anchor": "design contest run by a utilities-sector contracting entity", "articles_involved": ["98"]}
+
+(d) COLLEAGUE TEST. TARGET Article 9 of Commission Regulation (EU) No 1300/2014 (technical specification for interoperability relating to accessibility of the rail system for persons with reduced mobility) — Advisory body: "The tasks of the advisory body shall include: (a) monitoring the development of a minimum data structure for the inventory of assets, …"
+✗ Generated: "What must the advisory body monitor regarding the inventory of assets?"
+  → Which advisory body? Which inventory? Only a reader of the article can tell.
+✓ {"question": "Which body monitors the development of the minimum data structure for the inventory of assets in the EU rail accessibility TSI for persons with reduced mobility?", "question_cited": "Under Commission Regulation (EU) No 1300/2014, which body monitors the development of the minimum data structure for the inventory of assets in the EU rail accessibility TSI for persons with reduced mobility?", "instrument_short_name": "PRM TSI", "answer": "The tasks of the advisory body shall include: (a) monitoring the development of a minimum data structure for the inventory of assets", "question_type": "definition_actor_or_procedure", "anchor": "EU rail accessibility TSI for persons with reduced mobility", "articles_involved": ["9"]}
+
+(e) COLLEAGUE TEST + INFORMATIVENESS. TARGET Article 23 of Commission Regulation (EC) No 501/2008 (information provision and promotion measures for agricultural products) — Use of material: "The Member States shall check that the information and promotion material produced and used under the programmes financed under this Regulation complies with the Community rules. They shall send the Commission a list of material approved."
+✗ Generated: "What must Member States send the Commission about the material approved?"
+  → "The material approved" presupposes the article, and the answer ("a list of material approved") repeats the question.
+✓ {"question": "Do Member States have to notify the Commission of the information and promotion material for agricultural products that they have approved?", "question_cited": "Under Commission Regulation (EC) No 501/2008, do Member States have to notify the Commission of the information and promotion material for agricultural products that they have approved?", "instrument_short_name": null, "answer": "They shall send the Commission a list of material approved.", "question_type": "monitoring_or_reporting", "anchor": "information and promotion material for agricultural products", "articles_involved": ["23"]}
+
+(f) INFORMATIVENESS. TARGET Article 20 of Regulation (EC) No 1393/2007 (service of judicial and extrajudicial documents in civil or commercial matters): "This Regulation shall, in relation to matters to which it applies, prevail over other provisions contained in bilateral or multilateral agreements or arrangements concluded by the Member States, and in particular Article IV of the Protocol to the Brussels Convention of 1968 and the Hague Convention of 15 November 1965."
+✗ Generated: "In what matters does the 2007 EU regulation on service of judicial and extrajudicial documents prevail over bilateral or multilateral agreements concluded by Member States?"
+  → The answer, "in relation to matters to which it applies", says nothing.
+✓ {"question": "Does the EU regulation on the service of judicial and extrajudicial documents in civil and commercial matters take precedence over the 1965 Hague Service Convention as between Member States?", "question_cited": "Does Regulation (EC) No 1393/2007 on the service of judicial and extrajudicial documents in civil and commercial matters take precedence over the 1965 Hague Service Convention as between Member States?", "instrument_short_name": "Service Regulation", "answer": "This Regulation shall, in relation to matters to which it applies, prevail over other provisions contained in bilateral or multilateral agreements or arrangements concluded by the Member States, and in particular Article IV of the Protocol to the Brussels Convention of 1968 and the Hague Convention of 15 November 1965.", "question_type": "scope_or_applicability", "anchor": "service of judicial and extrajudicial documents in civil and commercial matters", "articles_involved": ["20"]}
+
+(g) INFORMATIVENESS. TARGET Article 61 of Regulation (EU) No 1306/2013 (financing, management and monitoring of the common agricultural policy): "For the purposes of applying the support schemes in the wine sector as referred to in Regulation (EU) No 1308/2013, Member States shall ensure that the administration and control procedures applied to those schemes are compatible with the integrated system referred to in Chapter II of this Title as regards the following elements: (a) the computerised database; (b) the identification systems for agricultural parcels; (c) the administrative checks."
+✗ Generated: "Which support schemes are covered by the compatibility requirement for checks in the wine sector?"
+  → The answer ("the support schemes in the wine sector as referred to in Regulation (EU) No 1308/2013") restates the question's own pointer.
+✓ {"question": "In which respects must the administration and control procedures for wine sector support schemes be compatible with the CAP integrated administration and control system?", "question_cited": "Under Regulation (EU) No 1306/2013, in which respects must the administration and control procedures for wine sector support schemes be compatible with the CAP integrated administration and control system?", "instrument_short_name": null, "answer": "(a) the computerised database; (b) the identification systems for agricultural parcels; (c) the administrative checks", "question_type": "obligation_or_prohibition", "anchor": "wine sector support schemes", "articles_involved": ["61"]}
+
+(h) ANCHOR — regulated product. TARGET Article 1 of Commission Regulation (EU) No 833/2012 (provisional anti-dumping duty on aluminium foil in rolls from China): duty-rate table ending with "All other companies — 35,4 %".
+✗ Generated: "What provisional anti-dumping duty applies to imports made by all other companies?"
+  → Every anti-dumping regulation has an "all other companies" rate.
+✓ {"question": "What is the residual 'all other companies' rate of the provisional anti-dumping duty on aluminium foil in rolls from China?", "question_cited": "Under Commission Regulation (EU) No 833/2012, what is the residual 'all other companies' rate of the provisional anti-dumping duty on aluminium foil in rolls from China?", "instrument_short_name": null, "answer": "35,4 %", "question_type": "amount_or_threshold", "anchor": "provisional anti-dumping duty on aluminium foil in rolls from China", "articles_involved": ["1"]}
+
+(i) ANCHOR — term of art, generated question kept. TARGET Article 2 of Regulation (EC) No 1935/2004 (materials and articles intended to come into contact with food) — Definitions.
+✓ Generated: "What are 'active food contact materials and articles'?" → the term exists only in this regime; it is the anchor and needs no further regime words. Cited rendering: "How does Regulation (EC) No 1935/2004 define 'active food contact materials and articles'?"
+
+Example 7 — the two renderings and the short name
+TARGET Article 8 of Directive 2009/65/EC (UCITS): "The competent authorities shall not grant authorisation to take up the business of management companies until they have been informed of the identities of the shareholders or members, whether direct or indirect, natural or legal persons, that have qualifying holdings and of the amounts of those holdings."
+✗ Generated: "What shareholder or member information must be known before authorisation is granted to a management company?"
+  → "management company" without "UCITS" is a weak anchor (the AIFMD and MiFID regimes impose the same rule on AIFMs and investment firms), and "must be known" hides who must know it.
+✓ {"question": "Before authorising a UCITS management company, what must the competent authorities have been told about its shareholders?", "question_cited": "Under Directive 2009/65/EC, before authorising a UCITS management company, what must the competent authorities have been told about its shareholders?", "instrument_short_name": "UCITS Directive", "answer": "the identities of the shareholders or members, whether direct or indirect, natural or legal persons, that have qualifying holdings and of the amounts of those holdings", "question_type": "condition_or_prerequisite", "anchor": "UCITS management company", "articles_involved": ["8"]}
+
+AUTOVERIFICACIÓN para cada pregunta antes de finalizarla:
+- ANCLAJE: ¿contiene la pregunta — en ambas formulaciones — un anclaje de régimen que no sea un actor genérico? ¿Se consigna en "anchor" la expresión del anclaje exactamente como aparece en la pregunta?
+- PRUEBA DEL ACTO HERMANO: ¿sería esta pregunta, palabra por palabra, una pregunta igual de sensata sobre un acto distinto? Si es así, añade el anclaje o descártala.
+- PRUEBA DEL COLEGA: ¿puede un colega que no ha visto el artículo resolver todos los «el X» de la pregunta?
+- INFORMATIVIDAD: ¿añade la respuesta algo que la pregunta no diga ya?
+- CLÁUSULAS DE ESTILO: ¿es el hecho una cláusula de transposición, de aplicación, de entrada en vigor, de destinatarios, de derogación, de procedimiento de comité o de percepción definitiva? Si es así, omítela.
+- ¿Evita la pregunta versar sobre los metadatos (título del acto, capítulo) en lugar de sobre la sustancia del artículo?
+- LA PRUEBA DEL ARTÍCULO ÚNICO: ¿podría responderse esto por completo a partir de un artículo referenciado por sí solo? Si es así, descártala — no es una pregunta sobre el artículo objetivo.
+- ¿La sustancia de la respuesta está íntegramente presente en el texto facilitado — el artículo objetivo, o el objetivo más un artículo referenciado facilitado?
+- ¿Enumera "articles_involved" exactamente los artículos necesarios, ni más ni menos? ¿Está el artículo objetivo en la lista? ¿Se designan los artículos de otros actos, y todos los anexos, por su clave «Cite as», nunca por un número escueto?
+- FORMULACIONES: ¿está "question" libre de todo identificador de instrumento, número CELEX, clave «Cite as» y número de artículo/párrafo/anexo? ¿Contiene "question_cited" exactamente el identificador del acto OBJETIVO, copiado de la línea «Act:», y por lo demás las mismas palabras? ¿Es "instrument_short_name" un nombre de uso establecido, o null?
+- ¿La pregunta solicita exactamente un elemento de información?
+- ¿Se reproducen todos los números, fechas, importes, porcentajes e identificadores oficiales exactamente como en la fuente?
+- ¿Podría alguien que nunca ha visto este documento formular esta pregunta? Sin deixis, sin números de artículo como si estuvieran a la vista.
+- ¿Cubren las preguntas hechos distintos y al menos dos categorías de QUÉ PREGUNTAR?
+
+SALIDA (solo JSON válido, sin markdown):
+[
+  {"question": "...", "question_cited": "...", "instrument_short_name": "... or null", "answer": "...", "question_type": "...", "anchor": "...", "articles_involved": ["..."]},
+  {"question": "...", "question_cited": "...", "instrument_short_name": "... or null", "answer": "...", "question_type": "...", "anchor": "...", "articles_involved": ["..."]},
+  {"question": "...", "question_cited": "...", "instrument_short_name": "... or null", "answer": "...", "question_type": "...", "anchor": "...", "articles_involved": ["..."]}
+]
+Devuelve hasta tres entradas — menos si son menos las que superan todas las pruebas. Si el artículo objetivo consiste únicamente en cláusulas de estilo, o no admite ninguna pregunta que supere las pruebas, devuelve exactamente: [{"skip_reason": "<una frase breve>"}]
+- answer: el segmento más corto que responde de forma completa y directa a la pregunta — en una pregunta de sí o no, el segmento más corto que la resuelve. Estrictamente basado en el texto facilitado.
+- question_type: uno de scope_or_applicability, obligation_or_prohibition, condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting, enforcement_or_consequence, definition_actor_or_procedure.
+- anchor: la expresión del anclaje de régimen, exactamente como aparece en la pregunta.
+- articles_involved: lista de las disposiciones necesarias para responder, incluyendo siempre el artículo objetivo — números escuetos para los artículos del acto propio del objetivo, claves «Cite as» para los artículos de otros actos y para TODOS los anexos (incluso los del acto propio del objetivo). Ejemplo: ["6"], ["1", "6"], ["6", "32004R0021:5"] cuando se ha utilizado un artículo de otro acto, o ["6", "32019R0904:anx_1"] cuando se ha utilizado un anexo.
+
+El artículo objetivo y los artículos referenciados se facilitan en tu idioma de salida, el español, y también en inglés. Cuando ambas versiones están presentes, no son dos disposiciones distintas, sino la misma: utiliza la versión en tu idioma de salida para la redacción y la terminología, y la versión inglesa como lectura de referencia. Esto no cambia tu idioma de salida, que está declarado más arriba. Esta es la entrada:

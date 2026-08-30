@@ -253,8 +253,12 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "mode": target.mode,
             "question": candidate.question,
             "answer": candidate.answer,
-            "question_type": candidate.classification if target.mode != "semantic" else "",
-            "framing": candidate.classification if target.mode == "semantic" else "",
+            "question_type": candidate.classification,
+            # Mode-specific columns, empty in the mode that does not emit them.
+            "question_cited": candidate.question_cited,
+            "instrument_short_name": candidate.instrument_short_name,
+            "anchor": candidate.anchor,
+            "particulars": gen.PARTICULAR_SEP.join(candidate.particulars),
             "articles_involved": ",".join(candidate.articles_involved),
             "articles_involved_eli": ",".join(candidate.involved_elis),
             "multi_article": candidate.multi_article,
@@ -278,7 +282,10 @@ FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           "n_annex_available", "annex_references_supplied",
           "annex_references_dropped",
           "reference_complete", "cites_annex", "question_language", "mode",
-          "question", "answer", "question_type", "framing",
+          "question", "answer", "question_type",
+          # ``lookup`` fills question_cited/instrument_short_name/anchor;
+          # ``fact_pattern`` fills particulars. The unused ones stay empty.
+          "question_cited", "instrument_short_name", "anchor", "particulars",
           "articles_involved", "articles_involved_eli", "multi_article",
           "cross_act", "rejected_involved", "faith_grounding", "faith_precision",
           "faith_numerical_fidelity", "qual_overall", "total_score")
@@ -290,10 +297,10 @@ def main() -> None:
     parser.add_argument("--keep", type=int, default=3,
                         help="candidates written to the all-candidates file")
     # The production configuration: all four corpus languages (zh is skipped
-    # on purpose -- no EUR-Lex zh versions exist, so we do not ask in it), all
-    # three prompt modes, gpt-5.4-mini generating and Sonnet grading.
+    # on purpose -- no EUR-Lex zh versions exist, so we do not ask in it), both
+    # prompt modes, gpt-5.4-mini generating and Sonnet grading.
     parser.add_argument("--languages", default="en,fr,de,es")
-    parser.add_argument("--modes", default="technical,semantic,descriptive")
+    parser.add_argument("--modes", default=",".join(gen.MODES))
     parser.add_argument("--gen-model", default="gpt-5.4-mini")
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
     parser.add_argument("--max-references", type=int, default=ctx.DEFAULT_MAX_REFERENCES)

@@ -25,7 +25,7 @@ pack forbids precisely what this flow now wants -- see that package's README.
 
 Usage:
     python -m clir_bench.domains.legal.qac.eurlex_generate --celex 32009R1223 \
-        --article 25 --mode technical --language en --dry-run
+        --article 25 --mode lookup --language en --dry-run
 """
 
 from __future__ import annotations
@@ -33,7 +33,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Mapping, Sequence
 
 from clir_bench.core.prompts import PromptPack
@@ -42,9 +42,19 @@ from clir_bench.domains.legal.qac.env import load_env
 
 PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_eurlex")
 
-MODE_TECHNICAL = "technical"
-MODE_SEMANTIC = "semantic"
-MODE_DESCRIPTIVE = "descriptive"
+# The two practitioner modes. Both are fact-extraction modes and share the
+# technical quality columns; they differ in how the question reaches the act.
+# ``lookup`` names the regime and carries a second, identifier-bearing rendering
+# of the same question; ``fact_pattern`` describes a situation and never cites
+# anything at all. Nothing else is generated for EUR-Lex.
+MODE_LOOKUP = "lookup"
+MODE_FACT_PATTERN = "fact_pattern"
+MODES = (MODE_LOOKUP, MODE_FACT_PATTERN)
+
+# ``particulars`` are phrases that routinely contain commas ("40 tonnes placed
+# on the Spanish market last year"), so they cannot share the comma join the
+# article lists use.
+PARTICULAR_SEP = "|"
 
 
 @dataclass
@@ -58,11 +68,58 @@ class Candidate:
     multi_article: bool
     # True when an article of ANOTHER act (a ``CELEX:number`` token) was used.
     cross_act: bool = False
+    # ``lookup`` only: the same question with the TARGET act's identifier
+    # inserted, that act's conventional short name, and the regime anchor.
+    question_cited: str = ""
+    instrument_short_name: str = ""
+    anchor: str = ""
+    # ``fact_pattern`` only: the concrete facts the situation was built from.
+    particulars: list[str] = field(default_factory=list)
+
+
+def _short_name(value: Any) -> str:
+    """``instrument_short_name`` is null unless a conventional name is in use.
+
+    JSON ``null`` arrives as ``None``, but a model that is told to write "null"
+    sometimes writes the *string*; both mean "no established short name".
+    """
+    if value is None:
+        return ""
+    text = str(value).strip()
+    return "" if text.lower() in {"", "null", "none"} else text
+
+
+def is_skip(data: Any) -> bool:
+    """True when the model declined the article, e.g. ``[{"skip_reason": ...}]``.
+
+    Both prompts answer a boilerplate-only article with a single ``skip_reason``
+    object rather than padding out three questions. That is a correct outcome,
+    not a parse failure, and callers must be able to tell the two apart.
+    """
+    items = [data] if isinstance(data, Mapping) else list(data or [])
+    return bool(items) and all(
+        isinstance(item, Mapping) and item.get("skip_reason") and not item.get("question")
+        for item in items)
+
+
+def skip_reason(data: Any) -> str:
+    """The phrase the model gave for declining, or ``""`` if it did not."""
+    items = [data] if isinstance(data, Mapping) else list(data or [])
+    for item in items:
+        if isinstance(item, Mapping) and item.get("skip_reason"):
+            return str(item["skip_reason"]).strip()
+    return ""
 
 
 def parse_candidates(data: Any, payload: ctx.GenerationPayload,
                      mode: str) -> list[Candidate]:
-    """Validate the model's JSON, including the new ``articles_involved`` field."""
+    """Validate the model's JSON, including the ``articles_involved`` field.
+
+    ``mode`` selects which of the two prompts' extra fields are read, so a field
+    belonging to the other mode cannot leak into a row: ``lookup`` carries
+    ``question_cited`` / ``instrument_short_name`` / ``anchor``, ``fact_pattern``
+    carries ``particulars``.
+    """
     if isinstance(data, Mapping):
         data = [data]
     out: list[Candidate] = []
@@ -73,12 +130,14 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
         answer = str(item.get("answer", "")).strip()
         if not question or not answer:
             continue
-        key = "framing" if mode == MODE_SEMANTIC else "question_type"
         involved, rejected = ctx.normalise_involved(item.get("articles_involved"), payload)
+        raw_particulars = item.get("particulars")
+        if isinstance(raw_particulars, str):
+            raw_particulars = [raw_particulars]
         out.append(Candidate(
             question=question,
             answer=answer,
-            classification=str(item.get(key, "other")).strip(),
+            classification=str(item.get("question_type", "other")).strip(),
             articles_involved=involved,
             involved_elis=ctx.involved_elis(involved, payload),
             rejected_involved=rejected,
@@ -88,6 +147,14 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
             cross_act=any(":" in token
                           and not token.startswith(payload.target.celex_id + ":")
                           for token in involved),
+            question_cited=(str(item.get("question_cited", "")).strip()
+                            if mode == MODE_LOOKUP else ""),
+            instrument_short_name=(_short_name(item.get("instrument_short_name"))
+                                   if mode == MODE_LOOKUP else ""),
+            anchor=(str(item.get("anchor", "")).strip()
+                    if mode == MODE_LOOKUP else ""),
+            particulars=([str(x).strip() for x in (raw_particulars or []) if str(x).strip()]
+                         if mode == MODE_FACT_PATTERN else []),
         ))
     return out
 
@@ -120,7 +187,13 @@ def rows_for(payload: ctx.GenerationPayload, candidates: Sequence[Candidate], *,
         "mode": mode,
         "question": c.question,
         "answer": c.answer,
-        ("framing" if mode == MODE_SEMANTIC else "question_type"): c.classification,
+        "question_type": c.classification,
+        # Mode-specific columns. Each is empty in the mode that does not emit it,
+        # so both modes share one schema and one CSV.
+        "question_cited": c.question_cited,
+        "instrument_short_name": c.instrument_short_name,
+        "anchor": c.anchor,
+        "particulars": PARTICULAR_SEP.join(c.particulars),
         # The deliverable: which articles a reader needs. One entry means the
         # target alone; more means the answer crossed a resolved cross-reference.
         "articles_involved": ",".join(c.articles_involved),
@@ -143,8 +216,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--celex", required=True)
     parser.add_argument("--article", required=True, help="target article number")
-    parser.add_argument("--mode", default=MODE_TECHNICAL,
-                        choices=[MODE_TECHNICAL, MODE_SEMANTIC, MODE_DESCRIPTIVE])
+    parser.add_argument("--mode", default=MODE_LOOKUP, choices=list(MODES))
     parser.add_argument("--language", default="en")
     parser.add_argument("--max-references", type=int, default=ctx.DEFAULT_MAX_REFERENCES)
     parser.add_argument("--model", default="gpt-5-mini")
