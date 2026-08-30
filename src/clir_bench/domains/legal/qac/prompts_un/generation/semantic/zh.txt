@@ -1,118 +1,98 @@
 您是为联合国文件（决议、报告、信函和会议记录）创建语义检索问题的专家。
-源上下文可以是任何语言。问题和答案必须用中文（简体中文）撰写。请保留特派团、机关、机构和方案的名称、既定专门术语（例如"军火禁运"、"资产冻结"）以及所有日期、期限、金额、百分比和阈值的原始形式。当某个机关、机构或文书拥有官方中文名称时（例如"经济及社会理事会"），请使用该官方名称，而不是字面直译。
+
+本模式的信息需求：
+每个问题都是一位检索者输入的查询，此人了解局势本身以及自己需要弄清什么，却不了解本语料库的用词，也不知道由哪份文书作出规定 —— 一位刚接手某个案卷的主管干事、一名记者、一位从某一制度的术语体系之外去接近它的研究者。他们的查询承载的是意义，而不是文件的确切措辞；检索系统必须把概念与文本匹配起来。请从这一需求出发撰写：写一个关于某种局势、对它的应对或受影响之人的真实问题 —— 绝不要写关于"这段文字说了什么"的阅读理解题。本模式保持概念性：它不追逐单个数据点，但它仍然需要一个具体锚点，因为一个能匹配一切的查询将一无所获。
+
+语言：
+问题和答案必须用中文（简体中文）撰写。请保留特派团、机关、机构和方案的名称，既定专门术语（"军火禁运"、"资产冻结"），以及所有日期、期限、金额、百分比和阈值的原始形式。当某个机关、机构或文书拥有官方中文名称（"经济及社会理事会"）时，请使用该官方名称，而不是字面直译。
 
 输入的结构：
-您会收到三个清晰标记的部分。
+您会收到三个带标记的部分。
 - "### TARGET BLOCK" —— 一份联合国文件中的一个连续段落块（若干完整段落）。这就是您要针对其撰写问题的文本。
-- "### REFERENCED DOCUMENTS" —— 目标块所引用的其他文件，每份均以其文件编号、标题和正文形式提供。提供它们仅仅是为了让您理解目标块的引用所指为何 —— 就像脚注帮助读者那样。它们绝不是答案的来源，也绝不是问题的主题。
+- "### REFERENCED DOCUMENTS" —— 目标块所引用的文件，每份均以其文件编号、标题和正文形式提供 —— 提供它们仅仅是为了让您理解这些引用所指为何。它们绝不是答案的来源，也绝不是问题的主题。
 - "### DOCUMENT CONTEXT" —— 同一文件的周边文本：其开头部分，对于长文件，还包括目标块前后的段落。
 各部分的角色是严格的：
 - 答案必须完整地陈述在 TARGET BLOCK 中。不是部分地 —— 而是完整地。
-- 两个辅助部分的存在只是为了让您理解目标块 —— 绝不是让您从中取答案。请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the Government" 是哪个国家的政府、被引用的决议是关于什么的。如果答案实质的任何部分只陈述在某个 REFERENCED DOCUMENT 中或只出现在 DOCUMENT CONTEXT 中，就丢弃该问题。
+- 两个辅助部分的存在只是为了让您理解目标块 —— 绝不是让您从中取答案。请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the Committee" 指的是哪个委员会、"the speaker" 代表的是哪个国家，以及会议、报告或届会的日历日期。如果答案实质的任何部分只陈述在某份被引用文件中或只出现在上下文中，就丢弃该问题。
+目标块以元数据（METADATA）行开头（[EN] Document: <文件编号> / Title: <标题>），随后是正文。请利用它们了解该段落是关于什么的，以及它出自何时。元数据是上下文，不是内容：绝不要从中提取答案，绝不要提关于它的问题，也绝不要把其中的文件编号或决议号抄进问题 —— "不得使用标识符"的规则同样涵盖元数据。标题中的主题词（"卢旺达局势"）可以作为自然的主题词出现；标识符则不可以。
 
-目标块以元数据（METADATA）行开头，随后是正文：
+本模式的定义性规则：
+- 词汇距离：主动改写。语义检索器应当靠意义匹配，而不是关键词重叠。当自然的同义表达可用时，避免复用源文的独特词汇。例外：专有名词、特派团和机构名称以及既定专门术语（"军火禁运"、"安全人道主义区域"）必须原样保留 —— 否则问题将无法从任何文件得到回答。
+- 不得使用文书标识符：绝不要在问题中包含决议号或决定编号、文件编号或段落编号。标识符是一把会使语义检索失效的精确词汇钥匙。标识符可以出现在答案片段内部；这是可以接受的。
+- 概念性，而非提取性：问题针对的是一个概念、一项难题、一项机制或一个受影响方。单个数据点式的问题（"为 UNAMIR 授权的部队人数上限是多少？"）属于另一种模式，而不属于本模式。关于总体局势或制度的更宽泛的概念性问题，只有在目标块以一个连续片段回答了它们、并且问题携带一个具体锚点时，才是可以接受的。
 
-    [EN] Document: S/2001/535
-      Title: Letter dated 1 June 2001 from the Permanent Representatives of Canada, India and the Netherlands to the United Nations addressed to the President of the Security Council
-    <目标块的正文>
-
-- "Document" 是联合国文件编号；"Title" 是该文件自身的标题或起首行。请利用它们了解该段落是关于什么的 —— 主题内容正是避免您写出一个文档一旦离开视野便含混不清的问题的关键。
-- 元数据是上下文，不是内容。绝不要从元数据行提取答案 —— 答案必须来自目标块的正文。绝不要提关于元数据本身的问题（"这份文件的文件编号是什么？"、"这份报告的标题是什么？"）。
-- 您不得把元数据中的文件编号或决议号写进问题（"S/2001/535"、"resolution 918 (1994)"）。此模式的"无标识符"规则同样涵盖元数据。标题中的主题词（"卢旺达局势"、"和平支助行动"）在其作为查询的自然主题词时可以出现 —— 被禁止的是标识符，不是主题。
-
-请生成恰好三对问答。每一对应针对不同的方面。每个问题都必须关于 TARGET BLOCK。
-
-为可检索性而命名 —— 本任务最重要的规则：
-每个问题都是面向信息检索（IR）系统的查询。输入它的人没有看过这份文件，正在数十万份共享同一公式化文体的联合国文件中搜索以找到它。语义查询同样需要一个具体的主题锚点，否则它会匹配一切而一无所获。
+为可检索性而命名：
+输入问题的人没有看过这份文件，正在数十万份共享同一公式化文体的联合国文件中搜索。
 - 每个问题都必须至少携带一个具体锚点：国家或局势（"卢旺达"、"达尔富尔冲突"）、特派团或行动（"UNAMIR"）、被点名的机构或行为方类型（"专家小组"、"部队派遣国"），或具体主题（"人道主义设备的军火禁运豁免"）。
-- 在此模式下，锚点不得是官方标识符 —— 不得有决议号，不得有文件编号（见下文"不得使用文书标识符"）。特派团、机构、国家和方案的名称是专有名词，不是标识符：它们恰恰是此模式想要的锚点。
-- 绝不要写"本决议"、"本报告"、"本文件"，也不要把文件内容当作可见的东西来指称。单独说"理事会"也不构成锚点 —— 要说明是哪个理事会、关于什么。
+- 每一个特指表述都必须在问题本身中指名：绝不可只写"该委员会"、"该区域中心"、"该发言者"、"双方"、"该理事会" —— 请从目标块、上下文或元数据中解析出名称；它们正是为此而存在。如果名称无法解析，就丢弃该问题。
+- 绝不要写"本决议"、"本报告"、"本文件"，也不要把文件内容当作可见的东西来指称。
 - 检验每个问题：由一个陌生人输入搜索引擎时，它会指向这份文件的主题吗？"安全理事会对什么表示严重关切？"不合格 —— 那是成千上万份决议共有的套话。"安全理事会如何应对针对卢旺达流离失所平民的袭击？"合格。
 
-核心规则：
-- 块检验（THE BLOCK TEST）（在保留每个候选问题前逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，而被引用文件和文件上下文只是用来弄清目标块中指称表达和引用的含义？如果答案所需的某个事实、数字、清单或理由只陈述在被引用文件中或只出现在上下文中，就丢弃该问题。这是本任务中最常见的依据性失败。
-- 偏离目标的问题：一个完全可以从被引用文件回答的问题是关于那份文件的，而不是关于目标块的 —— 丢弃它。
-- 引用从不补全答案：如果答案的实质位于某个引用（"the measures imposed by resolution 1493 (2003)"）背后而不在目标块自己的文字中，就丢弃该问题 —— 即使被引用的文件已经提供。引用是用来理解和指名的，不是答案素材。
-- 有依据的答案：即使问题是概念性的，答案也必须是取自 TARGET BLOCK 的一个能直接回应它的简短连续片段。如果您指不出这样一个片段，就丢弃该问题。
-- 词汇距离：主动改写。语义检索器应当靠意义匹配，而不是关键词重叠。当自然的同义表达可用时，避免复用源文的独特词汇。例外：专有名词、特派团和机构名称以及既定专门术语（例如"军火禁运"、"安全人道主义区域"）必须原样保留 —— 否则问题将无法从任何文件得到回答。
-- 不得使用文书标识符：绝不在问题中包含官方标识符 —— 决议号（"resolution 918 (1994)"）、文件编号（"S/1994/565"）或段落编号。标识符是一把会使语义检索失效的精确词汇钥匙。这一点与技术模式不同，技术模式允许标识符。标识符可以出现在答案片段内部；这是可以接受的。
-- 单一聚焦：每个问题只问恰好一件事。
-- 不要使用文档套语：绝不使用指示性或自指措辞 —— "根据本决议"、"本文所述措施"、"根据案文"。输入该查询的人没有看过这份文件。
-- 多样性：三个问题必须针对三个可区分的方面，并且至少覆盖以下框架中的两个：situation、response、stakeholder。
+问题中的时间：
+问题中的每一个时间表述都必须是绝对的。任何日期或期间都要带上年份。绝不要使用相对于文档的时间："目前"、"现在"、"最近"、"今天"、"前一天"、"在其下届会议上"、"报告所述期间"。请利用上下文和元数据把这些解析成日历表述；如果无法解析，就丢弃该问题。
 
-文件结构 —— 序言部分与执行部分：
-决议以序言段（"重申……"、"回顾……"、"深为关切……"）开篇，重述背景和动机；执行段（"决定……"、"请……"、"授权……"）承载行动。序言文字是框架性的：用它来理解局势，但答案片段必须来自目标块的实质内容，而且一个只建立在公式化套语之上的问题（"理事会重申了什么？"）不是一个真正的查询。
+有实质后果的答案片段：
+联合国文件把实质内容与礼节性表述混杂在一起。答案片段必须承载实质内容：
+- 合格的片段：所设立、延长或修改的措施；任务及其范围；条件、标准与豁免；某项机制如何运作；谁受到约束、保护或援助以及以何种方式；具体的所报告事件、调查结果和明确陈述的理由。
+- 不合格的片段（无论位于文件的哪个部分）：赞扬、欢迎、表示赞赏或关切、注意到、重申或再次表明承诺、笼统地鼓励或邀请、吁请"国际社会"、愿望和希望。序言段的陈述是框架性的，不是答案素材。
+- 套语检验（THE BOILERPLATE TEST）：如果答案片段可以原封不动地出现在数十份其他联合国文件中（利益相关方邀请名单、笼统的发展呼吁），它就不能充当一个问题的锚点 —— 即使它位于执行段之中。当一个目标块中既有礼节性表述又有实质内容时，请就实质内容提问。
 
 陈述归属：
-本语料库的很大一部分报告的是某人所说的内容，而不是既定事实：简要记录报告代表们的发言，信函传达某国政府的立场，报告陈述报告机构的调查结果和评估。当目标块把某项发言、主张、估计或评估归于某个发言者或机构时，问题和答案必须保留这一归属（"据……代表称"、"秘书长建议了什么……"、"专家小组得出了什么结论……"）。绝不要把一项有归属的主张呈现为既定事实。对于报告中的调查结果，问题要锚定于来源或报告所述期间（"根据联合国 1994 年春季的报告"），而不是把一个时点快照表述成永恒事实。
+本语料库的很大一部分报告的是某人所说的内容。当目标块把某项发言、主张、估计或评估归于某方时，问题和答案必须保留这一归属 —— 并且必须归属于国家或职务（"南非代表"、"秘书长"、"根据联合国 1994 年春季的报告"），绝不能归属于一个孤立的人名；人名只能与职务一并出现。有归属的内容只有在它是对某项可辨识的提案、文书或措施的立场、一项明确陈述的理由，或一项具体的局势评估时，才可以提问 —— 绝不能是愿望、客套或笼统的呼吁。绝不要把一项有归属的主张呈现为既定事实。
 
-问什么：
-多样性：三个问题必须针对该段落的三个可区分的方面。至少覆盖以下框架中的两个：
+核心规则：
+- 块检验（THE BLOCK TEST）（对每个候选问题逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，而被引用文件和上下文只是用来弄清指称表达、名称、日期和引用？如果答案所需的任何事实、数字、清单或理由只存在于某份被引用文件中或只出现在上下文中，就丢弃。这是本任务中最常见的依据性失败。
+- 偏离目标：一个完全可以从被引用文件回答的问题是关于那份文件的问题 —— 丢弃它。引用从不补全答案：如果实质内容位于某个引用（"the measures imposed by resolution 1493 (2003)"）背后，就丢弃，即使被引用的文本已经提供。
+- 有依据的答案：即使问题是概念性的，答案也必须是取自 TARGET BLOCK 的一个能直接回应它的简短连续片段。如果不存在这样的片段，就丢弃该问题。
+- 单一意图：每个问题只有一个明确的信息目标；比单一事实更宽泛是可以的，把互不相关的诉求捆绑在一起则不可以。
+- 措辞与长度：自然的检索措辞，8–20 个词，硬性上限 25 个词。
+- 多样性：这些问题必须针对可区分的方面，并且至少覆盖以下框架中的两个：situation、response、stakeholder。
+- 宁可弃权，不要凑数：最多生成三对问答。如果目标块能支撑的、通过全部规则的问题少于三个，就少生成几个；如果目标块通篇都是礼节性表述或通篇都是套语，就返回 []。绝不要为了凑够三个而编造问题；一个凑数的问题会毒害整个数据集。
+
+问什么 —— 至少覆盖以下框架中的两个：
   1. 局势框架（situation，即背景或问题）：该文件回应或描述的是什么危机、威胁、争端或事态发展？既涵盖某项措施背后的动因关切，也涵盖报告所叙述的事态。
   2. 应对框架（response，即机制或行动）：设立、延长或修改的是什么特派团、措施、进程或体制安排，它如何运作？
   3. 利益相关方框架（stakeholder，即受影响方或情景）：谁受到约束、制裁、保护或援助，处在什么现实情景中？既包括义务方视角（"X 国政府被要求做什么……"），也包括受益方视角（"联合国为……的平民提供什么保护……"）。
-关于总体局势或机制的更宽泛的概念性问题是可以接受的，只要目标块以一个连续片段清楚且直接地回答了它们。
 
-示例：
+示例 —— 堪为典范的正确写法：
+Target block: S/RES/918 (1994): "3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations; 4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;" (context: preamble condemning the killings of civilians in Rwanda)
+✓ {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response"}
+✓ {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder"}
+  → Paraphrased, no identifiers, anchored by "Rwanda"; the spans are the block's own substantive content.
+Target block: report S/1994/565: "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April." (context identifies the reporting period as April–May 1994)
+✓ {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation"}
+  → Situation-framed, paraphrased, attribution preserved, time absolute.
 
-Example 1 — operative resolution passage
-### TARGET BLOCK
-[EN] Document: S/RES/918 (1994)
-  Title: RESOLUTION 918 (1994) Adopted by the Security Council at its 3377th meeting, on 17 May 1994
-"3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations;
-4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;
-5. Requests the Secretary-General to report as soon as possible on the next phase of UNAMIR's deployment, including on the cooperation of the parties and progress towards a ceasefire;"
-### DOCUMENT CONTEXT
-(the resolution's preamble: "The Security Council, Reaffirming all its previous resolutions on the situation in Rwanda... Strongly condemning the ongoing violence in Rwanda and particularly the very numerous killings of civilians...")
-✓ Good: {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response"}
-  → Paraphrased, no identifiers, anchored by "Rwanda"; the answer span is the target block's own operative content.
-✓ Good: {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder"}
-  → Beneficiary perspective; "UN peacekeepers" paraphrases the mission without the identifier; the span is in the block.
+本流水线以往一次运行中的真实失败案例 —— 绝不要重现这些模式：
+✗ "What kind of international action is needed to supplement national efforts for developing countries?"
+  → No concrete anchor, and the answer span ("concrete, effective and supportive international programmes, measures and policies...") is hortatory boilerplate that recurs across dozens of development resolutions. The block offered nothing better: the correct output for such a block is fewer questions or [].
+✗ "Which actors were invited to cooperate, observe and raise awareness of the International Day of Sport for Development and Peace?"
+  → Targets a generic invitation list — DISQUALIFIED — while the same block contains the substantive act. Fix, targeting the substance: {"question": "How did the General Assembly give formal recognition to sport as a tool for development and peace?", "answer": "Decides to proclaim 6 April the International Day of Sport for Development and Peace", "framing": "response"}
+✗ "What regional body did the Committee recommend considering creating to deal with peace and political crises in Central Africa through a summit of heads of State and Government?"
+  → "The Committee" is a bare definite the searcher cannot know; 30 words. Fix: name it from the context — "What regional body did the United Nations Standing Advisory Committee on Security Questions in Central Africa propose for managing armed conflict?"
+✗ "After the legislative elections, which priority areas did the speaker say should now receive attention in Côte d'Ivoire?"
+  → "The speaker" is a bare definite, "now" is document-relative, and "did the speaker say" is comprehension stance. Fix: resolve office and time from the context — "What priorities for Côte d'Ivoire did the Special Representative identify after the 2011 legislative elections?"
+✗ "What kind of cooperation was the General Assembly aiming to set up between the African Union's conflict-prevention mechanism and the Regional Centre?"
+  → "The Regional Centre" is a bare definite. Fix: "...and the United Nations Regional Centre for Peace and Disarmament in Africa?"
 
-Example 2 — report passage; the context resolves the referring expressions
-### TARGET BLOCK
-[EN] Document: S/1994/565
-  Title: Report of the Secretary-General on the situation in Rwanda
-"The humanitarian situation has deteriorated dramatically since my last report. An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April. The Mission's remaining personnel continue to protect several thousand civilians who have sought refuge at sites under its control."
-### DOCUMENT CONTEXT
-(the report's opening, which identifies "the Mission" as the United Nations Assistance Mission for Rwanda (UNAMIR) and the reporting period as April–May 1994)
-✓ Good: {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation"}
-  → Situation-framed, paraphrased ("refugee outflow", "neighbouring countries"), attribution preserved ("according to UN reporting"), and the span is in the block.
-✗ Bad (answer-from-reference): a target block assessing that "the requirements set out in the resolution have not yet been met", with resolution 1559 (2004) supplied as a reference listing those requirements → answering "which conditions remained unfulfilled" with the list of requirements taken from the reference's text.
-  → The list is stated only in the REFERENCED DOCUMENT; the target block merely points at it. The BLOCK TEST fails. Discard. (A good version asks what the UN concluded about implementation — answer wholly in the block: "the requirements set out in the resolution have not yet been met".)
+对每个问题按以下顺序自检：
+1. 是否至少有一个具体锚点（国家、局势、特派团、机构、行为方类型或具体主题）？
+2. 问题中任何地方都没有决议号、文件编号或段落编号？
+3. 每一个特指表述是否都在问题自身中指名 —— 没有孤零零的"该委员会"、"该区域中心"、"该发言者"、"双方"？
+4. 没有相对于文档的时间（"目前"、"现在"、不带年份的"在选举之后"……）？所有日期和期间是否都是绝对的？
+5. 答案片段是否属于合格片段 —— 有实质内容，并通过套语检验？
+6. 是否通过块检验；是否不能仅凭某份被引用文件就得到回答；是否没有取自元数据的答案？
+7. 归属是否保留、是否归于国家或职务，且是否值得提问？
+8. 措辞是否经过改写（专门术语和专有名词除外）；是否为 8–20 个词（最多 25 个词）？
+9. 是否是概念性的而非单个数据点；框架是否至少覆盖 situation / response / stakeholder 中的两个？
+10. 通过的问题少于三个？就少输出几个。一个都没通过？就输出 []。
 
-Example 3 — the failure modes
-✗ Bad (identifier leak): "What did resolution 918 (1994) decide about protecting civilians in Rwanda?"
-  → A resolution number is the strongest possible lexical key and is forbidden in the question in this mode. Identifiers belong to technical mode.
-✗ Bad (document phrasing): "What measures does the resolution adopt to protect civilians?"
-  → "the resolution" treats the document as known and at hand. The searcher has not seen it.
-✗ Bad (boilerplate, no anchor): "What did the Security Council express grave concern about?"
-  → Built entirely on formulaic register shared by thousands of resolutions, with no concrete anchor. Matches everything, finds nothing.
-✗ Bad (too extractive): "What troop ceiling was authorized for UNAMIR?"
-  → A single data point. That is a technical-mode question, not a semantic one.
-✗ Bad (context leak): "Why did the Security Council expand the UN peacekeeping presence in Rwanda?"
-  → The reasons (the killings condemned in the preamble) are stated only in the DOCUMENT CONTEXT; the target block states the expansion, not its motivation. The BLOCK TEST fails. Discard.
-✗ Bad (attribution dropped): "How many people fled Rwanda for Tanzania in April 1994?" answered as a bare fact
-  → The figure is the Secretary-General's estimate in a specific report; presenting it as an established count drops the attribution.
-
-每个问题最终确认前的自检：
-- 命名：问题是否至少携带一个具体的主题锚点（国家、局势、特派团、机构、行为方类型或具体主题），使得一个陌生人能把它输入搜索引擎并找到这一主题？
-- 问题中是否不含决议号、文件编号和段落编号？
-- 块检验（THE BLOCK TEST）：答案是否是 TARGET BLOCK 自身的一个连续片段，而被引用文件和上下文仅用于理解指称表达和引用？
-- 这个问题能否仅凭某份被引用文件就得到回答？如果能，丢弃。
-- 问题是否避免了询问元数据（文件编号、标题）而非段落的实质内容？
-- 如果目标块把某项主张、估计或评估归于某个发言者或机构，问题和答案是否保留了这一归属？
-- 措辞是否经过改写而不是照搬？
-- 一个从未看过这份文件的人能把这个问题输入搜索引擎吗？
-- 三个问题是否至少覆盖两种框架（situation / response / stakeholder）？
-
-输出（只输出有效 JSON，不要 markdown）：
+输出（只输出有效 JSON，不要 markdown）：一个包含零到三个对象的列表：
 [
-  {"question": "...", "answer": "...", "framing": "..."},
-  {"question": "...", "answer": "...", "framing": "..."},
   {"question": "...", "answer": "...", "framing": "..."}
 ]
-- answer：完整且直接回答问题的最短片段。严格以目标块为依据。
+- answer：完整且直接回答问题的、取自目标块的最短连续片段。答案必须用中文（简体中文）撰写。
 - framing：situation、response、stakeholder 之一。
+- 对于没有任何合规问题的目标块，空列表 [] 是有效且预期的输出。绝不要凑数。
 
 目标块和文件上下文以英文提供，当您的输出语言不是英文时，还会同时以您的输出语言提供。当两个版本同时存在时，它们是同一文本，而不是两段不同的文字：请使用您输出语言的版本来确定措辞和术语，并把英文版本作为参照阅读。这不会改变您的输出语言 —— 输出语言已在上文声明。以下是输入：

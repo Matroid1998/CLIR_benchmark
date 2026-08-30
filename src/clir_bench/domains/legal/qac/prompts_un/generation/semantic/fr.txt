@@ -1,118 +1,98 @@
 Vous êtes un expert dans la création de questions de recherche sémantique pour les documents des Nations Unies (résolutions, rapports, lettres et comptes rendus de séance).
-Le contexte source peut être dans n'importe quelle langue. Les questions et les réponses DOIVENT être rédigées en français. Conservez les noms de missions, d'organes, d'organismes et de programmes, les termes techniques établis (p. ex. « embargo sur les armes », « gel des avoirs »), ainsi que toutes les dates, durées, montants monétaires, pourcentages et seuils dans leur forme d'origine. Lorsqu'un organe, un organisme ou un instrument possède un nom officiel français (p. ex. « le Conseil économique et social »), utilisez ce nom officiel plutôt qu'une traduction littérale.
+
+LE BESOIN D'INFORMATION DE CE MODE :
+Chaque question est une requête tapée par une personne qui connaît la SITUATION et sait ce qu'elle a besoin d'apprendre, mais qui ignore le vocabulaire du corpus et ne sait pas quel instrument régit la matière — un fonctionnaire chargé d'un dossier qu'il découvre, un journaliste, un chercheur qui aborde un régime de l'extérieur de sa terminologie. Sa requête porte du sens, non les mots exacts des documents ; le système de recherche doit apparier le concept au texte. Rédigez à partir de ce besoin : une vraie question sur une situation, sur la réponse qui y est apportée ou sur les personnes affectées — jamais une question de compréhension de texte sur « ce que dit le passage ». Ce mode reste conceptuel : il ne court pas après des données isolées, mais il lui faut tout de même un ancrage concret, car une requête qui correspond à tout ne trouve rien.
+
+LANGUE :
+Les questions et les réponses DOIVENT être rédigées en français. Conservez les noms de missions, d'organes, d'organismes et de programmes, les termes techniques établis (« embargo sur les armes », « gel des avoirs »), ainsi que toutes les dates, durées, montants monétaires, pourcentages et seuils dans leur forme d'origine. Lorsqu'un organe, un organisme ou un instrument possède un nom officiel français (« le Conseil économique et social »), utilisez ce nom officiel plutôt qu'une traduction littérale.
 
 STRUCTURE DE L'ENTRÉE :
 Vous recevez trois sections clairement délimitées.
 - « ### TARGET BLOCK » — un passage continu (une suite de paragraphes entiers) d'un document des Nations Unies. C'est le texte SUR LEQUEL vous rédigez les questions.
-- « ### REFERENCED DOCUMENTS » — d'autres documents que le bloc cible CITE, chacun fourni sous la forme de sa cote, de son titre et de son texte. Ils sont fournis UNIQUEMENT pour que vous puissiez COMPRENDRE ce à quoi renvoient les citations du bloc — à la manière dont une note de bas de page aide un lecteur. Jamais une source de réponses, jamais le sujet d'une question.
+- « ### REFERENCED DOCUMENTS » — les documents que le bloc cible CITE, chacun fourni sous la forme de sa cote, de son titre et de son texte — UNIQUEMENT pour que vous puissiez COMPRENDRE ce à quoi renvoient les citations. Jamais une source de réponses, jamais le sujet d'une question.
 - « ### DOCUMENT CONTEXT » — le texte environnant DU MÊME DOCUMENT : son ouverture et, pour les documents longs, les passages entourant le bloc cible.
 Les rôles sont stricts :
 - La RÉPONSE doit être entièrement énoncée dans le BLOC CIBLE. Pas partiellement — entièrement.
-- Les deux sections d'appui existent pour que vous puissiez COMPRENDRE le bloc cible — jamais pour que vous y puisiez la réponse. UTILISEZ-les pour résoudre ce que le bloc laisse implicite : quelle mission désigne « la Mission », quel pays « le Gouvernement » gouverne, de quoi traite une résolution citée. Si une partie quelconque de la substance de la réponse n'est énoncée que dans un REFERENCED DOCUMENT ou que dans le DOCUMENT CONTEXT, ÉCARTEZ la question.
+- Les sections d'appui existent pour que vous puissiez COMPRENDRE le bloc — jamais pour que vous y puisiez la réponse. UTILISEZ-les pour résoudre ce que le bloc laisse implicite : quelle mission désigne « la Mission », quel comité désigne « le Comité », quel État « l'orateur » représente, et la date civile de la séance, du rapport ou de la session. Si une partie quelconque de la substance de la réponse n'est énoncée que dans un document référencé ou que dans le contexte, ÉCARTEZ la question.
+Le bloc cible commence par des lignes de MÉTADONNÉES ([EN] Document: <cote> / Title: <titre>), suivies du texte. Utilisez-les pour savoir DE QUOI traite le passage et de quand il date. Les métadonnées sont du CONTEXTE, PAS DU CONTENU : n'en tirez jamais une réponse, ne posez jamais de question portant sur elles, et ne recopiez jamais dans une question la cote du document ou un numéro de résolution qui y figure — la règle d'interdiction des identifiants couvre aussi les métadonnées. Les mots de FOND du titre (« la situation au Rwanda ») PEUVENT apparaître comme mots-thèmes naturels ; l'identifiant, non.
 
-Le bloc cible commence par des lignes de MÉTADONNÉES, suivies du texte :
+LES RÈGLES DÉFINITOIRES DE CE MODE :
+- Distance lexicale : paraphrasez activement. Un système de recherche sémantique doit apparier sur le sens, pas sur le recouvrement de mots-clés. Évitez de réutiliser le vocabulaire distinctif de la source lorsqu'un synonyme naturel convient. Exception : les noms propres, les noms de missions et d'organes et les termes techniques établis (« embargo sur les armes », « zones humanitaires sûres ») doivent rester tels quels — sinon la question devient sans réponse à partir de quelque document que ce soit.
+- Pas d'identifiants d'instruments : n'incluez jamais dans la question de numéro de résolution ou de décision, de cote de document ni de numéro de paragraphe. Un identifiant est une clé lexicale exacte qui met en échec la recherche sémantique. Les identifiants PEUVENT figurer dans le segment de réponse ; c'est acceptable.
+- Conceptuel, non extractif : la question porte sur un concept, un problème, un mécanisme ou une partie affectée. Une question portant sur une donnée unique (« quel plafond d'effectifs a été autorisé pour UNAMIR ? ») relève d'un autre mode, pas de celui-ci. Les questions conceptuelles plus larges sur la situation ou le régime d'ensemble ne sont acceptables QUE lorsque le bloc cible y répond dans un segment contigu ET que la question porte un ancrage concret.
 
-    [EN] Document: S/2001/535
-      Title: Letter dated 1 June 2001 from the Permanent Representatives of Canada, India and the Netherlands to the United Nations addressed to the President of the Security Council
-    <le texte du bloc cible>
-
-- « Document » est la cote du document des Nations Unies ; « Title » est le titre propre du document ou sa ligne d'ouverture. UTILISEZ-les pour savoir DE QUOI traite le passage — la matière traitée est ce qui vous évite de rédiger une question devenue ambiguë une fois le document hors de vue.
-- Les métadonnées sont du CONTEXTE, PAS DU CONTENU. Ne tirez jamais la réponse d'une ligne de métadonnées — la réponse doit provenir du texte du bloc cible. Ne posez jamais de question PORTANT SUR les métadonnées (« quelle est la cote de ce document ? », « quel est le titre de ce rapport ? »).
-- Vous ne DEVEZ PAS insérer dans la question la cote du document ou le numéro de résolution tirés des métadonnées (« S/2001/535 », « resolution 918 (1994) »). La règle d'interdiction des identifiants de ce mode couvre aussi les métadonnées. Les mots de FOND du titre (« la situation au Rwanda », « opérations de soutien à la paix ») PEUVENT apparaître lorsqu'ils sont les mots-thèmes naturels de la requête — c'est l'identifiant qui est interdit, pas le thème.
-
-Générez exactement TROIS paires question-réponse. Chacune doit cibler un aspect différent. Chaque question doit porter sur le BLOC CIBLE.
-
-NOMMER POUR LA RETROUVABILITÉ — la règle la plus importante de cette tâche :
-Chaque question est une requête pour un système de recherche d'information (RI). La personne qui la tape n'a PAS vu ce document et cherche à le TROUVER parmi des centaines de milliers de documents des Nations Unies partageant le même registre stéréotypé. Une requête sémantique a tout de même besoin d'un ancrage thématique concret, sans quoi elle correspond à tout et ne trouve rien.
+NOMMER POUR LA RETROUVABILITÉ :
+La personne qui tape la requête n'a PAS vu ce document et effectue sa recherche parmi des centaines de milliers de documents des Nations Unies partageant le même registre stéréotypé.
 - Chaque question DOIT porter au moins un ancrage concret : un pays ou une situation (« Rwanda », « le conflit au Darfour »), une mission ou une opération (« UNAMIR »), un organe nommé ou un type d'acteur (« le Groupe d'experts », « les pays fournisseurs de contingents »), ou une matière spécifique (« exemptions à l'embargo sur les armes pour le matériel humanitaire »).
-- Dans ce mode, l'ancrage ne doit PAS être un identifiant officiel — pas de numéros de résolution, pas de cotes de documents (voir Pas d'identifiants d'instruments ci-dessous). Les noms de missions, d'organes, de pays et de programmes sont des noms propres, pas des identifiants : ce sont exactement les ancrages que ce mode recherche.
-- N'écrivez jamais « cette résolution », « le présent rapport », « ce document », et ne renvoyez pas au contenu du document comme s'il était visible. « Le Conseil » seul n'est pas non plus un ancrage — dites quel conseil, à propos de quoi.
-- Testez chaque question : tapée dans un moteur de recherche par un inconnu, mènerait-elle à la matière traitée par CE document ? « À propos de quoi le Conseil de sécurité a-t-il exprimé sa vive préoccupation ? » échoue — c'est une formule toute faite partagée par des milliers de résolutions. « Comment le Conseil de sécurité a-t-il réagi aux attaques contre les civils déplacés au Rwanda ? » réussit.
+- Toute expression définie doit être NOMMÉE dans la question elle-même : jamais un simple « le Comité », « le Centre régional », « l'orateur », « les parties », « le Conseil » — résolvez le nom à partir du bloc, du contexte ou des métadonnées ; c'est à cela qu'ils servent. Si le nom ne peut pas être résolu, écartez la question.
+- N'écrivez jamais « cette résolution », « le présent rapport », « ce document », et ne renvoyez pas au contenu du document comme s'il était visible.
+- Testez chaque question : tapée dans un moteur de recherche par un inconnu, mènerait-elle à la matière traitée par CE document ? « À propos de quoi le Conseil de sécurité a-t-il exprimé sa vive préoccupation ? » échoue — une formule toute faite partagée par des milliers de résolutions. « Comment le Conseil de sécurité a-t-il réagi aux attaques contre les civils déplacés au Rwanda ? » réussit.
 
-RÈGLES FONDAMENTALES :
-- LE TEST DU BLOC (à appliquer à chaque question candidate avant de la retenir) : un lecteur pourrait-il produire la réponse COMPLÈTE à partir du seul BLOC CIBLE, en n'utilisant les documents référencés et le contexte du document que pour savoir ce que signifient les expressions référentielles et les citations du bloc ? Si un fait, un chiffre, une liste ou une raison nécessaire à la réponse n'est énoncé que dans un document référencé ou que dans le contexte, ÉCARTEZ la question. C'est l'échec d'ancrage le plus fréquent dans cette tâche.
-- Questions hors cible : une question à laquelle on peut répondre entièrement à partir d'un document référencé porte sur ce document, pas sur le bloc cible — ÉCARTEZ-la.
-- Les citations ne complètent jamais les réponses : si la substance de la réponse se trouve derrière une citation (« the measures imposed by resolution 1493 (2003) ») plutôt que dans les propres termes du bloc cible, écartez la question — même lorsque le document cité est fourni. Les références servent à comprendre et à nommer, pas de matériau de réponse.
-- Réponse ancrée : Même si la question est conceptuelle, la réponse doit être un court segment contigu tiré du BLOC CIBLE qui y répond directement. Si vous ne pouvez pas désigner un tel segment, écartez la question.
-- Distance lexicale : Paraphrasez activement. Un système de recherche sémantique doit apparier sur le sens, pas sur le recouvrement de mots-clés. Évitez de réutiliser le vocabulaire distinctif de la source lorsqu'un synonyme naturel convient. Exception : les noms propres, les noms de missions et d'organes et les termes techniques établis (p. ex. « embargo sur les armes », « zones humanitaires sûres ») doivent rester tels quels — sinon la question devient sans réponse à partir de quelque document que ce soit.
-- Pas d'identifiants d'instruments : N'incluez jamais d'identifiants officiels dans la question — numéros de résolution (« resolution 918 (1994) »), cotes de documents (« S/1994/565 ») ou numéros de paragraphe. Un identifiant est une clé lexicale exacte qui met en échec la recherche sémantique. Cela diffère du mode technique, où les identifiants sont autorisés. Les identifiants peuvent figurer dans le segment de réponse ; c'est acceptable.
-- Focalisation unique : Chaque question demande exactement une chose.
-- Pas de formules documentaires : N'utilisez jamais de formulation déictique ou autoréférentielle — « en vertu de cette résolution », « les mesures énoncées dans les présentes », « selon le texte ». La personne qui tape la requête n'a PAS vu ce document.
-- Diversité : Les trois questions doivent cibler trois aspects distincts et couvrir au moins deux des cadrages : situation, response, stakeholder.
+LE TEMPS DANS LA QUESTION :
+Toute expression temporelle figurant dans la QUESTION doit être absolue. Indiquez l'année avec chaque date ou période. N'employez JAMAIS de temporalité relative au document : « actuel », « maintenant », « récemment », « aujourd'hui », « la veille », « à sa prochaine session », « la période considérée ». Résolvez ces expressions en termes de calendrier à l'aide du contexte et des métadonnées ; si elles ne peuvent pas être résolues, écartez la question.
 
-STRUCTURE DU DOCUMENT — PRÉAMBULE vs DISPOSITIF :
-Les résolutions s'ouvrent par des alinéas de préambule (« Réaffirmant... », « Rappelant... », « Profondément préoccupé... ») qui rappellent le contexte et la motivation ; les paragraphes du dispositif (« Décide... », « Prie... », « Autorise... ») portent les actions. Le texte du préambule est un cadrage : utilisez-le pour comprendre la situation, mais le segment de réponse doit provenir du contenu substantiel du bloc cible, et une question construite uniquement sur le langage stéréotypé des considérants (« qu'a réaffirmé le Conseil ? ») n'est pas une vraie requête.
+SEGMENTS DE RÉPONSE À PORTÉE RÉELLE :
+Les documents des Nations Unies mêlent substance et formules protocolaires. Le segment de réponse doit porter de la substance :
+- Segments ADMISSIBLES : mesures créées, prorogées ou modifiées ; mandats et leur portée ; conditions, critères et exemptions ; le fonctionnement d'un mécanisme ; qui est lié, protégé ou assisté, et comment ; événements et constats concrets rapportés, et justifications énoncées.
+- Segments DISQUALIFIÉS, dans quelque partie du document que ce soit : félicite, se félicite de, exprime sa satisfaction ou sa préoccupation, prend note, réaffirme ou réitère un engagement, encourage ou invite en termes généraux, demande à « la communauté internationale », aspirations et espoirs. Les considérants du préambule sont un cadrage, non un matériau de réponse.
+- LE TEST DE LA FORMULE TOUTE FAITE : si le segment de réponse pouvait figurer sans changement dans des dizaines d'autres documents des Nations Unies (listes d'invitation de parties prenantes, exhortations générales au développement), il ne peut pas servir d'ancrage à une question — même lorsqu'il se trouve dans un paragraphe du dispositif. Lorsqu'un bloc contient à la fois du cérémonial et de la substance, portez la question sur la substance.
 
 ATTRIBUTION :
-Une grande partie de ce corpus rapporte ce que quelqu'un a DIT plutôt que des faits établis : les comptes rendus analytiques rapportent les déclarations des délégués, les lettres transmettent la position d'un gouvernement, et les rapports énoncent les constats et évaluations de l'organe qui rapporte. Lorsque le bloc cible attribue une déclaration, une affirmation, une estimation ou une évaluation à un orateur ou à un organe, la question et la réponse doivent préserver cette attribution (« Selon le représentant de... », « Qu'a recommandé le Secrétaire général... », « Qu'a conclu le Groupe d'experts... »). Ne présentez jamais une affirmation attribuée comme un fait établi. Pour les constats figurant dans des rapports, ancrez la question sur la source ou la période considérée (« selon les informations communiquées par l'ONU au printemps 1994 ») plutôt que de formuler un instantané comme un fait intemporel.
+Une grande partie de ce corpus rapporte ce que quelqu'un a DIT. Lorsque le bloc attribue une déclaration, une affirmation, une estimation ou une évaluation, la question et la réponse doivent préserver cette attribution — et doivent l'attribuer à l'ÉTAT ou à la FONCTION (« le représentant de l'Afrique du Sud », « le Secrétaire général », « selon les informations communiquées par l'ONU au printemps 1994 »), jamais à un simple nom de personne ; un nom de personne ne peut apparaître qu'aux côtés de la fonction. Un contenu attribué ne peut être demandé que s'il constitue une position sur une proposition, un instrument ou une mesure identifiables, une justification énoncée, ou une évaluation concrète d'une situation — jamais une aspiration, une formule de courtoisie ou une exhortation générale. Ne présentez jamais une affirmation attribuée comme un fait établi.
 
-QUE DEMANDER :
-Diversité : les trois questions doivent cibler trois aspects distincts du passage. Couvrez au moins deux des cadrages suivants :
-  1. Cadrage situation (contexte ou problème) : à quelle crise, menace, différend ou évolution le document répond-il ou que décrit-il ? Couvre à la fois la préoccupation qui motive une mesure et l'état de choses qu'un rapport relate.
+RÈGLES FONDAMENTALES :
+- LE TEST DU BLOC (à appliquer à chaque question candidate) : un lecteur pourrait-il produire la réponse COMPLÈTE à partir du seul BLOC CIBLE, en n'utilisant les documents référencés et le contexte que pour comprendre les expressions référentielles, les noms, les dates et les citations ? Si un fait, un chiffre, une liste ou une raison nécessaire à la réponse n'est énoncé que dans un document référencé ou que dans le contexte, ÉCARTEZ la question. C'est l'échec d'ancrage le plus fréquent dans cette tâche.
+- Questions hors cible : une question à laquelle on peut répondre entièrement à partir d'un document référencé porte sur CE document — écartez-la. Les citations ne complètent jamais les réponses : si la substance se trouve derrière une citation (« the measures imposed by resolution 1493 (2003) »), écartez la question, même lorsque le texte cité est fourni.
+- Réponse ancrée : même si la question est conceptuelle, la réponse doit être un court segment contigu du BLOC CIBLE qui y répond directement. S'il n'existe pas de tel segment, écartez la question.
+- Intention unique : un seul objectif informationnel clair par question ; une question plus large qu'un fait unique est admise, mais l'assemblage de demandes sans rapport ne l'est pas.
+- Formulation et longueur : formulation naturelle de requête, 8–20 mots, maximum absolu 25.
+- Diversité : les questions doivent cibler des aspects distincts et couvrir au moins deux des cadrages : situation, response, stakeholder.
+- ABSTENEZ-VOUS PLUTÔT QUE DE REMPLIR : générez jusqu'à TROIS paires. Si le bloc ne permet pas trois questions satisfaisant à toutes les règles, générez-en moins ; si le bloc n'est que cérémonial ou que formules toutes faites, renvoyez []. Ne fabriquez jamais une question pour atteindre trois ; une question de remplissage empoisonne le jeu de données.
+
+QUE DEMANDER — couvrez au moins deux de ces cadrages :
+  1. Cadrage situation (contexte ou problème) : à quelle crise, menace, différend ou évolution le document répond-il, ou laquelle décrit-il ? Couvre la préoccupation qui motive une mesure et l'état de choses qu'un rapport relate.
   2. Cadrage response (mécanisme ou action) : quelle mission, mesure, processus ou dispositif institutionnel est établi, prorogé ou modifié, et comment fonctionne-t-il ?
   3. Cadrage stakeholder (partie affectée ou scénario) : qui est lié, sanctionné, protégé ou assisté, et dans quel scénario du monde réel ? Les perspectives du destinataire (« Que doit faire le Gouvernement de X... ») et du bénéficiaire (« Quelle protection l'ONU assure-t-elle aux civils dans... ») relèvent toutes deux de ce cadrage.
-Les questions conceptuelles plus larges sur la situation ou le régime d'ensemble sont acceptables tant que le bloc cible y répond clairement et directement dans un segment contigu.
 
-EXEMPLES :
+EXEMPLES — les bons cas canoniques :
+Target block: S/RES/918 (1994): "3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations; 4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;" (context: preamble condemning the killings of civilians in Rwanda)
+✓ {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response"}
+✓ {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder"}
+  → Paraphrased, no identifiers, anchored by "Rwanda"; the spans are the block's own substantive content.
+Target block: report S/1994/565: "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April." (context identifies the reporting period as April–May 1994)
+✓ {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation"}
+  → Situation-framed, paraphrased, attribution preserved, time absolute.
 
-Example 1 — operative resolution passage
-### TARGET BLOCK
-[EN] Document: S/RES/918 (1994)
-  Title: RESOLUTION 918 (1994) Adopted by the Security Council at its 3377th meeting, on 17 May 1994
-"3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations;
-4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;
-5. Requests the Secretary-General to report as soon as possible on the next phase of UNAMIR's deployment, including on the cooperation of the parties and progress towards a ceasefire;"
-### DOCUMENT CONTEXT
-(the resolution's preamble: "The Security Council, Reaffirming all its previous resolutions on the situation in Rwanda... Strongly condemning the ongoing violence in Rwanda and particularly the very numerous killings of civilians...")
-✓ Good: {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response"}
-  → Paraphrased, no identifiers, anchored by "Rwanda"; the answer span is the target block's own operative content.
-✓ Good: {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder"}
-  → Beneficiary perspective; "UN peacekeepers" paraphrases the mission without the identifier; the span is in the block.
+ÉCHECS RÉELS OBSERVÉS LORS D'UNE EXÉCUTION ANTÉRIEURE DE CE PIPELINE — ne reproduisez jamais ces schémas :
+✗ "What kind of international action is needed to supplement national efforts for developing countries?"
+  → No concrete anchor, and the answer span ("concrete, effective and supportive international programmes, measures and policies...") is hortatory boilerplate that recurs across dozens of development resolutions. The block offered nothing better: the correct output for such a block is fewer questions or [].
+✗ "Which actors were invited to cooperate, observe and raise awareness of the International Day of Sport for Development and Peace?"
+  → Targets a generic invitation list — DISQUALIFIED — while the same block contains the substantive act. Fix, targeting the substance: {"question": "How did the General Assembly give formal recognition to sport as a tool for development and peace?", "answer": "Decides to proclaim 6 April the International Day of Sport for Development and Peace", "framing": "response"}
+✗ "What regional body did the Committee recommend considering creating to deal with peace and political crises in Central Africa through a summit of heads of State and Government?"
+  → "The Committee" is a bare definite the searcher cannot know; 30 words. Fix: name it from the context — "What regional body did the United Nations Standing Advisory Committee on Security Questions in Central Africa propose for managing armed conflict?"
+✗ "After the legislative elections, which priority areas did the speaker say should now receive attention in Côte d'Ivoire?"
+  → "The speaker" is a bare definite, "now" is document-relative, and "did the speaker say" is comprehension stance. Fix: resolve office and time from the context — "What priorities for Côte d'Ivoire did the Special Representative identify after the 2011 legislative elections?"
+✗ "What kind of cooperation was the General Assembly aiming to set up between the African Union's conflict-prevention mechanism and the Regional Centre?"
+  → "The Regional Centre" is a bare definite. Fix: "...and the United Nations Regional Centre for Peace and Disarmament in Africa?"
 
-Example 2 — report passage; the context resolves the referring expressions
-### TARGET BLOCK
-[EN] Document: S/1994/565
-  Title: Report of the Secretary-General on the situation in Rwanda
-"The humanitarian situation has deteriorated dramatically since my last report. An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April. The Mission's remaining personnel continue to protect several thousand civilians who have sought refuge at sites under its control."
-### DOCUMENT CONTEXT
-(the report's opening, which identifies "the Mission" as the United Nations Assistance Mission for Rwanda (UNAMIR) and the reporting period as April–May 1994)
-✓ Good: {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation"}
-  → Situation-framed, paraphrased ("refugee outflow", "neighbouring countries"), attribution preserved ("according to UN reporting"), and the span is in the block.
-✗ Bad (answer-from-reference): a target block assessing that "the requirements set out in the resolution have not yet been met", with resolution 1559 (2004) supplied as a reference listing those requirements → answering "which conditions remained unfulfilled" with the list of requirements taken from the reference's text.
-  → The list is stated only in the REFERENCED DOCUMENT; the target block merely points at it. The BLOCK TEST fails. Discard. (A good version asks what the UN concluded about implementation — answer wholly in the block: "the requirements set out in the resolution have not yet been met".)
+AUTO-VÉRIFICATION de chaque question, dans cet ordre :
+1. Au moins un ancrage concret (pays, situation, mission, organe, type d'acteur ou matière spécifique) ?
+2. Aucun numéro de résolution, aucune cote de document, aucun numéro de paragraphe nulle part dans la question ?
+3. Chaque expression définie est-elle nommée dans la question elle-même — pas de simple « le Comité », « le Centre régional », « l'orateur », « les parties » ?
+4. Aucune temporalité relative au document (« actuel », « maintenant », « après les élections » sans année...) ? Toutes les dates et périodes sont-elles absolues ?
+5. Le segment de réponse est-il ADMISSIBLE — substantiel — et passe-t-il le test de la formule toute faite ?
+6. LE TEST DU BLOC est-il réussi ; impossible d'y répondre à partir du seul document référencé ; aucune réponse tirée des métadonnées ?
+7. L'attribution est-elle préservée, à l'État ou à la fonction, et le contenu attribué vaut-il d'être demandé ?
+8. La formulation est-elle paraphrasée (hormis les termes techniques et les noms propres) ; 8–20 mots (maximum 25) ?
+9. Conceptuelle plutôt que portant sur une donnée unique ; les cadrages couvrent-ils au moins deux valeurs parmi situation / response / stakeholder ?
+10. Moins de trois questions ont-elles satisfait à toutes ces vérifications ? Produisez-en moins. Aucune n'y a satisfait ? Produisez [].
 
-Example 3 — the failure modes
-✗ Bad (identifier leak): "What did resolution 918 (1994) decide about protecting civilians in Rwanda?"
-  → A resolution number is the strongest possible lexical key and is forbidden in the question in this mode. Identifiers belong to technical mode.
-✗ Bad (document phrasing): "What measures does the resolution adopt to protect civilians?"
-  → "the resolution" treats the document as known and at hand. The searcher has not seen it.
-✗ Bad (boilerplate, no anchor): "What did the Security Council express grave concern about?"
-  → Built entirely on formulaic register shared by thousands of resolutions, with no concrete anchor. Matches everything, finds nothing.
-✗ Bad (too extractive): "What troop ceiling was authorized for UNAMIR?"
-  → A single data point. That is a technical-mode question, not a semantic one.
-✗ Bad (context leak): "Why did the Security Council expand the UN peacekeeping presence in Rwanda?"
-  → The reasons (the killings condemned in the preamble) are stated only in the DOCUMENT CONTEXT; the target block states the expansion, not its motivation. The BLOCK TEST fails. Discard.
-✗ Bad (attribution dropped): "How many people fled Rwanda for Tanzania in April 1994?" answered as a bare fact
-  → The figure is the Secretary-General's estimate in a specific report; presenting it as an established count drops the attribution.
-
-AUTO-VÉRIFICATION pour chaque question avant de la finaliser :
-- NOMMAGE : la question porte-t-elle au moins un ancrage thématique concret (pays, situation, mission, organe, type d'acteur ou sujet spécifique), de sorte qu'un inconnu puisse la taper dans un moteur de recherche et aboutir à cette matière ?
-- La question est-elle exempte de numéros de résolution, de cotes de documents et de numéros de paragraphe ?
-- LE TEST DU BLOC : la réponse est-elle un segment contigu du BLOC CIBLE lui-même, les documents référencés et le contexte n'étant utilisés que pour comprendre les expressions référentielles et les citations ?
-- Cette question pourrait-elle trouver une réponse à partir du seul document référencé ? Si oui, écartez-la.
-- La question évite-t-elle de porter sur les métadonnées (cote du document, titre) plutôt que sur la substance du passage ?
-- Si le bloc attribue une affirmation, une estimation ou une évaluation à un orateur ou à un organe, la question et la réponse préservent-elles cette attribution ?
-- La formulation est-elle paraphrasée plutôt que copiée ?
-- Quelqu'un qui n'a jamais vu ce document pourrait-il taper cette question dans un moteur de recherche ?
-- Les trois questions couvrent-elles au moins deux cadrages (situation / response / stakeholder) ?
-
-SORTIE (JSON valide uniquement, pas de markdown) :
+SORTIE (JSON valide uniquement, pas de markdown) : une liste de ZÉRO à TROIS objets :
 [
-  {"question": "...", "answer": "...", "framing": "..."},
-  {"question": "...", "answer": "...", "framing": "..."},
   {"question": "...", "answer": "...", "framing": "..."}
 ]
-- answer : le segment le plus court qui répond entièrement et directement à la question. Strictement ancré dans le bloc cible.
+- answer : le segment contigu le plus court du bloc cible qui répond entièrement et directement à la question. La réponse doit être rédigée en français.
 - framing : l'un de situation, response, stakeholder.
+- Une liste vide [] est une sortie valide et attendue pour un bloc ne comportant aucune question conforme. Ne remplissez jamais.
 
 Le bloc cible et le contexte du document sont fournis en français et en anglais. Lorsque les deux versions sont présentes, il s'agit du même texte, et non de deux passages différents : utilisez la version française pour la formulation et la terminologie, et la version anglaise comme lecture de référence. Cela ne change pas votre langue de sortie, qui est déclarée ci-dessus. Voici l'entrée :
