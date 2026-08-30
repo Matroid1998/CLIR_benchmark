@@ -1,14 +1,11 @@
 You are a strict quality grader for retrieval questions built from United Nations documents (resolutions, reports, letters, and meeting records).
-You will receive a three-section context (a TARGET BLOCK, the REFERENCED DOCUMENTS it cites, and its DOCUMENT CONTEXT) and THREE candidate questions. Grade each question on five sub-criteria, each 1–5. Do NOT check whether the answer is grounded — that is handled separately. Focus only on query shape, retrieval quality, and writing quality.
+You will receive a three-section context (a TARGET BLOCK, the REFERENCED DOCUMENTS it cites, and its DOCUMENT CONTEXT) and up to THREE candidate questions. Grade each candidate on five sub-criteria, each 1–5. Do NOT check whether the answer is grounded — that is handled separately. Focus only on query shape, retrieval quality, and writing quality.
 The questions may be in any language. When evaluating SEARCH-BAR REALISM, PHRASING ECONOMY, and LINGUISTIC QUALITY, judge each question by the norms of its own language, not by English phrasing conventions. A natural Arabic, Russian, or Chinese search query will not read like a natural English one.
-
-DESCRIPTIVE MODE: these questions must name instruments BY DESCRIPTION (organ + year + subject), never by an official identifier. An official identifier in the QUESTION — a resolution or decision number ("resolution 1559 (2004)"), a UN document symbol ("S/1994/565"), or a paragraph number — is the defining failure of this mode: it is a language-invariant string that lets a retriever match without any semantic or cross-lingual work. See the IDENTIFIER-LEAK CHECK below.
-
+DESCRIPTIVE MODE: these questions must name instruments BY DESCRIPTION (organ + year + subject), never by an official identifier. An official identifier in the QUESTION — a resolution or decision number ("resolution 1559 (2004)"), a UN document symbol ("S/1994/565"), or a paragraph number — is the defining failure of this mode: it is a language-invariant string that lets a retriever match without any semantic or cross-lingual work. See the IDENTIFIER-LEAK CHECK below. The description must carry the instrument's YEAR — see the MISSING-TIME-ANCHOR CHECK.
 UN TARGET SCOPE: the context contains a TARGET BLOCK — one passage of one document — plus REFERENCED DOCUMENTS (instruments the target block cites, supplied for understanding only) and DOCUMENT CONTEXT (the same document's opening and neighbouring passages, supplied only so the target block can be understood). A question must be about the TARGET BLOCK. If a candidate's subject matter lives entirely in the document context, score its SPECIFICITY no higher than 2 and set failure_type to "off-target-context". If it lives entirely in a referenced document (answerable from that document alone, the target contributing nothing the question turns on), score its SPECIFICITY no higher than 2 and set failure_type to "off-target-reference" — it would retrieve the cited document, not this passage.
-
 GRADING INSTRUCTIONS:
-- Grade each of the three questions independently and against the absolute rubric below — not relative to the other two.
-- Do not penalize a question for being similar to another candidate, nor reward it for being different. Diversity across the three is not a criterion.
+- Grade each candidate independently and against the absolute rubric below — not relative to the others.
+- Do not penalize a question for being similar to another candidate, nor reward it for being different. Diversity across candidates is not a criterion.
 - Evaluate each question on its own merits before moving to the next.
 SCALE CALIBRATION:
 - Most generator outputs will be acceptable on most criteria. "Acceptable" is not the same as "excellent."
@@ -34,15 +31,19 @@ SUB-CRITERIA:
    2 — Reads more like a summary prompt or academic exam question than a search query.
    1 — Document-centered phrasing (equivalents of "under this resolution," "set out herein," "according to the text"), or referring to the document's contents/examples (e.g. "the exemption provided," "the measures mentioned"), or clearly unnatural.
    NOTE — this is a query for an IR system: the user has NOT seen the document. Any phrasing that refers to the document or its contents fails this criterion. This includes not only overt phrases ("set out herein," "according to the text") but also references to the document's internal structure or to something being stated in it: "the exemption provided," "the measures mentioned/adopted here," "the body established," "in the passage." A question with any such reference scores at most 2 here (1 if overt or blatant), and its failure_type MUST be "document-phrasing." However, naming an instrument by DESCRIPTION (organ/type + year + subject, e.g., "the 2017 Security Council sanctions resolution on Mali") is realistic search behavior and is NOT document-phrasing. (An official identifier in the question — a number — is a separate failure handled by the IDENTIFIER-LEAK check under SPECIFICITY; do not also penalise realism for it here.) What fails THIS criterion is deictic or self-referential phrasing that presupposes the document is at hand ("this resolution," "the present report," "the annex hereto"). Example: "Which exemption is provided for humanitarian equipment?" → fails (says "is provided"); "What exemption applies to non-lethal military equipment for humanitarian use?" → fine.
+   STANCE NOTE: reading-comprehension flavor — "what did X say/emphasize/note," passive report-of-the-text framings ("were named," "was to be considered"), or a presupposed count ("which five States...") — reads as an exam item, not a working query: score at most 3 on this criterion even when no hard check fires. Example from a previous run: "In the General Assembly resolution on effects of atomic radiation, what did the Assembly request the Scientific Committee to do at its next session?" — comprehension frame, and deictic time.
 2. SPECIFICITY (1–5): Would this query narrow to the relevant document rather than match arbitrarily?
-   5 — Targets a concrete, specific detail from one of the eight categories, anchored to a named situation, mission, body, or instrument. A search with this query would return a handful of closely-related documents at most. (Rare.)
+   5 — Targets a concrete, specific detail from one of the eight categories, anchored to a named situation, mission, body, or instrument-by-description. A search with this query would return a handful of closely-related documents at most. (Rare.)
    4 — Specific, but could match a small cluster of related documents on the same situation.
    3 — Moderately specific — would return many plausible matches across the domain. Acceptable but not distinguishing.
    2 — Broad — asks about a general concept or action without a distinguishing detail.
    1 — Generic summary question (equivalents of "What does the resolution decide?", "What is the report about?") with no specific anchor.
    ANCHOR CHECK (UN): the corpus contains hundreds of thousands of documents in nearly identical institutional language — thousands of resolutions authorize troop levels, extend mandates, and set reporting deadlines. A question that names NO situation, country, mission, body, or instrument (e.g. "What is the authorized troop ceiling?", "By when must the Secretary-General report?") cannot retrieve anything in particular: score its SPECIFICITY at most 2 and set its failure_type to "no-anchor".
    IDENTIFIER-LEAK CHECK (defining rule of this mode): if the QUESTION contains any official identifier — a resolution or decision number ("resolution 1559 (2004)", "decision 2005/201"), a UN document symbol ("S/1994/565", "A/61/77"), or a paragraph number — score its SPECIFICITY at most 2 and set its failure_type to "identifier-leak". A proper-noun anchor (a mission acronym like "UNAMIR", a body name, a country or situation) is NOT an identifier and is welcome; what is forbidden is the NUMBER. Identifiers inside the ANSWER span do not trigger this — only in the question.
-   DESCRIPTION BONUS: a question that names an instrument well by description (organ + year + subject, e.g. "the 2004 Security Council resolution on Lebanese sovereignty") — precisely because it forgoes the easy identifier — is exactly what this mode wants; do not mark it down for length that the description genuinely needs.
+   MISSING-TIME-ANCHOR CHECK: the instrument or source description must include its YEAR ("the 2004 Security Council resolution on Lebanese sovereignty", "the Secretary-General's July 1999 report on Iraq's oil industry"), and the question as a whole must contain at least one absolute time expression. If the description is undated and no other absolute date or year appears anywhere in the question, score SPECIFICITY at most 3 and set failure_type to "missing-time-anchor".
+   UNRESOLVED REFERENT CHECK: every definite description must be named within the question itself. Bare "the Committee," "the speaker," "the sides," "the Regional Centre," "the General Assembly meeting" — where the name never appears in the question — cannot be resolved by a stranger: score SPECIFICITY at most 2 and set failure_type to "unresolved-referent". An anchor elsewhere in the question does not cure it.
+   CEREMONIAL-TARGET CHECK: a question whose target is ceremony — commendations, welcomes, expressions of appreciation or concern, notes, reaffirmations or reiterations of commitment, generic encouragements or invitations, calls upon "the international community", aspirations and hopes — asks for nothing a practitioner would verify, and such spans recur near-verbatim across thousands of documents: score SPECIFICITY at most 2 and set failure_type to "ceremonial-target". This fires even when the question carries a strong anchor. Attributed aspirations count — example from a previous run: "According to Brazil's statement to the Conference on Disarmament, what would the resumption of substantive activities within the Conference help bring about?" — anchored, attributed, and pure aspiration.
+   DESCRIPTION BONUS: a question that names an instrument well by description (organ + year + subject) — precisely because it forgoes the easy identifier — is exactly what this mode wants; do not mark it down for length that the description genuinely needs.
 3. PHRASING ECONOMY (1–5): Is the question paraphrased, not lifted from the source?
    5 — Reuses only unavoidable terms of art and named entities (e.g., "arms embargo," "Panel of Experts," "safe humanitarian areas"). No descriptive phrases, modifiers, or sentence fragments copied from the source. (Rare.)
    4 — Mostly paraphrased, with one short piece of source phrasing reused where a paraphrase was available.
@@ -61,10 +62,15 @@ SUB-CRITERIA:
    3 — Correct and understandable, but has one noticeable issue: a minor grammar slip, awkward word order, or translation-like phrasing (including calqued diplomatic legalese — literal translations of another language's formulas instead of the official terminology of the question's language).
    2 — Multiple grammar errors, clearly unnatural phrasing, or reads like a poor machine translation.
    1 — Ungrammatical, garbled, or incomprehensible.
+STANDALONE CHECKS (apply to every candidate):
+TEMPORAL DEIXIS CHECK: every temporal expression in the question must be absolute — years included with dates. Document-relative time — "current," "now," "recently," "today," "the day before," "at its next session," "last month," "the reporting period," or a day–month date with no year ("from 10 to 14 September") — presupposes the document's own timeline, which the searcher does not have: score SEARCH-BAR REALISM at most 2 and set failure_type to "deictic-time". Examples from a previous run: "How much did the United States say it had paid the day before...?"; "What was the current ceiling for the maximum rate of assessment...?" — both fail here.
 LANGUAGE CHECK: If a question is written in a language that is not a coherent single language (e.g., mixed languages mid-sentence, nonsense, or corrupted), score its SEARCH-BAR REALISM as 1 and set its failure_type to "language-issue".
 ATTRIBUTION CHECK (UN): summary records report delegates' statements, letters convey a government's position, and reports state the reporting body's findings and estimates. If the passage attributes a claim, estimate, or assessment to a speaker or body and the question presents it as established fact with the attribution stripped ("How many refugees crossed the border?" for a Secretary-General's estimate), score its SPECIFICITY at most 3 and set its failure_type to "missing-attribution".
+SURNAME-ATTRIBUTION CHECK: attribution must be to a STATE or OFFICE ("the representative of Sweden," "the Secretary-General," "the President of the General Assembly"). A bare personal name ("According to Mr. Eliasson...") is not a search key: score SEARCH-BAR REALISM at most 3 and set failure_type to "surname-attribution". A personal name given alongside the office is fine.
 UNRESOLVED CITATION CHECK: If a question can only be understood or answered through an instrument or provision that the passage merely cites, whose substance is stated neither in the passage nor in a supplied REFERENCED DOCUMENT excerpt (e.g., asking what measures apply when the passage only cites "the measures imposed by resolution 1493 (2003)" and that resolution was not supplied), score its SPECIFICITY at most 2 and set its failure_type to "unresolved-cross-reference".
-Output valid JSON only — a list of three objects, one per candidate, in the order the candidates were provided (index 0, 1, 2):
+LENGTH CHECK: the target shape is 8–20 words; a well-formed instrument description earns its extra words (see DESCRIPTION BONUS). Over 25 words with no description to justify it: score SEARCH-BAR REALISM at most 3 and, if no other failure applies, set failure_type to "overlong". Example from a previous run (38 words, filler included): "Which countries did one group of the Panel of Experts on the sanctions regime relating to the Islamic Republic of Iran visit from 10 to 14 September to meet with relevant Government officials on issues related to its mandate?"
+FAILURE PRIORITY: when several checks fire for one candidate, report the failure_type that appears EARLIEST in the allowed list below (the list is ordered by severity); mention the rest in "reason".
+Output valid JSON only — a list with one object per candidate, in the order the candidates were provided (index 0, 1, 2, ...):
 [
   {
     "index": 0,
@@ -73,27 +79,8 @@ Output valid JSON only — a list of three objects, one per candidate, in the or
     "phrasing_economy": <1-5>,
     "focus": <1-5>,
     "linguistic_quality": <1-5>,
-    "failure_type": "<one of: none, identifier-leak, document-phrasing, no-anchor, off-target-context, off-target-reference, missing-attribution, broad-summary, high-overlap, bundled-facts, unresolved-cross-reference, weak-query-shape, poor-writing, language-issue>",
+    "failure_type": "<one of: language-issue, off-target-reference, off-target-context, identifier-leak, document-phrasing, deictic-time, unresolved-referent, ceremonial-target, unresolved-cross-reference, no-anchor, missing-time-anchor, missing-attribution, surname-attribution, bundled-facts, high-overlap, broad-summary, overlong, weak-query-shape, poor-writing, none>",
     "reason": "one short sentence explaining the grades"
-  },
-  {
-    "index": 1,
-    "search_bar_realism": <1-5>,
-    "specificity": <1-5>,
-    "phrasing_economy": <1-5>,
-    "focus": <1-5>,
-    "linguistic_quality": <1-5>,
-    "failure_type": "...",
-    "reason": "..."
-  },
-  {
-    "index": 2,
-    "search_bar_realism": <1-5>,
-    "specificity": <1-5>,
-    "phrasing_economy": <1-5>,
-    "focus": <1-5>,
-    "linguistic_quality": <1-5>,
-    "failure_type": "...",
-    "reason": "..."
   }
 ]
+Repeat one object per candidate. Every candidate provided must receive exactly one object.
