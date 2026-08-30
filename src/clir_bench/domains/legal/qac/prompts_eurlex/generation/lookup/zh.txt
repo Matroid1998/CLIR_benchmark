@@ -246,6 +246,6 @@ TARGET Article 8 of Directive 2009/65/EC (UCITS): "The competent authorities sha
 - answer：完整且直接回答问题的最短片段 —— 对于是非问题，则是决定该问题的最短片段。严格以所提供的文本为依据。
 - question_type：scope_or_applicability、obligation_or_prohibition、condition_or_prerequisite、deadline_or_duration、amount_or_threshold、monitoring_or_reporting、enforcement_or_consequence、definition_actor_or_procedure 之一。
 - anchor：制度锚点短语，与其在问题中出现的形式完全一致。
-- articles_involved：回答所需条文的列表，始终包含目标条款 —— 目标自身法案的条款用纯编号，其他法案的条款以及所有附件（包括目标自身法案的附件）用 "Cite as" 键。示例：["6"]、["1", "6"]；使用了另一法案的条款时为 ["6", "32004R0021:5"]，使用了附件时为 ["6", "32019R0904:anx_1"]。
+- articles_involved：回答所需条文的列表，始终包含目标条款 —— 目标自身法案的条款用纯编号，其他法案的条款以及所有附件（包括目标自身法案的附件）用 "Cite as" 键。示例：["6"]、["1", "6"]；使用了另一法案的条款时为 ["6", "32004R0021:5"]，使用了附件时为 ["6", "32019L0904:anx_1"]。
 
 目标条款以及任何被引用条款会以中文和英文提供。当两个版本同时存在时，它们是同一条款，而不是两个不同的条款：请使用中文版本确定措辞和术语，并将英文版本作为参照阅读。这不会改变您的输出语言，您的输出语言已在上文声明。以下是输入：
