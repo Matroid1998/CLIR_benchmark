@@ -273,9 +273,25 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
     faith = call_with_retries(lambda: grade_faithfulness(
         grade_client, grader, gen.PROMPTS.faithfulness("batch"), payload.text, qa),
         retries=3, label="faith")
+    # The quality rubrics run consistency checks ON the mode's own fields -- is
+    # the declared anchor actually a substring of the question, does the cited
+    # rendering differ from the base one by nothing but the identifier -- none of
+    # which is checkable unless the grader is shown them. Faithfulness keeps the
+    # lean pair: it grades the answer against the block and the rest is noise.
+    qa_quality = [
+        dict(pair, **{key: value for key, value in (
+            ("question_cited", c.question_cited),
+            ("anchor", c.anchor),
+            ("anchors", list(c.anchors)),
+            # semantic declares ``framing``; the other modes ``question_type``.
+            ("framing" if target.mode == gen.MODE_SEMANTIC else "question_type",
+             c.classification),
+        ) if value})
+        for pair, c in zip(qa, candidates)
+    ]
     quality = call_with_retries(lambda: grade_quality(
         grade_client, grader, gen.PROMPTS.quality(target.mode, "batch"),
-        payload.text, qa, target.mode), retries=3, label="quality")
+        payload.text, qa_quality, target.mode), retries=3, label="quality")
 
     # Ranked best-first; row order carries the ranking, exactly as in
     # eurlex_batch: the whole list goes to the all-candidates file and the
@@ -307,6 +323,11 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             "question_cited": candidate.question_cited,
             "anchor": candidate.anchor,
             "anchors": gen.ANCHOR_SEP.join(candidate.anchors),
+            # The passage the question was generated from, exactly as the
+            # generator saw it (metadata line + block text), so a row can be
+            # audited without re-running the payload builder.
+            "title": payload.target.title,
+            "target_block_text": ctx.unit_source(payload.target, target.language),
             "references_supplied": ",".join(r.symbol for r in payload.references),
             "references_dropped": ",".join(payload.dropped_references),
             "reference_complete": target.reference_complete,
@@ -345,14 +366,17 @@ def pick_best(grouped: dict[str, list[dict[str, Any]]]
     return best, rejected
 
 
-# Grade columns are the union of both modes' rubrics (grade_columns emits only
-# the scoring mode's keys; DictWriter leaves the other mode's cells empty).
+# Grade columns are the union of every mode's rubric (grade_columns emits only
+# the scoring mode's keys; DictWriter leaves the other modes' cells empty). A
+# mode whose keys are missing here fails the write outright, so this must track
+# ``core.grading.quality_fields`` for all three modes.
 FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "line_start", "line_end", "stratum",
           "context_blocks_supplied", "context_blocks_dropped",
           "question_language", "mode", "question", "answer",
           "question_type", "framing",
           "question_cited", "anchor", "anchors",
+          "title", "target_block_text",
           "references_supplied", "references_dropped",
           "reference_complete", "n_unresolved", "unresolved_reasons",
           "faith_grounding", "faith_precision", "faith_numerical_fidelity",
@@ -361,6 +385,7 @@ FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "qual_focus",
           "qual_search_realism", "qual_lexical_distance",
           "qual_conceptual_framing", "qual_retrievability",
+          "qual_practitioner_realism", "qual_anchoring", "qual_informativeness",
           "qual_linguistic_quality", "qual_overall",
           "faith_reason", "qual_failure_type", "qual_reason", "total_score")
 

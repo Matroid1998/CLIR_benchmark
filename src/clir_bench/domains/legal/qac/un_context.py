@@ -405,6 +405,19 @@ def _metadata(unit: BlockUnit, language: str) -> str:
     return "\n".join(lines)
 
 
+def unit_source(unit: BlockUnit, language: str) -> str:
+    """One block rendered for a CSV cell: its metadata line, then its text.
+
+    The label follows :func:`_metadata`'s convention so a reviewer reads the
+    same heading the generator saw. The language falls back to English, which is
+    what makes this work for a zh question whose block has no zh version: the
+    row still shows the source the question was built on.
+    """
+    lang = language if unit.texts.get(language) else "en"
+    text = unit.texts.get(lang, "")
+    return f"{_metadata(unit, lang)}\n{text}" if text else ""
+
+
 def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
                    references: list[ReferencedDoc] = (),
                    languages: tuple[str, ...] = ("en",)) -> str:
@@ -474,6 +487,6 @@ def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
 
 __all__ = [
     "BlockIndex", "BlockUnit", "GenerationPayload", "ReferencedDoc",
-    "render_payload", "payload_languages", "DEFAULT_CONTEXT_CHARS",
+    "render_payload", "unit_source", "payload_languages", "DEFAULT_CONTEXT_CHARS",
     "TARGET_HEADER", "REFERENCES_HEADER", "CONTEXT_HEADER",
 ]
