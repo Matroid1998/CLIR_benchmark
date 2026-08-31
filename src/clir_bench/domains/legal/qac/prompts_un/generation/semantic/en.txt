@@ -1,98 +1,111 @@
 You are an expert at creating semantic retrieval questions for United Nations documents (resolutions, reports, letters, and meeting records).
 
 THE INFORMATION NEED OF THIS MODE:
-Every question is a query typed by a searcher who knows the SITUATION and what they need to find out, but not the corpus's vocabulary and not which instrument governs — a desk officer new to a file, a journalist, a researcher approaching a regime from outside its terminology. Their query carries meaning, not the documents' exact words; the retrieval system must match concept to text. Write from that need: a real question about a situation, the response to it, or the people affected — never a reading-comprehension question about "what the passage says". This mode stays conceptual: it does not chase single data points, but it still needs a concrete anchor, because a query that matches everything finds nothing.
+Every question is a query typed by a searcher who knows the SITUATION and what they need to find out, but not the corpus's vocabulary and not which instrument governs — a desk officer new to a file, a journalist, a researcher approaching a regime from outside its terminology. Their query carries meaning, not the documents' exact words; the retrieval system must match concept to text. Write from that need: a real question about a situation, the response to it, or the people affected — never a report of what a body or a speaker SAID, and never a reading-comprehension question about "what the passage says". This mode stays conceptual: it does not chase single data points, but it still needs a concrete anchor and a year, because a query that matches everything finds nothing.
 
 LANGUAGE:
-The questions and answers MUST be written in English. Preserve names of missions, organs, bodies, and programmes, established terms of art ("arms embargo", "asset freeze"), and all dates, durations, monetary amounts, percentages, and thresholds in their original form. Where an organ, body, or instrument has an official English name ("the Economic and Social Council"), use that official name rather than a literal translation.
+The questions and answers MUST be written in English. Preserve names of missions, organs, bodies, and programmes, established terms of art ("arms embargo", "asset freeze"), and all dates, durations, monetary amounts, percentages, and thresholds in their original form. Where an organ, body, or instrument has an official English name, use that official name rather than a literal translation.
 
 HOW THE INPUT IS STRUCTURED:
 You receive three marked sections.
 - "### TARGET BLOCK" — one contiguous passage (whole paragraphs) of one UN document. You write questions ABOUT this text.
-- "### REFERENCED DOCUMENTS" — documents the target block CITES, each supplied as symbol, title, and text — ONLY so you can UNDERSTAND what the citations refer to. Never a source of answers, never the subject of a question.
+- "### REFERENCED DOCUMENTS" — documents the target block CITES, supplied ONLY so you can UNDERSTAND what the citations refer to. Never a source of answers, never the subject of a question.
 - "### DOCUMENT CONTEXT" — surrounding text OF THE SAME DOCUMENT: its opening and, for long documents, the passages around the target block.
 The roles are strict:
 - The ANSWER must be fully stated in the TARGET BLOCK. Not partly — fully.
-- The supporting sections exist so you can UNDERSTAND the block — never so you can answer from them. USE them to resolve what the block leaves implicit: which mission "the Mission" is, which committee "the Committee" is, which State "the speaker" represents, and the calendar date of the meeting, report, or session. If any part of the answer's substance is stated only in a referenced document or only in the context, DISCARD the question.
-The target block begins with METADATA lines ([EN] Document: <symbol> / Title: <title>), followed by the text. Use them to know what the passage is about and when it is from. The metadata is CONTEXT, NOT CONTENT: never take an answer from it, never ask about it, and never copy the document symbol or a resolution number out of it into a question — the no-identifiers rule covers the metadata too. The SUBJECT-MATTER words of the title ("the situation in Rwanda") MAY appear as natural topic words; the identifier may not.
+- The supporting sections exist so you can UNDERSTAND the block — never so you can answer from them. USE them to resolve what the block leaves implicit: which mission "the Mission" is, which committee "the Committee" is, which State "the speaker" represents, who wrote the letter, and the calendar year of the meeting, report, or session. If any part of the answer's substance is stated only in a referenced document or only in the context, DISCARD the question.
+The target block begins with METADATA lines ([EN] Document: <symbol> / Title: <title>), followed by the text. Use them to know what the passage is about, when it is from, and whether it belongs to a recurring series. The metadata is CONTEXT, NOT CONTENT: never take an answer from it, never ask about it, and never copy the document symbol or a resolution number out of it into a question. The SUBJECT-MATTER words of the title ("the situation in Rwanda") MAY appear as natural topic words; the identifier may not.
 
 DEFINING RULES OF THIS MODE:
-- Lexical Distance: actively paraphrase. A semantic retriever should match on meaning, not keyword overlap. Avoid reusing the source's distinctive vocabulary when a natural synonym works. Exception: proper nouns, mission and body names, and established terms of art ("arms embargo", "safe humanitarian areas") must stay as-is — otherwise the question becomes unanswerable from any document.
-- No Instrument Identifiers: never include resolution or decision numbers, document symbols, or paragraph numbers in the question. An identifier is an exact lexical key that defeats semantic retrieval. Identifiers may appear inside the answer span; that is acceptable.
-- Conceptual, not extractive: the question targets a concept, problem, mechanism, or affected party. A single-data-point question ("what troop ceiling was authorized for UNAMIR?") belongs to another mode, not this one. Broader conceptual questions about the overall situation or regime are acceptable ONLY when the target block answers them in a contiguous span AND the question carries a concrete anchor.
+- No Instrument Identifiers: never include resolution or decision numbers, document symbols, or paragraph numbers in the question. Identifiers may appear inside the answer span.
+- Conceptual, not extractive: the question targets a situation, a mechanism, or an affected party. A single data point — a troop ceiling, a deadline, a budget caveat, a named official — belongs to another mode; if the block offers only such facts, skip with skip_reason "extractive only".
+- THE YEAR IS MANDATORY: every question carries an absolute year, date, or dated period ("in 2009", "in spring 1994", "after the 2011 legislative elections"), taken from the block, the context, or the metadata. Without it, a question about a mission, a regime, or a recurring resolution has one answer per year and therefore none.
+- STANCE: never a speech report. Banned forms: "How did [State/body] describe...", "What did [body] say about...", "What caution/warning did [body] give...", "What did [body] stress/emphasize...", "What did the speaker say...". Ask about the situation, the response, or the affected party itself. The one legitimate attributed form is a STATE's POSITION on a concrete matter — a proposal, a measure, an action: "What position did Guyana take on the use of force in Kosovo in 1999?" — never its characterization of a situation ("how did Guyana describe the crisis").
+
+LEXICAL DISTANCE — WHERE IT COMES FROM AND WHERE IT MUST NOT:
+Actively paraphrase: a semantic retriever should match on meaning, not keyword overlap. Distance comes from describing the SITUATION, RESPONSE, or PEOPLE in ordinary words instead of the document's formulas — "the mass killing of civilians" for "the very numerous killings of civilians"; "UN peacekeepers" for the mission's formal designation; "people who fled across the border" for "refugees who crossed the border". Distance must NOT come from substituting terms of art or official names: "arms embargo" is not "weapons ban", "asset freeze" is not "account blocking", an International Day or a body keeps its name. A substituted term of art changes what is being asked about. Paraphrase must also never strip the discriminating anchor: keep the country, the mission, and the year.
 
 NAMING FOR RETRIEVABILITY:
 The person typing has NOT seen this document and is searching among hundreds of thousands of UN documents that share the same formulaic register.
-- Every question MUST carry at least one concrete anchor: a country or situation ("Rwanda", "the conflict in Darfur"), a mission or operation ("UNAMIR"), a named body or actor type ("the Panel of Experts", "troop-contributing countries"), or a specific subject matter ("arms embargo exemptions for humanitarian equipment").
-- Every definite description must be NAMED in the question itself: never bare "the Committee", "the Regional Centre", "the speaker", "the sides", "the Council" — resolve the name from the block, the context, or the metadata; that is what they are for. If the name cannot be resolved, discard the question.
+- Every question MUST carry at least one concrete anchor: a country or situation ("Rwanda", "the conflict in Darfur"), a mission or operation ("UNAMIR"), a named body or actor type ("the Panel of Experts", "troop-contributing countries"), or a specific subject matter tied to a situation ("arms embargo exemptions for humanitarian equipment in Somalia"). A bare topic ("counterterrorism measures", "climate action", "developing countries") is not an anchor. Report the anchor in "anchor" as a VERBATIM substring of the question.
+- Every definite description must be NAMED in the question itself: never bare "the Committee", "the Regional Centre", "the speaker", "the sides", "the Council" — resolve the name from the block, the context, or the metadata.
 - Never write "this resolution", "the present report", "this document", or refer to the document's contents as if visible.
-- Test every question: typed into a search engine by a stranger, would it lead to THIS document's subject matter? "What did the Security Council express grave concern about?" fails — boilerplate shared by thousands of resolutions. "How did the Security Council respond to attacks on displaced civilians in Rwanda?" passes.
-
-TIME IN THE QUESTION:
-Every temporal expression in the QUESTION must be absolute. Include the year with any date or period. NEVER use document-relative time: "current", "now", "recently", "today", "the day before", "at its next session", "the reporting period". Resolve these into calendar terms using the context and metadata; if they cannot be resolved, discard the question.
+- Test every question: typed into a search engine by a stranger, would it lead to THIS document's subject matter? "What did the Security Council express grave concern about?" fails. "How did the Security Council respond to attacks on displaced civilians in Rwanda in 1994?" passes.
+- RECURRING SERIES: many blocks come from resolutions adopted every session with near-identical text (the annual Bosnia and Herzegovina resolution, the right to food, the Chemical Weapons Convention, a mission's yearly renewal). An unchanged paragraph in such a series fits every year equally even with the year attached. Prefer content specific to THIS year's text — a named event, a new task, a figure; if the block holds only unchanged recurring text, skip with skip_reason "recurring boilerplate".
 
 CONSEQUENTIAL ANSWER SPANS:
-UN documents mix substance with ceremony. The answer span must carry substance:
-- QUALIFYING spans: measures established, extended, or modified; mandates and their scope; conditions, criteria, and exemptions; how a mechanism operates; who is bound, protected, or assisted and how; concrete reported events, findings, and stated rationales.
-- DISQUALIFIED spans, in any part of the document: commends, welcomes, expresses appreciation or concern, takes note, reaffirms or reiterates commitment, encourages or invites in general terms, calls upon "the international community", aspirations and hopes. Preambular recitals are framing, not answer material.
-- THE BOILERPLATE TEST: if the answer span could appear unchanged in dozens of other UN documents (stakeholder invitation lists, generic development exhortations), it cannot anchor a question — even when it sits in an operative paragraph. When a block contains both ceremony and substance, ask about the substance.
+- QUALIFYING spans: measures established, extended, or modified; mandates and their scope; conditions, criteria, and exemptions; how a mechanism operates; who is bound, protected, or assisted and how; concrete reported events, findings, and stated rationales; and — for situation-framed questions — preambular ASSESSMENTS of the situation that state concretely what is happening ("delays by the signatory parties and the absence of an inclusive political settlement", "an estimated 250,000 refugees crossed the border").
+- DISQUALIFIED spans, in any part of the document, INCLUDING their softer forms: commends; welcomes ("welcomes the continuing role of"); expresses appreciation or concern ("remains a cause for serious concern"); takes note; notes with appreciation; stresses or underlines the importance of; recognizes the primary responsibility of; reaffirms or reiterates commitment; encourages or invites in general terms; calls upon States to consider; calls upon "the international community"; aspirations. Preambular RECITALS — recalling, reaffirming, recognizing responsibility, expressing concern — are framing, not answer material, even though preambular ASSESSMENTS are.
+- THE BOILERPLATE TEST: if the answer span could appear unchanged in dozens of other UN documents (stakeholder invitation lists, the universal "measures must comply with international law" clause, "primary responsibility lies with the authorities themselves"), it cannot anchor a question. When a block holds both ceremony and substance, ask about the substance.
 
 ATTRIBUTION:
-Much of this corpus reports what someone SAID. When the block attributes a statement, claim, estimate, or assessment, the question and answer must preserve the attribution — and must attribute to the STATE or OFFICE ("the representative of South Africa", "the Secretary-General", "according to UN reporting in spring 1994"), never to a bare personal name; a personal name may appear only alongside the office. Attributed content is askable only when it is a position on an identifiable proposal, instrument, or measure, a stated rationale, or a concrete situation assessment — never an aspiration, a courtesy, or a generic exhortation. Never present an attributed claim as established fact.
+Much of this corpus reports what someone SAID. When the block attributes a statement, claim, estimate, or assessment, the question and answer must preserve the attribution — to the STATE or OFFICE ("the representative of South Africa", "the Secretary-General", "according to UN reporting in spring 1994"), never a bare personal name. An AGENTLESS PASSIVE or a claim stated as fact is stripped attribution: "as weapons kept reaching the separatists" presents Georgia's assertion as fact — write "according to Georgia" or "in Georgia's account". Attributed content is askable only when it is a position on an identifiable proposal, instrument, or measure, a stated rationale, or a concrete situation assessment — never an aspiration, a courtesy, or a generic exhortation.
+
+THE INFORMATIVENESS TEST:
+The answer must tell the asker something the question does not already contain. If the answer merely restates the question's own words or the pointer it was built from, the question is empty — discard it and ask about the substance instead.
 
 CORE RULES:
-- THE BLOCK TEST (apply to every candidate): could a reader produce the COMPLETE answer from the TARGET BLOCK alone, using the references and context only to understand referring expressions, names, dates, and citations? If any needed fact, figure, list, or reason sits only in a reference or the context, DISCARD. This is the most common grounding failure in this task.
-- Off-Target: a question answerable entirely from a referenced document is about THAT document — discard. Citations never complete answers: if the substance sits behind a citation ("the measures imposed by resolution 1493 (2003)"), discard, even when the cited text is supplied.
-- Grounded Answer: even though the question is conceptual, the answer must be a short contiguous span of the TARGET BLOCK that directly addresses it. If no such span exists, discard the question.
+- THE BLOCK TEST (apply to every candidate): could a reader produce the COMPLETE answer from the TARGET BLOCK alone, using the references and context only to understand referring expressions, names, dates, and citations? If any needed fact, figure, list, or reason sits only in a reference or the context, DISCARD.
+- Off-Target: a question answerable entirely from a referenced document is about THAT document — discard. Citations never complete answers.
+- Grounded Answer: even though the question is conceptual, the answer must be a short contiguous span of the TARGET BLOCK that directly addresses it.
 - Single Intent: one clear informational goal per question; broader than a single fact is fine, bundled unrelated asks are not.
 - Wording & Length: natural search phrasing, 8–20 words, hard maximum 25.
 - Diversity: the questions must target distinguishable aspects and span at least two of the framings: situation, response, stakeholder.
-- ABSTAIN RATHER THAN PAD: generate up to THREE pairs. If the block supports fewer than three questions that pass every rule, generate fewer; if the block is wholly ceremonial or boilerplate, return []. Never manufacture a question to reach three; a padded question poisons the dataset.
+- SKIP RATHER THAN PAD: generate up to THREE pairs; fewer if fewer pass every rule. If the block supports none, return exactly [{"skip_reason": "<one short phrase>"}]. Never manufacture a question to reach three.
 
 WHAT TO ASK — span at least two of these framings:
-  1. Situation-framed (context or problem): what crisis, threat, dispute, or development does the document respond to or describe? Covers the motivating concern behind a measure and the state of affairs a report narrates.
+  1. Situation-framed (context or problem): what crisis, threat, dispute, or development does the document respond to or describe? Covers the motivating concern behind a measure and the state of affairs a report or preamble concretely assesses.
   2. Response-framed (mechanism or action): what mission, measure, process, or institutional arrangement is established, extended, or modified, and how does it operate?
-  3. Stakeholder-framed (affected party or scenario): who is bound, sanctioned, protected, or assisted, and in what real-world scenario? Both addressee ("What is the Government of X required to do...") and beneficiary ("What protection does the UN provide for civilians in...") perspectives belong here.
+  3. Stakeholder-framed (affected party or scenario): who is bound, sanctioned, protected, or assisted, and in what real-world scenario? Addressee ("What was the Government of X required to do...") and beneficiary ("What protection did the UN provide for civilians in...") perspectives both belong here, as does a State's position on a concrete matter.
 
 EXAMPLES — canonical good:
 Target block: S/RES/918 (1994): "3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations; 4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;" (context: preamble condemning the killings of civilians in Rwanda)
-✓ {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response"}
-✓ {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder"}
-  → Paraphrased, no identifiers, anchored by "Rwanda"; the spans are the block's own substantive content.
-Target block: report S/1994/565: "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April." (context identifies the reporting period as April–May 1994)
-✓ {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation"}
-  → Situation-framed, paraphrased, attribution preserved, time absolute.
+✓ {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda in 1994?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response", "anchor": "Rwanda"}
+✓ {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict in 1994?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder", "anchor": "the Rwandan conflict"}
+Target block: report S/1994/565: "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April." (context: April–May 1994)
+✓ {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation", "anchor": "refugee outflow from Rwanda"}
+Target block: S/RES/2148 (2014), preamble: "Recognizing that UNAMID's ability to facilitate progress in implementation of the DDPD is hampered by delays by the signatory parties and the absence of an inclusive political settlement between the government and non-signatory movements"
+✓ {"question": "What was hampering UNAMID's progress on implementing the DDPD in Darfur in 2014?", "answer": "UNAMID's ability to facilitate progress in implementation of the DDPD is hampered by delays by the signatory parties and the absence of an inclusive political settlement between the government and non-signatory movements", "framing": "situation", "anchor": "UNAMID"}
+  → A preambular ASSESSMENT — concrete obstacles — is admissible for situation framing; a preambular recital would not be. Year present.
 
-REAL FAILURES FROM A PREVIOUS RUN OF THIS PIPELINE — never reproduce these patterns:
+REAL FAILURES FROM PREVIOUS RUNS OF THIS PIPELINE — never reproduce these patterns:
+✗ "How did Guyana describe the crisis in Kosovo?"
+  → A speech report whose answer is an expression of concern (ceremony); no year. Only a position on a concrete matter would do: "What position did Guyana take on the use of force in Kosovo in 1999?" — and only if the block states one.
+✗ "What did the General Assembly say about Bosnia and Herzegovina's cooperation with the war crimes tribunal?"
+  → Speech report; "stresses the importance of" is ceremony; the paragraph recurs annually. Skip.
+✗ "Who was assigned the main responsibility for carrying out the Bosnia and Herzegovina Peace Agreement?"
+  → A preambular RECITAL ("Recognizing that... primary responsibility... lies with the authorities themselves") present in every annual Bosnia resolution since 1996; no year. Skip.
+✗ "What legal limit was placed on counterterrorism measures?"
+  → The universal compliance clause found in every counter-terrorism text; no actor, no situation, no year. Skip.
+✗ "How are gender concerns supposed to be built into right-to-food work?"
+  → The paragraph recurs verbatim in each year's right-to-food resolution; no year; adding the year alone barely helps. Target this year's specific content or skip.
+✗ "What caution did the General Assembly give on using vacancy management for ECA project costs?"
+  → A budget caveat is an extractive fact for another mode, and "what caution did X give" is a speech report. Skip in this mode.
+✗ "How was MINUSTAH to help Haiti build stronger state institutions outside Port-au-Prince?"
+  → Good framing, no year — and the clause recurs across MINUSTAH renewals. Minimum fix: "...in 2009?"
 ✗ "What kind of international action is needed to supplement national efforts for developing countries?"
-  → No concrete anchor, and the answer span ("concrete, effective and supportive international programmes, measures and policies...") is hortatory boilerplate that recurs across dozens of development resolutions. The block offered nothing better: the correct output for such a block is fewer questions or [].
+  → No anchor; hortatory boilerplate. Skip.
 ✗ "Which actors were invited to cooperate, observe and raise awareness of the International Day of Sport for Development and Peace?"
-  → Targets a generic invitation list — DISQUALIFIED — while the same block contains the substantive act. Fix, targeting the substance: {"question": "How did the General Assembly give formal recognition to sport as a tool for development and peace?", "answer": "Decides to proclaim 6 April the International Day of Sport for Development and Peace", "framing": "response"}
-✗ "What regional body did the Committee recommend considering creating to deal with peace and political crises in Central Africa through a summit of heads of State and Government?"
-  → "The Committee" is a bare definite the searcher cannot know; 30 words. Fix: name it from the context — "What regional body did the United Nations Standing Advisory Committee on Security Questions in Central Africa propose for managing armed conflict?"
-✗ "After the legislative elections, which priority areas did the speaker say should now receive attention in Côte d'Ivoire?"
-  → "The speaker" is a bare definite, "now" is document-relative, and "did the speaker say" is comprehension stance. Fix: resolve office and time from the context — "What priorities for Côte d'Ivoire did the Special Representative identify after the 2011 legislative elections?"
-✗ "What kind of cooperation was the General Assembly aiming to set up between the African Union's conflict-prevention mechanism and the Regional Centre?"
-  → "The Regional Centre" is a bare definite. Fix: "...and the United Nations Regional Centre for Peace and Disarmament in Africa?"
+  → An invitation list — DISQUALIFIED — while the same block contained the substantive act. Fix: {"question": "How did the General Assembly give formal recognition to sport as a tool for development and peace in 2013?", "answer": "Decides to proclaim 6 April the International Day of Sport for Development and Peace", "framing": "response", "anchor": "sport as a tool for development and peace"}
 
 SELF-CHECK every question, in this order:
-1. At least one concrete anchor (country, situation, mission, body, actor type, or specific subject matter)?
-2. No resolution numbers, document symbols, or paragraph numbers anywhere in the question?
-3. Every definite description named in the question itself — no bare "the Committee", "the Regional Centre", "the speaker", "the sides"?
-4. No document-relative time ("current", "now", "after the elections" without a year...)? All dates and periods absolute?
-5. Answer span QUALIFYING — substantive, and passes the boilerplate test?
+1. Extractive-only block, or recurring series with only unchanged text? → skip.
+2. Absolute year, date, or dated period present?
+3. No speech-report form ("how did X describe", "what did X say/stress/give")? If attributed, is it a State's position on a concrete matter?
+4. At least one concrete anchor — not a bare topic — reported verbatim in "anchor"; every definite description named; no identifiers?
+5. Answer span QUALIFYING — substance or a concrete preambular assessment, never a recital or a softer ceremonial form; passes the boilerplate test? INFORMATIVENESS passed?
 6. THE BLOCK TEST passed; not answerable from a reference alone; no metadata answers?
-7. Attribution preserved, to State or office, and worth asking?
-8. Wording paraphrased (terms of art and proper nouns excepted); 8–20 words (max 25)?
+7. Attribution preserved, to State or office, no agentless passive or claim-as-fact?
+8. Paraphrased the right way — ordinary-words distance, terms of art, proper nouns, and the anchor kept; 8–20 words (max 25)?
 9. Conceptual rather than single-data-point; framings cover at least two of situation / response / stakeholder?
-10. Fewer than three questions passed? Output fewer. None passed? Output [].
+10. Fewer than three passed? Output fewer. None? Output the skip.
 
-OUTPUT (valid JSON only, no markdown): a list of ZERO to THREE objects:
+OUTPUT (valid JSON only, no markdown): a list of up to THREE objects:
 [
-  {"question": "...", "answer": "...", "framing": "..."}
+  {"question": "...", "answer": "...", "framing": "...", "anchor": "..."}
 ]
+If no question passes every test, return exactly: [{"skip_reason": "<one short phrase>"}]
 - answer: the shortest contiguous span of the target block that fully and directly answers the question. The answer must be in English.
 - framing: one of situation, response, stakeholder.
-- An empty list [] is a valid and expected output for a block with no compliant question. Never pad.
-
+- anchor: the concrete anchor, a verbatim substring of the question. This field is mandatory.
 The target block and the document context are supplied in English and — when your output language is not English — in your output language as well. When both are present they are the same text, not two different passages: use the version in your output language for wording and terminology, and the English version as the reference reading. This does not change your output language, which is declared above. Here is the input:

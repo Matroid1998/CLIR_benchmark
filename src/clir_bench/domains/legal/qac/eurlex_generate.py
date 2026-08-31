@@ -198,6 +198,13 @@ def rows_for(payload: ctx.GenerationPayload, candidates: Sequence[Candidate], *,
         # target alone; more means the answer crossed a resolved cross-reference.
         "articles_involved": ",".join(c.articles_involved),
         "articles_involved_eli": ",".join(c.involved_elis),
+        # The source text the question was written from, so a row can be
+        # reviewed without re-running the payload builder. The target always;
+        # the referenced articles only when the answer actually crossed a
+        # citation, so an empty cell means "the target alone answers this".
+        "target_article_text": ctx.unit_source(payload.target, language),
+        "referenced_articles_text": ctx.referenced_sources(
+            c.articles_involved, payload, language),
         "multi_article": c.multi_article,
         "cross_act": c.cross_act,
         "reference_articles_supplied": ",".join(r.article_number for r in payload.references),

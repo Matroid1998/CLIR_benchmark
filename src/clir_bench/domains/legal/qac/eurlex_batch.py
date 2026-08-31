@@ -202,7 +202,16 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
                           languages=ctx.payload_languages(target.language))
     if payload is None:
         return []
-    grader = GraderConfig(model=grade_model, reasoning_effort="low")
+    # Both EUR-Lex rubrics are hostile-reviewer prompts: each runs a multi-step
+    # grading procedure and returns, per candidate, an expert rewrite plus a
+    # prose flaw note for every one of the five criteria. That is far more
+    # output than the score-only rubrics the defaults were sized for -- 12k
+    # total minus an 8k thinking budget leaves ~4k, and the grader came back
+    # empty ("Expecting value: line 1 column 1") or truncated mid-JSON
+    # ("Unterminated string") on 9 of 30 targets. Give the thinking and the
+    # answer room; the faithfulness rubric is unaffected either way.
+    grader = GraderConfig(model=grade_model, reasoning_effort="low",
+                          thinking_budget_tokens=16000, thinking_max_tokens=32000)
     gen_client, grade_client = client_for(gen_model), client_for(grade_model)
 
     candidates = call_with_retries(
@@ -277,6 +286,10 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "particulars": gen.PARTICULAR_SEP.join(candidate.particulars),
             "articles_involved": ",".join(candidate.articles_involved),
             "articles_involved_eli": ",".join(candidate.involved_elis),
+            # The source text this question was written from (see rows_for).
+            "target_article_text": ctx.unit_source(payload.target, target.language),
+            "referenced_articles_text": ctx.referenced_sources(
+                candidate.articles_involved, payload, target.language),
             "multi_article": candidate.multi_article,
             "cross_act": candidate.cross_act,
             "rejected_involved": ",".join(candidate.rejected_involved),
@@ -302,7 +315,8 @@ FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           # ``lookup`` fills question_cited/instrument_short_name/anchor;
           # ``fact_pattern`` fills particulars. The unused ones stay empty.
           "question_cited", "instrument_short_name", "anchor", "particulars",
-          "articles_involved", "articles_involved_eli", "multi_article",
+          "articles_involved", "articles_involved_eli",
+          "target_article_text", "referenced_articles_text", "multi_article",
           "cross_act", "rejected_involved", "faith_grounding", "faith_precision",
           "faith_numerical_fidelity", "qual_overall", "total_score")
 

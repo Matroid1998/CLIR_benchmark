@@ -500,9 +500,73 @@ def involved_elis(tokens: Sequence[str], payload: GenerationPayload) -> list[str
     return [lookup[n] for n in tokens if n in lookup]
 
 
+SOURCE_SEP = "\n\n----------\n\n"
+
+
+def _involved_lookup(payload: GenerationPayload) -> dict[str, ArticleUnit]:
+    """Declared token -> unit, over everything the model was allowed to cite."""
+    lookup: dict[str, ArticleUnit] = {payload.target.article_number: payload.target}
+    lookup.update({r.article_number: r for r in payload.references})
+    lookup.update({external_key(u): u for u in payload.external_references})
+    lookup.update({external_key(u): u for u in payload.annexes})
+    return lookup
+
+
+def involved_units(tokens: Sequence[str], payload: GenerationPayload) -> list[ArticleUnit]:
+    """The units behind ``articles_involved``, in the order the model declared.
+
+    The same lookup :func:`involved_elis` performs, returning the unit rather
+    than its id so callers can render the text a question was drawn from.
+    """
+    lookup = _involved_lookup(payload)
+    return [lookup[token] for token in tokens if token in lookup]
+
+
+def unit_source(unit: ArticleUnit, language: str, *, token: str = "") -> str:
+    """One unit rendered for a CSV cell: its label, then its text.
+
+    The label follows :func:`_block`'s convention so a reviewer reads the same
+    heading the generator saw. ``token`` prefixes the declared citation key so a
+    cell can be matched back to ``articles_involved``. The language falls back
+    to English, which is what makes this work for a zh question: the corpus has
+    no zh act versions, so a zh row still shows the source it was built on.
+    """
+    lang = language if unit.texts.get(language) else "en"
+    heading = unit.headings.get(lang) or ""
+    if unit.unit_type == "annex":
+        label = heading or "Annex"
+    else:
+        label = f"Article {unit.article_number}"
+        if heading:
+            label += f" \u2014 {heading}"
+    if token:
+        label = f"[{token}] {label}"
+    return f"{label}\n{unit.texts.get(lang, '')}".strip()
+
+
+def referenced_sources(tokens: Sequence[str], payload: GenerationPayload,
+                       language: str) -> str:
+    """Text of every involved article EXCEPT the target, in declared order.
+
+    The target is excluded because it has its own column and appears in
+    ``articles_involved`` on every row; repeating it would roughly double the
+    file for the single-article case, which is most of the corpus. An empty cell
+    therefore means exactly "the target article alone answers this".
+    """
+    lookup = _involved_lookup(payload)
+    parts = []
+    for token in tokens:
+        unit = lookup.get(token)
+        if unit is None or unit.eli_id == payload.target.eli_id:
+            continue
+        parts.append(unit_source(unit, language, token=token))
+    return SOURCE_SEP.join(parts)
+
+
 __all__ = [
     "ArticleIndex", "ArticleUnit", "GenerationPayload", "render_payload",
-    "normalise_involved", "involved_elis", "external_key",
+    "normalise_involved", "involved_elis", "involved_units", "external_key",
+    "unit_source", "referenced_sources", "SOURCE_SEP",
     "TARGET_HEADER", "CONTEXT_HEADER", "EXTERNAL_HEADER", "ANNEX_HEADER",
     "DEFAULT_MAX_REFERENCES", "DEFAULT_REFERENCE_CHARS",
 ]

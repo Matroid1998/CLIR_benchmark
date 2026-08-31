@@ -101,8 +101,10 @@ def parse_candidates(data: Any, mode: str) -> list[Candidate]:
             classification=str(item.get(key, "other")).strip(),
             question_cited=(str(item.get("question_cited", "")).strip()
                             if mode == MODE_LOOKUP else ""),
+            # ``lookup`` and ``semantic`` both carry a single ``anchor``;
+            # ``practitioners`` carries the ``anchors`` list instead.
             anchor=(str(item.get("anchor", "")).strip()
-                    if mode == MODE_LOOKUP else ""),
+                    if mode in (MODE_LOOKUP, MODE_SEMANTIC) else ""),
             anchors=([str(x).strip() for x in (raw_anchors or []) if str(x).strip()]
                      if mode == MODE_PRACTITIONERS else []),
         ))

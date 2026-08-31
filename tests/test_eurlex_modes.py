@@ -238,3 +238,39 @@ def test_the_batch_schema_covers_every_generated_column(payload) -> None:
         assert column in row
         assert column in batch.FIELDS
     assert "framing" not in row and "framing" not in batch.FIELDS
+
+
+# -- the source text a question was written from ---------------------------- #
+
+def test_the_target_article_text_travels_with_the_row(payload) -> None:
+    (c,) = gen.parse_candidates([LOOKUP_JSON], payload, gen.MODE_LOOKUP)
+    (row,) = gen.rows_for(payload, [c], mode=gen.MODE_LOOKUP, language="en")
+    assert "Article 4" in row["target_article_text"]
+    assert "Placing on the market" in row["target_article_text"]
+    assert "prohibit the articles listed in Article 3" in row["target_article_text"]
+
+
+def test_a_single_article_question_has_no_referenced_text(payload) -> None:
+    """An empty cell is meaningful: the target alone answers the question."""
+    (c,) = gen.parse_candidates([LOOKUP_JSON], payload, gen.MODE_LOOKUP)
+    (row,) = gen.rows_for(payload, [c], mode=gen.MODE_LOOKUP, language="en")
+    assert row["referenced_articles_text"] == ""
+
+
+def test_a_followed_reference_brings_its_text_and_its_token() -> None:
+    target = unit("4", "prohibit the articles listed in Article 3", "Placing on the market")
+    refs = [unit("3", "cotton bud sticks, cutlery, plates", "Covered products")]
+    p = ctx.GenerationPayload(target, refs, [], ctx.render_payload(target, refs))
+    (c,) = gen.parse_candidates(
+        [dict(LOOKUP_JSON, articles_involved=["3", "4"])], p, gen.MODE_LOOKUP)
+    (row,) = gen.rows_for(p, [c], mode=gen.MODE_LOOKUP, language="en")
+    assert "cotton bud sticks" in row["referenced_articles_text"]
+    assert "[3]" in row["referenced_articles_text"]          # matches articles_involved
+    # the target is NOT repeated here -- it has its own column
+    assert "prohibit the articles listed" not in row["referenced_articles_text"]
+    assert "prohibit the articles listed" in row["target_article_text"]
+
+
+def test_source_columns_are_in_the_published_schema(payload) -> None:
+    for column in ("target_article_text", "referenced_articles_text"):
+        assert column in batch.FIELDS
