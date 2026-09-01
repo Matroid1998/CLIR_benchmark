@@ -53,6 +53,8 @@ from clir_bench.domains.legal.qac import eurlex_context as ctx
 from clir_bench.domains.legal.qac import eurlex_generate as gen
 from clir_bench.domains.legal.qac.env import load_env
 
+DEFAULT_GEN_MODEL = "gpt-5.6-luna"
+
 OUT_DIR = struct_paths.EURLEX_DIR / "qac"
 
 # (name, min refs, max refs, share of the set). Only this share of the set is
@@ -331,7 +333,7 @@ def main() -> None:
     # prompt modes, gpt-5.4-mini generating and Sonnet grading.
     parser.add_argument("--languages", default="en,fr,de,es")
     parser.add_argument("--modes", default=",".join(gen.MODES))
-    parser.add_argument("--gen-model", default="gpt-5.4-mini")
+    parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
     parser.add_argument("--max-references", type=int, default=ctx.DEFAULT_MAX_REFERENCES)
     parser.add_argument("--workers", type=int, default=6)

@@ -52,6 +52,8 @@ from clir_bench.domains.legal.qac import un_generate as gen
 from clir_bench.domains.legal.qac import un_references as refs
 from clir_bench.domains.legal.qac.env import load_env
 
+DEFAULT_GEN_MODEL = "gpt-5.6-luna"
+
 OUT_DIR = un_paths.QAC_DIR
 
 # Question-source genres and their shares of the set (user-fixed 50/40/10).
@@ -259,7 +261,13 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
                           languages=ctx.payload_languages(target.language))
     if payload is None:
         return []
-    grader = GraderConfig(model=grade_model, reasoning_effort="low")
+    # The UN quality rubrics are hostile-reviewer prompts of the same family as
+    # the EUR-Lex ones: each runs a multi-step procedure and returns, per
+    # candidate, an expert rewrite plus a prose flaw note for all five criteria.
+    # The defaults (12k total, 8k of it thinking budget) leave ~4k for that and
+    # the grader comes back empty or truncated. See eurlex_batch for the same fix.
+    grader = GraderConfig(model=grade_model, reasoning_effort="low",
+                          thinking_budget_tokens=16000, thinking_max_tokens=32000)
     gen_client, grade_client = client_for(gen_model), client_for(grade_model)
 
     candidates = call_with_retries(
@@ -369,7 +377,9 @@ def pick_best(grouped: dict[str, list[dict[str, Any]]]
 # Grade columns are the union of every mode's rubric (grade_columns emits only
 # the scoring mode's keys; DictWriter leaves the other modes' cells empty). A
 # mode whose keys are missing here fails the write outright, so this must track
-# ``core.grading.quality_fields`` for all three modes.
+# the keys every rubric in ``prompts_un/verifiers`` declares -- which
+# ``core.grading.rubric_keys`` reads from the rubric itself. test_rubric_keys
+# pins the two together.
 FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "line_start", "line_end", "stratum",
           "context_blocks_supplied", "context_blocks_dropped",
@@ -386,6 +396,8 @@ FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "qual_search_realism", "qual_lexical_distance",
           "qual_conceptual_framing", "qual_retrievability",
           "qual_practitioner_realism", "qual_anchoring", "qual_informativeness",
+          # scored by the revised lookup / practitioners / semantic rubrics
+          "qual_consequence", "qual_anchoring_and_time",
           "qual_linguistic_quality", "qual_overall",
           "faith_reason", "qual_failure_type", "qual_reason", "total_score")
 
@@ -402,7 +414,7 @@ def main() -> None:
     # Sonnet grading.
     parser.add_argument("--languages", default="en,fr,es,zh")
     parser.add_argument("--modes", default="technical,semantic,descriptive")
-    parser.add_argument("--gen-model", default="gpt-5.4-mini")
+    parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
     parser.add_argument("--shares", default=None,

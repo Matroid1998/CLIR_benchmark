@@ -18,6 +18,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Mapping, Optional, Sequence
 
+import re
+
 from clir_bench.core.llm import (
     chat,
     chat_with_thinking,
@@ -122,6 +124,24 @@ _QUALITY_FIELDS_BY_MODE = {
 }
 
 
+# A rubric declares the criteria it scores as ``"<key>": <1-5>`` in its own
+# output block. Reading them from the rubric is what keeps a prompt edit from
+# silently desynchronising the grade: ``quality_keys`` is keyed by mode NAME,
+# but a name is not unique across packs -- "lookup" scores different criteria in
+# prompts_eurlex than in prompts_un, and "practitioners" shares none of the
+# technical five. When the two disagree the rubric wins, because it is what the
+# grader was actually asked to produce.
+_RUBRIC_SCORE = re.compile(r'"([a-z_]+)"\s*:\s*<1-5>')
+
+
+def rubric_keys(prompt: str) -> tuple[str, ...]:
+    """The criteria a quality rubric scores, in the order it declares them."""
+    seen: dict[str, None] = {}
+    for key in _RUBRIC_SCORE.findall(prompt or ""):
+        seen.setdefault(key, None)
+    return tuple(seen)
+
+
 def quality_keys(mode: str) -> tuple[str, ...]:
     return _QUALITY_KEYS_BY_MODE.get(mode, TECHNICAL_QUALITY_KEYS)
 
@@ -135,7 +155,8 @@ def faith_overall(scores: Mapping[str, Any]) -> int:
 
 
 def quality_overall(scores: Mapping[str, Any], mode: str) -> int:
-    return sum(int(scores.get(key, 0)) for key in quality_keys(mode))
+    keys = scores.get("_keys") or quality_keys(mode)
+    return sum(int(scores.get(key, 0)) for key in keys)
 
 
 def total_score(faith: Mapping[str, Any], quality: Mapping[str, Any], mode: str) -> int:
@@ -248,8 +269,13 @@ def _normalize_faith(item: Mapping[str, Any]) -> dict[str, Any]:
     return row
 
 
-def _normalize_quality(item: Mapping[str, Any], mode: str) -> dict[str, Any]:
-    row: dict[str, Any] = {key: _int_or(item.get(key), 1) for key in quality_keys(mode)}
+def _normalize_quality(item: Mapping[str, Any], mode: str,
+                       keys: Sequence[str] | None = None) -> dict[str, Any]:
+    keys = tuple(keys) if keys else quality_keys(mode)
+    row: dict[str, Any] = {key: _int_or(item.get(key), 1) for key in keys}
+    # Carried so downstream column-writers use the criteria this rubric actually
+    # scored rather than re-deriving them from the mode name.
+    row["_keys"] = list(keys)
     row["failure_type"] = str(item.get("failure_type", "none")).strip()
     row["reason"] = str(item.get("reason", "")).strip()
     row["overall"] = quality_overall(row, mode)
@@ -270,8 +296,10 @@ def _missing_faith() -> dict[str, Any]:
     return row
 
 
-def _missing_quality(mode: str) -> dict[str, Any]:
-    row: dict[str, Any] = {key: 1 for key in quality_keys(mode)}
+def _missing_quality(mode: str, keys: Sequence[str] | None = None) -> dict[str, Any]:
+    keys = tuple(keys) if keys else quality_keys(mode)
+    row: dict[str, Any] = {key: 1 for key in keys}
+    row["_keys"] = list(keys)
     row["failure_type"] = "missing"
     row["reason"] = "missing"
     row["overall"] = quality_overall(row, mode)
@@ -316,9 +344,10 @@ def grade_quality(
     want = expected if expected is not None else len(qa_pairs)
     raw = _invoke(client, config, prompt, f"{passages}\n\n{candidates_block(qa_pairs)}")
     items = sorted(_as_list(parse_json_response(raw))[:want], key=lambda x: x.get("index", 0))
-    rows = [_normalize_quality(item, mode) for item in items]
+    keys = rubric_keys(prompt) or quality_keys(mode)
+    rows = [_normalize_quality(item, mode, keys) for item in items]
     while len(rows) < want:
-        rows.append(_missing_quality(mode))
+        rows.append(_missing_quality(mode, keys))
     return rows
 
 
@@ -351,7 +380,7 @@ def grade_columns(
     for key in FAITHFULNESS_KEYS:
         row[f"faith_{key}"] = faith.get(key, "")
     row["faith_overall"] = faith.get("overall", faith_overall(faith))
-    for key in quality_keys(mode):
+    for key in (quality.get("_keys") or quality_keys(mode)):
         row[f"qual_{key}"] = quality.get(key, "")
     row["qual_overall"] = quality.get("overall", quality_overall(quality, mode))
     row["faith_reason"] = faith.get("reason", "")
@@ -404,6 +433,7 @@ __all__ = [
     "MODE_LOOKUP",
     "MODE_SEMANTIC",
     "MODE_TECHNICAL",
+    "rubric_keys",
     "SEMANTIC_QUALITY_FIELDS",
     "TECHNICAL_QUALITY_FIELDS",
     "candidates_block",
