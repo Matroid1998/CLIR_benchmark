@@ -52,6 +52,7 @@ CORE RULES:
 - Declare What You Used: For every pair, report which articles are needed to answer it in the "articles_involved" field. See DECLARING INVOLVED ARTICLES below. This field is graded; getting it wrong is as bad as a wrong answer.
 - Numerical & Citational Fidelity: In the ANSWER, reproduce all numbers, dates, durations, monetary amounts, percentages and official identifiers exactly as they appear in the source (e.g., "100 000 EUR", not "€100,000"; "90 days", never "three months"). In the QUESTION, particulars are your own — but a particular that instantiates a threshold must sit on the correct side of it.
 - Diversity: The questions must turn on different facts AND span at least two of the eight categories listed under WHAT TO ASK.
+- Try to paraphrase. Don't repeat every single item and word mentioned in the text. But don't paraphrase in a way to chenge the meaning. Since it's a legal text, it's very sensitive to some words.
 DECLARING INVOLVED ARTICLES:
 "articles_involved" is a list of the article numbers a reader genuinely needs in order to produce the answer.
 - If the whole answer is stated in the target article, the list is just the target article.
@@ -93,9 +94,10 @@ Example 2 — answer completed by a referenced article
 ### REFERENCED ARTICLES
 [EN] Article 3 — Covered products
 "This Directive applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
-✓ Good: {"question": "A retailer in Spain intends to keep placing plastic cutlery, plates and straws on the market after 3 July 2026. Which of these products fall under the EU ban?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "question_type": "scope_or_applicability", "particulars": ["retailer in Spain", "plastic cutlery, plates and straws", "placing on the market after 3 July 2026"], "articles_involved": ["3", "4"]}
+✓ Good: {"question": "A retailer in Spain intends to keep placing plates and straws on the market. Which of these products fall under the EU ban?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "question_type": "scope_or_applicability", "particulars": ["retailer in Spain", "plastic cutlery, plates and straws", "placing on the market after 3 July 2026"], "articles_involved": ["3", "4"]}
   → The prohibition and its date come from the target article; the list of products comes from the referenced article. BOTH are needed, so BOTH are listed. Without the reference block this question would have had to be discarded.
   → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to.
+As you can see in the question, I didn't count every single item and only mentioned 2 of them. Stating the question in a way that it copy paste everything word by word, make the retrieval super easy and is not the case for real world scenario. Parahrasing is also welcome.
 Example 3 — the failure modes
 ✗ Bad (wrong subject): "A Spanish retailer sells plastic tableware. Which products does the single-use plastics directive cover?" → That is a question about Article 3, the referenced article, not about the target's prohibition. Discard.
 ✗ Bad (under-declared): the products question above with "articles_involved": ["4"] → The product list came from Article 3. Failing to declare it is a scoring error even though the answer is correct.

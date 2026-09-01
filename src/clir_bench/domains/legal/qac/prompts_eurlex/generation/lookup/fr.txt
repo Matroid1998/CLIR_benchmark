@@ -65,6 +65,7 @@ RÈGLES FONDAMENTALES :
 - Fidélité numérique et citationnelle : Reproduisez tous les nombres, dates, durées, montants monétaires, pourcentages et identifiants officiels (numéros d'instrument, d'article, de paragraphe et d'annexe) exactement comme ils apparaissent dans la source (p. ex. « 100 000 EUR », et non « €100,000 » ; « 90 days », jamais « trois mois »). Les dates doivent être reproduites exactement (jour, mois, année), rendues dans le format standard de la langue cible (« 15 juillet 2027 » pour « el 15 de julio de 2027 »).
 - Paraphrasez, ne copiez pas : Les termes juridiques techniques et les entités nommées peuvent être réutilisés — ce sont les ancrages. Ne reprenez pas les phrases descriptives, les modificateurs à plusieurs mots ou les fragments de phrase de la source comme structure de question — reformulez-les dans vos propres mots.
 - Diversité : Les questions doivent cibler des faits différents ET couvrir au moins deux des huit catégories listées sous QUE DEMANDER.
+- Essayez de paraphraser. Ne reprenez pas chaque élément ni chaque mot figurant dans le texte. Mais ne paraphrasez pas d'une manière qui en changerait le sens : s'agissant d'un texte juridique, certains mots sont d'une grande sensibilité.
 DÉCLARATION DES ARTICLES IMPLIQUÉS :
 « articles_involved » est la liste des numéros d'articles dont un lecteur a réellement besoin pour produire la réponse.
 - Si toute la réponse est énoncée dans l'article cible, la liste se limite à l'article cible.
@@ -94,9 +95,10 @@ Example 1 — answer wholly inside the target article
 ### REFERENCED ARTICLES
 [EN] Article 12 — Implementing powers
 "The Commission shall adopt implementing acts establishing the format for the reports."
-✓ Good: {"question": "By what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "question_cited": "Under Directive (EU) 2019/904, by what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "by 31 March each year", "question_type": "deadline_or_duration", "anchor": "producers of single-use plastic products", "articles_involved": ["8"]}
+✓ Good: {"question": "What is the yearly cutoff date for single-use plastic producers to report their distribution numbers to the national authority?", "question_cited": "Under Directive (EU) 2019/904, by what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "by 31 March each year", "question_type": "deadline_or_duration", "anchor": "producers of single-use plastic products", "articles_involved": ["8"]}
   → The anchor is the regulated actor, built from the subject matter of the Act line. Sibling test: producer-reporting deadlines exist in the packaging, WEEE and batteries regimes too, so "producers" alone would fail; "single-use plastic" fixes the regime. Article 12 was supplied and is cited, but its content played no part in the answer, so it is NOT listed.
 ✗ Bad (no anchor): "By what date must producers report annual quantities placed on the market?" → which producers, under which regime? Fails the sibling test.
+Here, another question that could be asked is: By what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?. But the current version is better because it's paraphrased.
 Example 2 — answer completed by a referenced article
 ### TARGET ARTICLE
 [EN] Article 4 — Placing on the market

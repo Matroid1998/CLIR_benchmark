@@ -52,6 +52,7 @@ RÈGLES FONDAMENTALES :
 - Déclarez ce que vous avez utilisé : Pour chaque paire, indiquez quels articles sont nécessaires pour y répondre dans le champ « articles_involved ». Voir DÉCLARATION DES ARTICLES IMPLIQUÉS ci-dessous. Ce champ est évalué ; s'y tromper est aussi grave qu'une réponse erronée.
 - Fidélité numérique et citationnelle : Dans la RÉPONSE, reproduisez tous les nombres, dates, durées, montants monétaires, pourcentages et identifiants officiels exactement comme ils apparaissent dans la source (p. ex. « 100 000 EUR », et non « €100,000 » ; « 90 days », jamais « trois mois »). Dans la QUESTION, les éléments de fait sont les vôtres — mais un élément de fait qui instancie un seuil doit se situer du bon côté de celui-ci.
 - Diversité : Les questions doivent reposer sur des faits différents ET couvrir au moins deux des huit catégories listées sous QUE DEMANDER.
+- Essayez de paraphraser. Ne reprenez pas chaque élément ni chaque mot figurant dans le texte. Mais ne paraphrasez pas d'une manière qui en changerait le sens : s'agissant d'un texte juridique, certains mots sont d'une grande sensibilité.
 DÉCLARATION DES ARTICLES IMPLIQUÉS :
 « articles_involved » est la liste des numéros d'articles dont un lecteur a réellement besoin pour produire la réponse.
 - Si toute la réponse est énoncée dans l'article cible, la liste se limite à l'article cible.
@@ -93,9 +94,10 @@ Example 2 — answer completed by a referenced article
 ### REFERENCED ARTICLES
 [EN] Article 3 — Covered products
 "This Directive applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
-✓ Good: {"question": "A retailer in Spain intends to keep placing plastic cutlery, plates and straws on the market after 3 July 2026. Which of these products fall under the EU ban?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "question_type": "scope_or_applicability", "particulars": ["retailer in Spain", "plastic cutlery, plates and straws", "placing on the market after 3 July 2026"], "articles_involved": ["3", "4"]}
+✓ Good: {"question": "A retailer in Spain intends to keep placing plates and straws on the market. Which of these products fall under the EU ban?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "question_type": "scope_or_applicability", "particulars": ["retailer in Spain", "plastic cutlery, plates and straws", "placing on the market after 3 July 2026"], "articles_involved": ["3", "4"]}
   → The prohibition and its date come from the target article; the list of products comes from the referenced article. BOTH are needed, so BOTH are listed. Without the reference block this question would have had to be discarded.
   → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never says they are banned, nor from when. The prohibition and the date are the TARGET's own operative fact; the reference only names the members of the list it points to.
+As you can see in the question, I didn't count every single item and only mentioned 2 of them. Stating the question in a way that it copy paste everything word by word, make the retrieval super easy and is not the case for real world scenario. Parahrasing is also welcome.
 Example 3 — the failure modes
 ✗ Bad (wrong subject): "A Spanish retailer sells plastic tableware. Which products does the single-use plastics directive cover?" → That is a question about Article 3, the referenced article, not about the target's prohibition. Discard.
 ✗ Bad (under-declared): the products question above with "articles_involved": ["4"] → The product list came from Article 3. Failing to declare it is a scoring error even though the answer is correct.

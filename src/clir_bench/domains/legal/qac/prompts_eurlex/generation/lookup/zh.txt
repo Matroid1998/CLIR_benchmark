@@ -65,6 +65,7 @@
 - 数值与引用忠实：所有数字、日期、持续时间、货币金额、百分比和官方标识符（文书、条、款和附件编号）都必须严格按其在源文中出现的形式复制（例如 "100 000 EUR"，而不是 "€100,000"；"90 days"，绝不是"三个月"）。日期必须精确复制（日、月、年），并以输出语言的标准格式呈现（"2027年7月15日" 对应 "el 15 de julio de 2027"）。
 - 改写而非照搬：法律专业术语和命名实体可以复用 —— 它们就是锚点。不要把源文的描述性短语、多词修饰语或句子片段照搬作为问题骨架 —— 请用自己的话改写。
 - 多样性：这些问题必须针对不同的事实，并且至少覆盖"问什么"下列出的八个类别中的两个。
+- 请尽量改写表述。不要逐字重复文本中提到的每一个项目和每一个词。但不要以改变含义的方式改写：由于这是法律文本，某些用词非常敏感。
 声明所涉条款：
 "articles_involved" 是读者为得出答案而真正需要的条款编号列表。
 - 如果整个答案都载于目标条款中，列表就只包含目标条款。
@@ -94,9 +95,10 @@ Example 1 — answer wholly inside the target article
 ### REFERENCED ARTICLES
 [EN] Article 12 — Implementing powers
 "The Commission shall adopt implementing acts establishing the format for the reports."
-✓ Good: {"question": "By what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "question_cited": "Under Directive (EU) 2019/904, by what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "by 31 March each year", "question_type": "deadline_or_duration", "anchor": "producers of single-use plastic products", "articles_involved": ["8"]}
+✓ Good: {"question": "What is the yearly cutoff date for single-use plastic producers to report their distribution numbers to the national authority?", "question_cited": "Under Directive (EU) 2019/904, by what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?", "instrument_short_name": "Single-Use Plastics Directive", "answer": "by 31 March each year", "question_type": "deadline_or_duration", "anchor": "producers of single-use plastic products", "articles_involved": ["8"]}
   → The anchor is the regulated actor, built from the subject matter of the Act line. Sibling test: producer-reporting deadlines exist in the packaging, WEEE and batteries regimes too, so "producers" alone would fail; "single-use plastic" fixes the regime. Article 12 was supplied and is cited, but its content played no part in the answer, so it is NOT listed.
 ✗ Bad (no anchor): "By what date must producers report annual quantities placed on the market?" → which producers, under which regime? Fails the sibling test.
+Here, another question that could be asked is: By what date each year must producers of single-use plastic products report to the national authority the quantities they placed on the market?. But the current version is better because it's paraphrased.
 Example 2 — answer completed by a referenced article
 ### TARGET ARTICLE
 [EN] Article 4 — Placing on the market
