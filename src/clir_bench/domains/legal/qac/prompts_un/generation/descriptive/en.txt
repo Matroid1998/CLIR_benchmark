@@ -1,98 +1,209 @@
-You are an expert at creating legal and policy retrieval questions from United Nations documents (resolutions, reports, letters, and meeting records).
+You are an expert at creating legal and policy retrieval questions from United Nations documents
+  (resolutions, reports, letters, and meeting records).
 
 THE INFORMATION NEED OF THIS MODE:
-Every question is a query a practitioner — a legal adviser, a policy analyst, a journalist, a junior lawyer building a file — types into a search system when they know WHICH instrument or source they need but not its number: they remember the organ, roughly when, and what it did ("the 2004 Security Council resolution on Lebanese sovereignty", "the Secretary-General's July 1999 report on Iraq's oil industry"). They need ONE precise fact from it. Write from the need, not from the text: not a comprehension question about what a passage says, but a working question whose answer happens to live in this passage. The test throughout: would a lawyer who has never seen this passage plausibly need this fact, and would they type roughly these words to get it?
+Every question is a query a practitioner — a legal adviser, a policy analyst, a journalist, a junior
+  lawyer building a file — types into a search system when they know WHICH instrument or source they
+  need but not its number: they remember the organ, roughly when, and what it did ("the 2004
+  Security Council resolution on Lebanese sovereignty", "the Secretary-General's July 1999 report on
+  Iraq's oil industry"). They need ONE precise fact from it. Write from the need, not from the text:
+  not a comprehension question about what a passage says, but a working question whose answer
+  happens to live in this passage. The test throughout: would a lawyer who has never seen this
+  passage plausibly need this fact, and would they type roughly these words to get it?
 
 LANGUAGE:
-The questions and answers MUST be written in English. Preserve terms of art and named entities — missions, organs, bodies, programmes ("UNAMIR", "the Economic and Social Council") — and all dates, durations, monetary amounts, percentages, troop figures, and thresholds in their original form; do not round, reformat, or loosely rename. Where an organ, body, or instrument has an official English name, use it rather than a literal translation.
+The questions and answers MUST be written in English. Preserve terms of art and named entities —
+  missions, organs, bodies, programmes ("UNAMIR", "the Economic and Social Council") — and all
+  dates, durations, monetary amounts, percentages, troop figures, and thresholds in their original
+  form; do not round, reformat, or loosely rename. Where an organ, body, or instrument has an
+  official English name, use it rather than a literal translation.
 
 HOW THE INPUT IS STRUCTURED:
 You receive three marked sections.
-- "### TARGET BLOCK" — one contiguous passage (whole paragraphs) of one UN document. You write questions ABOUT this text.
-- "### REFERENCED DOCUMENTS" — documents the target block CITES, each supplied as symbol, title, and text — ONLY so you can UNDERSTAND what a cited instrument is, so you can DESCRIBE it accurately without ever printing its number.
-- "### DOCUMENT CONTEXT" — surrounding text OF THE SAME DOCUMENT: its opening and, for long documents, the passages around the target block.
+- "### TARGET BLOCK" — one contiguous passage (whole paragraphs) of one UN document. You write
+  questions ABOUT this text.
+- "### REFERENCED DOCUMENTS" — documents the target block CITES, each supplied as symbol, title, and
+  text — ONLY so you can UNDERSTAND what a cited instrument is, so you can DESCRIBE it accurately
+  without ever printing its number.
+- "### DOCUMENT CONTEXT" — surrounding text OF THE SAME DOCUMENT: its opening and, for long
+  documents, the passages around the target block.
 The roles are strict:
 - The ANSWER must be fully stated in the TARGET BLOCK. Not partly — fully.
-- The supporting sections exist so you can UNDERSTAND and DESCRIBE — never so you can answer from them. USE them to resolve what the block leaves implicit: which mission "the Mission" is, which parties "the sides" are, which committee "the Committee" is, what a cited resolution concerns, and the calendar date of the meeting, report, or session. If any part of the answer's substance is stated only in a referenced document or only in the context, DISCARD the question. Supporting text supplies descriptions, names, and dates; it never supplies facts.
-The target block begins with METADATA lines ([EN] Document: <symbol> / Title: <title>), followed by the text. Use them to know what the passage is about and when it is from. The metadata is CONTEXT, NOT CONTENT: never take an answer from a metadata line, never ask about the metadata itself, and never copy the symbol or a resolution number out of it into a question — describe instead.
+- The supporting sections exist so you can UNDERSTAND and DESCRIBE — never so you can answer from
+  them. USE them to resolve what the block leaves implicit: which mission "the Mission" is, which
+  parties "the sides" are, which committee "the Committee" is, what a cited resolution concerns, and
+  the calendar date of the meeting, report, or session. If any part of the answer's substance is
+  stated only in a referenced document or only in the context, DISCARD the question. Supporting text
+  supplies descriptions, names, and dates; it never supplies facts.
+The target block begins with METADATA lines ([EN] Document: <symbol> / Title: <title>), followed by
+  the text. Use them to know what the passage is about and when it is from. The metadata is CONTEXT,
+  NOT CONTENT: never take an answer from a metadata line, never ask about the metadata itself, and
+  never copy the symbol or a resolution number out of it into a question — describe instead.
 
 THE DEFINING RULE — DESCRIBE THE INSTRUMENT, NEVER CITE IT:
-The question MUST NOT contain any official identifier: no resolution or decision number ("resolution 918 (1994)"), no document symbol ("S/1994/565"), no paragraph number. Name every instrument or source BY DESCRIPTION — organ + year + subject:
+The question MUST NOT contain any official identifier: no resolution or decision number ("resolution
+  918 (1994)"), no document symbol ("S/1994/565"), no paragraph number. Name every instrument or
+  source BY DESCRIPTION — organ + year + subject:
 - "the 1994 Security Council resolution expanding the UN mission in Rwanda"
 - "the 2004 Security Council resolution on Lebanese sovereignty"
 - "the Secretary-General's July 1999 report on Iraq's oil industry"
 - "the 2006 General Assembly high-level meeting on HIV/AIDS"
-Why: an identifier is a language-invariant string — "1559" is identical in every language — so a query carrying it retrieves by string overlap alone. Describing forces the system to match WHAT the instrument is against text that phrases it differently, across languages. The REFERENCED DOCUMENTS section is what makes accurate description possible.
-Mission acronyms, body names, country and situation names are PROPER NOUNS, not identifiers — they are exactly the anchors this mode wants. The NUMBER is what is forbidden. Identifiers may appear inside the answer span; that is acceptable.
+Why: an identifier is a language-invariant string — "1559" is identical in every language — so a
+  query carrying it retrieves by string overlap alone. Describing forces the system to match WHAT
+  the instrument is against text that phrases it differently, across languages. The REFERENCED
+  DOCUMENTS section is what makes accurate description possible.
+Mission acronyms, body names, country and situation names are PROPER NOUNS, not identifiers — they
+  are exactly the anchors this mode wants. The NUMBER is what is forbidden. Identifiers may appear
+  inside the answer span; that is acceptable.
 
 SPECIFICITY — THE SMALLEST ASKABLE FACT:
 Practitioners ask pinpoint questions. Every question must:
-- Carry THREE pins: (1) the instrument or source named by description, INCLUDING ITS YEAR — the year is mandatory and doubles as the time anchor; (2) the substantive subject — situation or country, mission, body, or measure; (3) absolute calendar terms for any further time reference.
-- Target the smallest askable unit: one deadline, one figure, one criterion, one exemption, one actor, one procedural step. If the block offers a bundle, ask about ONE element, chosen for consequence.
-- Prefer questions whose complete answer is a short span: a figure, a date, a name, a bounded phrase. If the natural answer is a paragraph or a long list, narrow the question or discard it.
+- Carry THREE pins: (1) the instrument or source named by description, INCLUDING ITS YEAR — the year
+  is mandatory and doubles as the time anchor; (2) the substantive subject — situation or country,
+  mission, body, or measure; (3) absolute calendar terms for any further time reference.
+- Target the smallest askable unit: one deadline, one figure, one criterion, one exemption, one
+  actor, one procedural step. If the block offers a bundle, ask about ONE element, chosen for
+  consequence.
+- Prefer questions whose complete answer is a short span: a figure, a date, a name, a bounded
+  phrase. If the natural answer is a paragraph or a long list, narrow the question or discard it.
 
 TIME IN THE QUESTION:
-Every temporal expression in the QUESTION must be absolute. Include the year with every date. NEVER use document-relative time: "current", "now", "recently", "today", "the day before", "at its next session", "last month", "the reporting period". Resolve these into calendar terms using the context and metadata (the meeting's date, the report's month, the session's year); if they cannot be resolved, discard the question. Exact-reproduction governs the ANSWER; the QUESTION must resolve.
+Every temporal expression in the QUESTION must be absolute. Include the year with every date. NEVER
+  use document-relative time: "current", "now", "recently", "today", "the day before", "at its next
+  session", "last month", "the reporting period". Resolve these into calendar terms using the
+  context and metadata (the meeting's date, the report's month, the session's year); if they cannot
+  be resolved, discard the question. Exact-reproduction governs the ANSWER; the QUESTION must
+  resolve.
 
 CONSEQUENTIAL CONTENT ONLY:
-UN documents mix binding action with ceremony. A question is worth asking only when its answer span carries operational or legal effect or a concrete fact:
-- QUALIFYING spans: decides, authorizes, establishes, extends, terminates, imposes, proclaims, designates, appoints, appropriates, approves; requests or directs WITH a named deliverable or deadline; conditions and criteria; exemptions and carve-outs; exact figures, dates, ceilings, appropriations; named actors and formally defined terms; concrete reported events and findings.
-- DISQUALIFIED spans, in any part of the document: commends, welcomes, expresses appreciation or concern, takes note, reaffirms or reiterates commitment, encourages or invites in general terms, calls upon "the international community", aspirations and hopes. Preambular recitals are framing, never answer material.
-- THE BOILERPLATE TEST: if the answer span could appear unchanged in dozens of other UN documents, it cannot anchor a question — even when it sits in an operative paragraph.
+UN documents mix binding action with ceremony. A question is worth asking only when its answer span
+  carries operational or legal effect or a concrete fact:
+- QUALIFYING spans: decides, authorizes, establishes, extends, terminates, imposes, proclaims,
+  designates, appoints, appropriates, approves; requests or directs WITH a named deliverable or
+  deadline; conditions and criteria; exemptions and carve-outs; exact figures, dates, ceilings,
+  appropriations; named actors and formally defined terms; concrete reported events and findings.
+- DISQUALIFIED spans, in any part of the document: commends, welcomes, expresses appreciation or
+  concern, takes note, reaffirms or reiterates commitment, encourages or invites in general terms,
+  calls upon "the international community", aspirations and hopes. Preambular recitals are framing,
+  never answer material.
+- THE BOILERPLATE TEST: if the answer span could appear unchanged in dozens of other UN documents,
+  it cannot anchor a question — even when it sits in an operative paragraph.
 
 ATTRIBUTION:
-Much of this corpus reports what someone SAID: summary records report statements, letters convey positions, reports state the reporting body's findings. When the block attributes a claim, estimate, or assessment, the question and answer must preserve the attribution — and must attribute to the STATE or OFFICE ("the representative of Sweden", "the Secretary-General", "the United States delegation"), never to a bare personal name ("Mr. Eliasson"); a personal name may appear only alongside the office. Attributed content is askable only when it is a position on an identifiable proposal, instrument, or measure, a stated rationale, or a concrete figure or event — never an aspiration, a courtesy, or a generic exhortation. Anchor report findings to source and period, by description ("in his May 1994 report on Rwanda"). Never present an attributed claim as established fact.
+Much of this corpus reports what someone SAID: summary records report statements, letters convey
+  positions, reports state the reporting body's findings. When the block attributes a claim,
+  estimate, or assessment, the question and answer must preserve the attribution — and must
+  attribute to the STATE or OFFICE ("the representative of Sweden", "the Secretary-General", "the
+  United States delegation"), never to a bare personal name ("Mr. Eliasson"); a personal name may
+  appear only alongside the office. Attributed content is askable only when it is a position on an
+  identifiable proposal, instrument, or measure, a stated rationale, or a concrete figure or event —
+  never an aspiration, a courtesy, or a generic exhortation. Anchor report findings to source and
+  period, by description ("in his May 1994 report on Rwanda"). Never present an attributed claim as
+  established fact.
 
 CORE RULES:
 - Single Focus: exactly ONE piece of information per question; never bundle asks.
-- THE BLOCK TEST (apply to every candidate): could a reader produce the COMPLETE answer from the TARGET BLOCK alone, using the references and context only to understand referring expressions, names, dates, and citations? If any needed fact sits only in a reference or the context, DISCARD. This is the most common grounding failure in this task.
-- Off-Target: a question answerable entirely from a referenced document is about THAT document — discard. Citations never complete answers: if the substance sits behind a citation rather than in the block's own words, discard, even when the cited text is supplied.
-- Full Direct Support: no inference, no outside knowledge — not even facts from the supporting sections.
-- Numerical Fidelity (ANSWER): reproduce numbers, dates, durations, amounts, percentages, and troop figures exactly; identifiers appearing in the answer must be exact.
-- Wording & Length: write as the practitioner would type — direct interrogative, 8–20 words, hard maximum 25. No treaty-summary phrasing, no stacked subordinate clauses. Terms of art and named entities may be reused; multi-word descriptive fragments from the source may not be used as question scaffolding — rewrite them.
-- Diversity: the questions must target different facts and span at least two of the eight categories.
-- ABSTAIN RATHER THAN PAD: generate up to THREE pairs. If the block supports fewer than three questions that pass every rule, generate fewer; if it supports none — all ceremony, all boilerplate — return []. Never manufacture a question to reach three; a padded question poisons the dataset.
+- THE BLOCK TEST (apply to every candidate): could a reader produce the COMPLETE answer from the
+  TARGET BLOCK alone, using the references and context only to understand referring expressions,
+  names, dates, and citations? If any needed fact sits only in a reference or the context, DISCARD.
+  This is the most common grounding failure in this task.
+- Off-Target: a question answerable entirely from a referenced document is about THAT document —
+  discard. Citations never complete answers: if the substance sits behind a citation rather than in
+  the block's own words, discard, even when the cited text is supplied.
+- Full Direct Support: no inference, no outside knowledge — not even facts from the supporting
+  sections.
+- Numerical Fidelity (ANSWER): reproduce numbers, dates, durations, amounts, percentages, and troop
+  figures exactly; identifiers appearing in the answer must be exact.
+- Wording & Length: write as the practitioner would type — direct interrogative, 8–20 words, hard
+  maximum 25. No treaty-summary phrasing, no stacked subordinate clauses. Terms of art and named
+  entities may be reused; multi-word descriptive fragments from the source may not be used as
+  question scaffolding — rewrite them.
+- Diversity: the questions must target different facts and span at least two of the eight
+  categories.
+- ABSTAIN RATHER THAN PAD: generate up to THREE pairs. If the block supports fewer than three
+  questions that pass every rule, generate fewer; if it supports none — all ceremony, all
+  boilerplate — return []. Never manufacture a question to reach three; a padded question poisons
+  the dataset.
 
 WHAT TO ASK — eight categories, in priority order for this mode:
-  1. Sanctions, Conditions & Consequences: measures imposed, designation and exemption criteria, conditions for imposing, reviewing, or lifting measures, escalation steps.
-  2. Dates, Deadlines & Mandate Periods: mandate start, extension, and expiry, reporting and compliance deadlines, effective and review dates, transition timelines.
-  3. Quantities, Forces & Finances: troop and police ceilings, appropriations and contributions, reported statistics, percentages, limits.
-  4. Reporting, Monitoring & Verification: who reports to whom and at what frequency, monitoring bodies, verification arrangements, notification duties.
-  5. Actors, Bodies & Procedures: named officials and bodies, composition, roles, appointment, procedural steps, formally defined terms.
-  6. Operative Actions: what the organ decides, authorizes, demands, or requests, and of whom — when it qualifies under CONSEQUENTIAL CONTENT.
-  7. Situations, Scope & Coverage: which country, conflict, territory, population, or period a measure or report covers; exemptions and carve-outs.
-  8. Findings, Events & Assessments: concrete dated facts and the reporting body's conclusions — with attribution, and only facts a practitioner would verify, never rhetoric.
-Questions about purpose, rationale, or effect only when the block states that information explicitly and completely.
+  1. Sanctions, Conditions & Consequences: measures imposed, designation and exemption criteria,
+    conditions for imposing, reviewing, or lifting measures, escalation steps.
+  2. Dates, Deadlines & Mandate Periods: mandate start, extension, and expiry, reporting and
+    compliance deadlines, effective and review dates, transition timelines.
+  3. Quantities, Forces & Finances: troop and police ceilings, appropriations and contributions,
+    reported statistics, percentages, limits.
+  4. Reporting, Monitoring & Verification: who reports to whom and at what frequency, monitoring
+    bodies, verification arrangements, notification duties.
+  5. Actors, Bodies & Procedures: named officials and bodies, composition, roles, appointment,
+    procedural steps, formally defined terms.
+  6. Operative Actions: what the organ decides, authorizes, demands, or requests, and of whom — when
+    it qualifies under CONSEQUENTIAL CONTENT.
+  7. Situations, Scope & Coverage: which country, conflict, territory, population, or period a
+    measure or report covers; exemptions and carve-outs.
+  8. Findings, Events & Assessments: concrete dated facts and the reporting body's conclusions —
+    with attribution, and only facts a practitioner would verify, never rhetoric.
+Questions about purpose, rationale, or effect only when the block states that information explicitly
+  and completely.
 
 EXAMPLES — canonical good:
-Target block (from a report on Lebanon): "In its resolution 1559 (2004), the Security Council reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out in the resolution have not yet been fully met." Reference supplied: S/RES/1559 (2004), on Lebanese sovereignty, withdrawal of foreign forces, disbanding of militias.
+Target block (from a report on Lebanon): "In its resolution 1559 (2004), the Security Council
+  reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out
+  in the resolution have not yet been fully met." Reference supplied: S/RES/1559 (2004), on Lebanese
+  sovereignty, withdrawal of foreign forces, disbanding of militias.
 ✓ {"question": "Did the Secretary-General consider the 2004 Security Council resolution on Lebanese sovereignty fulfilled by late 2005?", "answer": "The requirements set out in the resolution have not yet been fully met", "question_type": "finding_event_or_assessment"}
-  → The instrument is named by DESCRIPTION (organ + year + subject), built from the reference — no "1559", no symbol. Attribution preserved; the answer is wholly in the block.
-✗ "What did the Secretary-General conclude in late 2005 about the implementation of resolution 1559 (2004)?" → contains the number. Forbidden in this mode; describe instead.
-✗ "Which foreign forces did the 2004 Lebanon resolution call to withdraw?" → the list is stated only in the REFERENCED DOCUMENT. BLOCK TEST fails. Discard.
-Target block: S/RES/918 (1994), operative paragraph: "4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;"
+  → The instrument is named by DESCRIPTION (organ + year + subject), built from the reference — no
+    "1559", no symbol. Attribution preserved; the answer is wholly in the block.
+✗ "What did the Secretary-General conclude in late 2005 about the implementation of resolution 1559
+  (2004)?" → contains the number. Forbidden in this mode; describe instead.
+✗ "Which foreign forces did the 2004 Lebanon resolution call to withdraw?" → the list is stated only
+  in the REFERENCED DOCUMENT. BLOCK TEST fails. Discard.
+Target block: S/RES/918 (1994), operative paragraph: "4. Authorizes in this context an expansion of
+  the UNAMIR force level up to 5,500 troops;"
 ✓ {"question": "What troop ceiling did the Security Council authorize for UNAMIR in mid-1994?", "answer": "up to 5,500 troops", "question_type": "quantity_force_or_finance"}
   → Mission named (a proper noun, allowed), year present, no number, smallest unit.
 
 REAL FAILURES FROM A PREVIOUS RUN OF THIS PIPELINE — never reproduce these patterns:
-✗ "How much did the United States say it had paid the day before for the regular budget and peacekeeping operations for 1999?"
-  → "The day before" is document-relative time, meaningless to a searcher, and "say it had paid" is reading-comprehension stance. Fix, resolving the date from the meeting record's context: "How much did the United States delegation report paying toward 1999 regular-budget and peacekeeping assessments in 1998?"
-✗ "In the General Assembly resolution on effects of atomic radiation, what did the Assembly request the Scientific Committee to do at its next session?"
-  → "At its next session" is document-relative; the description lacks its year; "what did the Assembly request X to do" is a comprehension frame. Fix: "By which session was UNSCEAR to report its review of ionizing radiation, under the 2001 General Assembly resolution on atomic radiation?"
-✗ "Which countries did one group of the Panel of Experts on the sanctions regime relating to the Islamic Republic of Iran visit from 10 to 14 September to meet with relevant Government officials on issues related to its mandate?"
-  → A date without a year; "one group of" and "on issues related to its mandate" are lifted filler; 38 words. Fix: "Which countries did the Panel of Experts on the Iran sanctions regime visit in September 2012?"
-✗ "What was the current ceiling for the maximum rate of assessment for the least developed countries?"
-  → "Current" is document-relative. Fix: "What ceiling applied to the least developed countries' rate of assessment in 2005?"
+✗ "How much did the United States say it had paid the day before for the regular budget and
+  peacekeeping operations for 1999?"
+  → "The day before" is document-relative time, meaningless to a searcher, and "say it had paid" is
+    reading-comprehension stance. Fix, resolving the date from the meeting record's context: "How
+    much did the United States delegation report paying toward 1999 regular-budget and peacekeeping
+    assessments in 1998?"
+✗ "In the General Assembly resolution on effects of atomic radiation, what did the Assembly request
+  the Scientific Committee to do at its next session?"
+  → "At its next session" is document-relative; the description lacks its year; "what did the
+    Assembly request X to do" is a comprehension frame. Fix: "By which session was UNSCEAR to report
+    its review of ionizing radiation, under the 2001 General Assembly resolution on atomic
+    radiation?"
+✗ "Which countries did one group of the Panel of Experts on the sanctions regime relating to the
+  Islamic Republic of Iran visit from 10 to 14 September to meet with relevant Government officials
+  on issues related to its mandate?"
+  → A date without a year; "one group of" and "on issues related to its mandate" are lifted filler;
+    38 words. Fix: "Which countries did the Panel of Experts on the Iran sanctions regime visit in
+    September 2012?"
+✗ "What was the current ceiling for the maximum rate of assessment for the least developed
+  countries?"
+  → "Current" is document-relative. Fix: "What ceiling applied to the least developed countries'
+    rate of assessment in 2005?"
 ✗ "According to Mr. Eliasson, what did the 2001 Declaration of Commitment emphasize?"
-  → Bare surname attribution, and "what did X emphasize" targets emphasis rather than a concrete commitment. Attribute by office and target substance, or discard: "According to the President of the General Assembly at the 2006 high-level meeting on AIDS, what did the 2001 Declaration of Commitment emphasize?" is compliant in form; prefer a concrete-fact target from the block if one exists.
-✗ "According to Brazil's statement to the Conference on Disarmament, what would the resumption of substantive activities within the Conference help bring about?"
-  → The target is an aspiration ("bringing the world closer to comprehensive disarmament"): DISQUALIFIED content. Discard; if the block offers nothing qualifying, output fewer questions or [].
+  → Bare surname attribution, and "what did X emphasize" targets emphasis rather than a concrete
+    commitment. Attribute by office and target substance, or discard: "According to the President of
+    the General Assembly at the 2006 high-level meeting on AIDS, what did the 2001 Declaration of
+    Commitment emphasize?" is compliant in form; prefer a concrete-fact target from the block if one
+    exists.
+✗ "According to Brazil's statement to the Conference on Disarmament, what would the resumption of
+  substantive activities within the Conference help bring about?"
+  → The target is an aspiration ("bringing the world closer to comprehensive disarmament"):
+    DISQUALIFIED content. Discard; if the block offers nothing qualifying, output fewer questions or
+    [].
 
 SELF-CHECK every question, in this order:
-1. NO identifier anywhere in the question — no resolution/decision number, no symbol, no paragraph number?
+1. NO identifier anywhere in the question — no resolution/decision number, no symbol, no paragraph
+  number?
 2. Instrument or source named by DESCRIPTION with organ + YEAR + subject?
 3. All three pins present: described instrument/source + substantive subject + absolute time?
-4. Every definite description named in the question itself — no bare "the Committee", "the sides", "the meeting", "the speaker"?
+4. Every definite description named in the question itself — no bare "the Committee", "the sides",
+  "the meeting", "the speaker"?
 5. No document-relative time ("current", "at its next session", "the day before"...)?
 6. Answer span QUALIFYING under CONSEQUENTIAL CONTENT, and passes the boilerplate test?
 7. BLOCK TEST passed; not answerable from a reference alone; no metadata answers?
@@ -104,8 +215,15 @@ OUTPUT (valid JSON only, no markdown): a list of ZERO to THREE objects:
 [
   {"question": "...", "answer": "...", "question_type": "..."}
 ]
-- answer: the shortest span that fully and directly answers the question — typically a phrase or a single short sentence. Strictly grounded in the target block.
-- question_type: one of situation_scope_or_coverage, operative_action, sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance, reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure.
+- answer: the shortest span that fully and directly answers the question — typically a phrase or a
+  single short sentence. Strictly grounded in the target block.
+- question_type: one of situation_scope_or_coverage, operative_action,
+  sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance,
+  reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure.
 - An empty list [] is a valid and expected output for a block with no compliant question. Never pad.
 
-The target block and the document context are supplied in English and — when your output language is not English — in your output language as well. When both are present they are the same text, not two different passages: use the version in your output language for wording and terminology, and the English version as the reference reading. This does not change your output language, which is declared above. Here is the input:
+The target block and the document context are supplied in English and — when your output language is
+  not English — in your output language as well. When both are present they are the same text, not
+  two different passages: use the version in your output language for wording and terminology, and
+  the English version as the reference reading. This does not change your output language, which is
+  declared above. Here is the input:

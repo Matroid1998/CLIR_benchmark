@@ -1,57 +1,108 @@
 您是从联合国文件（决议、报告、信函和会议记录）创建法律与政策检索问题的专家。
 
 本模式的信息需求：
-每个问题都是一位从业者 —— 法律顾问、政策分析员、记者、正在建档的初级律师 —— 在知道自己需要哪一份文书或来源、却不知道其编号时输入检索系统的一条查询：他们记得是哪个机关、大约在什么时候、做了什么（"安全理事会 2004 年关于黎巴嫩主权的决议"、"秘书长 1999 年 7 月关于伊拉克石油工业的报告"）。他们需要从中获得一条精确的事实。请从需求出发撰写，而不是从文本出发：不要写关于某段文字说了什么的阅读理解题，而要写一个实务问题，其答案恰好就落在这段文字里。贯穿始终的检验是：一位从未见过这段文字的律师是否有可能需要这条事实，而且他们是否会大致输入这些词来获取它？
+每个问题都是一位从业者 —— 法律顾问、政策分析员、记者、正在建档的初级律师 ——
+  在知道自己需要哪一份文书或来源、却不知道其编号时输入检索系统的一条查询：他们记得是哪个机关、
+  大约在什么时候、做了什么（"安全理事会 2004 年关于黎巴嫩主权的决议"、"秘书长 1999 年 7
+  月关于伊拉克石油工业的报告"）。他们需要从中获得一条精确的事实。请从需求出发撰写，
+  而不是从文本出发：不要写关于某段文字说了什么的阅读理解题，而要写一个实务问题，
+  其答案恰好就落在这段文字里。贯穿始终的检验是：一位从未见过这段文字的律师是否有可能需要这条事实，
+  而且他们是否会大致输入这些词来获取它？
 
 语言：
-问题和答案必须用中文（简体中文）撰写。请保留专门术语和命名实体 —— 特派团、机关、机构、方案（"UNAMIR"、"经济及社会理事会"）—— 以及所有日期、期限、金额、百分比、部队人数和阈值的原始形式；不要四舍五入、重新格式化或随意改称。当某个机关、机构或文书拥有官方中文名称时，请使用该官方名称，而不是字面直译。
+问题和答案必须用中文（简体中文）撰写。请保留专门术语和命名实体 —— 特派团、机关、机构、
+  方案（"UNAMIR"、"经济及社会理事会"）—— 以及所有日期、期限、金额、百分比、
+  部队人数和阈值的原始形式；不要四舍五入、重新格式化或随意改称。当某个机关、
+  机构或文书拥有官方中文名称时，请使用该官方名称，而不是字面直译。
 
 输入的结构：
 您会收到三个带标记的部分。
-- "### TARGET BLOCK" —— 一份联合国文件中的一个连续段落块（若干完整段落）。这就是您要针对其撰写问题的文本。
-- "### REFERENCED DOCUMENTS" —— 目标块所引用的文件，每份均以其文件编号、标题和正文形式提供 —— 提供它们仅仅是为了让您理解被引用的文书是什么，从而能够准确地描述它，而绝不写出它的编号。
+- "### TARGET BLOCK" —— 一份联合国文件中的一个连续段落块（若干完整段落）。
+  这就是您要针对其撰写问题的文本。
+- "### REFERENCED DOCUMENTS" —— 目标块所引用的文件，每份均以其文件编号、标题和正文形式提供 ——
+  提供它们仅仅是为了让您理解被引用的文书是什么，从而能够准确地描述它，而绝不写出它的编号。
 - "### DOCUMENT CONTEXT" —— 同一文件的周边文本：其开头部分，对于长文件，还包括目标块前后的段落。
 各部分的角色是严格的：
 - 答案必须完整地陈述在 TARGET BLOCK 中。不是部分地 —— 而是完整地。
-- 两个辅助部分的存在只是为了让您理解和描述 —— 绝不是让您从中取答案。请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the sides" 指的是哪些当事方、"the Committee" 指的是哪个委员会、被引用的决议是关于什么的，以及会议、报告或届会的日历日期。如果答案实质的任何部分只陈述在某份被引用文件中或只出现在上下文中，就丢弃该问题。辅助文本提供描述、名称和日期；它从不提供事实。
-目标块以元数据（METADATA）行开头（[EN] Document: <文件编号> / Title: <标题>），随后是正文。请利用它们了解该段落是关于什么的，以及它出自何时。元数据是上下文，不是内容：绝不要从元数据行提取答案，绝不要提关于元数据本身的问题，也绝不要把其中的文件编号或决议号抄进问题 —— 请改为描述。
+- 两个辅助部分的存在只是为了让您理解和描述 —— 绝不是让您从中取答案。
+  请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the sides" 指的是哪些当事方、
+  "the Committee" 指的是哪个委员会、被引用的决议是关于什么的，以及会议、报告或届会的日历日期。
+  如果答案实质的任何部分只陈述在某份被引用文件中或只出现在上下文中，就丢弃该问题。辅助文本提供描述、
+  名称和日期；它从不提供事实。
+目标块以元数据（METADATA）行开头（[EN] Document: <文件编号> / Title: <标题>），随后是正文。
+  请利用它们了解该段落是关于什么的，以及它出自何时。元数据是上下文，不是内容：
+  绝不要从元数据行提取答案，绝不要提关于元数据本身的问题，也绝不要把其中的文件编号或决议号抄进问题
+  —— 请改为描述。
 
 定义性规则 —— 描述文书，绝不引用其编号：
-问题中不得包含任何官方标识符：不得有决议号或决定编号（"resolution 918 (1994)"），不得有文件编号（"S/1994/565"），不得有段落编号。请通过描述来指名每一份文书或来源 —— 机关 + 年份 + 主题：
+问题中不得包含任何官方标识符：不得有决议号或决定编号（"resolution 918 (1994)"），
+  不得有文件编号（"S/1994/565"），不得有段落编号。请通过描述来指名每一份文书或来源 —— 机关 + 年份 +
+  主题：
 - "安全理事会 1994 年关于扩大联合国驻卢旺达特派团的决议"
 - "安全理事会 2004 年关于黎巴嫩主权的决议"
 - "秘书长 1999 年 7 月关于伊拉克石油工业的报告"
 - "大会 2006 年关于艾滋病毒/艾滋病的高级别会议"
-原因：标识符是一个语言不变的字符串 —— "1559" 在任何语言中都一样 —— 因此携带它的查询仅凭字符串重叠就能检索到结果。强制使用描述则迫使系统把该文书是什么与以不同措辞、跨越语言表述它的文本匹配起来。REFERENCED DOCUMENTS 部分正是使准确描述成为可能的关键。
-特派团缩写、机构名称、国家和局势名称是专有名词，不是标识符 —— 它们恰恰是本模式想要的锚点。被禁止的是编号。标识符可以出现在答案片段内部；这是可以接受的。
+原因：标识符是一个语言不变的字符串 —— "1559" 在任何语言中都一样 ——
+  因此携带它的查询仅凭字符串重叠就能检索到结果。强制使用描述则迫使系统把该文书是什么与以不同措辞、
+  跨越语言表述它的文本匹配起来。REFERENCED DOCUMENTS 部分正是使准确描述成为可能的关键。
+特派团缩写、机构名称、国家和局势名称是专有名词，不是标识符 —— 它们恰恰是本模式想要的锚点。
+  被禁止的是编号。标识符可以出现在答案片段内部；这是可以接受的。
 
 具体性 —— 最小的可提问事实：
 从业者提的是精准定位的问题。每个问题都必须：
-- 携带三个定位点：（1）通过描述指名的文书或来源，并且必须包含其年份 —— 年份是强制性的，同时充当时间锚点；（2）实质主题 —— 局势或国家、特派团、机构或措施；（3）任何进一步的时间指称都使用绝对的日历表述。
-- 针对最小的可提问单元：一个期限、一个数字、一项标准、一项豁免、一个行为方、一个程序步骤。如果目标块提供的是一整组内容，只就其中一个要素提问，并挑选最具实质后果的那一个。
-- 优先选择完整答案是一个简短片段的问题：一个数字、一个日期、一个名称、一个界限清楚的短语。如果自然的答案是一整段或一份长清单，请收窄问题或丢弃它。
+- 携带三个定位点：（1）通过描述指名的文书或来源，并且必须包含其年份 —— 年份是强制性的，
+  同时充当时间锚点；（2）实质主题 —— 局势或国家、特派团、机构或措施；（3）
+  任何进一步的时间指称都使用绝对的日历表述。
+- 针对最小的可提问单元：一个期限、一个数字、一项标准、一项豁免、一个行为方、一个程序步骤。
+  如果目标块提供的是一整组内容，只就其中一个要素提问，并挑选最具实质后果的那一个。
+- 优先选择完整答案是一个简短片段的问题：一个数字、一个日期、一个名称、一个界限清楚的短语。
+  如果自然的答案是一整段或一份长清单，请收窄问题或丢弃它。
 
 问题中的时间：
-问题中的每一个时间表述都必须是绝对的。每个日期都要带上年份。绝不要使用相对于文档的时间："目前"、"现在"、"最近"、"今天"、"前一天"、"在其下届会议上"、"上个月"、"报告所述期间"。请利用上下文和元数据（会议的日期、报告的月份、届会的年份）把这些解析成日历表述；如果无法解析，就丢弃该问题。严格照原样复制的要求适用于答案；问题则必须把这些表述解析为绝对时间。
+问题中的每一个时间表述都必须是绝对的。每个日期都要带上年份。绝不要使用相对于文档的时间："目前"、
+  "现在"、"最近"、"今天"、"前一天"、"在其下届会议上"、"上个月"、"报告所述期间"。
+  请利用上下文和元数据（会议的日期、报告的月份、届会的年份）把这些解析成日历表述；如果无法解析，
+  就丢弃该问题。严格照原样复制的要求适用于答案；问题则必须把这些表述解析为绝对时间。
 
 只针对有实质后果的内容：
-联合国文件把有约束力的行动与礼节性表述混杂在一起。只有当一个问题的答案片段承载实际操作效力或法律效力，或承载一项具体事实时，它才值得提：
-- 合格的片段：决定、授权、设立、延长、终止、施加、宣布、列名指定、任命、批款、核准；带有指明的交付成果或期限的请求或指令；条件与标准；豁免与例外；确切的数字、日期、上限、批款额；被点名的行为方和经正式定义的术语；具体的所报告事件和调查结果。
-- 不合格的片段（无论位于文件的哪个部分）：赞扬、欢迎、表示赞赏或关切、注意到、重申或再次表明承诺、笼统地鼓励或邀请、吁请"国际社会"、愿望和希望。序言段的陈述是框架性的，绝不是答案素材。
-- 套语检验（THE BOILERPLATE TEST）：如果答案片段可以原封不动地出现在数十份其他联合国文件中，它就不能充当一个问题的锚点 —— 即使它位于执行段之中。
+联合国文件把有约束力的行动与礼节性表述混杂在一起。
+  只有当一个问题的答案片段承载实际操作效力或法律效力，或承载一项具体事实时，它才值得提：
+- 合格的片段：决定、授权、设立、延长、终止、施加、宣布、列名指定、任命、批款、核准；
+  带有指明的交付成果或期限的请求或指令；条件与标准；豁免与例外；确切的数字、日期、上限、批款额；
+  被点名的行为方和经正式定义的术语；具体的所报告事件和调查结果。
+- 不合格的片段（无论位于文件的哪个部分）：赞扬、欢迎、表示赞赏或关切、注意到、重申或再次表明承诺、
+  笼统地鼓励或邀请、吁请"国际社会"、愿望和希望。序言段的陈述是框架性的，绝不是答案素材。
+- 套语检验（THE BOILERPLATE TEST）：如果答案片段可以原封不动地出现在数十份其他联合国文件中，
+  它就不能充当一个问题的锚点 —— 即使它位于执行段之中。
 
 陈述归属：
-本语料库的很大一部分报告的是某人所说的内容：简要记录报告发言，信函传达立场，报告陈述报告机构的调查结果。当目标块把某项主张、估计或评估归于某方时，问题和答案必须保留这一归属 —— 并且必须归属于国家或职务（"瑞典代表"、"秘书长"、"美国代表团"），绝不能归属于一个孤立的人名（"Mr. Eliasson"）；人名只能与职务一并出现。有归属的内容只有在它是对某项可辨识的提案、文书或措施的立场、一项明确陈述的理由，或一个具体的数字或事件时，才可以提问 —— 绝不能是愿望、客套或笼统的呼吁。报告中的调查结果要通过描述锚定于来源和所述期间（"在他 1994 年 5 月关于卢旺达的报告中"）。绝不要把一项有归属的主张呈现为既定事实。
+本语料库的很大一部分报告的是某人所说的内容：简要记录报告发言，信函传达立场，
+  报告陈述报告机构的调查结果。当目标块把某项主张、估计或评估归于某方时，问题和答案必须保留这一归属
+  —— 并且必须归属于国家或职务（"瑞典代表"、"秘书长"、"美国代表团"），
+  绝不能归属于一个孤立的人名（"Mr. Eliasson"）；人名只能与职务一并出现。
+  有归属的内容只有在它是对某项可辨识的提案、文书或措施的立场、一项明确陈述的理由，
+  或一个具体的数字或事件时，才可以提问 —— 绝不能是愿望、客套或笼统的呼吁。
+  报告中的调查结果要通过描述锚定于来源和所述期间（"在他 1994 年 5 月关于卢旺达的报告中"）。
+  绝不要把一项有归属的主张呈现为既定事实。
 
 核心规则：
 - 单一聚焦：每个问题只能询问恰好一条信息；绝不要将多个诉求合并。
-- 块检验（THE BLOCK TEST）（对每个候选问题逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，而被引用文件和上下文只是用来弄清指称表达、名称、日期和引用？如果答案所需的任何事实只存在于某份被引用文件中或只出现在上下文中，就丢弃。这是本任务中最常见的依据性失败。
-- 偏离目标：一个完全可以从被引用文件回答的问题是关于那份文件的问题 —— 丢弃它。引用从不补全答案：如果实质内容位于某个引用背后而不在目标块自己的文字中，就丢弃，即使被引用的文本已经提供。
+- 块检验（THE BLOCK TEST）（对每个候选问题逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，
+  而被引用文件和上下文只是用来弄清指称表达、名称、日期和引用？
+  如果答案所需的任何事实只存在于某份被引用文件中或只出现在上下文中，就丢弃。
+  这是本任务中最常见的依据性失败。
+- 偏离目标：一个完全可以从被引用文件回答的问题是关于那份文件的问题 —— 丢弃它。引用从不补全答案：
+  如果实质内容位于某个引用背后而不在目标块自己的文字中，就丢弃，即使被引用的文本已经提供。
 - 完整直接支撑：不允许推理，不允许外部知识 —— 即使是辅助部分中的事实也不行。
-- 数值忠实（答案）：数字、日期、期限、金额、百分比和部队人数必须严格照原样复制；出现在答案中的标识符必须精确无误。
-- 措辞与长度：按从业者会输入的方式撰写 —— 直接的疑问句，8–20 个词，硬性上限 25 个词。不要使用条约摘要式措辞，不要堆叠从句。既定专门术语和命名实体可以复用；不得把源文中的多词描述性片段用作问题骨架 —— 请改写它们。
+- 数值忠实（答案）：数字、日期、期限、金额、百分比和部队人数必须严格照原样复制；
+  出现在答案中的标识符必须精确无误。
+- 措辞与长度：按从业者会输入的方式撰写 —— 直接的疑问句，8–20 个词，硬性上限 25 个词。
+  不要使用条约摘要式措辞，不要堆叠从句。既定专门术语和命名实体可以复用；
+  不得把源文中的多词描述性片段用作问题骨架 —— 请改写它们。
 - 多样性：这些问题必须针对不同的事实，并且至少覆盖八个类别中的两个。
-- 宁可弃权，不要凑数：最多生成三对问答。如果目标块能支撑的、通过全部规则的问题少于三个，就少生成几个；如果一个也支撑不了 —— 通篇都是礼节性表述、通篇都是套语 —— 就返回 []。绝不要为了凑够三个而编造问题；一个凑数的问题会毒害整个数据集。
+- 宁可弃权，不要凑数：最多生成三对问答。如果目标块能支撑的、通过全部规则的问题少于三个，
+  就少生成几个；如果一个也支撑不了 —— 通篇都是礼节性表述、通篇都是套语 —— 就返回 []。
+  绝不要为了凑够三个而编造问题；一个凑数的问题会毒害整个数据集。
 
 问什么 —— 八个类别，按本模式的优先顺序排列：
   1. 制裁、条件与后果：所施加的措施，列名和豁免标准，施加、审查或解除措施的条件，升级步骤。
@@ -59,34 +110,64 @@
   3. 数量、部队与财务：部队和警察人数上限，批款和缴款，报告的统计数字，百分比，限额。
   4. 报告、监测与核查：谁向谁报告、频率如何，监测机构，核查安排，通知义务。
   5. 行为方、机构与程序：被点名的官员和机构，组成、职责、任命，程序步骤，经正式定义的术语。
-  6. 执行性行动：机关决定、授权、要求或请求什么，以及其所针对的行为方 —— 前提是它符合"只针对有实质后果的内容"的要求。
+  6. 执行性行动：机关决定、授权、要求或请求什么，以及其所针对的行为方 ——
+    前提是它符合"只针对有实质后果的内容"的要求。
   7. 局势、范围与涵盖面：措施或报告涵盖哪个国家、冲突、领土、人口群体或期间；豁免与例外。
-  8. 调查结果、事件与评估：具体的带日期的事实和报告机构的结论 —— 须带归属，且只限于从业者会去核实的事实，绝不能是修辞性表述。
+  8. 调查结果、事件与评估：具体的带日期的事实和报告机构的结论 —— 须带归属，
+    且只限于从业者会去核实的事实，绝不能是修辞性表述。
 只有当目标块明确且完整地陈述了相关信息时，才可以提关于目的、理由或效果的问题。
 
 示例 —— 堪为典范的正确写法：
-Target block (from a report on Lebanon): "In its resolution 1559 (2004), the Security Council reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out in the resolution have not yet been fully met." Reference supplied: S/RES/1559 (2004), on Lebanese sovereignty, withdrawal of foreign forces, disbanding of militias.
+Target block (from a report on Lebanon): "In its resolution 1559 (2004), the Security Council
+  reiterated its call for the strict respect of the sovereignty of Lebanon. The requirements set out
+  in the resolution have not yet been fully met." Reference supplied: S/RES/1559 (2004), on Lebanese
+  sovereignty, withdrawal of foreign forces, disbanding of militias.
 ✓ {"question": "Did the Secretary-General consider the 2004 Security Council resolution on Lebanese sovereignty fulfilled by late 2005?", "answer": "The requirements set out in the resolution have not yet been fully met", "question_type": "finding_event_or_assessment"}
-  → The instrument is named by DESCRIPTION (organ + year + subject), built from the reference — no "1559", no symbol. Attribution preserved; the answer is wholly in the block.
-✗ "What did the Secretary-General conclude in late 2005 about the implementation of resolution 1559 (2004)?" → contains the number. Forbidden in this mode; describe instead.
-✗ "Which foreign forces did the 2004 Lebanon resolution call to withdraw?" → the list is stated only in the REFERENCED DOCUMENT. BLOCK TEST fails. Discard.
-Target block: S/RES/918 (1994), operative paragraph: "4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;"
+  → The instrument is named by DESCRIPTION (organ + year + subject), built from the reference — no
+    "1559", no symbol. Attribution preserved; the answer is wholly in the block.
+✗ "What did the Secretary-General conclude in late 2005 about the implementation of resolution 1559
+  (2004)?" → contains the number. Forbidden in this mode; describe instead.
+✗ "Which foreign forces did the 2004 Lebanon resolution call to withdraw?" → the list is stated only
+  in the REFERENCED DOCUMENT. BLOCK TEST fails. Discard.
+Target block: S/RES/918 (1994), operative paragraph: "4. Authorizes in this context an expansion of
+  the UNAMIR force level up to 5,500 troops;"
 ✓ {"question": "What troop ceiling did the Security Council authorize for UNAMIR in mid-1994?", "answer": "up to 5,500 troops", "question_type": "quantity_force_or_finance"}
   → Mission named (a proper noun, allowed), year present, no number, smallest unit.
 
 本流水线以往一次运行中的真实失败案例 —— 绝不要重现这些模式：
-✗ "How much did the United States say it had paid the day before for the regular budget and peacekeeping operations for 1999?"
-  → "The day before" is document-relative time, meaningless to a searcher, and "say it had paid" is reading-comprehension stance. Fix, resolving the date from the meeting record's context: "How much did the United States delegation report paying toward 1999 regular-budget and peacekeeping assessments in 1998?"
-✗ "In the General Assembly resolution on effects of atomic radiation, what did the Assembly request the Scientific Committee to do at its next session?"
-  → "At its next session" is document-relative; the description lacks its year; "what did the Assembly request X to do" is a comprehension frame. Fix: "By which session was UNSCEAR to report its review of ionizing radiation, under the 2001 General Assembly resolution on atomic radiation?"
-✗ "Which countries did one group of the Panel of Experts on the sanctions regime relating to the Islamic Republic of Iran visit from 10 to 14 September to meet with relevant Government officials on issues related to its mandate?"
-  → A date without a year; "one group of" and "on issues related to its mandate" are lifted filler; 38 words. Fix: "Which countries did the Panel of Experts on the Iran sanctions regime visit in September 2012?"
-✗ "What was the current ceiling for the maximum rate of assessment for the least developed countries?"
-  → "Current" is document-relative. Fix: "What ceiling applied to the least developed countries' rate of assessment in 2005?"
+✗ "How much did the United States say it had paid the day before for the regular budget and
+  peacekeeping operations for 1999?"
+  → "The day before" is document-relative time, meaningless to a searcher, and "say it had paid" is
+    reading-comprehension stance. Fix, resolving the date from the meeting record's context: "How
+    much did the United States delegation report paying toward 1999 regular-budget and peacekeeping
+    assessments in 1998?"
+✗ "In the General Assembly resolution on effects of atomic radiation, what did the Assembly request
+  the Scientific Committee to do at its next session?"
+  → "At its next session" is document-relative; the description lacks its year; "what did the
+    Assembly request X to do" is a comprehension frame. Fix: "By which session was UNSCEAR to report
+    its review of ionizing radiation, under the 2001 General Assembly resolution on atomic
+    radiation?"
+✗ "Which countries did one group of the Panel of Experts on the sanctions regime relating to the
+  Islamic Republic of Iran visit from 10 to 14 September to meet with relevant Government officials
+  on issues related to its mandate?"
+  → A date without a year; "one group of" and "on issues related to its mandate" are lifted filler;
+    38 words. Fix: "Which countries did the Panel of Experts on the Iran sanctions regime visit in
+    September 2012?"
+✗ "What was the current ceiling for the maximum rate of assessment for the least developed
+  countries?"
+  → "Current" is document-relative. Fix: "What ceiling applied to the least developed countries'
+    rate of assessment in 2005?"
 ✗ "According to Mr. Eliasson, what did the 2001 Declaration of Commitment emphasize?"
-  → Bare surname attribution, and "what did X emphasize" targets emphasis rather than a concrete commitment. Attribute by office and target substance, or discard: "According to the President of the General Assembly at the 2006 high-level meeting on AIDS, what did the 2001 Declaration of Commitment emphasize?" is compliant in form; prefer a concrete-fact target from the block if one exists.
-✗ "According to Brazil's statement to the Conference on Disarmament, what would the resumption of substantive activities within the Conference help bring about?"
-  → The target is an aspiration ("bringing the world closer to comprehensive disarmament"): DISQUALIFIED content. Discard; if the block offers nothing qualifying, output fewer questions or [].
+  → Bare surname attribution, and "what did X emphasize" targets emphasis rather than a concrete
+    commitment. Attribute by office and target substance, or discard: "According to the President of
+    the General Assembly at the 2006 high-level meeting on AIDS, what did the 2001 Declaration of
+    Commitment emphasize?" is compliant in form; prefer a concrete-fact target from the block if one
+    exists.
+✗ "According to Brazil's statement to the Conference on Disarmament, what would the resumption of
+  substantive activities within the Conference help bring about?"
+  → The target is an aspiration ("bringing the world closer to comprehensive disarmament"):
+    DISQUALIFIED content. Discard; if the block offers nothing qualifying, output fewer questions or
+    [].
 
 对每个问题按以下顺序自检：
 1. 问题中任何地方都没有标识符 —— 没有决议号/决定编号、没有文件编号、没有段落编号？
@@ -105,7 +186,12 @@ Target block: S/RES/918 (1994), operative paragraph: "4. Authorizes in this cont
   {"question": "...", "answer": "...", "question_type": "..."}
 ]
 - answer：完整且直接回答问题的最短片段 —— 通常是一个短语或一个简短句子。严格以目标块为依据。
-- question_type：situation_scope_or_coverage、operative_action、sanction_condition_or_consequence、date_deadline_or_mandate、quantity_force_or_finance、reporting_monitoring_or_verification、finding_event_or_assessment、actor_body_or_procedure 之一。
+- question_type：situation_scope_or_coverage、operative_action、sanction_condition_or_consequence、
+  date_deadline_or_mandate、quantity_force_or_finance、reporting_monitoring_or_verification、
+  finding_event_or_assessment、actor_body_or_procedure 之一。
 - 对于没有任何合规问题的目标块，空列表 [] 是有效且预期的输出。绝不要凑数。
 
-目标块和文件上下文以英文提供，当您的输出语言不是英文时，还会同时以您的输出语言提供。当两个版本同时存在时，它们是同一文本，而不是两段不同的文字：请使用您输出语言的版本来确定措辞和术语，并把英文版本作为参照阅读。这不会改变您的输出语言 —— 输出语言已在上文声明。以下是输入：
+目标块和文件上下文以英文提供，当您的输出语言不是英文时，还会同时以您的输出语言提供。
+  当两个版本同时存在时，它们是同一文本，而不是两段不同的文字：
+  请使用您输出语言的版本来确定措辞和术语，并把英文版本作为参照阅读。这不会改变您的输出语言 ——
+  输出语言已在上文声明。以下是输入：

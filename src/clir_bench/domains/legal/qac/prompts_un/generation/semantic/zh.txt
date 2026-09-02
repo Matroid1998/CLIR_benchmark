@@ -1,100 +1,223 @@
 您是为联合国文件（决议、报告、信函和会议记录）创建语义检索问题的专家。
 本模式的信息需求：
-每个问题都是一位检索者输入的查询，此人了解局势本身以及自己需要弄清什么，却不了解本语料库的用词，也不知道由哪份文书作出规定 —— 一位刚接手某个案卷的主管干事、一名记者、一位从某一制度的术语体系之外去接近它的研究者。他们的查询承载的是意义，而不是文件的确切措辞；检索系统必须把概念与文本匹配起来。请从这一需求出发撰写：写一个关于某种局势、对它的应对或受影响之人的真实问题 —— 绝不要写关于某个机关或某位发言者说了什么的报道，也绝不要写关于"这段文字说了什么"的阅读理解题。本模式保持概念性：它不追逐单个数据点，但它仍然需要一个具体锚点和一个年份，因为一个能匹配一切的查询将一无所获。
+每个问题都是一位检索者输入的查询，此人了解局势本身以及自己需要弄清什么，却不了解本语料库的用词，
+  也不知道由哪份文书作出规定 —— 一位刚接手某个案卷的主管干事、一名记者、
+  一位从某一制度的术语体系之外去接近它的研究者。他们的查询承载的是意义，而不是文件的确切措辞；
+  检索系统必须把概念与文本匹配起来。请从这一需求出发撰写：写一个关于某种局势、
+  对它的应对或受影响之人的真实问题 —— 绝不要写关于某个机关或某位发言者说了什么的报道，
+  也绝不要写关于"这段文字说了什么"的阅读理解题。本模式保持概念性：它不追逐单个数据点，
+  但它仍然需要一个具体锚点和一个年份，因为一个能匹配一切的查询将一无所获。
 语言：
-问题和答案必须用中文（简体中文）撰写。请保留特派团、机关、机构和方案的名称，既定专门术语（"军火禁运"、"资产冻结"），以及所有日期、期限、金额、百分比和阈值的原始形式。当某个机关、机构或文书拥有官方中文名称时，请使用该官方名称，而不是字面直译。
-改写而不偏移：距离来自用平实的措辞去描述局势和人，绝不来自改称专门术语或官方名称，也绝不能以牺牲意义为代价。法律和外交文本对确切用词很敏感 —— 当您拿不准某个词是否起关键作用时，就保留它。
+问题和答案必须用中文（简体中文）撰写。请保留特派团、机关、机构和方案的名称，
+  既定专门术语（"军火禁运"、"资产冻结"），以及所有日期、期限、金额、百分比和阈值的原始形式。
+  当某个机关、机构或文书拥有官方中文名称时，请使用该官方名称，而不是字面直译。
+改写而不偏移：距离来自用平实的措辞去描述局势和人，绝不来自改称专门术语或官方名称，
+  也绝不能以牺牲意义为代价。法律和外交文本对确切用词很敏感 —— 当您拿不准某个词是否起关键作用时，
+  就保留它。
 输入的结构：
 您会收到三个带标记的部分。
-- "### TARGET BLOCK" —— 一份联合国文件中的一个连续段落块（若干完整段落）。这就是您要针对其撰写问题的文本。
-- "### REFERENCED DOCUMENTS" —— 目标块所引用的文件，提供它们仅仅是为了让您理解这些引用所指为何。它们绝不是答案的来源，也绝不是问题的主题。
+- "### TARGET BLOCK" —— 一份联合国文件中的一个连续段落块（若干完整段落）。
+  这就是您要针对其撰写问题的文本。
+- "### REFERENCED DOCUMENTS" —— 目标块所引用的文件，提供它们仅仅是为了让您理解这些引用所指为何。
+  它们绝不是答案的来源，也绝不是问题的主题。
 - "### DOCUMENT CONTEXT" —— 同一文件的周边文本：其开头部分，对于长文件，还包括目标块前后的段落。
 各部分的角色是严格的：
 - 答案必须完整地陈述在 TARGET BLOCK 中。不是部分地 —— 而是完整地。
-- 两个辅助部分的存在只是为了让您理解目标块 —— 绝不是让您从中取答案。请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the Committee" 指的是哪个委员会、"the speaker" 代表的是哪个国家、信函是谁写的，以及会议、报告或届会的日历年份。如果答案实质的任何部分只陈述在某份被引用文件中或只出现在上下文中，就丢弃该问题。
-- 引用规则（THE QUOTATION RULE）：当目标块引用或复述另一份文书的某项条款时，关于该条款的问题属于被引用的那份文书，因而在这里是偏离目标的，即使其文字就在目标块之内。请改问本文件对它做了什么 —— 其作者主张了什么、适用了什么、报告了什么、对什么提出异议。
-目标块以元数据（METADATA）行开头（[EN] Document: <文件编号> / Title: <标题>），随后是正文。请利用它们了解该段落是关于什么的、它出自何时，以及它是否属于某个反复出现的系列。元数据是上下文，不是内容：绝不要从中提取答案，绝不要提关于它的问题，也绝不要把其中的文件编号或决议号抄进问题。标题中的主题词（"卢旺达局势"）可以作为自然的主题词出现；标识符则不可以。
+- 两个辅助部分的存在只是为了让您理解目标块 —— 绝不是让您从中取答案。
+  请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the Committee"
+  指的是哪个委员会、"the speaker" 代表的是哪个国家、信函是谁写的，以及会议、报告或届会的日历年份。
+  如果答案实质的任何部分只陈述在某份被引用文件中或只出现在上下文中，就丢弃该问题。
+- 引用规则（THE QUOTATION RULE）：当目标块引用或复述另一份文书的某项条款时，
+  关于该条款的问题属于被引用的那份文书，因而在这里是偏离目标的，即使其文字就在目标块之内。
+  请改问本文件对它做了什么 —— 其作者主张了什么、适用了什么、报告了什么、对什么提出异议。
+目标块以元数据（METADATA）行开头（[EN] Document: <文件编号> / Title: <标题>），随后是正文。
+  请利用它们了解该段落是关于什么的、它出自何时，以及它是否属于某个反复出现的系列。元数据是上下文，
+  不是内容：绝不要从中提取答案，绝不要提关于它的问题，也绝不要把其中的文件编号或决议号抄进问题。
+  标题中的主题词（"卢旺达局势"）可以作为自然的主题词出现；标识符则不可以。
 本模式的定义性规则：
-- 不得使用文书标识符：绝不要在问题中包含决议号或决定编号、文件编号或段落编号。标识符可以出现在答案片段内部。
-- 概念性，而非提取性：问题针对的是一种局势、一项机制或一个受影响方。单个数据点 —— 一个部队人数上限、一个期限、一项预算告诫、一位被点名的官员 —— 属于另一种模式；如果目标块只提供这类事实，就以 skip_reason "extractive only" 跳过。
-- 年份是强制要求：每个问题都要携带一个绝对的年份、日期或注明日期的期间（"2009 年"、"1994 年春"、"2011 年立法选举之后"），取自目标块、上下文或元数据。没有它，一个关于某个特派团、某项制度或某项反复通过的决议的问题，每一年都有一个答案，因而等于没有答案。
-- 立场视角：绝不要写成发言报道。被禁止的句式："[国家/机关]如何描述……"、"[机关]就……说了什么"、"[机关]作出了什么告诫/警告"、"[机关]强调了什么"、"该发言者说了什么"。请就局势、应对或受影响方本身提问。唯一合法的有归属句式是一个国家对某项具体事项 —— 一项提案、一项措施、一项行动 —— 所持的立场："圭亚那对 1999 年在科索沃使用武力持何立场？" —— 绝不能是它对某种局势的定性描述（"圭亚那如何描述这场危机"）。
+- 不得使用文书标识符：绝不要在问题中包含决议号或决定编号、文件编号或段落编号。
+  标识符可以出现在答案片段内部。
+- 概念性，而非提取性：问题针对的是一种局势、一项机制或一个受影响方。单个数据点 —— 一个部队人数上限、
+  一个期限、一项预算告诫、一位被点名的官员 —— 属于另一种模式；如果目标块只提供这类事实，就以
+  skip_reason "extractive only" 跳过。
+- 年份是强制要求：每个问题都要携带一个绝对的年份、日期或注明日期的期间（"2009 年"、"1994 年春"、
+  "2011 年立法选举之后"），取自目标块、上下文或元数据。没有它，一个关于某个特派团、
+  某项制度或某项反复通过的决议的问题，每一年都有一个答案，因而等于没有答案。
+- 立场视角：绝不要写成发言报道。被禁止的句式："[国家/机关]如何描述……"、"[机关]就……说了什么"、
+  "[机关]作出了什么告诫/警告"、"[机关]强调了什么"、"该发言者说了什么"。请就局势、
+  应对或受影响方本身提问。唯一合法的有归属句式是一个国家对某项具体事项 —— 一项提案、一项措施、
+  一项行动 —— 所持的立场："圭亚那对 1999 年在科索沃使用武力持何立场？" ——
+  绝不能是它对某种局势的定性描述（"圭亚那如何描述这场危机"）。
 词汇距离 —— 它应当从何而来，又绝不能从何而来：
-请主动改写：语义检索器应当靠意义匹配，而不是关键词重叠。距离来自用平实的措辞去描述局势、应对或受影响的人，而不是照搬文件的套语 —— 用"平民遭到大规模杀戮"来表达"针对平民的极大量杀戮"；用"联合国维和人员"来表达该特派团的正式名称；用"越过边界逃离的人"来表达"越过边界的难民"。距离绝不能来自替换专门术语或官方名称："军火禁运"不是"武器禁令"，"资产冻结"不是"账户封锁"，国际日或某个机构保留其名称。替换掉一个专门术语就改变了所问之事。改写也绝不能剥去起区分作用的锚点：请保留国家、特派团和年份。
+请主动改写：语义检索器应当靠意义匹配，而不是关键词重叠。距离来自用平实的措辞去描述局势、
+  应对或受影响的人，而不是照搬文件的套语 —— 用"平民遭到大规模杀戮"来表达"针对平民的极大量杀戮"；
+  用"联合国维和人员"来表达该特派团的正式名称；用"越过边界逃离的人"来表达"越过边界的难民"。
+  距离绝不能来自替换专门术语或官方名称："军火禁运"不是"武器禁令"，"资产冻结"不是"账户封锁"，
+  国际日或某个机构保留其名称。替换掉一个专门术语就改变了所问之事。改写也绝不能剥去起区分作用的锚点：
+  请保留国家、特派团和年份。
 为可检索性而命名：
 输入问题的人没有看过这份文件，正在数十万份共享同一公式化文体的联合国文件中搜索。
-- 每个问题都必须至少携带一个具体锚点：国家或局势（"卢旺达"、"达尔富尔冲突"）、特派团或行动（"UNAMIR"）、被点名的机构或行为方类型（"专家小组"、"部队派遣国"），或与某种局势相联系的具体主题（"索马里军火禁运对人道主义设备的豁免"）。光秃秃的话题（"反恐措施"、"气候行动"、"发展中国家"、"人权学习"）不构成锚点。请在 "anchor" 中以问题的逐字子串形式报告该锚点。
-- 每一个特指表述都必须在问题本身中指名：绝不可只写"该委员会"、"该区域中心"、"该发言者"、"双方"、"该理事会" —— 请从目标块、上下文或元数据中解析出名称。
+- 每个问题都必须至少携带一个具体锚点：国家或局势（"卢旺达"、"达尔富尔冲突"）、
+  特派团或行动（"UNAMIR"）、被点名的机构或行为方类型（"专家小组"、"部队派遣国"），
+  或与某种局势相联系的具体主题（"索马里军火禁运对人道主义设备的豁免"）。光秃秃的话题（"反恐措施"、
+  "气候行动"、"发展中国家"、"人权学习"）不构成锚点。请在 "anchor" 中以问题的逐字子串形式报告该锚点。
+- 每一个特指表述都必须在问题本身中指名：绝不可只写"该委员会"、"该区域中心"、"该发言者"、"双方"、
+  "该理事会" —— 请从目标块、上下文或元数据中解析出名称。
 - 绝不要写"本决议"、"本报告"、"本文件"，也不要把文件内容当作可见的东西来指称。
-- 检验每个问题：由一个陌生人输入搜索引擎时，它会指向这份文件的主题吗？"安全理事会对什么表示严重关切？"不合格。"安全理事会在 1994 年如何应对针对卢旺达流离失所平民的袭击？"合格。
-- 反复出现的系列 —— 请认清这些家族：按届会编号、针对常设议程项目的大会决议（某国人权状况、食物权、发展权、人权学习、《化学武器公约》和《生物武器公约》、新喀里多尼亚）；关于被占领巴勒斯坦领土的经济及社会理事会和大会年度决议；两年一次的"联合国与[区域组织]之间的合作"决议，其磋商条款在欧安组织（OSCE）、独联体（CIS）、上合组织（SCO）、欧亚经济共同体（EurAsEC）以及其他每一个伙伴组织之间被原样复制；任务授权延期；国际日决议；定期报告。这类系列中原封不动的段落，即使加上年份，也同样适用于每一年 —— 以及每一个伙伴组织。请优先选取本例所特有的内容 —— 一个被点名的事件、一项新任务、一个数字；如果目标块只包含原封不动反复出现的文本，就以 skip_reason "recurring boilerplate" 跳过。
+- 检验每个问题：由一个陌生人输入搜索引擎时，它会指向这份文件的主题吗？
+  "安全理事会对什么表示严重关切？"不合格。"安全理事会在 1994
+  年如何应对针对卢旺达流离失所平民的袭击？"合格。
+- 反复出现的系列 —— 请认清这些家族：按届会编号、针对常设议程项目的大会决议（某国人权状况、食物权、
+  发展权、人权学习、《化学武器公约》和《生物武器公约》、新喀里多尼亚）；
+  关于被占领巴勒斯坦领土的经济及社会理事会和大会年度决议；
+  两年一次的"联合国与[区域组织]之间的合作"决议，其磋商条款在欧安组织（OSCE）、独联体（CIS）、
+  上合组织（SCO）、欧亚经济共同体（EurAsEC）以及其他每一个伙伴组织之间被原样复制；任务授权延期；
+  国际日决议；定期报告。这类系列中原封不动的段落，即使加上年份，也同样适用于每一年 ——
+  以及每一个伙伴组织。请优先选取本例所特有的内容 —— 一个被点名的事件、一项新任务、一个数字；
+  如果目标块只包含原封不动反复出现的文本，就以 skip_reason "recurring boilerplate" 跳过。
 有实质后果的答案片段：
-- 合格的片段：所设立、延长或修改的措施；任务及其范围；条件、标准与豁免；某项机制如何运作；谁受到约束、保护或援助以及以何种方式；具体的所报告事件、调查结果和明确陈述的理由；以及 —— 对于局势框架的问题 —— 序言段中对局势的评估，只要它具体说明了正在发生什么（"delays by the signatory parties and the absence of an inclusive political settlement"、"an estimated 250,000 refugees crossed the border"）。
-- 不合格的片段（无论位于文件的哪个部分），包括其较为温和的形式：赞扬；欢迎（"欢迎……的持续作用"）；表示赞赏或关切（"仍然是严重关切的原因"）；注意到；赞赏地注意到；强调或着重指出……的重要性；确认……负有主要责任；重申或再次表明承诺；笼统地鼓励或邀请；邀请两位官员举行定期磋商；吁请各机构支持利益相关方并与之合作与协作；吁请各国予以考虑；吁请"国际社会"；愿望。序言段的援引性表述 —— 回顾、重申、确认责任、表示关切 —— 是框架性的，不是答案素材，尽管序言段的评估是答案素材。
-- 套语检验（THE BOILERPLATE TEST）：如果答案片段可以原封不动地出现在数十份其他联合国文件中（利益相关方邀请名单、合作与协作类清单、"措施必须符合国际法"这一放之四海皆准的条款、"主要责任在于当局自身"、每一份与组织合作类决议中的标准磋商条款），它就不能充当一个问题的锚点。当一个目标块中既有礼节性表述又有实质内容时，请就实质内容提问。
+- 合格的片段：所设立、延长或修改的措施；任务及其范围；条件、标准与豁免；某项机制如何运作；
+  谁受到约束、保护或援助以及以何种方式；具体的所报告事件、调查结果和明确陈述的理由；以及 ——
+  对于局势框架的问题 —— 序言段中对局势的评估，只要它具体说明了正在发生什么（"delays by the signatory
+  parties and the absence of an inclusive political settlement"、"an estimated 250,000 refugees
+  crossed the border"）。
+- 不合格的片段（无论位于文件的哪个部分），包括其较为温和的形式：赞扬；欢迎（"欢迎……的持续作用"）；
+  表示赞赏或关切（"仍然是严重关切的原因"）；注意到；赞赏地注意到；强调或着重指出……的重要性；确认……
+  负有主要责任；重申或再次表明承诺；笼统地鼓励或邀请；邀请两位官员举行定期磋商；
+  吁请各机构支持利益相关方并与之合作与协作；吁请各国予以考虑；吁请"国际社会"；愿望。
+  序言段的援引性表述 —— 回顾、重申、确认责任、表示关切 —— 是框架性的，不是答案素材，
+  尽管序言段的评估是答案素材。
+- 套语检验（THE BOILERPLATE TEST）：
+  如果答案片段可以原封不动地出现在数十份其他联合国文件中（利益相关方邀请名单、合作与协作类清单、
+  "措施必须符合国际法"这一放之四海皆准的条款、"主要责任在于当局自身"、
+  每一份与组织合作类决议中的标准磋商条款），它就不能充当一个问题的锚点。
+  当一个目标块中既有礼节性表述又有实质内容时，请就实质内容提问。
 陈述归属：
-本语料库的很大一部分报告的是某人所说的内容。当目标块把某项发言、主张、估计或评估归于某方时，问题和答案必须保留这一归属 —— 必须归属于国家或职务（"南非代表"、"秘书长"、"根据联合国 1994 年春季的报告"），绝不能归属于一个孤立的人名。无施动者的被动式，或把一项主张陈述为事实，都是剥离了归属："在武器持续流入分离主义分子手中的情况下"把格鲁吉亚的断言当作事实来呈现 —— 应当写"据格鲁吉亚称"或"按格鲁吉亚的说法"。有归属的内容只有在它是对某项可辨识的提案、文书或措施的立场、一项明确陈述的理由，或一项具体的局势评估时，才可以提问 —— 绝不能是愿望、客套或笼统的呼吁。
-- 自身行为无需加限定（OWN ACTS NEED NO HEDGE）：当一封信函或一份报告描述其作者所属一方自身的一项具体的、已完成的行为时 —— 例如法国的信函叙述欧洲联盟通过了一项经其国家元首核可的裁军计划 —— 该行为可以直接提问；归属要求针对的是有争议的主张和对他方的定性描述，而不是作者对自身倡议的叙述。
+本语料库的很大一部分报告的是某人所说的内容。当目标块把某项发言、主张、估计或评估归于某方时，
+  问题和答案必须保留这一归属 —— 必须归属于国家或职务（"南非代表"、"秘书长"、"根据联合国 1994
+  年春季的报告"），绝不能归属于一个孤立的人名。无施动者的被动式，或把一项主张陈述为事实，
+  都是剥离了归属："在武器持续流入分离主义分子手中的情况下"把格鲁吉亚的断言当作事实来呈现 ——
+  应当写"据格鲁吉亚称"或"按格鲁吉亚的说法"。有归属的内容只有在它是对某项可辨识的提案、
+  文书或措施的立场、一项明确陈述的理由，或一项具体的局势评估时，才可以提问 —— 绝不能是愿望、
+  客套或笼统的呼吁。
+- 自身行为无需加限定（OWN ACTS NEED NO HEDGE）：
+  当一封信函或一份报告描述其作者所属一方自身的一项具体的、已完成的行为时 ——
+  例如法国的信函叙述欧洲联盟通过了一项经其国家元首核可的裁军计划 —— 该行为可以直接提问；
+  归属要求针对的是有争议的主张和对他方的定性描述，而不是作者对自身倡议的叙述。
 信息量检验（THE INFORMATIVENESS TEST）：
-答案必须告诉提问者一些问题本身尚未包含、而且也无法由问题本身提供的内容。如果答案只是重述问题自己的措辞，或者重述该问题据以构建的那个指向性表述，又或者读者能以高于一半的把握从问题中猜出它，这个问题就是空的 —— 请丢弃它，改问实质内容。答案片段还必须是自足的：一个指向性片段（"the above priorities"、"as adopted in the present resolution"）在文件之外什么也回答不了。
+答案必须告诉提问者一些问题本身尚未包含、而且也无法由问题本身提供的内容。
+  如果答案只是重述问题自己的措辞，或者重述该问题据以构建的那个指向性表述，
+  又或者读者能以高于一半的把握从问题中猜出它，这个问题就是空的 —— 请丢弃它，改问实质内容。
+  答案片段还必须是自足的：一个指向性片段（"the above priorities"、"as adopted in the present
+  resolution"）在文件之外什么也回答不了。
 核心规则：
-- 块检验（THE BLOCK TEST）（对每个候选问题逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，而被引用文件和上下文只是用来弄清指称表达、名称、日期和引用？如果答案所需的任何事实、数字、清单或理由只存在于某份被引用文件中或只出现在上下文中，就丢弃。
+- 块检验（THE BLOCK TEST）（对每个候选问题逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，
+  而被引用文件和上下文只是用来弄清指称表达、名称、日期和引用？如果答案所需的任何事实、数字、
+  清单或理由只存在于某份被引用文件中或只出现在上下文中，就丢弃。
 - 偏离目标：一个完全可以从被引用文件回答的问题是关于那份文件的问题 —— 丢弃它。引用从不补全答案。
-- 有依据的答案：即使问题是概念性的，答案也必须是取自 TARGET BLOCK 的一个能直接回应它的简短连续片段。请优先选取简短的片段；如果唯一可用的片段是整整一段，就收窄问题或丢弃。
-- 单一意图：每个问题只有一个明确的信息目标；比单一事实更宽泛是可以的，把互不相关的诉求捆绑在一起则不可以。
+- 有依据的答案：即使问题是概念性的，答案也必须是取自 TARGET BLOCK 的一个能直接回应它的简短连续片段。
+  请优先选取简短的片段；如果唯一可用的片段是整整一段，就收窄问题或丢弃。
+- 单一意图：每个问题只有一个明确的信息目标；比单一事实更宽泛是可以的，
+  把互不相关的诉求捆绑在一起则不可以。
 - 措辞与长度：自然的检索措辞，8–20 个词，硬性上限 25 个词。
-- 多样性：这些问题必须针对可区分的方面，并且至少覆盖以下框架中的两个：situation、response、stakeholder。
-- 宁可跳过，不要凑数：最多生成三对问答；如果通过全部规则的问题少于三个，就少生成几个。如果目标块一个也支撑不了，就准确返回 [{"skip_reason": "<one short phrase>"}]。绝不要为了凑够三个而编造问题。
-- 请尽量改写表述。不要逐字重复文本中提到的每一个项目和每一个词。但不要以改变含义的方式改写：由于这是法律文本，某些用词非常敏感。
+- 多样性：这些问题必须针对可区分的方面，并且至少覆盖以下框架中的两个：situation、response、
+  stakeholder。
+- 宁可跳过，不要凑数：最多生成三对问答；如果通过全部规则的问题少于三个，就少生成几个。
+  如果目标块一个也支撑不了，就准确返回 [{"skip_reason": "<one short phrase>"}]。
+  绝不要为了凑够三个而编造问题。
+- 请尽量改写表述。不要逐字重复文本中提到的每一个项目和每一个词。但不要以改变含义的方式改写：
+  由于这是法律文本，某些用词非常敏感。
 
 问什么 —— 至少覆盖以下框架中的两个：
-  1. 局势框架（situation，即背景或问题）：该文件回应或描述的是什么危机、威胁、争端或事态发展？既涵盖某项措施背后的动因关切，也涵盖报告或序言所具体评估的事态。
-  2. 应对框架（response，即机制或行动）：设立、延长或修改的是什么特派团、措施、进程或体制安排，它如何运作？
-  3. 利益相关方框架（stakeholder，即受影响方或情景）：谁受到约束、制裁、保护或援助，处在什么现实情景中？既包括义务方视角（"X 国政府被要求做什么……"），也包括受益方视角（"联合国为……的平民提供了什么保护……"），一个国家对某项具体事项所持的立场同样属于此类。
+  1. 局势框架（situation，即背景或问题）：该文件回应或描述的是什么危机、威胁、争端或事态发展？
+    既涵盖某项措施背后的动因关切，也涵盖报告或序言所具体评估的事态。
+  2. 应对框架（response，即机制或行动）：设立、延长或修改的是什么特派团、措施、进程或体制安排，
+    它如何运作？
+  3. 利益相关方框架（stakeholder，即受影响方或情景）：谁受到约束、制裁、保护或援助，
+    处在什么现实情景中？既包括义务方视角（"X 国政府被要求做什么……"），也包括受益方视角（"联合国为……
+    的平民提供了什么保护……"），一个国家对某项具体事项所持的立场同样属于此类。
 示例 —— 堪为典范的正确写法，附其出处的目标块文本：
-Target block: S/RES/918 (1994): "3. Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations; 4. Authorizes in this context an expansion of the UNAMIR force level up to 5,500 troops;" (context: preamble condemning the killings of civilians in Rwanda)
+Target block: S/RES/918 (1994): "3. Decides to expand the mandate of UNAMIR to include the
+  protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of
+  security for humanitarian relief operations; 4. Authorizes in this context an expansion of the
+  UNAMIR force level up to 5,500 troops;" (context: preamble condemning the killings of civilians in
+  Rwanda)
 ✓ {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda in 1994?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response", "anchor": "Rwanda"}
 ✓ {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict in 1994?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder", "anchor": "the Rwandan conflict"}
-Target block: report S/1994/565: "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April." (context: April–May 1994)
+Target block: report S/1994/565: "An estimated 250,000 refugees crossed the border into the United
+  Republic of Tanzania on 28 and 29 April." (context: April–May 1994)
 ✓ {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation", "anchor": "refugee outflow from Rwanda"}
-Target block: S/RES/2148 (2014), preamble: "Recognizing that UNAMID's ability to facilitate progress in implementation of the DDPD is hampered by delays by the signatory parties and the absence of an inclusive political settlement between the government and non-signatory movements"
+Target block: S/RES/2148 (2014), preamble: "Recognizing that UNAMID's ability to facilitate progress
+  in implementation of the DDPD is hampered by delays by the signatory parties and the absence of an
+  inclusive political settlement between the government and non-signatory movements"
 ✓ {"question": "What was hampering UNAMID's progress on implementing the DDPD in Darfur in 2014?", "answer": "UNAMID's ability to facilitate progress in implementation of the DDPD is hampered by delays by the signatory parties and the absence of an inclusive political settlement between the government and non-signatory movements", "framing": "situation", "anchor": "UNAMID"}
-  → A preambular ASSESSMENT — concrete obstacles — is admissible for situation framing; a preambular recital would not be. Year present.
-Target block: CD/1860, letter from the Deputy Permanent Representative of France to the Conference on Disarmament: "in the light of the upcoming 2010 Review Conference of the Parties to the Treaty on the Non-Proliferation of Nuclear Weapons, and on the basis of the proposals made at Cherbourg, Europe presented a plan of action on disarmament, which was endorsed by 27 Heads of State and Government of the European Union in December 2008."
+  → A preambular ASSESSMENT — concrete obstacles — is admissible for situation framing; a preambular
+    recital would not be. Year present.
+Target block: CD/1860, letter from the Deputy Permanent Representative of France to the Conference
+  on Disarmament: "in the light of the upcoming 2010 Review Conference of the Parties to the Treaty
+  on the Non-Proliferation of Nuclear Weapons, and on the basis of the proposals made at Cherbourg,
+  Europe presented a plan of action on disarmament, which was endorsed by 27 Heads of State and
+  Government of the European Union in December 2008."
 ✓ {"question": "What joint disarmament initiative did the European Union develop ahead of the 2010 NPT Review Conference?", "answer": "Europe presented a plan of action on disarmament, which was endorsed by 27 Heads of State and Government of the European Union in December 2008", "framing": "response", "anchor": "the European Union"}
-  → OWN ACTS NEED NO HEDGE: a completed EU act recounted in a French letter; concrete, dated, askable directly. A contested claim about another party would have needed "according to France".
+  → OWN ACTS NEED NO HEDGE: a completed EU act recounted in a French letter; concrete, dated,
+    askable directly. A contested claim about another party would have needed "according to France".
 REAL FAILURES FROM PREVIOUS RUNS OF THIS PIPELINE — never reproduce these patterns:
-✗ "What collaborative approach were the United Nations High Commissioner for Human Rights and Human Rights Council asked to take in 2011?" — answer "support, cooperate and collaborate closely with civil society, the private sector, academia, regional organizations, the media and other relevant stakeholders"
-  → A cooperate-and-collaborate stakeholder list — DISQUALIFIED ceremony — and "human rights learning" is a recurring annual series. Skip.
-✗ "How were the United Nations and the Eurasian Economic Community expected to coordinate in 2007?" — answer "invites the Secretary-General of the United Nations to conduct ... regular consultations with the Secretary-General of the Eurasian Economic Community ..."
-  → The standard consultations clause of every biennial cooperation-with-organization resolution, cloned across the OSCE, CIS, SCO and the rest; "invites ... regular consultations" is the softest of mechanisms, and the span is a whole paragraph. Skip.
+✗ "What collaborative approach were the United Nations High Commissioner for Human Rights and Human
+  Rights Council asked to take in 2011?" — answer "support, cooperate and collaborate closely with
+  civil society, the private sector, academia, regional organizations, the media and other relevant
+  stakeholders"
+  → A cooperate-and-collaborate stakeholder list — DISQUALIFIED ceremony — and "human rights
+    learning" is a recurring annual series. Skip.
+✗ "How were the United Nations and the Eurasian Economic Community expected to coordinate in 2007?"
+  — answer "invites the Secretary-General of the United Nations to conduct ... regular consultations
+  with the Secretary-General of the Eurasian Economic Community ..."
+  → The standard consultations clause of every biennial cooperation-with-organization resolution,
+    cloned across the OSCE, CIS, SCO and the rest; "invites ... regular consultations" is the
+    softest of mechanisms, and the span is a whole paragraph. Skip.
 ✗ "How did Guyana describe the crisis in Kosovo?"
-  → A speech report whose answer is an expression of concern (ceremony); no year. Only a position on a concrete matter would do: "What position did Guyana take on the use of force in Kosovo in 1999?" — and only if the block states one.
-✗ "What did the General Assembly say about Bosnia and Herzegovina's cooperation with the war crimes tribunal?"
+  → A speech report whose answer is an expression of concern (ceremony); no year. Only a position on
+    a concrete matter would do: "What position did Guyana take on the use of force in Kosovo in
+    1999?" — and only if the block states one.
+✗ "What did the General Assembly say about Bosnia and Herzegovina's cooperation with the war crimes
+  tribunal?"
   → Speech report; "stresses the importance of" is ceremony; the paragraph recurs annually. Skip.
-✗ "Who was assigned the main responsibility for carrying out the Bosnia and Herzegovina Peace Agreement?"
-  → A preambular RECITAL ("Recognizing that... primary responsibility... lies with the authorities themselves") present in every annual Bosnia resolution since 1996; no year. Skip.
+✗ "Who was assigned the main responsibility for carrying out the Bosnia and Herzegovina Peace
+  Agreement?"
+  → A preambular RECITAL ("Recognizing that... primary responsibility... lies with the authorities
+    themselves") present in every annual Bosnia resolution since 1996; no year. Skip.
 ✗ "What legal limit was placed on counterterrorism measures?"
-  → The universal compliance clause found in every counter-terrorism text; no actor, no situation, no year. Skip.
+  → The universal compliance clause found in every counter-terrorism text; no actor, no situation,
+    no year. Skip.
 ✗ "How are gender concerns supposed to be built into right-to-food work?"
-  → The paragraph recurs verbatim in each year's right-to-food resolution; no year; adding the year alone barely helps. Target this year's specific content or skip.
+  → The paragraph recurs verbatim in each year's right-to-food resolution; no year; adding the year
+    alone barely helps. Target this year's specific content or skip.
 ✗ "What caution did the General Assembly give on using vacancy management for ECA project costs?"
-  → A budget caveat is an extractive fact for another mode, and "what caution did X give" is a speech report. Skip in this mode.
+  → A budget caveat is an extractive fact for another mode, and "what caution did X give" is a
+    speech report. Skip in this mode.
 ✗ "How was MINUSTAH to help Haiti build stronger state institutions outside Port-au-Prince?"
-  → Good framing, no year — and the clause recurs across MINUSTAH renewals. Minimum fix: "...in 2009?"
-✗ "What kind of international action is needed to supplement national efforts for developing countries?"
+  → Good framing, no year — and the clause recurs across MINUSTAH renewals. Minimum fix: "...in
+    2009?"
+✗ "What kind of international action is needed to supplement national efforts for developing
+  countries?"
   → No anchor; hortatory boilerplate. Skip.
-✗ "Which actors were invited to cooperate, observe and raise awareness of the International Day of Sport for Development and Peace?"
+✗ "Which actors were invited to cooperate, observe and raise awareness of the International Day of
+  Sport for Development and Peace?"
   → An invitation list — DISQUALIFIED — while the same block contained the substantive act. Fix: {"question": "How did the General Assembly give formal recognition to sport as a tool for development and peace in 2013?", "answer": "Decides to proclaim 6 April the International Day of Sport for Development and Peace", "framing": "response", "anchor": "sport as a tool for development and peace"}
 对每个问题按以下顺序自检：
-1. 目标块是否只有提取性事实，或者是否属于只有原封不动文本的反复出现系列？→ 跳过。所问的对象是否是另一份文书中被引用的条款？→ 引用规则：请重新定框为本文件对它做了什么，否则跳过。
+1. 目标块是否只有提取性事实，或者是否属于只有原封不动文本的反复出现系列？→ 跳过。
+  所问的对象是否是另一份文书中被引用的条款？→ 引用规则：请重新定框为本文件对它做了什么，否则跳过。
 2. 是否有绝对的年份、日期或注明日期的期间？
-3. 是否没有发言报道句式（"X 如何描述"、"X 说了/强调了/作出了什么"）？如果有归属，它是否是一个国家对某项具体事项所持的立场 —— 或者是作者自身已完成的行为，而这种行为无需加限定？
-4. 是否至少有一个具体锚点 —— 而不是光秃秃的话题 —— 并已逐字报告在 "anchor" 中；每一个特指表述是否都已指名；是否没有标识符？
-5. 答案片段是否属于合格片段 —— 有实质内容或是一项具体的序言段评估，绝不是援引性表述，也绝不是利益相关方名单或合作与协作类清单、磋商条款，或较为温和的礼节性形式；是否通过套语检验？是否通过信息量检验 —— 没有重述、没有可猜出的答案、片段是否自足？
+3. 是否没有发言报道句式（"X 如何描述"、"X 说了/强调了/作出了什么"）？如果有归属，
+  它是否是一个国家对某项具体事项所持的立场 —— 或者是作者自身已完成的行为，而这种行为无需加限定？
+4. 是否至少有一个具体锚点 —— 而不是光秃秃的话题 —— 并已逐字报告在 "anchor" 中；
+  每一个特指表述是否都已指名；是否没有标识符？
+5. 答案片段是否属于合格片段 —— 有实质内容或是一项具体的序言段评估，绝不是援引性表述，
+  也绝不是利益相关方名单或合作与协作类清单、磋商条款，或较为温和的礼节性形式；是否通过套语检验？
+  是否通过信息量检验 —— 没有重述、没有可猜出的答案、片段是否自足？
 6. 是否通过块检验；是否不能仅凭某份被引用文件就得到回答；是否没有取自元数据的答案？
 7. 归属是否保留、是否归于国家或职务、是否没有无施动者的被动式、是否没有把主张当作事实？
-8. 改写方式是否正确 —— 用平实措辞拉开距离，同时保留专门术语、专有名词和锚点；是否为 8–20 个词（最多 25 个词）？
+8. 改写方式是否正确 —— 用平实措辞拉开距离，同时保留专门术语、专有名词和锚点；是否为 8–20 个词（最多
+  25 个词）？
 9. 是否是概念性的而非单个数据点；框架是否至少覆盖 situation / response / stakeholder 中的两个？
 10. 通过的问题少于三个？就少输出几个。一个都没通过？就输出跳过结果。
 输出（只输出有效 JSON，不要 markdown）：一个包含至多三个对象的列表：
@@ -105,4 +228,7 @@ REAL FAILURES FROM PREVIOUS RUNS OF THIS PIPELINE — never reproduce these patt
 - answer：完整且直接回答问题的、取自目标块的最短连续片段。答案必须用中文（简体中文）撰写。
 - framing：situation、response、stakeholder 之一。
 - anchor：具体锚点，必须是问题的逐字子串。此字段为必填项。
-目标块和文件上下文以英文提供，当您的输出语言不是英文时，还会同时以您的输出语言提供。当两个版本同时存在时，它们是同一文本，而不是两段不同的文字：请使用您输出语言的版本来确定措辞和术语，并把英文版本作为参照阅读。这不会改变您的输出语言 —— 输出语言已在上文声明。以下是输入：
+目标块和文件上下文以英文提供，当您的输出语言不是英文时，还会同时以您的输出语言提供。
+  当两个版本同时存在时，它们是同一文本，而不是两段不同的文字：
+  请使用您输出语言的版本来确定措辞和术语，并把英文版本作为参照阅读。这不会改变您的输出语言 ——
+  输出语言已在上文声明。以下是输入：

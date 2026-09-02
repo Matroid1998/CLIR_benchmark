@@ -1,62 +1,153 @@
 您是从联合国文件（决议、报告和信函）创建法律检索问题的专家。
 从业者模式（PRACTITIONER MODE）—— 专业人士要的是法律状态，而不是一份文件：
-每个问题都是一位实际操作该制度的专业人士提出的查询 —— 制裁法律顾问、承办相关事务的律师、合规官员、维持和平法律顾问。他们脑中装的不是文书，而是规范。他们询问的是某一时点上的法律状态：什么当时适用、谁受其约束、某事须在何时之前完成、在什么条件下某事发生了变化、某项任务涵盖什么、某个数字是多少。文件只不过是答案所在之处；问题绝不提及任何文件。贯穿始终的检验是：一位制度专业人士在就合规问题提供咨询、审查某项任务或重建某一日期上所适用的规则时，是否有可能大致输入这些词？
+每个问题都是一位实际操作该制度的专业人士提出的查询 —— 制裁法律顾问、承办相关事务的律师、合规官员、
+  维持和平法律顾问。他们脑中装的不是文书，而是规范。他们询问的是某一时点上的法律状态：什么当时适用、
+  谁受其约束、某事须在何时之前完成、在什么条件下某事发生了变化、某项任务涵盖什么、某个数字是多少。
+  文件只不过是答案所在之处；问题绝不提及任何文件。贯穿始终的检验是：
+  一位制度专业人士在就合规问题提供咨询、审查某项任务或重建某一日期上所适用的规则时，
+  是否有可能大致输入这些词？
 语言：
-问题和答案必须用中文（简体中文）撰写。请保留特派团、机关、机构和方案的名称，既定专门术语（"军火禁运"、"资产冻结"、"旅行禁令"、"禁飞区"），以及所有日期、期限、金额、百分比、部队人数和阈值的原始形式；不要四舍五入、重新格式化或随意改称。当某个机关、机构或文书拥有官方中文名称时，请使用该官方名称，而不是字面直译。
-改写而不偏移：请改写规范周围的一般性表述；专门术语、专有名称、数字和日期须原样照抄。绝不可让改写扩大、缩小或移动规范："当秘书长补偿了一位申请人时"不等于"当秘书长决定给予申请人补偿而不再采取任何行动时" —— 前者描述的是任何一笔付款，后者则是那项上限所附着的特定法定选项。法律文本对确切用词很敏感 —— 当您拿不准某个词是否起决定作用时，请保留它。
+问题和答案必须用中文（简体中文）撰写。请保留特派团、机关、机构和方案的名称，
+  既定专门术语（"军火禁运"、"资产冻结"、"旅行禁令"、"禁飞区"），以及所有日期、期限、金额、百分比、
+  部队人数和阈值的原始形式；不要四舍五入、重新格式化或随意改称。当某个机关、
+  机构或文书拥有官方中文名称时，请使用该官方名称，而不是字面直译。
+改写而不偏移：请改写规范周围的一般性表述；专门术语、专有名称、数字和日期须原样照抄。
+  绝不可让改写扩大、缩小或移动规范：
+  "当秘书长补偿了一位申请人时"不等于"当秘书长决定给予申请人补偿而不再采取任何行动时" ——
+  前者描述的是任何一笔付款，后者则是那项上限所附着的特定法定选项。法律文本对确切用词很敏感 ——
+  当您拿不准某个词是否起决定作用时，请保留它。
 输入的结构：
 您会收到三个带标记的部分。
-- "### TARGET BLOCK" —— 一份联合国文件中的一个连续段落块（若干完整段落）。这就是您要针对其撰写问题的文本。
-- "### REFERENCED DOCUMENTS" —— 目标块所引用的文件，提供它们仅仅是为了让您理解这些引用所指为何。它们绝不是答案的来源。
+- "### TARGET BLOCK" —— 一份联合国文件中的一个连续段落块（若干完整段落）。
+  这就是您要针对其撰写问题的文本。
+- "### REFERENCED DOCUMENTS" —— 目标块所引用的文件，提供它们仅仅是为了让您理解这些引用所指为何。
+  它们绝不是答案的来源。
 - "### DOCUMENT CONTEXT" —— 同一文件的周边文本：其开头部分，对于长文件，还包括目标块前后的段落。
 各部分的角色是严格的：
 - 答案必须完整地陈述在 TARGET BLOCK 中。不是部分地 —— 而是完整地。
-- 两个辅助部分的存在只是为了让您理解目标块 —— 绝不是让您从中取答案。请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the sides" 指的是哪些当事方、某项措施属于哪个制度、信函或报告由谁撰写，以及为问题确定时间定位的日历日期。如果答案实质的任何部分只陈述在某份被引用文件中或只出现在上下文中，就丢弃该问题。
-- 引文规则（THE QUOTATION RULE）：当目标块引述或复述另一份文书的某项规定时 —— 《建章立制一揽子方案》（Institution-Building Package）的一条、某项先前决议的一段、某项规约中的一条规则 —— 关于该项规定的规范状态问题属于被引述的那份文书，在此就是偏离目标的，即便其文字位于目标块之内。在本语料库中，被引述文书自身的文本才是该规范问题更好的匹配，因此标准答案会是错的。请改为询问本文件拿这项规定做了什么：其作者指控什么、适用什么、报告什么、质疑什么。
-目标块以元数据（METADATA）行开头（[EN] Document: <文件编号> / Title: <标题>），随后是正文。请利用它们了解该段落是关于什么的、它出自何时 —— 元数据中的日期往往正是您时间定位点的来源 —— 以及它是否属于某个反复出现的系列。元数据是上下文，不是内容：绝不要从中提取答案，也绝不要提关于它的问题。
-体裁门槛（GENRE GATE）：如果目标块是会议记录（任何含有 "PV" 或 "SR" 的文件编号），本模式不适用 —— 发言承载的是立场，不是规范。返回 [{"skip_reason": "meeting record"}]。
+- 两个辅助部分的存在只是为了让您理解目标块 —— 绝不是让您从中取答案。
+  请利用它们来解析目标块未明说的内容："the Mission" 指的是哪个特派团、"the sides" 指的是哪些当事方、
+  某项措施属于哪个制度、信函或报告由谁撰写，以及为问题确定时间定位的日历日期。
+  如果答案实质的任何部分只陈述在某份被引用文件中或只出现在上下文中，就丢弃该问题。
+- 引文规则（THE QUOTATION RULE）：当目标块引述或复述另一份文书的某项规定时 —— 《建章立制一揽子方案》
+  （Institution-Building Package）的一条、某项先前决议的一段、某项规约中的一条规则 ——
+  关于该项规定的规范状态问题属于被引述的那份文书，在此就是偏离目标的，即便其文字位于目标块之内。
+  在本语料库中，被引述文书自身的文本才是该规范问题更好的匹配，因此标准答案会是错的。
+  请改为询问本文件拿这项规定做了什么：其作者指控什么、适用什么、报告什么、质疑什么。
+目标块以元数据（METADATA）行开头（[EN] Document: <文件编号> / Title: <标题>），随后是正文。
+  请利用它们了解该段落是关于什么的、它出自何时 —— 元数据中的日期往往正是您时间定位点的来源 ——
+  以及它是否属于某个反复出现的系列。元数据是上下文，不是内容：绝不要从中提取答案，
+  也绝不要提关于它的问题。
+体裁门槛（GENRE GATE）：如果目标块是会议记录（任何含有 "PV" 或 "SR" 的文件编号），本模式不适用 ——
+  发言承载的是立场，不是规范。返回 [{"skip_reason": "meeting record"}]。
 本模式的定义性规则 —— 规范状态视角、不提文书、锚定时间：
-1. 不得有任何形式的文书指称。问题中不得包含决议号或决定编号、文件编号、段落编号，也不得包含对某份文书的描述（"安全理事会 2004 年关于……的决议"、"秘书长 1994 年 5 月的报告"）。如果一个问题不指向某份文书就无法提出，那么它属于查阅模式 —— 在此丢弃。
-   - 例外 —— 以决议命名的机构："根据第 1533(2004) 号决议设立的委员会"、"1267 委员会" —— 这是一个名称，不是引用。允许使用。
-   - 例外 —— 以日期指称某一行为的时间定位点："2001 年授权规定的"、"根据 2011 年 12 月议定的延期"、"1994 年 5 月施加的措施"指的是何时，而不是哪份文件。允许使用。"根据第 918(1994) 号决议" 则不允许。
-   - 例外 —— 具名归属的调查结果：报告或信函可以被指名为某个数字或某项调查结果的来源（"根据 KFOR 1999 年 8 月的报告……"、"根据以色列 2014 年 7 月的信函……"），因为这一归属本身就是该事实的一部分。只能用职务或国家加日期 —— 绝不能用文件编号。
+1. 不得有任何形式的文书指称。问题中不得包含决议号或决定编号、文件编号、段落编号，
+  也不得包含对某份文书的描述（"安全理事会 2004 年关于……的决议"、"秘书长 1994 年 5 月的报告"）。
+  如果一个问题不指向某份文书就无法提出，那么它属于查阅模式 —— 在此丢弃。
+   - 例外 —— 以决议命名的机构："根据第 1533(2004) 号决议设立的委员会"、"1267 委员会" ——
+     这是一个名称，不是引用。允许使用。
+   - 例外 —— 以日期指称某一行为的时间定位点："2001 年授权规定的"、"根据 2011 年 12 月议定的延期"、
+     "1994 年 5 月施加的措施"指的是何时，而不是哪份文件。允许使用。"根据第 918(1994) 号决议"
+     则不允许。
+   - 例外 —— 具名归属的调查结果：报告或信函可以被指名为某个数字或某项调查结果的来源（"根据 KFOR 1999
+     年 8 月的报告……"、"根据以色列 2014 年 7 月的信函……"），因为这一归属本身就是该事实的一部分。
+     只能用职务或国家加日期 —— 绝不能用文件编号。
    - 标识符可以出现在答案片段内部。
-2. 规范状态视角。请询问什么适用、什么被要求、什么当时有效、什么到期应完成 —— 而不是某个机关说了、决定了、请求了、吁请了或继续做了什么。机关可以作为规范的行为方出现；但言语行为本身不得成为所问之事。
-   - 规范状态句式："对……适用的部队人数上限是多少……"、"……须在什么日期之前……"、"在什么条件下……应予重新审议……"、"谁负责……"、"自……起……的任务涵盖什么……"、"哪些豁免适用于……"、"截至……未缴金额是多少……"、"……于[日期]延长后，延至何时……"。
-   - 请自然地写出规范状态：这种视角是一个立场，不是一个模板。"对非正式互动听证会适用的期限是多久？"是生硬的套式表达；专业人士会写"非正式互动听证会应持续多长时间？"。"对 X 适用的法律地位是什么？"是生硬的套式表达；专业人士会写"X 是否合法……？"或"X 是否违反国际法……？"。请优先采用承载同一规范的平实句式。
-   - 欢迎提是非问句；这是从业者常用的一种句式："1994 年 5 月对卢旺达的军火禁运是否涵盖非政府武装力量？"、"UNMIL 的任务在 2011 年 6 月是否仍然有效？"。答案仍然是目标块中决定该问题的那个片段 —— 绝不是"是"或"否"这个词。
-   - 被禁止的句式："安全理事会决定/请求/授权/鼓励/重申了什么……"、"各国被吁请考虑什么……"、"[机构]继续做了什么……"、"[机构]发挥了什么作用……"、"该决议说了什么……"。这些句式报告的是一项言语行为，或者概括一段文字；它们不是关于规范的问题。
-   - 报告和信函：具体的调查结果和数字仍须保留归属并注明日期 —— "根据秘书长 1999 年 7 月的报告，……是多少"。请归属于职务或国家，绝不能归属于一个孤立的人名。无施动者的被动式就是剥离了归属："据提议"、"据记录"、"据报告"，而提议者、记录者或报告者却没有出现在问题中。请指名来源："根据 KFOR 2007 年 2 月的报告，科索沃是否记录到任何针对 KFOR 的事件？"、"[目标块中指名的提议者]在 2009 年 12 月提议对厄立特里亚采取什么军事措施？"。该调查结果必须是从业者会去核实的数字、事件或认定；绝不能是修辞性表述。
-3. 时间定位点 —— 强制要求。每个问题都必须携带一个明确的绝对时间锚点：一个日期（"截至 2011 年 4 月 30 日"）、一个月份或年份（"自 1994 年 5 月起"、"2004 年有效"），或一项注明日期的行为（"根据 2011 年 12 月议定的延期"、"于 2006 年 6 月 30 日延长"）。请从目标块、上下文或元数据中的日期取得该锚点。禁止使用相对于文档的时间表述："目前"、"现在"、"最近"、"前一天"、"在其下届会议上"、"报告所述期间" —— 请解析或丢弃。
+2. 规范状态视角。请询问什么适用、什么被要求、什么当时有效、什么到期应完成 —— 而不是某个机关说了、
+  决定了、请求了、吁请了或继续做了什么。机关可以作为规范的行为方出现；
+  但言语行为本身不得成为所问之事。
+   - 规范状态句式："对……适用的部队人数上限是多少……"、"……须在什么日期之前……"、"在什么条件下……
+     应予重新审议……"、"谁负责……"、"自……起……的任务涵盖什么……"、"哪些豁免适用于……"、"截至……
+     未缴金额是多少……"、"……于[日期]延长后，延至何时……"。
+   - 请自然地写出规范状态：这种视角是一个立场，不是一个模板。"对非正式互动听证会适用的期限是多久？
+     "是生硬的套式表达；专业人士会写"非正式互动听证会应持续多长时间？"。"对 X 适用的法律地位是什么？
+     "是生硬的套式表达；专业人士会写"X 是否合法……？"或"X 是否违反国际法……？"。
+     请优先采用承载同一规范的平实句式。
+   - 欢迎提是非问句；这是从业者常用的一种句式："1994 年 5
+     月对卢旺达的军火禁运是否涵盖非政府武装力量？"、"UNMIL 的任务在 2011 年 6 月是否仍然有效？"。
+     答案仍然是目标块中决定该问题的那个片段 —— 绝不是"是"或"否"这个词。
+   - 被禁止的句式："安全理事会决定/请求/授权/鼓励/重申了什么……"、"各国被吁请考虑什么……"、
+     "[机构]继续做了什么……"、"[机构]发挥了什么作用……"、"该决议说了什么……"。
+     这些句式报告的是一项言语行为，或者概括一段文字；它们不是关于规范的问题。
+   - 报告和信函：具体的调查结果和数字仍须保留归属并注明日期 —— "根据秘书长 1999 年 7 月的报告，……
+     是多少"。请归属于职务或国家，绝不能归属于一个孤立的人名。无施动者的被动式就是剥离了归属：
+     "据提议"、"据记录"、"据报告"，而提议者、记录者或报告者却没有出现在问题中。请指名来源："根据
+     KFOR 2007 年 2 月的报告，科索沃是否记录到任何针对 KFOR 的事件？"、"[目标块中指名的提议者]在
+     2009 年 12 月提议对厄立特里亚采取什么军事措施？"。该调查结果必须是从业者会去核实的数字、
+     事件或认定；绝不能是修辞性表述。
+3. 时间定位点 —— 强制要求。每个问题都必须携带一个明确的绝对时间锚点：一个日期（"截至 2011 年 4 月 30
+  日"）、一个月份或年份（"自 1994 年 5 月起"、"2004 年有效"），或一项注明日期的行为（"根据 2011 年
+  12 月议定的延期"、"于 2006 年 6 月 30 日延长"）。请从目标块、上下文或元数据中的日期取得该锚点。
+  禁止使用相对于文档的时间表述："目前"、"现在"、"最近"、"前一天"、"在其下届会议上"、"报告所述期间"
+  —— 请解析或丢弃。
 孪生检验与反复出现的系列（THE SIBLING TEST）—— 时间定位点和锚点为何存在：
-联合国的规范天然反复出现。同一项任务年复一年地以几乎相同的措辞获得延期，因此"对 UNMISS 适用的部队人数上限是多少？"在每一次延期中都有不同的答案 —— 时间定位点用来选定年份。同样的资产冻结条款、旅行禁令条款和报告条款在各制度之间被复制，因此"谁获得了旅行禁令的豁免？"适用于十几个制度 —— 制度锚点用来选定其中的哪一个。请熟悉这些反复出现的文件家族：就常设议程项目通过、以届会编号的大会决议（某一国家的人权状况、食物权、发展权、对非自治领土的援助、《禁止生物武器公约》和《禁止化学武器公约》、新喀里多尼亚、联合国官员的刑事问责、法治）；关于巴勒斯坦被占领土和被占领的叙利亚戈兰的经社理事会和大会年度决议；两年一次的"联合国与[区域组织]之间的合作"决议；两年一次的方案规划决议和会议时地分配办法决议；任务延期；国际日决议；月度报告和定期报告。对于这些文本，当有关段落逐年不变时，仅有年份是不够的：请优先选取本实例所特有的内容 —— 一个日期、一个数字、一项新增的任务事项、一个被点名的事件。KFOR 的月度报告是反复出现的，但其部队人数是本月自己的数字 —— 数字、日期和事件正是应当瞄准的、属于本实例的内容。在保留一个问题之前请自问：把它逐字不变地用来问去年那次延期或另一制度中的孪生条款，是否同样说得通？如果是，请补上缺少的内容、针对本实例特有的内容提问，或者以 skip_reason "recurring boilerplate" 跳过。
+联合国的规范天然反复出现。同一项任务年复一年地以几乎相同的措辞获得延期，因此"对 UNMISS
+  适用的部队人数上限是多少？"在每一次延期中都有不同的答案 —— 时间定位点用来选定年份。
+  同样的资产冻结条款、旅行禁令条款和报告条款在各制度之间被复制，因此"谁获得了旅行禁令的豁免？
+  "适用于十几个制度 —— 制度锚点用来选定其中的哪一个。请熟悉这些反复出现的文件家族：
+  就常设议程项目通过、以届会编号的大会决议（某一国家的人权状况、食物权、发展权、对非自治领土的援助、
+  《禁止生物武器公约》和《禁止化学武器公约》、新喀里多尼亚、联合国官员的刑事问责、法治）；
+  关于巴勒斯坦被占领土和被占领的叙利亚戈兰的经社理事会和大会年度决议；
+  两年一次的"联合国与[区域组织]之间的合作"决议；两年一次的方案规划决议和会议时地分配办法决议；
+  任务延期；国际日决议；月度报告和定期报告。对于这些文本，当有关段落逐年不变时，仅有年份是不够的：
+  请优先选取本实例所特有的内容 —— 一个日期、一个数字、一项新增的任务事项、一个被点名的事件。KFOR
+  的月度报告是反复出现的，但其部队人数是本月自己的数字 —— 数字、日期和事件正是应当瞄准的、
+  属于本实例的内容。在保留一个问题之前请自问：
+  把它逐字不变地用来问去年那次延期或另一制度中的孪生条款，是否同样说得通？如果是，请补上缺少的内容、
+  针对本实例特有的内容提问，或者以 skip_reason "recurring boilerplate" 跳过。
 锚定与具体性：
-- 除时间定位点外，每个问题都须在问题文本中携带至少两个实质性锚点，取自：制度或局势（"对卢旺达的军火禁运"、"伊朗制裁制度"、"《禁止生物武器公约》"）、国家或领土、特派团或机构（"UNAMIR"、"苏丹问题专家小组"）、受约束或受保护的行为方，或所涉措施或专门术语。制度必须被指名："履行支助股"若不带"《禁止生物武器公约》"，同样适用于 CCW；"行动纲领"若不带"小武器和轻武器"，同样适用于巴巴多斯、布鲁塞尔、伊斯坦布尔、阿拉木图和德班行动纲领；"受害者和证人"若不带"联合国官员和特派专家所犯罪行"，就是没有锚点的。
-- 请在 "anchors" 中以问题的逐字子串形式报告这些锚点。只出现在答案中的短语不是锚点。笼统的行为方（"各国"、"会员国"、"秘书长"、"高级专员办事处"）不是锚点。
+- 除时间定位点外，每个问题都须在问题文本中携带至少两个实质性锚点，取自：
+  制度或局势（"对卢旺达的军火禁运"、"伊朗制裁制度"、"《禁止生物武器公约》"）、国家或领土、
+  特派团或机构（"UNAMIR"、"苏丹问题专家小组"）、受约束或受保护的行为方，或所涉措施或专门术语。
+  制度必须被指名："履行支助股"若不带"《禁止生物武器公约》"，同样适用于 CCW；
+  "行动纲领"若不带"小武器和轻武器"，同样适用于巴巴多斯、布鲁塞尔、伊斯坦布尔、
+  阿拉木图和德班行动纲领；"受害者和证人"若不带"联合国官员和特派专家所犯罪行"，就是没有锚点的。
+- 请在 "anchors" 中以问题的逐字子串形式报告这些锚点。只出现在答案中的短语不是锚点。
+  笼统的行为方（"各国"、"会员国"、"秘书长"、"高级专员办事处"）不是锚点。
 - 每一个特指表述都必须在问题本身中指名：绝不可只写"该委员会"、"双方"、"该特派团"、"该国政府"。
-- 针对最小的可提问单元：一个期限、一个数字、一项标准、一项豁免、一个行为方、一个条件。如果目标块提供的是一整组内容，只就其中一个要素提问，并挑选最具实质后果的那一个。
+- 针对最小的可提问单元：一个期限、一个数字、一项标准、一项豁免、一个行为方、一个条件。
+  如果目标块提供的是一整组内容，只就其中一个要素提问，并挑选最具实质后果的那一个。
 - 优先选择完整答案是一个简短片段的问题。如果自然的答案是一整段或一份长清单，请收窄问题或丢弃它。
-- 专门术语原样保留：请原样复用目标块中的专门术语和专有名词（"资产冻结"、"安全人道主义区域"、"分摊会费"、"补偿而不再采取任何行动"）；只对其周围的一般性表述进行改写。
+- 专门术语原样保留：请原样复用目标块中的专门术语和专有名词（"资产冻结"、"安全人道主义区域"、
+  "分摊会费"、"补偿而不再采取任何行动"）；只对其周围的一般性表述进行改写。
 只针对有实质后果的内容：
-- 合格的片段：所施加、延长或终止的措施；任务的范围和任务事项；条件、标准、豁免；期限和任务期；上限、批款、会费、所报告的数字；任命、组成、程序；具体的带日期的事件和认定。
-- 不合格的片段（无论位于文件的哪个部分），包括其较为温和的形式：赞扬；欢迎（"欢迎……的持续作用"）；表示赞赏或关切（"仍然是严重关切的原因"）；注意到；赞赏地注意到；强调或着重指出……的重要性；确认……负有主要责任；重申或再次表明承诺；重申以往年份决议中作出的某项认定；重申要求继续开展某项活动；笼统地鼓励或邀请；吁请各国予以考虑；吁请"国际社会"；建议各国政府优先处理某事项；纪念活动和周年纪念；愿望。序言段的陈述是框架性的，绝不是答案素材。
-- 套语检验（THE BOILERPLATE TEST）：如果答案片段可以原封不动地出现在数十份其他联合国文件中，它就不能充当一个问题的锚点。
+- 合格的片段：所施加、延长或终止的措施；任务的范围和任务事项；条件、标准、豁免；期限和任务期；上限、
+  批款、会费、所报告的数字；任命、组成、程序；具体的带日期的事件和认定。
+- 不合格的片段（无论位于文件的哪个部分），包括其较为温和的形式：赞扬；欢迎（"欢迎……的持续作用"）；
+  表示赞赏或关切（"仍然是严重关切的原因"）；注意到；赞赏地注意到；强调或着重指出……的重要性；确认……
+  负有主要责任；重申或再次表明承诺；重申以往年份决议中作出的某项认定；重申要求继续开展某项活动；
+  笼统地鼓励或邀请；吁请各国予以考虑；吁请"国际社会"；建议各国政府优先处理某事项；
+  纪念活动和周年纪念；愿望。序言段的陈述是框架性的，绝不是答案素材。
+- 套语检验（THE BOILERPLATE TEST）：如果答案片段可以原封不动地出现在数十份其他联合国文件中，
+  它就不能充当一个问题的锚点。
 信息量检验（THE INFORMATIVENESS TEST）：
 答案必须告诉提问者一些问题本身尚未包含、而且提问者也无法自行提供的内容。有三种失败方式：
-- 重述：答案重复问题自身的措辞，或重复该问题据以构建的那个指向性表述（用"该委员会确定的豁免"来回答"哪些豁免适用"）。
-- 可猜性：专业人士能够以高于五五开的把握从问题中补全答案（用"为期一天"作为非正式听证会的期限；用"以书面形式"作为请求的形式）。
-- 答案脚手架：问题是通过截断答案片段、再对其尾部发问而形成的。请从需求出发重建问题，而不是从该片段的句法出发。
-指示性答案：答案片段必须在文件之外也能被理解。内容本身就是一个指向的片段 —— "上述各项优先事项"、"如本决议所通过的"、"下文所载的各项措施" —— 单独来看什么也回答不了。请丢弃该问题，或收窄到一个自足的片段。
+- 重述：答案重复问题自身的措辞，
+  或重复该问题据以构建的那个指向性表述（用"该委员会确定的豁免"来回答"哪些豁免适用"）。
+- 可猜性：专业人士能够以高于五五开的把握从问题中补全答案（用"为期一天"作为非正式听证会的期限；
+  用"以书面形式"作为请求的形式）。
+- 答案脚手架：问题是通过截断答案片段、再对其尾部发问而形成的。请从需求出发重建问题，
+  而不是从该片段的句法出发。
+指示性答案：答案片段必须在文件之外也能被理解。内容本身就是一个指向的片段 —— "上述各项优先事项"、
+  "如本决议所通过的"、"下文所载的各项措施" —— 单独来看什么也回答不了。请丢弃该问题，
+  或收窄到一个自足的片段。
 核心规则：
 - 单一聚焦：每个问题只能询问恰好一个规范要素或一项事实；绝不要将多个诉求合并。
-- 块检验（THE BLOCK TEST）（对每个候选问题逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，而被引用文件和上下文只是用来弄清指称表达、名称、日期和引用？如果答案所需的任何事实只存在于某份被引用文件中或只出现在上下文中，就丢弃。这是本任务中最常见的依据性失败。
-- 偏离目标：一个完全可以从被引用文件回答的问题是关于那份文件的问题 —— 丢弃它。引用从不补全答案。上文的引文规则对被引述的规定适用的是同一原理。
+- 块检验（THE BLOCK TEST）（对每个候选问题逐一应用）：读者能否仅凭 TARGET BLOCK 就给出完整答案，
+  而被引用文件和上下文只是用来弄清指称表达、名称、日期和引用？
+  如果答案所需的任何事实只存在于某份被引用文件中或只出现在上下文中，就丢弃。
+  这是本任务中最常见的依据性失败。
+- 偏离目标：一个完全可以从被引用文件回答的问题是关于那份文件的问题 —— 丢弃它。引用从不补全答案。
+  上文的引文规则对被引述的规定适用的是同一原理。
 - 完整直接支撑：不允许推理，不允许外部知识 —— 即使是辅助部分中的事实也不行。
 - 数值忠实（答案）：数字、日期、期限、金额、百分比和部队人数必须严格照原样复制。
 - 措辞与长度：直接的疑问句，8–20 个词，硬性上限 25 个词。
 - 多样性：这些问题必须针对不同的事实，并且至少覆盖八个类别中的两个。
-- 宁可跳过，不要凑数：最多生成三对问答；如果通过全部规则的问题少于三个，就少生成几个。如果目标块一个也支撑不了，就准确返回 [{"skip_reason": "<one short phrase>"}]。绝不要为了凑够三个而编造问题。
-- 请尽量改写表述。不要逐字重复文本中提到的每一个项目和每一个词。但不要以改变含义的方式改写：由于这是法律文本，某些用词非常敏感。
+- 宁可跳过，不要凑数：最多生成三对问答；如果通过全部规则的问题少于三个，就少生成几个。
+  如果目标块一个也支撑不了，就准确返回 [{"skip_reason": "<one short phrase>"}]。
+  绝不要为了凑够三个而编造问题。
+- 请尽量改写表述。不要逐字重复文本中提到的每一个项目和每一个词。但不要以改变含义的方式改写：
+  由于这是法律文本，某些用词非常敏感。
 
 问什么 —— 八个类别，按本模式的优先顺序排列：
   1. 制裁、条件与后果：现行有效的措施，列名和豁免标准，施加、审查或解除措施的条件，升级步骤。
@@ -66,23 +157,48 @@
   5. 行为方、机构与程序：官员和机构，组成、职责、任命，程序步骤，经正式定义的术语。
   6. 局势、范围与涵盖面：某项措施涵盖什么 —— 国家、领土、人口群体、期间、例外规定。
   7. 执行性行动：改写为规范状态 —— 现行有效的义务、任务事项或授权，而不是作出该决定这一行为本身。
-  8. 调查结果、事件与评估：具体的带日期的数字、事件和认定，并归属于职务或国家 —— 绝不能是修辞性表述。
+  8. 调查结果、事件与评估：具体的带日期的数字、事件和认定，并归属于职务或国家 ——
+    绝不能是修辞性表述。
 只有当目标块明确且完整地陈述了目的或理由时，才可以就其提问。
 示例 —— 堪为典范的正确写法，并附上它们所出自的目标块文本：
-Target block: S/1999/982, letter of the Secretary-General conveying the monthly KFOR report: "Over the reporting period (1-29 August 1999), the number of KFOR troops deployed to the theatre increased, rising to a total of 48,030 North Atlantic Treaty Organization (NATO) and non-NATO troops as of 29 August."
+Target block: S/1999/982, letter of the Secretary-General conveying the monthly KFOR report: "Over
+  the reporting period (1-29 August 1999), the number of KFOR troops deployed to the theatre
+  increased, rising to a total of 48,030 North Atlantic Treaty Organization (NATO) and non-NATO
+  troops as of 29 August."
 ✓ {"question": "According to KFOR's August 1999 report, how many NATO and non-NATO troops were deployed in Kosovo on 29 August?", "answer": "48,030 North Atlantic Treaty Organization (NATO) and non-NATO troops", "question_type": "quantity_force_or_finance", "anchors": ["KFOR's August 1999 report", "Kosovo"]}
-  → A recurring monthly series, but the figure is this month's own: instance-specific content, attributed to the office, time-pinned twice over.
-Target block: A/RES/55/159 (amendments to the Statute of the United Nations Administrative Tribunal, in force from 1 January 2001): "... should the Secretary-General ... decide, in the interest of the United Nations, that the applicant shall be compensated without further action being taken in his or her case, provided that such compensation shall not exceed the equivalent of two years' net base salary of the applicant."
-✗ Generated: "From 1 January 2001, what compensation cap applied when the Secretary-General compensated an Administrative Tribunal applicant?" with anchors ["Secretary-General", "Administrative Tribunal applicant"]
-  → Two flaws: "Secretary-General" is a generic actor and can never be an anchor; and "compensated an applicant" widens the norm — the cap attaches only to the option of compensation WITHOUT FURTHER ACTION. Repaired:
+  → A recurring monthly series, but the figure is this month's own: instance-specific content,
+    attributed to the office, time-pinned twice over.
+Target block: A/RES/55/159 (amendments to the Statute of the United Nations Administrative Tribunal,
+  in force from 1 January 2001): "... should the Secretary-General ... decide, in the interest of
+  the United Nations, that the applicant shall be compensated without further action being taken in
+  his or her case, provided that such compensation shall not exceed the equivalent of two years' net
+  base salary of the applicant."
+✗ Generated: "From 1 January 2001, what compensation cap applied when the Secretary-General
+  compensated an Administrative Tribunal applicant?" with anchors
+  ["Secretary-General", "Administrative Tribunal applicant"]
+  → Two flaws: "Secretary-General" is a generic actor and can never be an anchor; and "compensated
+    an applicant" widens the norm — the cap attaches only to the option of compensation WITHOUT
+    FURTHER ACTION. Repaired:
 ✓ {"question": "From 2001, what ceiling applied to compensation fixed by the United Nations Administrative Tribunal when the Secretary-General decided an applicant be compensated without further action?", "answer": "the equivalent of two years' net base salary of the applicant", "question_type": "quantity_force_or_finance", "anchors": ["United Nations Administrative Tribunal", "compensated without further action"]}
-Target block: A/RES/66/47 (the illicit trade in small arms and light weapons): "6. Decides that, pursuant to resolution 65/64, the second conference to review progress made in the implementation of the Programme of Action will be held in New York, from 27 August to 7 September 2012;"
-✗ Generated: "When was the second conference to review progress in implementing the Programme of Action to be held in New York in 2012?" with anchors ["second conference to review progress", "Programme of Action", "New York"]
-  → The regime is not named: "the Programme of Action" alone fits the Barbados, Istanbul, Almaty and Durban Programmes of Action equally. Repaired:
+Target block: A/RES/66/47 (the illicit trade in small arms and light weapons): "6. Decides that,
+  pursuant to resolution 65/64, the second conference to review progress made in the implementation
+  of the Programme of Action will be held in New York, from 27 August to 7 September 2012;"
+✗ Generated: "When was the second conference to review progress in implementing the Programme of
+  Action to be held in New York in 2012?" with anchors
+  ["second conference to review progress", "Programme of Action", "New York"]
+  → The regime is not named: "the Programme of Action" alone fits the Barbados, Istanbul, Almaty and
+    Durban Programmes of Action equally. Repaired:
 ✓ {"question": "When in 2012 was the second review conference of the Programme of Action on small arms and light weapons to be held in New York?", "answer": "from 27 August to 7 September 2012", "question_type": "date_deadline_or_mandate", "anchors": ["Programme of Action on small arms and light weapons", "New York"]}
-Target block: A/HRC/S.21/G/1, letter dated 28 July 2014 from the Permanent Representative of Israel to the President of the Human Rights Council: "Article 123 of the Institution-Building Package states the secretariat of the Council shall immediately communicate the request for the holding of a special session in a timely and transparent manner. This very basic principle was ignored on numerous occasions."
-✗ Generated: "In July 2014, how was the Human Rights Council secretariat required to communicate a special-session request?"
-  → QUOTATION RULE failure: the requirement is Article 123 of the Institution-Building Package, quoted by the letter; the norm question belongs to the quoted instrument, and the corpus would hold a better match for it. Ask what THIS document does — the allegation:
+Target block: A/HRC/S.21/G/1, letter dated 28 July 2014 from the Permanent Representative of Israel
+  to the President of the Human Rights Council: "Article 123 of the Institution-Building Package
+  states the secretariat of the Council shall immediately communicate the request for the holding of
+  a special session in a timely and transparent manner. This very basic principle was ignored on
+  numerous occasions."
+✗ Generated: "In July 2014, how was the Human Rights Council secretariat required to communicate a
+  special-session request?"
+  → QUOTATION RULE failure: the requirement is Article 123 of the Institution-Building Package,
+    quoted by the letter; the norm question belongs to the quoted instrument, and the corpus would
+    hold a better match for it. Ask what THIS document does — the allegation:
 ✓ {"question": "According to Israel's July 2014 letter, did the Human Rights Council secretariat communicate the twenty-first special session request in a timely and transparent manner?", "answer": "This very basic principle was ignored on numerous occasions.", "question_type": "finding_event_or_assessment", "anchors": ["Israel's July 2014 letter", "twenty-first special session"]}
 More canonical good, from earlier runs:
 ✓ {"question": "Until when was MONUC's increased military and civilian police strength extended on 30 June 2006?", "answer": "30 September 2006", "question_type": "date_deadline_or_mandate", "anchors": ["MONUC", "increased military and civilian police strength"]}
@@ -90,44 +206,87 @@ More canonical good, from earlier runs:
 ✓ {"question": "What amount of contributions to the United Nations Mission in Liberia was outstanding as at 30 April 2011?", "answer": "88 million United States dollars", "question_type": "quantity_force_or_finance", "anchors": ["contributions to the United Nations Mission in Liberia", "30 April 2011"]}
   → Entity, measure, date, nothing else — the target style of this mode.
 REAL FAILURES FROM PREVIOUS RUNS OF THIS PIPELINE — never reproduce these patterns:
-✗ "In 2004, what issue were Governments to prioritize in specialized agencies for Non-Self-Governing Territories?" — answer "the question of providing assistance to the peoples of the Non-Self-Governing Territories"
-  → The span is "Recommends that all Governments ... accord priority" (a priority recommendation — DISQUALIFIED), the resolution recurs annually with this paragraph unchanged, and the answer restates the question. Skip.
-✗ "In 2012, what legal status applied to Israel's wall in the Occupied Palestinian Territory, including East Jerusalem?" — answer "is contrary to international law"
-  → The span is "Also reaffirms that ..." — an annual reaffirmation of a determination first made elsewhere; the paragraph recurs in every year's resolution, and "what legal status applied" is a calque. Skip; the norm's home is the ICJ advisory opinion, not this year's restatement.
-✗ "In 2013, what duration applied to informal interactive hearings for the high-level dialogue on international migration and development?" — answer "one-day"
-  → "What duration applied" is a calque, and "one-day" is guessable with better than even odds. If kept at all: "How long were the informal interactive hearings for the 2013 high-level dialogue on international migration and development to run?" — and then INFORMATIVENESS still counsels skipping.
+✗ "In 2004, what issue were Governments to prioritize in specialized agencies for Non-Self-Governing
+  Territories?" — answer "the question of providing assistance to the peoples of the
+  Non-Self-Governing Territories"
+  → The span is "Recommends that all Governments ... accord priority" (a priority recommendation —
+    DISQUALIFIED), the resolution recurs annually with this paragraph unchanged, and the answer
+    restates the question. Skip.
+✗ "In 2012, what legal status applied to Israel's wall in the Occupied Palestinian Territory,
+  including East Jerusalem?" — answer "is contrary to international law"
+  → The span is "Also reaffirms that ..." — an annual reaffirmation of a determination first made
+    elsewhere; the paragraph recurs in every year's resolution, and "what legal status applied" is a
+    calque. Skip; the norm's home is the ICJ advisory opinion, not this year's restatement.
+✗ "In 2013, what duration applied to informal interactive hearings for the high-level dialogue on
+  international migration and development?" — answer "one-day"
+  → "What duration applied" is a calque, and "one-day" is guessable with better than even odds. If
+    kept at all: "How long were the informal interactive hearings for the 2013 high-level dialogue
+    on international migration and development to run?" — and then INFORMATIVENESS still counsels
+    skipping.
 ✗ "What did the Forum Ministerial Committee continue to do in New Caledonia in 2010?"
-  → "What did X continue to do" is a comprehension frame, the span is "welcomes the continuing role" (ceremony), and the paragraph recurs in every annual New Caledonia resolution. Skip.
+  → "What did X continue to do" is a comprehension frame, the span is "welcomes the continuing role"
+    (ceremony), and the paragraph recurs in every annual New Caledonia resolution. Skip.
 ✗ "In 2011, what jurisdiction were States called upon to consider accepting?"
-  → Speech-act stance; "calls upon States to consider" is a soft invitation, not a norm; the anchor listed ("International Court of Justice") appears only in the answer. Discard.
-✗ "By what deadline were States parties to submit annual information and data to the Implementation Support Unit?"
-  → No regime named (the CCW has an Implementation Support Unit too), no year, and the clause recurs annually. Fix: "By what date each year were States parties to the Biological Weapons Convention to submit their confidence-building measure returns, as of 2012?"
+  → Speech-act stance; "calls upon States to consider" is a soft invitation, not a norm; the anchor
+    listed ("International Court of Justice") appears only in the answer. Discard.
+✗ "By what deadline were States parties to submit annual information and data to the Implementation
+  Support Unit?"
+  → No regime named (the CCW has an Implementation Support Unit too), no year, and the clause recurs
+    annually. Fix: "By what date each year were States parties to the Biological Weapons Convention
+    to submit their confidence-building measure returns, as of 2012?"
 ✗ "What protection were States to provide to victims and witnesses in 2013?"
-  → The anchors reported ("crimes of a serious nature", "United Nations officials and experts on mission") are not in the question, which is therefore anchorless; the paragraph recurs annually. Fix: "In 2013, what protection were States to provide to witnesses to crimes by United Nations officials and experts on mission?" — then check whether that paragraph changed this year; if not, skip.
+  → The anchors reported ("crimes of a serious nature", "United Nations officials and experts on
+    mission") are not in the question, which is therefore anchorless; the paragraph recurs annually.
+    Fix: "In 2013, what protection were States to provide to witnesses to crimes by United Nations
+    officials and experts on mission?" — then check whether that paragraph changed this year; if
+    not, skip.
 ✗ "Were any incidents against KFOR recorded in Kosovo during 1 to 28 February 2007?"
-  → Right shape, but "were recorded" hides the recorder. Fix: "According to KFOR's report for February 2007, were any incidents against KFOR recorded in Kosovo?"
+  → Right shape, but "were recorded" hides the recorder. Fix: "According to KFOR's report for
+    February 2007, were any incidents against KFOR recorded in Kosovo?"
 ✗ "What military measure was proposed against Eritrea in December 2009?"
-  → "Was proposed" hides the proposer — the fact a sanctions lawyer needs. Name the proposer from the block.
-✗ "What troop ceiling did resolution 918 (1994) authorize for UNAMIR?" → instrument citation; lookup mode. "What troop ceiling did the 1994 Security Council resolution on Rwanda authorize?" → instrument description; lookup mode.
-✗ "What is UNAMIR's authorized troop ceiling?" → no time pin; the norm is re-stated in every renewal. Add the date.
-✗ "What was the current ceiling for the least developed countries' rate of assessment?" → "current" is document-relative. "What ceiling applied to the least developed countries' rate of assessment in 2005?"
+  → "Was proposed" hides the proposer — the fact a sanctions lawyer needs. Name the proposer from
+    the block.
+✗ "What troop ceiling did resolution 918 (1994) authorize for UNAMIR?" → instrument citation; lookup
+  mode. "What troop ceiling did the 1994 Security Council resolution on Rwanda authorize?" →
+  instrument description; lookup mode.
+✗ "What is UNAMIR's authorized troop ceiling?" → no time pin; the norm is re-stated in every
+  renewal. Add the date.
+✗ "What was the current ceiling for the least developed countries' rate of assessment?" → "current"
+  is document-relative. "What ceiling applied to the least developed countries' rate of assessment
+  in 2005?"
 对每个问题按以下顺序自检：
-1. 是否是会议记录（PV/SR）？→ 跳过。是否属于只有原封不动文本的反复出现系列？→ 跳过。作为提问对象的是否是另一份文书中被引述的规定？→ 引文规则：改为针对本文件拿它做了什么来提问，或者跳过。
-2. 是否不含任何形式的文书指称 —— 没有任何编号、没有文件编号、没有段落编号、没有对文书的描述？（名称中嵌有编号的机构名称、以注明日期的行为构成的时间定位点，以及以职务加日期形式对报告作出的归属，都是允许的。）
-3. 是否采取规范状态视角 —— 没有"X 决定了/请求了/吁请了/继续做了/说了什么"？是否写得自然，而不是"适用什么期限/法律地位"那种生硬的套式表达？是非问句是否由一个能决定该问题的片段来回答？
+1. 是否是会议记录（PV/SR）？→ 跳过。是否属于只有原封不动文本的反复出现系列？→ 跳过。
+  作为提问对象的是否是另一份文书中被引述的规定？→ 引文规则：改为针对本文件拿它做了什么来提问，
+  或者跳过。
+2. 是否不含任何形式的文书指称 —— 没有任何编号、没有文件编号、没有段落编号、没有对文书的描述？
+  （名称中嵌有编号的机构名称、以注明日期的行为构成的时间定位点，
+  以及以职务加日期形式对报告作出的归属，都是允许的。）
+3. 是否采取规范状态视角 —— 没有"X 决定了/请求了/吁请了/继续做了/说了什么"？是否写得自然，
+  而不是"适用什么期限/法律地位"那种生硬的套式表达？是非问句是否由一个能决定该问题的片段来回答？
 4. 是否存在明确的绝对时间定位点？是否在任何地方都没有相对于文档的时间表述？
-5. 问题中是否有至少两个实质性锚点、制度是否已指名、是否在 "anchors" 中逐字报告；每一个特指表述是否都已指名？是否通过孪生检验 —— 在系列反复出现时，是否针对了本实例特有的内容？
-6. 答案片段是否属于合格片段（较为温和的礼节性形式、逐年重申的认定、持续进行的纪念活动以及优先处理建议，同样在禁止之列）？是否通过信息量检验 —— 没有重述、没有可猜的答案、没有答案脚手架？答案片段是否自足、而非指示性的？
+5. 问题中是否有至少两个实质性锚点、制度是否已指名、是否在 "anchors" 中逐字报告；
+  每一个特指表述是否都已指名？是否通过孪生检验 —— 在系列反复出现时，是否针对了本实例特有的内容？
+6. 答案片段是否属于合格片段（较为温和的礼节性形式、逐年重申的认定、
+  持续进行的纪念活动以及优先处理建议，同样在禁止之列）？是否通过信息量检验 —— 没有重述、
+  没有可猜的答案、没有答案脚手架？答案片段是否自足、而非指示性的？
 7. 是否通过块检验；是否不能仅凭某份被引用文件就得到回答；是否没有取自元数据的答案？
 8. 调查结果是否归属于职务或国家、是否没有无施动者的被动式、是否注明日期、是否值得核实？
-9. 是否只问一条最小单元的事实；专门术语是否原样保留；改写是否没有偏移；是否为 8–20 个词（最多 25 个词）；答案中的数字是否精确？
+9. 是否只问一条最小单元的事实；专门术语是否原样保留；改写是否没有偏移；是否为 8–20 个词（最多 25
+  个词）；答案中的数字是否精确？
 10. 通过的问题少于三个？就少输出几个。一个都没通过？就输出跳过结果。
 输出（只输出有效 JSON，不要 markdown）：一个包含至多三个对象的列表：
 [
   {"question": "...", "answer": "...", "question_type": "...", "anchors": ["...", "..."]}
 ]
 如果没有任何问题通过全部检验，就准确返回：[{"skip_reason": "<one short phrase>"}]
-- answer：完整且直接回答问题的最短片段 —— 对于是非问句，则是决定该问题的最短片段。严格以目标块为依据。
-- question_type：situation_scope_or_coverage、operative_action、sanction_condition_or_consequence、date_deadline_or_mandate、quantity_force_or_finance、reporting_monitoring_or_verification、finding_event_or_assessment、actor_body_or_procedure 之一。
-- anchors：两个或更多锚点，均为问题的逐字子串，按它们在问题中出现的先后顺序排列；绝不能是笼统的行为方。
-目标块和文件上下文以英文提供，当您的输出语言不是英文时，还会同时以您的输出语言提供。当两个版本同时存在时，它们是同一文本，而不是两段不同的文字：请使用您输出语言的版本来确定措辞和术语，并把英文版本作为参照阅读。这不会改变您的输出语言 —— 输出语言已在上文声明。以下是输入：
+- answer：完整且直接回答问题的最短片段 —— 对于是非问句，则是决定该问题的最短片段。
+  严格以目标块为依据。
+- question_type：situation_scope_or_coverage、operative_action、sanction_condition_or_consequence、
+  date_deadline_or_mandate、quantity_force_or_finance、reporting_monitoring_or_verification、
+  finding_event_or_assessment、actor_body_or_procedure 之一。
+- anchors：两个或更多锚点，均为问题的逐字子串，按它们在问题中出现的先后顺序排列；
+  绝不能是笼统的行为方。
+目标块和文件上下文以英文提供，当您的输出语言不是英文时，还会同时以您的输出语言提供。
+  当两个版本同时存在时，它们是同一文本，而不是两段不同的文字：
+  请使用您输出语言的版本来确定措辞和术语，并把英文版本作为参照阅读。这不会改变您的输出语言 ——
+  输出语言已在上文声明。以下是输入：

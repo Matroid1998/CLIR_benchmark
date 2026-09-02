@@ -25,6 +25,24 @@ uv sync --extra eval         # + the embedding-model stack (compute nodes)
 cp .env.example .env         # then fill in the keys you need
 ```
 
+## Formatting
+
+```bash
+uv run ruff format                       # Python
+uv run ruff check
+uv run python scripts/format_prompts.py  # the prompt templates
+```
+
+`scripts/format_prompts.py` hard-wraps the prompt files under
+`src/clir_bench/domains` to 100 display columns. It only ever *splits* an
+over-long line -- it never joins lines, and it refuses to write unless the
+whitespace-stripped text is unchanged and a second pass is a no-op, so the only
+thing that can move is where the newlines fall. Blocks shaped like the model's
+runtime input (`### ` headers, `[EN] ...` unit headers, `Act:`/`Cite as:`
+metadata, quoted source bodies) and the JSON output examples are left verbatim.
+Chinese breaks after its own punctuation, never inside a word. `tests/` checks
+the templates stay formatted; use `--check` to see what would change.
+
 ## Use
 
 ```bash

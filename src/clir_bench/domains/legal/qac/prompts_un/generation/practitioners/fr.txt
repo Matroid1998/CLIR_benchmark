@@ -1,88 +1,289 @@
-Vous êtes un expert dans la création de questions de recherche documentaire juridiques à partir de documents des Nations Unies (résolutions, rapports et lettres).
+Vous êtes un expert dans la création de questions de recherche documentaire juridiques à partir de
+  documents des Nations Unies (résolutions, rapports et lettres).
 MODE PRATICIEN — LE SPÉCIALISTE DEMANDE L'ÉTAT DU DROIT, ET NON UN DOCUMENT :
-Chaque question est une requête émanant d'un spécialiste qui pratique le régime — un conseil en matière de sanctions, un juriste chargé du dossier, un responsable de la conformité, un conseiller juridique d'une opération de maintien de la paix. Aucun instrument n'est présent à son esprit ; c'est la NORME qui l'est. Il demande ce qui s'appliquait, qui était lié, pour quelle date une obligation était exigible, à quelles conditions quelque chose changeait, ce que couvrait un mandat, à combien s'élevait un chiffre — à un moment donné. Le document n'est que l'endroit où se trouve la réponse ; la question ne mentionne jamais aucun document. Le critère, d'un bout à l'autre : un spécialiste du régime taperait-il vraisemblablement à peu près ces mots en conseillant sur la conformité, en examinant un mandat ou en reconstituant ce qui s'appliquait à une date donnée ?
+Chaque question est une requête émanant d'un spécialiste qui pratique le régime — un conseil en
+  matière de sanctions, un juriste chargé du dossier, un responsable de la conformité, un conseiller
+  juridique d'une opération de maintien de la paix. Aucun instrument n'est présent à son esprit ;
+  c'est la NORME qui l'est. Il demande ce qui s'appliquait, qui était lié, pour quelle date une
+  obligation était exigible, à quelles conditions quelque chose changeait, ce que couvrait un
+  mandat, à combien s'élevait un chiffre — à un moment donné. Le document n'est que l'endroit où se
+  trouve la réponse ; la question ne mentionne jamais aucun document. Le critère, d'un bout à
+  l'autre : un spécialiste du régime taperait-il vraisemblablement à peu près ces mots en
+  conseillant sur la conformité, en examinant un mandat ou en reconstituant ce qui s'appliquait à
+  une date donnée ?
 LANGUE :
-Les questions et les réponses DOIVENT être rédigées en français. Conservez les noms de missions, d'organes, d'organismes et de programmes, les termes techniques établis (« embargo sur les armes », « gel des avoirs », « interdiction de voyager », « zone d'exclusion aérienne »), ainsi que toutes les dates, durées, montants monétaires, pourcentages, effectifs de troupes et seuils dans leur forme d'origine ; ne les arrondissez pas, ne les reformatez pas et ne les renommez pas de manière approximative. Lorsqu'un organe, un organisme ou un instrument possède un nom officiel français, utilisez ce nom officiel plutôt qu'une traduction littérale.
-PARAPHRASE SANS DÉRIVE : paraphrasez l'ossature ordinaire qui entoure la norme ; reproduisez exactement les termes techniques, les noms propres, les chiffres et les dates. Ne laissez jamais une paraphrase élargir, restreindre ou déplacer la norme : « lorsque le Secrétaire général a indemnisé un requérant » n'est pas « lorsque le Secrétaire général a décidé que le requérant serait indemnisé sans qu'aucune autre mesure soit prise » — la première formule décrit tout versement, la seconde l'option statutaire précise à laquelle le plafond se rattache. Le texte juridique est sensible aux mots exacts — en cas de doute sur le caractère déterminant d'un mot, conservez-le.
+Les questions et les réponses DOIVENT être rédigées en français. Conservez les noms de missions,
+  d'organes, d'organismes et de programmes, les termes techniques établis (« embargo sur les armes
+  », « gel des avoirs », « interdiction de voyager », « zone d'exclusion aérienne »), ainsi que
+  toutes les dates, durées, montants monétaires, pourcentages, effectifs de troupes et seuils dans
+  leur forme d'origine ; ne les arrondissez pas, ne les reformatez pas et ne les renommez pas de
+  manière approximative. Lorsqu'un organe, un organisme ou un instrument possède un nom officiel
+  français, utilisez ce nom officiel plutôt qu'une traduction littérale.
+PARAPHRASE SANS DÉRIVE : paraphrasez l'ossature ordinaire qui entoure la norme ; reproduisez
+  exactement les termes techniques, les noms propres, les chiffres et les dates. Ne laissez jamais
+  une paraphrase élargir, restreindre ou déplacer la norme : « lorsque le Secrétaire général a
+  indemnisé un requérant » n'est pas « lorsque le Secrétaire général a décidé que le requérant
+  serait indemnisé sans qu'aucune autre mesure soit prise » — la première formule décrit tout
+  versement, la seconde l'option statutaire précise à laquelle le plafond se rattache. Le texte
+  juridique est sensible aux mots exacts — en cas de doute sur le caractère déterminant d'un mot,
+  conservez-le.
 STRUCTURE DE L'ENTRÉE :
 Vous recevez trois sections clairement délimitées.
-- « ### TARGET BLOCK » — un passage continu (une suite de paragraphes entiers) d'un document des Nations Unies. C'est le texte SUR LEQUEL vous rédigez les questions.
-- « ### REFERENCED DOCUMENTS » — les documents que le bloc cible CITE, fournis UNIQUEMENT pour que vous puissiez COMPRENDRE ce à quoi renvoient les citations. Jamais une source de réponses.
-- « ### DOCUMENT CONTEXT » — le texte environnant DU MÊME DOCUMENT : son ouverture et, pour les documents longs, les passages entourant le bloc cible.
+- « ### TARGET BLOCK » — un passage continu (une suite de paragraphes entiers) d'un document des
+  Nations Unies. C'est le texte SUR LEQUEL vous rédigez les questions.
+- « ### REFERENCED DOCUMENTS » — les documents que le bloc cible CITE, fournis UNIQUEMENT pour que
+  vous puissiez COMPRENDRE ce à quoi renvoient les citations. Jamais une source de réponses.
+- « ### DOCUMENT CONTEXT » — le texte environnant DU MÊME DOCUMENT : son ouverture et, pour les
+  documents longs, les passages entourant le bloc cible.
 Les rôles sont stricts :
 - La RÉPONSE doit être entièrement énoncée dans le BLOC CIBLE. Pas partiellement — entièrement.
-- Les sections d'appui existent pour que vous puissiez COMPRENDRE le bloc — jamais pour que vous y puisiez la réponse. UTILISEZ-les pour résoudre ce que le bloc laisse implicite : quelle mission désigne « la Mission », quelles parties désignent « les parties », à quel régime appartient une mesure, qui a rédigé la lettre ou le rapport, et les dates civiles qui ancrent la question dans le temps. Si une partie quelconque de la substance de la réponse n'est énoncée que dans un document référencé ou que dans le contexte, ÉCARTEZ la question.
-- LA RÈGLE DE LA CITATION : lorsque le bloc CITE ou reformule une disposition d'UN AUTRE instrument — un article de l'Institution-Building Package, un paragraphe d'une résolution antérieure, une règle tirée d'un statut —, une question sur l'état de la norme portant sur cette disposition relève de l'instrument CITÉ et est hors cible ici, quand bien même ses mots figurent à l'intérieur du bloc. Dans ce corpus, le texte propre à l'instrument cité correspond mieux à la question sur la norme, de sorte que la réponse de référence serait erronée. Interrogez plutôt ce que CE document fait de la disposition : ce que son auteur allègue, applique, rapporte ou conteste.
-Le bloc cible commence par des lignes de MÉTADONNÉES ([EN] Document: <cote> / Title: <titre>), suivies du texte. Utilisez-les pour savoir DE QUOI traite le passage, de QUAND il date — la date figurant dans les métadonnées est souvent la source de votre ancrage temporel — et s'il appartient à une série récurrente. Les métadonnées sont du CONTEXTE, PAS DU CONTENU : n'en tirez jamais une réponse et ne posez jamais de question portant sur elles.
-FILTRE DE GENRE : si le bloc cible est un compte rendu de séance (toute cote contenant « PV » ou « SR »), ce mode ne s'applique pas — les interventions portent des positions, non des normes. Renvoyez [{"skip_reason": "meeting record"}].
+- Les sections d'appui existent pour que vous puissiez COMPRENDRE le bloc — jamais pour que vous y
+  puisiez la réponse. UTILISEZ-les pour résoudre ce que le bloc laisse implicite : quelle mission
+  désigne « la Mission », quelles parties désignent « les parties », à quel régime appartient une
+  mesure, qui a rédigé la lettre ou le rapport, et les dates civiles qui ancrent la question dans le
+  temps. Si une partie quelconque de la substance de la réponse n'est énoncée que dans un document
+  référencé ou que dans le contexte, ÉCARTEZ la question.
+- LA RÈGLE DE LA CITATION : lorsque le bloc CITE ou reformule une disposition d'UN AUTRE instrument
+  — un article de l'Institution-Building Package, un paragraphe d'une résolution antérieure, une
+  règle tirée d'un statut —, une question sur l'état de la norme portant sur cette disposition
+  relève de l'instrument CITÉ et est hors cible ici, quand bien même ses mots figurent à l'intérieur
+  du bloc. Dans ce corpus, le texte propre à l'instrument cité correspond mieux à la question sur la
+  norme, de sorte que la réponse de référence serait erronée. Interrogez plutôt ce que CE document
+  fait de la disposition : ce que son auteur allègue, applique, rapporte ou conteste.
+Le bloc cible commence par des lignes de MÉTADONNÉES ([EN] Document: <cote> / Title: <titre>),
+  suivies du texte. Utilisez-les pour savoir DE QUOI traite le passage, de QUAND il date — la date
+  figurant dans les métadonnées est souvent la source de votre ancrage temporel — et s'il appartient
+  à une série récurrente. Les métadonnées sont du CONTEXTE, PAS DU CONTENU : n'en tirez jamais une
+  réponse et ne posez jamais de question portant sur elles.
+FILTRE DE GENRE : si le bloc cible est un compte rendu de séance (toute cote contenant « PV » ou «
+  SR »), ce mode ne s'applique pas — les interventions portent des positions, non des normes.
+  Renvoyez [{"skip_reason": "meeting record"}].
 LES RÈGLES DÉFINITOIRES — POSTURE D'ÉTAT DE LA NORME, AUCUN INSTRUMENT, ANCRAGE TEMPOREL :
-1. AUCUNE RÉFÉRENCE À UN INSTRUMENT, DE QUELQUE NATURE QUE CE SOIT. La question ne doit contenir ni numéro de résolution ou de décision, ni cote de document, ni numéro de paragraphe, NI description d'un instrument (« la résolution du Conseil de sécurité de 2004 sur... », « le rapport du Secrétaire général de mai 1994 »). Si la question ne peut pas être posée sans pointer vers un instrument, elle relève du mode LOOKUP — écartez-la ici.
-   - Exception — les organes qui portent le nom d'une résolution : « le Comité créé par la résolution 1533 (2004) », « le Comité 1267 » — c'est un NOM, non une citation. Autorisé.
-   - Exception — les ancrages temporels renvoyant à un acte daté : « conformément au mandat conféré en 2001 », « au titre de la prorogation convenue en décembre 2011 », « les mesures imposées en mai 1994 » renvoient à QUAND, non à QUEL document. Autorisé. « En vertu de la résolution 918 (1994) » ne l'est pas.
-   - Exception — les constats attribués : vous POUVEZ nommer un rapport ou une lettre comme la SOURCE d'un chiffre ou d'un constat (« Selon le rapport de KFOR d'août 1999... », « Selon la lettre d'Israël de juillet 2014... »), car l'attribution fait partie du fait. Une fonction ou un État, plus une date — jamais une cote.
+1. AUCUNE RÉFÉRENCE À UN INSTRUMENT, DE QUELQUE NATURE QUE CE SOIT. La question ne doit contenir ni
+  numéro de résolution ou de décision, ni cote de document, ni numéro de paragraphe, NI description
+  d'un instrument (« la résolution du Conseil de sécurité de 2004 sur... », « le rapport du
+  Secrétaire général de mai 1994 »). Si la question ne peut pas être posée sans pointer vers un
+  instrument, elle relève du mode LOOKUP — écartez-la ici.
+   - Exception — les organes qui portent le nom d'une résolution : « le Comité créé par la
+     résolution 1533 (2004) », « le Comité 1267 » — c'est un NOM, non une citation. Autorisé.
+   - Exception — les ancrages temporels renvoyant à un acte daté : « conformément au mandat conféré
+     en 2001 », « au titre de la prorogation convenue en décembre 2011 », « les mesures imposées en
+     mai 1994 » renvoient à QUAND, non à QUEL document. Autorisé. « En vertu de la résolution 918
+     (1994) » ne l'est pas.
+   - Exception — les constats attribués : vous POUVEZ nommer un rapport ou une lettre comme la
+     SOURCE d'un chiffre ou d'un constat (« Selon le rapport de KFOR d'août 1999... », « Selon la
+     lettre d'Israël de juillet 2014... »), car l'attribution fait partie du fait. Une fonction ou
+     un État, plus une date — jamais une cote.
    - Les identifiants PEUVENT figurer dans le segment de RÉPONSE.
-2. POSTURE D'ÉTAT DE LA NORME. Demandez ce qui s'appliquait, ce qui était exigé, ce qui était en vigueur, ce qui était exigible — et non ce qu'un organe a dit, décidé, demandé, préconisé ou continué de faire. L'organe peut figurer comme l'auteur de la norme ; l'acte de parole, lui, ne peut pas être l'objet de la question.
-   - Formes conformes à l'état de la norme : « Quel plafond d'effectifs s'appliquait à... », « Pour quelle date ... devait-il... », « À quelles conditions ... devait-il être réexaminé... », « Qui était responsable de... », « Que couvrait le mandat de ... à partir de... », « Quelles exemptions s'appliquaient à... », « Quel montant restait dû au... », « Jusqu'à quand ... a-t-il été prorogé le [date]... ».
-   - RÉDIGEZ L'ÉTAT DE LA NORME DE MANIÈRE NATURELLE : la posture est un point de vue, non un gabarit. « Quelle durée s'appliquait aux auditions informelles interactives ? » est un calque ; un spécialiste écrit « Combien de temps les auditions informelles interactives devaient-elles durer ? ». « Quel statut juridique s'appliquait à X ? » est un calque ; un spécialiste écrit « X était-il licite... ? » ou « X était-il contraire au droit international... ? ». Préférez la forme simple qui porte la même norme.
-   - Les questions par oui ou non sont les bienvenues ; c'est une forme courante chez le praticien : « L'embargo sur les armes visant le Rwanda couvrait-il les forces non gouvernementales en mai 1994 ? », « Le mandat d'UNMIL était-il encore en vigueur en juin 2011 ? ». La réponse reste le segment du bloc qui tranche la question — jamais le mot « oui » ou « non ».
-   - Formes interdites : « Qu'a décidé / demandé / autorisé / encouragé / réaffirmé le Conseil de sécurité... », « Qu'était-il demandé aux États d'envisager... », « Qu'a continué de faire [tel organe]... », « Quel rôle [tel organe] a-t-il joué... », « Que disait la résolution... ». Ces formes rapportent un acte de parole ou résument un texte ; ce ne sont pas des questions sur une norme.
-   - Rapports et lettres : les constats concrets et les chiffres restent attribués et datés — « Selon les informations communiquées par le Secrétaire général en juillet 1999, quel était... ». Attribuez à la FONCTION ou à l'ÉTAT, jamais à un simple nom de personne. Un PASSIF SANS AGENT est une attribution supprimée : « a été proposé », « ont été relevés », « a été signalé » sans que l'auteur de la proposition, du relevé ou du rapport figure dans la question. Nommez la source : « Selon le rapport de KFOR pour février 2007, des incidents visant KFOR ont-ils été relevés au Kosovo ? » ; « Quelle mesure militaire [l'auteur de la proposition, nommé dans le bloc] a-t-il proposée contre l'Érythrée en décembre 2009 ? ». Le constat doit être un chiffre, un événement ou une détermination qu'un praticien vérifierait ; jamais de la rhétorique.
-3. ANCRAGE TEMPOREL — OBLIGATOIRE. CHAQUE question doit porter un ancrage temporel absolu explicite : une date (« au 30 avril 2011 »), un mois ou une année (« à partir de mai 1994 », « en vigueur en 2004 »), ou un acte daté (« au titre de la prorogation convenue en décembre 2011 », « prorogé le 30 juin 2006 »). Tirez cet ancrage du bloc, du contexte ou de la date figurant dans les métadonnées. La temporalité relative au document est interdite : « actuel », « maintenant », « récemment », « la veille », « à sa prochaine session », « la période considérée » — résolvez-la ou écartez la question.
-LE TEST DU TEXTE FRÈRE ET LES SÉRIES RÉCURRENTES — pourquoi l'ancrage temporel et les ancrages existent :
-Les normes des Nations Unies se répètent par construction. Un même mandat est prorogé année après année dans des termes quasi identiques : « Quel plafond d'effectifs s'appliquait à UNMISS ? » a donc une réponse différente pour chaque prorogation — c'est l'ANCRAGE TEMPOREL qui désigne l'année. Les mêmes clauses de gel des avoirs, d'interdiction de voyager et de présentation de rapports sont clonées d'un régime à l'autre : « Qui était exempté de l'interdiction de voyager ? » convient donc à une douzaine de régimes — c'est l'ANCRAGE DE RÉGIME qui désigne le bon. Sachez reconnaître les familles récurrentes : les résolutions de l'Assemblée générale numérotées par session portant sur des points permanents de l'ordre du jour (les droits de l'homme dans un pays donné, le droit à l'alimentation, le droit au développement, l'assistance aux territoires non autonomes, les Conventions sur les armes biologiques et sur les armes chimiques, la Nouvelle-Calédonie, la responsabilité pénale des fonctionnaires de l'ONU, l'état de droit) ; les résolutions annuelles du Conseil économique et social et de l'Assemblée générale sur le Territoire palestinien occupé et le Golan syrien occupé ; les résolutions biennales sur la « coopération entre l'Organisation des Nations Unies et [telle organisation régionale] » ; les résolutions biennales sur la planification des programmes et sur le plan des conférences ; les prorogations de mandat ; les résolutions instituant des journées internationales ; les rapports mensuels et périodiques. Pour ces textes, l'année seule ne suffit pas lorsque le paragraphe est inchangé d'une année sur l'autre : préférez un contenu propre à CETTE occurrence — une date, un chiffre, une tâche nouvellement ajoutée, un événement nommé. Un rapport mensuel de KFOR est récurrent, mais son chiffre d'effectifs est propre au mois considéré — les chiffres, les dates et les événements sont précisément le contenu propre à l'occurrence qu'il faut viser. Avant de conserver une question, demandez-vous : serait-elle, mot pour mot, une question tout aussi sensée à propos de la prorogation de l'année précédente ou du texte jumeau d'un autre régime ? Si oui, ajoutez ce qui manque, visez le contenu propre à cette occurrence, ou abstenez-vous avec skip_reason "recurring boilerplate".
+2. POSTURE D'ÉTAT DE LA NORME. Demandez ce qui s'appliquait, ce qui était exigé, ce qui était en
+  vigueur, ce qui était exigible — et non ce qu'un organe a dit, décidé, demandé, préconisé ou
+  continué de faire. L'organe peut figurer comme l'auteur de la norme ; l'acte de parole, lui, ne
+  peut pas être l'objet de la question.
+   - Formes conformes à l'état de la norme : « Quel plafond d'effectifs s'appliquait à... », « Pour
+     quelle date ... devait-il... », « À quelles conditions ... devait-il être réexaminé... », « Qui
+     était responsable de... », « Que couvrait le mandat de ... à partir de... », « Quelles
+     exemptions s'appliquaient à... », « Quel montant restait dû au... », « Jusqu'à quand ... a-t-il
+     été prorogé le [date]... ».
+   - RÉDIGEZ L'ÉTAT DE LA NORME DE MANIÈRE NATURELLE : la posture est un point de vue, non un
+     gabarit. « Quelle durée s'appliquait aux auditions informelles interactives ? » est un calque ;
+     un spécialiste écrit « Combien de temps les auditions informelles interactives devaient-elles
+     durer ? ». « Quel statut juridique s'appliquait à X ? » est un calque ; un spécialiste écrit «
+     X était-il licite... ? » ou « X était-il contraire au droit international... ? ». Préférez la
+     forme simple qui porte la même norme.
+   - Les questions par oui ou non sont les bienvenues ; c'est une forme courante chez le praticien :
+     « L'embargo sur les armes visant le Rwanda couvrait-il les forces non gouvernementales en mai
+     1994 ? », « Le mandat d'UNMIL était-il encore en vigueur en juin 2011 ? ». La réponse reste le
+     segment du bloc qui tranche la question — jamais le mot « oui » ou « non ».
+   - Formes interdites : « Qu'a décidé / demandé / autorisé / encouragé / réaffirmé le Conseil de
+     sécurité... », « Qu'était-il demandé aux États d'envisager... », « Qu'a continué de faire [tel
+     organe]... », « Quel rôle [tel organe] a-t-il joué... », « Que disait la résolution... ». Ces
+     formes rapportent un acte de parole ou résument un texte ; ce ne sont pas des questions sur une
+     norme.
+   - Rapports et lettres : les constats concrets et les chiffres restent attribués et datés — «
+     Selon les informations communiquées par le Secrétaire général en juillet 1999, quel était... ».
+     Attribuez à la FONCTION ou à l'ÉTAT, jamais à un simple nom de personne. Un PASSIF SANS AGENT
+     est une attribution supprimée : « a été proposé », « ont été relevés », « a été signalé » sans
+     que l'auteur de la proposition, du relevé ou du rapport figure dans la question. Nommez la
+     source : « Selon le rapport de KFOR pour février 2007, des incidents visant KFOR ont-ils été
+     relevés au Kosovo ? » ; « Quelle mesure militaire [l'auteur de la proposition, nommé dans le
+     bloc] a-t-il proposée contre l'Érythrée en décembre 2009 ? ». Le constat doit être un chiffre,
+     un événement ou une détermination qu'un praticien vérifierait ; jamais de la rhétorique.
+3. ANCRAGE TEMPOREL — OBLIGATOIRE. CHAQUE question doit porter un ancrage temporel absolu explicite :
+  une date (« au 30 avril 2011 »), un mois ou une année (« à partir de mai 1994 », « en vigueur en
+  2004 »), ou un acte daté (« au titre de la prorogation convenue en décembre 2011 », « prorogé le
+  30 juin 2006 »). Tirez cet ancrage du bloc, du contexte ou de la date figurant dans les
+  métadonnées. La temporalité relative au document est interdite : « actuel », « maintenant », «
+  récemment », « la veille », « à sa prochaine session », « la période considérée » — résolvez-la ou
+  écartez la question.
+LE TEST DU TEXTE FRÈRE ET LES SÉRIES RÉCURRENTES — pourquoi l'ancrage temporel et les ancrages
+  existent :
+Les normes des Nations Unies se répètent par construction. Un même mandat est prorogé année après
+  année dans des termes quasi identiques : « Quel plafond d'effectifs s'appliquait à UNMISS ? » a
+  donc une réponse différente pour chaque prorogation — c'est l'ANCRAGE TEMPOREL qui désigne
+  l'année. Les mêmes clauses de gel des avoirs, d'interdiction de voyager et de présentation de
+  rapports sont clonées d'un régime à l'autre : « Qui était exempté de l'interdiction de voyager ? »
+  convient donc à une douzaine de régimes — c'est l'ANCRAGE DE RÉGIME qui désigne le bon. Sachez
+  reconnaître les familles récurrentes : les résolutions de l'Assemblée générale numérotées par
+  session portant sur des points permanents de l'ordre du jour (les droits de l'homme dans un pays
+  donné, le droit à l'alimentation, le droit au développement, l'assistance aux territoires non
+  autonomes, les Conventions sur les armes biologiques et sur les armes chimiques, la
+  Nouvelle-Calédonie, la responsabilité pénale des fonctionnaires de l'ONU, l'état de droit) ; les
+  résolutions annuelles du Conseil économique et social et de l'Assemblée générale sur le Territoire
+  palestinien occupé et le Golan syrien occupé ; les résolutions biennales sur la « coopération
+  entre l'Organisation des Nations Unies et [telle organisation régionale] » ; les résolutions
+  biennales sur la planification des programmes et sur le plan des conférences ; les prorogations de
+  mandat ; les résolutions instituant des journées internationales ; les rapports mensuels et
+  périodiques. Pour ces textes, l'année seule ne suffit pas lorsque le paragraphe est inchangé d'une
+  année sur l'autre : préférez un contenu propre à CETTE occurrence — une date, un chiffre, une
+  tâche nouvellement ajoutée, un événement nommé. Un rapport mensuel de KFOR est récurrent, mais son
+  chiffre d'effectifs est propre au mois considéré — les chiffres, les dates et les événements sont
+  précisément le contenu propre à l'occurrence qu'il faut viser. Avant de conserver une question,
+  demandez-vous : serait-elle, mot pour mot, une question tout aussi sensée à propos de la
+  prorogation de l'année précédente ou du texte jumeau d'un autre régime ? Si oui, ajoutez ce qui
+  manque, visez le contenu propre à cette occurrence, ou abstenez-vous avec skip_reason "recurring
+  boilerplate".
 ANCRAGE ET SPÉCIFICITÉ :
-- Outre l'ancrage temporel, chaque question porte au moins DEUX ancrages substantiels DANS LE TEXTE DE LA QUESTION, choisis parmi : le régime ou la situation (« l'embargo sur les armes visant le Rwanda », « le régime de sanctions contre l'Iran », « la Convention sur les armes biologiques »), le pays ou le territoire, la mission ou l'organe (« UNAMIR », « le Groupe d'experts sur le Soudan »), l'acteur lié ou protégé, ou la mesure ou le terme technique en cause. Le régime doit être NOMMÉ : « l'Unité d'appui à l'application » sans « Convention sur les armes biologiques » convient aussi à la CCW ; « le Programme d'action » sans « armes légères et de petit calibre » convient tout aussi bien aux Programmes d'action de la Barbade, de Bruxelles, d'Istanbul, d'Almaty et de Durban ; « les victimes et les témoins » sans « les infractions commises par des fonctionnaires et des experts en mission des Nations Unies » est sans ancrage.
-- Reportez les ancrages dans « anchors » sous forme de sous-chaînes LITTÉRALES de la question. Une expression qui ne figure que dans la réponse n'est pas un ancrage. Les acteurs génériques (« les États », « les États Membres », « le Secrétaire général », « le Haut-Commissariat ») ne sont pas des ancrages.
-- Toute expression définie doit être nommée dans la question elle-même : jamais un simple « le Comité », « les parties », « la Mission », « le Gouvernement ».
-- Ciblez la plus petite unité que l'on puisse demander : un délai, un chiffre, un critère, une exemption, un acteur, une condition. Si le bloc offre un ensemble, n'en retenez QU'UN seul élément, choisi pour sa portée.
-- Préférez les questions dont la réponse complète est un court segment. Si la réponse naturelle est un paragraphe ou une longue liste, resserrez la question ou écartez-la.
-- TERMES TECHNIQUES À L'IDENTIQUE : réutilisez exactement les termes techniques et les noms propres du bloc (« gel des avoirs », « zones humanitaires sûres », « contributions mises en recouvrement », « indemnisé sans qu'aucune autre mesure soit prise ») ; ne paraphrasez que l'ossature ordinaire qui les entoure.
+- Outre l'ancrage temporel, chaque question porte au moins DEUX ancrages substantiels DANS LE TEXTE
+  DE LA QUESTION, choisis parmi : le régime ou la situation (« l'embargo sur les armes visant le
+  Rwanda », « le régime de sanctions contre l'Iran », « la Convention sur les armes biologiques »),
+  le pays ou le territoire, la mission ou l'organe (« UNAMIR », « le Groupe d'experts sur le Soudan
+  »), l'acteur lié ou protégé, ou la mesure ou le terme technique en cause. Le régime doit être
+  NOMMÉ : « l'Unité d'appui à l'application » sans « Convention sur les armes biologiques » convient
+  aussi à la CCW ; « le Programme d'action » sans « armes légères et de petit calibre » convient
+  tout aussi bien aux Programmes d'action de la Barbade, de Bruxelles, d'Istanbul, d'Almaty et de
+  Durban ; « les victimes et les témoins » sans « les infractions commises par des fonctionnaires et
+  des experts en mission des Nations Unies » est sans ancrage.
+- Reportez les ancrages dans « anchors » sous forme de sous-chaînes LITTÉRALES de la question. Une
+  expression qui ne figure que dans la réponse n'est pas un ancrage. Les acteurs génériques (« les
+  États », « les États Membres », « le Secrétaire général », « le Haut-Commissariat ») ne sont pas
+  des ancrages.
+- Toute expression définie doit être nommée dans la question elle-même : jamais un simple « le
+  Comité », « les parties », « la Mission », « le Gouvernement ».
+- Ciblez la plus petite unité que l'on puisse demander : un délai, un chiffre, un critère, une
+  exemption, un acteur, une condition. Si le bloc offre un ensemble, n'en retenez QU'UN seul
+  élément, choisi pour sa portée.
+- Préférez les questions dont la réponse complète est un court segment. Si la réponse naturelle est
+  un paragraphe ou une longue liste, resserrez la question ou écartez-la.
+- TERMES TECHNIQUES À L'IDENTIQUE : réutilisez exactement les termes techniques et les noms propres
+  du bloc (« gel des avoirs », « zones humanitaires sûres », « contributions mises en recouvrement
+  », « indemnisé sans qu'aucune autre mesure soit prise ») ; ne paraphrasez que l'ossature ordinaire
+  qui les entoure.
 CONTENU À PORTÉE RÉELLE UNIQUEMENT :
-- Segments ADMISSIBLES : mesures imposées, prorogées ou levées ; portée et tâches d'un mandat ; conditions, critères, exemptions ; délais et périodes de mandat ; plafonds, crédits, contributions, chiffres rapportés ; nominations, composition, procédures ; événements datés concrets et déterminations.
-- Segments DISQUALIFIÉS, où qu'ils figurent dans le document, Y COMPRIS sous leurs formes plus discrètes : félicite ; se félicite de (« se félicite du rôle continu de ») ; exprime sa satisfaction ou sa préoccupation (« demeure un sujet de vive préoccupation ») ; prend note ; note avec satisfaction ; souligne ou insiste sur l'importance de ; reconnaît la responsabilité principale de ; réaffirme ou réitère un engagement ; réaffirme une détermination faite dans les résolutions des années antérieures ; réaffirme une demande de POURSUIVRE une activité ; encourage ou invite en termes généraux ; demande aux États d'envisager ; demande à « la communauté internationale » ; recommande que les Gouvernements accordent la priorité ; commémorations et anniversaires ; aspirations. Les considérants du préambule sont un cadrage, jamais un matériau de réponse.
-- LE TEST DE LA FORMULE TOUTE FAITE : si le segment de réponse pouvait figurer sans changement dans des dizaines d'autres documents des Nations Unies, il ne peut pas servir d'ancrage à une question.
+- Segments ADMISSIBLES : mesures imposées, prorogées ou levées ; portée et tâches d'un mandat ;
+  conditions, critères, exemptions ; délais et périodes de mandat ; plafonds, crédits,
+  contributions, chiffres rapportés ; nominations, composition, procédures ; événements datés
+  concrets et déterminations.
+- Segments DISQUALIFIÉS, où qu'ils figurent dans le document, Y COMPRIS sous leurs formes plus
+  discrètes : félicite ; se félicite de (« se félicite du rôle continu de ») ; exprime sa
+  satisfaction ou sa préoccupation (« demeure un sujet de vive préoccupation ») ; prend note ; note
+  avec satisfaction ; souligne ou insiste sur l'importance de ; reconnaît la responsabilité
+  principale de ; réaffirme ou réitère un engagement ; réaffirme une détermination faite dans les
+  résolutions des années antérieures ; réaffirme une demande de POURSUIVRE une activité ; encourage
+  ou invite en termes généraux ; demande aux États d'envisager ; demande à « la communauté
+  internationale » ; recommande que les Gouvernements accordent la priorité ; commémorations et
+  anniversaires ; aspirations. Les considérants du préambule sont un cadrage, jamais un matériau de
+  réponse.
+- LE TEST DE LA FORMULE TOUTE FAITE : si le segment de réponse pouvait figurer sans changement dans
+  des dizaines d'autres documents des Nations Unies, il ne peut pas servir d'ancrage à une question.
 LE TEST DE L'APPORT D'INFORMATION :
-La réponse doit apprendre à celui qui interroge quelque chose que la question ne contient pas déjà ET n'aurait pas pu fournir. Trois manières d'échouer à ce test :
-- Reprise : la réponse répète les mots mêmes de la question ou le renvoi à partir duquel celle-ci a été construite (« les exemptions établies par le Comité » pour « quelles exemptions s'appliquaient »).
-- Devinabilité : un spécialiste pourrait compléter la réponse à partir de la question avec plus d'une chance sur deux (« d'une journée » pour la durée d'auditions informelles ; « par écrit » pour la forme d'une demande).
-- ÉCHAFAUDAGE SUR LA RÉPONSE : la question a été formée en tronquant le segment de réponse et en interrogeant ce qui en reste à la fin. Reconstruisez la question à partir du besoin, et non à partir de la syntaxe du segment.
-RÉPONSES DÉICTIQUES : le segment de réponse doit être interprétable en dehors du document. Un segment dont le contenu n'est qu'un renvoi — « les priorités ci-dessus », « telles qu'adoptées dans la présente résolution », « les mesures énoncées ci-après » — ne répond à rien par lui-même. Écartez la question ou resserrez-la sur un segment autonome.
+La réponse doit apprendre à celui qui interroge quelque chose que la question ne contient pas déjà
+  ET n'aurait pas pu fournir. Trois manières d'échouer à ce test :
+- Reprise : la réponse répète les mots mêmes de la question ou le renvoi à partir duquel celle-ci a
+  été construite (« les exemptions établies par le Comité » pour « quelles exemptions s'appliquaient
+  »).
+- Devinabilité : un spécialiste pourrait compléter la réponse à partir de la question avec plus
+  d'une chance sur deux (« d'une journée » pour la durée d'auditions informelles ; « par écrit »
+  pour la forme d'une demande).
+- ÉCHAFAUDAGE SUR LA RÉPONSE : la question a été formée en tronquant le segment de réponse et en
+  interrogeant ce qui en reste à la fin. Reconstruisez la question à partir du besoin, et non à
+  partir de la syntaxe du segment.
+RÉPONSES DÉICTIQUES : le segment de réponse doit être interprétable en dehors du document. Un
+  segment dont le contenu n'est qu'un renvoi — « les priorités ci-dessus », « telles qu'adoptées
+  dans la présente résolution », « les mesures énoncées ci-après » — ne répond à rien par lui-même.
+  Écartez la question ou resserrez-la sur un segment autonome.
 RÈGLES FONDAMENTALES :
-- Focalisation unique : exactement UN élément de norme ou UN fait par question ; ne combinez jamais plusieurs demandes.
-- LE TEST DU BLOC (à appliquer à chaque question candidate) : un lecteur pourrait-il produire la réponse COMPLÈTE à partir du seul BLOC CIBLE, en n'utilisant les documents référencés et le contexte que pour comprendre les expressions référentielles, les noms, les dates et les citations ? Si un fait nécessaire à la réponse n'est énoncé que dans un document référencé ou que dans le contexte, ÉCARTEZ la question. C'est l'échec d'ancrage le plus fréquent dans cette tâche.
-- Questions hors cible : une question à laquelle on peut répondre entièrement à partir d'un document référencé porte sur CE document — écartez-la. Les citations ne complètent jamais les réponses. LA RÈGLE DE LA CITATION énoncée ci-dessus est le même principe appliqué aux dispositions citées.
-- Support direct et complet : aucune inférence, aucune connaissance externe — pas même des faits tirés des sections d'appui.
-- Fidélité numérique (RÉPONSE) : reproduisez exactement les nombres, dates, durées, montants, pourcentages et effectifs de troupes.
+- Focalisation unique : exactement UN élément de norme ou UN fait par question ; ne combinez jamais
+  plusieurs demandes.
+- LE TEST DU BLOC (à appliquer à chaque question candidate) : un lecteur pourrait-il produire la
+  réponse COMPLÈTE à partir du seul BLOC CIBLE, en n'utilisant les documents référencés et le
+  contexte que pour comprendre les expressions référentielles, les noms, les dates et les citations ?
+  Si un fait nécessaire à la réponse n'est énoncé que dans un document référencé ou que dans le
+  contexte, ÉCARTEZ la question. C'est l'échec d'ancrage le plus fréquent dans cette tâche.
+- Questions hors cible : une question à laquelle on peut répondre entièrement à partir d'un document
+  référencé porte sur CE document — écartez-la. Les citations ne complètent jamais les réponses. LA
+  RÈGLE DE LA CITATION énoncée ci-dessus est le même principe appliqué aux dispositions citées.
+- Support direct et complet : aucune inférence, aucune connaissance externe — pas même des faits
+  tirés des sections d'appui.
+- Fidélité numérique (RÉPONSE) : reproduisez exactement les nombres, dates, durées, montants,
+  pourcentages et effectifs de troupes.
 - Formulation et longueur : interrogation directe, 8–20 mots, maximum absolu 25.
-- Diversité : les questions doivent cibler des faits différents et couvrir au moins deux des huit catégories.
-- ABSTENEZ-VOUS PLUTÔT QUE DE REMPLIR : générez jusqu'à TROIS paires ; moins si moins de questions satisfont à toutes les règles. Si le bloc n'en permet aucune, renvoyez exactement [{"skip_reason": "<one short phrase>"}]. Ne fabriquez jamais une question pour atteindre trois.
-- Essayez de paraphraser. Ne reprenez pas chaque élément ni chaque mot figurant dans le texte. Mais ne paraphrasez pas d'une manière qui en changerait le sens : s'agissant d'un texte juridique, certains mots sont d'une grande sensibilité.
+- Diversité : les questions doivent cibler des faits différents et couvrir au moins deux des huit
+  catégories.
+- ABSTENEZ-VOUS PLUTÔT QUE DE REMPLIR : générez jusqu'à TROIS paires ; moins si moins de questions
+  satisfont à toutes les règles. Si le bloc n'en permet aucune, renvoyez exactement
+  [{"skip_reason": "<one short phrase>"}]. Ne fabriquez jamais une question pour atteindre trois.
+- Essayez de paraphraser. Ne reprenez pas chaque élément ni chaque mot figurant dans le texte. Mais
+  ne paraphrasez pas d'une manière qui en changerait le sens : s'agissant d'un texte juridique,
+  certains mots sont d'une grande sensibilité.
 
 QUE DEMANDER — huit catégories, par ordre de priorité pour ce mode :
-  1. Sanctions, conditions et conséquences : mesures en vigueur, critères de désignation et d'exemption, conditions d'imposition, de réexamen ou de levée, étapes d'escalade.
-  2. Dates, délais et périodes de mandat : début, prorogation et expiration du mandat ; délais de présentation de rapports et de mise en conformité ; dates de prise d'effet et de réexamen.
-  3. Quantités, forces et finances : plafonds d'effectifs militaires et de police, crédits budgétaires, contributions mises en recouvrement et contributions non acquittées, statistiques rapportées, limites.
-  4. Rapports, suivi et vérification : obligations de présentation de rapports et leur périodicité, organes de suivi, dispositifs de vérification et de notification.
-  5. Acteurs, organes et procédures : responsables et organes, composition, rôles, nomination, étapes procédurales, termes formellement définis.
-  6. Situations, champ d'application et couverture : ce que couvrait une mesure — pays, territoire, groupe de population, période, dérogations.
-  7. Actions du dispositif reformulées en état de la norme : l'obligation, la tâche ou l'autorisation en vigueur, et non l'acte par lequel elle a été décidée.
-  8. Constats, événements et évaluations : chiffres, incidents et déterminations concrets et datés, avec attribution à une fonction ou à un État — jamais de la rhétorique.
+  1. Sanctions, conditions et conséquences : mesures en vigueur, critères de désignation et
+    d'exemption, conditions d'imposition, de réexamen ou de levée, étapes d'escalade.
+  2. Dates, délais et périodes de mandat : début, prorogation et expiration du mandat ; délais de
+    présentation de rapports et de mise en conformité ; dates de prise d'effet et de réexamen.
+  3. Quantités, forces et finances : plafonds d'effectifs militaires et de police, crédits
+    budgétaires, contributions mises en recouvrement et contributions non acquittées, statistiques
+    rapportées, limites.
+  4. Rapports, suivi et vérification : obligations de présentation de rapports et leur périodicité,
+    organes de suivi, dispositifs de vérification et de notification.
+  5. Acteurs, organes et procédures : responsables et organes, composition, rôles, nomination,
+    étapes procédurales, termes formellement définis.
+  6. Situations, champ d'application et couverture : ce que couvrait une mesure — pays, territoire,
+    groupe de population, période, dérogations.
+  7. Actions du dispositif reformulées en état de la norme : l'obligation, la tâche ou
+    l'autorisation en vigueur, et non l'acte par lequel elle a été décidée.
+  8. Constats, événements et évaluations : chiffres, incidents et déterminations concrets et datés,
+    avec attribution à une fonction ou à un État — jamais de la rhétorique.
 L'objet ou la justification uniquement lorsque le bloc les énonce de manière explicite et complète.
 EXEMPLES — les bons cas canoniques, accompagnés du texte du bloc dont ils sont issus :
-Target block: S/1999/982, letter of the Secretary-General conveying the monthly KFOR report: "Over the reporting period (1-29 August 1999), the number of KFOR troops deployed to the theatre increased, rising to a total of 48,030 North Atlantic Treaty Organization (NATO) and non-NATO troops as of 29 August."
+Target block: S/1999/982, letter of the Secretary-General conveying the monthly KFOR report: "Over
+  the reporting period (1-29 August 1999), the number of KFOR troops deployed to the theatre
+  increased, rising to a total of 48,030 North Atlantic Treaty Organization (NATO) and non-NATO
+  troops as of 29 August."
 ✓ {"question": "According to KFOR's August 1999 report, how many NATO and non-NATO troops were deployed in Kosovo on 29 August?", "answer": "48,030 North Atlantic Treaty Organization (NATO) and non-NATO troops", "question_type": "quantity_force_or_finance", "anchors": ["KFOR's August 1999 report", "Kosovo"]}
-  → A recurring monthly series, but the figure is this month's own: instance-specific content, attributed to the office, time-pinned twice over.
-Target block: A/RES/55/159 (amendments to the Statute of the United Nations Administrative Tribunal, in force from 1 January 2001): "... should the Secretary-General ... decide, in the interest of the United Nations, that the applicant shall be compensated without further action being taken in his or her case, provided that such compensation shall not exceed the equivalent of two years' net base salary of the applicant."
-✗ Generated: "From 1 January 2001, what compensation cap applied when the Secretary-General compensated an Administrative Tribunal applicant?" with anchors ["Secretary-General", "Administrative Tribunal applicant"]
-  → Two flaws: "Secretary-General" is a generic actor and can never be an anchor; and "compensated an applicant" widens the norm — the cap attaches only to the option of compensation WITHOUT FURTHER ACTION. Repaired:
+  → A recurring monthly series, but the figure is this month's own: instance-specific content,
+    attributed to the office, time-pinned twice over.
+Target block: A/RES/55/159 (amendments to the Statute of the United Nations Administrative Tribunal,
+  in force from 1 January 2001): "... should the Secretary-General ... decide, in the interest of
+  the United Nations, that the applicant shall be compensated without further action being taken in
+  his or her case, provided that such compensation shall not exceed the equivalent of two years' net
+  base salary of the applicant."
+✗ Generated: "From 1 January 2001, what compensation cap applied when the Secretary-General
+  compensated an Administrative Tribunal applicant?" with anchors
+  ["Secretary-General", "Administrative Tribunal applicant"]
+  → Two flaws: "Secretary-General" is a generic actor and can never be an anchor; and "compensated
+    an applicant" widens the norm — the cap attaches only to the option of compensation WITHOUT
+    FURTHER ACTION. Repaired:
 ✓ {"question": "From 2001, what ceiling applied to compensation fixed by the United Nations Administrative Tribunal when the Secretary-General decided an applicant be compensated without further action?", "answer": "the equivalent of two years' net base salary of the applicant", "question_type": "quantity_force_or_finance", "anchors": ["United Nations Administrative Tribunal", "compensated without further action"]}
-Target block: A/RES/66/47 (the illicit trade in small arms and light weapons): "6. Decides that, pursuant to resolution 65/64, the second conference to review progress made in the implementation of the Programme of Action will be held in New York, from 27 August to 7 September 2012;"
-✗ Generated: "When was the second conference to review progress in implementing the Programme of Action to be held in New York in 2012?" with anchors ["second conference to review progress", "Programme of Action", "New York"]
-  → The regime is not named: "the Programme of Action" alone fits the Barbados, Istanbul, Almaty and Durban Programmes of Action equally. Repaired:
+Target block: A/RES/66/47 (the illicit trade in small arms and light weapons): "6. Decides that,
+  pursuant to resolution 65/64, the second conference to review progress made in the implementation
+  of the Programme of Action will be held in New York, from 27 August to 7 September 2012;"
+✗ Generated: "When was the second conference to review progress in implementing the Programme of
+  Action to be held in New York in 2012?" with anchors
+  ["second conference to review progress", "Programme of Action", "New York"]
+  → The regime is not named: "the Programme of Action" alone fits the Barbados, Istanbul, Almaty and
+    Durban Programmes of Action equally. Repaired:
 ✓ {"question": "When in 2012 was the second review conference of the Programme of Action on small arms and light weapons to be held in New York?", "answer": "from 27 August to 7 September 2012", "question_type": "date_deadline_or_mandate", "anchors": ["Programme of Action on small arms and light weapons", "New York"]}
-Target block: A/HRC/S.21/G/1, letter dated 28 July 2014 from the Permanent Representative of Israel to the President of the Human Rights Council: "Article 123 of the Institution-Building Package states the secretariat of the Council shall immediately communicate the request for the holding of a special session in a timely and transparent manner. This very basic principle was ignored on numerous occasions."
-✗ Generated: "In July 2014, how was the Human Rights Council secretariat required to communicate a special-session request?"
-  → QUOTATION RULE failure: the requirement is Article 123 of the Institution-Building Package, quoted by the letter; the norm question belongs to the quoted instrument, and the corpus would hold a better match for it. Ask what THIS document does — the allegation:
+Target block: A/HRC/S.21/G/1, letter dated 28 July 2014 from the Permanent Representative of Israel
+  to the President of the Human Rights Council: "Article 123 of the Institution-Building Package
+  states the secretariat of the Council shall immediately communicate the request for the holding of
+  a special session in a timely and transparent manner. This very basic principle was ignored on
+  numerous occasions."
+✗ Generated: "In July 2014, how was the Human Rights Council secretariat required to communicate a
+  special-session request?"
+  → QUOTATION RULE failure: the requirement is Article 123 of the Institution-Building Package,
+    quoted by the letter; the norm question belongs to the quoted instrument, and the corpus would
+    hold a better match for it. Ask what THIS document does — the allegation:
 ✓ {"question": "According to Israel's July 2014 letter, did the Human Rights Council secretariat communicate the twenty-first special session request in a timely and transparent manner?", "answer": "This very basic principle was ignored on numerous occasions.", "question_type": "finding_event_or_assessment", "anchors": ["Israel's July 2014 letter", "twenty-first special session"]}
 More canonical good, from earlier runs:
 ✓ {"question": "Until when was MONUC's increased military and civilian police strength extended on 30 June 2006?", "answer": "30 September 2006", "question_type": "date_deadline_or_mandate", "anchors": ["MONUC", "increased military and civilian police strength"]}
@@ -90,44 +291,99 @@ More canonical good, from earlier runs:
 ✓ {"question": "What amount of contributions to the United Nations Mission in Liberia was outstanding as at 30 April 2011?", "answer": "88 million United States dollars", "question_type": "quantity_force_or_finance", "anchors": ["contributions to the United Nations Mission in Liberia", "30 April 2011"]}
   → Entity, measure, date, nothing else — the target style of this mode.
 REAL FAILURES FROM PREVIOUS RUNS OF THIS PIPELINE — never reproduce these patterns:
-✗ "In 2004, what issue were Governments to prioritize in specialized agencies for Non-Self-Governing Territories?" — answer "the question of providing assistance to the peoples of the Non-Self-Governing Territories"
-  → The span is "Recommends that all Governments ... accord priority" (a priority recommendation — DISQUALIFIED), the resolution recurs annually with this paragraph unchanged, and the answer restates the question. Skip.
-✗ "In 2012, what legal status applied to Israel's wall in the Occupied Palestinian Territory, including East Jerusalem?" — answer "is contrary to international law"
-  → The span is "Also reaffirms that ..." — an annual reaffirmation of a determination first made elsewhere; the paragraph recurs in every year's resolution, and "what legal status applied" is a calque. Skip; the norm's home is the ICJ advisory opinion, not this year's restatement.
-✗ "In 2013, what duration applied to informal interactive hearings for the high-level dialogue on international migration and development?" — answer "one-day"
-  → "What duration applied" is a calque, and "one-day" is guessable with better than even odds. If kept at all: "How long were the informal interactive hearings for the 2013 high-level dialogue on international migration and development to run?" — and then INFORMATIVENESS still counsels skipping.
+✗ "In 2004, what issue were Governments to prioritize in specialized agencies for Non-Self-Governing
+  Territories?" — answer "the question of providing assistance to the peoples of the
+  Non-Self-Governing Territories"
+  → The span is "Recommends that all Governments ... accord priority" (a priority recommendation —
+    DISQUALIFIED), the resolution recurs annually with this paragraph unchanged, and the answer
+    restates the question. Skip.
+✗ "In 2012, what legal status applied to Israel's wall in the Occupied Palestinian Territory,
+  including East Jerusalem?" — answer "is contrary to international law"
+  → The span is "Also reaffirms that ..." — an annual reaffirmation of a determination first made
+    elsewhere; the paragraph recurs in every year's resolution, and "what legal status applied" is a
+    calque. Skip; the norm's home is the ICJ advisory opinion, not this year's restatement.
+✗ "In 2013, what duration applied to informal interactive hearings for the high-level dialogue on
+  international migration and development?" — answer "one-day"
+  → "What duration applied" is a calque, and "one-day" is guessable with better than even odds. If
+    kept at all: "How long were the informal interactive hearings for the 2013 high-level dialogue
+    on international migration and development to run?" — and then INFORMATIVENESS still counsels
+    skipping.
 ✗ "What did the Forum Ministerial Committee continue to do in New Caledonia in 2010?"
-  → "What did X continue to do" is a comprehension frame, the span is "welcomes the continuing role" (ceremony), and the paragraph recurs in every annual New Caledonia resolution. Skip.
+  → "What did X continue to do" is a comprehension frame, the span is "welcomes the continuing role"
+    (ceremony), and the paragraph recurs in every annual New Caledonia resolution. Skip.
 ✗ "In 2011, what jurisdiction were States called upon to consider accepting?"
-  → Speech-act stance; "calls upon States to consider" is a soft invitation, not a norm; the anchor listed ("International Court of Justice") appears only in the answer. Discard.
-✗ "By what deadline were States parties to submit annual information and data to the Implementation Support Unit?"
-  → No regime named (the CCW has an Implementation Support Unit too), no year, and the clause recurs annually. Fix: "By what date each year were States parties to the Biological Weapons Convention to submit their confidence-building measure returns, as of 2012?"
+  → Speech-act stance; "calls upon States to consider" is a soft invitation, not a norm; the anchor
+    listed ("International Court of Justice") appears only in the answer. Discard.
+✗ "By what deadline were States parties to submit annual information and data to the Implementation
+  Support Unit?"
+  → No regime named (the CCW has an Implementation Support Unit too), no year, and the clause recurs
+    annually. Fix: "By what date each year were States parties to the Biological Weapons Convention
+    to submit their confidence-building measure returns, as of 2012?"
 ✗ "What protection were States to provide to victims and witnesses in 2013?"
-  → The anchors reported ("crimes of a serious nature", "United Nations officials and experts on mission") are not in the question, which is therefore anchorless; the paragraph recurs annually. Fix: "In 2013, what protection were States to provide to witnesses to crimes by United Nations officials and experts on mission?" — then check whether that paragraph changed this year; if not, skip.
+  → The anchors reported ("crimes of a serious nature", "United Nations officials and experts on
+    mission") are not in the question, which is therefore anchorless; the paragraph recurs annually.
+    Fix: "In 2013, what protection were States to provide to witnesses to crimes by United Nations
+    officials and experts on mission?" — then check whether that paragraph changed this year; if
+    not, skip.
 ✗ "Were any incidents against KFOR recorded in Kosovo during 1 to 28 February 2007?"
-  → Right shape, but "were recorded" hides the recorder. Fix: "According to KFOR's report for February 2007, were any incidents against KFOR recorded in Kosovo?"
+  → Right shape, but "were recorded" hides the recorder. Fix: "According to KFOR's report for
+    February 2007, were any incidents against KFOR recorded in Kosovo?"
 ✗ "What military measure was proposed against Eritrea in December 2009?"
-  → "Was proposed" hides the proposer — the fact a sanctions lawyer needs. Name the proposer from the block.
-✗ "What troop ceiling did resolution 918 (1994) authorize for UNAMIR?" → instrument citation; lookup mode. "What troop ceiling did the 1994 Security Council resolution on Rwanda authorize?" → instrument description; lookup mode.
-✗ "What is UNAMIR's authorized troop ceiling?" → no time pin; the norm is re-stated in every renewal. Add the date.
-✗ "What was the current ceiling for the least developed countries' rate of assessment?" → "current" is document-relative. "What ceiling applied to the least developed countries' rate of assessment in 2005?"
+  → "Was proposed" hides the proposer — the fact a sanctions lawyer needs. Name the proposer from
+    the block.
+✗ "What troop ceiling did resolution 918 (1994) authorize for UNAMIR?" → instrument citation; lookup
+  mode. "What troop ceiling did the 1994 Security Council resolution on Rwanda authorize?" →
+  instrument description; lookup mode.
+✗ "What is UNAMIR's authorized troop ceiling?" → no time pin; the norm is re-stated in every
+  renewal. Add the date.
+✗ "What was the current ceiling for the least developed countries' rate of assessment?" → "current"
+  is document-relative. "What ceiling applied to the least developed countries' rate of assessment
+  in 2005?"
 AUTO-VÉRIFICATION de chaque question, dans cet ordre :
-1. Compte rendu de séance (PV/SR) ? → abstention. Série récurrente ne comportant que du texte inchangé ? → abstention. Disposition d'un autre instrument citée, prise comme cible ? → RÈGLE DE LA CITATION : reformulez la question vers ce que ce document fait de cette disposition, ou abstenez-vous.
-2. Aucune référence à un instrument, de quelque nature que ce soit — aucun numéro, aucune cote, aucun numéro de paragraphe, aucune description d'instrument ? (Les noms d'organes contenant un numéro, les ancrages temporels renvoyant à un acte daté et les attributions de rapport à une fonction assortie d'une date sont autorisés.)
-3. Posture d'état de la norme — pas de « qu'a décidé / demandé / préconisé / continué de faire / dit X » ? Rédigée de manière naturelle, et non comme un calque du type « quelle durée / quel statut s'appliquait » ? Une question par oui ou non reçoit-elle pour réponse un segment qui tranche ?
-4. Un ancrage temporel absolu explicite est-il présent ? Aucune temporalité relative au document nulle part ?
-5. Au moins deux ancrages substantiels DANS LA QUESTION, régime nommé, reportés littéralement dans « anchors » ; toute expression définie est-elle nommée ? LE TEST DU TEXTE FRÈRE est-il réussi — un contenu propre à cette occurrence lorsque la série est récurrente ?
-6. Le segment de réponse est-il ADMISSIBLE (les formes cérémonielles plus discrètes, les déterminations réaffirmées chaque année, les commémorations reconduites et les recommandations de priorité tombent aussi sous l'interdiction) ? Le test de l'apport d'information est-il réussi — aucune reprise, aucune réponse devinable, aucun échafaudage sur la réponse ? Le segment de réponse est-il autonome, et non déictique ?
-7. LE TEST DU BLOC est-il réussi ; impossible d'y répondre à partir du seul document référencé ; aucune réponse tirée des métadonnées ?
-8. Les constats sont-ils attribués à une fonction ou à un État, sans passif sans agent, datés et dignes d'être vérifiés ?
-9. Un seul fait, de la plus petite unité ; termes techniques à l'identique ; paraphrase sans dérive ; 8–20 mots (maximum 25) ; nombres exacts dans la réponse ?
-10. Moins de trois questions ont-elles satisfait à toutes ces vérifications ? Produisez-en moins. Aucune n'y a satisfait ? Produisez la sortie d'abstention.
+1. Compte rendu de séance (PV/SR) ? → abstention. Série récurrente ne comportant que du texte
+  inchangé ? → abstention. Disposition d'un autre instrument citée, prise comme cible ? → RÈGLE DE
+  LA CITATION : reformulez la question vers ce que ce document fait de cette disposition, ou
+  abstenez-vous.
+2. Aucune référence à un instrument, de quelque nature que ce soit — aucun numéro, aucune cote,
+  aucun numéro de paragraphe, aucune description d'instrument ? (Les noms d'organes contenant un
+  numéro, les ancrages temporels renvoyant à un acte daté et les attributions de rapport à une
+  fonction assortie d'une date sont autorisés.)
+3. Posture d'état de la norme — pas de « qu'a décidé / demandé / préconisé / continué de faire / dit
+  X » ? Rédigée de manière naturelle, et non comme un calque du type « quelle durée / quel statut
+  s'appliquait » ? Une question par oui ou non reçoit-elle pour réponse un segment qui tranche ?
+4. Un ancrage temporel absolu explicite est-il présent ? Aucune temporalité relative au document
+  nulle part ?
+5. Au moins deux ancrages substantiels DANS LA QUESTION, régime nommé, reportés littéralement dans «
+  anchors » ; toute expression définie est-elle nommée ? LE TEST DU TEXTE FRÈRE est-il réussi — un
+  contenu propre à cette occurrence lorsque la série est récurrente ?
+6. Le segment de réponse est-il ADMISSIBLE (les formes cérémonielles plus discrètes, les
+  déterminations réaffirmées chaque année, les commémorations reconduites et les recommandations de
+  priorité tombent aussi sous l'interdiction) ? Le test de l'apport d'information est-il réussi —
+  aucune reprise, aucune réponse devinable, aucun échafaudage sur la réponse ? Le segment de réponse
+  est-il autonome, et non déictique ?
+7. LE TEST DU BLOC est-il réussi ; impossible d'y répondre à partir du seul document référencé ;
+  aucune réponse tirée des métadonnées ?
+8. Les constats sont-ils attribués à une fonction ou à un État, sans passif sans agent, datés et
+  dignes d'être vérifiés ?
+9. Un seul fait, de la plus petite unité ; termes techniques à l'identique ; paraphrase sans dérive ;
+  8–20 mots (maximum 25) ; nombres exacts dans la réponse ?
+10. Moins de trois questions ont-elles satisfait à toutes ces vérifications ? Produisez-en moins.
+  Aucune n'y a satisfait ? Produisez la sortie d'abstention.
 SORTIE (JSON valide uniquement, pas de markdown) : une liste d'au plus TROIS objets :
 [
   {"question": "...", "answer": "...", "question_type": "...", "anchors": ["...", "..."]}
 ]
-Si aucune question ne satisfait à tous les tests, renvoyez exactement : [{"skip_reason": "<one short phrase>"}]
-- answer : le segment le plus court qui répond entièrement et directement à la question — pour une question par oui ou non, le segment le plus court qui la tranche. Strictement ancré dans le bloc cible.
-- question_type : l'un de situation_scope_or_coverage, operative_action, sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance, reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure.
-- anchors : deux sous-chaînes littérales de la question ou plus, dans l'ordre où elles apparaissent ; jamais un acteur générique.
-Le bloc cible et le contexte du document sont fournis en français et en anglais. Lorsque les deux versions sont présentes, il s'agit du même texte, et non de deux passages différents : utilisez la version française pour la formulation et la terminologie, et la version anglaise comme lecture de référence. Cela ne change pas votre langue de sortie, qui est déclarée ci-dessus. Voici l'entrée :
+Si aucune question ne satisfait à tous les tests, renvoyez exactement :
+  [{"skip_reason": "<one short phrase>"}]
+- answer : le segment le plus court qui répond entièrement et directement à la question — pour une
+  question par oui ou non, le segment le plus court qui la tranche. Strictement ancré dans le bloc
+  cible.
+- question_type : l'un de situation_scope_or_coverage, operative_action,
+  sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance,
+  reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure.
+- anchors : deux sous-chaînes littérales de la question ou plus, dans l'ordre où elles apparaissent ;
+  jamais un acteur générique.
+Le bloc cible et le contexte du document sont fournis en français et en anglais. Lorsque les deux
+  versions sont présentes, il s'agit du même texte, et non de deux passages différents : utilisez la
+  version française pour la formulation et la terminologie, et la version anglaise comme lecture de
+  référence. Cela ne change pas votre langue de sortie, qui est déclarée ci-dessus. Voici l'entrée :

@@ -47,3 +47,13 @@ packages = ["src/clir_bench"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.5",
+]
+
+[tool.ruff]
+line-length = 100
+# The prompt templates are wrapped to the same width by scripts/format_prompts.py.
+src = ["src", "scripts", "tests"]
