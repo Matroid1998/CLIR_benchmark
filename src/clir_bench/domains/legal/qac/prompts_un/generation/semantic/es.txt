@@ -1,300 +1,69 @@
-Eres un experto en crear preguntas de recuperación semántica para documentos de las Naciones Unidas
-  (resoluciones, informes, cartas y actas de sesiones).
-LA NECESIDAD DE INFORMACIÓN DE ESTE MODO:
-Cada pregunta es una consulta que escribe alguien que conoce la SITUACIÓN y lo que necesita
-  averiguar, pero no el vocabulario del corpus ni qué instrumento la rige — un funcionario de la
-  mesa de país recién incorporado a un expediente, un periodista, un investigador que se acerca a un
-  régimen desde fuera de su terminología. Su consulta lleva significado, no las palabras exactas de
-  los documentos; el sistema de recuperación debe emparejar concepto con texto. Escribe desde esa
-  necesidad: una pregunta real sobre una situación, sobre la respuesta que se le da o sobre las
-  personas afectadas — nunca un relato de lo que DIJO un órgano o un orador, y nunca una pregunta de
-  comprensión lectora sobre «lo que dice el pasaje». Este modo se mantiene conceptual: no persigue
-  datos únicos, pero sigue necesitando un anclaje concreto y un año, porque una consulta que
-  coincide con todo no encuentra nada.
-IDIOMA:
-Las preguntas y las respuestas DEBEN estar redactadas en español. Conserva los nombres de misiones,
-  órganos, organismos y programas, los términos técnicos consolidados («embargo de armas»,
-  «congelación de activos») y todas las fechas, duraciones, importes monetarios, porcentajes y
-  umbrales en su forma original. Cuando un órgano, organismo o instrumento tenga un nombre oficial
-  en español, utiliza ese nombre oficial en lugar de una traducción literal.
-PARAFRASEA SIN DESVIARTE: la distancia viene de emplear palabras corrientes para las situaciones y
-  las personas, nunca de rebautizar términos técnicos o nombres oficiales, y nunca a costa del
-  significado. El texto jurídico y diplomático es sensible a las palabras exactas — cuando dudes de
-  si una palabra es determinante, consérvala.
+Eres un experto en crear preguntas de recuperación semántica para documentos de las Naciones Unidas (resoluciones, informes, cartas y actas de sesiones).
+LA NECESIDAD DE INFORMACIÓN DE ESTE MODO: cada pregunta es una consulta que escribe alguien que conoce la SITUACIÓN y lo que necesita averiguar, pero no el vocabulario del corpus ni qué instrumento rige la materia — un funcionario de la mesa de país recién incorporado a un expediente, un periodista, un investigador que se acerca a un régimen desde fuera de su terminología. Su consulta lleva significado, no las palabras exactas de los documentos; el sistema de recuperación debe emparejar concepto con texto. Escribe desde esa necesidad: una pregunta real sobre una situación, sobre la respuesta que se le da o sobre las personas afectadas — nunca un relato de lo que DIJO un órgano o un orador, y nunca una pregunta de comprensión lectora sobre lo que dice el pasaje. Este modo se mantiene conceptual, pero sigue necesitando un anclaje concreto y un año, porque una consulta que coincide con todo no encuentra nada.
+IDIOMA Y FIDELIDAD: las preguntas y las respuestas se redactan en español. En la RESPUESTA, reproduce exactamente las fechas, las duraciones, los importes, los porcentajes y los umbrales. Utiliza los nombres oficiales en español de los órganos, los organismos, las misiones y los instrumentos, nunca traducciones literales.
 CÓMO ESTÁ ESTRUCTURADA LA ENTRADA:
-Recibes tres secciones marcadas.
-- "### TARGET BLOCK" — un pasaje contiguo (párrafos completos) de un documento de las Naciones
-  Unidas. Es el texto SOBRE el que escribes las preguntas.
-- "### REFERENCED DOCUMENTS" — documentos que el bloque objetivo CITA, facilitados ÚNICAMENTE para
-  que puedas ENTENDER a qué remiten las citas. Nunca una fuente de respuestas, nunca el objeto de
-  una pregunta.
-- "### DOCUMENT CONTEXT" — texto circundante DEL MISMO DOCUMENTO: su parte inicial y, en los
-  documentos largos, los pasajes que rodean al bloque objetivo.
-Las funciones son estrictas:
-- La RESPUESTA debe estar enunciada íntegramente en el BLOQUE OBJETIVO. No en parte — íntegramente.
-- Las secciones de apoyo existen para que puedas ENTENDER el bloque — nunca para que respondas a
-  partir de ellas. ÚSALAS para resolver lo que el bloque deja implícito: qué misión es «la Misión»,
-  qué comité es «el Comité», a qué Estado representa «el orador», quién escribió la carta y el año
-  civil de la sesión, del informe o del período de sesiones. Si alguna parte de la sustancia de la
-  respuesta está enunciada solo en un documento referenciado o solo en el contexto, DESCARTA la
-  pregunta.
-- LA REGLA DE LA CITA: cuando el bloque CITA o reformula una disposición de OTRO instrumento, una
-  pregunta sobre esa disposición corresponde al instrumento CITADO y está fuera de objetivo aquí,
-  aunque sus palabras figuren dentro del bloque. Pregunta en su lugar por lo que ESTE documento hace
-  con ella — lo que su autor alega, aplica, comunica o impugna.
-El bloque objetivo comienza con líneas de METADATOS ([EN] Document: <signatura> / Title: <título>),
-  seguidas del texto. Úsalas para saber de qué trata el pasaje, de cuándo es y si pertenece a una
-  serie recurrente. Los metadatos son CONTEXTO, NO CONTENIDO: nunca tomes de ellos una respuesta,
-  nunca preguntes sobre ellos y nunca copies de ellos a una pregunta la signatura del documento ni
-  un número de resolución. Las palabras TEMÁTICAS del título («la situación en Rwanda») SÍ PUEDEN
-  aparecer como palabras temáticas naturales; el identificador no.
+Tres secciones marcadas. "### TARGET BLOCK" — un pasaje contiguo de un único documento de las Naciones Unidas; sobre este texto escribes las preguntas. "### REFERENCED DOCUMENTS" — documentos que el bloque cita. "### DOCUMENT CONTEXT" — texto circundante del mismo documento. El bloque comienza con líneas de metadatos ([EN] Document: <symbol> / Title: <title>) que te indican qué es el documento, de cuándo es y si pertenece a una serie recurrente; las palabras de su título que designan la materia («la situación en Rwanda») pueden servir de palabras temáticas en una pregunta.
+LA PRUEBA DEL BLOQUE — la regla de fundamentación: la RESPUESTA debe estar enunciada íntegramente en el BLOQUE OBJETIVO, nunca en un documento referenciado, en el contexto ni en una línea de metadatos. Las secciones de apoyo y los metadatos existen para que puedas ENTENDER el bloque, y la PREGUNTA sí puede emplear lo que estos resuelven: qué misión es «la Misión», qué comité es «el Comité», a qué Estado representa «el orador», quién escribió la carta y el año civil de la sesión, del informe o del período de sesiones. Si algún hecho, cifra, lista o razón necesarios están solo fuera del bloque, descarta la pregunta. Las citas nunca completan respuestas: una pregunta que puede responderse a partir de un documento referenciado versa sobre ESE documento. LA REGLA DE LA CITA es el mismo principio aplicado al texto citado: cuando el bloque cita o reformula una disposición de OTRO instrumento, una pregunta sobre esa disposición corresponde al instrumento citado; pregunta en su lugar por lo que ESTE documento hace con ella — lo que su autor alega, aplica, comunica o impugna. Nunca preguntes sobre los propios metadatos.
 LAS REGLAS DEFINITORIAS DE ESTE MODO:
-- Sin identificadores de instrumentos: nunca incluyas en la pregunta números de resolución o de
-  decisión, signaturas de documentos ni números de párrafo. Los identificadores pueden aparecer
-  dentro del segmento de respuesta.
-- Conceptual, no extractiva: la pregunta apunta a una situación, a un mecanismo o a una parte
-  afectada. Un dato único — una dotación máxima de efectivos, un plazo, una salvedad presupuestaria,
-  un funcionario nombrado — pertenece a otro modo; si el bloque solo ofrece hechos de ese tipo,
-  omite con skip_reason "extractive only".
-- EL AÑO ES OBLIGATORIO: toda pregunta lleva un año, una fecha o un período fechado absolutos («en
-  2009», «en la primavera de 1994», «después de las elecciones legislativas de 2011»), tomados del
-  bloque, del contexto o de los metadatos. Sin él, una pregunta sobre una misión, un régimen o una
-  resolución recurrente tiene una respuesta por año y, por tanto, ninguna.
-- ENFOQUE: nunca un relato de declaraciones. Formas prohibidas: «¿Cómo describió
-  [Estado/órgano]...?», «¿Qué dijo [órgano] sobre...?», «¿Qué advertencia o cautela formuló
-  [órgano]...?», «¿Qué subrayó o destacó [órgano]...?», «¿Qué dijo el orador...?». Pregunta por la
-  situación, por la respuesta o por la propia parte afectada. La única forma atribuida legítima es
-  la POSICIÓN de un ESTADO sobre un asunto concreto — una propuesta, una medida, una acción: «¿Qué
-  posición adoptó Guyana sobre el uso de la fuerza en Kosovo en 1999?» — nunca su caracterización de
-  una situación («cómo describió Guyana la crisis»).
-DISTANCIA LÉXICA — DE DÓNDE DEBE VENIR Y DE DÓNDE NO:
-Parafrasea activamente: un recuperador semántico debe emparejar por significado, no por solapamiento
-  de palabras clave. La distancia viene de describir la SITUACIÓN, la RESPUESTA o las PERSONAS con
-  palabras corrientes en lugar de con las fórmulas del documento — «la matanza masiva de civiles»
-  por «los muy numerosos asesinatos de civiles»; «los cascos azules de las Naciones Unidas» por la
-  designación oficial de la misión; «las personas que huyeron al otro lado de la frontera» por «los
-  refugiados que cruzaron la frontera». La distancia NO debe venir de sustituir términos técnicos ni
-  nombres oficiales: «embargo de armas» no es «prohibición de armamento», «congelación de activos»
-  no es «bloqueo de cuentas», y un Día Internacional o un órgano conservan su nombre. Sustituir un
-  término técnico cambia aquello sobre lo que se pregunta. La paráfrasis tampoco debe despojar nunca
-  a la pregunta de su anclaje discriminante: conserva el país, la misión y el año.
-NOMBRAR PARA LA RECUPERABILIDAD:
-La persona que escribe la pregunta NO ha visto este documento y busca entre cientos de miles de
-  documentos de las Naciones Unidas que comparten el mismo registro formulario.
-- Toda pregunta DEBE llevar al menos un anclaje concreto: un país o una situación («Rwanda», «el
-  conflicto de Darfur»), una misión u operación («UNAMIR»), un órgano o tipo de actor nombrado («el
-  Grupo de Expertos», «los países que aportan contingentes») o una materia específica vinculada a
-  una situación («exenciones al embargo de armas para equipo humanitario en Somalia»). Un tema a
-  secas («medidas contra el terrorismo», «acción climática», «países en desarrollo», «aprendizaje
-  sobre los derechos humanos») no es un anclaje. Consigna el anclaje en "anchor" como una subcadena
-  LITERAL de la pregunta.
-- Toda descripción definida debe quedar NOMBRADA en la propia pregunta: nunca «el Comité», «el
-  Centro Regional», «el orador», «las partes» o «el Consejo» a secas — resuelve el nombre a partir
-  del bloque, del contexto o de los metadatos.
-- Nunca escribas «esta resolución», «el presente informe», «este documento», ni te refieras al
-  contenido del documento como si estuviera a la vista.
-- Somete a prueba cada pregunta: escrita en un motor de búsqueda por un desconocido, ¿conduciría a
-  la materia de ESTE documento? «¿Sobre qué expresó grave preocupación el Consejo de Seguridad?»
-  suspende. «¿Cómo respondió el Consejo de Seguridad a los ataques contra civiles desplazados en
-  Rwanda en 1994?» aprueba.
-- SERIES RECURRENTES — conoce las familias: las resoluciones de la Asamblea General numeradas por
-  período de sesiones sobre temas permanentes del programa (la situación de los derechos humanos en
-  un país, el derecho a la alimentación, el derecho al desarrollo, el aprendizaje sobre los derechos
-  humanos, las Convenciones sobre las Armas Químicas y sobre las Armas Biológicas, Nueva Caledonia);
-  las resoluciones anuales del Consejo Económico y Social y de la Asamblea General sobre el
-  Territorio Palestino Ocupado; las resoluciones bienales sobre la «cooperación entre las Naciones
-  Unidas y [organización regional]», cuyas cláusulas de consultas se clonan en la OSCE, la CEI, la
-  OCS, la EurAsEC y todas las demás organizaciones asociadas; las prórrogas de mandatos; las
-  resoluciones sobre Días Internacionales; los informes periódicos. Un párrafo inalterado dentro de
-  una serie así encaja igual de bien en cualquier año — y en cualquier organización asociada —,
-  incluso con el año añadido. Prefiere el contenido específico de ESTE caso concreto — un
-  acontecimiento nombrado, una tarea recién añadida, una cifra; si el bloque solo contiene texto
-  recurrente inalterado, omite con skip_reason "recurring boilerplate".
+1. SIN IDENTIFICADORES: en la pregunta, ningún número de resolución o de decisión, ninguna signatura de documento ni número de párrafo, y ninguna deixis — «esta resolución», «el presente informe», «este documento», ni el contenido del documento como si estuviera a la vista. Los identificadores pueden aparecer dentro del segmento de respuesta.
+2. CONCEPTUAL, NO EXTRACTIVA: la pregunta apunta a una situación, a un mecanismo o a una parte afectada; nunca pide un dato por su nombre — «qué dotación máxima de efectivos», «para qué fecha», «qué importe», «qué funcionario» pertenecen a otro modo. El segmento que responde a una pregunta conceptual sí puede contener una cifra («aproximadamente 250,000 refugiados»). Si el bloque solo ofrece datos sueltos, omite con skip_reason "extractive only".
+3. EL AÑO ES OBLIGATORIO: toda pregunta lleva un año, una fecha o un período fechado absolutos («en 2009», «en la primavera de 1994», «después de las elecciones legislativas de 2011»), tomados del bloque, del contexto o de los metadatos. Sin él, una pregunta sobre una misión, un régimen o una resolución recurrente tiene una respuesta por año y, por tanto, ninguna.
+4. NO UN RELATO DE DECLARACIONES: nunca «¿Cómo describió [Estado/órgano]...?», «¿Qué dijo [órgano] sobre...?», «¿Qué cautela o advertencia formuló [órgano]...?», «¿Qué subrayó [órgano]...?», «¿Qué dijo el orador...?». Pregunta por la situación, por la respuesta o por la propia parte afectada; qué contenido atribuido se puede preguntar, y cómo, se establece en ATRIBUCIÓN.
+DISTANCIA LÉXICA — el recuperador debe emparejar por significado, no por solapamiento de palabras clave. La distancia viene de describir la SITUACIÓN, la RESPUESTA o las PERSONAS con palabras corrientes en lugar de con las fórmulas del documento — «la matanza masiva de civiles» por «los muy numerosos asesinatos de civiles»; «los cascos azules de las Naciones Unidas» por la designación oficial de la misión; «las personas que huyeron al otro lado de la frontera» por «los refugiados que cruzaron la frontera» —, y nunca de copiar la formulación del bloque ni de reproducir una lista que este ofrezca. La distancia NO debe venir de rebautizar términos técnicos ni nombres oficiales: «embargo de armas» no es «prohibición de armamento», «congelación de activos» no es «bloqueo de cuentas»; un Día Internacional, un órgano o una misión conservan su nombre (una sigla oficial sí puede desarrollarse). Sustituir un término cambia aquello sobre lo que se pregunta; el texto jurídico y diplomático es sensible a las palabras exactas — cuando dudes de si una palabra es determinante, consérvala. La paráfrasis nunca despoja a la pregunta de su anclaje discriminante: conserva el país, la misión y el año.
+ANCLAJE — quien escribe la pregunta no ha visto este documento y busca entre cientos de miles de documentos de las Naciones Unidas que comparten el mismo registro formulario. Toda pregunta lleva al menos un anclaje concreto: un país o una situación («Rwanda», «el conflicto de Darfur»), una misión u operación («UNAMIR»), un órgano o tipo de actor nombrado («el Grupo de Expertos sobre el Sudán», «los países que aportan contingentes») o una materia vinculada a una situación («exenciones al embargo de armas para equipo humanitario en Somalia»). Un tema a secas («medidas contra el terrorismo», «acción climática», «países en desarrollo», «aprendizaje sobre los derechos humanos») no es un anclaje. Toda descripción definida queda nombrada en la propia pregunta: nunca «el Comité», «el Centro Regional», «el orador», «las partes» ni «el Consejo» a secas. Consigna el anclaje en "anchor" como una subcadena literal de la pregunta. La prueba: escrita en un motor de búsqueda por un desconocido, ¿conduciría la pregunta a la materia de ESTE documento? «¿Sobre qué expresó grave preocupación el Consejo de Seguridad?» suspende; «¿Cómo respondió el Consejo de Seguridad a los ataques contra civiles desplazados en Rwanda en mayo de 1994?» aprueba.
+SERIES RECURRENTES — conoce las familias: las resoluciones de la Asamblea General numeradas por período de sesiones sobre temas permanentes del programa (la situación de los derechos humanos en un país, el derecho a la alimentación, el derecho al desarrollo, el aprendizaje sobre los derechos humanos, las Convenciones sobre las Armas Químicas y sobre las Armas Biológicas, Nueva Caledonia); las resoluciones anuales del Consejo Económico y Social y de la Asamblea General sobre el Territorio Palestino Ocupado; las resoluciones bienales sobre la «cooperación entre las Naciones Unidas y [organización regional]», cuyas cláusulas de consultas se clonan en la OSCE, la CEI, la OCS, la EurAsEC y todas las demás organizaciones asociadas; las prórrogas de mandatos; las resoluciones sobre Días Internacionales; los informes periódicos. Un párrafo inalterado dentro de una serie así encaja igual de bien en cualquier año — y en cualquier organización asociada —, incluso con el año añadido; lo mismo vale para cualquier segmento que pudiera aparecer sin cambios en decenas de documentos de las Naciones Unidas (listas de invitación a partes interesadas, listas de cooperación y colaboración, la cláusula universal «las medidas deben ajustarse al derecho internacional», «la responsabilidad primordial recae en las propias autoridades»). Pregunta únicamente por el contenido específico de ESTE caso — un acontecimiento nombrado, una tarea nueva, una cifra; si el bloque solo contiene texto recurrente inalterado, omite con skip_reason "recurring boilerplate". Cuando un bloque contiene a la vez ceremonia y sustancia, pregunta por la sustancia.
 SEGMENTOS DE RESPUESTA TRASCENDENTES:
-- Segmentos QUE CALIFICAN: medidas establecidas, prorrogadas o modificadas; los mandatos y su
-  alcance; condiciones, criterios y exenciones; cómo opera un mecanismo; quién queda obligado,
-  protegido o asistido y de qué modo; hechos concretos de los que se informa, constataciones y
-  justificaciones expresadas; y — en las preguntas con encuadre de situación — las EVALUACIONES
-  preambulares de la situación que enuncian concretamente lo que está ocurriendo («delays by the
-  signatory parties and the absence of an inclusive political settlement», «an estimated 250,000
-  refugees crossed the border»).
-- Segmentos DESCALIFICADOS, en cualquier parte del documento, INCLUIDAS sus formas más atenuadas:
-  encomia; acoge con beneplácito («acoge con beneplácito el papel continuado de»); expresa
-  reconocimiento o preocupación («sigue siendo motivo de grave preocupación»); toma nota; observa
-  con aprecio; destaca o subraya la importancia de; reconoce la responsabilidad primordial de;
-  reafirma o reitera su compromiso; alienta o invita en términos generales; invita a dos
-  funcionarios a celebrar consultas periódicas; exhorta a órganos a que apoyen a las partes
-  interesadas y cooperen y colaboren con ellas; exhorta a los Estados a que consideren; exhorta a
-  «la comunidad internacional»; aspiraciones. Los CONSIDERANDOS preambulares — recordando,
-  reafirmando, reconociendo una responsabilidad, expresando preocupación — son encuadre, no material
-  de respuesta, aunque las EVALUACIONES preambulares sí lo sean.
-- LA PRUEBA DEL LENGUAJE FORMULARIO: si el segmento de respuesta pudiera aparecer sin cambios en
-  decenas de otros documentos de las Naciones Unidas (listas de invitación a partes interesadas,
-  listas de cooperación y colaboración, la cláusula universal «measures must comply with
-  international law», «primary responsibility lies with the authorities themselves», la cláusula
-  estándar de consultas de toda resolución de cooperación con una organización), no puede anclar una
-  pregunta. Cuando un bloque contiene a la vez ceremonia y sustancia, pregunta por la sustancia.
-ATRIBUCIÓN:
-Gran parte de este corpus recoge lo que alguien DIJO. Cuando el bloque atribuye una declaración, una
-  afirmación, una estimación o una evaluación, la pregunta y la respuesta deben conservar esa
-  atribución — al ESTADO o al CARGO («el representante de Sudáfrica», «el Secretario General»,
-  «según los informes de las Naciones Unidas en la primavera de 1994»), nunca a un nombre personal a
-  secas. Una PASIVA SIN AGENTE o una afirmación enunciada como un hecho equivalen a una atribución
-  amputada: «mientras las armas seguían llegando a los separatistas» presenta como un hecho lo que
-  sostiene Georgia — escribe «según Georgia» o «en el relato de Georgia». El contenido atribuido
-  solo es preguntable cuando es una posición sobre una propuesta, un instrumento o una medida
-  identificables, una justificación expresada, o una evaluación concreta de una situación — nunca
-  una aspiración, una cortesía ni una exhortación genérica.
-- LOS ACTOS PROPIOS NO NECESITAN MATIZ ATRIBUTIVO: cuando una carta o un informe describe un acto
-  concreto y consumado de la propia parte que lo escribe — la carta de Francia en la que se relata
-  que la Unión Europea aprobó un plan de desarme respaldado por sus Jefes de Estado —, se puede
-  preguntar directamente por ese acto; la exigencia de atribución apunta a las afirmaciones
-  controvertidas y a las caracterizaciones de terceros, no al relato que un autor hace de su propia
-  iniciativa.
-LA PRUEBA DE INFORMATIVIDAD:
-La respuesta debe decir a quien pregunta algo que la pregunta no contenga ya Y que esta no habría
-  podido suministrar. Si la respuesta se limita a repetir las propias palabras de la pregunta o la
-  remisión a partir de la cual se construyó, o si un lector pudiera adivinarla a partir de la
-  pregunta con más probabilidades de acertar que de errar, la pregunta está vacía — descártala y
-  pregunta en su lugar por la sustancia. El segmento de respuesta debe además ser autónomo: un
-  segmento que no es más que una remisión («the above priorities», «as adopted in the present
-  resolution») no responde a nada fuera del documento.
+- QUE CALIFICAN: medidas establecidas, prorrogadas o modificadas; los mandatos y su alcance; condiciones, criterios y exenciones; cómo opera un mecanismo; quién queda obligado, protegido o asistido y de qué modo; hechos concretos de los que se informa, constataciones y justificaciones expresadas; y, en las preguntas con encuadre de situación, las EVALUACIONES preambulares que enuncian concretamente lo que está ocurriendo («las demoras de las partes signatarias y la ausencia de un arreglo político inclusivo», «se estima que 250,000 refugiados cruzaron la frontera»).
+- DESCALIFICADOS, en cualquier parte del documento, incluidas sus formas más atenuadas: encomia; acoge con beneplácito; expresa reconocimiento o preocupación; toma nota; observa con aprecio; destaca o subraya la importancia de; reconoce la responsabilidad primordial de; reafirma o reitera su compromiso; alienta o invita en términos generales; invita a dos funcionarios a celebrar consultas periódicas; exhorta a órganos a que apoyen a las partes interesadas y cooperen y colaboren con ellas; exhorta a los Estados a que consideren; exhorta a «la comunidad internacional»; aspiraciones. Los CONSIDERANDOS preambulares — recordando, reafirmando, reconociendo una responsabilidad, expresando preocupación — son encuadre, no material de respuesta, aunque las EVALUACIONES preambulares sí lo sean.
+ATRIBUCIÓN — gran parte de este corpus recoge lo que alguien DIJO. Cuando el bloque atribuye una declaración, una afirmación, una estimación o una evaluación, la pregunta y la respuesta conservan esa atribución — al ESTADO, al CARGO («el representante de Sudáfrica», «el Secretario General») o, si se trata de un informe de la Secretaría, a «los informes de las Naciones Unidas» —, nunca a un nombre personal a secas. Una pasiva sin agente o una afirmación enunciada como un hecho equivalen a una atribución amputada: «mientras las armas seguían llegando a los separatistas» presenta como un hecho lo que sostiene Georgia — escribe «según Georgia» o «en el relato de Georgia». El contenido atribuido solo es preguntable como la posición de un Estado sobre una propuesta, un instrumento o una medida identificables («¿Qué posición adoptó Guyana sobre el uso de la fuerza en Kosovo en 1999?»), como una justificación expresada o como una evaluación concreta de una situación — nunca como una caracterización («cómo describió Guyana la crisis»), una aspiración, una cortesía ni una exhortación genérica. LOS ACTOS PROPIOS NO NECESITAN MATIZ ATRIBUTIVO: un acto concreto y consumado de la propia parte que escribe — la carta de Francia en la que se relata que la Unión Europea aprobó un plan de desarme respaldado por los Jefes de Estado de la Unión — puede ser objeto de una pregunta directa; la exigencia de atribución apunta a las afirmaciones controvertidas y a las caracterizaciones de terceros.
+LA PRUEBA DE INFORMATIVIDAD: la respuesta debe decir a quien pregunta algo que la pregunta no contenga ya y que esta no habría podido suministrar. Falla cuando la respuesta se limita a repetir las palabras de la pregunta o la remisión a partir de la cual se construyó, cuando un lector podría adivinarla a partir de la pregunta con más probabilidades de acertar que de errar, o cuando el segmento es una remisión que no significa nada fuera del documento («las prioridades enunciadas más arriba», «según lo aprobado en la presente resolución»). Descarta la pregunta o pregunta en su lugar por la sustancia.
 REGLAS FUNDAMENTALES:
-- LA PRUEBA DEL BLOQUE (aplícala a cada candidata): ¿podría un lector producir la respuesta COMPLETA
-  a partir del BLOQUE OBJETIVO por sí solo, usando las referencias y el contexto únicamente para
-  entender expresiones referenciales, nombres, fechas y citas? Si algún hecho, cifra, lista o razón
-  necesarios están solo en una referencia o en el contexto, DESCÁRTALA.
-- Fuera de objetivo: una pregunta que puede responderse íntegramente a partir de un documento
-  referenciado versa sobre ESE documento — descártala. Las citas nunca completan respuestas.
-- Respuesta anclada: aunque la pregunta sea conceptual, la respuesta debe ser un segmento contiguo
-  corto del BLOQUE OBJETIVO que la aborde directamente. Prefiere los segmentos cortos; si el único
-  segmento posible es un párrafo entero, acota la pregunta o descártala.
-- Intención única: un solo objetivo informativo claro por pregunta; ir más allá de un dato único es
-  aceptable, combinar solicitudes sin relación entre sí no lo es.
+- Intención única, segmento corto: un solo objetivo informativo claro por pregunta — ir más allá de un dato único es aceptable, combinar varias solicitudes no lo es — respondido por un segmento contiguo corto del bloque; si el único segmento posible es un párrafo entero, acota la pregunta o descártala.
 - Redacción y extensión: formulación natural de búsqueda, 8–20 palabras, máximo estricto de 25.
-- Diversidad: las preguntas deben abordar aspectos distinguibles y abarcar al menos dos de los
-  encuadres: situation, response, stakeholder.
-- OMITIR ANTES QUE RELLENAR: genera hasta TRES pares; menos si son menos las que superan todas las
-  reglas. Si el bloque no admite ninguna, devuelve exactamente
-  [{"skip_reason": "<one short phrase>"}]. Nunca fabriques una pregunta para llegar a tres.
-- Intenta parafrasear. No repitas todos y cada uno de los elementos y palabras que se mencionan en
-  el texto. Pero no parafrasees de manera que se cambie el significado. Al tratarse de un texto
-  jurídico, es muy sensible a determinadas palabras.
-
-QUÉ PREGUNTAR — abarca al menos dos de estos encuadres:
-  1. Encuadre de situación (contexto o problema): ¿a qué crisis, amenaza, controversia o
-    acontecimiento responde el documento, o cuál describe? Cubre tanto la preocupación que motiva
-    una medida como el estado de cosas que un informe o un preámbulo evalúan concretamente.
-  2. Encuadre de respuesta (mecanismo o acción): ¿qué misión, medida, proceso o arreglo
-    institucional se establece, prorroga o modifica, y cómo opera?
-  3. Encuadre de parte interesada (parte afectada o escenario): ¿quién queda obligado, sancionado,
-    protegido o asistido, y en qué escenario del mundo real? Aquí caben tanto la perspectiva del
-    destinatario («¿Qué estaba obligado a hacer el Gobierno de X...?») como la del beneficiario
-    («¿Qué protección proporcionaron las Naciones Unidas a los civiles en...?»), y también la
-    posición de un Estado sobre un asunto concreto.
+- OMITIR ANTES QUE RELLENAR: hasta TRES pares, menos si son menos las que superan todas las reglas; si el bloque no admite ninguna, devuelve exactamente [{"skip_reason": "<one short phrase>"}]. Nunca fabriques una pregunta para llegar a tres.
+QUÉ PREGUNTAR — tres encuadres ("framing"); las preguntas deben abordar aspectos distinguibles y, cuando se genere más de un par, abarcar al menos dos de ellos:
+  1. situation — contexto o problema: ¿a qué crisis, amenaza, controversia o acontecimiento responde el documento, o cuál describe? La preocupación que motiva una medida y el estado de cosas que un informe o un preámbulo evalúan concretamente.
+  2. response — mecanismo o acción: ¿qué misión, medida, proceso o arreglo institucional se establece, prorroga o modifica, y cómo opera?
+  3. stakeholder — parte afectada o escenario: ¿quién queda obligado, sancionado, protegido o asistido, y en qué escenario del mundo real? Aquí caben tanto la perspectiva del destinatario («¿Qué estaba obligado a hacer el Gobierno de X...?») como la del beneficiario («¿Qué protección proporcionaron las Naciones Unidas a los civiles en...?»), y también la posición de un Estado sobre un asunto concreto.
 EJEMPLOS — casos canónicos correctos, con el texto del bloque del que proceden:
-Target block: S/RES/918 (1994): "3. Decides to expand the mandate of UNAMIR to include the
-  protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of
-  security for humanitarian relief operations; 4. Authorizes in this context an expansion of the
-  UNAMIR force level up to 5,500 troops;" (context: preamble condemning the killings of civilians in
-  Rwanda)
-✓ {"question": "How did the Security Council respond to the mass killing of civilians in Rwanda in 1994?", "answer": "Decides to expand the mandate of UNAMIR to include the protection of displaced persons, refugees and civilians at risk in Rwanda", "framing": "response", "anchor": "Rwanda"}
-✓ {"question": "What role were UN peacekeepers given in protecting people displaced by the Rwandan conflict in 1994?", "answer": "the protection of displaced persons, refugees and civilians at risk in Rwanda and the provision of security for humanitarian relief operations", "framing": "stakeholder", "anchor": "the Rwandan conflict"}
-Target block: report S/1994/565: "An estimated 250,000 refugees crossed the border into the United
-  Republic of Tanzania on 28 and 29 April." (context: April–May 1994)
-✓ {"question": "How severe was the refugee outflow from Rwanda into neighbouring countries in spring 1994, according to UN reporting?", "answer": "An estimated 250,000 refugees crossed the border into the United Republic of Tanzania on 28 and 29 April", "framing": "situation", "anchor": "refugee outflow from Rwanda"}
-Target block: S/RES/2148 (2014), preamble: "Recognizing that UNAMID's ability to facilitate progress
-  in implementation of the DDPD is hampered by delays by the signatory parties and the absence of an
-  inclusive political settlement between the government and non-signatory movements"
-✓ {"question": "What was hampering UNAMID's progress on implementing the DDPD in Darfur in 2014?", "answer": "UNAMID's ability to facilitate progress in implementation of the DDPD is hampered by delays by the signatory parties and the absence of an inclusive political settlement between the government and non-signatory movements", "framing": "situation", "anchor": "UNAMID"}
-  → A preambular ASSESSMENT — concrete obstacles — is admissible for situation framing; a preambular
-    recital would not be. Year present.
-Target block: CD/1860, letter from the Deputy Permanent Representative of France to the Conference
-  on Disarmament: "in the light of the upcoming 2010 Review Conference of the Parties to the Treaty
-  on the Non-Proliferation of Nuclear Weapons, and on the basis of the proposals made at Cherbourg,
-  Europe presented a plan of action on disarmament, which was endorsed by 27 Heads of State and
-  Government of the European Union in December 2008."
-✓ {"question": "What joint disarmament initiative did the European Union develop ahead of the 2010 NPT Review Conference?", "answer": "Europe presented a plan of action on disarmament, which was endorsed by 27 Heads of State and Government of the European Union in December 2008", "framing": "response", "anchor": "the European Union"}
-  → OWN ACTS NEED NO HEDGE: a completed EU act recounted in a French letter; concrete, dated,
-    askable directly. A contested claim about another party would have needed "according to France".
-REAL FAILURES FROM PREVIOUS RUNS OF THIS PIPELINE — never reproduce these patterns:
-✗ "What collaborative approach were the United Nations High Commissioner for Human Rights and Human
-  Rights Council asked to take in 2011?" — answer "support, cooperate and collaborate closely with
-  civil society, the private sector, academia, regional organizations, the media and other relevant
-  stakeholders"
-  → A cooperate-and-collaborate stakeholder list — DISQUALIFIED ceremony — and "human rights
-    learning" is a recurring annual series. Skip.
-✗ "How were the United Nations and the Eurasian Economic Community expected to coordinate in 2007?"
-  — answer "invites the Secretary-General of the United Nations to conduct ... regular consultations
-  with the Secretary-General of the Eurasian Economic Community ..."
-  → The standard consultations clause of every biennial cooperation-with-organization resolution,
-    cloned across the OSCE, CIS, SCO and the rest; "invites ... regular consultations" is the
-    softest of mechanisms, and the span is a whole paragraph. Skip.
-✗ "How did Guyana describe the crisis in Kosovo?"
-  → A speech report whose answer is an expression of concern (ceremony); no year. Only a position on
-    a concrete matter would do: "What position did Guyana take on the use of force in Kosovo in
-    1999?" — and only if the block states one.
-✗ "What did the General Assembly say about Bosnia and Herzegovina's cooperation with the war crimes
-  tribunal?"
-  → Speech report; "stresses the importance of" is ceremony; the paragraph recurs annually. Skip.
-✗ "Who was assigned the main responsibility for carrying out the Bosnia and Herzegovina Peace
-  Agreement?"
-  → A preambular RECITAL ("Recognizing that... primary responsibility... lies with the authorities
-    themselves") present in every annual Bosnia resolution since 1996; no year. Skip.
-✗ "What legal limit was placed on counterterrorism measures?"
-  → The universal compliance clause found in every counter-terrorism text; no actor, no situation,
-    no year. Skip.
-✗ "How are gender concerns supposed to be built into right-to-food work?"
-  → The paragraph recurs verbatim in each year's right-to-food resolution; no year; adding the year
-    alone barely helps. Target this year's specific content or skip.
-✗ "What caution did the General Assembly give on using vacancy management for ECA project costs?"
-  → A budget caveat is an extractive fact for another mode, and "what caution did X give" is a
-    speech report. Skip in this mode.
-✗ "How was MINUSTAH to help Haiti build stronger state institutions outside Port-au-Prince?"
-  → Good framing, no year — and the clause recurs across MINUSTAH renewals. Minimum fix: "...in
-    2009?"
-✗ "What kind of international action is needed to supplement national efforts for developing
-  countries?"
-  → No anchor; hortatory boilerplate. Skip.
-✗ "Which actors were invited to cooperate, observe and raise awareness of the International Day of
-  Sport for Development and Peace?"
-  → An invitation list — DISQUALIFIED — while the same block contained the substantive act. Fix: {"question": "How did the General Assembly give formal recognition to sport as a tool for development and peace in 2013?", "answer": "Decides to proclaim 6 April the International Day of Sport for Development and Peace", "framing": "response", "anchor": "sport as a tool for development and peace"}
+Bloque objetivo: S/RES/918 (1994), aprobada el 17 de mayo de 1994: "3. Decide ampliar el mandato de la UNAMIR para incluir la protección de las personas desplazadas, los refugiados y los civiles en peligro en Rwanda y la seguridad de las operaciones de socorro humanitario; 4. Autoriza en este contexto una ampliación de los efectivos de la UNAMIR hasta 5,500 soldados;" (contexto: preámbulo que condena las matanzas de civiles en Rwanda)
+✓ {"question": "¿Cómo respondió el Consejo de Seguridad a los ataques contra civiles desplazados en Rwanda en mayo de 1994?", "answer": "Decide ampliar el mandato de la UNAMIR para incluir la protección de las personas desplazadas, los refugiados y los civiles en peligro en Rwanda", "framing": "response", "anchor": "Rwanda"}
+✓ {"question": "¿Qué función recibieron los cascos azules para proteger a las personas desplazadas por el conflicto de Rwanda en 1994?", "answer": "la protección de las personas desplazadas, los refugiados y los civiles en peligro en Rwanda y la seguridad de las operaciones de socorro humanitario", "framing": "stakeholder", "anchor": "el conflicto de Rwanda"}
+  → «Ataques contra civiles desplazados», «cascos azules», «personas desplazadas por el conflicto de Rwanda»: palabras de alguien ajeno al expediente para las fórmulas del bloque; UNAMIR y el término «personas desplazadas» permanecen en la respuesta. «Mayo» distingue esta respuesta de las otras decisiones del Consejo sobre Rwanda en 1994.
+Bloque objetivo: informe S/1994/565: "Se estima que 250,000 refugiados cruzaron la frontera hacia la República Unida de Tanzanía los días 28 y 29 de abril." (contexto: éxodo de refugiados de Rwanda, abril–mayo de 1994)
+✓ {"question": "Según informes de las Naciones Unidas, ¿qué gravedad tuvo el éxodo de refugiados de Rwanda hacia países vecinos en la primavera de 1994?", "answer": "Se estima que 250,000 refugiados cruzaron la frontera hacia la República Unida de Tanzanía los días 28 y 29 de abril", "framing": "situation", "anchor": "éxodo de refugiados de Rwanda"}
+  → Una pregunta conceptual («qué gravedad») respondida por un segmento concreto; no se pide la cifra por su nombre. Se conserva la atribución a los informes de las Naciones Unidas.
+Bloque objetivo: S/RES/2148 (2014), preámbulo: "Reconociendo que la capacidad de la UNAMID para facilitar avances en la aplicación del DDPD se ve obstaculizada por las demoras de las partes signatarias y la ausencia de un arreglo político inclusivo entre el gobierno y los movimientos no signatarios"
+✓ {"question": "¿Por qué tenía UNAMID dificultades para impulsar el Documento de Doha para la Paz en Darfur en 2014?", "answer": "la capacidad de la UNAMID para facilitar avances en la aplicación del DDPD se ve obstaculizada por las demoras de las partes signatarias y la ausencia de un arreglo político inclusivo entre el gobierno y los movimientos no signatarios", "framing": "situation", "anchor": "UNAMID"}
+  → Una EVALUACIÓN preambular — obstáculos concretos — es admisible para el encuadre de situación; un considerando no lo sería. «Dificultades para impulsar» mantiene distancia con «capacidad para facilitar avances ... se ve obstaculizada»; DDPD se nombra mediante su denominación oficial desarrollada, sin rebautizarlo.
+Bloque objetivo: CD/1860, carta del Representante Permanente Adjunto de Francia ante la Conferencia de Desarme: "ante la próxima Conferencia de las Partes de 2010 encargada del Examen del Tratado sobre la No Proliferación de las Armas Nucleares, y sobre la base de las propuestas formuladas en Cherburgo, Europa presentó un plan de acción sobre desarme que fue respaldado por 27 Jefes de Estado y de Gobierno de la Unión Europea en diciembre de 2008."
+✓ {"question": "¿Qué iniciativa conjunta de desarme desarrolló la Unión Europea antes de la Conferencia de Examen del TNP de 2010?", "answer": "Europa presentó un plan de acción sobre desarme que fue respaldado por 27 Jefes de Estado y de Gobierno de la Unión Europea en diciembre de 2008", "framing": "response", "anchor": "la Unión Europea"}
+  → Acto propio, sin matiz atributivo: un acto consumado de la UE relatado en una carta francesa, concreto y fechado. Una afirmación controvertida sobre otra parte habría requerido «según Francia».
+FALLOS REALES DE EJECUCIONES ANTERIORES — nunca reproduzcas estos patrones:
+✗ «¿Qué enfoque colaborativo se pidió que adoptaran el Alto Comisionado de las Naciones Unidas para los Derechos Humanos y el Consejo de Derechos Humanos en 2011?» — respuesta «apoyar a la sociedad civil, el sector privado, las instituciones académicas, las organizaciones regionales, los medios de comunicación y otras partes interesadas pertinentes, y cooperar y colaborar estrechamente con ellos» → Una lista de cooperación y colaboración (DESCALIFICADA) en la serie anual sobre aprendizaje de los derechos humanos. Omite.
+✗ «¿Cómo debían coordinarse las Naciones Unidas y la Comunidad Económica de Eurasia en 2007?» — respuesta «invita al Secretario General de las Naciones Unidas a celebrar ... consultas periódicas con el Secretario General de la Comunidad Económica de Eurasia ...» → La cláusula de consultas de todas las resoluciones bienales de cooperación con organizaciones, un mecanismo sumamente débil y un párrafo entero. Omite.
+✗ «¿A qué actores se invitó a cooperar, celebrar y dar a conocer el Día Internacional del Deporte para el Desarrollo y la Paz?» → Una lista de invitación, aunque el mismo bloque contenía el acto sustantivo. Corrección: {"question": "¿Cómo reconoció formalmente la Asamblea General el deporte como instrumento de desarrollo y paz en 2013?", "answer": "Decide proclamar el 6 de abril Día Internacional del Deporte para el Desarrollo y la Paz", "framing": "response", "anchor": "el deporte como instrumento de desarrollo y paz"}
+✗ «¿Cómo describió Guyana la crisis de Kosovo?» → Un relato de declaraciones cuya respuesta es una expresión de preocupación; sin año. Solo serviría una posición sobre un asunto concreto — «¿Qué posición adoptó Guyana sobre el uso de la fuerza en Kosovo en 1999?» — y únicamente si el bloque la enuncia.
+✗ «¿A quién se asignó la responsabilidad primordial de aplicar el Acuerdo de Paz para Bosnia y Herzegovina?» → Un CONSIDERANDO preambular («Reconociendo que ... la responsabilidad primordial ... recae en las propias autoridades») presente en todas las resoluciones anuales sobre Bosnia desde 1996; sin año. Omite.
+✗ «¿Qué límite jurídico se impuso a las medidas contra el terrorismo?» → La cláusula universal de cumplimiento de todos los textos contra el terrorismo; sin actor, situación ni año. Omite.
+✗ «¿Cómo deben incorporarse las cuestiones de género al trabajo sobre el derecho a la alimentación?» → El párrafo se repite literalmente en la resolución anual sobre el derecho a la alimentación; añadir solo el año apenas ayuda. Apunta al contenido específico de ese año u omite.
+✗ «¿Qué advertencia formuló la Asamblea General sobre la gestión de vacantes para los costos de proyectos de la CEPA?» → Una salvedad presupuestaria es un dato para otro modo, y «qué advertencia formuló X» es un relato de declaraciones. Omite.
+✗ «¿Cómo debía ayudar MINUSTAH a Haití a fortalecer las instituciones estatales fuera de Puerto Príncipe?» → Buen encuadre, sin año; además, la cláusula se repite en las prórrogas de MINUSTAH. Añadir «en 2009» solo corrige la fecha; pregunta por un contenido específico de esa prórroga u omite.
 AUTOVERIFICACIÓN de cada pregunta, en este orden:
-1. ¿Bloque solo extractivo, o serie recurrente que solo contiene texto sin cambios? → omite. ¿Una
-  disposición citada de otro instrumento como objetivo? → LA REGLA DE LA CITA: reformula hacia lo
-  que este documento hace con ella, u omite.
-2. ¿Hay un año, una fecha o un período fechado absolutos?
-3. ¿Ninguna forma de relato de declaraciones («cómo describió X», «qué dijo/subrayó/formuló X»)? Si
-  hay atribución, ¿se trata de la posición de un Estado sobre un asunto concreto — o de un acto
-  consumado del propio autor, que no necesita matiz atributivo?
-4. ¿Al menos un anclaje concreto — no un tema a secas — consignado literalmente en "anchor"; toda
-  descripción definida nombrada; ningún identificador?
-5. ¿CALIFICA el segmento de respuesta — sustancia o una evaluación preambular concreta, nunca un
-  considerando, una lista de partes interesadas o de cooperación y colaboración, una cláusula de
-  consultas ni una forma ceremonial más atenuada; supera la prueba del lenguaje formulario?
-  ¿Superada LA PRUEBA DE INFORMATIVIDAD — sin repetición, sin respuesta adivinable, con un segmento
-  autónomo?
-6. ¿Superada LA PRUEBA DEL BLOQUE; no puede responderse a partir de una referencia por sí sola;
-  ninguna respuesta tomada de los metadatos?
-7. ¿Atribución conservada, al Estado o al cargo, sin pasiva sin agente ni afirmación presentada como
-  hecho?
-8. ¿Parafraseada del modo correcto — distancia con palabras corrientes, conservados los términos
-  técnicos, los nombres propios y el anclaje; 8–20 palabras (máximo 25)?
-9. ¿Conceptual en lugar de dato único; los encuadres cubren al menos dos de situation / response /
-  stakeholder?
-10. ¿Han superado la verificación menos de tres? Devuelve menos. ¿Ninguna? Devuelve la omisión.
+1. ¿Bloque solo extractivo? ¿Texto recurrente inalterado? ¿Una disposición citada de otro instrumento como objetivo? → omite o reformula hacia lo que este documento hace con ella.
+2. ¿Hay un año, una fecha o un período fechado absolutos; ningún identificador, ninguna deixis?
+3. ¿No es un relato de declaraciones? Si hay atribución, ¿se trata de la posición de un Estado, de una justificación expresada, de una evaluación concreta — o de un acto consumado del propio autor —, con la atribución al Estado, al cargo o a los informes de las Naciones Unidas conservada, sin pasiva sin agente y sin afirmación presentada como hecho?
+4. ¿Al menos un anclaje concreto, no un tema a secas, consignado literalmente en "anchor"; toda descripción definida nombrada; un desconocido que escriba la pregunta llegaría a la materia de este documento?
+5. ¿CALIFICA el segmento de respuesta — sustancia o una evaluación preambular concreta, nunca un considerando, una lista de invitación o de cooperación y colaboración, una cláusula de consultas ni una forma ceremonial más atenuada; no es un segmento que aparezca sin cambios en decenas de documentos; superada LA PRUEBA DE INFORMATIVIDAD?
+6. LA PRUEBA DEL BLOQUE: ¿la respuesta está íntegramente en el bloque, y no en una referencia, en el contexto ni en los metadatos?
+7. ¿Distancia con palabras corrientes respecto de la formulación del bloque, conservados los términos técnicos, los nombres oficiales y el anclaje; conceptual, no un dato pedido por su nombre; 8–20 palabras (máximo 25); si se genera más de un par, los encuadres cubren al menos dos de situation / response / stakeholder?
+8. ¿Han superado la verificación menos de tres? Devuelve menos. ¿Ninguna? Devuelve la omisión.
 SALIDA (solo JSON válido, sin markdown): una lista de hasta TRES objetos:
 [
   {"question": "...", "answer": "...", "framing": "...", "anchor": "..."}
 ]
-Si ninguna pregunta supera todas las pruebas, devuelve exactamente:
-  [{"skip_reason": "<one short phrase>"}]
-- answer: el segmento contiguo más corto del bloque objetivo que responde de forma completa y
-  directa a la pregunta. La respuesta debe estar redactada en español.
+Si ninguna pregunta supera todas las pruebas, devuelve exactamente: [{"skip_reason": "<one short phrase>"}]
+- answer: el segmento contiguo más corto del bloque objetivo que responde de forma completa y directa a la pregunta, en español.
 - framing: uno de situation, response, stakeholder.
-- anchor: el anclaje concreto, una subcadena literal de la pregunta. Este campo es obligatorio.
-El bloque objetivo y el contexto del documento se facilitan en tu idioma de salida, el español, y
-  también en inglés. Cuando ambas versiones están presentes, no son dos pasajes distintos, sino el
-  mismo texto: utiliza la versión en tu idioma de salida para la redacción y la terminología, y la
-  versión inglesa como lectura de referencia. Esto no cambia tu idioma de salida, que está declarado
-  más arriba. Esta es la entrada:
+- anchor: el anclaje concreto, una subcadena literal de la pregunta.
+El bloque objetivo y el contexto del documento se facilitan en tu idioma de salida, el español, y también en inglés. Cuando ambas versiones están presentes, no son dos pasajes distintos, sino el mismo texto: utiliza la versión en tu idioma de salida para la redacción y la terminología, y la versión inglesa como lectura de referencia. Esto no cambia tu idioma de salida, que está declarado más arriba. Esta es la entrada:

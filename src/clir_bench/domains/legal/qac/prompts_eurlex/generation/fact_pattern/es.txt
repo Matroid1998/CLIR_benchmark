@@ -1,503 +1,110 @@
-Eres un experto en crear preguntas de recuperación documental jurídica y normativa a partir de
-  legislación de la UE.
-
-MODO DE SUPUESTO DE HECHO — EL PROFESIONAL TIENE UNA SITUACIÓN, NO UNA CITA. Redacta cada pregunta
-  como se la plantearía un abogado, un responsable de cumplimiento o un analista normativo a un
-  asistente de investigación jurídica cuando describe la situación concreta de un cliente o de su
-  empleador y pregunta cómo la trata el Derecho de la UE. No nombra — y puede que ni siquiera
-  conozca — el instrumento que la rige. El recuperador tiene que emparejar la situación con la norma
-  aplicable. Esta es la forma habitual de la recuperación de normas (supuesto de hecho →
-  disposición) y la forma sin identificadores de las preguntas de los profesionales.
-
-El contexto de origen puede estar en cualquier idioma. Las preguntas y las respuestas DEBEN estar
-  redactadas en español. Conserva los términos jurídicos técnicos, los nombres de instituciones,
-  órganos y programas, y todas las fechas, duraciones, importes monetarios, porcentajes y umbrales
-  en su forma original — no los redondees, reformatees ni renombres de forma imprecisa. Cuando una
-  institución o un instrumento tenga un nombre oficial en español (p. ej., «Comisión Europea»),
-  utiliza ese nombre oficial en lugar de una traducción literal. Los identificadores oficiales de
-  instrumentos («Regulation (EU) 2019/904», «Article 5(2)») pueden aparecer en una RESPUESTA cuando
-  el texto fuente los enuncia; nunca aparecen en una pregunta.
-
+Eres un experto en crear preguntas de recuperación documental jurídica y normativa a partir de legislación de la UE.
+MODO DE SUPUESTO DE HECHO — EL PROFESIONAL TIENE UNA SITUACIÓN, NO UNA CITA. Redacta cada pregunta como se la plantearía un abogado, un responsable de cumplimiento o un analista normativo a un asistente de investigación jurídica cuando describe la situación concreta de un cliente y pregunta cómo la trata el Derecho de la UE. No nombra — y puede que ni siquiera conozca — el instrumento que rige esa situación; el recuperador tiene que emparejar la situación con la norma aplicable.
+IDIOMA Y FIDELIDAD: las preguntas y las respuestas se redactan en español, sea cual sea el idioma del texto fuente. En la RESPUESTA, reproduce los números, las fechas, las duraciones, los importes, los porcentajes y los identificadores oficiales exactamente como los enuncia la fuente («100 000 EUR», no «€100,000»; «90 días», nunca «tres meses»). Cuando una institución o un instrumento tenga un nombre oficial en español (p. ej., «Comisión Europea»), utiliza ese nombre oficial en lugar de una traducción literal. Los identificadores («Directiva (UE) 2019/904», «artículo 5, apartado 2») pueden aparecer en una respuesta cuando el texto fuente los enuncia; nunca aparecen en una pregunta.
 CÓMO ESTÁ ESTRUCTURADA LA ENTRADA:
-Recibes cuatro bloques claramente marcados.
-- "### TARGET ARTICLE" — un artículo de un acto, en la o las versiones lingüísticas facilitadas. Es
-  el artículo SOBRE el que escribes las preguntas.
-- "### REFERENCED ARTICLES" — otros artículos DEL MISMO ACTO que el artículo objetivo cita. Se
-  facilitan ÚNICAMENTE como contexto de apoyo, porque la legislación de la UE contiene remisiones
-  constantes y a menudo el artículo objetivo no puede responderse por sí solo.
-- "### REFERENCED ARTICLES FROM OTHER ACTS" — artículos de OTROS actos que el artículo objetivo cita
-  por su nombre (p. ej., «Article 5 of Regulation (EC) No 21/2004»), facilitados cuando ese acto
-  está en el corpus. Mismo estatus que el bloque anterior: contexto de apoyo ÚNICAMENTE, nunca el
-  objeto de una pregunta. Cada uno de estos bloques nombra su propio acto en su línea «Act:» y lleva
-  una clave «Cite as:».
-- "### REFERENCED ANNEXES" — anexos citados por el artículo objetivo, de su propio acto o de otro
-  acto del corpus. Mismo estatus: contexto de apoyo ÚNICAMENTE, nunca el objeto de una pregunta.
-  Cada bloque de anexo nombra su acto en su línea «Act:» y lleva una clave «Cite as:».
-Los dos primeros bloques pertenecen al mismo acto; los bloques siguientes indican cada uno en su
-  línea «Act:» el acto al que pertenecen. Un bloque vacío lo indica explícitamente. Los artículos
-  referenciados están ahí para que una respuesta pueda ser COMPLETA, no para ser el objeto de la
-  pregunta.
-Cada bloque de artículo comienza con líneas de METADATOS, seguidas del texto del artículo:
+Cuatro bloques marcados. "### TARGET ARTICLE" es el único artículo SOBRE el que escribes las preguntas. "### REFERENCED ARTICLES" (mismo acto), "### REFERENCED ARTICLES FROM OTHER ACTS" y "### REFERENCED ANNEXES" contienen las disposiciones que el artículo objetivo cita, facilitadas únicamente para que una respuesta pueda ser COMPLETA, nunca como objeto de una pregunta. Los bloques de otros actos y todos los anexos llevan una línea «Act:» y una clave «Cite as:»; un bloque vacío lo indica explícitamente.
+Cada bloque de artículo comienza con los metadatos y a continuación el texto:
     [EN] Article 25 — Non-compliance by the responsible person
       Act: Regulation (EC) No 1223/2009 of the European Parliament and of the Council of 30 November 2009 on cosmetic products (recast)
       Location: CHAPTER VIII NON-COMPLIANCE, SAFEGUARD CLAUSE
-    <el texto del artículo>
-- «Act:» es el título completo del instrumento. Sus primeras palabras son el identificador oficial;
-  el resto enuncia la MATERIA («productos cosméticos»). «Location:» es la posición del artículo en
-  la estructura del acto y solo aparece cuando el acto tiene tales divisiones. Ambos se facilitan en
-  cada versión lingüística suministrada.
-- Las palabras de la materia de la línea «Act:» y del texto del artículo te indican a qué régimen
-  debe pertenecer la situación (véase LA PRUEBA DEL ACTO HERMANO). Úsalas para construir los datos
-  concretos.
-- Los metadatos son CONTEXTO, NO CONTENIDO. Nunca tomes la respuesta de una línea de metadatos — la
-  respuesta debe proceder del texto del artículo. Nunca formules una pregunta SOBRE los metadatos
-  («¿qué capítulo contiene esta norma?», «¿cuál es el título de este reglamento?»).
-- Ninguna pregunta de este modo contiene el identificador de NINGÚN acto (el objetivo u otro), un
-  número CELEX, una clave «Cite as» ni un número de artículo, párrafo o anexo. La situación es todo
-  el anclaje. Los identificadores pueden aparecer dentro del segmento de respuesta cuando el texto
-  fuente los enuncia.
-- Sin redacciones deícticas ni autorreferenciales: nada de «en virtud del presente Reglamento», «las
-  medidas aquí establecidas», «según el texto». Quien pregunta NO ha visto el documento.
-
-EL SUPUESTO DE HECHO — la regla que define este modo:
-Cada pregunta describe una situación concreta y a continuación pregunta UNA sola cosa sobre ella. La
-  situación debe contener al menos DOS DATOS CONCRETOS que materialicen las condiciones de las que
-  depende la norma del artículo objetivo:
-  - QUIÉN: el actor, descrito como lo caracteriza la norma pero en palabras corrientes — «una
-    editorial finlandesa», «una empresa que solicita autorización como sociedad de gestión de
-    OICVM», «una empresa de abastecimiento de agua que convoca un concurso de proyectos», «un
-    organismo pagador de una región ultraperiférica», «un importador de productos a base de plantas
-    para fumar». El protagonista es un particular, o una autoridad nacional que tramita un
-    expediente (un organismo pagador, una autoridad competente que tramita una solicitud, una
-    oficina de aduanas). Nunca la Comisión, una agencia de la UE, un funcionario de la UE ni un
-    Estado miembro en cuanto legislador: esos no son clientes, y las cláusulas que se les dirigen
-    son cláusulas de estilo institucionales;
-  - QUÉ: el producto, la actividad, la operación o la omisión — «vende publicaciones periódicas por
-    suscripción», «importa 800 kg de mineral de uranio en un solo envío», «selecciona las
-    explotaciones para los controles sobre el terreno únicamente mediante análisis de riesgos», «no
-    ha comunicado quién posee participaciones cualificadas indirectas»;
-  - CUÁNTO / CUÁNDO / DÓNDE, cuando la norma dependa de ello — una cantidad por debajo del límite
-    máximo del artículo, una fecha dentro de su plazo, un Estado miembro que el artículo nombra.
-Sitúa los datos concretos de lleno dentro del supuesto que el artículo resuelve: una cantidad por
-  debajo del umbral cuando la norma exime las cantidades inferiores al umbral; el Estado miembro que
-  el artículo nombra; la omisión que el artículo erige en condición. Así, las propias palabras del
-  artículo responden a la pregunta y no hace falta inferencia alguna. No añadas hechos de los que la
-  norma no dependa, y no construyas una situación cuyo desenlace exija ponderación, negación o
-  razonamiento más allá de la lectura de la norma: el caso lo resuelve el artículo, no tú.
-LO PREGUNTADO es una de estas cosas: si esto está permitido / es obligatorio / está cubierto; qué
-  debe hacer el actor; cuál es el tipo, el umbral o el plazo aplicable; cuál es la consecuencia; qué
-  órgano decide. La forma por defecto es la pregunta de sí o no; su respuesta sigue siendo el
-  segmento del artículo que resuelve la pregunta, nunca la palabra «sí» o «no».
-
-LA PRUEBA DEL ACTO HERMANO: los datos concretos deben fijar el régimen, porque la legislación de la
-  UE repite la misma disposición en actos hermanos. «Un gestor de activos» encaja en los regímenes
-  OICVM, AIFM y MiFID; «una sociedad de gestión de OICVM» encaja en uno solo. «Un comprador público
-  que convoca un concurso de proyectos» encaja en la directiva de contratación pública clásica y en
-  la de los sectores especiales; «una empresa de abastecimiento de agua que convoca un concurso de
-  proyectos» encaja en una sola. «Una empresa que importa mercancías sujetas a un derecho
-  antidumping» encaja en todos los reglamentos antidumping; «una empresa que importa alambrón
-  originario de China» encaja en uno solo; los reglamentos de base antidumping y antisubvenciones
-  comparten artículos procedimentales idénticos, así que indica de qué procedimiento se trata. «Un
-  organismo pagador que selecciona explotaciones para los controles sobre el terreno» encaja en las
-  normas generales de control de la PAC; «un organismo pagador de una región ultraperiférica» encaja
-  en las normas de las regiones ultraperiféricas. Antes de conservar una pregunta, pregúntate:
-  ¿estaría esta situación regida igual de bien por un acto distinto? Si es así, añade el dato
-  concreto que fija el régimen, o descártala.
-
-LA PRUEBA DE LA INFORMATIVIDAD: la respuesta debe añadir algo que la situación no dijera ya. Si la
-  pregunta ya enuncia la norma y solo pide la confirmación de sus propias palabras, descártala.
-MATERIALIZA LAS CONDICIONES, NUNCA LA CONSECUENCIA: la situación dice qué es el actor y qué ha hecho
-  o ha dejado de hacer; nunca dice qué exige la norma, durante cuánto tiempo, ante quién ni en qué
-  forma. «Una empresa generadora posee una única central de 250 MW y se le pide que mantenga sus
-  datos horarios a disposición de la autoridad reguladora nacional, de la autoridad nacional de
-  competencia y de la Comisión. ¿Está cubierta por la obligación de conservación de cinco años?»
-  reformula los destinatarios y la duración — la respuesta ya está en la pregunta. Pregunta «La
-  única central de una empresa generadora tiene una potencia instalada de 250 MW. ¿Durante cuánto
-  tiempo debe la empresa mantener a disposición de las autoridades reguladoras los datos horarios de
-  generación de la central?» Prueba: suprime del artículo el segmento de respuesta — si la situación
-  no habría podido escribirse a partir de lo que queda, es que contiene la respuesta.
-
-DISTANCIA LÉXICA — de dónde debe venir y de dónde no:
-La distancia respecto de la redacción del artículo procede de describir HECHOS en lugar de
-  reformular la NORMA: «cantidades que no excedan, por transacción, de una tonelada» pasa a ser «800
-  kg en un solo envío»; «basándose exclusivamente en los criterios indicados en el anuncio de
-  concurso» pasa a ser «criterios que no figuraban en el anuncio de concurso»; «facturas no
-  cubiertas por anteriores solicitudes de devolución» pasa a ser «dos facturas que quedaron fuera de
-  la solicitud anterior». NO crees distancia sustituyendo términos jurídicos técnicos: «productor»
-  no es «fabricante», «introducción en el mercado» no es «comercialización» ni «venta», «sujeto
-  pasivo» no es «empresario o profesional» ni «contribuyente», «participación cualificada» no es
-  «participación significativa» —el término del Derecho español interno— y no tiene sinónimo en el
-  Derecho de la UE. Un término técnico sustituido cambia la norma sobre la que versa la pregunta.
-  Conserva los términos técnicos, los nombres de instituciones y los nombres de programas
-  exactamente como los emplea la norma; describe todo lo demás en lenguaje empresarial corriente.
-
-VOZ: tercera persona, un profesional que describe un caso — «Una editorial finlandesa …», «Un
-  importador …», «Un organismo pagador …». No la queja de un ciudadano («mi casero …»), no una
-  pregunta de examen («Analiza si …»), no una pregunta centrada en el documento («¿Qué dice el
-  reglamento sobre …?»), no una fórmula hueca («¿Qué debe tenerse en cuenta al …?»).
-
-CLÁUSULAS DE ESTILO — NO PREGUNTES SOBRE ELLAS: las cláusulas de transposición («Member States shall
-  adopt and publish ... the laws, regulations and administrative provisions necessary to comply with
-  this Directive»), las cláusulas de fecha de aplicación y de entrada en vigor, las cláusulas de
-  destinatarios, las cláusulas de «binding in its entirety and directly applicable», las cláusulas
-  de derogación que se limitan a nombrar el acto derogado, las cláusulas de procedimiento de comité
-  que se limitan a nombrar el procedimiento y las cláusulas de percepción definitiva de los
-  reglamentos antidumping. Las cláusulas de estilo institucionales también son cláusulas de estilo:
-  las cláusulas de revisión y de informe de la Comisión («the Commission shall submit a report ...
-  accompanied, if necessary, by appropriate proposals or recommendations»), las cláusulas de informe
-  anual de ejecución de los instrumentos de financiación, las cláusulas de evaluación de las
-  agencias («within three years ... and every five years thereafter, the Management Board shall
-  commission an independent external evaluation»), las cláusulas de protección de los intereses
-  financieros y de acceso a efectos de auditoría (Comisión, Tribunal de Cuentas, OLAF), las
-  cláusulas de ejercicio de la delegación, las cláusulas de sanciones que se limitan a exigir que
-  las sanciones sean «effective, proportionate and dissuasive» y las cláusulas de protección de
-  datos que se limitan a remitir a los actos generales de protección de datos. Ningún supuesto de
-  hecho materializa ninguna de ellas, y son idénticas en cientos de actos. Si el artículo objetivo
-  consiste únicamente en ese tipo de texto, devuelve una omisión (véase SALIDA). Si contiene una
-  cláusula de ese tipo junto a normas sustantivas, pregunta solo por las normas sustantivas.
-
-Genera hasta TRES pares pregunta-respuesta. Cada uno debe describir una situación distinta, girar en
-  torno a un hecho distinto y superar todas las pruebas anteriores. Toda pregunta debe versar sobre
-  el ARTÍCULO OBJETIVO.
-REGLAS FUNDAMENTALES:
-- Foco único: Cada pregunta plantea exactamente UNA cosa sobre la situación. Nunca combines varias
-  solicitudes (p. ej., no preguntes si algo está permitido y cuál es la sanción en la misma
-  pregunta).
-- El artículo objetivo debe aportar el hecho operativo: La pregunta debe girar en torno a lo que el
-  propio ARTÍCULO OBJETIVO establece — su obligación, prohibición, condición, plazo, umbral o
-  procedimiento. Un artículo referenciado solo puede COMPLETAR ese hecho: nombrar los elementos de
-  una lista a la que el objetivo remite, definir un término que el objetivo emplea o aportar un
-  valor al que el objetivo se remite. El artículo referenciado nunca es el objeto. Esto se aplica
-  igualmente a los artículos de otros actos.
-- LA PRUEBA DEL ARTÍCULO ÚNICO (aplícala a cada candidata antes de conservarla): ¿podría un lector
-  responder por completo a esta pregunta leyendo ÚNICAMENTE el artículo referenciado, sin haber
-  visto nunca el artículo objetivo? Si la respuesta es SÍ, la pregunta pertenece a ese artículo
-  referenciado y no a este — DESCÁRTALA. No basta con que el artículo objetivo mencione el tema o
-  remita a él. Este es, con diferencia, el fallo más frecuente en esta tarea: en una ejecución de
-  producción, TODAS las preguntas multiartículo generadas suspendieron esta prueba.
-- Las referencias cruzadas resueltas están permitidas y son deseables: El artículo objetivo puede
-  decir «en las condiciones establecidas en el Article 9» o «los controles previstos en el Article 5
-  of Regulation (EC) No 21/2004». Cuando ese artículo citado se facilita — en el bloque REFERENCED
-  ARTICLES, en el bloque REFERENCED ARTICLES FROM OTHER ACTS o en el bloque REFERENCED ANNEXES —
-  PUEDES seguir la remisión y utilizar su contenido para completar la respuesta. Si la sustancia de
-  la respuesta reside detrás de una cita que NO se ha facilitado, descarta la pregunta.
-- Respaldo directo y completo: La respuesta debe ser un segmento contiguo del texto facilitado — el
-  artículo objetivo, o un artículo referenciado facilitado al que ha llevado la cita del objetivo —
-  que rija la situación tal como se describe. Sin inferencia más allá de seguir una remisión
-  explícita, y sin conocimiento externo. La PREGUNTA puede emplear vocabulario profesional y datos
-  concretos inventados; la RESPUESTA no.
-- Declara lo que has usado: Para cada par, indica qué artículos son necesarios para responderlo en
-  el campo "articles_involved". Véase DECLARACIÓN DE ARTÍCULOS IMPLICADOS más abajo. Este campo se
-  evalúa; equivocarse en él es tan grave como dar una respuesta incorrecta.
-- Fidelidad numérica y de citas: En la RESPUESTA, reproduce todos los números, fechas, duraciones,
-  importes monetarios, porcentajes e identificadores oficiales exactamente como aparecen en la
-  fuente (p. ej., «100 000 EUR», no «€100,000»; «90 days», nunca «tres meses»). En la PREGUNTA, los
-  datos concretos son cosa tuya — pero un dato concreto que materialice un umbral debe situarse en
-  el lado correcto de este.
-- Diversidad: Las preguntas deben girar en torno a hechos distintos Y abarcar al menos dos de las
-  ocho categorías listadas en QUÉ PREGUNTAR.
-- Intenta parafrasear. No repitas todos y cada uno de los elementos y palabras que aparecen en el
-  texto. Pero no parafrasees de forma que cambie el significado: al tratarse de un texto jurídico,
-  algunas palabras son muy sensibles.
-DECLARACIÓN DE ARTÍCULOS IMPLICADOS:
-"articles_involved" es una lista de los números de artículo que un lector necesita realmente para producir la respuesta.
-- Si toda la respuesta está enunciada en el artículo objetivo, la lista es solo el artículo
-  objetivo.
-- Si parte de la respuesta procede de un artículo referenciado que has seguido, enumera el artículo
-  objetivo Y ese artículo referenciado.
-- Enumera solo los artículos que hayas utilizado realmente. No incluyas un artículo por el mero
-  hecho de que el artículo objetivo lo mencione, si su contenido no ha intervenido en la respuesta.
-- Usa los números escuetos tal como aparecen en el texto, p. ej. ["6"] o ["1", "6"]. Incluye los
-  sufijos cuando existan, p. ej. ["7a"]. Un número escueto designa SIEMPRE un artículo del acto
-  propio del objetivo.
-- Para un artículo DE OTRO ACTO, usa exactamente la clave «Cite as» impresa en su bloque, p. ej.
-  ["4", "32004R0021:5"]. Nunca escribas un número escueto para un artículo de otro acto.
-- Para un ANEXO — del acto propio del objetivo o de otro acto — usa exactamente la clave «Cite as»
-  impresa en su bloque, p. ej. ["4", "32019L0904:anx_1"]. Un anexo nunca se declara con un número
-  escueto.
-- El artículo objetivo está siempre en la lista.
-QUÉ PREGUNTAR:
-Lo que se pregunta sobre la situación pertenece a una de estas ocho categorías (consignada en
-  "question_type"):
-  1. Ámbito y aplicabilidad: si la situación está cubierta, exenta o excluida; primacía sobre otros
-    instrumentos; etc.
-  2. Obligaciones, prohibiciones y autorizaciones: si la conducta descrita es exigida, prohibida o
-    permitida, y para quién; etc.
-  3. Condiciones y requisitos previos: si los hechos descritos cumplen una condición de una
-    exención, aprobación o autorización; qué debe existir previamente; etc.
-  4. Plazos, fechas y duraciones: el plazo aplicable a la solicitud, al informe o a la decisión de
-    que se trate en la situación descrita; los periodos transitorios para el producto o la práctica
-    descritos; etc. — la norma temporal sustantiva PROPIA del artículo, nunca las fechas de
-    transposición o de entrada en vigor.
-  5. Importes y umbrales: el tipo, el límite máximo, el tope o el porcentaje aplicable a la
-    situación; etc.
-  6. Supervisión del cumplimiento, presentación de informes y verificación: qué debe comunicarse o
-    notificarse, a quién y con qué frecuencia en la situación; etc.
-  7. Ejecución y consecuencias del incumplimiento: qué se deriva del incumplimiento descrito —
-    denegación, suspensión, retirada, sanción, nulidad; etc.
-  8. Definiciones, actores y procedimientos: si lo descrito se considera comprendido en el término
-    definido; qué órgano decide o supervisa; qué procedimiento se aplica; etc.
-Las preguntas sobre finalidad, justificación o efecto son aceptables SOLO cuando el texto facilitado
-  enuncia esa información de forma explícita y completa — no cuando debe inferirse, ni siquiera
-  parcialmente.
+Las primeras palabras de la línea «Act:» son el identificador oficial; el resto enuncia la MATERIA, tu principal fuente para saber a qué régimen debe pertenecer la situación. Los metadatos son contexto, no contenido: nunca tomes de ellos una respuesta y nunca preguntes sobre ellos. Ninguna pregunta contiene el identificador de ningún acto, un número CELEX, una clave «Cite as», un número de artículo, de párrafo o de anexo, ni redacciones deícticas («en virtud del presente Reglamento», «las medidas aquí establecidas»): quien pregunta no ha visto el documento.
+EL SUPUESTO DE HECHO — las reglas que definen este modo:
+1. DATOS CONCRETOS. La pregunta describe un caso concreto con al menos DOS datos concretos que materialicen las CONDICIONES de las que depende la norma del artículo objetivo: quién (el actor, tal como lo caracteriza la norma pero en palabras corrientes: «una editorial finlandesa», «una empresa de abastecimiento de agua que convoca un concurso de proyectos», «un organismo pagador de una región ultraperiférica»), qué (el producto, la actividad, la operación o la omisión) y, cuando la norma dependa de ello, cuánto / cuándo / dónde. Consígnalos en "particulars".
+2. PROTAGONISTA. Un particular, o una autoridad nacional que tramita un expediente (un organismo pagador, una autoridad competente que tramita una solicitud, una oficina de aduanas). Nunca la Comisión, una agencia o un funcionario de la UE, ni un Estado miembro en cuanto legislador: esos no son clientes, y las cláusulas que se les dirigen son cláusulas de estilo institucionales.
+3. DENTRO DEL SUPUESTO. Sitúa cada dato concreto allí donde el artículo lo resuelve: una cantidad por debajo del límite máximo cuando la norma exime lo que queda por debajo de ese límite; el Estado miembro que el artículo nombra; la omisión que el artículo erige en condición. Así, las propias palabras del artículo resuelven el caso y no hace falta inferencia alguna. No construyas nunca un caso cuyo desenlace exija ponderación, negación o un razonamiento que el artículo no enuncia.
+4. CONDICIONES, NUNCA LA CONSECUENCIA. La situación dice qué es el actor y qué ha hecho o ha dejado de hacer; nunca dice qué exige la norma: durante cuánto tiempo, ante quién, en qué forma ni a qué tipo. «Una empresa generadora posee una única central de 250 MW y se le pide que mantenga sus datos horarios a disposición de la autoridad reguladora nacional, de la autoridad nacional de competencia y de la Comisión. ¿Está cubierta por la obligación de conservación de cinco años?» entrega la respuesta a quien pregunta. Pregunta en su lugar: «La única central de una empresa generadora tiene una potencia instalada de 250 MW. ¿Durante cuánto tiempo debe la empresa mantener a disposición de las autoridades reguladoras los datos horarios de generación de la central?» Prueba: suprime del artículo el segmento de respuesta — si la situación no habría podido escribirse a partir de lo que queda, es que contiene la respuesta.
+5. HECHOS PARCIALES, PALABRAS CORRIENTES, TÉRMINOS EXACTOS. Un cliente presenta dos o tres hechos, nunca la enumeración completa del artículo: cuando el artículo enumera cinco productos o cuatro condiciones, la situación nombra uno o dos («platos y pajitas de plástico», no los cinco elementos). Describe los hechos en lenguaje empresarial corriente, a distancia de la redacción del artículo («800 kg en un solo envío» en lugar de «cantidades que no excedan, por transacción, de una tonelada»; «criterios que no figuraban en el anuncio de concurso» en lugar de «basándose exclusivamente en los criterios indicados en el anuncio de concurso»). Conserva exactamente los términos jurídicos técnicos y los nombres de instituciones y de programas: «productor» no es «fabricante», «introducción en el mercado» no es «venta», «sujeto pasivo» no es «empresa», «participación cualificada» no tiene sinónimo; un término sustituido cambia la norma. El texto jurídico es sensible a las palabras exactas: cuando dudes de si una palabra es determinante, consérvala.
+6. VOZ Y PREGUNTA. Tercera persona, un profesional que describe un caso — nunca «mi casero …», «analiza si …», «¿qué dice el reglamento sobre …?» ni una fórmula hueca («¿qué debe tenerse en cuenta al …?»). Una sola cosa preguntada en cada pregunta: si está permitido / es obligatorio / está cubierto; qué debe hacer el actor; qué tipo, umbral o plazo se aplica; cuál es la consecuencia; qué órgano decide. La forma por defecto es la pregunta de sí o no; la respuesta es siempre el segmento que resuelve la pregunta, nunca la palabra «sí» ni «no».
+LA PRUEBA DEL ACTO HERMANO: la legislación de la UE repite las mismas disposiciones en actos hermanos, así que los datos concretos deben fijar el régimen. «Un gestor de activos» encaja en los regímenes UCITS, AIFMD y MiFID; «una sociedad de gestión de UCITS» encaja en uno solo. «Un comprador público que convoca un concurso de proyectos» encaja en la directiva de contratación pública clásica y en la de los sectores especiales; «una empresa de abastecimiento de agua» encaja en una sola. «Una empresa que importa mercancías sujetas a un derecho antidumping» encaja en todos los reglamentos antidumping; «alambrón originario de China» encaja en uno solo, y los reglamentos de base antidumping y antisubvenciones comparten artículos procedimentales idénticos, así que indica de qué procedimiento se trata. «Un organismo pagador que selecciona explotaciones para los controles sobre el terreno» encaja en las normas generales de control de la PAC; «de una región ultraperiférica» encaja en las normas de las regiones ultraperiféricas. ¿Estaría esta situación regida igual de bien por un acto distinto? Añade el dato concreto que fija el régimen, o descártala.
+LA PRUEBA DEL ARTÍCULO ÚNICO: la pregunta debe girar en torno a lo que establece el ARTÍCULO OBJETIVO — su obligación, prohibición, condición, plazo, umbral o procedimiento. Un artículo referenciado solo puede COMPLETAR la respuesta: nombrar los elementos de una lista a la que el objetivo remite, definir un término que el objetivo emplea o aportar un valor al que el objetivo se remite. Antes de conservar una pregunta, pregúntate: ¿podría un lector responderla por completo a partir de un artículo referenciado por sí solo, sin haber visto nunca el artículo objetivo? Si la respuesta es sí, la pregunta pertenece a ese artículo — descártala. Este es el fallo más frecuente en esta tarea: en una ejecución de producción, todas las preguntas multiartículo suspendieron esta prueba. Si la sustancia de la respuesta reside detrás de una cita que NO se ha facilitado, descártala.
+RESPALDO: la respuesta es un segmento contiguo del texto facilitado — el artículo objetivo, o un artículo referenciado facilitado al que ha llevado la cita del objetivo — que rige la situación tal como se describe. Sin inferencia más allá de seguir una remisión explícita y sin conocimiento externo. Los datos concretos inventados están permitidos en la pregunta, nunca en la respuesta, y un dato concreto que materialice un umbral debe situarse en el lado correcto de este.
+CLÁUSULAS DE ESTILO — OMÍTELAS: las cláusulas de transposición, de fecha de aplicación, de entrada en vigor, de destinatarios, de «obligatorio en todos sus elementos», de derogación, de procedimiento de comité y de percepción definitiva; y las cláusulas institucionales: las cláusulas de revisión e informe de la Comisión, los informes anuales de ejecución de los instrumentos de financiación, las cláusulas de evaluación de las agencias, las cláusulas de protección de los intereses financieros y de acceso a efectos de auditoría (Comisión, Tribunal de Cuentas, OLAF), las cláusulas de ejercicio de la delegación, las cláusulas de sanciones que se limitan a exigir sanciones «efectivas, proporcionadas y disuasorias» y las remisiones a la normativa de protección de datos. Ningún supuesto de hecho las materializa y son idénticas en cientos de actos. Si el artículo objetivo consiste únicamente en ese tipo de texto, devuelve la omisión; si contiene una cláusula de ese tipo junto a normas sustantivas, pregunta por las normas sustantivas.
+QUÉ PREGUNTAR — "question_type", una de estas ocho categorías; si se devuelven dos o tres preguntas, deben cubrir al menos dos categorías:
+  1. scope_or_applicability — si la situación está cubierta, exenta o excluida; primacía sobre otros instrumentos.
+  2. obligation_or_prohibition — si la conducta descrita es exigida, prohibida o permitida, y para quién.
+  3. condition_or_prerequisite — si los hechos cumplen una condición de una exención, aprobación o autorización; qué debe existir previamente.
+  4. deadline_or_duration — la norma temporal sustantiva propia del artículo para la solicitud, el informe, la decisión o la práctica descritos.
+  5. amount_or_threshold — el tipo, el tope, el límite máximo o el porcentaje aplicable.
+  6. monitoring_or_reporting — qué debe comunicarse o notificarse, a quién y con qué frecuencia.
+  7. enforcement_or_consequence — qué se deriva del incumplimiento descrito: denegación, suspensión, retirada, sanción, nulidad.
+  8. definition_actor_or_procedure — si lo descrito se considera comprendido en el término definido; qué órgano decide; qué procedimiento se aplica.
+Preguntas sobre la finalidad o la justificación, solo cuando el texto lo enuncie de forma explícita y completa.
+DECLARACIÓN DE ARTÍCULOS IMPLICADOS — "articles_involved" enumera exactamente las disposiciones que un lector necesita para producir la respuesta; este campo se evalúa, y equivocarse en él cuenta como una respuesta incorrecta:
+- El artículo objetivo está siempre en la lista. Un artículo referenciado se enumera solo si su contenido forma parte de la respuesta, nunca por el mero hecho de que el objetivo lo mencione.
+- Los números escuetos («6», «7a») designan siempre artículos del acto propio del objetivo. Los artículos de otros actos y TODOS los anexos (incluidos los del acto propio del objetivo) se declaran con la clave «Cite as» exacta de su bloque: ["4", "32004R0021:5"], ["4", "32019L0904:anx_1"].
 EJEMPLOS:
-Example 1 — answer wholly inside the target article
+Los siguientes extractos están simplificados con fines ilustrativos; su redacción y numeración de artículos no son citas jurídicas autorizadas.
+Ejemplo 1 — respuesta íntegramente en el artículo objetivo
 ### TARGET ARTICLE
-[EN] Article 8 — Reporting obligations
-  Act: Directive (EU) 2019/904 of the European Parliament and of the Council of 5 June 2019 on the reduction of the impact of certain plastic products on the environment
-"1. Producers shall report to the competent national authority, by 31 March each year, the quantities placed on the market. 2. Reports shall be submitted using the format referred to in Article 12."
+[ES] Artículo 8 — Obligaciones de información
+  Act: Directiva (UE) 2019/904 del Parlamento Europeo y del Consejo, de 5 de junio de 2019, relativa a la reducción del impacto de determinados productos de plástico en el medio ambiente
+"1. Los productores comunicarán a la autoridad nacional competente, a más tardar el 31 de marzo de cada año, las cantidades introducidas en el mercado. 2. Los informes se presentarán utilizando el formato mencionado en el artículo 12."
 ### REFERENCED ARTICLES
-[EN] Article 12 — Implementing powers
-"The Commission shall adopt implementing acts establishing the format for the reports."
-✓ Good: {"question": "A producer placed 40 tonnes of single-use plastic cutlery on the Spanish market last year and has not yet reported the quantity to the Spanish authority. By when must it do so?", "answer": "by 31 March each year", "question_type": "deadline_or_duration", "particulars": ["producer of single-use plastic cutlery", "40 tonnes placed on the Spanish market last year", "not yet reported"], "articles_involved": ["8"]}
-  → Two particulars fix the regime (single-use plastic) and the conduct (placing on the market, not
-    yet reported); the article's own deadline answers the question. Article 12 was supplied and is
-    cited, but its content played no part in the answer, so it is NOT listed.
-✗ Bad (no particulars): "A company subject to the plastics rules wants to know its reporting
-  deadline." → no actor, no product, no conduct; this is a slot with a costume on.
-✗ Bad (term substituted): "A manufacturer that sold 40 tonnes of throwaway plastic forks last year …
-  " → "sold" is not "placed on the market" and "manufacturer" is not "producer"; the question now
-  describes a different rule.
-Example 2 — answer completed by a referenced article
+[ES] Artículo 12 — Competencias de ejecución
+"La Comisión adoptará actos de ejecución que establezcan el formato de los informes."
+✓ {"question": "Un productor introdujo en el mercado español 40 toneladas de cubiertos de plástico de un solo uso el año pasado y todavía no ha comunicado la cantidad a la autoridad española. ¿Cuál es el plazo para hacerlo?", "answer": "a más tardar el 31 de marzo de cada año", "question_type": "deadline_or_duration", "particulars": ["productor", "introdujo en el mercado español 40 toneladas de cubiertos de plástico de un solo uso el año pasado", "todavía no ha comunicado la cantidad"], "articles_involved": ["8"]}
+  → Los datos concretos fijan el régimen (plásticos de un solo uso) y la conducta; el propio plazo del artículo responde a la pregunta. Se cita el artículo 12, pero no aporta nada, por lo que no se incluye.
+✗ «Una empresa sujeta a las normas sobre plásticos quiere saber su plazo de comunicación.» → Sin actor, producto ni conducta: una fórmula hueca disfrazada.
+✗ «Un fabricante que vendió 40 toneladas de tenedores de plástico desechables el año pasado …» → «Vendió» no es «introdujo en el mercado» y «fabricante» no es «productor»; la pregunta ahora describe otra norma.
+✗ «Un productor de cubiertos de plástico de un solo uso está preparando su informe anual. ¿Qué formato debe utilizar?» → El formato se encuentra en un acto de ejecución no facilitado. Descarta la pregunta.
+Ejemplo 2 — respuesta completada por un artículo referenciado
 ### TARGET ARTICLE
-[EN] Article 4 — Placing on the market
-  Act: Directive (EU) 2019/904 (as above)
-"Member States shall prohibit the placing on the market of the single-use plastic articles listed in Article 3 from 3 July 2026."
+[ES] Artículo 4 — Introducción en el mercado (Act: Directiva (UE) 2019/904, como arriba)
+"Los Estados miembros prohibirán la introducción en el mercado de los artículos de plástico de un solo uso enumerados en el artículo 3 a partir del 3 de julio de 2026."
 ### REFERENCED ARTICLES
-[EN] Article 3 — Covered products
-"This Directive applies to cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic."
-✓ Good: {"question": "A retailer in Spain intends to keep placing plates and straws on the market. Which of these products fall under the EU ban?", "answer": "cotton bud sticks, cutlery, plates, straws and beverage stirrers made of plastic", "question_type": "scope_or_applicability", "particulars": ["retailer in Spain", "plastic cutlery, plates and straws", "placing on the market after 3 July 2026"], "articles_involved": ["3", "4"]}
-  → The prohibition and its date come from the target article; the list of products comes from the
-    referenced article. BOTH are needed, so BOTH are listed. Without the reference block this
-    question would have had to be discarded.
-  → ONE-ARTICLE TEST: could Article 3 alone answer this? NO — Article 3 lists the products but never
-    says they are banned, nor from when. The prohibition and the date are the TARGET's own operative
-    fact; the reference only names the members of the list it points to.
-As you can see in the question, I didn't count every single item and only mentioned 2 of them.
-  Stating the question in a way that it copy paste everything word by word, make the retrieval super
-  easy and is not the case for real world scenario. Parahrasing is also welcome.
-Example 3 — the failure modes
-✗ Bad (wrong subject): "A Spanish retailer sells plastic tableware. Which products does the
-  single-use plastics directive cover?" → That is a question about Article 3, the referenced
-  article, not about the target's prohibition. Discard.
-✗ Bad (under-declared): the products question above with "articles_involved": ["4"] → The product
-  list came from Article 3. Failing to declare it is a scoring error even though the answer is
-  correct.
-✗ Bad (over-declared): {"question": "A Spanish retailer still has stock of the single-use plastic items covered by the EU ban. From what date can it no longer place them on the market?", "answer": "from 3 July 2026", "articles_involved": ["3", "4"]}
-  → The date is entirely in Article 4. Article 3 contributed nothing to this answer. Do not list it.
-✗ Bad (unsupplied reference): "A producer of single-use plastic cutlery is preparing its annual
-  report. Which format must it use?" → Article 12 says the Commission will adopt implementing acts
-  establishing the format, but the format itself is in no supplied article. Discard.
-✗ Bad (identifier in question): "A Spanish retailer sells plastic straws. Does Article 4 of
-  Directive (EU) 2019/904 apply to it?" → No identifiers of any act, and no article numbers, in a
-  question in this mode.
-✗ Bad (outcome needs inference): "A company imports 1.2 tonnes of uranium ore in one shipment. Is it
-  exempt from the Euratom supply chapter?" → The article states the ceiling of the exemption, not
-  the treatment of what exceeds it; the answer would be a verdict you derive, not a span. Put the
-  quantity inside the exempt range and ask whether the shipment is exempt.
-Example 4 — REAL off-target failures from a production run. Every multi-article question generated
-  failed the one-article test in exactly this way. Study them.
-(a) TARGET Article 5 (UCITS Directive): "No UCITS shall pursue activities as such unless it has been
-  authorised … A common fund shall be authorised only if the competent authorities of its home
-  Member State have approved the application of the management company to manage that common fund."
-    REFERENCED Article 20: "a management company which applies to manage a UCITS established in
-      another Member State shall provide the competent authorities of the UCITS home Member State
-      with the following documentation: (a) the written agreement with the depositary …; (b)
-      information on delegation arrangements …"
-✗ Bad (off-target): "A management company in Luxembourg is applying to manage a UCITS established in
-  Ireland. What documentation must it give the Irish regulator?"
-  → Article 20 alone answers this completely, so the one-article test FAILS. The target's
-    authorisation rule contributed nothing the question turns on. Discard.
-  ✓ Instead: {"question": "A common fund is being set up in Ireland, and the Irish authorities have not yet approved the management company's application to manage it. Can the fund be authorised as a UCITS?", "answer": "A common fund shall be authorised only if the competent authorities of its home Member State have approved the application of the management company to manage that common fund.", "question_type": "condition_or_prerequisite", "particulars": ["common fund being set up in Ireland", "management company's application to manage it not yet approved", "authorisation as a UCITS"], "articles_involved": ["5"]}
-(b) TARGET Article 12 (EU rules on the export and import of dangerous chemicals): "The Commission
-  shall, in accordance with the advisory procedure referred to in Article 24(2), take an import
-  decision …"
-    REFERENCED Article 24: "Where reference is made to this paragraph, Article 3 and Article 7 of
-      Decision 1999/468/EC shall apply …"
-✗ Bad (off-target): "The Commission is taking an import decision on a hazardous chemical. Which
-  provisions of Decision 1999/468/EC apply to the advisory procedure?" → Answerable from Article 24
-  alone. Discard.
-  ✓ Instead: {"question": "The Commission has to decide whether the Union will accept future imports of a chemical listed under the EU rules on the export and import of dangerous chemicals. Which procedure does it follow?", "answer": "in accordance with the advisory procedure referred to in Article 24(2)", "question_type": "definition_actor_or_procedure", "particulars": ["Commission import decision", "chemical listed under the dangerous-chemicals export and import rules"], "articles_involved": ["12"]}
-(c) TARGET Article 23 (Dublin rules): sets a three-month deadline for a take back request where the
-  evidence is not a Eurodac hit.
-    REFERENCED Article 20(2): defines when an application for international protection is deemed
-      lodged.
-✗ Bad (off-target): "An asylum seeker handed a written application to the Austrian authorities on 3
-  May. When is the application treated as lodged?" → That is Article 20(2)'s definition alone.
-  Discard.
-  ✓ Good (legitimately multi-article): "Germany wants Austria to take back an applicant for
-    international protection, but its only evidence is not a Eurodac hit. How long does Germany have
-    to make the take back request?" — answer: the three-month time limit as worded in the target
-    article; question_type deadline_or_duration; particulars
-    ["take back request from one Member State to another", "evidence is not a Eurodac hit"];
-    articles_involved ["23", "20"].
-  → The deadline is the TARGET's own rule; Article 20(2) only fixes when the clock starts, so it
-    completes the answer without being its subject.
-The (c) contrast is the shape to aim for: the target supplies the rule, the reference supplies a
-  detail the rule depends on.
-Example 5 — an article of ANOTHER act completes the answer
+[ES] Artículo 3 — Productos cubiertos
+"La presente Directiva se aplica a los bastoncillos de algodón, cubiertos, platos, pajitas y agitadores de bebidas hechos de plástico."
+✓ {"question": "En agosto de 2026, un minorista en España tiene intención de seguir introduciendo platos y pajitas de plástico en el mercado. ¿Figuran entre los productos de plástico de un solo uso que la UE ha prohibido?", "answer": "bastoncillos de algodón, cubiertos, platos, pajitas y agitadores de bebidas hechos de plástico", "question_type": "scope_or_applicability", "particulars": ["agosto de 2026", "minorista en España", "seguir introduciendo platos y pajitas de plástico en el mercado"], "articles_involved": ["3", "4"]}
+  → La prohibición es la norma propia del artículo objetivo; la lista de productos procede del artículo 3, por lo que se declaran ambos. La situación nombra dos de los cinco productos, no la lista entera: una pregunta que copia la enumeración del artículo recupera el texto por coincidencia de palabras y no describe a ningún cliente real.
+    PRUEBA DEL ARTÍCULO ÚNICO: el artículo 3 enumera productos pero nunca dice que estén prohibidos; la prohibición es el hecho normativo del objetivo.
+✗ «Un minorista español vende vajilla de plástico. ¿Qué productos cubre la directiva sobre plásticos de un solo uso?» → Es una pregunta sobre el artículo 3; descártala.
+✗ {"question": "Un minorista español todavía tiene existencias de los artículos de plástico de un solo uso cubiertos por la prohibición de la UE. ¿A partir de qué fecha ya no puede introducirlos en el mercado?", "answer": "a partir del 3 de julio de 2026", "articles_involved": ["3", "4"]}
+  → Declaración excesiva: la fecha está íntegramente en el artículo 4.
+Ejemplo 3 — un artículo de OTRO acto completa la respuesta
 ### TARGET ARTICLE
-[EN] Article 2 — Payment of the aid
-  Act: Commission Regulation (EC) No 796/2004 laying down detailed rules for the aid to sheep and goat holdings …
-"The aid shall be paid only after the checks provided for in Article 5 of Council Regulation (EC) No 21/2004 have been carried out."
+[ES] Artículo 2 — Pago de la ayuda
+  Act: Reglamento (CE) nº 796/2004 de la Comisión por el que se establecen disposiciones de aplicación de la ayuda a las explotaciones de ovinos y caprinos …
+"La ayuda solo se abonará después de que se hayan efectuado los controles previstos en el artículo 5 del Reglamento (CE) nº 21/2004 del Consejo."
 ### REFERENCED ARTICLES FROM OTHER ACTS
-[EN] Article 5 — Checks
-  Act: Council Regulation (EC) No 21/2004 establishing a system for the identification and registration of ovine and caprine animals …
-  Cite as: 32004R0021:5
-"Member States shall carry out on-the-spot checks covering at least 3 % of holdings each year."
-✓ Good: {"question": "A sheep farmer in Ireland has been told that this year's aid for sheep and goat holdings will not be paid until inspections are finished. Which checks have to be completed first?", "answer": "the on-the-spot checks covering at least 3 % of holdings each year provided for in Article 5 of Council Regulation (EC) No 21/2004", "question_type": "condition_or_prerequisite", "particulars": ["sheep farmer in Ireland", "aid for sheep and goat holdings withheld pending inspections"], "articles_involved": ["2", "32004R0021:5"]}
-  → The payment condition is the TARGET's own rule; the other act's article only says what the
-    checks are. Both are needed, and the other act's article is declared by its "Cite as" key, never
-    by a bare "5". The identifier appears in the answer because the source text states it; none
-    appears in the question.
-✗ Bad (off-target): "An Irish paying agency is planning this year's livestock inspections. What
-  share of sheep and goat holdings must it check on the spot?" → Article 5 of the other Regulation
-  alone answers this. It would retrieve that Regulation, not the target. Discard.
-Example 6 — REAL production questions from a run on EUR-Lex, repaired into fact patterns. Each
-  generated question was grounded and precise, and none was a situation anyone would describe.
-(a) TARGET Article 111 of the VAT Directive: "Subject to the conditions laid down in the second
-  paragraph of Article 110, exemptions with deductibility of the VAT paid at the preceding stage may
-  continue to be granted in the following cases: (a) by Finland in respect of the supply of
-  newspapers and periodicals sold by subscription and the printing of publications distributed to
-  the members of corporations for the public good; (b) by Sweden …"
-✗ Generated: "Which Finnish supplies may continue to benefit from VAT exemptions with
-  deductibility?" → a slot, not a situation.
-✓ {"question": "A Finnish publisher sells periodicals to readers by subscription. Can Finland continue to exempt these supplies from VAT while allowing the publisher to deduct input VAT?", "answer": "by Finland in respect of the supply of newspapers and periodicals sold by subscription", "question_type": "scope_or_applicability", "particulars": ["Finnish publisher", "periodicals sold by subscription", "exemption with deduction of input VAT"], "articles_involved": ["111"]}
-  → "Finland" and "sold by subscription" are the article's own conditions, instantiated. A question
-    turning on the Article 110 conditions (social reasons, benefit of the final consumer) would need
-    ["111", "110"].
-(b) TARGET Article 1 of the Euratom regulation exempting small quantities of ores, source materials
-  and special fissile materials from the Treaty's chapter on supplies: "(a) transfers within and
-  imports into the Community of quantities not exceeding, per transaction a dosage of one tonne of
-  uranium and thorium (or uranium or thorium), within a limit of five tonnes per year per user in
-  respect of each of these materials; …"
-✗ Generated: "How much uranium or thorium may be moved inside the Community, or brought into it, in
-  a single deal before the exemption no longer applies?" → a paraphrased slot ("single deal"); no
-  situation.
-✓ {"question": "A company imports 800 kg of uranium ore into the Union in a single shipment and expects to import about four tonnes in total this year. Is the shipment exempt from the Euratom Treaty's chapter on supplies?", "answer": "transfers within and imports into the Community of quantities not exceeding, per transaction a dosage of one tonne of uranium and thorium (or uranium or thorium), within a limit of five tonnes per year per user in respect of each of these materials", "question_type": "scope_or_applicability", "particulars": ["800 kg of uranium ore", "single shipment", "about four tonnes per year"], "articles_involved": ["1"]}
-  → Both thresholds are instantiated on the inside (800 kg under one tonne per transaction; four
-    tonnes under five per year), so the span decides the case without inference.
-(c) TARGET Article 24 of the implementing regulation on specific measures for agriculture in the
-  outermost regions — Selection of aid applicants for on-the-spot checks: "… To provide the element
-  of representativeness, Member States shall randomly select between 20 and 25 % of the minimum
-  number of aid applicants to be subjected to on-the-spot checks."
-✗ Generated: "What share of the minimum number of aid applicants must Member States randomly select
-  to ensure representativeness?" → the same rule exists in the general CAP control regulation;
-  nothing fixes the regime, and there is no situation.
-✓ {"question": "A paying agency in an outermost region of the Union selects the aid applicants for on-the-spot checks purely on the basis of a risk analysis, with no random element. Is that permitted?", "answer": "To provide the element of representativeness, Member States shall randomly select between 20 and 25 % of the minimum number of aid applicants to be subjected to on-the-spot checks.", "question_type": "obligation_or_prohibition", "particulars": ["paying agency in an outermost region", "selection purely by risk analysis", "no random element"], "articles_involved": ["24"]}
-(d) TARGET Article 98 of the utilities procurement directive — Decisions of the jury: "The jury
-  shall examine the plans and projects submitted by the candidates anonymously and solely on the
-  basis of the criteria indicated in the contest notice."
-✗ Generated: "On what basis must the jury assess the submitted plans and projects?" → the same rule
-  stands in the classic procurement directive; "the jury" resolves nothing.
-✓ {"question": "A water utility is holding a design contest for a new treatment plant, and the jury wants to rank the entries partly on criteria that were not in the contest notice. Is that allowed?", "answer": "The jury shall examine the plans and projects submitted by the candidates anonymously and solely on the basis of the criteria indicated in the contest notice.", "question_type": "obligation_or_prohibition", "particulars": ["water utility", "design contest", "criteria not in the contest notice"], "articles_involved": ["98"]}
-✗ Sibling failure: "A contracting authority holding a design contest wants to …" → fits the classic
-  directive equally well. "Water utility" is what fixes the utilities regime.
-(e) TARGET Article 14 of the directive on VAT refunds to taxable persons established in another
-  Member State: "2. In addition to the transactions referred to in paragraph 1, the refund
-  application may relate to invoices or import documents not covered by previous refund applications
-  and concerning transactions completed during the calendar year in question."
-✗ Generated: "When may a refund claim also cover invoices or import documents that were not used in
-  earlier refund claims?" → the answer restates the question.
-✓ {"question": "A German company's VAT refund application to Italy for the second quarter left out two invoices from the first quarter of the same year. Can it include them in a later refund application for that year?", "answer": "the refund application may relate to invoices or import documents not covered by previous refund applications and concerning transactions completed during the calendar year in question", "question_type": "condition_or_prerequisite", "particulars": ["German company applying for a VAT refund in Italy", "invoices from an earlier quarter of the same calendar year", "left out of the earlier application"], "articles_involved": ["14"]}
-(f) TARGET Article 22 of the Tobacco Products Directive — Reporting of ingredients of herbal
-  products for smoking: "2. Member States shall ensure that the information submitted in accordance
-  with paragraph 1 is made publicly available on a website. The Member States shall take the need to
-  protect trade secrets duly into account when making that information publicly available. Economic
-  operators shall specify exactly which information they consider to constitute a trade secret."
-✗ Generated: "How must Member States make the submitted information available to the public, while
-  dealing with confidential business information?" → "the submitted information" presupposes the
-  article, and two facts are bundled.
-✓ {"question": "An importer of herbal products for smoking has submitted its ingredient list to the national authority and wants part of it kept off the authority's public website as a trade secret. What does it have to do?", "answer": "Economic operators shall specify exactly which information they consider to constitute a trade secret.", "question_type": "obligation_or_prohibition", "particulars": ["importer of herbal products for smoking", "ingredient list submitted to the national authority", "wants part of it treated as a trade secret"], "articles_involved": ["22"]}
-(g) TARGET Article 8 of the UCITS Directive: "The competent authorities shall not grant
-  authorisation to take up the business of management companies until they have been informed of the
-  identities of the shareholders or members, whether direct or indirect, natural or legal persons,
-  that have qualifying holdings and of the amounts of those holdings."
-✗ Generated: "What shareholder or member information must be known before authorisation is granted
-  to a management company?" → no situation; "management company" alone fits the AIFMD and MiFID
-  regimes.
-✓ {"question": "A company applying for authorisation as a UCITS management company has told the regulator who its direct shareholders are but not who holds qualifying holdings in it indirectly. Can the authorisation be granted?", "answer": "The competent authorities shall not grant authorisation to take up the business of management companies until they have been informed of the identities of the shareholders or members, whether direct or indirect, natural or legal persons, that have qualifying holdings and of the amounts of those holdings.", "question_type": "condition_or_prerequisite", "particulars": ["applicant for authorisation as a UCITS management company", "indirect qualifying holdings not disclosed"], "articles_involved": ["8"]}
-(h) INSTITUTIONAL PROTAGONIST + CONSEQUENCE RESTATED. TARGET Article 51 of the fourth
-  Anti-Money-Laundering Directive: "The Commission may lend such assistance as may be needed to
-  facilitate coordination, including the exchange of information between FIUs within the Union."
-✗ Generated: "A Commission official is asked to help two FIUs from different Member States
-  coordinate a cross-border case and exchange information within the Union. May the Commission lend
-  that assistance?" → the protagonist is the Commission, and the situation restates the rule's
-  consequence ("coordinate ... and exchange information"), so the answer adds nothing. The clause
-  has no private-party case; skip it and use another provision of the article, or return
-  [{"skip_reason": "institutional clause only"}].
-(i) CONSEQUENCE RESTATED. TARGET Article 98 of the Basic Safety Standards Directive: "Member States
-  shall ensure that emergency response plans are established in advance for the various types of
-  emergencies identified by an assessment of potential emergency exposure situations."
-✗ Generated: "A Member State has only started drafting emergency response plans after a radiological
-  emergency scenario has already been identified ... Does the law require those plans to be
-  established in advance for the various types of emergencies identified by an assessment of
-  potential emergency exposure situations?" → the question contains the rule verbatim, and a Member
-  State as legislator is not a client. Discard.
-AUTOVERIFICACIÓN para cada pregunta antes de finalizarla:
-- SUPUESTO DE HECHO: ¿describe la pregunta una situación con al menos dos datos concretos (quién,
-  qué, cuánto / cuándo / dónde) que materialicen las condiciones de las que depende la norma del
-  artículo objetivo? ¿Se consignan en "particulars"? ¿Está cada dato concreto dentro del supuesto
-  que el artículo resuelve realmente, de modo que el segmento de respuesta no necesite inferencia
-  alguna?
-- PRUEBA DEL ACTO HERMANO: ¿estaría esta situación regida igual de bien por un acto distinto? Si es
-  así, añade el dato concreto que fija el régimen, o descártala.
-- INFORMATIVIDAD: ¿añade la respuesta algo que la situación no diga ya?
-- TÉRMINOS TÉCNICOS: ¿se conservan exactamente los términos propios de la norma —«introducción en el
-  mercado», nunca «comercialización» ni «venta»; «participación cualificada», nunca «participación
-  significativa»; «sujeto pasivo», nunca «empresario o profesional»— mientras los hechos van en
-  lenguaje empresarial corriente?
-- VOZ: tercera persona, un profesional que describe un caso — nada de «mi», nada de «analiza»,
-  ninguna formulación centrada en el documento, ninguna fórmula hueca.
-- CLÁUSULAS DE ESTILO: ¿es el hecho una cláusula de transposición, de aplicación, de entrada en
-  vigor, de destinatarios, de derogación, de procedimiento de comité o de percepción definitiva, o
-  una cláusula institucional (revisión/informe de la Comisión, evaluación de una agencia, acceso a
-  efectos de auditoría de los intereses financieros, ejercicio de la delegación, sanciones
-  «effective, proportionate and dissuasive»)? Si es así, omítela.
-- PROTAGONISTA: ¿es el actor un particular o una autoridad nacional que tramita un expediente — y no
-  la Comisión, una agencia, un funcionario ni un Estado miembro en cuanto legislador?
-- CONDICIONES, NO CONSECUENCIA: ¿evita la situación enunciar lo que la norma exige (su duración, sus
-  destinatarios, su forma, su umbral)?
-- ¿Evita la pregunta versar sobre los metadatos (título del acto, capítulo) en lugar de sobre la
-  sustancia del artículo?
-- LA PRUEBA DEL ARTÍCULO ÚNICO: ¿podría responderse esto por completo a partir de un artículo
-  referenciado por sí solo? Si es así, descártala — no es una pregunta sobre el artículo objetivo.
-- ¿Es la respuesta un segmento contiguo del texto facilitado — el artículo objetivo, o un artículo
-  referenciado facilitado al que ha llevado la cita del objetivo — que rige la situación tal como se
-  describe?
-- ¿Enumera "articles_involved" exactamente los artículos necesarios, ni más ni menos? ¿Está el
-  artículo objetivo en la lista? ¿Se designan los artículos de otros actos, y todos los anexos, por
-  su clave «Cite as», nunca por un número escueto?
-- ¿Está la pregunta libre de todo identificador de instrumento — el del objetivo y el de cualquier
-  otro acto —, de números CELEX, de claves «Cite as» y de números de artículo, párrafo y anexo?
-- ¿Plantea la pregunta exactamente una cosa sobre la situación?
-- ¿Se reproducen todos los números, fechas, importes, porcentajes e identificadores oficiales de la
-  RESPUESTA exactamente como en la fuente?
-- ¿Describen las preguntas situaciones distintas, giran en torno a hechos distintos y cubren al
-  menos dos categorías de QUÉ PREGUNTAR?
-SALIDA (solo JSON válido, sin markdown):
+[ES] Artículo 5 — Controles   Act: Reglamento (CE) nº 21/2004 del Consejo …   Cite as: 32004R0021:5
+"Los Estados miembros realizarán cada año controles sobre el terreno que cubran al menos el 3 % de las explotaciones."
+✓ {"question": "Un ganadero de ovino en Irlanda ha solicitado la ayuda de este año a las explotaciones de ovinos y caprinos. ¿Qué controles deben completarse antes de poder pagarle la ayuda?", "answer": "cada año controles sobre el terreno que cubran al menos el 3 % de las explotaciones", "question_type": "condition_or_prerequisite", "particulars": ["ganadero de ovino en Irlanda", "ha solicitado la ayuda de este año a las explotaciones de ovinos y caprinos"], "articles_involved": ["2", "32004R0021:5"]}
+  → La condición para el pago es la norma del objetivo; el otro acto solo precisa en qué consisten los controles. La respuesta es un segmento contiguo del artículo referenciado. Se declaran ambos artículos, y el de otro acto se identifica mediante su clave «Cite as»; la pregunta no contiene ningún identificador.
+✗ «Un organismo pagador irlandés está planificando las inspecciones del ganado de este año. ¿Qué proporción de las explotaciones de ovinos y caprinos debe controlar sobre el terreno?» → El artículo 5 del otro reglamento responde por sí solo; la pregunta recuperaría ese reglamento. Descártala.
+Ejemplo 4 — preguntas reales de producción corregidas como supuestos de hecho
+(a) ARTÍCULO OBJETIVO 1 del reglamento Euratom que exime pequeñas cantidades de minerales, materiales básicos y materiales fisionables especiales del capítulo del Tratado sobre el abastecimiento: «(a) las transferencias dentro de la Comunidad y las importaciones en la Comunidad de cantidades que no excedan, por transacción, de una tonelada de uranio y torio (o de uranio o de torio), dentro de un límite de cinco toneladas al año por usuario para cada uno de estos materiales; …»
+✗ Generada: «¿Cuánto uranio o torio puede trasladarse dentro de la Comunidad, o introducirse en ella, en una sola operación antes de que deje de aplicarse la exención?» → Una fórmula hueca parafraseada; ninguna situación.
+✓ {"question": "Una empresa importa a la Unión un único envío de mineral de uranio que contiene 800 kg de uranio y prevé importar en total unas cuatro toneladas de uranio este año. ¿Está el envío exento del capítulo del Tratado Euratom sobre el abastecimiento?", "answer": "las transferencias dentro de la Comunidad y las importaciones en la Comunidad de cantidades que no excedan, por transacción, de una tonelada de uranio y torio (o de uranio o de torio), dentro de un límite de cinco toneladas al año por usuario para cada uno de estos materiales", "question_type": "scope_or_applicability", "particulars": ["un único envío", "800 kg de uranio", "unas cuatro toneladas de uranio este año"], "articles_involved": ["1"]}
+  → Ambos umbrales se concretan dentro del intervalo, por lo que el segmento resuelve el caso sin inferencias. Con 1,2 toneladas en un único envío, el resultado sería un veredicto que deduces, no un segmento: descarta ese caso.
+(b) ARTÍCULO OBJETIVO 98 de la directiva de contratación de los sectores especiales — Decisiones del jurado: «El jurado examinará los planos y proyectos presentados por los candidatos de forma anónima y basándose exclusivamente en los criterios indicados en el anuncio de concurso.»
+✗ Generada: «¿Sobre qué base debe evaluar el jurado los planos y proyectos presentados?» → La misma norma figura en la directiva clásica de contratación pública; «el jurado» no distingue nada.
+✓ {"question": "Una empresa de abastecimiento de agua organiza un concurso de proyectos para una nueva planta de tratamiento, y el jurado quiere clasificar las propuestas en parte según criterios que no figuraban en el anuncio de concurso. ¿Está permitido?", "answer": "basándose exclusivamente en los criterios indicados en el anuncio de concurso", "question_type": "obligation_or_prohibition", "particulars": ["empresa de abastecimiento de agua", "concurso de proyectos", "criterios que no figuraban en el anuncio de concurso"], "articles_involved": ["98"]}
+✗ «Un poder adjudicador que organiza un concurso de proyectos quiere …» → Encaja igualmente en la directiva clásica; «empresa de abastecimiento de agua» fija el régimen.
+(c) ARTÍCULO OBJETIVO 24 del reglamento de ejecución sobre la agricultura en las regiones ultraperiféricas: «… Para garantizar la representatividad, los Estados miembros seleccionarán aleatoriamente entre el 20 y el 25 % del número mínimo de solicitantes de ayuda que deban someterse a controles sobre el terreno.»
+✗ Generada: «¿Qué proporción del número mínimo de solicitantes de ayuda deben seleccionar aleatoriamente los Estados miembros para garantizar la representatividad?» → La misma norma existe en el reglamento general de control de la PAC; ninguna situación.
+✓ {"question": "Un organismo pagador de una región ultraperiférica de la Unión selecciona a los solicitantes de ayuda para los controles sobre el terreno basándose únicamente en un análisis de riesgos, sin ningún elemento aleatorio. ¿Está permitido?", "answer": "los Estados miembros seleccionarán aleatoriamente entre el 20 y el 25 % del número mínimo de solicitantes de ayuda que deban someterse a controles sobre el terreno.", "question_type": "obligation_or_prohibition", "particulars": ["organismo pagador de una región ultraperiférica", "basándose únicamente en un análisis de riesgos", "sin ningún elemento aleatorio"], "articles_involved": ["24"]}
+(d) ARTÍCULO OBJETIVO 111 de la Directiva del IVA: «Siempre que se cumplan las condiciones establecidas en el párrafo segundo del artículo 110, podrán seguir concediéndose exenciones con derecho a deducción del IVA pagado en la fase anterior en los siguientes casos: (a) por Finlandia, respecto de la entrega de periódicos y revistas vendidos por suscripción y …; (b) por Suecia …»
+✗ Generada: «¿Qué entregas finlandesas pueden seguir beneficiándose de exenciones del IVA con derecho a deducción?» → Una fórmula hueca, no una situación.
+✓ {"question": "Una editorial finlandesa vende revistas a sus lectores por suscripción. ¿Pertenecen estas entregas a una de las categorías enumeradas para mantener la exención del IVA con derecho a deducción del IVA soportado?", "answer": "por Finlandia, respecto de la entrega de periódicos y revistas vendidos por suscripción", "question_type": "scope_or_applicability", "particulars": ["editorial finlandesa", "vende revistas a sus lectores por suscripción"], "articles_involved": ["111"]}
+  → «Finlandia» y «vendidos por suscripción» concretan los criterios de la categoría enumerada. La pregunta solo pide identificar esa categoría, no decidir si se cumplen todas las condiciones para la exención. Una pregunta sobre las condiciones del artículo 110 requeriría que se facilitara ese artículo y se declararan ["111", "110"]; sin él, descártala.
+Ejemplo 5 — preguntas reales de producción que deben descartarse
+✗ «Un funcionario de la Comisión recibe el encargo de ayudar a dos unidades de inteligencia financiera de distintos Estados miembros a coordinar un caso transfronterizo e intercambiar información dentro de la Unión. ¿Puede la Comisión prestar esa asistencia?» → El protagonista es la Comisión y la situación repite la consecuencia de la norma; la cláusula no se refiere a un caso de un particular. Omítela o utiliza otra disposición del artículo.
+✗ «Un Estado miembro solo ha empezado a elaborar planes de respuesta de emergencia después de que ya se haya identificado un escenario de emergencia radiológica … ¿Exige la ley que esos planes se establezcan de antemano para los distintos tipos de emergencias identificados por una evaluación de posibles situaciones de exposición de emergencia?» → La pregunta contiene la norma literalmente y un Estado miembro en cuanto legislador no es un cliente. Descártala.
+✗ «Un minorista español vende pajitas de plástico. ¿Se le aplica el artículo 4 de la Directiva (UE) 2019/904?» → Identificador en la pregunta. Descártala.
+AUTOVERIFICACIÓN de cada pregunta antes de finalizarla:
+1. Una situación con dos o más datos concretos que materialicen las CONDICIONES de la norma, todos ellos dentro del supuesto que el artículo resuelve, consignados en "particulars"; el protagonista, un particular o una autoridad que tramita un expediente.
+2. La situación no enuncia ninguna consecuencia de la norma — suprime del artículo el segmento de respuesta: ¿habría podido escribirse la situación de todos modos?
+3. PRUEBA DEL ACTO HERMANO: ¿regiría un acto distinto esta situación igual de bien? Añade el dato concreto que fija el régimen o descártala.
+4. PRUEBA DEL ARTÍCULO ÚNICO: ¿se puede responder a partir de un artículo referenciado por sí solo? Descártala. ¿Reside la sustancia de la respuesta detrás de una cita no facilitada? Descártala.
+5. Los hechos en palabras corrientes, parciales y no enumerados; los términos técnicos, los nombres y las cifras de la respuesta, exactos; ningún identificador, número de artículo ni deixis en la pregunta.
+6. La respuesta, un segmento contiguo del texto facilitado que resuelve el caso tal como se describe; "articles_involved", exactamente las disposiciones utilizadas, incluido el artículo objetivo, y los otros actos y los anexos por su clave «Cite as».
+7. No es una cláusula de estilo; una sola cosa preguntada; voz de profesional en tercera persona; las preguntas giran en torno a hechos distintos y, si se devuelven dos o tres preguntas, cubren al menos dos categorías.
+SALIDA (solo JSON válido, sin markdown): hasta tres entradas, menos si son menos las que superan todas las pruebas:
 [
-  {"question": "...", "answer": "...", "question_type": "...", "particulars": ["...", "..."], "articles_involved": ["..."]},
-  {"question": "...", "answer": "...", "question_type": "...", "particulars": ["...", "..."], "articles_involved": ["..."]},
   {"question": "...", "answer": "...", "question_type": "...", "particulars": ["...", "..."], "articles_involved": ["..."]}
 ]
-Devuelve hasta tres entradas — menos si son menos las que superan todas las pruebas. Si el artículo
-  objetivo consiste únicamente en cláusulas de estilo, o no admite ninguna pregunta que supere las
-  pruebas, devuelve exactamente: [{"skip_reason": "<una frase breve>"}]
-- answer: el segmento contiguo más corto que resuelve la pregunta para la situación descrita.
-  Estrictamente basado en el texto facilitado.
-- question_type: uno de scope_or_applicability, obligation_or_prohibition,
-  condition_or_prerequisite, deadline_or_duration, amount_or_threshold, monitoring_or_reporting,
-  enforcement_or_consequence, definition_actor_or_procedure.
-- particulars: los dos o más hechos concretos de la situación, en forma de expresiones breves, en el
-  orden en que aparecen en la pregunta.
-- articles_involved: lista de las disposiciones necesarias para responder, incluyendo siempre el
-  artículo objetivo — números escuetos para los artículos del acto propio del objetivo, claves «Cite
-  as» para los artículos de otros actos y para TODOS los anexos (incluso los del acto propio del
-  objetivo). Ejemplo: ["6"], ["1", "6"], ["6", "32004R0021:5"] cuando se ha utilizado un artículo de
-  otro acto, o ["6", "32019L0904:anx_1"] cuando se ha utilizado un anexo.
-El artículo objetivo y los artículos referenciados se facilitan en tu idioma de salida, el español,
-  y también en inglés. Cuando ambas versiones están presentes, no son dos disposiciones distintas,
-  sino la misma: utiliza la versión en tu idioma de salida para la redacción y la terminología, y la
-  versión inglesa como lectura de referencia. Esto no cambia tu idioma de salida, que está declarado
-  más arriba. Esta es la entrada:
+Si el artículo objetivo consiste únicamente en cláusulas de estilo, o no admite ninguna pregunta que supere las pruebas, devuelve exactamente: [{"skip_reason": "<una frase breve>"}]
+- answer: el segmento contiguo más corto que resuelve la pregunta para la situación descrita, estrictamente basado en el texto facilitado.
+- particulars: los dos o más hechos concretos de la situación, en forma de expresiones breves, en el orden en que aparecen en la pregunta.
+- articles_involved: según lo indicado en DECLARACIÓN DE ARTÍCULOS IMPLICADOS.
+El artículo objetivo y los artículos referenciados se facilitan en tu idioma de salida, el español, y también en inglés. Cuando ambas versiones están presentes, no son dos disposiciones distintas, sino la misma: utiliza la versión en tu idioma de salida para la redacción y la terminología, y la versión inglesa como lectura de referencia. Esto no cambia tu idioma de salida, que está declarado más arriba. Esta es la entrada:
