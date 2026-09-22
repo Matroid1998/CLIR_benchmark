@@ -13,10 +13,12 @@ import hashlib
 import json
 import os
 import re
+import sqlite3
 import threading
 import time
 from collections import defaultdict, deque
 from collections.abc import Mapping, Sequence
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -77,6 +79,15 @@ def _successful_response(body: dict) -> bool:
             and isinstance(message.get("content"), str) and bool(message["content"].strip()))
 
 
+def _capacity_error(message: str, status_code=None) -> bool | None:
+    if status_code == 429 or re.search(r"per minute|per second|rate.limit|\bTPM\b", message, re.IGNORECASE):
+        return None
+    if re.search(r"context[_ ]length[_ ]exceeded|maximum context length|exceeds?.{0,40}context|"
+                 r"too many (?:input )?tokens|input.{0,30}too long", message, re.IGNORECASE):
+        return True
+    return None
+
+
 class GenerationRecorder:
     """Record generator requests and optionally replay exact cached inputs.
 
@@ -93,10 +104,11 @@ class GenerationRecorder:
     It does not retry, grade candidates or append to the supplied cache manifest.
     """
 
-    def __init__(self, cache_path: Path | None, records_dir: Path, model: str):
+    def __init__(self, cache_path: Path | None, records_dir: Path | None, model: str):
         self.model = model
-        self.records_dir = Path(records_dir)
-        self.records_dir.mkdir(parents=True, exist_ok=True)
+        self.records_dir = Path(records_dir) if records_dir is not None else None
+        if self.records_dir is not None:
+            self.records_dir.mkdir(parents=True, exist_ok=True)
         self._lock = threading.Lock()
         self._cache: dict[tuple[str, str], deque[dict]] = defaultdict(deque)
         self.cache_summary: dict[str, Any] = {"path": str(cache_path) if cache_path else None,
@@ -124,6 +136,7 @@ class GenerationRecorder:
                 if not isinstance(body, dict) or not _successful_response(body):
                     raise ValueError("response is not a completed non-error text response")
                 ChatCompletion.model_validate(body)
+                row["_cache_line"] = line_number
                 self._cache[(self.model, digest)].append(row)
                 self.cache_summary["loaded"] += 1
             except (ValueError, TypeError, AttributeError) as exc:
@@ -212,4 +225,199 @@ class GenerationRecorder:
         return response
 
 
-__all__ = ["GenerationRecorder", "messages_sha256"]
+def _json(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, allow_nan=False)
+
+
+class RunState:
+    """One transactional file for a legal run, including interrupted attempts.
+
+    Completed stage values are replayed without a model call. The attempt budget
+    survives interruption and resume; retrying a failed run cannot reset it.
+    Historical imports can use metadata without inventing completed stages.
+    """
+
+    def __init__(self, path: Path):
+        import fcntl
+
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._file = self.path.open("a+b")
+        try:
+            fcntl.flock(self._file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            self._file.close()
+            raise ValueError(f"run is already active: {self.path.parent}") from None
+        self._lock = threading.RLock()
+        self.cancelled = threading.Event()
+        self.replay: dict[str, GenerationRecorder] = {}
+        self._db = sqlite3.connect(self.path, check_same_thread=False)
+        self._db.executescript("""
+            CREATE TABLE IF NOT EXISTS metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS stages (
+                task TEXT, stage TEXT, attempts INTEGER NOT NULL, status TEXT NOT NULL,
+                value TEXT, error TEXT, PRIMARY KEY(task, stage));
+            CREATE TABLE IF NOT EXISTS requests (
+                id TEXT PRIMARY KEY, task TEXT, stage TEXT, record TEXT NOT NULL);
+            CREATE TABLE IF NOT EXISTS outcomes (
+                task TEXT PRIMARY KEY, status TEXT NOT NULL, rows TEXT NOT NULL, error TEXT);
+        """)
+        self._secrets = {value for key, value in os.environ.items() if value and
+                         any(part in key.upper() for part in
+                             ("API_KEY", "ACCESS_TOKEN", "AUTH_TOKEN", "SECRET"))}
+
+    def close(self) -> None:
+        self._db.close()
+        self._file.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+
+    @contextmanager
+    def transaction(self):
+        with self._lock, self._db:
+            yield self._db
+
+    def get(self, key: str, default: Any = None) -> Any:
+        with self.transaction() as db:
+            row = db.execute("SELECT value FROM metadata WHERE key=?", (key,)).fetchone()
+        return json.loads(row[0]) if row else default
+
+    def put(self, key: str, value: Any) -> None:
+        with self.transaction() as db:
+            db.execute("INSERT OR REPLACE INTO metadata VALUES (?,?)", (key, _json(value)))
+
+    def outcome(self, task: str, rows: list[dict], error: str = "") -> None:
+        status = "failed" if error else ("completed" if rows else "no_candidates")
+        with self.transaction() as db:
+            db.execute("INSERT OR REPLACE INTO outcomes VALUES (?,?,?,?)",
+                       (task, status, _json(rows), _redact(error, self._secrets)))
+
+    def outcomes(self) -> list[dict]:
+        with self.transaction() as db:
+            records = db.execute("SELECT task,status,rows,error FROM outcomes ORDER BY task").fetchall()
+        return [{"task": t, "status": s, "rows": json.loads(r), "error": e} for t, s, r, e in records]
+
+    def checkpoint(self, task: str, *, retries: int = 3):
+        return StageCheckpoint(self, task, retries)
+
+    def load_replay(self, path: Path, models: Sequence[str]) -> None:
+        self.replay = {model: GenerationRecorder(path, None, model) for model in models}
+        with self.transaction() as db:
+            previous = [json.loads(row[0]) for row in db.execute(
+                "SELECT record FROM requests WHERE stage='generation'")]
+        used = {(record.get("model"), record.get("cache_line")) for record in previous if record.get("cached")}
+        for model, recorder in self.replay.items():
+            for key, entries in recorder._cache.items():
+                recorder._cache[key] = deque(row for row in entries if (model, row["_cache_line"]) not in used)
+
+
+def read_run_metadata(path: Path) -> dict:
+    """Read without creating an empty database or taking the writer's lock."""
+    path = Path(path)
+    path = path / "run.sqlite" if path.is_dir() else path
+    with sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True) as db:
+        return {key: json.loads(value) for key, value in db.execute("SELECT key,value FROM metadata")}
+
+
+class StageCheckpoint:
+    def __init__(self, state: RunState, task: str, retries: int):
+        if retries < 1:
+            raise ValueError("retries is the total attempt count and must be positive")
+        self.state, self.task, self.retries = state, task, retries
+
+    def run(self, stage: str, fn):
+        with self.state.transaction() as db:
+            saved = db.execute("SELECT attempts,status,value,error FROM stages WHERE task=? AND stage=?",
+                               (self.task, stage)).fetchone()
+        attempts, status, value, error = saved or (0, "pending", None, "")
+        if status == "completed":
+            return json.loads(value)
+        while attempts < self.retries:
+            if self.state.cancelled.is_set():
+                raise InterruptedError("run interrupted before the next model attempt")
+            attempts += 1
+            with self.state.transaction() as db:
+                db.execute("INSERT OR REPLACE INTO stages VALUES (?,?,?,?,?,?)",
+                           (self.task, stage, attempts, "running", None, None))
+            try:
+                result = fn()
+                encoded = _json(result)
+            except Exception as exc:  # noqa: BLE001 - parser and provider failures share the attempt budget
+                error = _redact(f"{type(exc).__name__}: {exc}", self.state._secrets)
+                with self.state.transaction() as db:
+                    db.execute("UPDATE stages SET status='failed',error=? WHERE task=? AND stage=?",
+                               (error, self.task, stage))
+                if attempts < self.retries:
+                    self.state.cancelled.wait(min(2 ** (attempts - 1), 8))
+            else:
+                with self.state.transaction() as db:
+                    db.execute("UPDATE stages SET status='completed',value=? WHERE task=? AND stage=?",
+                               (encoded, self.task, stage))
+                return result
+        raise RuntimeError(f"{stage} failed after {attempts} attempts: {error or 'interrupted attempt'}")
+
+    def client(self, stage: str, model: str, client: Any) -> Any:
+        if hasattr(client, "with_options"):
+            client = client.with_options(max_retries=0, timeout=180)
+        key = getattr(client, "api_key", None)
+        if isinstance(key, str) and key:
+            self.state._secrets.add(key)
+
+        def create(**kwargs):
+            if kwargs.get("model") != model:
+                raise ValueError("request model differs from the configured stage model")
+            request_id, started = uuid4().hex, time.monotonic()
+            record = {"model": model, "timestamp": datetime.now(timezone.utc).isoformat(),
+                      "messages": kwargs["messages"], "messages_sha256": messages_sha256(kwargs["messages"]),
+                      "request_settings": {k: v for k, v in kwargs.items() if k in _SETTING_FIELDS},
+                      "input_characters": sum(len(str(m.get("content", ""))) for m in kwargs["messages"]),
+                      "context_capacity_exceeded": None, "status": "running"}
+
+            def save():
+                with self.state.transaction() as db:
+                    db.execute("INSERT OR REPLACE INTO requests VALUES (?,?,?,?)",
+                               (request_id, self.task, stage,
+                                _json(_redact(record, self.state._secrets))))
+
+            save()
+            try:
+                cache = self.state.replay.get(model) if stage == "generation" else None
+                cached = None
+                if cache is not None:
+                    with cache._lock:
+                        matches = cache._cache.get((model, record["messages_sha256"]))
+                        cached = matches.popleft() if matches else None
+                if cached:
+                    response = ChatCompletion.model_validate(cached["response"])
+                    record.update(cached=True, source_path=cached.get("source_path"),
+                                  cache_line=cached["_cache_line"],
+                                  original_usage=cached.get("original_usage") or extract_usage(response),
+                                  original_settings=cached.get("original_settings"),
+                                  settings_match=cached.get("original_settings") == record["request_settings"])
+                else:
+                    response = client.chat.completions.create(**kwargs)
+                record.update(status="response", response=response.model_dump(),
+                              usage={"provider_cost": 0.0} if cached else extract_usage(response))
+                body = record["response"]
+                if body.get("error") or any(choice.get("error") or choice.get("finish_reason") == "error"
+                                            for choice in body.get("choices", [])):
+                    record["context_capacity_exceeded"] = _capacity_error(_json(body))
+                return response
+            except Exception as exc:
+                message = str(exc)
+                record.update(status="error", error_type=type(exc).__name__, error=message,
+                              status_code=getattr(exc, "status_code", None))
+                record["context_capacity_exceeded"] = _capacity_error(message, getattr(exc, "status_code", None))
+                raise
+            finally:
+                record["seconds"] = round(time.monotonic() - started, 6)
+                save()
+
+        return SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+
+
+__all__ = ["GenerationRecorder", "RunState", "StageCheckpoint", "messages_sha256", "read_run_metadata"]

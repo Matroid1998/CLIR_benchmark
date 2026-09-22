@@ -1,6 +1,5 @@
 """Replay goes through the existing legal parsers, graders, ranking and exports."""
 
-import csv
 import json
 from dataclasses import replace
 from types import SimpleNamespace
@@ -83,9 +82,20 @@ def case(corpus):
     return ub, ug, target, payload, candidates
 
 
+def legacy_prompts(monkeypatch, generator, mode):
+    """Replay transport tests deliberately exercise the supported flat rubric."""
+    original = generator.PROMPTS
+    prompt = "Legacy quality rubric\n" + "\n".join(
+        f'"{key}": <1-5>' for key in grading.quality_keys(mode))
+    monkeypatch.setattr(generator, "PROMPTS", SimpleNamespace(
+        generation=original.generation, faithfulness=original.faithfulness,
+        quality=lambda *args: prompt))
+
+
 @pytest.mark.parametrize("corpus", ["eurlex", "un"])
 def test_cached_run_one_uses_existing_parse_grade_rank_and_rows(tmp_path, monkeypatch, corpus):
     batch, generator, target, payload, candidates = case(corpus)
+    legacy_prompts(monkeypatch, generator, target.mode)
     messages = generator.build_messages(payload, target.mode, target.language)
     body = response("```json\n" + json.dumps(candidates) + "\n```").model_dump()
     cache = tmp_path / "cache.jsonl"
@@ -179,7 +189,7 @@ def test_cached_skip_still_uses_parser_and_does_not_grade(tmp_path, monkeypatch,
 
 
 @pytest.mark.parametrize("corpus", ["eurlex", "un"])
-def test_existing_cli_preserves_same_source_across_modes_languages_and_outcomes(tmp_path, monkeypatch, corpus):
+def test_existing_cli_delegates_selected_targets_to_shared_workflow(tmp_path, monkeypatch, corpus):
     batch, _, first, _, _ = case(corpus)
     second_mode = "fact_pattern" if corpus == "eurlex" else "descriptive"
     targets = [first, replace(first, mode=second_mode), replace(first, language="fr")]
@@ -200,26 +210,116 @@ def test_existing_cli_preserves_same_source_across_modes_languages_and_outcomes(
         monkeypatch.setattr(batch.ctx, "BlockIndex", lambda **kw: index)
         monkeypatch.setattr(batch, "_cited_doc_ids", lambda *a: set())
 
-    def row_for(target, index, **kwargs):
-        row = {"mode": target.mode, "question_language": target.language,
-               "question": f"{target.mode}/{target.language}", "answer": "Source",
-               "stratum": target.stratum, "faith_grounding": 5}
-        if corpus == "eurlex":
-            row.update(celex_id=target.celex_id, target_article_number=target.article_number,
-                       multi_article=False, cross_act=False)
-        else:
-            row.update(block_id=target.block_id)
-        return [row]
-
-    monkeypatch.setattr(batch, "run_one", row_for)
+    delegated = []
+    from clir_bench.domains.legal import qac
+    monkeypatch.setattr(qac, "legacy_main", lambda args, **kwargs: delegated.append((args, kwargs)), raising=False)
     batch.main()
-    with out.with_name(out.stem + "_best.csv").open(newline="") as stream:
-        best = list(csv.DictReader(stream))
-    assert len(best) == 3
-    assert {(row["mode"], row["question_language"]) for row in best} == {
-        (target.mode, target.language) for target in targets}
-    outcomes = [json.loads(line) for line in out.with_suffix(".outcomes.jsonl").open()]
-    assert len(outcomes) == 3 and all(row["status"] == "generated" for row in outcomes)
-    assert all(row["generation_model"] == GENERATOR and row["grade_model"] == GRADER for row in outcomes)
-    assert {(row["target"]["mode"], row["target"]["language"]) for row in outcomes} == {
-        (target.mode, target.language) for target in targets}
+    assert len(delegated) == 1
+    args, kwargs = delegated[0]
+    assert args.out == str(out) and args.gen_model == GENERATOR and args.grade_model == GRADER
+    assert kwargs["corpus"] == corpus and kwargs["targets"] == targets
+    assert not out.exists()
+
+
+class MemoryCheckpoint:
+    def __init__(self):
+        self.completed = {}
+        self.transports = []
+
+    def run(self, stage, fn):
+        if stage not in self.completed:
+            self.completed[stage] = json.loads(json.dumps(fn()))
+        return self.completed[stage]
+
+    def client(self, stage, model, client):
+        self.transports.append((stage, model))
+        return client
+
+
+@pytest.mark.parametrize("corpus", ["eurlex", "un"])
+def test_checkpoint_keeps_questions_when_faithfulness_fails(tmp_path, monkeypatch, corpus):
+    batch, generator, target, payload, raw_candidates = case(corpus)
+    candidate = generator.parse_candidates(raw_candidates, payload, target.mode)[0] if corpus == "eurlex" else generator.parse_candidates(raw_candidates, target.mode)[0]
+    monkeypatch.setattr(generator, "generate", lambda *args, **kwargs: [candidate])
+    monkeypatch.setattr(llm, "client_for", lambda _: object())
+    monkeypatch.setattr(grading, "grade_faithfulness", lambda *args, **kwargs: (_ for _ in ()).throw(ValueError("broken grade")))
+    quality_calls = []
+
+    def quality(*args, **kwargs):
+        quality_calls.append((args, kwargs))
+        keys = grading.rubric_keys(args[2])
+        return [dict.fromkeys(keys, 4) | {"overall": 20, "_keys": keys}]
+
+    monkeypatch.setattr(grading, "grade_quality", quality)
+    checkpoint = MemoryCheckpoint()
+    options = {"max_references": 6} if corpus == "eurlex" else {"context_chars": 30000}
+    rows = batch.run_one(target, None, payload=payload, gen_model=GENERATOR,
+                         grade_model=GRADER, keep=3, checkpoint=checkpoint, **options)
+    assert len(checkpoint.completed["generation"]) == len(rows) == 1
+    assert rows[0]["question"] == candidate.question
+    assert rows[0]["grading_status"] == "failed" and "broken grade" in rows[0]["grading_error"]
+    assert rows[0]["faith_grounding"] is None and rows[0]["total_score"] is None
+    assert rows[0]["qual_overall"] == 20 and rows[0]["candidate_rank"] == ""
+    assert rows[0]["candidate_id"] and rows[0]["document_text"]
+    assert batch.target_from_rows(rows) == target
+    args, kwargs = quality_calls[0]
+    assert kwargs["strict"] and kwargs["rubric_mode"] == f"{corpus}_{target.mode}"
+    assert args[4][0]["candidate_id"] == rows[0]["candidate_id"]
+    assert kwargs["sources"][0]["role"] == "target"
+    assert kwargs["target_source_id"] == rows[0]["target_id"]
+
+
+@pytest.mark.parametrize("corpus", ["eurlex", "un"])
+def test_regrade_preserves_candidate_identity_and_skips_generator(monkeypatch, corpus):
+    batch, generator, target, payload, raw_candidates = case(corpus)
+    candidates = generator.parse_candidates(raw_candidates, payload, target.mode) if corpus == "eurlex" else generator.parse_candidates(raw_candidates, target.mode)
+    monkeypatch.setattr(generator, "generate", lambda *args, **kwargs: candidates)
+    requested_models = []
+    monkeypatch.setattr(llm, "client_for", lambda model: requested_models.append(model))
+    monkeypatch.setattr(grading, "grade_faithfulness", lambda *args, **kwargs: [{"grounding": 5, "precision": 5, "numerical_fidelity": 5, "overall": 15}] * len(candidates))
+    monkeypatch.setattr(grading, "grade_quality", lambda *args, **kwargs: [dict.fromkeys(grading.rubric_keys(args[2]), 4) | {"overall": 20, "_keys": grading.rubric_keys(args[2])}] * len(candidates))
+    options = {"max_references": 6} if corpus == "eurlex" else {"context_chars": 30000}
+    original = batch.run_one(target, None, payload=payload, gen_model=GENERATOR,
+                             grade_model=GRADER, keep=3, checkpoint=MemoryCheckpoint(), **options)
+    for row in original:
+        row["qual_obsolete_metric"] = 5
+        row["quality_audit_status"] = "blocking"
+    requested_models.clear()
+    monkeypatch.setattr(generator, "generate", lambda *args, **kwargs: pytest.fail("regrade generated new questions"))
+    regenerated = batch.run_one(target, None, payload=payload, gen_model=GENERATOR,
+                                grade_model=GRADER, keep=3, existing_candidates=original,
+                                checkpoint=MemoryCheckpoint(), **options)
+    assert GENERATOR not in requested_models
+    assert [(r["candidate_id"], r["question"], r["answer"]) for r in regenerated] == [(r["candidate_id"], r["question"], r["answer"]) for r in original]
+    assert all(r["qual_obsolete_metric"] == r["quality_audit_status"] == "" for r in regenerated)
+    assert all(r["grading_status"] == "completed" for r in regenerated)
+
+
+@pytest.mark.parametrize("corpus", ["eurlex", "un"])
+@pytest.mark.parametrize("count", [1, 3, 7, 15, 31])
+def test_stratum_rounding_selects_exact_requested_count(monkeypatch, corpus, count):
+    if corpus == "eurlex":
+        monkeypatch.setattr(eb, "_quarantined", lambda: set())
+        units, references = {}, {}
+        for ref_count in (0, 1, 2, 4):
+            for position in range(40):
+                key = f"eli:{ref_count}:{position}"
+                units[key] = ec.ArticleUnit(key, f"act:{ref_count}:{position}", "1", texts={"en": "Text " * 200})
+                references[key] = [f"ref:{i}" for i in range(ref_count)]
+        index = SimpleNamespace(by_eli=units, references=references,
+                                status={key: {"complete": True} for key in units})
+        selected = eb.select(index, n=count, seed=42, languages=["en"], modes=["lookup"],
+                              include_amending=True)
+    else:
+        docs = {}
+        for genre, stem, title in (("resolution", "2020/s/res", "Resolution"),
+                                   ("meeting", "2020/s/pv_", "Meeting"),
+                                   ("letter", "2020/s/letter", "Letter dated 1 January")):
+            for position in range(40):
+                key = f"{stem}/{position}"
+                docs[key] = {"doc_id": key, "title": title, "n_blocks": 1,
+                             "target_idxs": [0], "char_count": 1000}
+        index = SimpleNamespace(docs=docs, incomplete={})
+        selected = ub.select(index, n=count, seed=42, languages=["en"], modes=["technical"],
+                              fit_filter=False)
+    assert len(selected) == count

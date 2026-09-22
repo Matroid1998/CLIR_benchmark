@@ -3,9 +3,9 @@
 Builds and evaluates multilingual cross-language information retrieval benchmarks from
 document collections that exist in several languages as human translations of one another.
 
-The current domain is chemistry patents, built from Google Patents Public Data and EPO bulk
-full-text data. The code is domain-pluggable: a new body of documents is a new folder under
-`src/clir_bench/domains/`, not a change to the pipeline.
+The domains are chemistry patents (Google Patents Public Data and EPO bulk full-text data)
+and legal documents (EUR-Lex articles and United Nations document blocks). Domains declare
+their sources and connect their workflows to the same `clir` commands.
 
 ## Why parallel documents
 
@@ -73,6 +73,54 @@ clir code-switch build       # swap a term, see whether retrieval survives
 clir progressive all         # swap one more term per rung, measure decay
 ```
 
+Legal generation and model comparisons use the existing EUR-Lex and UN batch pipelines:
+
+```bash
+clir --domain legal qac generate --source eurlex --questions 30
+# data/legal/eurlex/qac/<timestamp>/results.csv
+
+clir --domain legal qac generate --source un --questions 30
+# data/legal/un_parallel/qac/<timestamp>/results.csv
+
+# One invocation creates matching run folders under both corpus QAC roots:
+clir --domain legal qac generate --source eurlex un --questions 30 \
+  --generation-model provider/model-a --generation-model provider/model-b \
+  --verifier-model anthropic/claude-sonnet-5 --output results.csv
+
+clir --domain legal qac generate --source eurlex un \
+  --targets-from data/legal/eurlex/qac/comparison_2026-09-21 \
+  --generation-model provider/model-c
+
+clir --domain legal qac regrade \
+  --input data/legal/un_parallel/qac/comparison_2026-09-21/results.csv
+
+clir --domain legal qac best \
+  --input data/legal/un_parallel/qac/comparison_2026-09-21_regrade_v2/results.csv
+```
+
+Each corpus run contains one `results.csv` combining its models and one `run.sqlite` state file. The CSV
+includes all generated candidates for that corpus, their source text, model and persona, verifier scores,
+and `is_best`; the state file records inputs, attempts, and completed stages. `--output`
+sets the CSV filename inside the run folder. Omitting `--run-dir` creates a timestamped
+folder under `data/legal/eurlex/qac/` for EUR-Lex or `data/legal/un_parallel/qac/` for UN.
+When both corpora are selected, they receive the same run ID under their respective QAC roots.
+An explicit `--run-dir` for multiple sources is a custom parent containing `eurlex/` and
+`un_parallel/` run folders. Regrading infers the sources from the input CSV, creates a
+separate run in each corresponding location, and preserves the original.
+Best-only CSVs are written only by the explicit `best` command.
+
+For legal generation, `--questions 30` selects 30 target/language/persona cases per model,
+split evenly across the selected sources. Each case can yield up to three candidates;
+skipped targets or provider failures can reduce the number of successful cases. Every model
+receives the same selected targets and contexts. `--targets-from` reuses a previous run's
+selections, including its original source counts. Default modes and languages remain those
+enabled by each source's batch pipeline; use `--modes` and `--langs` to restrict them.
+`--dry-run` inspects the work without model calls or output files. To continue an interrupted
+source run, select that source and supply its `--run-dir` with `--resume`; completed compatible
+stages are reused. A multi-source run with a custom parent can also repeat its command with `--resume`. `--retries`
+is the total attempts per stage (default: three). Context-capacity errors are retained in
+the run state, with unknown capacity left unknown.
+
 Any command's `--help` lists its options; `--dry-run` exists wherever something is written
 or published.
 
@@ -93,7 +141,11 @@ src/clir_bench/
   cli/          command groups
   domains/
     chemistry/   schema, vocabulary, attribution, sources, prompts, benchmarks
+    legal/       structured legal corpora, source prompts, batch pipelines, QAC runs
 data/           corpora and artifacts (gitignored)
+data/legal/eurlex/qac/       EUR-Lex question-generation runs
+data/legal/un_parallel/qac/  UN question-generation runs
+data/legal/qac/              preserved original combined exports (historical provenance)
 reports/runs/   evaluation runs, each self-describing
 attic/          one-off scripts, frozen with provenance notes
 docs/           ARCHITECTURE.md, MIGRATION.md, licensing and pipeline notes

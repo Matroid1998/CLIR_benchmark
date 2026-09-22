@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Optional
 
+from clir_bench import domains
 from clir_bench.core import corpus as corpus_io
 from clir_bench.core import qagen
 from clir_bench.core.context import AppContext
@@ -15,42 +15,139 @@ from clir_bench.core.parallel import run_tasks
 from clir_bench.core.prompts import PromptPack
 
 
-def register(subparsers: argparse._SubParsersAction, context: Optional[AppContext]) -> None:
+def register(subparsers: argparse._SubParsersAction, context: AppContext | None) -> None:
     parser = subparsers.add_parser("qac", help="Generate and grade question/answer data")
     sub = parser.add_subparsers(dest="qac_command", metavar="<subcommand>")
 
-    plans = ", ".join(context.domain.qac_plans) if context and context.domain.qac_plans else "none declared"
+    run_workflow = bool(context and context.setting("qac_runs", False))
+    workers = 6 if run_workflow else 1
+    plans = (
+        ", ".join(context.domain.qac_plans)
+        if context and context.domain.qac_plans
+        else "none declared"
+    )
     generate = sub.add_parser(
         "generate",
         help="Generate graded questions from a corpus",
         description=(
+            "Generate and grade questions using the same selected targets for every "
+            "generator. All models and sources share one results CSV in a run folder."
+        )
+        if run_workflow
+        else (
             "Generates candidate questions per document, grades them for "
             "faithfulness and quality, and keeps the best per document and "
             f"language. Plans available for this domain: {plans}."
         ),
     )
-    generate.add_argument("--source", required=True, help="Source corpus to generate from")
-    generate.add_argument("--plan", default="balanced", help=f"Generation plan ({plans})")
-    generate.add_argument("--questions", type=int, default=100, help="Questions per mode")
-    generate.add_argument("--pool", type=int, default=None, help="Documents to sample from")
+    generate.add_argument(
+        "--source",
+        required=True,
+        **(
+            {
+                "nargs": "+",
+                "choices": context.domain.source_names,
+                "help": "Source corpora to include in the same run",
+            }
+            if run_workflow
+            else {"help": "Source corpus to generate from"}
+        ),
+    )
+    generate.add_argument(
+        "--plan",
+        default="balanced",
+        help=(argparse.SUPPRESS if run_workflow else f"Generation plan ({plans})"),
+    )
+    generate.add_argument(
+        "--questions",
+        type=int,
+        default=None if run_workflow else 100,
+        help=(
+            "Target/language/persona cases per model, split across sources (default: 100); "
+            "each case can produce up to --keep candidates"
+            if run_workflow
+            else "Questions per mode"
+        ),
+    )
+    generate.add_argument(
+        "--pool",
+        type=int,
+        default=None,
+        help=(argparse.SUPPRESS if run_workflow else "Documents to sample from"),
+    )
     generate.add_argument("--langs", nargs="+", help="Restrict question languages")
     generate.add_argument(
         "--priority-langs",
         nargs="+",
-        help="Used by the `coverage` plan: prefer documents that exist in these "
-        "languages, so questions land where coverage is thin",
+        help=(
+            argparse.SUPPRESS
+            if run_workflow
+            else "Used by the `coverage` plan: prefer documents that exist in these "
+            "languages, so questions land where coverage is thin"
+        ),
     )
     generate.add_argument("--modes", nargs="+", help="Question modes (default: the domain's)")
-    generate.add_argument("--output", type=Path, help="Output CSV (default: the source's qac dir)")
-    generate.add_argument("--append", action="store_true", help="Append to an existing dataset")
-    generate.add_argument("--exclude-from", type=Path, help="Skip documents already covered by this CSV")
-    generate.add_argument("--generation-model", help="Override the generation model")
+    generate.add_argument(
+        "--output",
+        type=Path,
+        help=(
+            "CSV filename within the run folder (default: results.csv)"
+            if run_workflow
+            else "Output CSV (default: the source's qac dir)"
+        ),
+    )
+    generate.add_argument(
+        "--append",
+        action="store_true",
+        help=(argparse.SUPPRESS if run_workflow else "Append to an existing dataset"),
+    )
+    generate.add_argument(
+        "--exclude-from",
+        type=Path,
+        help=(argparse.SUPPRESS if run_workflow else "Skip documents already covered by this CSV"),
+    )
+    generate.add_argument(
+        "--generation-model",
+        **(
+            {"action": "append", "help": "Generator model ID; repeat to compare models"}
+            if run_workflow
+            else {"help": "Override the generation model"}
+        ),
+    )
     generate.add_argument("--verifier-model", help="Override the grading model")
-    generate.add_argument("--workers", type=int, default=1, help="Parallel documents (default: 1)")
-    generate.add_argument("--seed", type=int, default=42)
+    generate.add_argument(
+        "--workers", type=int, default=workers, help=f"Parallel documents (default: {workers})"
+    )
+    generate.add_argument(
+        "--seed",
+        type=int,
+        default=None if run_workflow else 42,
+        help="Selection seed (default: 42; reused on resume)",
+    )
     generate.add_argument("--limit", type=int, help="Stop after N plan items (smoke tests)")
-    generate.add_argument("--dry-run", action="store_true", help="Show the plan without calling any model")
-    generate.set_defaults(handler=_generate)
+    generate.add_argument(
+        "--dry-run", action="store_true", help="Show the plan without calling any model"
+    )
+    if run_workflow:
+        _run_arguments(generate)
+        generate.add_argument(
+            "--targets-from",
+            type=Path,
+            help="Reuse the exact targets and contexts from this run folder",
+        )
+        generate.add_argument(
+            "--generation-cache", type=Path,
+            help="Replay an existing response cache for matching model IDs and inputs",
+        )
+        generate.add_argument(
+            "--keep",
+            type=int,
+            default=None,
+            choices=(1, 2, 3),
+            help="Maximum candidates per target (default: 3)",
+        )
+        _context_arguments(generate)
+    generate.set_defaults(handler=_domain_command if run_workflow else _generate)
 
     regrade = sub.add_parser(
         "regrade",
@@ -61,11 +158,39 @@ def register(subparsers: argparse._SubParsersAction, context: Optional[AppContex
         ),
     )
     regrade.add_argument("--input", type=Path, required=True, help="CSV of generated candidates")
-    regrade.add_argument("--source", required=True, help="Source corpus the rows came from")
-    regrade.add_argument("--output", type=Path, help="Output CSV (default: <input>_regraded.csv)")
+    regrade.add_argument(
+        "--source",
+        required=not run_workflow,
+        **(
+            {
+                "nargs": "+",
+                "choices": context.domain.source_names,
+                "help": "Source corpora present in the input (default: infer from its rows)",
+            }
+            if run_workflow
+            else {"help": "Source corpus the rows came from"}
+        ),
+    )
+    regrade.add_argument(
+        "--output",
+        type=Path,
+        help=(
+            "CSV filename within the new run folder (default: results.csv)"
+            if run_workflow
+            else "Output CSV (default: <input>_regraded.csv)"
+        ),
+    )
     regrade.add_argument("--verifier-model", help="Override the grading model")
-    regrade.add_argument("--workers", type=int, default=1)
-    regrade.set_defaults(handler=_regrade)
+    regrade.add_argument("--workers", type=int, default=workers)
+    if run_workflow:
+        _run_arguments(regrade)
+        _context_arguments(regrade)
+        regrade.add_argument(
+            "--dry-run",
+            action="store_true",
+            help="Inspect the input without calling models or writing files",
+        )
+    regrade.set_defaults(handler=_domain_command if run_workflow else _regrade)
 
     best = sub.add_parser(
         "best",
@@ -73,7 +198,49 @@ def register(subparsers: argparse._SubParsersAction, context: Optional[AppContex
     )
     best.add_argument("--input", type=Path, required=True)
     best.add_argument("--output", type=Path, help="Default: <input>_best.csv")
-    best.set_defaults(handler=_best)
+    best.set_defaults(handler=_domain_command if run_workflow else _best)
+
+
+def _run_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--run-dir", type=Path,
+        help="Run folder (default: each source's qac/<timestamp>); with multiple sources, a parent for corpus subfolders",
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume an existing --run-dir without repeating completed stages",
+    )
+    parser.add_argument(
+        "--retries",
+        type=int,
+        default=None,
+        help="Total attempts per generation or grading stage (default: 3)",
+    )
+
+
+def _context_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--max-references",
+        type=int,
+        default=None,
+        help="Maximum EUR-Lex reference articles (default: 6)",
+    )
+    parser.add_argument(
+        "--context-chars",
+        type=int,
+        default=None,
+        help="UN context character budget (default: 30000)",
+    )
+
+
+def _domain_command(args: argparse.Namespace, context: AppContext) -> int:
+    if getattr(args, "append", False):
+        raise ValueError("--append is not supported for runs; use a new run or --resume --run-dir")
+    if getattr(args, "resume", False) and not getattr(args, "run_dir", None):
+        raise ValueError("--resume requires --run-dir")
+    module = domains.load_module(context.domain.name)
+    return module.qac_command(args.qac_command, args, context)
 
 
 def _generation_config(args: argparse.Namespace, context: AppContext) -> qagen.GenerationConfig:
@@ -101,7 +268,9 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
     plan_builder = domain.qac_plans.get(args.plan)
     if plan_builder is None:
         available = ", ".join(domain.qac_plans) or "none"
-        raise KeyError(f"unknown plan {args.plan!r} for domain {domain.name!r}; available: {available}")
+        raise KeyError(
+            f"unknown plan {args.plan!r} for domain {domain.name!r}; available: {available}"
+        )
 
     schema = context.schema
     grouped = corpus_io.load_grouped(corpus_path, schema)
@@ -152,7 +321,9 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
     corpus_io.write_rows(output, rows, fieldnames, append=args.append)
     best_rows = qagen.select_best(rows, schema)
     best_path = _suffixed(output, "_best")
-    corpus_io.write_rows(best_path, [qagen.normalize_row(r, fieldnames) for r in best_rows], fieldnames)
+    corpus_io.write_rows(
+        best_path, [qagen.normalize_row(r, fieldnames) for r in best_rows], fieldnames
+    )
 
     print(f"wrote {len(rows)} candidate row(s) -> {output}")
     print(f"wrote {len(best_rows)} best row(s)      -> {best_path}")
@@ -198,7 +369,9 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
 
     best_rows = qagen.select_best(regraded, schema)
     best_path = _suffixed(output, "_best")
-    corpus_io.write_rows(best_path, [qagen.normalize_row(r, fieldnames) for r in best_rows], fieldnames)
+    corpus_io.write_rows(
+        best_path, [qagen.normalize_row(r, fieldnames) for r in best_rows], fieldnames
+    )
     print(f"regraded {len(regraded)} row(s) -> {output}")
     print(f"best {len(best_rows)} row(s)     -> {best_path}")
     return 0
@@ -210,7 +383,9 @@ def _best(args: argparse.Namespace, context: AppContext) -> int:
     best_rows = qagen.select_best(rows, schema)
     output = args.output or _suffixed(args.input, "_best")
     fieldnames = qagen.output_fieldnames(schema)
-    corpus_io.write_rows(output, [qagen.normalize_row(r, fieldnames) for r in best_rows], fieldnames)
+    corpus_io.write_rows(
+        output, [qagen.normalize_row(r, fieldnames) for r in best_rows], fieldnames
+    )
     print(f"selected {len(best_rows)} of {len(rows)} row(s) -> {output}")
     return 0
 

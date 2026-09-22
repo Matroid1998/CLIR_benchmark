@@ -14,14 +14,18 @@ invisible in the CSV -- it just silently fills the wrong column.
 
 from __future__ import annotations
 
-import re
-
 import pytest
 
 from clir_bench.core.grading import (
-    FACT_PATTERN_QUALITY_FIELDS, FACT_PATTERN_QUALITY_KEYS,
-    LOOKUP_QUALITY_FIELDS, LOOKUP_QUALITY_KEYS,
-    TECHNICAL_QUALITY_KEYS, candidates_block, quality_fields, quality_keys,
+    FACT_PATTERN_QUALITY_FIELDS,
+    FACT_PATTERN_QUALITY_KEYS,
+    LOOKUP_QUALITY_FIELDS,
+    LOOKUP_QUALITY_KEYS,
+    TECHNICAL_QUALITY_KEYS,
+    candidates_block,
+    quality_fields,
+    quality_keys,
+    rubric_keys,
 )
 from clir_bench.core.prompts import PromptPack
 from clir_bench.domains.legal.qac import eurlex_batch as batch
@@ -112,9 +116,6 @@ def test_the_two_modes_are_graded_on_different_criteria() -> None:
     assert set(lookup) & set(fact_pattern) == {"focus", "linguistic_quality"}
 
 
-RUBRIC_SCORE = re.compile(r'"([a-z_]+)": <1-5>')
-
-
 @pytest.mark.parametrize("mode", gen.MODES)
 def test_the_rubric_scores_exactly_the_keys_grading_sums(mode: str) -> None:
     """The regression this file exists for.
@@ -125,27 +126,26 @@ def test_the_rubric_scores_exactly_the_keys_grading_sums(mode: str) -> None:
     candidate simply scores a uniform 5/25 on quality and the ranking silently
     degrades to faithfulness alone. Only an equality check catches that.
     """
-    emitted = set(RUBRIC_SCORE.findall(EURLEX.quality(mode, "batch")))
+    emitted = set(rubric_keys(EURLEX.quality(mode, "batch")))
     assert emitted == set(quality_keys(mode))
 
 
 def test_each_verifier_carries_its_defining_check() -> None:
     lookup = EURLEX.quality(gen.MODE_LOOKUP, "batch")
     fact_pattern = EURLEX.quality(gen.MODE_FACT_PATTERN, "batch")
-    assert "REGIME ANCHOR" in lookup
-    assert "PARTICULARS" in fact_pattern
+    assert "substantive regime anchor" in lookup
+    assert "FUNCTIONAL APPLICATION" in fact_pattern
     for rubric in (lookup, fact_pattern):
-        # both are hostile-reviewer rubrics with a fatal-flaw floor and a verdict
-        assert "FATAL FLAW RULE" in rubric
-        assert "SIBLING REGIMES" in rubric
-        assert '"verdict"' in rubric
-        assert "off-target" in rubric
+        # Scores and source-relative validity are separately auditable.
+        assert "legal-qg-v2.0" in rubric
+        assert "target_relevance" in rubric
+        assert "blocking" in rubric
+        assert "metadata_checks" in rubric
 
 
 def test_the_lookup_rubric_checks_the_fields_only_lookup_emits() -> None:
     rubric = EURLEX.quality(gen.MODE_LOOKUP, "batch")
-    for check in ("rendering_check", "short_name_check", "anchor_check"):
-        assert check in rubric
+    assert "Required metadata_checks: rendering, short_name, anchor, question_type, identifier_policy." in rubric
 
 
 def test_the_quality_grader_is_shown_the_fields_its_rubric_checks() -> None:

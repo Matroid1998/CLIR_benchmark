@@ -38,7 +38,6 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 import json
 import sys
@@ -127,8 +126,52 @@ def write_targets(path: Path, targets: Sequence[Target]) -> None:
                                ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def _quarantined() -> set[str]:
-    path = struct_paths.QUARANTINE_JSONL
+def target_from_rows(rows: Sequence[dict[str, Any]]) -> Target:
+    """Recover the original selection metadata without sampling a new article."""
+    row = rows[0]
+    return Target(
+        eli_id=row.get("target_article_id") or row["target_id"],
+        celex_id=row.get("celex_id") or row["document_id"],
+        article_number=str(row["target_article_number"]),
+        n_refs=int(row.get("n_references_available") or 0),
+        stratum=row.get("stratum", ""), mode=row["mode"],
+        language=row["question_language"],
+        n_external=int(row.get("n_external_available") or 0),
+        n_annex=int(row.get("n_annex_available") or 0),
+        complete=str(row.get("reference_complete", "")).lower() == "true",
+        cites_annex=str(row.get("cites_annex", "")).lower() == "true",
+    )
+
+
+def prepare_payload(target: Target, index: ctx.ArticleIndex, *,
+                    max_references: int = ctx.DEFAULT_MAX_REFERENCES):
+    return index.build(target.eli_id, max_references=max_references,
+                       languages=ctx.payload_languages(target.language))
+
+
+def quality_sources(payload: ctx.GenerationPayload, language: str) -> list[dict[str, Any]]:
+    """Name each supplied source, preserving the generator's reference truncation."""
+    sources = []
+    for unit, role, keyed in (
+            [(payload.target, "target", False)]
+            + [(unit, "reference", False) for unit in payload.references]
+            + [(unit, "reference", True) for unit in payload.external_references]
+            + [(unit, "reference", True) for unit in payload.annexes]):
+        languages = [lg for lg in ctx.payload_languages(language) if unit.texts.get(lg)]
+        sources.append({
+            "source_id": unit.eli_id, "role": role,
+            "text": "\n\n".join(ctx._block(
+                unit, lg, limit=None if role == "target" else ctx.DEFAULT_REFERENCE_CHARS,
+                key=ctx.external_key(unit) if keyed else None) for lg in languages),
+            "metadata": {"celex_id": unit.celex_id, "article_number": unit.article_number,
+                         "unit_type": unit.unit_type, "titles": unit.act_titles,
+                         "languages": languages},
+        })
+    return sources
+
+
+def _quarantined(path: Path | None = None) -> set[str]:
+    path = path or struct_paths.QUARANTINE_JSONL
     if not path.exists():
         return set()
     return {json.loads(line)["celex_id"] for line in path.open(encoding="utf-8")}
@@ -145,7 +188,8 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
     resolved (see module docstring); it needs ``reference_status.jsonl`` and
     refuses to silently sample everything when that file is missing.
     """
-    bad_acts = _quarantined()
+    quarantine = getattr(index, "quarantine_path", None)
+    bad_acts = _quarantined(path=quarantine) if quarantine is not None else _quarantined()
     status = getattr(index, "status", {}) or {}
     if require_complete and not status:
         raise SystemExit(
@@ -156,7 +200,8 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
     annex_refs = getattr(index, "annex_references", {}) or {}
     amending: set[str] = set()
     if not include_amending:
-        with struct_paths.ARTICLES_JSONL.open(encoding="utf-8") as fh:
+        articles_path = getattr(index, "articles_path", struct_paths.ARTICLES_JSONL)
+        with articles_path.open(encoding="utf-8") as fh:
             for line in fh:
                 row = json.loads(line)
                 if (row["unit_type"] == "article" and row["language"] == "en"
@@ -204,8 +249,12 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
 
     chosen: list[Target] = []
     per_act: Counter = Counter()
-    for name, _, _, share in strata:
-        want = round(n * share)
+    quotas = [int(n * share) for _, _, _, share in strata]
+    remainder_order = sorted(range(len(strata)),
+                             key=lambda i: n * strata[i][-1] - quotas[i], reverse=True)
+    for position in remainder_order[:n - sum(quotas)]:
+        quotas[position] += 1
+    for (name, _, _, _), want in zip(strata, quotas):
         pool = sorted(pools.get(name, []), key=lambda x: rank(x[0]))
         taken = 0
         for eli, internal, external, annexes, complete, cites_annex in pool:
@@ -232,13 +281,21 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
 
 def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             grade_model: str, max_references: int, keep: int,
-            generation_recorder: Any = None) -> list[dict[str, Any]]:
+            generation_recorder: Any = None,
+            existing_candidates: list[dict[str, Any]] | None = None,
+            checkpoint: Any = None, retries: int = 3,
+            payload: ctx.GenerationPayload | None = None) -> list[dict[str, Any]]:
+    from clir_bench.core.grading import (
+        GraderConfig,
+        grade_columns,
+        grade_faithfulness,
+        grade_quality,
+        rank_candidates,
+    )
     from clir_bench.core.llm import call_with_retries, client_for
-    from clir_bench.core.grading import (GraderConfig, grade_faithfulness,
-                                         grade_quality, rank_candidates)
 
-    payload = index.build(target.eli_id, max_references=max_references,
-                          languages=ctx.payload_languages(target.language))
+    enhanced = checkpoint is not None or existing_candidates is not None
+    payload = payload or prepare_payload(target, index, max_references=max_references)
     if payload is None:
         return []
     # Both EUR-Lex rubrics are hostile-reviewer prompts: each runs a multi-step
@@ -251,27 +308,55 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     # answer room; the faithfulness rubric is unaffected either way.
     grader = GraderConfig(model=grade_model, reasoning_effort="low",
                           thinking_budget_tokens=16000, thinking_max_tokens=32000)
-    gen_client, grade_client = client_for(gen_model), client_for(grade_model)
-    if generation_recorder is not None:
-        gen_client = generation_recorder.client(
-            gen_client.with_options(max_retries=0, timeout=180),
-            context={"corpus": "eurlex", "target_id": target.eli_id,
-                     "mode": target.mode, "language": target.language})
+    def stage(name, fn):
+        if checkpoint is not None:
+            return checkpoint.run(name, fn)
+        return call_with_retries(fn, retries=retries, label=name)
 
-    candidates = call_with_retries(
-        lambda: gen.generate(payload, mode=target.mode, language=target.language,
-                             model=gen_model, client=gen_client),
-        retries=3, label=f"gen {target.celex_id}/{target.article_number}")
+    def client(stage_name, model):
+        transport = client_for(model)
+        return checkpoint.client(stage_name, model, transport) if checkpoint else transport
+
+    def generate_candidates():
+        gen_client = client("generation", gen_model)
+        if generation_recorder is not None:
+            gen_client = generation_recorder.client(
+                gen_client.with_options(max_retries=0, timeout=180),
+                context={"corpus": "eurlex", "target_id": target.eli_id,
+                         "mode": target.mode, "language": target.language})
+        return [asdict(candidate) for candidate in gen.generate(
+            payload, mode=target.mode, language=target.language, model=gen_model,
+            client=gen_client)]
+
+    if existing_candidates is None:
+        saved = stage("generation", generate_candidates)
+        candidates = [gen.Candidate(**item) for item in saved]
+    else:
+        candidates = [gen.Candidate(
+            question=row["question"], answer=row["answer"],
+            classification=row.get("question_type", ""),
+            articles_involved=[value for value in row.get("articles_involved", "").split(",") if value],
+            involved_elis=[value for value in row.get("articles_involved_eli", "").split(",") if value],
+            rejected_involved=[value for value in row.get("rejected_involved", "").split(",") if value],
+            multi_article=str(row.get("multi_article", "")).lower() == "true",
+            cross_act=str(row.get("cross_act", "")).lower() == "true",
+            question_cited=row.get("question_cited", ""),
+            instrument_short_name=row.get("instrument_short_name", ""),
+            anchor=row.get("anchor", ""),
+            particulars=[value for value in row.get("particulars", "").split(gen.PARTICULAR_SEP) if value],
+        ) for row in existing_candidates]
     if not candidates:
         return []
 
     # The graders see the declaration too: the faithfulness rubric caps the
     # grade when ``articles_involved`` is wrong, which it can only judge if shown.
-    qa = [{"question": c.question, "answer": c.answer,
-           "articles_involved": list(c.articles_involved)} for c in candidates]
-    faith = call_with_retries(lambda: grade_faithfulness(
-        grade_client, grader, gen.PROMPTS.faithfulness("batch"), payload.text, qa),
-        retries=3, label="faith")
+    qa = [{"question": c.question, "answer": c.answer, "_candidate_index": position,
+           "candidate_id": ((existing_candidates[position].get("candidate_id") if existing_candidates else None)
+                            or "q_" + hashlib.sha256(json.dumps(
+                                ["eurlex", target.eli_id, target.mode, target.language, gen_model,
+                                 position, c.question, c.answer], ensure_ascii=False).encode()).hexdigest()[:24]),
+           "question_language": target.language,
+           "articles_involved": list(c.articles_involved)} for position, c in enumerate(candidates)]
     # The quality rubrics run consistency checks ON the mode's own fields -- is
     # the declared anchor actually present in the question, is the short name
     # invented, does the cited rendering differ from the base one by nothing but
@@ -279,28 +364,58 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     # is checkable unless the grader is shown them. Faithfulness keeps the lean
     # block: it grades the answer against the text and the extra fields are noise.
     qa_quality = [
-        dict(pair, **{key: value for key, value in (
+        dict({key: value for key, value in pair.items() if not key.startswith("_")}, **{key: value for key, value in (
             ("question_cited", c.question_cited),
             ("instrument_short_name", c.instrument_short_name),
             ("anchor", c.anchor),
             ("particulars", list(c.particulars)),
             ("question_type", c.classification),
-        ) if value})
+        )})
         for pair, c in zip(qa, candidates)
     ]
-    quality = call_with_retries(lambda: grade_quality(
-        grade_client, grader, gen.PROMPTS.quality(target.mode, "batch"),
-        payload.text, qa_quality, target.mode), retries=3, label="quality")
+    faith_prompt = gen.PROMPTS.faithfulness("batch")
+    quality_prompt = gen.PROMPTS.quality(target.mode, "batch")
+    errors = []
+    faith = quality = None
+    try:
+        faith = stage("faithfulness", lambda: grade_faithfulness(
+            client("faithfulness", grade_model), grader, faith_prompt, payload.text, qa,
+            strict=enhanced))
+    except Exception as error:
+        if not enhanced:
+            raise
+        errors.append(f"faithfulness: {type(error).__name__}: {error}")
+    try:
+        quality = stage("quality", lambda: grade_quality(
+            client("quality", grade_model), grader, quality_prompt, payload.text, qa_quality,
+            target.mode, strict=enhanced, sources=quality_sources(payload, target.language),
+            target_source_id=target.eli_id, rubric_mode=f"eurlex_{target.mode}",
+            policies={"target_granularity": "article", "reference_policy": "target_plus_supplied_references",
+                      "answer_role": "evidence_span", "source_time_policy": "supplied_version",
+                      "require_unique_gold": False, "fact_pattern_voice": "third_person_client",
+                      "fact_pattern_clients": "private_clients"}))
+    except Exception as error:
+        if not enhanced:
+            raise
+        errors.append(f"quality: {type(error).__name__}: {error}")
+
+    if faith is None:
+        faith = [{"grounding": None, "precision": None, "numerical_fidelity": None, "overall": None}
+                 for _ in candidates]
+    if quality is None:
+        from clir_bench.core.grading import rubric_keys
+        keys = rubric_keys(quality_prompt)
+        quality = [dict.fromkeys(keys) | {"overall": None, "_keys": keys} for _ in candidates]
 
     # Ranked best-first. Row order carries the ranking, so no rank column is
     # needed: the caller writes the whole list to the all-candidates file and the
     # first row of each target to the best-only file.
     ranked = rank_candidates(qa, faith, quality, target.mode)
-    order = {c["question"]: i for i, c in enumerate(qa)}
     rows: list[dict[str, Any]] = []
-    for graded in ranked[:keep]:
-        candidate = candidates[order[graded.qa["question"]]]
-        rows.append({
+    for rank, graded in enumerate(ranked[:keep], 1):
+        position = graded.qa["_candidate_index"]
+        candidate = candidates[position]
+        row = {
             "celex_id": target.celex_id,
             "target_article_id": payload.target.eli_id,
             "target_article_number": target.article_number,
@@ -342,7 +457,31 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "faith_numerical_fidelity": graded.faith.get("numerical_fidelity"),
             "qual_overall": graded.quality.get("overall"),
             "total_score": graded.total,
-        })
+        }
+        if enhanced:
+            if existing_candidates is not None:
+                original = existing_candidates[position]
+                row = dict(original, **row)
+                # Inactive old-rubric metrics and audit fields must not survive a regrade.
+                for key in row:
+                    if key.startswith(("faith_", "qual_", "quality_", "faithfulness_verifier_")):
+                        row[key] = ""
+            row.update(grade_columns(graded.faith, graded.quality, target.mode))
+            row.update({
+                "corpus": "eurlex", "document_id": target.celex_id, "target_id": target.eli_id,
+                "document_text_scope": "target_article", "document_text": row["target_article_text"],
+                "candidate_id": graded.qa["candidate_id"],
+                "candidate_rank": rank if graded.total is not None else "", "is_best": False,
+                "generator_model_id": gen_model, "generator_model_name": gen_model.split("/")[-1],
+                "faithfulness_verifier_model": grade_model, "quality_verifier_model": grade_model,
+                "grading_status": "failed" if errors else "completed", "grading_error": "; ".join(errors),
+                "source_payload_sha256": hashlib.sha256(payload.text.encode()).hexdigest(),
+                "faithfulness_verifier_prompt": faith_prompt,
+                "faithfulness_verifier_prompt_sha256": hashlib.sha256(faith_prompt.encode()).hexdigest(),
+                "quality_verifier_prompt": quality_prompt,
+                "quality_verifier_prompt_sha256": hashlib.sha256(quality_prompt.encode()).hexdigest(),
+            })
+        rows.append(row)
     return rows
 
 
@@ -390,7 +529,7 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
     parser.add_argument("--include-amending", action="store_true")
     parser.add_argument("--allow-incomplete", action="store_true",
                         help="also sample articles whose citations are not all resolved")
-    parser.add_argument("--out", default=str(OUT_DIR / "qac_eurlex.csv"))
+    parser.add_argument("--out", help="CSV path; defaults to results.csv in a new run folder")
     parser.add_argument("--targets-in", type=Path,
                         help="reuse a JSON list of targets; its order, modes, languages and length are authoritative")
     parser.add_argument("--targets-out", type=Path,
@@ -462,78 +601,8 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
         print("   ...", file=sys.stderr)
         return
 
-    # Build the clients before spending an hour discovering the key is missing.
-    from clir_bench.core.llm import client_for
-    for model in (args.gen_model, args.grade_model):
-        try:
-            client_for(model)
-        except Exception as error:  # noqa: BLE001
-            raise SystemExit(f"cannot reach {model}: {error}") from error
-
-    from clir_bench.core.parallel import run_tasks
-    recorder = None
-    if args.generation_cache or args.generation_records:
-        from clir_bench.domains.legal.qac.batch_recording import GenerationRecorder
-        records_dir = args.generation_records or Path(args.out).with_suffix(".generation")
-        recorder = GenerationRecorder(args.generation_cache, records_dir, args.gen_model)
-    rows: list[dict[str, Any]] = []
-    outcomes: list[dict[str, Any]] = []
-    failed = 0
-    for result in run_tasks(
-            targets,
-            lambda t: (t, _safe(run_one, t, index, gen_model=args.gen_model,
-                                grade_model=args.grade_model,
-                                max_references=args.max_references, keep=args.keep,
-                                generation_recorder=recorder)),
-            workers=args.workers, description="generating"):
-        target, produced = result
-        outcomes.append({"target": asdict(target), "generation_model": args.gen_model,
-                         "grade_model": args.grade_model, "candidate_rows": len(produced or []),
-                         "status": "failed" if produced is None else "generated" if produced else "no_candidates"})
-        if produced is None:
-            failed += 1
-        else:
-            rows.extend(produced)
-
-    out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    # `rows` arrives grouped per target, best-first within each group, because
-    # run_one returns its ranked list intact. Only the grouping is normalised
-    # here; the within-target order is the ranking and must not be re-sorted.
-    grouped: dict[tuple[str, str, str, str], list[dict[str, Any]]] = {}
-    for row in rows:
-        key = (row["celex_id"], row["target_article_number"], row["mode"], row["question_language"])
-        grouped.setdefault(key, []).append(row)
-
-    ordered = [r for key in sorted(grouped) for r in grouped[key]]
-    best = [grouped[key][0] for key in sorted(grouped)]
-
-    def write(path: Path, data: list[dict[str, Any]]) -> None:
-        with path.open("w", newline="", encoding="utf-8") as fh:
-            writer = csv.DictWriter(fh, fieldnames=FIELDS)
-            writer.writeheader()
-            writer.writerows(data)
-
-    best_path = out.with_name(out.stem + "_best" + out.suffix)
-    write(out, ordered)
-    write(best_path, best)
-    out.with_suffix(".outcomes.jsonl").write_text(
-        "".join(json.dumps(item, ensure_ascii=False) + "\n" for item in outcomes), encoding="utf-8")
-
-    if not rows:
-        raise SystemExit(
-            f"no queries produced: all {len(targets)} targets failed. "
-            "The output file contains only a header. See the errors above.")
-
-    if failed:
-        print(f"  WARNING: {failed} of {len(targets)} targets failed", file=sys.stderr)
-
-    multi = sum(1 for r in best if r["multi_article"])
-    print(f"\nwrote {len(ordered)} candidates -> {out}", file=sys.stderr)
-    print(f"      {len(best)} best-per-target -> {best_path}", file=sys.stderr)
-    print(f"  targets that failed  : {failed}", file=sys.stderr)
-    print(f"  multi-article (best set): {multi} ({multi / max(len(best), 1):.0%})", file=sys.stderr)
-    print(f"  by stratum (best set): {dict(Counter(r['stratum'] for r in best))}", file=sys.stderr)
+    from clir_bench.domains.legal.qac import legacy_main
+    legacy_main(args, index=index, corpus="eurlex", targets=targets)
 
 
 def _safe(fn, *a, **kw):

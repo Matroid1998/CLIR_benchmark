@@ -1,9 +1,8 @@
 """Where this stage reads and writes.
 
-The legal domain has no ``DomainSpec``, so ``core.paths.Workspace`` cannot
-resolve these yet. These constants mirror the layout a ``data_layout`` entry
-would declare, so wiring them into the domain spec later is a rename, not a
-move.
+Standalone source-preparation commands use these repository-relative paths.
+The legal ``DomainSpec`` also declares the structured-input directories so the
+main question-generation workflow can resolve them through its workspace.
 """
 
 from __future__ import annotations

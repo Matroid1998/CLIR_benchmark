@@ -13,10 +13,9 @@ This subtree turns whole-act EUR-Lex texts into flat JSONL artifacts:
     reference status     per-article verdict: are all of its article citations
                          resolved? Question generation samples only those.
 
-It is deliberately self-contained. The legal domain has no ``DomainSpec`` yet,
-so nothing here is wired into the ``clir`` CLI and ``domains.available()`` still
-reports only the domains that expose a ``SPEC``. Each stage is a module with a
-``main()``, run as ``python -m clir_bench.domains.legal.structure.<stage>``.
+The legal domain registers its question-generation workflow with the ``clir``
+CLI. These source preparation stages remain independently runnable modules,
+each with a ``main()``: ``python -m clir_bench.domains.legal.structure.<stage>``.
 
 Design decisions that are load-bearing, recorded here because they are not
 obvious from the code:

@@ -1,8 +1,7 @@
 """Where the UN stages read and write.
 
-Mirrors ``structure/paths.py``: the legal domain still has no ``DomainSpec``,
-so these constants stand in for the ``data_layout`` entry a spec would declare.
-Wiring them into the spec later is a rename, not a move.
+These constants support standalone source-preparation commands. The legal
+``DomainSpec`` declares the same structured-input directories for the main CLI.
 """
 
 from __future__ import annotations

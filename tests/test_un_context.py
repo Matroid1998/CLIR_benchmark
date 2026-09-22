@@ -103,6 +103,20 @@ def test_custom_paths_do_not_gate_against_the_production_status(tmp_path):
     assert index.incomplete is None
 
 
+def test_translation_lookup_keeps_the_standalone_path_hook(tmp_path, monkeypatch):
+    docs_path = tmp_path / "docs.jsonl"
+    docs_path.write_text(json.dumps({
+        "doc_id": "d", "symbol": "S/RES/1(1999)", "n_blocks": 0,
+        "offset": 0, "line_start": 1, "line_end": 1,
+    }) + "\n")
+    translated = tmp_path / "translation.fr"
+    translated.write_text("La traduction.\n")
+    monkeypatch.setattr(ctx.paths, "text_file", lambda language: translated)
+    index = ctx.BlockIndex(blocks_path=tmp_path / "blocks.jsonl", docs_path=docs_path)
+    index.preload_translations(["fr"], ["d"])
+    assert index._translations["fr"]["d"] == ["La traduction."]
+
+
 def test_references_travel_in_every_payload_language(tmp_path):
     """A cited document is rendered in the question language, not only English.
 

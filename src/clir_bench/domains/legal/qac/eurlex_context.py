@@ -43,9 +43,9 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, Sequence
 
 from clir_bench.domains.legal.structure import ACT_LANGUAGES, paths
 
@@ -79,7 +79,7 @@ ANNEX_NONE = ("### REFERENCED ANNEXES — none. "
 ANNEX_LOAD_CHARS = 20_000
 
 
-def external_key(unit: "ArticleUnit") -> str:
+def external_key(unit: ArticleUnit) -> str:
     """How the model names anything that is not an article of the target's act.
 
     ``CELEX:number`` for another act's article (``32004R0021:5``);
@@ -182,7 +182,11 @@ class ArticleIndex:
     """
 
     def __init__(self, articles_path=None, edges_path=None, *,
-                 external_edges_path=None, status_path=None) -> None:
+                 external_edges_path=None, status_path=None, quarantine_path=None) -> None:
+        self.articles_path = Path(articles_path or paths.ARTICLES_JSONL).expanduser().resolve()
+        default_quarantine = (self.articles_path.with_name("quarantine.jsonl")
+                              if articles_path is not None else paths.QUARANTINE_JSONL)
+        self.quarantine_path = Path(quarantine_path or default_quarantine).expanduser().resolve()
         self.by_eli: dict[str, ArticleUnit] = {}
         self.by_act: dict[str, list[str]] = defaultdict(list)
         self.references: dict[str, list[str]] = defaultdict(list)
@@ -210,8 +214,7 @@ class ArticleIndex:
         wanted_annexes = {e["target_article_id"]
                           for e in internal_rows + external_rows
                           if e.get("target_unit_type") == "annex"}
-        self._load_articles(articles_path or paths.ARTICLES_JSONL,
-                            annex_whitelist=wanted_annexes)
+        self._load_articles(self.articles_path, annex_whitelist=wanted_annexes)
 
         for edge in internal_rows:
             self._record_edge(edge, self.annex_references
@@ -442,11 +445,11 @@ def _canonical_token(item: str, payload: GenerationPayload) -> str:
     if text in by_eli:
         return by_eli[text]
     # "Article 6", "Art. 6", "article 32004R0021:5" -- the word is noise either way.
-    bare = re.sub(r"^\s*(?:articles?|art\.?)\s*", "", text, flags=re.I).strip(" .()")
+    bare = re.sub(r"^\s*(?:articles?|art\.?)\s*", "", text, flags=re.IGNORECASE).strip(" .()")
     if ":" in bare and not bare.lower().startswith("http"):
         celex, number = bare.split(":", 1)
         celex = celex.strip().upper()
-        number = re.sub(r"^\s*(?:articles?|art\.?)\s*", "", number, flags=re.I).strip(" .()").lower()
+        number = re.sub(r"^\s*(?:articles?|art\.?)\s*", "", number, flags=re.IGNORECASE).strip(" .()").lower()
         # "anx 1" / "ANNEX_1" -> "anx_1": the key is the ELI subdivision.
         number = re.sub(r"^annex", "anx", re.sub(r"[\s]+", "_", number))
         # A key naming the target's own act's ARTICLE is just a same-act
@@ -564,9 +567,21 @@ def referenced_sources(tokens: Sequence[str], payload: GenerationPayload,
 
 
 __all__ = [
-    "ArticleIndex", "ArticleUnit", "GenerationPayload", "render_payload",
-    "normalise_involved", "involved_elis", "involved_units", "external_key",
-    "unit_source", "referenced_sources", "SOURCE_SEP",
-    "TARGET_HEADER", "CONTEXT_HEADER", "EXTERNAL_HEADER", "ANNEX_HEADER",
-    "DEFAULT_MAX_REFERENCES", "DEFAULT_REFERENCE_CHARS",
+    "ANNEX_HEADER",
+    "CONTEXT_HEADER",
+    "DEFAULT_MAX_REFERENCES",
+    "DEFAULT_REFERENCE_CHARS",
+    "EXTERNAL_HEADER",
+    "SOURCE_SEP",
+    "TARGET_HEADER",
+    "ArticleIndex",
+    "ArticleUnit",
+    "GenerationPayload",
+    "external_key",
+    "involved_elis",
+    "involved_units",
+    "normalise_involved",
+    "referenced_sources",
+    "render_payload",
+    "unit_source",
 ]

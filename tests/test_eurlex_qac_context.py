@@ -15,6 +15,28 @@ from clir_bench.domains.legal.qac import eurlex_context as ctx
 from clir_bench.domains.legal.qac import eurlex_generate as gen
 
 
+def test_custom_article_index_uses_its_own_amending_and_quarantine_data(tmp_path, monkeypatch):
+    import json
+
+    from clir_bench.domains.legal.qac import eurlex_batch as batch
+
+    article_path, edge_path = tmp_path / "articles.jsonl", tmp_path / "edges.jsonl"
+    records = [{
+        "eli_id": f"eli/{kind}", "celex_id": f"act/{kind}", "article_number": "1",
+        "unit_type": "article", "language": "en", "text": "Rule. " * 120,
+        "is_amending": kind == "amending",
+    } for kind in ("eligible", "quarantined", "amending")]
+    article_path.write_text("".join(json.dumps(row) + "\n" for row in records))
+    edge_path.write_text("")
+    (tmp_path / "quarantine.jsonl").write_text(json.dumps({"celex_id": "act/quarantined"}) + "\n")
+    monkeypatch.setattr(ctx.paths, "ARTICLES_JSONL", tmp_path / "wrong-articles.jsonl")
+    monkeypatch.setattr(ctx.paths, "QUARANTINE_JSONL", tmp_path / "wrong-quarantine.jsonl")
+    index = ctx.ArticleIndex(articles_path=article_path, edges_path=edge_path)
+    targets = batch.select(index, n=3, seed=1, languages=["en"], modes=["lookup"],
+                           strata=(("no_refs", 0, 0, 1.0),), require_complete=False)
+    assert [target.eli_id for target in targets] == ["eli/eligible"]
+
+
 def unit(number: str, text: str = "body", heading: str = "") -> ctx.ArticleUnit:
     return ctx.ArticleUnit(
         eli_id=f"http://data.europa.eu/eli/reg/2019/904/art_{number}/oj",

@@ -19,12 +19,12 @@ nearest the target (which resolve local ones).
 from __future__ import annotations
 
 import json
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Sequence
 
-from clir_bench.domains.legal.un import paths
 from clir_bench.domains.legal.qac import un_references as refs
+from clir_bench.domains.legal.un import paths
 
 # Whole-document context fits this budget for roughly three quarters of the
 # corpus (median document is ~8k chars, p75 ~29k). Beyond it, context becomes
@@ -86,7 +86,7 @@ class BlockUnit:
     texts: dict[str, str] = field(default_factory=dict)
 
     @classmethod
-    def from_row(cls, row: dict) -> "BlockUnit":
+    def from_row(cls, row: dict) -> BlockUnit:
         return cls(
             block_id=row["block_id"], doc_id=row["doc_id"],
             symbol=row.get("symbol", row["doc_id"]), title=row.get("title", ""),
@@ -140,8 +140,10 @@ class BlockIndex:
 
     def __init__(self, blocks_path: Path | None = None,
                  docs_path: Path | None = None, *,
-                 status_path: Path | None = None) -> None:
+                 status_path: Path | None = None,
+                 sixway_dir: Path | None = None) -> None:
         self.blocks_path = Path(blocks_path or paths.BLOCKS_JSONL)
+        self.sixway_dir = Path(sixway_dir).expanduser() if sixway_dir is not None else None
         self.docs: dict[str, dict] = {}
         with open(docs_path or paths.DOCS_JSONL, encoding="utf-8") as fh:
             for line in fh:
@@ -209,8 +211,12 @@ class BlockIndex:
         (``de`` is not a UN language) is skipped, and the payload stays
         English-only for it.
         """
-        wanted = [lg for lg in dict.fromkeys(languages)
-                  if lg != "en" and paths.text_file(lg).exists()]
+        text_files = {
+            language: (self.sixway_dir / f"UNv1.0.6way.{language}"
+                       if self.sixway_dir is not None else paths.text_file(language))
+            for language in dict.fromkeys(languages) if language != "en"
+        }
+        wanted = [language for language, path in text_files.items() if path.exists()]
         ranges = sorted((self.docs[d]["line_start"], self.docs[d]["line_end"], d)
                         for d in set(doc_ids) if d in self.docs)
         for language in wanted:
@@ -219,7 +225,7 @@ class BlockIndex:
             if not todo:
                 continue
             pointer = 0
-            with open(paths.text_file(language), encoding="utf-8") as fh:
+            with open(text_files[language], encoding="utf-8") as fh:
                 for number, line in enumerate(fh, start=1):
                     while pointer < len(todo) and number > todo[pointer][1]:
                         pointer += 1
@@ -486,7 +492,15 @@ def render_payload(target: BlockUnit, context_blocks: list[BlockUnit], *,
 
 
 __all__ = [
-    "BlockIndex", "BlockUnit", "GenerationPayload", "ReferencedDoc",
-    "render_payload", "unit_source", "payload_languages", "DEFAULT_CONTEXT_CHARS",
-    "TARGET_HEADER", "REFERENCES_HEADER", "CONTEXT_HEADER",
+    "CONTEXT_HEADER",
+    "DEFAULT_CONTEXT_CHARS",
+    "REFERENCES_HEADER",
+    "TARGET_HEADER",
+    "BlockIndex",
+    "BlockUnit",
+    "GenerationPayload",
+    "ReferencedDoc",
+    "payload_languages",
+    "render_payload",
+    "unit_source",
 ]
