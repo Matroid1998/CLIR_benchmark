@@ -43,15 +43,16 @@ import hashlib
 import json
 import sys
 from collections import Counter, defaultdict
-from dataclasses import dataclass
+from collections.abc import Sequence
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
-from clir_bench.domains.legal.structure import ACT_LANGUAGES
-from clir_bench.domains.legal.structure import paths as struct_paths
 from clir_bench.domains.legal.qac import eurlex_context as ctx
 from clir_bench.domains.legal.qac import eurlex_generate as gen
 from clir_bench.domains.legal.qac.env import load_env
+from clir_bench.domains.legal.structure import ACT_LANGUAGES
+from clir_bench.domains.legal.structure import paths as struct_paths
 
 DEFAULT_GEN_MODEL = "gpt-5.6-luna"
 
@@ -89,6 +90,41 @@ class Target:
     n_annex: int = 0       # resolved annex references (this act or another)
     complete: bool = True  # every citation resolved (reference_status)
     cites_annex: bool = False
+
+
+def load_targets(path: Path) -> list[Target]:
+    """Read an ordered, fixed list of target dictionaries for reuse across models."""
+    rows = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("target manifest must be a nonempty JSON list")
+    targets, seen = [], set()
+    for number, row in enumerate(rows, 1):
+        if not isinstance(row, dict):
+            raise TypeError(f"target manifest entry {number} must be an object")
+        try:
+            target = Target(**row)
+        except TypeError as error:
+            raise ValueError(f"invalid target manifest entry {number}: {error}") from error
+        if any(not isinstance(value, str) or not value.strip()
+               for value in (target.eli_id, target.celex_id, target.article_number)):
+            raise ValueError(f"target manifest entry {number} needs nonempty article identifiers")
+        if target.mode not in gen.MODES:
+            raise ValueError(f"unsupported EUR-Lex mode in target manifest: {target.mode}")
+        if target.language not in ACT_LANGUAGES:
+            raise ValueError(f"unsupported EUR-Lex language in target manifest: {target.language}")
+        identity = (target.eli_id, target.mode, target.language)
+        if identity in seen:
+            raise ValueError(f"duplicate target in manifest: {identity}")
+        seen.add(identity)
+        targets.append(target)
+    return targets
+
+
+def write_targets(path: Path, targets: Sequence[Target]) -> None:
+    """Persist target order, modes and languages without resampling on later runs."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps([asdict(target) for target in targets],
+                               ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def _quarantined() -> set[str]:
@@ -195,7 +231,8 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
 
 
 def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
-            grade_model: str, max_references: int, keep: int) -> list[dict[str, Any]]:
+            grade_model: str, max_references: int, keep: int,
+            generation_recorder: Any = None) -> list[dict[str, Any]]:
     from clir_bench.core.llm import call_with_retries, client_for
     from clir_bench.core.grading import (GraderConfig, grade_faithfulness,
                                          grade_quality, rank_candidates)
@@ -215,6 +252,11 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     grader = GraderConfig(model=grade_model, reasoning_effort="low",
                           thinking_budget_tokens=16000, thinking_max_tokens=32000)
     gen_client, grade_client = client_for(gen_model), client_for(grade_model)
+    if generation_recorder is not None:
+        gen_client = generation_recorder.client(
+            gen_client.with_options(max_retries=0, timeout=180),
+            context={"corpus": "eurlex", "target_id": target.eli_id,
+                     "mode": target.mode, "language": target.language})
 
     candidates = call_with_retries(
         lambda: gen.generate(payload, mode=target.mode, language=target.language,
@@ -323,9 +365,10 @@ FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           "faith_numerical_fidelity", "qual_overall", "total_score")
 
 
-def main() -> None:
+def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--n", type=int, default=100, help="target articles (= queries when keep=1)")
+    parser.add_argument("--n", type=int, default=100,
+                        help="target articles (= queries when keep=1); ignored with --targets-in")
     parser.add_argument("--keep", type=int, default=3,
                         help="candidates written to the all-candidates file")
     # The production configuration: all four corpus languages (zh is skipped
@@ -335,6 +378,10 @@ def main() -> None:
     parser.add_argument("--modes", default=",".join(gen.MODES))
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
+    parser.add_argument("--generation-cache", type=Path,
+                        help="reuse saved responses only for the exact model and canonical messages")
+    parser.add_argument("--generation-records", type=Path,
+                        help="record generation requests, raw responses, timing and token usage")
     parser.add_argument("--max-references", type=int, default=ctx.DEFAULT_MAX_REFERENCES)
     parser.add_argument("--workers", type=int, default=6)
     parser.add_argument("--cross-ref-share", type=float, default=CROSS_REFERENCE_SHARE,
@@ -344,9 +391,13 @@ def main() -> None:
     parser.add_argument("--allow-incomplete", action="store_true",
                         help="also sample articles whose citations are not all resolved")
     parser.add_argument("--out", default=str(OUT_DIR / "qac_eurlex.csv"))
+    parser.add_argument("--targets-in", type=Path,
+                        help="reuse a JSON list of targets; its order, modes, languages and length are authoritative")
+    parser.add_argument("--targets-out", type=Path,
+                        help="save the exact target list before generation or a dry run")
     parser.add_argument("--dry-run", action="store_true",
                         help="show the selected targets and the call budget, make no calls")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     load_env()
 
     languages = [x.strip() for x in args.languages.split(",") if x.strip()]
@@ -359,16 +410,38 @@ def main() -> None:
             f"unsupported question language(s) for EUR-Lex: {', '.join(unsupported)}. "
             f"Acts are available in {', '.join(ACT_LANGUAGES)}.")
     modes = [x.strip() for x in args.modes.split(",") if x.strip()]
+    if not languages or not modes:
+        parser.error("--languages and --modes must each contain at least one value")
+    unsupported_modes = [mode for mode in modes if mode not in gen.MODES]
+    if unsupported_modes:
+        parser.error(f"unsupported EUR-Lex mode(s): {', '.join(unsupported_modes)}")
 
     share = args.cross_ref_share
     strata = (("no_refs", 0, 0, 1 - share), ("one_ref", 1, 1, share * 0.40),
               ("few_refs", 2, 3, share * 0.35), ("many_refs", 4, 99, share * 0.25))
 
-    index = ctx.ArticleIndex()
-    targets = select(index, n=args.n, seed=args.seed, languages=languages,
-                     modes=modes, strata=strata,
-                     include_amending=args.include_amending,
-                     require_complete=not args.allow_incomplete)
+    if index is None:
+        index = ctx.ArticleIndex()
+    if args.targets_in:
+        try:
+            targets = load_targets(args.targets_in)
+        except (OSError, TypeError, ValueError) as error:
+            parser.error(f"cannot load target manifest: {error}")
+        for target in targets:
+            unit = index.by_eli.get(target.eli_id)
+            if unit is None or unit.unit_type != "article":
+                parser.error(f"unknown target article in manifest: {target.eli_id}")
+            if (unit.celex_id, unit.article_number) != (target.celex_id, target.article_number):
+                parser.error(f"inconsistent article identifiers in manifest: {target.eli_id}")
+            if not unit.texts.get(target.language):
+                parser.error(f"target article has no {target.language} source: {target.eli_id}")
+    else:
+        targets = select(index, n=args.n, seed=args.seed, languages=languages,
+                         modes=modes, strata=strata,
+                         include_amending=args.include_amending,
+                         require_complete=not args.allow_incomplete)
+    if args.targets_out:
+        write_targets(args.targets_out, targets)
 
     print(f"selected {len(targets)} target articles "
           f"across {len({t.celex_id for t in targets})} acts", file=sys.stderr)
@@ -398,15 +471,25 @@ def main() -> None:
             raise SystemExit(f"cannot reach {model}: {error}") from error
 
     from clir_bench.core.parallel import run_tasks
+    recorder = None
+    if args.generation_cache or args.generation_records:
+        from clir_bench.domains.legal.qac.batch_recording import GenerationRecorder
+        records_dir = args.generation_records or Path(args.out).with_suffix(".generation")
+        recorder = GenerationRecorder(args.generation_cache, records_dir, args.gen_model)
     rows: list[dict[str, Any]] = []
+    outcomes: list[dict[str, Any]] = []
     failed = 0
     for result in run_tasks(
             targets,
             lambda t: (t, _safe(run_one, t, index, gen_model=args.gen_model,
                                 grade_model=args.grade_model,
-                                max_references=args.max_references, keep=args.keep)),
+                                max_references=args.max_references, keep=args.keep,
+                                generation_recorder=recorder)),
             workers=args.workers, description="generating"):
-        _, produced = result
+        target, produced = result
+        outcomes.append({"target": asdict(target), "generation_model": args.gen_model,
+                         "grade_model": args.grade_model, "candidate_rows": len(produced or []),
+                         "status": "failed" if produced is None else "generated" if produced else "no_candidates"})
         if produced is None:
             failed += 1
         else:
@@ -417,9 +500,10 @@ def main() -> None:
     # `rows` arrives grouped per target, best-first within each group, because
     # run_one returns its ranked list intact. Only the grouping is normalised
     # here; the within-target order is the ranking and must not be re-sorted.
-    grouped: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    grouped: dict[tuple[str, str, str, str], list[dict[str, Any]]] = {}
     for row in rows:
-        grouped.setdefault((row["celex_id"], row["target_article_number"]), []).append(row)
+        key = (row["celex_id"], row["target_article_number"], row["mode"], row["question_language"])
+        grouped.setdefault(key, []).append(row)
 
     ordered = [r for key in sorted(grouped) for r in grouped[key]]
     best = [grouped[key][0] for key in sorted(grouped)]
@@ -433,6 +517,8 @@ def main() -> None:
     best_path = out.with_name(out.stem + "_best" + out.suffix)
     write(out, ordered)
     write(best_path, best)
+    out.with_suffix(".outcomes.jsonl").write_text(
+        "".join(json.dumps(item, ensure_ascii=False) + "\n" for item in outcomes), encoding="utf-8")
 
     if not rows:
         raise SystemExit(

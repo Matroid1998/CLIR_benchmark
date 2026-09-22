@@ -39,9 +39,10 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import json
 import sys
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -78,6 +79,8 @@ MIN_GROUNDING_FOR_BEST = 3
 # whole text of every referenced document stays inside the context budget --
 # then nothing the model sees is ever truncated or windowed.
 FIT_BUDGET = ctx.DEFAULT_CONTEXT_CHARS
+DEFAULT_MODES = (gen.MODE_TECHNICAL, gen.MODE_SEMANTIC, gen.MODE_DESCRIPTIVE)
+SUPPORTED_MODES = (*DEFAULT_MODES, gen.MODE_LOOKUP, gen.MODE_PRACTITIONERS)
 
 
 def genre_for(doc_id: str, title: str) -> str | None:
@@ -136,6 +139,40 @@ class Target:
     reference_complete: bool = True
     n_unresolved: int = 0
     unresolved_reasons: str = ""    # "reason:count;..." for gated-in blocks
+
+
+def load_targets(path: Path) -> list[Target]:
+    """Read a fixed comparison plan, preserving its documents, order and modes."""
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, list) or not data:
+        raise ValueError("target manifest must contain a nonempty JSON list")
+    targets, seen = [], set()
+    for position, row in enumerate(data):
+        if not isinstance(row, dict):
+            raise ValueError(f"target {position} must be an object")
+        try:
+            target = Target(**row)
+        except TypeError as error:
+            raise ValueError(f"invalid target {position}: {error}") from error
+        if target.mode not in SUPPORTED_MODES or target.language not in UN_LANGUAGES:
+            raise ValueError(f"unsupported mode/language in target {position}")
+        if (not isinstance(target.doc_id, str) or not target.doc_id.strip()
+                or type(target.block_index) is not int or target.block_index < 0
+                or type(target.n_blocks) is not int or target.n_blocks <= target.block_index
+                or target.block_id != f"{target.doc_id}#{target.block_index}"):
+            raise ValueError(f"invalid block identity in target {position}")
+        key = (target.block_id, target.mode, target.language)
+        if key in seen:
+            raise ValueError(f"duplicate target: {key}")
+        seen.add(key)
+        targets.append(target)
+    return targets
+
+
+def write_targets(path: Path, targets: Sequence[Target]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps([asdict(t) for t in targets], ensure_ascii=False, indent=2)
+                    + "\n", encoding="utf-8")
 
 
 def _excluded_doc(doc_id: str) -> bool:
@@ -247,7 +284,8 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
 
 def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             grade_model: str, context_chars: int, keep: int,
-            reference_chars: int | None = None) -> list[dict[str, Any]]:
+            reference_chars: int | None = None,
+            generation_recorder: Any = None) -> list[dict[str, Any]]:
     from clir_bench.core.llm import call_with_retries, client_for
     from clir_bench.core.grading import (GraderConfig, grade_columns,
                                          grade_faithfulness, grade_quality,
@@ -269,6 +307,11 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
     grader = GraderConfig(model=grade_model, reasoning_effort="low",
                           thinking_budget_tokens=16000, thinking_max_tokens=32000)
     gen_client, grade_client = client_for(gen_model), client_for(grade_model)
+    if generation_recorder is not None:
+        gen_client = generation_recorder.client(
+            gen_client.with_options(max_retries=0, timeout=180),
+            context={"corpus": "un", "target_id": target.block_id,
+                     "doc_id": target.doc_id, "mode": target.mode, "language": target.language})
 
     candidates = call_with_retries(
         lambda: gen.generate(payload, mode=target.mode, language=target.language,
@@ -402,7 +445,7 @@ FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "faith_reason", "qual_failure_type", "qual_reason", "total_score")
 
 
-def main() -> None:
+def main(argv: Sequence[str] | None = None, *, index: ctx.BlockIndex | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--n", type=int, default=100,
                         help="target blocks (= queries when keep=1)")
@@ -413,9 +456,17 @@ def main() -> None:
     # not ask in it), all three prompt modes, gpt-5.4-mini generating and
     # Sonnet grading.
     parser.add_argument("--languages", default="en,fr,es,zh")
-    parser.add_argument("--modes", default="technical,semantic,descriptive")
+    parser.add_argument("--modes", default=",".join(DEFAULT_MODES))
+    parser.add_argument("--targets-in", type=Path,
+                        help="reuse this exact JSON target list; bypass sampling and ignore --n")
+    parser.add_argument("--targets-out", type=Path,
+                        help="save the selected target list for identical inputs across models")
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
+    parser.add_argument("--generation-cache", type=Path,
+                        help="reuse saved responses only for the exact model and canonical messages")
+    parser.add_argument("--generation-records", type=Path,
+                        help="record generation requests, raw responses, timing and token usage")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
     parser.add_argument("--shares", default=None,
                         help="genre shares as resolution,meeting,letter "
@@ -437,7 +488,7 @@ def main() -> None:
     parser.add_argument("--out", default=str(OUT_DIR / "qac_un.csv"))
     parser.add_argument("--dry-run", action="store_true",
                         help="show the selected targets and the call budget, make no calls")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     load_env()
 
     languages = [x.strip() for x in args.languages.split(",") if x.strip()]
@@ -451,6 +502,8 @@ def main() -> None:
             f"The 6-way corpus carries {', '.join(UN_LANGUAGES)} -- a language without a "
             "corpus file has no source text to generate from.")
     modes = [x.strip() for x in args.modes.split(",") if x.strip()]
+    if not modes or any(mode not in SUPPORTED_MODES for mode in modes):
+        parser.error(f"unsupported modes; choose from {', '.join(SUPPORTED_MODES)}")
 
     strata = GENRE_STRATA
     if args.shares:
@@ -460,7 +513,8 @@ def main() -> None:
                              f"({', '.join(n for n, _ in GENRE_STRATA)})")
         strata = tuple(zip((name for name, _ in GENRE_STRATA), values))
 
-    index = ctx.BlockIndex(blocks_path=args.blocks, docs_path=args.docs)
+    if index is None:
+        index = ctx.BlockIndex(blocks_path=args.blocks, docs_path=args.docs)
     if index.incomplete is not None:
         status_mtime = ctx.paths.REFERENCE_STATUS_JSONL.stat().st_mtime
         blocks_file = Path(args.blocks or ctx.paths.BLOCKS_JSONL)
@@ -468,11 +522,20 @@ def main() -> None:
             print("WARNING: blocks_en.jsonl is newer than reference_status_en.jsonl "
                   "-- re-run clir_bench.domains.legal.un.references_status",
                   file=sys.stderr)
-    targets = select(index, n=args.n, seed=args.seed, languages=languages,
-                     modes=modes, strata=strata, max_per_doc=args.max_per_doc,
-                     genre_filter=not args.all_genres,
-                     fit_filter=not args.no_fit,
-                     require_complete=not args.allow_incomplete)
+    if args.targets_in:
+        targets = load_targets(args.targets_in)
+        for target in targets:
+            doc = index.docs.get(target.doc_id)
+            if doc is None or target.n_blocks != doc["n_blocks"]:
+                raise SystemExit(f"manifest target is unavailable or changed: {target.block_id}")
+    else:
+        targets = select(index, n=args.n, seed=args.seed, languages=languages,
+                         modes=modes, strata=strata, max_per_doc=args.max_per_doc,
+                         genre_filter=not args.all_genres,
+                         fit_filter=not args.no_fit,
+                         require_complete=not args.allow_incomplete)
+    if args.targets_out:
+        write_targets(args.targets_out, targets)
 
     print(f"selected {len(targets)} target blocks "
           f"across {len({t.doc_id for t in targets})} documents", file=sys.stderr)
@@ -523,7 +586,13 @@ def main() -> None:
         index.preload_translations([language], doc_ids)
 
     from clir_bench.core.parallel import run_tasks
+    recorder = None
+    if args.generation_cache or args.generation_records:
+        from clir_bench.domains.legal.qac.batch_recording import GenerationRecorder
+        records_dir = args.generation_records or Path(args.out).with_suffix(".generation")
+        recorder = GenerationRecorder(args.generation_cache, records_dir, args.gen_model)
     rows: list[dict[str, Any]] = []
+    outcomes: list[dict[str, Any]] = []
     failed = 0
     for result in run_tasks(
             targets,
@@ -531,9 +600,13 @@ def main() -> None:
                                 grade_model=args.grade_model,
                                 context_chars=args.context_chars, keep=args.keep,
                                 reference_chars=(refs.DEFAULT_REFERENCE_CHARS
-                                                 if args.no_fit else None))),
+                                                 if args.no_fit else None),
+                                generation_recorder=recorder)),
             workers=args.workers, description="generating"):
-        _, produced = result
+        target, produced = result
+        outcomes.append({"target": asdict(target), "generation_model": args.gen_model,
+                         "grade_model": args.grade_model, "candidate_rows": len(produced or []),
+                         "status": "failed" if produced is None else "generated" if produced else "no_candidates"})
         if produced is None:
             failed += 1
         else:
@@ -543,9 +616,10 @@ def main() -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     # Rows arrive grouped per target, best-first within each group; only the
     # grouping is normalised here. Within-target order is the ranking.
-    grouped: dict[str, list[dict[str, Any]]] = {}
+    grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
     for row in rows:
-        grouped.setdefault(row["block_id"], []).append(row)
+        key = (row["block_id"], row["mode"], row["question_language"])
+        grouped.setdefault(key, []).append(row)
 
     ordered = [r for key in sorted(grouped) for r in grouped[key]]
     best, rejected = pick_best(grouped)
@@ -559,6 +633,8 @@ def main() -> None:
     best_path = out.with_name(out.stem + "_best" + out.suffix)
     write(out, ordered)
     write(best_path, best)
+    out.with_suffix(".outcomes.jsonl").write_text(
+        "".join(json.dumps(item, ensure_ascii=False) + "\n" for item in outcomes), encoding="utf-8")
 
     if not rows:
         raise SystemExit(
