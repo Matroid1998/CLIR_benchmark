@@ -133,11 +133,23 @@ _QUALITY_FIELDS_BY_MODE = {
 # technical five. When the two disagree the rubric wins, because it is what the
 # grader was actually asked to produce.
 _RUBRIC_SCORE = re.compile(r'"([a-z_]+)"\s*:\s*<1-5>')
+_LEGAL_RUBRIC_VERSIONS = frozenset(("legal-qg-v2.0", "legal-qg-v3.0"))
+
+
+def _legal_rubric_version(prompt: str) -> str | None:
+    """Recognize structured legal contracts without falling back on bad versions."""
+    versions = set(re.findall(r"\blegal-qg-v\d+(?:\.\d+)+\b", prompt))
+    if not versions:
+        return None
+    if len(versions) != 1 or not versions <= _LEGAL_RUBRIC_VERSIONS:
+        raise ValueError("Legal rubric declares conflicting or unsupported versions")
+    return next(iter(versions))
 
 
 def rubric_keys(prompt: str) -> tuple[str, ...]:
     """The criteria a quality rubric scores, in the order it declares them."""
-    nested = re.search(r"^- scores: object with exactly ([a-z_, ]+)\.", prompt, re.MULTILINE)
+    nested = re.search(r"^- scores: (?:object with )?exactly ([a-z_, ]+?)(?:\.|,\s+each\b)",
+                       prompt, re.MULTILINE)
     if nested:
         return tuple(key.strip() for key in nested.group(1).split(","))
     seen: dict[str, None] = {}
@@ -319,7 +331,7 @@ _VALIDITY_KEYS = (
     "question_premises", "answer_responsiveness", "target_relevance",
     "reference_sufficiency", "legal_temporal_fidelity",
 )
-_V2_FIELDS = (
+_LEGAL_FIELDS = (
     "index", "candidate_id", "rubric_version", "mode", "evidence",
     "target_relation", "reasoning_requirement", "validity", "scores",
     "score_notes", "metadata_checks", "issues", "suggested_repair",
@@ -380,7 +392,7 @@ def _legal_input(
     if not declared or (rubric_mode and rubric_mode != declared.group(1)):
         raise ValueError("Legal rubric mode is missing or disagrees with the supplied mode")
     if not sources or not target_source_id or not 1 <= len(qa_pairs) <= 3:
-        raise ValueError("Legal v2 grading requires labeled sources, a target ID, and 1–3 candidates")
+        raise ValueError("Legal grading requires labeled sources, a target ID, and 1–3 candidates")
     source_ids: set[str] = set()
     for source in sources:
         for field in ("source_id", "text"):
@@ -412,20 +424,29 @@ def _legal_input(
 def _normalize_legal_quality(data: Any, prompt: str, envelope: Mapping[str, Any]) -> list[dict[str, Any]]:
     """Enforce the prompt's nested audit contract before calculating any scores."""
     candidates = envelope["candidates"]
+    version = _legal_rubric_version(prompt)
+    if version is None:
+        raise ValueError("Structured legal grading requires a declared rubric version")
     keys = rubric_keys(prompt)
     metadata = re.search(r"^Required metadata_checks:\s*([a-z_, ]+)\.", prompt, re.MULTILINE)
-    if len(keys) != 5 or not metadata:
-        raise ValueError("Legal v2 rubric must declare its five metrics and required metadata checks")
+    if len(keys) != 5 or len(set(keys)) != 5 or not metadata:
+        raise ValueError("Legal rubric must declare its five metrics and required metadata checks")
     metadata_keys = tuple(part.strip() for part in metadata.group(1).split(","))
+    issue_codes = ()
+    if version == "legal-qg-v3.0":
+        controlled = re.search(r"^# CONTROLLED ISSUE CODES\s*\n([a-z0-9_, ]+)", prompt, re.MULTILINE)
+        if not controlled:
+            raise ValueError("Legal v3 rubric must declare its controlled issue codes")
+        issue_codes = tuple(code.strip() for code in controlled.group(1).split(","))
     if not isinstance(data, list) or len(data) != len(candidates):
-        raise ValueError("Legal v2 verifier must return one array entry per input candidate")
+        raise ValueError("Legal verifier must return one array entry per input candidate")
     sources = {source["source_id"]: source for source in envelope["sources"]}
     rows = []
     for index, (item, candidate) in enumerate(zip(data, candidates)):
-        _object(item, _V2_FIELDS, "Legal v2 grade")
+        _object(item, _LEGAL_FIELDS, "Legal grade")
         if type(item["index"]) is not int or item["index"] != index or item["candidate_id"] != candidate["candidate_id"]:
             raise ValueError("Legal verifier changed candidate identity or input order")
-        if item["rubric_version"] != "legal-qg-v2.0" or item["mode"] != envelope["mode"]:
+        if item["rubric_version"] != version or item["mode"] != envelope["mode"]:
             raise ValueError("Legal verifier returned the wrong rubric version or mode")
         _enum(item["target_relation"], ("central", "joint", "incidental", "absent", "uncertain"), "target_relation")
         _enum(item["reasoning_requirement"], ("extraction", "direct_application", "supported_synthesis", "external_or_open_ended", "uncertain"), "reasoning_requirement")
@@ -436,6 +457,8 @@ def _normalize_legal_quality(data: Any, prompt: str, envelope: Mapping[str, Any]
             _enum(item["suggested_mode"], ("eurlex_fact_pattern", "eurlex_lookup", "un_lookup", "un_practitioner", "un_semantic", "other_persona"), "suggested_mode")
         if not isinstance(item["evidence"], list):
             raise ValueError("Evidence must be an array")  # noqa: TRY004 -- invalid verifier JSON
+        if version == "legal-qg-v3.0" and len(item["evidence"]) > 10:
+            raise ValueError("Legal v3 evidence must contain at most 10 quotations")
         evidence = {}
         for entry in item["evidence"]:
             _object(entry, ("evidence_id", "source_id", "quote"), "evidence")
@@ -471,6 +494,11 @@ def _normalize_legal_quality(data: Any, prompt: str, envelope: Mapping[str, Any]
             if score is not None and (type(score) is not int or not 1 <= score <= 5):
                 raise ValueError(f"Score {key} must be an integer from 1 to 5 or null")
             _string(item["score_notes"][key], f"score_notes.{key}")
+            if version == "legal-qg-v3.0":
+                note = re.fullmatch(r"Basis:\s*(.*?)[.;]\s*Test:\s*(.*?)[.;]\s*Limit:\s*(.*)",
+                                    item["score_notes"][key].strip(), re.DOTALL)
+                if not note or any(not part.strip() for part in note.groups()):
+                    raise ValueError(f"Score note {key} must contain nonempty Basis, Test, and Limit fields")
         checks = item["metadata_checks"]
         if not isinstance(checks, list) or len(checks) != len(metadata_keys):
             raise ValueError("Missing or extra mode metadata checks")
@@ -489,6 +517,8 @@ def _normalize_legal_quality(data: Any, prompt: str, envelope: Mapping[str, Any]
             _object(issue, ("code", "layer", "severity", "affected_criteria", "evidence_ids", "note"), "issue")
             if not isinstance(issue["code"], str) or not re.fullmatch(r"[a-z][a-z0-9]*(?:_[a-z0-9]+)*", issue["code"]):
                 raise ValueError("Issue code must be snake_case")
+            if version == "legal-qg-v3.0":
+                _enum(issue["code"], issue_codes, "issue code")
             _enum(issue["layer"], ("validity", "mode", "metadata", "quality", "input", "collection"), "issue layer")
             _enum(issue["severity"], ("blocking", "repair", "minor", "review"), "issue severity")
             if issue["severity"] == "blocking" and issue["layer"] not in ("validity", "mode"):
@@ -552,14 +582,14 @@ def grade_quality(
 ) -> list[dict[str, Any]]:
     """Grade questions using the rubric's legacy or structured legal contract.
 
-    Legal v2 prompts always require strict identity, evidence, and score
+    Structured legal prompts always require strict identity, evidence, and score
     validation. The host supplies source boundaries and policies; generator
     identity and previous scores are excluded from the candidate payload.
     """
     want = expected if expected is not None else len(qa_pairs)
-    if "legal-qg-v2.0" in prompt:
+    if _legal_rubric_version(prompt):
         if want != len(qa_pairs):
-            raise ValueError("Legal v2 expected count must match the supplied candidates")
+            raise ValueError("Legal expected count must match the supplied candidates")
         envelope = _legal_input(prompt, qa_pairs, sources, target_source_id, policies, rubric_mode)
         raw = _invoke(client, config, prompt, json.dumps(envelope, ensure_ascii=False))
         return _normalize_legal_quality(parse_json_response(raw), prompt, envelope)
@@ -620,7 +650,7 @@ def grade_columns(
         row["quality_verifier_response_json"] = json.dumps(audit, ensure_ascii=False)
         row["quality_rubric_version"] = audit.get("rubric_version", "legacy")
         row["quality_audit_status"] = "legacy_not_provided"
-        if audit.get("rubric_version") == "legal-qg-v2.0":
+        if audit.get("rubric_version") in _LEGAL_RUBRIC_VERSIONS:
             severities = {issue["severity"] for issue in audit["issues"]}
             validity_statuses = {check["status"] for check in audit["validity"].values()}
             metadata_statuses = {check["status"] for check in audit["metadata_checks"]}

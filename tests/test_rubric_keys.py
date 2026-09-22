@@ -91,12 +91,20 @@ def test_both_batch_drivers_default_to_the_same_generator() -> None:
     assert un_batch.DEFAULT_GEN_MODEL == eurlex_batch.DEFAULT_GEN_MODEL == "gpt-5.6-luna"
 
 
-V2_CASES = [(pack, mode) for pack, mode in CASES
-            if "legal-qg-v2.0" in PACKS[pack][0].quality(mode, "batch")]
+LEGAL_CASES = [(pack, mode) for pack, mode in CASES
+               if "legal-qg-v" in PACKS[pack][0].quality(mode, "batch")]
 
 
-def _legal_example(pack="eurlex", mode="lookup"):
+def _legal_example(pack="eurlex", mode="lookup", version=None):
     prompt = PACKS[pack][0].quality(mode, "batch")
+    declared_version = re.search(r"legal-qg-v\d+\.\d+", prompt).group(0)
+    if version is not None:
+        prompt = prompt.replace(declared_version, version)
+        declared_version = version
+        if version == "legal-qg-v2.0":
+            prompt = re.sub(r"^- scores: exactly ([a-z_, ]+?), each.*$",
+                            r"- scores: object with exactly \1. Each value is an integer 1–5 or null.",
+                            prompt, flags=re.MULTILINE)
     keys = rubric_keys(prompt)
     rubric_mode = re.search(r"^# MODE: (\w+)", prompt, re.MULTILINE).group(1)
     metadata = re.search(r"^Required metadata_checks: ([\w, ]+)\.", prompt, re.MULTILINE).group(1).split(", ")
@@ -111,29 +119,30 @@ def _legal_example(pack="eurlex", mode="lookup"):
                 "metadata": {"document_id": "document-1"}}]
     audit = {
         "index": 0, "candidate_id": candidate["candidate_id"],
-        "rubric_version": "legal-qg-v2.0", "mode": rubric_mode,
+        "rubric_version": declared_version, "mode": rubric_mode,
         "evidence": [{"evidence_id": "e1", "source_id": "target-1", "quote": sources[0]["text"]}],
         "target_relation": "central", "reasoning_requirement": "extraction",
         "validity": {key: {"status": "pass", "evidence_ids": ["e1"], "note": "Supported by the supplied target."}
                      for key in grading._VALIDITY_KEYS},
         "scores": {key: 5 for key in keys},
-        "score_notes": {key: "The requested rule is clear and precisely delimited." for key in keys},
+        "score_notes": {key: "Basis: minimum-coverage lookup; Test: asks for a single coverage value; Limit: none"
+                        for key in keys},
         "metadata_checks": [{"field": field, "status": "ok", "note": "Consistent with the candidate."} for field in metadata],
         "issues": [], "suggested_repair": None, "suggested_mode": None, "confidence": "high",
     }
     return prompt, candidate, sources, audit
 
 
-def _grade_legal(monkeypatch, response, *, pack="eurlex", mode="lookup", **kwargs):
-    prompt, candidate, sources, _ = _legal_example(pack, mode)
+def _grade_legal(monkeypatch, response, *, pack="eurlex", mode="lookup", version=None, **kwargs):
+    prompt, candidate, sources, _ = _legal_example(pack, mode, version)
     monkeypatch.setattr(grading, "_invoke", lambda *args: json.dumps(response))
     return grading.grade_quality(None, grading.GraderConfig("test"), prompt, "unused legacy text",
                                  [candidate], mode, sources=sources,
                                  target_source_id="target-1", **kwargs)
 
 
-@pytest.mark.parametrize("pack,mode", V2_CASES)
-def test_legal_v2_grades_follow_each_real_prompt_and_preserve_audits(monkeypatch, pack, mode):
+@pytest.mark.parametrize("pack,mode", LEGAL_CASES)
+def test_legal_grades_follow_each_real_prompt_and_preserve_audits(monkeypatch, pack, mode):
     _, _, _, audit = _legal_example(pack, mode)
     rows = _grade_legal(monkeypatch, [audit], pack=pack, mode=mode)
     assert rows[0]["overall"] == 25
@@ -141,11 +150,12 @@ def test_legal_v2_grades_follow_each_real_prompt_and_preserve_audits(monkeypatch
     columns = grade_columns({"grounding": 5, "precision": 4, "numerical_fidelity": 3}, rows[0], mode)
     assert columns["total_score"] == 37
     assert columns["quality_audit_status"] == "clear"
+    assert columns["quality_rubric_version"] == audit["rubric_version"]
     assert columns["quality_target_relevance_status"] == "pass"
     assert json.loads(columns["quality_verifier_response_json"]) == audit
 
 
-def test_legal_v2_input_is_structured_and_model_blind(monkeypatch):
+def test_legal_input_is_structured_and_model_blind(monkeypatch):
     prompt, candidate, sources, audit = _legal_example()
     captured = []
 
@@ -166,6 +176,7 @@ def test_legal_v2_input_is_structured_and_model_blind(monkeypatch):
     assert "total_score" not in envelope["candidates"][0]
 
 
+@pytest.mark.parametrize("version", ["legal-qg-v2.0", "legal-qg-v3.0"])
 @pytest.mark.parametrize("mutation", [
     lambda row: row.update(candidate_id="different"),
     lambda row: row.update(index=True),
@@ -190,17 +201,17 @@ def test_legal_v2_input_is_structured_and_model_blind(monkeypatch):
     lambda row: row["metadata_checks"][0].update(status="pass"),
     lambda row: row.update(suggested_mode="technical"),
 ])
-def test_legal_v2_rejects_invalid_identity_scores_and_audits(monkeypatch, mutation):
-    _, _, _, audit = _legal_example()
+def test_legal_rejects_invalid_identity_scores_and_audits(monkeypatch, mutation, version):
+    _, _, _, audit = _legal_example(version=version)
     mutation(audit)
     with pytest.raises(ValueError):
-        _grade_legal(monkeypatch, [audit])
+        _grade_legal(monkeypatch, [audit], version=version)
 
 
-def test_legal_v2_nulls_remain_unranked_and_repairs_remain_audit_data(monkeypatch):
+def test_legal_nulls_remain_unranked_and_repairs_remain_audit_data(monkeypatch):
     _, candidate, _, audit = _legal_example()
     audit["scores"]["focus"] = None
-    audit["issues"] = [{"code": "incomplete_evidence", "layer": "input", "severity": "review",
+    audit["issues"] = [{"code": "input_incomplete", "layer": "input", "severity": "review",
                         "affected_criteria": ["focus"], "evidence_ids": [], "note": "Additional context is needed."}]
     audit["suggested_repair"] = "Suggested wording, without altering the stored question."
     quality = _grade_legal(monkeypatch, [audit])[0]
@@ -216,7 +227,7 @@ def test_legal_v2_nulls_remain_unranked_and_repairs_remain_audit_data(monkeypatc
     assert ranked[0].qa["question"] == "complete"
 
 
-def test_legal_v2_requires_explicit_inputs_before_calling_verifier(monkeypatch):
+def test_legal_requires_explicit_inputs_before_calling_verifier(monkeypatch):
     prompt, candidate, sources, _ = _legal_example()
     monkeypatch.setattr(grading, "_invoke", lambda *args: pytest.fail("Invalid input must fail before API access"))
     config = grading.GraderConfig("test")
@@ -228,6 +239,75 @@ def test_legal_v2_requires_explicit_inputs_before_calling_verifier(monkeypatch):
     with pytest.raises(ValueError, match="cannot override"):
         grading.grade_quality(None, config, prompt, "", [candidate], "lookup",
                               sources=sources, target_source_id="target-1", policies={"mode": "injected"})
+
+
+@pytest.mark.parametrize("version", ["legal-qg-v2.0", "legal-qg-v3.0"])
+def test_declared_legal_version_routes_and_flattens_without_legacy_fallback(monkeypatch, version):
+    prompt, _, _, audit = _legal_example(version=version)
+    assert len(rubric_keys(prompt)) == 5
+    quality = _grade_legal(monkeypatch, [audit], version=version)[0]
+    columns = grade_columns({"overall": 15}, quality, "lookup")
+    assert columns["total_score"] == 40
+    assert columns["quality_rubric_version"] == version
+    assert columns["quality_audit_status"] == "clear"
+    audit["rubric_version"] = "legal-qg-v2.0" if version == "legal-qg-v3.0" else "legal-qg-v3.0"
+    with pytest.raises(ValueError, match="wrong rubric version"):
+        _grade_legal(monkeypatch, [audit], version=version)
+
+
+@pytest.mark.parametrize("version", ["legal-qg-v9.0", "legal-qg-v2.0 legal-qg-v3.0"])
+def test_unsupported_or_conflicting_legal_versions_fail_before_model_call(monkeypatch, version):
+    prompt, candidate, sources, _ = _legal_example()
+    prompt = prompt.replace("legal-qg-v3.0", version)
+    monkeypatch.setattr(grading, "_invoke", lambda *args: pytest.fail("Invalid version contacted verifier"))
+    with pytest.raises(ValueError, match="unsupported versions"):
+        grading.grade_quality(None, grading.GraderConfig("test"), prompt, "", [candidate], "lookup",
+                              sources=sources, target_source_id="target-1")
+
+
+@pytest.mark.parametrize("note", [
+    "The answer is clear.",
+    "Basis: ; Test: one value; Limit: none",
+    "Basis: coverage; Test: ; Limit: none",
+    "Basis: coverage; Test: one value; Limit: ",
+    "Basis: . Test: one value. Limit: none",
+    "Basis: coverage. Test: . Limit: none",
+    "Basis: coverage. Test: one value. Limit: ",
+    "Test: one value. Basis: coverage. Limit: none",
+])
+def test_legal_v3_score_notes_require_three_nonempty_audit_fields(monkeypatch, note):
+    _, _, _, audit = _legal_example()
+    audit["score_notes"]["focus"] = note
+    with pytest.raises(ValueError, match="nonempty Basis, Test, and Limit"):
+        _grade_legal(monkeypatch, [audit])
+
+
+@pytest.mark.parametrize("separator", ["; ", ". ", ".\n"])
+def test_legal_v3_score_notes_accept_sentence_or_semicolon_separators(monkeypatch, separator):
+    _, _, _, audit = _legal_example()
+    note = separator.join(("Basis: coverage lookup", "Test: asks for one coverage value", "Limit: none"))
+    audit["score_notes"]["focus"] = note
+    quality = _grade_legal(monkeypatch, [audit])[0]
+    assert quality["_response"]["score_notes"]["focus"] == note
+    assert quality["overall"] == 25
+
+
+@pytest.mark.parametrize("version", ["legal-qg-v2.0", "legal-qg-v3.0"])
+@pytest.mark.parametrize("defect", ["evidence_count", "issue_code", "score_note"])
+def test_v3_only_audit_constraints_preserve_v2_compatibility(monkeypatch, version, defect):
+    _, _, _, audit = _legal_example(version=version)
+    if defect == "evidence_count":
+        audit["evidence"] = [dict(audit["evidence"][0], evidence_id=f"e{i}") for i in range(1, 12)]
+    elif defect == "issue_code":
+        audit["issues"] = [{"code": "arbitrary_legacy_code", "layer": "quality", "severity": "minor",
+                            "affected_criteria": ["focus"], "evidence_ids": [], "note": "A legacy diagnostic."}]
+    else:
+        audit["score_notes"]["focus"] = "The requested rule is precisely delimited."
+    if version == "legal-qg-v3.0":
+        with pytest.raises(ValueError):
+            _grade_legal(monkeypatch, [audit], version=version)
+    else:
+        assert _grade_legal(monkeypatch, [audit], version=version)[0]["overall"] == 25
 
 
 def test_strict_legacy_grades_reject_missing_scores_and_keep_default_compatibility(monkeypatch):
