@@ -420,4 +420,72 @@ class StageCheckpoint:
         return SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
 
 
-__all__ = ["GenerationRecorder", "RunState", "StageCheckpoint", "messages_sha256", "read_run_metadata"]
+def export_traces(directory: Path) -> None:
+    """Export every recorded call, retry and parsed stage without making model calls."""
+    directory = Path(directory)
+    with sqlite3.connect((directory / "run.sqlite").resolve().as_uri() + "?mode=ro", uri=True) as db:
+        metadata = {key: json.loads(value) for key, value in db.execute("SELECT key,value FROM metadata")}
+        calls = [{"request_id": i, "task_id": t, "stage": s, "record": json.loads(r)}
+                 for i, t, s, r in db.execute(
+                     "SELECT id,task,stage,record FROM requests "
+                     "ORDER BY json_extract(record,'$.timestamp'),id")]
+        stages = [{"task_id": t, "stage": s, "attempts": a, "status": status,
+                   "parsed_output": json.loads(v) if v is not None else None, "error": e}
+                  for t, s, a, status, v, e in db.execute(
+                      "SELECT task,stage,attempts,status,value,error FROM stages ORDER BY task,stage")]
+        outcomes = [{"task_id": t, "status": s, "rows": json.loads(r), "error": e}
+                    for t, s, r, e in db.execute("SELECT task,status,rows,error FROM outcomes ORDER BY task")]
+    bundle = {"metadata": metadata, "calls": calls, "stages": stages, "outcomes": outcomes}
+
+    def block(value, kind="text"):
+        content = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, indent=2)
+        fence = "`" * max(4, 1 + max((len(run) for run in re.findall(r"`+", content)), default=0))
+        return f"{fence}{kind}\n{content}\n{fence}"
+
+    lines = ["# Legal question generation and grading: complete call trace",
+             f"Run status: **{metadata.get('status', 'unknown')}**. Recorded calls: **{len(calls)}**.",
+             (f"[Questions and grades]({metadata.get('output', 'results.csv')}) · "
+             "[Full provider responses and run data](llm_calls.json) · Resumable state: `run.sqlite`."),
+             ("Every recorded call, including retries, appears in chronological order. "
+             "API status describes transport; stage status describes final parsing and validation. "
+             "The JSON export retains every recorded provider response field. "
+             "Any candidates beyond a requested quota remain in the raw outcomes."),
+             "## Run configuration and source targets", block(metadata.get("config", {}), "json"),
+             "## Run summary", block(metadata.get("summary", {}), "json")]
+    table = ["| Task | Stage | Attempts | Final status | Error |", "|---|---|---:|---|---|"]
+    for stage in stages:
+        error = (stage["error"] or "").replace("|", "\\|").replace("\n", " ")
+        table.append(f"| {stage['task_id']} | {stage['stage']} | {stage['attempts']} | "
+                     f"{stage['status']} | {error} |")
+    lines.extend(["## Final stage results", "\n".join(table)])
+    for number, call in enumerate(calls, 1):
+        record = call["record"]
+        lines.extend([f"## Call {number:03d}: {call['stage']}",
+                      f"Request: `{call['request_id']}`. Task: `{call['task_id']}`.",
+                      f"Model: `{record['model']}`. UTC: {record.get('timestamp', 'unknown')}.",
+                      f"API status: **{record['status']}**. Duration: {record.get('seconds', 'unknown')} seconds.",
+                      "### Request settings", block(record.get("request_settings", {}), "json")])
+        for position, message in enumerate(record["messages"], 1):
+            lines.extend([f"### Input {position}: {message['role']}", block(message.get("content", ""))])
+        response = record.get("response") or {}
+        for choice in response.get("choices", []):
+            lines.extend([f"### Output: choice {choice.get('index', 0)}",
+                          f"Finish reason: `{choice.get('finish_reason')}`.",
+                          block((choice.get("message") or {}).get("content") or "(No assistant content returned.)")])
+        if record.get("error") or response.get("error"):
+            lines.extend(["### Provider error", block(record.get("error") or response["error"])])
+        lines.extend(["### Recorded usage", block(record.get("usage", {}), "json"),
+                      "### Input size diagnostics", block({key: record.get(key) for key in (
+                          "input_characters", "context_capacity_exceeded")}, "json")])
+    lines.append("## Parsed pipeline outputs")
+    for stage in stages:
+        lines.extend([f"### {stage['task_id']}: {stage['stage']} — {stage['status']}",
+                      block(stage["parsed_output"], "json")])
+    for filename, content in (("llm_calls.json", json.dumps(bundle, ensure_ascii=False, indent=2)),
+                              ("trace.md", "\n\n".join(lines))):
+        temporary = directory / (filename + ".tmp")
+        temporary.write_text(content + "\n", encoding="utf-8")
+        temporary.replace(directory / filename)
+
+
+__all__ = ["GenerationRecorder", "RunState", "StageCheckpoint", "export_traces", "messages_sha256", "read_run_metadata"]

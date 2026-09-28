@@ -16,7 +16,6 @@ the rubric is, via ``rubric_keys``.
 from __future__ import annotations
 
 import json
-import re
 from copy import deepcopy
 
 import pytest
@@ -91,23 +90,163 @@ def test_both_batch_drivers_default_to_the_same_generator() -> None:
     assert un_batch.DEFAULT_GEN_MODEL == eurlex_batch.DEFAULT_GEN_MODEL == "gpt-5.6-luna"
 
 
-LEGAL_CASES = [(pack, mode) for pack, mode in CASES
-               if "legal-qg-v" in PACKS[pack][0].quality(mode, "batch")]
+LEGAL_CASES = [("eurlex", "lookup"), ("eurlex", "fact_pattern"),
+               ("un", "lookup"), ("un", "practitioners"), ("un", "semantic")]
+
+
+def _compact_example(pack="eurlex", mode="lookup", count=1):
+    prompt = PACKS[pack][0].quality(mode, "batch")
+    example = deepcopy(grading._quality_output_example(prompt))
+    template = example["candidates"][0]
+    candidates = [{"candidate_id": f"candidate-{index}", "question_language": "en",
+                   "question": f"Which coverage applies to traveller {index}?", "answer": "EUR 30,000",
+                   "question_type": "amount_or_threshold", "anchor": "coverage",
+                   "anchors": ["coverage", "traveller"], "particulars": ["traveller", "coverage"],
+                   "question_cited": "Which coverage applies under Regulation 1/2000?",
+                   "instrument_short_name": None, "articles_involved": ["14"],
+                   "framing": "response", "question_template": "Which coverage applies to {instrument}?",
+                   "instrument_slot_base": "travel insurance", "instrument_slot_cited": "Regulation 1/2000",
+                   "instrument_description": "rules governing travel insurance",
+                   "generator_model_id": "hidden-model", "total_score": 40}
+                  for index in range(count)]
+    example["candidates"] = [dict(deepcopy(template), index=index, candidate_id=candidate["candidate_id"])
+                             for index, candidate in enumerate(candidates)]
+    example["batch_diversity"] = "not_applicable" if count == 1 else "pass"
+    return prompt, candidates, example
+
+
+def _grade_compact(monkeypatch, response, *, pack="eurlex", mode="lookup", count=1):
+    prompt, candidates, _ = _compact_example(pack, mode, count)
+    monkeypatch.setattr(grading, "_invoke", lambda *args: json.dumps(response))
+    return grading.grade_quality(None, grading.GraderConfig("test"), prompt,
+                                 "TARGET ARTICLE\nMinimum coverage is EUR 30,000.", candidates, mode, strict=True)
+
+
+@pytest.mark.parametrize("pack,mode", LEGAL_CASES)
+@pytest.mark.parametrize("count", [1, 2, 3])
+def test_current_legal_contract_grades_each_pack_and_exports_audits(monkeypatch, pack, mode, count):
+    prompt, _, response = _compact_example(pack, mode, count)
+    rows = _grade_compact(monkeypatch, response, pack=pack, mode=mode, count=count)
+    assert len(rows) == count
+    for index, row in enumerate(rows):
+        assert row["overall"] == 20
+        assert row["_keys"] == list(response["candidates"][index]["scores"])
+        columns = grade_columns({"overall": 15}, row, mode)
+        assert columns["total_score"] == 35
+        assert columns["quality_audit_status"] == "clear"
+        assert columns["quality_rubric_version"] == "unversioned_compact"
+        assert columns["quality_batch_diversity"] == response["batch_diversity"]
+        assert json.loads(columns["quality_verifier_response_json"]) == response["candidates"][index]
+        for field in ("score_notes", "checks", "problems"):
+            assert json.loads(columns[f"quality_{field}_json"]) == response["candidates"][index][field]
+        for key in rubric_keys(prompt):
+            assert columns[f"qual_{key}"] == 4
+
+
+@pytest.mark.parametrize("pack,mode", LEGAL_CASES)
+def test_compact_input_keeps_every_declared_field_and_hides_model_scores(monkeypatch, pack, mode):
+    prompt, candidates, response = _compact_example(pack, mode, 3)
+    seen = []
+
+    def invoke(client, config, system_prompt, content):
+        assert system_prompt == prompt
+        seen.append(json.loads(content))
+        return json.dumps(response)
+
+    monkeypatch.setattr(grading, "_invoke", invoke)
+    grading.grade_quality(None, grading.GraderConfig("test"), prompt, "TARGET plus referenced English text",
+                          candidates, mode, strict=True)
+    assert seen[0]["passages"] == "TARGET plus referenced English text"
+    assert seen[0]["candidates"] == [{key: value for key, value in candidate.items()
+                                     if key not in ("generator_model_id", "total_score")}
+                                    for candidate in candidates]
+
+
+@pytest.mark.parametrize("mutation", [
+    lambda data: data["candidates"].clear(),
+    lambda data: data["candidates"].reverse(),
+    lambda data: data["candidates"][0].update(index=True),
+    lambda data: data["candidates"][0].update(candidate_id="wrong-id"),
+    lambda data: data["candidates"][0].update(candidate_id=None),
+    lambda data: data["candidates"][0]["scores"].update(focus=True),
+    lambda data: data["candidates"][0]["scores"].update(focus=6),
+    lambda data: data["candidates"][0]["scores"].update(focus=0),
+    lambda data: data["candidates"][0]["scores"].update(focus="4"),
+    lambda data: data["candidates"][0]["scores"].pop("focus"),
+    lambda data: data["candidates"][0]["score_notes"].update(focus=""),
+    lambda data: data["candidates"][0]["checks"].update(mode="ok"),
+    lambda data: data["candidates"][0]["checks"].update(support="uncertain"),
+    lambda data: data["candidates"][0].update(problems="none"),
+    lambda data: data["candidates"][0].update(problems=[None]),
+    lambda data: data.update(batch_diversity="not_applicable"),
+])
+def test_compact_rejects_malformed_scores_identity_and_audits(monkeypatch, mutation):
+    _, _, response = _compact_example(count=2)
+    mutation(response)
+    with pytest.raises(ValueError):
+        _grade_compact(monkeypatch, response, count=2)
+
+
+@pytest.mark.parametrize("changes,problems,status", [
+    ({"mode": "fail"}, ["mode: The question is not in English."], "blocking"),
+    ({"support": "fail"}, ["support: The span omits an exception."], "blocking"),
+    ({"metadata": "fail"}, ["metadata: The reported anchor is missing."], "repair"),
+    ({"support": "uncertain"}, ["support: A necessary reference is missing."], "review"),
+    ({}, ["focus: The wording includes a minor redundancy."], "minor_issues"),
+])
+def test_compact_audit_checks_do_not_change_scores(monkeypatch, changes, problems, status):
+    _, _, response = _compact_example()
+    response["candidates"][0]["checks"].update(changes)
+    response["candidates"][0]["problems"] = problems
+    row = _grade_compact(monkeypatch, response)[0]
+    columns = grade_columns({"overall": 15}, row, "lookup")
+    assert columns["quality_audit_status"] == status
+    assert columns["total_score"] == 35
+
+
+def test_compact_null_score_is_preserved_without_a_fabricated_total(monkeypatch):
+    _, _, response = _compact_example()
+    response["candidates"][0]["scores"]["linguistic_quality"] = None
+    response["candidates"][0]["score_notes"]["linguistic_quality"] = "The question's language cannot be assessed."
+    row = _grade_compact(monkeypatch, response)[0]
+    columns = grade_columns({"overall": 15}, row, "lookup")
+    assert columns["qual_linguistic_quality"] is None
+    assert columns["qual_overall"] is None
+    assert columns["total_score"] is None
+    assert columns["quality_audit_status"] == "review"
+
+
+def test_compact_diversity_failure_is_independent_of_individual_scores(monkeypatch):
+    _, _, response = _compact_example(count=3)
+    response["batch_diversity"] = "fail"
+    for row in _grade_compact(monkeypatch, response, count=3):
+        columns = grade_columns({"overall": 15}, row, "lookup")
+        assert columns["quality_batch_diversity"] == "fail"
+        assert columns["quality_audit_status"] == "clear"
+        assert columns["total_score"] == 35
+
+
+def test_compact_optional_candidate_id_can_remain_null(monkeypatch):
+    prompt, candidates, response = _compact_example()
+    candidates[0].pop("candidate_id")
+    response["candidates"][0]["candidate_id"] = None
+    monkeypatch.setattr(grading, "_invoke", lambda *args: json.dumps(response))
+    result = grading.grade_quality(None, grading.GraderConfig("test"), prompt, "source", candidates, "lookup")
+    assert result[0]["_response"]["candidate_id"] is None
 
 
 def _legal_example(pack="eurlex", mode="lookup", version=None):
-    prompt = PACKS[pack][0].quality(mode, "batch")
-    declared_version = re.search(r"legal-qg-v\d+\.\d+", prompt).group(0)
-    if version is not None:
-        prompt = prompt.replace(declared_version, version)
-        declared_version = version
-        if version == "legal-qg-v2.0":
-            prompt = re.sub(r"^- scores: exactly ([a-z_, ]+?), each.*$",
-                            r"- scores: object with exactly \1. Each value is an integer 1–5 or null.",
-                            prompt, flags=re.MULTILINE)
-    keys = rubric_keys(prompt)
-    rubric_mode = re.search(r"^# MODE: (\w+)", prompt, re.MULTILINE).group(1)
-    metadata = re.search(r"^Required metadata_checks: ([\w, ]+)\.", prompt, re.MULTILINE).group(1).split(", ")
+    # Keep historical parser coverage independent of editable production prompts.
+    declared_version = version or "legal-qg-v3.0"
+    keys = rubric_keys(PACKS[pack][0].quality(mode, "batch"))
+    rubric_mode = f"{pack}_{'practitioner' if mode == 'practitioners' else mode}"
+    metadata = ["rendering", "instrument_short_name", "anchor", "articles_involved"]
+    declaration = (f"object with exactly {', '.join(keys)}. Each value is an integer 1–5 or null."
+                   if declared_version == "legal-qg-v2.0" else
+                   f"exactly {', '.join(keys)}, each an integer 1–5 or null.")
+    prompt = (f"{declared_version}\n# MODE: {rubric_mode}\n- scores: {declaration}\n"
+              f"Required metadata_checks: {', '.join(metadata)}.\n"
+              "# CONTROLLED ISSUE CODES\ninput_incomplete, metadata_mismatch\n")
     candidate = {
         "candidate_id": "candidate-001", "question_language": "en",
         "question": "What is the minimum coverage?", "answer": "EUR 30,000",
@@ -142,7 +281,7 @@ def _grade_legal(monkeypatch, response, *, pack="eurlex", mode="lookup", version
 
 
 @pytest.mark.parametrize("pack,mode", LEGAL_CASES)
-def test_legal_grades_follow_each_real_prompt_and_preserve_audits(monkeypatch, pack, mode):
+def test_historical_legal_contracts_preserve_audits(monkeypatch, pack, mode):
     _, _, _, audit = _legal_example(pack, mode)
     rows = _grade_legal(monkeypatch, [audit], pack=pack, mode=mode)
     assert rows[0]["overall"] == 25

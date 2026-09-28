@@ -133,19 +133,20 @@ def test_the_rubric_scores_exactly_the_keys_grading_sums(mode: str) -> None:
 def test_each_verifier_carries_its_defining_check() -> None:
     lookup = EURLEX.quality(gen.MODE_LOOKUP, "batch")
     fact_pattern = EURLEX.quality(gen.MODE_FACT_PATTERN, "batch")
-    assert "regime-anchored" in lookup
-    assert "functional application" in fact_pattern
+    assert "regime anchor" in lookup
+    assert "third-person case" in fact_pattern
     for rubric in (lookup, fact_pattern):
         # Scores and source-relative validity are separately auditable.
-        assert "legal-qg-v3.0" in rubric
-        assert "target_relevance" in rubric
-        assert "blocking" in rubric
-        assert "metadata_checks" in rubric
+        assert '"scores"' in rubric
+        assert '"support": "pass"' in rubric
+        assert '"metadata": "pass"' in rubric
+        assert '"batch_diversity"' in rubric
 
 
 def test_the_lookup_rubric_checks_the_fields_only_lookup_emits() -> None:
     rubric = EURLEX.quality(gen.MODE_LOOKUP, "batch")
-    assert "Required metadata_checks: rendering, short_name, anchor, question_type, identifier_policy." in rubric
+    for field in ("question_cited", "instrument_short_name", "anchor", "question_type"):
+        assert field in rubric
 
 
 def test_the_quality_grader_is_shown_the_fields_its_rubric_checks() -> None:

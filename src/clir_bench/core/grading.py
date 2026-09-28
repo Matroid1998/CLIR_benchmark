@@ -136,6 +136,29 @@ _RUBRIC_SCORE = re.compile(r'"([a-z_]+)"\s*:\s*<1-5>')
 _LEGAL_RUBRIC_VERSIONS = frozenset(("legal-qg-v2.0", "legal-qg-v3.0"))
 
 
+def _quality_output_example(prompt: str) -> Mapping[str, Any] | None:
+    """Recognize the compact legal contract from its actual JSON example."""
+    output = re.search(r"^OUTPUT\s*$", prompt, re.MULTILINE)
+    if output is None:
+        return None
+    section = prompt[output.end():]
+    start = re.search(r'\{\s*"candidates"\s*:', section)
+    if start is None:
+        return None
+    example, _ = json.JSONDecoder().raw_decode(section[start.start():])
+    candidates = example.get("candidates")
+    if not isinstance(candidates, list) or len(candidates) != 1:
+        raise ValueError("Quality output example must contain one candidate template")
+    candidate = candidates[0]
+    scores = candidate.get("scores") if isinstance(candidate, dict) else None
+    if (not isinstance(scores, dict) or len(scores) != 5
+            or any(not re.fullmatch(r"[a-z_]+", key) for key in scores)
+            or "score_notes" not in candidate or "checks" not in candidate
+            or "batch_diversity" not in example):
+        raise ValueError("Quality output example must declare five scores, notes, checks, and diversity")
+    return example
+
+
 def _legal_rubric_version(prompt: str) -> str | None:
     """Recognize structured legal contracts without falling back on bad versions."""
     versions = set(re.findall(r"\blegal-qg-v\d+(?:\.\d+)+\b", prompt))
@@ -148,6 +171,9 @@ def _legal_rubric_version(prompt: str) -> str | None:
 
 def rubric_keys(prompt: str) -> tuple[str, ...]:
     """The criteria a quality rubric scores, in the order it declares them."""
+    example = _quality_output_example(prompt)
+    if example is not None:
+        return tuple(example["candidates"][0]["scores"])
     nested = re.search(r"^- scores: (?:object with )?exactly ([a-z_, ]+?)(?:\.|,\s+each\b)",
                        prompt, re.MULTILINE)
     if nested:
@@ -384,6 +410,45 @@ def _strict_items(data: Any, want: int, keys: Sequence[str]) -> list[dict[str, A
     return sorted(items, key=lambda item: item["index"])
 
 
+def _normalize_compact_quality(
+    data: Any, keys: Sequence[str], candidates: Sequence[Mapping[str, Any]], mode: str,
+) -> list[dict[str, Any]]:
+    """Validate the current legal JSON contract without fabricating scores."""
+    _object(data, ("candidates", "batch_diversity"), "Quality response")
+    items = data["candidates"]
+    if not isinstance(items, list) or len(items) != len(candidates):
+        raise ValueError(f"Verifier must return exactly {len(candidates)} candidate grades")
+    diversity_choices = ("not_applicable",) if len(candidates) == 1 else ("pass", "fail", "uncertain")
+    _enum(data["batch_diversity"], diversity_choices, "batch_diversity")
+    rows = []
+    for index, (item, candidate) in enumerate(zip(items, candidates)):
+        _object(item, ("index", "candidate_id", "scores", "score_notes", "checks", "problems"), "Quality grade")
+        if (type(item["index"]) is not int or item["index"] != index
+                or item["candidate_id"] != candidate.get("candidate_id")):
+            raise ValueError("Legal verifier changed candidate identity or input order")
+        _object(item["scores"], keys, "scores")
+        _object(item["score_notes"], keys, "score_notes")
+        for key, score in item["scores"].items():
+            if score is not None and (type(score) is not int or not 1 <= score <= 5):
+                raise ValueError(f"Score {key} must be an integer from 1 to 5 or null")
+            _string(item["score_notes"][key], f"score_notes.{key}")
+        _object(item["checks"], ("mode", "support", "metadata"), "checks")
+        for key, status in item["checks"].items():
+            _enum(status, ("pass", "fail", "uncertain"), f"checks.{key}")
+        if not isinstance(item["problems"], list):
+            raise ValueError("Quality problems must be an array")  # noqa: TRY004 -- invalid verifier JSON
+        for problem in item["problems"]:
+            _string(problem, "problem")
+        if any(status != "pass" for status in item["checks"].values()) and not item["problems"]:
+            raise ValueError("Failed or uncertain quality checks require an explanation in problems")
+        row = dict(item["scores"], _keys=list(keys), _response=item,
+                   _batch_diversity=data["batch_diversity"], _contract="compact")
+        row["overall"] = quality_overall(row, mode)
+        row["reason"] = "; ".join(f"{key}: {note}" for key, note in item["score_notes"].items())
+        rows.append(row)
+    return rows
+
+
 def _legal_input(
     prompt: str, qa_pairs: Sequence[Mapping[str, Any]], sources: Sequence[Mapping[str, Any]] | None,
     target_source_id: str | None, policies: Mapping[str, Any] | None, rubric_mode: str | None,
@@ -593,6 +658,24 @@ def grade_quality(
         envelope = _legal_input(prompt, qa_pairs, sources, target_source_id, policies, rubric_mode)
         raw = _invoke(client, config, prompt, json.dumps(envelope, ensure_ascii=False))
         return _normalize_legal_quality(parse_json_response(raw), prompt, envelope)
+    if _quality_output_example(prompt) is not None:
+        if want != len(qa_pairs) or not 1 <= want <= 3:
+            raise ValueError("Legal grading requires 1–3 candidates matching the expected count")
+        candidates = [{key: qa[key] for key in _CANDIDATE_INPUT_FIELDS if key in qa} for qa in qa_pairs]
+        ids = []
+        for candidate in candidates:
+            for field in ("question", "answer"):
+                _string(candidate.get(field), f"candidate.{field}")
+            if candidate.get("candidate_id") is not None:
+                _string(candidate["candidate_id"], "candidate.candidate_id")
+                ids.append(candidate["candidate_id"])
+        if len(ids) != len(set(ids)):
+            raise ValueError("Candidate IDs must be unique within a verifier request")
+        # Keep every source boundary and identifier in the canonical passage,
+        # and serialize all declared candidate metadata without model/score leaks.
+        envelope = {"passages": passages, "candidates": candidates}
+        raw = _invoke(client, config, prompt, json.dumps(envelope, ensure_ascii=False))
+        return _normalize_compact_quality(parse_json_response(raw), rubric_keys(prompt), candidates, mode)
     raw = _invoke(client, config, prompt, f"{passages}\n\n{candidates_block(qa_pairs)}")
     keys = rubric_keys(prompt) or quality_keys(mode)
     data = parse_json_response(raw)
@@ -650,7 +733,24 @@ def grade_columns(
         row["quality_verifier_response_json"] = json.dumps(audit, ensure_ascii=False)
         row["quality_rubric_version"] = audit.get("rubric_version", "legacy")
         row["quality_audit_status"] = "legacy_not_provided"
-        if audit.get("rubric_version") in _LEGAL_RUBRIC_VERSIONS:
+        if quality.get("_contract") == "compact":
+            row["quality_rubric_version"] = "unversioned_compact"
+            row["quality_batch_diversity"] = quality["_batch_diversity"]
+            row["quality_score_notes_json"] = json.dumps(audit["score_notes"], ensure_ascii=False)
+            row["quality_checks_json"] = json.dumps(audit["checks"], ensure_ascii=False)
+            row["quality_problems_json"] = json.dumps(audit["problems"], ensure_ascii=False)
+            for key, status in audit["checks"].items():
+                row[f"quality_{key}_status"] = status
+            if audit["checks"]["mode"] == "fail" or audit["checks"]["support"] == "fail":
+                status = "blocking"
+            elif "uncertain" in audit["checks"].values() or quality["overall"] is None:
+                status = "review"
+            elif audit["checks"]["metadata"] == "fail":
+                status = "repair"
+            else:
+                status = "minor_issues" if audit["problems"] else "clear"
+            row["quality_audit_status"] = status
+        elif audit.get("rubric_version") in _LEGAL_RUBRIC_VERSIONS:
             severities = {issue["severity"] for issue in audit["issues"]}
             validity_statuses = {check["status"] for check in audit["validity"].values()}
             metadata_statuses = {check["status"] for check in audit["metadata_checks"]}

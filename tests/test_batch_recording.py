@@ -63,6 +63,42 @@ def test_hash_preserves_message_values_and_order_but_not_mapping_key_order():
     assert messages_sha256(changed) != messages_sha256(MESSAGES)
 
 
+def test_trace_export_preserves_requests_retries_and_parsed_outputs(tmp_path):
+    from clir_bench.domains.legal.qac.batch_recording import export_traces
+
+    messages = [{"role": "system", "content": "Rubric with ```json\n{}\n```"},
+                {"role": "user", "content": "English source and candidate"}]
+    attempts = []
+
+    def create(**kwargs):
+        attempts.append(kwargs)
+        if len(attempts) == 1:
+            raise RuntimeError("temporary provider failure")
+        return ChatCompletion.model_validate(body('{"grade":4}'))
+
+    with RunState(tmp_path / "run.sqlite") as state:
+        state.put("status", "completed")
+        state.put("config", {"questions_per_mode": 15})
+        checkpoint = state.checkpoint("document", retries=2)
+        client = checkpoint.client("quality", MODEL, fake_client(create))
+        parsed = checkpoint.run("quality", lambda: json.loads(chat(client, MODEL, messages)))
+        state.outcome("document", [parsed])
+    before = (tmp_path / "run.sqlite").read_bytes()
+    export_traces(tmp_path)
+    bundle = json.loads((tmp_path / "llm_calls.json").read_text())
+    assert [call["record"]["status"] for call in bundle["calls"]] == ["error", "response"]
+    assert all(call["record"]["messages"] == messages for call in bundle["calls"])
+    assert bundle["stages"][0]["attempts"] == 2
+    assert bundle["stages"][0]["parsed_output"] == parsed
+    assert bundle["outcomes"][0]["rows"] == [parsed]
+    trace = (tmp_path / "trace.md").read_text()
+    assert all(message["content"] in trace for message in messages)
+    assert '{"grade":4}' in trace and "temporary provider failure" in trace
+    assert "````text\nRubric with ```json" in trace
+    assert (tmp_path / "run.sqlite").read_bytes() == before
+    assert sorted(p.name for p in tmp_path.iterdir()) == ["llm_calls.json", "run.sqlite", "trace.md"]
+
+
 def test_interruption_stops_new_stages_without_spending_their_attempt_budget(tmp_path):
     from clir_bench.domains.legal.qac.batch_recording import RunState
 

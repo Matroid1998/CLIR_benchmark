@@ -121,6 +121,24 @@ stages are reused. A multi-source run with a custom parent can also repeat its c
 is the total attempts per stage (default: three). Context-capacity errors are retained in
 the run state, with unknown capacity left unknown.
 
+To request a saved question count per mode, use `--questions-per-mode` instead of
+`--questions`. With `--targets-from`, this consumes only the previous run's target
+pool, optionally filtered by `--langs` and `--modes`, until each mode reaches the
+requested count. Historical run folders and results CSVs are supported. Short or
+skipped batches advance to the next existing target; an exhausted pool is reported.
+Every generator processes the same document rounds until all generators meet the
+quota or the pool is exhausted. Surplus candidates remain in the run state, while
+the CSV contains up to the requested count. `--trace` also writes `llm_calls.json` and `trace.md`
+with every prompt, response, retry, and parsed grade in the same run folder.
+
+```bash
+clir --domain legal qac generate --source eurlex --langs en \
+  --modes lookup fact_pattern --questions-per-mode 15 \
+  --targets-from data/legal/eurlex/qac/eurlex_luna30_en \
+  --generation-model gpt-5.6-luna --verifier-model anthropic/claude-sonnet-5 \
+  --run-dir data/legal/eurlex/qac/modes15_new_verifiers --trace
+```
+
 Any command's `--help` lists its options; `--dry-run` exists wherever something is written
 or published.
 

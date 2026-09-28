@@ -132,9 +132,38 @@ def _joined_metadata(records):
 
 
 def _target_metadata(path, sources):
+    def read(path):
+        directory = path.parent if path.is_file() else path
+        database = path if path.suffix == ".sqlite" else directory / "run.sqlite"
+        record = read_run_metadata(database) if database.is_file() else {}
+        if record.get("targets") and path.suffix != ".csv":
+            return record
+        csv_path = path if path.suffix == ".csv" else directory / record.get("output", "results.csv")
+        rows, _ = _read_csv(csv_path)
+        batches, groups = _batches(), defaultdict(list)
+        source_hint = record.get("config", {}).get("sources") or sources
+        for row in rows:
+            source = row.get("corpus") or (source_hint[0] if len(source_hint) == 1 else "")
+            if source not in sources:
+                if source not in batches:
+                    raise ValueError("saved results need corpus=eurlex/un, or a single --source")
+                continue
+            target = batches[source].target_from_rows([row])
+            groups[(source, _digest(asdict(target)))].append(row)
+        targets = []
+        for (source, _), group in groups.items():
+            entry = {"corpus": source, "target": asdict(batches[source].target_from_rows(group))}
+            hashes = {row["source_payload_sha256"] for row in group if row.get("source_payload_sha256")}
+            if len(hashes) > 1:
+                raise ValueError("saved results disagree on source payload")
+            if hashes:
+                entry["payload_sha256"] = next(iter(hashes))
+            targets.append(entry)
+        return dict(record, targets=targets)
+
     path = Path(path)
-    if path.is_file() or (path / "run.sqlite").is_file():
-        record = read_run_metadata(path)
+    if path.is_file() or (path / "run.sqlite").is_file() or (path / "results.csv").is_file():
+        record = read(path)
         records = [record]
         available = {entry["corpus"] for entry in record.get("targets", [])}
         related = record.get("related_runs", {})
@@ -142,15 +171,15 @@ def _target_metadata(path, sources):
         for source in sources:
             sibling = related.get(source)
             if source not in available and sibling:
-                records.append(read_run_metadata(Path(sibling)))
+                records.append(read(Path(sibling)))
         return _joined_metadata(records)
-    return _joined_metadata(read_run_metadata(path / ("un_parallel" if source == "un" else source))
+    return _joined_metadata(read(path / ("un_parallel" if source == "un" else source))
                             for source in sources)
 
 
 def _options(args, context, saved=None):
     old = (saved or {}).get("config", {})
-    defaults = {"questions": 100, "seed": 42, "keep": 3, "retries": 3,
+    defaults = {"questions": 100, "questions_per_mode": None, "seed": 42, "keep": 3, "retries": 3,
                 "max_references": 6, "context_chars": 30000,
                 "reference_chars": None,
                 "generation_model": [context.setting("generation_model", "gpt-5.6-luna")],
@@ -158,6 +187,12 @@ def _options(args, context, saved=None):
                 "langs": None, "modes": None}
     options = {key: getattr(args, key, None) if getattr(args, key, None) is not None
                else old.get(key, default) for key, default in defaults.items()}
+    if options["questions_per_mode"] is None:
+        options.pop("questions_per_mode")  # Preserve fingerprints of existing runs.
+    elif options["questions_per_mode"] < 1:
+        raise ValueError("--questions-per-mode must be positive")
+    elif getattr(args, "questions", None) is not None:
+        raise ValueError("--questions and --questions-per-mode cannot be combined")
     for key in ("questions", "keep", "retries"):
         if options[key] < 1:
             raise ValueError(f"--{key} must be positive")
@@ -202,7 +237,8 @@ def _select(sources, indexes, options):
         active_modes = [mode for mode in modes if mode in supported_modes]
         if not active_languages or not active_modes:
             raise ValueError(f"no selected languages/personas are supported by {source}")
-        count = options["questions"] // len(sources) + (position < options["questions"] % len(sources))
+        count = (options["questions_per_mode"] * len(active_modes) if options.get("questions_per_mode")
+                 else options["questions"] // len(sources) + (position < options["questions"] % len(sources)))
         if count:
             targets = batch.select(indexes[source], n=count, seed=options["seed"],
                                    languages=active_languages, modes=active_modes)
@@ -278,6 +314,10 @@ def generate(args, context, *, selections=None, supplied_indexes=None):
         if selections is not None and not saved:
             for key, field in (("modes", "mode"), ("langs", "language")):
                 requested = getattr(args, key, None)
+                if options.get("questions_per_mode"):
+                    if requested:
+                        selections = [entry for entry in selections if entry["target"][field] in requested]
+                    continue
                 expected = origin.get("config", {}).get(key) or {entry["target"][field] for entry in selections}
                 if requested and set(requested) != set(expected):
                     raise ValueError(f"--{key} cannot change the selections in a saved target plan")
@@ -292,6 +332,19 @@ def generate(args, context, *, selections=None, supplied_indexes=None):
         selections = selections[:args.limit]
     if not selections:
         raise ValueError("selection produced no targets")
+    if options.get("questions_per_mode"):
+        batches = _batches()
+        for source in sources:
+            batch = batches[source]
+            supported = batch.gen.MODES if source == "eurlex" else batch.SUPPORTED_MODES
+            selected_modes = {entry["target"]["mode"] for entry in selections if entry["corpus"] == source}
+            wanted = set(options["modes"] or selected_modes) & set(supported)
+            if not wanted or wanted - selected_modes:
+                raise ValueError(f"saved target pool does not cover every requested mode for {source}")
+        all_modes = set().union(*(set(batches[s].gen.MODES if s == "eurlex" else batches[s].SUPPORTED_MODES) for s in sources))
+        all_langs = set().union(*(set(batches[s].ACT_LANGUAGES if s == "eurlex" else batches[s].UN_LANGUAGES) for s in sources))
+        if set(options["modes"] or []) - all_modes or set(options["langs"] or []) - all_langs:
+            raise ValueError("unsupported language or persona in the selected sources")
     prepared, prompts = _prepare(selections, indexes, options, "generate")
     models = list(dict.fromkeys(options["generation_model"]))
     options["generation_model"] = models
@@ -415,6 +468,15 @@ def _execute(args, context, operation, directory, output, saved, options, select
         return 0
     batches = _batches()
     originals = {row["candidate_id"]: row for row in original_rows or []}
+    quota = options.get("questions_per_mode") if operation == "generate" else None
+    def task_id(case):
+        entry, target, _, model, candidates = case
+        return _digest([entry["corpus"], asdict(target), model, [c["candidate_id"] for c in candidates or []]])
+
+    groups = defaultdict(list)
+    for case in cases:
+        groups[(case[0]["corpus"], case[1].mode, case[3])].append(case)
+    plan_order = {task_id(case): position for position, case in enumerate(cases)}
     with RunState(directory / "run.sqlite") as state:
         # A second process may have completed after the preflight path check.
         if saved:
@@ -432,14 +494,14 @@ def _execute(args, context, operation, directory, output, saved, options, select
             state.put("input", {"path": str(Path(args.input).resolve()), "sha256": options["input_sha256"]})
         if related_runs:
             state.put("related_runs", (state.get("related_runs") or {}) | related_runs)
-        completed = {record["task"] for record in state.outcomes()
+        completed = {record["task"]: len(record["rows"]) for record in state.outcomes()
                      if record["status"] in ("completed", "no_candidates")}
         def work(case):
             entry, target, payload, model, candidates = case
             source = entry["corpus"]
-            task = _digest([source, asdict(target), model, [c["candidate_id"] for c in candidates or []]])
+            task = task_id(case)
             if task in completed:
-                return task
+                return task, completed[task]
             limits = {"max_references": options["max_references"]} if source == "eurlex" else {
                 "context_chars": options["context_chars"], "reference_chars": options["reference_chars"]}
             try:
@@ -485,11 +547,23 @@ def _execute(args, context, operation, directory, output, saved, options, select
                                regrade_error=diagnostic, total_score="", candidate_rank="", is_best=False)
                     result.append(row)
                 state.outcome(task, result, str(exc))
-            return task
+            return task, len(result)
 
         def export():
             outcomes = state.outcomes()
-            result = [row for record in outcomes for row in record["rows"]]
+            outcomes.sort(key=lambda record: plan_order[record["task"]])
+            result, saved_counts = [], Counter()
+            for record in outcomes:
+                rows = record["rows"]
+                if quota:
+                    # A short final batch is chosen by score; original outcomes remain intact.
+                    rows = sorted(rows, key=lambda row: float(row["total_score"])
+                                  if row.get("total_score") not in (None, "") else float("-inf"), reverse=True)
+                for row in rows:
+                    key = (row["corpus"], row["mode"], row["generator_model_id"])
+                    if not quota or saved_counts[key] < quota:
+                        result.append(row)
+                        saved_counts[key] += 1
             if originals:
                 positions = {key: i for i,key in enumerate(originals)}
                 result.sort(key=lambda row: positions[row["candidate_id"]])
@@ -499,26 +573,88 @@ def _execute(args, context, operation, directory, output, saved, options, select
 
         executor = ThreadPoolExecutor(max_workers=args.workers)
         try:
-            futures = [executor.submit(work, case) for case in cases]
-            for number, future in enumerate(as_completed(futures), 1):
-                future.result()
-                if number % 10 == 0 or number == len(futures):
-                    print(f"completed {number}/{len(futures)} cases", flush=True)
+            if quota:
+                # Every generator sees the same target rounds, including rounds needed
+                # by a model that skipped or returned fewer questions. Keep surplus
+                # outcomes in SQLite while limiting only the final CSV.
+                rounds = defaultdict(dict)
+                for case in cases:
+                    mode_key = (case[0]["corpus"], case[1].mode)
+                    target_key = _digest(asdict(case[1]))
+                    rounds[mode_key].setdefault(target_key, []).append(case)
+                pending = {key: list(targets.values()) for key, targets in rounds.items()}
+                with state.transaction() as db:
+                    started = {row[0] for row in db.execute(
+                        "SELECT task FROM outcomes UNION SELECT task FROM stages UNION SELECT task FROM requests")}
+                # Resume must finish every previously started shared target even if
+                # earlier retried calls now satisfy the quota.
+                required = {key: max((position + 1 for position, target_round in enumerate(targets)
+                                     if any(task_id(case) in started for case in target_round)), default=0)
+                            for key, targets in pending.items()}
+                produced, positions, number = Counter(), Counter(), 0
+                while pending:
+                    futures = {}
+                    for key in list(pending):
+                        deficit = max(0, max(quota - produced[group] for group in groups if group[:2] == key))
+                        # At most --keep candidates can be returned per target, so
+                        # these common targets are necessary even with perfect output.
+                        needed = max((deficit + options["keep"] - 1) // options["keep"],
+                                     required[key] - positions[key])
+                        batch = pending[key][positions[key]:positions[key] + needed]
+                        if not batch:
+                            del pending[key]
+                            continue
+                        positions[key] += len(batch)
+                        for target_round in batch:
+                            for case in target_round:
+                                futures[executor.submit(work, case)] = (key[0], key[1], case[3])
+                    if not futures:
+                        break
+                    for future in as_completed(futures):
+                        _, count = future.result()
+                        produced[futures[future]] += count
+                    number += 1
+                    print(f"completed shared target batch {number}: {len(futures)} model/target cases", flush=True)
+            else:
+                futures = [executor.submit(work, case) for case in cases]
+                for number, future in enumerate(as_completed(futures), 1):
+                    future.result()
+                    if number % 10 == 0 or number == len(futures):
+                        print(f"completed {number}/{len(futures)} cases", flush=True)
         except BaseException:
             state.cancelled.set()
             executor.shutdown(wait=True, cancel_futures=True)
             export()
             state.put("status", "interrupted")
+            if getattr(args, "trace", False):
+                from .batch_recording import export_traces
+                export_traces(directory)
             raise
         else:
             executor.shutdown(wait=True)
         outcomes, rows = export()
         counts = dict(Counter(record["status"] for record in outcomes))
-        state.put("summary", dict(counts, candidates=len(rows), best=sum(bool(r["is_best"]) for r in rows)))
-        state.put("status", "completed_with_errors" if counts.get("failed") else "completed")
+        summary = dict(counts, candidates=len(rows), best=sum(bool(r["is_best"]) for r in rows))
+        shortages = False
+        if quota:
+            generated = Counter((row["corpus"], row["mode"], row["generator_model_id"])
+                                for record in outcomes for row in record["rows"])
+            saved_counts = Counter((row["corpus"], row["mode"], row["generator_model_id"]) for row in rows)
+            summary["generated_candidates"] = sum(generated.values())
+            summary["quotas"] = [{"corpus": key[0], "mode": key[1], "generator_model_id": key[2],
+                                  "requested": quota, "generated": generated[key], "saved": saved_counts[key],
+                                  "shortage": max(0, quota - saved_counts[key])} for key in groups]
+            shortages = any(item["shortage"] for item in summary["quotas"])
+        state.put("summary", summary)
+        state.put("status", "completed_with_errors" if counts.get("failed") or shortages else "completed")
         state.put("results_sha256", _digest(output.read_bytes()))
+        if getattr(args, "trace", False):
+            from .batch_recording import export_traces
+            export_traces(directory)
         print(f"wrote {len(rows)} candidates; outcomes {counts}; state -> {state.path}")
-        return 1 if counts.get("failed") else 0
+        if shortages:
+            print(f"target pool exhausted before filling every quota: {summary['quotas']}")
+        return 1 if counts.get("failed") or shortages else 0
 
 
 def best(args, context):

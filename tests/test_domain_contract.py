@@ -819,6 +819,260 @@ def test_legal_targets_from_reuses_context_limits_and_avoids_resampling(legal_ru
     }
 
 
+def test_legal_mode_quotas_advance_short_batches_and_resume_without_extra_calls(legal_run, monkeypatch):
+    from collections import Counter
+
+    from clir_bench.domains.legal.qac.batch_recording import RunState, read_run_metadata
+
+    run = legal_run
+    original, output = run.tmp_path / "pool", run.tmp_path / "quota"
+    assert run.generate(original, "--questions", 8) == 0
+    prior_selections = len(run.state.selections)
+    batch = run.qac._batches()["eurlex"]
+    run_one, visited = batch.run_one, []
+
+    def variable_batch(target, *args, **kwargs):
+        visited.append((target.mode, target.eli_id, kwargs["gen_model"]))
+        if target.eli_id == "eli/0":
+            return []
+        rows = run_one(target, *args, **kwargs)
+        return rows[:1] if target.eli_id == "eli/2" else rows[::-1]
+
+    monkeypatch.setattr(batch, "run_one", variable_batch)
+    args = run.parse(
+        "generate", "--source", "eurlex", "--questions-per-mode", 3,
+        "--targets-from", original, "--run-dir", output, "--workers", 4,
+        "--generation-model", "provider/first", "--generation-model", "provider/second",
+    )
+    assert args.handler(args, run.context) == 0
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert Counter((row["mode"], row["generator_model_id"]) for row in rows) == {
+        (mode, model): 3 for mode in ("lookup", "fact_pattern")
+        for model in ("provider/first", "provider/second")
+    }
+    assert {target for _, target, _ in visited} == {f"eli/{i}" for i in range(5)}
+    assert len(visited) == 10
+    assert len(run.state.selections) == prior_selections
+    assert all(row["total_score"] == "37" for row in rows if row["target_id"] == "eli/3")
+    metadata = read_run_metadata(output)
+    assert metadata["summary"]["generated_candidates"] == 14
+    assert metadata["summary"]["candidates"] == 12
+    assert all(item["shortage"] == 0 for item in metadata["summary"]["quotas"])
+    with RunState(output / "run.sqlite") as state:
+        assert sum(len(record["rows"]) for record in state.outcomes()) == 14
+    before = (output / "results.csv").read_bytes()
+    stage_counts = run.state.stages.copy()
+    args = run.parse("generate", "--source", "eurlex", "--run-dir", output, "--resume")
+    assert args.handler(args, run.context) == 0
+    assert len(visited) == 10
+    assert run.state.stages == stage_counts
+    assert (output / "results.csv").read_bytes() == before
+
+
+def test_legal_quota_records_shortages_and_retains_questions_with_failed_grades(legal_run, monkeypatch):
+    from clir_bench.domains.legal.qac.batch_recording import read_run_metadata
+
+    run = legal_run
+    original, output = run.tmp_path / "pool", run.tmp_path / "quota"
+    assert run.generate(original, "--questions", 2, "--modes", "lookup") == 0
+    batch = run.qac._batches()["eurlex"]
+    run_one = batch.run_one
+
+    def failing_batch(target, *args, **kwargs):
+        if target.eli_id == "eli/0":
+            raise RuntimeError("generation unavailable")
+        rows = run_one(target, *args, **kwargs)
+        for row in rows:
+            row.update(grading_status="failed", grading_error="judge unavailable", total_score=None)
+        return rows
+
+    monkeypatch.setattr(batch, "run_one", failing_batch)
+    args = run.parse("generate", "--source", "eurlex", "--questions-per-mode", 5,
+                     "--targets-from", original, "--run-dir", output)
+    assert args.handler(args, run.context) == 1
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert len(rows) == 2
+    assert all(row["grading_status"] == "failed" and row["total_score"] == "" for row in rows)
+    metadata = read_run_metadata(output)
+    assert metadata["status"] == "completed_with_errors"
+    assert metadata["summary"]["failed"] == 2
+    assert metadata["summary"]["quotas"][0]["shortage"] == 3
+
+
+def test_legal_quota_resumes_partial_group_without_regenerating_finished_targets(legal_run, monkeypatch):
+    run = legal_run
+    original, output = run.tmp_path / "pool", run.tmp_path / "quota"
+    assert run.generate(original, "--questions", 4, "--modes", "lookup") == 0
+    batch = run.qac._batches()["eurlex"]
+    run_one, visited = batch.run_one, []
+    interrupt = True
+
+    def interrupted_batch(target, *args, **kwargs):
+        visited.append(target.eli_id)
+        if interrupt and target.eli_id == "eli/1":
+            raise KeyboardInterrupt()
+        return run_one(target, *args, **kwargs)
+
+    monkeypatch.setattr(batch, "run_one", interrupted_batch)
+    args = run.parse("generate", "--source", "eurlex", "--questions-per-mode", 5,
+                     "--targets-from", original, "--run-dir", output, "--workers", 1)
+    with pytest.raises(KeyboardInterrupt):
+        args.handler(args, run.context)
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert len(rows) == 2
+    interrupt = False
+    args = run.parse("generate", "--source", "eurlex", "--run-dir", output, "--resume")
+    assert args.handler(args, run.context) == 0
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert len(rows) == 5
+    assert visited == ["eli/0", "eli/1", "eli/1", "eli/2"]
+
+
+def test_legal_quotas_share_rounds_across_models_and_finish_interrupted_round(legal_run, monkeypatch):
+    from collections import Counter
+
+    from clir_bench.domains.legal.qac.batch_recording import RunState, read_run_metadata
+
+    run = legal_run
+    original, output = run.tmp_path / "pool", run.tmp_path / "quota"
+    assert run.generate(original, "--questions", 4, "--modes", "lookup") == 0
+    batch = run.qac._batches()["eurlex"]
+    run_one, visited = batch.run_one, []
+    interrupt = True
+
+    def uneven_batch(target, *args, **kwargs):
+        model = kwargs["gen_model"]
+        visited.append((target.eli_id, model))
+        if interrupt and model == "provider/second":
+            raise KeyboardInterrupt()
+        rows = run_one(target, *args, **kwargs)
+        return rows[:1] if model == "provider/second" else rows
+
+    monkeypatch.setattr(batch, "run_one", uneven_batch)
+    args = run.parse("generate", "--source", "eurlex", "--questions-per-mode", 2,
+                     "--targets-from", original, "--run-dir", output, "--workers", 1,
+                     "--generation-model", "provider/first", "--generation-model", "provider/second")
+    with pytest.raises(KeyboardInterrupt):
+        args.handler(args, run.context)
+    interrupt = False
+    args = run.parse("generate", "--source", "eurlex", "--run-dir", output, "--resume", "--workers", 2)
+    assert args.handler(args, run.context) == 0
+    assert Counter(visited) == {
+        ("eli/0", "provider/first"): 1, ("eli/0", "provider/second"): 2,
+        ("eli/1", "provider/first"): 1, ("eli/1", "provider/second"): 1,
+    }
+    with RunState(output / "run.sqlite") as state:
+        all_rows = [row for outcome in state.outcomes() for row in outcome["rows"]]
+    assert {row["target_id"] for row in all_rows if row["generator_model_id"] == "provider/first"} == {
+        row["target_id"] for row in all_rows if row["generator_model_id"] == "provider/second"
+    } == {"eli/0", "eli/1"}
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert Counter(row["generator_model_id"] for row in rows) == {"provider/first": 2, "provider/second": 2}
+    summary = read_run_metadata(output)["summary"]
+    assert summary["generated_candidates"] == 6
+    assert summary["candidates"] == 4
+
+
+def test_legal_quota_batches_necessary_targets_concurrently(legal_run, monkeypatch):
+    from collections import Counter
+    from threading import Event
+
+    run = legal_run
+    original, output = run.tmp_path / "pool", run.tmp_path / "quota"
+    assert run.generate(original, "--questions", 4, "--modes", "lookup") == 0
+    batch = run.qac._batches()["eurlex"]
+    run_one, visited, later_started = batch.run_one, [], Event()
+
+    def slow_first_target(target, *args, **kwargs):
+        visited.append((target.eli_id, kwargs["gen_model"]))
+        if target.eli_id == "eli/0" and kwargs["gen_model"] == "provider/first":
+            assert later_started.wait(timeout=2), "later necessary targets were blocked by the first target"
+        if target.eli_id == "eli/1":
+            later_started.set()
+        return run_one(target, *args, **kwargs)
+
+    monkeypatch.setattr(batch, "run_one", slow_first_target)
+    args = run.parse("generate", "--source", "eurlex", "--questions-per-mode", 5,
+                     "--targets-from", original, "--run-dir", output, "--workers", 4,
+                     "--generation-model", "provider/first", "--generation-model", "provider/second")
+    assert args.handler(args, run.context) == 0
+    assert Counter(visited) == {
+        (f"eli/{position}", model): 1 for position in range(3)
+        for model in ("provider/first", "provider/second")
+    }
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert Counter(row["generator_model_id"] for row in rows) == {"provider/first": 5, "provider/second": 5}
+
+
+def test_legal_quota_resume_finishes_started_targets_beyond_filled_quota(legal_run):
+    from clir_bench.domains.legal.qac.batch_recording import RunState, read_run_metadata
+
+    run = legal_run
+    original, output = run.tmp_path / "pool", run.tmp_path / "quota"
+    assert run.generate(original, "--questions", 4, "--modes", "lookup") == 0
+    args = run.parse("generate", "--source", "eurlex", "--questions-per-mode", 2,
+                     "--targets-from", original, "--run-dir", output,
+                     "--generation-model", "provider/first", "--generation-model", "provider/second")
+    assert args.handler(args, run.context) == 0
+    target = read_run_metadata(output)["targets"][2]["target"]
+    task = run.qac._digest(["eurlex", target, "provider/first", []])
+    with RunState(output / "run.sqlite") as state:
+        state.checkpoint(task).run("generation", lambda: [
+            {"candidate_id": f"partial-{position}", "question": f"Question {position}?", "answer": "Answer"}
+            for position in range(2)
+        ])
+    run.state.payloads.clear()
+    generations = run.state.stages["generation"]
+    args = run.parse("generate", "--source", "eurlex", "--run-dir", output, "--resume")
+    assert args.handler(args, run.context) == 0
+    assert {(target.eli_id, model) for _, model, target, _ in run.state.payloads} == {
+        (f"eli/{position}", model) for position in (1, 2)
+        for model in ("provider/first", "provider/second")
+    }
+    assert run.state.stages["generation"] - generations == 3  # The partial generation was replayed.
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert len(rows) == 4
+
+
+@pytest.mark.parametrize("csv_input", [False, True])
+def test_legal_quota_reconstructs_imported_targets_and_filters_pool(legal_run, csv_input):
+    from clir_bench.domains.legal.qac.batch_recording import RunState, read_run_metadata
+
+    run = legal_run
+    original, output = run.tmp_path / "imported", run.tmp_path / "quota"
+    assert run.generate(original, "--questions", 8, "--langs", "en", "de") == 0
+    with RunState(original / "run.sqlite") as state:
+        state.put("targets", [])
+        state.put("imported", True)
+    previous_selections = len(run.state.selections)
+    args = run.parse("generate", "--source", "eurlex", "--questions-per-mode", 3,
+                     "--targets-from", original / "results.csv" if csv_input else original,
+                     "--langs", "en", "--modes", "lookup", "--run-dir", output)
+    assert args.handler(args, run.context) == 0
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert len(rows) == 3
+    assert all(row["mode"] == "lookup" and row["question_language"] == "en" for row in rows)
+    assert len(run.state.selections) == previous_selections
+    metadata = read_run_metadata(output)
+    assert len(metadata["targets"]) == 4
+    original_rows, _ = run.qac._read_csv(original / "results.csv")
+    assert {row["source_payload_sha256"] for row in rows} <= {
+        row["source_payload_sha256"] for row in original_rows
+    }
+
+
+@pytest.mark.parametrize("options,error", [
+    (["--questions-per-mode", "0"], "must be positive"),
+    (["--questions-per-mode", "3", "--questions", "3"], "cannot be combined"),
+])
+def test_legal_quota_validation_precedes_calls(legal_run, options, error):
+    run = legal_run
+    args = run.parse("generate", "--source", "eurlex", "--run-dir", run.tmp_path / "bad", *options)
+    with pytest.raises(ValueError, match=error):
+        args.handler(args, run.context)
+    assert not run.state.invocations
+
+
 def test_legal_regrade_rejects_conflicting_payload_hashes_across_models(legal_run):
     run = legal_run
     original = run.tmp_path / "original"

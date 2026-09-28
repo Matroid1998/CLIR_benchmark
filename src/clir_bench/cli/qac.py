@@ -31,7 +31,7 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
         help="Generate graded questions from a corpus",
         description=(
             "Generate and grade questions using the same selected targets for every "
-            "generator. All models and sources share one results CSV in a run folder."
+            "generator. Each source gets one run folder and results CSV containing all models."
         )
         if run_workflow
         else (
@@ -131,9 +131,13 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
     if run_workflow:
         _run_arguments(generate)
         generate.add_argument(
+            "--questions-per-mode", type=int,
+            help="Save this many candidates per source, mode and generator; advance through targets until filled",
+        )
+        generate.add_argument(
             "--targets-from",
             type=Path,
-            help="Reuse the exact targets and contexts from this run folder",
+            help="Reuse targets and contexts from a run folder or results CSV; --questions-per-mode allows filtering its pool",
         )
         generate.add_argument(
             "--generation-cache", type=Path,
@@ -202,6 +206,10 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
 
 
 def _run_arguments(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--trace", action="store_true",
+        help="Export all LLM inputs and outputs as llm_calls.json and trace.md in each run folder",
+    )
     parser.add_argument(
         "--run-dir", type=Path,
         help="Run folder (default: each source's qac/<timestamp>); with multiple sources, a parent for corpus subfolders",
