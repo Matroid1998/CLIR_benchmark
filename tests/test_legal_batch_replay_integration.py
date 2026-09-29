@@ -237,6 +237,48 @@ class MemoryCheckpoint:
 
 
 @pytest.mark.parametrize("corpus", ["eurlex", "un"])
+def test_same_qa_from_different_generators_shares_both_verifiers_and_survives_resume(tmp_path, monkeypatch, corpus):
+    from clir_bench.domains.legal.qac.batch_recording import RunState
+
+    batch, generator, target, payload, raw_candidates = case(corpus)
+    candidates = (generator.parse_candidates(raw_candidates, payload, target.mode) if corpus == "eurlex"
+                  else generator.parse_candidates(raw_candidates, target.mode))
+    monkeypatch.setattr(generator, "generate", lambda *args, **kwargs: candidates)
+    calls = []
+
+    def transport(**kwargs):
+        calls.append(kwargs)
+        prompt = kwargs["messages"][0]["content"]
+        if prompt == generator.PROMPTS.faithfulness("batch"):
+            output = [dict(index=i, **dict.fromkeys(grading.FAITHFULNESS_KEYS, 5)) for i in range(2)]
+        else:
+            inputs = json.loads(kwargs["messages"][1]["content"])["candidates"]
+            keys = grading.rubric_keys(prompt)
+            output = {"candidates": [{"index": i, "candidate_id": c["candidate_id"],
+                "scores": dict.fromkeys(keys, 4), "score_notes": dict.fromkeys(keys, "Supported"),
+                "checks": dict.fromkeys(("mode", "support", "metadata"), "pass"), "problems": []}
+                for i, c in enumerate(inputs)], "batch_diversity": "pass"}
+        return response(json.dumps(output), model=GRADER)
+
+    monkeypatch.setattr(llm, "client_for", lambda model: Client(transport))
+    options = {"max_references": 6} if corpus == "eurlex" else {"context_chars": 30000}
+    outputs = []
+    for model in ("generator/a", "generator/b", "generator/c"):
+        with RunState(tmp_path / "run.sqlite") as state:
+            rows = batch.run_one(target, None, payload=payload, gen_model=model, grade_model=GRADER,
+                                 keep=3, checkpoint=state.checkpoint(model), **options)
+            outputs.append(rows)
+            assert len(rows) == 2 and all(r["grading_status"] == "completed" for r in rows)
+            for row in rows:
+                assert row["generator_model_id"] == model
+                assert json.loads(row["quality_verifier_response_json"])["candidate_id"] == row["candidate_id"]
+    assert len(calls) == 2  # One faithfulness and one quality request for all three generators.
+    assert len({r["candidate_id"] for rows in outputs for r in rows}) == 6
+    assert all(r["total_score"] == outputs[0][0]["total_score"] for rows in outputs for r in rows)
+    assert all(r["quality_batch_diversity"] == "not_evaluated" for rows in outputs[1:] for r in rows)
+
+
+@pytest.mark.parametrize("corpus", ["eurlex", "un"])
 def test_checkpoint_keeps_questions_when_faithfulness_fails(tmp_path, monkeypatch, corpus):
     batch, generator, target, payload, raw_candidates = case(corpus)
     candidate = generator.parse_candidates(raw_candidates, payload, target.mode)[0] if corpus == "eurlex" else generator.parse_candidates(raw_candidates, target.mode)[0]

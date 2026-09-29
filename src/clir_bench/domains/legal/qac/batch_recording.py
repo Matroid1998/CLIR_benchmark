@@ -249,6 +249,7 @@ class RunState:
             self._file.close()
             raise ValueError(f"run is already active: {self.path.parent}") from None
         self._lock = threading.RLock()
+        self._verification_locks: dict[str, Any] = {}
         self.cancelled = threading.Event()
         self.replay: dict[str, GenerationRecorder] = {}
         self._db = sqlite3.connect(self.path, check_same_thread=False)
@@ -261,6 +262,11 @@ class RunState:
                 id TEXT PRIMARY KEY, task TEXT, stage TEXT, record TEXT NOT NULL);
             CREATE TABLE IF NOT EXISTS outcomes (
                 task TEXT PRIMARY KEY, status TEXT NOT NULL, rows TEXT NOT NULL, error TEXT);
+            CREATE TABLE IF NOT EXISTS verification_cache (
+                key TEXT PRIMARY KEY, value TEXT NOT NULL, source_task TEXT, source_position INTEGER);
+            CREATE TABLE IF NOT EXISTS verification_reuse (
+                task TEXT, stage TEXT, position INTEGER, cache_key TEXT, reused INTEGER,
+                PRIMARY KEY(task, stage, position));
         """)
         self._secrets = {value for key, value in os.environ.items() if value and
                          any(part in key.upper() for part in
@@ -360,6 +366,63 @@ class StageCheckpoint:
                 return result
         raise RuntimeError(f"{stage} failed after {attempts} attempts: {error or 'interrupted attempt'}")
 
+    def reuse_verification(self, stage, identity, candidates, grade):
+        """Grade only unseen verifier inputs and restore each caller's identities.
+
+        Serialize competing batches for the same verifier/context, while other
+        documents still run concurrently. Only parsed, validated grades are cached.
+        """
+        scope = hashlib.sha256(_json([stage, identity]).encode()).hexdigest()
+        keys = [hashlib.sha256(_json([scope, {k: v for k, v in candidate.items()
+                if k not in ("candidate_id", "_candidate_index")}]).encode()).hexdigest()
+                for candidate in candidates]
+        with self.state._lock:
+            lock = self.state._verification_locks.setdefault(scope, threading.Lock())
+        with lock:
+            cached = {}
+            with self.state.transaction() as db:
+                for key in dict.fromkeys(keys):
+                    record = db.execute("SELECT value FROM verification_cache WHERE key=?", (key,)).fetchone()
+                    if record:
+                        cached[key] = json.loads(record[0])
+            pending = {}
+            for key, candidate in zip(keys, candidates):
+                if key not in cached:
+                    pending.setdefault(key, candidate)
+            reused = set(cached)
+            if pending:
+                if self.state.cancelled.is_set():
+                    raise InterruptedError("run interrupted before verification")
+                values = grade(list(pending.values()))
+                if len(values) != len(pending):
+                    raise ValueError("Verifier returned a different number of grades than unique candidates")
+                # Encode everything before the transaction: malformed results must
+                # never leave a partially committed cache behind.
+                encoded = [_json(value) for value in values]
+                with self.state.transaction() as db:
+                    for position, (key, value) in enumerate(zip(pending, encoded)):
+                        db.execute("INSERT INTO verification_cache VALUES (?,?,?,?)",
+                                   (key, value, self.task, position))
+                        cached[key] = json.loads(value)
+            changed_batch = len(pending) != len(candidates)
+            result = []
+            with self.state.transaction() as db:
+                for position, (key, candidate) in enumerate(zip(keys, candidates)):
+                    value = json.loads(_json(cached[key]))
+                    response = value.get("_response")
+                    if isinstance(response, dict):
+                        if "index" in response:
+                            response["index"] = position
+                        if "candidate_id" in response:
+                            response["candidate_id"] = candidate.get("candidate_id")
+                    if changed_batch and "_batch_diversity" in value:
+                        value["_batch_diversity"] = "not_evaluated"
+                    db.execute("INSERT OR REPLACE INTO verification_reuse VALUES (?,?,?,?,?)",
+                               (self.task, stage, position, key, int(key in reused)))
+                    reused.add(key)
+                    result.append(value)
+            return result
+
     def client(self, stage: str, model: str, client: Any) -> Any:
         if hasattr(client, "with_options"):
             client = client.with_options(max_retries=0, timeout=180)
@@ -417,7 +480,11 @@ class StageCheckpoint:
                 record["seconds"] = round(time.monotonic() - started, 6)
                 save()
 
-        return SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+        proxy = SimpleNamespace(chat=SimpleNamespace(completions=SimpleNamespace(create=create)))
+        if stage in ("faithfulness", "quality"):
+            proxy.reuse_verification = lambda identity, candidates, grade: self.reuse_verification(
+                stage, identity, candidates, grade)
+        return proxy
 
 
 def export_traces(directory: Path) -> None:
@@ -435,7 +502,16 @@ def export_traces(directory: Path) -> None:
                       "SELECT task,stage,attempts,status,value,error FROM stages ORDER BY task,stage")]
         outcomes = [{"task_id": t, "status": s, "rows": json.loads(r), "error": e}
                     for t, s, r, e in db.execute("SELECT task,status,rows,error FROM outcomes ORDER BY task")]
-    bundle = {"metadata": metadata, "calls": calls, "stages": stages, "outcomes": outcomes}
+        reuse = []
+        if db.execute("SELECT 1 FROM sqlite_master WHERE name='verification_reuse'").fetchone():
+            reuse = [{"task_id": t, "stage": s, "candidate_index": p, "cache_key": k,
+                      "reused": bool(r), "source_task_id": origin, "source_candidate_index": index}
+                     for t, s, p, k, r, origin, index in db.execute(
+                         "SELECT r.task,r.stage,r.position,r.cache_key,r.reused,c.source_task,c.source_position "
+                         "FROM verification_reuse r JOIN verification_cache c ON c.key=r.cache_key "
+                         "ORDER BY r.task,r.stage,r.position")]
+    bundle = {"metadata": metadata, "calls": calls, "stages": stages, "outcomes": outcomes,
+              "verification_reuse": reuse}
     capacities = metadata.get("context_capacity_reference", {}).get("model_context_tokens", {})
     inputs, generation_models = {}, {}
     for call in calls:
@@ -488,6 +564,11 @@ def export_traces(directory: Path) -> None:
         table.append(f"| {stage['task_id']} | {stage['stage']} | {stage['attempts']} | "
                      f"{stage['status']} | {error} |")
     lines.extend(["## Final stage results", "\n".join(table)])
+    if reuse:
+        lines.extend(["## Shared verifier grades",
+                      ("Reused candidate grades refer to the original task and request candidate index. "
+                       "They are not additional provider calls. Batch diversity is not reused across batches."),
+                      block(reuse, "json")])
     for number, call in enumerate(calls, 1):
         record = call["record"]
         lines.extend([f"## Call {number:03d}: {call['stage']}",

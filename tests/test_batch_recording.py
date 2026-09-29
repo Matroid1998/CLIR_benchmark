@@ -306,6 +306,101 @@ def _state_requests(state):
         return [json.loads(row[0]) for row in db.execute("SELECT record FROM requests ORDER BY rowid")]
 
 
+def _verification_candidate(identity, question="Question", **changes):
+    return dict(question=question, answer="Answer", candidate_id=identity,
+                question_language="en", **changes)
+
+
+def _verification_grades(candidates):
+    return [{"overall": 20, "_batch_diversity": "pass", "_response": {
+        "index": index, "candidate_id": candidate["candidate_id"], "scores": {"focus": 4}}}
+        for index, candidate in enumerate(candidates)]
+
+
+def test_verification_reuse_handles_overlap_and_restores_ids_without_copying_diversity(tmp_path):
+    calls = []
+
+    def grade(candidates):
+        calls.append([c["question"] for c in candidates])
+        return _verification_grades(candidates)
+
+    with RunState(tmp_path / "run.sqlite") as state:
+        first = state.checkpoint("model-a").reuse_verification("quality", {"prompt": "rubric"},
+            [_verification_candidate("a1", "A"), _verification_candidate("a2", "B")], grade)
+        second = state.checkpoint("model-b").reuse_verification("quality", {"prompt": "rubric"},
+            [_verification_candidate("b1", "B"), _verification_candidate("b2", "C"),
+             _verification_candidate("b3", "B")], grade)
+        assert calls == [["A", "B"], ["C"]]
+        assert [r["_response"]["candidate_id"] for r in second] == ["b1", "b2", "b3"]
+        assert [r["_response"]["index"] for r in second] == [0, 1, 2]
+        assert all(r["overall"] == 20 and r["_batch_diversity"] == "not_evaluated" for r in second)
+        assert first[1]["_response"]["candidate_id"] == "a2"
+        assert first[1]["_batch_diversity"] == "pass"
+        batch_recording.export_traces(tmp_path)
+        audit = json.loads((tmp_path / "llm_calls.json").read_text())["verification_reuse"]
+        reused = [r for r in audit if r["reused"]]
+        assert len(reused) == 2
+        assert all(r["source_task_id"] == "model-a" and r["source_candidate_index"] == 1 for r in reused)
+
+
+@pytest.mark.parametrize("field", ["prompt", "model", "settings", "passages", "mode", "sources"])
+def test_verification_reuse_separates_changed_verifier_context(tmp_path, field):
+    calls = []
+    with RunState(tmp_path / "run.sqlite") as state:
+        for identity in ({field: "old"}, {field: "new"}):
+            state.checkpoint("task").reuse_verification("quality", identity,
+                [_verification_candidate("id")],
+                lambda candidates: calls.append(1) or _verification_grades(candidates))
+    assert len(calls) == 2
+
+
+@pytest.mark.parametrize("field", ["question", "answer", "anchor", "question_type", "question_language"])
+def test_verification_reuse_separates_changed_candidate_inputs(tmp_path, field):
+    calls = []
+    with RunState(tmp_path / "run.sqlite") as state:
+        for value in ("old", "new"):
+            candidate = _verification_candidate("id") | {field: value}
+            state.checkpoint("task").reuse_verification("quality", {}, [candidate],
+                lambda candidates: calls.append(1) or _verification_grades(candidates))
+    assert len(calls) == 2
+
+
+def test_concurrent_duplicate_verification_calls_are_shared(tmp_path):
+    import threading
+
+    entered, release = threading.Event(), threading.Event()
+    calls = []
+
+    def grade(candidates):
+        calls.append(1)
+        entered.set()
+        assert release.wait(5)
+        return _verification_grades(candidates)
+
+    with RunState(tmp_path / "run.sqlite") as state, ThreadPoolExecutor(max_workers=2) as pool:
+        first = pool.submit(state.checkpoint("a").reuse_verification, "quality", {},
+                            [_verification_candidate("a")], grade)
+        assert entered.wait(5)
+        second = pool.submit(state.checkpoint("b").reuse_verification, "quality", {},
+                             [_verification_candidate("b")], grade)
+        release.set()
+        assert first.result()[0]["_response"]["candidate_id"] == "a"
+        assert second.result()[0]["_response"]["candidate_id"] == "b"
+    assert calls == [1]
+
+
+def test_failed_verification_does_not_populate_shared_cache(tmp_path):
+    with RunState(tmp_path / "run.sqlite") as state:
+        candidate = _verification_candidate("a")
+        checkpoint = state.checkpoint("a")
+        with pytest.raises(ValueError, match="invalid response"):
+            checkpoint.reuse_verification("quality", {}, [candidate],
+                lambda _: (_ for _ in ()).throw(ValueError("invalid response")))
+        with state.transaction() as db:
+            assert db.execute("SELECT COUNT(*) FROM verification_cache").fetchone()[0] == 0
+        assert checkpoint.reuse_verification("quality", {}, [candidate], _verification_grades)
+
+
 def test_run_state_replays_completed_stages_after_reopening_without_provider_calls(tmp_path):
     path = tmp_path / "run.sqlite"
     calls = []

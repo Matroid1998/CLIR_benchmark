@@ -18,7 +18,8 @@ from __future__ import annotations
 import json
 import re
 from collections.abc import Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from types import SimpleNamespace
 from typing import Any
 
 from clir_bench.core.llm import (
@@ -617,6 +618,11 @@ def grade_faithfulness(
     malformed grades raise and can be retried without inventing scores.
     """
     want = expected if expected is not None else len(qa_pairs)
+    reuse = getattr(client, "reuse_verification", None)
+    if strict and reuse is not None and want == len(qa_pairs):
+        return reuse({"config": asdict(config), "prompt": prompt, "passages": passages},
+                     qa_pairs, lambda unique: grade_faithfulness(
+                         SimpleNamespace(chat=client.chat), config, prompt, passages, unique, strict=True))
     raw = _invoke(client, config, prompt, f"{passages}\n\n{candidates_block(qa_pairs)}")
     data = parse_json_response(raw)
     items = (_strict_items(data, want, FAITHFULNESS_KEYS) if strict else
@@ -652,6 +658,20 @@ def grade_quality(
     identity and previous scores are excluded from the candidate payload.
     """
     want = expected if expected is not None else len(qa_pairs)
+    reuse = getattr(client, "reuse_verification", None)
+    if strict and reuse is not None and want == len(qa_pairs) and 1 <= want <= 3:
+        ids = [qa["candidate_id"] for qa in qa_pairs if qa.get("candidate_id") is not None]
+        for identity in ids:
+            _string(identity, "candidate.candidate_id")
+        if len(ids) != len(set(ids)):
+            raise ValueError("Candidate IDs must be unique within a verifier request")
+        return reuse({"config": asdict(config), "prompt": prompt, "passages": passages,
+                      "mode": mode, "sources": sources, "target_source_id": target_source_id,
+                      "policies": policies, "rubric_mode": rubric_mode},
+                     qa_pairs, lambda unique: grade_quality(
+                         SimpleNamespace(chat=client.chat), config, prompt, passages, unique, mode,
+                         sources=sources, target_source_id=target_source_id, policies=policies,
+                         rubric_mode=rubric_mode, strict=True))
     if _legal_rubric_version(prompt):
         if want != len(qa_pairs):
             raise ValueError("Legal expected count must match the supplied candidates")

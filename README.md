@@ -109,6 +109,15 @@ An explicit `--run-dir` for multiple sources is a custom parent containing `eurl
 separate run in each corresponding location, and preserves the original.
 Best-only CSVs are written only by the explicit `best` command.
 
+Legal runs share validated verifier grades across generators when the exact QA,
+source context, verifier prompt/model/settings, and relevant candidate metadata match.
+Candidate IDs and generator identities do not prevent reuse. Unseen candidates are
+still graded in batches; each generator retains its own rows and candidate IDs.
+The cache and reuse provenance live in `run.sqlite` and survive resume. Changed
+answers, metadata, or verifier inputs require new grades; failed responses are not cached.
+When reuse changes a quality batch, `quality_batch_diversity` is `not_evaluated`:
+candidate scores are shared, but a judgment about a different batch is not copied.
+
 For legal generation, `--questions 30` selects 30 target/language/persona cases per model,
 split evenly across the selected sources. Each case can yield up to three candidates;
 skipped targets or provider failures can reduce the number of successful cases. Every model
