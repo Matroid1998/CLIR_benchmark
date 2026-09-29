@@ -91,6 +91,11 @@ def test_trace_export_preserves_requests_retries_and_parsed_outputs(tmp_path):
     assert bundle["stages"][0]["attempts"] == 2
     assert bundle["stages"][0]["parsed_output"] == parsed
     assert bundle["outcomes"][0]["rows"] == [parsed]
+    diagnostics = bundle["diagnostics"]["inputs_by_model"][MODEL]
+    assert diagnostics["calls"] == 2 and diagnostics["provider_errors"] == 1
+    assert diagnostics["capacity_errors"] == 0
+    assert diagnostics["max_reported_prompt_tokens"] == 21
+    assert diagnostics["reference_context_tokens"] is None
     trace = (tmp_path / "trace.md").read_text()
     assert all(message["content"] in trace for message in messages)
     assert '{"grade":4}' in trace and "temporary provider failure" in trace

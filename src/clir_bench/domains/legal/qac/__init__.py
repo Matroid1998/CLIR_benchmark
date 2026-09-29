@@ -183,7 +183,7 @@ def _options(args, context, saved=None):
                 "max_references": 6, "context_chars": 30000,
                 "reference_chars": None,
                 "generation_model": [context.setting("generation_model", "gpt-5.6-luna")],
-                "verifier_model": context.setting("verifier_model", "anthropic/claude-sonnet-5"),
+                "verifier_model": context.setting("verifier_model", "anthropic/claude-sonnet-5.5"),
                 "langs": None, "modes": None}
     options = {key: getattr(args, key, None) if getattr(args, key, None) is not None
                else old.get(key, default) for key, default in defaults.items()}
@@ -369,7 +369,11 @@ def regrade(args, context):
     saved = _joined_metadata(location[2] for location in locations.values())
     input_hash = _digest(Path(args.input).read_bytes())
     parent = read_run_metadata(Path(args.input).parent) if (Path(args.input).parent / "run.sqlite").exists() else {}
-    options = _options(args, context, saved or parent)
+    # Reuse the original source limits, but a new regrade uses today's judge
+    # default. A resumed regrade must retain its own saved verifier instead.
+    inherited = {key: value for key, value in parent.get("config", {}).items()
+                 if key != "verifier_model"}
+    options = _options(args, context, saved or {"config": inherited})
     batches, groups = _batches(), defaultdict(list)
     selected_sources = getattr(args, "source", None)
     for position, row in enumerate(rows, 1):

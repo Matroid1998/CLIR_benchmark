@@ -141,7 +141,7 @@ def test_legal_sources_keep_runs_and_structured_inputs_in_their_own_directories(
     assert context.workspace.data("eurlex_structure") == tmp_path / "data/legal/eurlex/structure"
     assert context.workspace.data("un_blocks") == tmp_path / "data/legal/un_parallel/blocks"
     assert context.setting("generation_model") == "gpt-5.6-luna"
-    assert context.setting("verifier_model") == "anthropic/claude-sonnet-5"
+    assert context.setting("verifier_model") == "anthropic/claude-sonnet-5.5"
     for source in context.domain.sources:
         assert context.domain.attribution_for(source.name)
         assert context.workspace.corpus_csv(source).suffix == ".csv"
@@ -680,6 +680,44 @@ def test_legal_regrade_splits_combined_csv_into_source_runs(
     assert run.state.stages["generation"] == previous_generations
     assert combined.read_bytes() == input_bytes
     assert not (run.tmp_path / "data/legal/qac").exists()
+
+
+@pytest.mark.parametrize("source", ["eurlex", "un"])
+def test_legal_new_regrade_uses_current_judge_default_and_resume_keeps_it(legal_run, source):
+    from dataclasses import replace
+
+    from clir_bench.domains.legal.qac.batch_recording import read_run_metadata
+
+    run = legal_run
+    original = run.tmp_path / "old-judge"
+    args = run.parse(
+        "generate", "--source", source, "--questions", 1, "--langs", "en",
+        "--run-dir", original, "--verifier-model", "provider/old-judge",
+        "--max-references", 2, "--context-chars", 1234,
+    )
+    assert args.handler(args, run.context) == 0
+    previous_generations = run.state.stages["generation"]
+    output = run.tmp_path / "current-judge"
+    args = run.parse("regrade", "--input", original / "results.csv", "--run-dir", output)
+    assert args.handler(args, run.context) == 0
+    current_judge = run.context.setting("verifier_model")
+    metadata = read_run_metadata(output)
+    assert metadata["config"]["verifier_model"] == current_judge
+    assert metadata["config"]["max_references"] == 2
+    assert metadata["config"]["context_chars"] == 1234
+    rows, _ = run.qac._read_csv(output / "results.csv")
+    assert {row["faithfulness_verifier_model"] for row in rows} == {current_judge}
+    assert {row["quality_verifier_model"] for row in rows} == {current_judge}
+    assert run.state.stages["generation"] == previous_generations
+
+    changed_context = replace(
+        run.context, domain_settings=dict(run.context.domain_settings, verifier_model="provider/future-judge")
+    )
+    stages_before_resume = dict(run.state.stages)
+    args = run.parse("regrade", "--input", original / "results.csv", "--run-dir", output, "--resume")
+    assert args.handler(args, changed_context) == 0
+    assert read_run_metadata(output)["config"]["verifier_model"] == current_judge
+    assert dict(run.state.stages) == stages_before_resume
 
 
 def test_legal_regrade_preserves_candidates_and_clears_obsolete_grades(legal_run):

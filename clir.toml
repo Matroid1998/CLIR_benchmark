@@ -10,7 +10,7 @@ cluster = "cluster"
 
 [llm]
 generation_model = "gpt-5-mini"
-verifier_model = "anthropic/claude-sonnet-4.6"
+verifier_model = "anthropic/claude-sonnet-5.5"
 concept_verifier_model = "anthropic/claude-sonnet-4.5"
 generation_reasoning_effort = "medium"
 grading_reasoning_effort = "low"

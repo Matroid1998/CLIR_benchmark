@@ -516,7 +516,7 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
     parser.add_argument("--languages", default="en,fr,de,es")
     parser.add_argument("--modes", default=",".join(gen.MODES))
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
-    parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5")
+    parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5.5")
     parser.add_argument("--generation-cache", type=Path,
                         help="reuse saved responses only for the exact model and canonical messages")
     parser.add_argument("--generation-records", type=Path,

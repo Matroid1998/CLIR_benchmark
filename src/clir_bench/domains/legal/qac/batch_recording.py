@@ -436,6 +436,32 @@ def export_traces(directory: Path) -> None:
         outcomes = [{"task_id": t, "status": s, "rows": json.loads(r), "error": e}
                     for t, s, r, e in db.execute("SELECT task,status,rows,error FROM outcomes ORDER BY task")]
     bundle = {"metadata": metadata, "calls": calls, "stages": stages, "outcomes": outcomes}
+    capacities = metadata.get("context_capacity_reference", {}).get("model_context_tokens", {})
+    inputs, generation_models = {}, {}
+    for call in calls:
+        record = call["record"]
+        model = record["model"]
+        observed = inputs.setdefault(model, {"calls": 0, "provider_errors": 0,
+            "capacity_errors": 0, "max_input_characters": 0, "max_reported_prompt_tokens": None,
+            "reference_context_tokens": capacities.get(model)})
+        observed["calls"] += 1
+        observed["provider_errors"] += record["status"] == "error"
+        observed["capacity_errors"] += record.get("context_capacity_exceeded") is True
+        observed["max_input_characters"] = max(observed["max_input_characters"], record.get("input_characters", 0))
+        tokens = record.get("usage", {}).get("prompt_tokens")
+        if tokens is not None:
+            observed["max_reported_prompt_tokens"] = max(observed["max_reported_prompt_tokens"] or 0, tokens)
+        if call["stage"] == "generation":
+            generation_models[call["task_id"]] = model
+    for observed in inputs.values():
+        tokens, capacity = observed["max_reported_prompt_tokens"], observed["reference_context_tokens"]
+        observed["reported_input_exceeds_reference_context"] = (
+            tokens > capacity if tokens is not None and capacity is not None else None)
+    overproduction = [{"task_id": stage["task_id"], "model": generation_models.get(stage["task_id"]),
+                       "returned_candidates": len(stage["parsed_output"]), "prompt_maximum": 3}
+                      for stage in stages if stage["stage"] == "generation"
+                      and isinstance(stage["parsed_output"], list) and len(stage["parsed_output"]) > 3]
+    bundle["diagnostics"] = {"inputs_by_model": inputs, "generation_overproduction": overproduction}
 
     def block(value, kind="text"):
         content = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, indent=2)
@@ -451,7 +477,11 @@ def export_traces(directory: Path) -> None:
              "The JSON export retains every recorded provider response field. "
              "Any candidates beyond a requested quota remain in the raw outcomes."),
              "## Run configuration and source targets", block(metadata.get("config", {}), "json"),
-             "## Run summary", block(metadata.get("summary", {}), "json")]
+             "## Run summary", block(metadata.get("summary", {}), "json"),
+             "## Input capacity and generation diagnostics",
+             ("Character counts are not token counts. Missing token usage or capacity remains unknown; "
+             "provider capacity errors are recorded separately from rate limits and timeouts."),
+             block(bundle["diagnostics"], "json")]
     table = ["| Task | Stage | Attempts | Final status | Error |", "|---|---|---:|---|---|"]
     for stage in stages:
         error = (stage["error"] or "").replace("|", "\\|").replace("\n", " ")
