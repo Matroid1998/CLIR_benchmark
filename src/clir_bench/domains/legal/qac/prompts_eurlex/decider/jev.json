@@ -1,0 +1,39 @@
+{
+  "model": "jev-latest",
+  "state": "<Insert the complete EUR-Lex input with its four marked blocks>",
+  "questions": {
+    "mode": {
+      "type": "choice",
+      "instructions": {
+        "task": "Which question-generation mode best fits the TARGET ARTICLE: fact_pattern, lookup, or skip? Select based on the substantive content and the question framing it naturally supports.",
+        "input_structure": {
+          "### TARGET ARTICLE": "The article that questions must be about.",
+          "### REFERENCED ARTICLES": "Provisions cited from the same act.",
+          "### REFERENCED ARTICLES FROM OTHER ACTS": "Provisions cited from other acts.",
+          "### REFERENCED ANNEXES": "Cited annexes."
+        },
+        "metadata": "Article blocks contain a language tag, article number and title, an Act line identifying the instrument and its subject matter, and sometimes a Location within the act. Other-act references and annexes have a Cite as key identifying the provision. Empty blocks are marked. Different-language versions represent the same provision.",
+        "grounding": "Choose based on the target article's text. Metadata identifies the regime but cannot supply an answer. References may complete the target's rule, but must not become the subject of the questions. A question answerable from a referenced provision alone does not belong to this target.",
+        "selection": [
+          "Choose fact_pattern when meaningful case particulars naturally connect a client's situation to the target's legal treatment.",
+          "Choose lookup when a direct request for one point of law is more natural and adding a case would mainly decorate the question.",
+          "Both modes can cover the same legal topics. A definition, number, deadline, or instrument identifier alone does not determine the mode.",
+          "Assess the usable substantive content of mixed articles. Choose skip only when neither mode supports a suitable question."
+        ]
+      },
+      "criteria": {
+        "fact_pattern": {
+          "persona": "A practitioner knows the client's situation but does not name or necessarily know the governing instrument.",
+          "question_properties": "A concrete case involving a private party or a national authority handling a file, with at least two legally relevant particulars: actor, activity, product, omission, quantity, place, or time. These instantiate conditions explicitly addressed by the target without giving away the legal consequence. The protagonist is not an EU institution or official, or a Member State acting as legislator.",
+          "information_needs": "Whether the case is covered, permitted, prohibited, or eligible; what the actor must do; which condition, deadline, amount, procedure, or consequence applies. The situation identifies the regime without act or provision identifiers."
+        },
+        "lookup": {
+          "persona": "A practitioner knows the legal regime and wants one point of law, without needing a concrete client situation.",
+          "question_properties": "A direct, self-contained question identifying the regime through a specific regulated actor, product, activity, or legal term. Each question has two otherwise identical renderings: one without an instrument identifier and one with the target instrument's official identifier inserted. The base question must identify the regime without relying on that identifier.",
+          "information_needs": "A definition, scope rule, obligation, condition, deadline, threshold, reporting requirement, consequence, competent body, or procedure."
+        },
+        "skip": "Neither mode supports a substantive, grounded question about the target. Examples include articles containing only transposition, entry-into-force, or generic institutional review clauses, or no usable legal point answerable from the supplied material."
+      }
+    }
+  }
+}

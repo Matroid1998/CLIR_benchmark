@@ -131,6 +131,11 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
     if run_workflow:
         _run_arguments(generate)
         generate.add_argument(
+            "--decider-model", choices=("generator", "jev"),
+            help="Select each target's mode using its generator or Jev via OpenRouter; "
+                 "omit to keep explicit modes",
+        )
+        generate.add_argument(
             "--questions-per-mode", type=int,
             help="Save this many candidates per source, mode and generator; advance through targets until filled",
         )

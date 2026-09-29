@@ -514,8 +514,10 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
     # on purpose -- no EUR-Lex zh versions exist, so we do not ask in it), both
     # prompt modes, gpt-5.4-mini generating and Sonnet grading.
     parser.add_argument("--languages", default="en,fr,de,es")
-    parser.add_argument("--modes", default=",".join(gen.MODES))
+    parser.add_argument("--modes", default=None, help="comma-separated modes (default: both)")
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
+    parser.add_argument("--decider-model", choices=("generator", "jev"),
+                        help="choose the generation mode per target using the generator or Jev")
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5.5")
     parser.add_argument("--generation-cache", type=Path,
                         help="reuse saved responses only for the exact model and canonical messages")
@@ -548,7 +550,10 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
         raise SystemExit(
             f"unsupported question language(s) for EUR-Lex: {', '.join(unsupported)}. "
             f"Acts are available in {', '.join(ACT_LANGUAGES)}.")
-    modes = [x.strip() for x in args.modes.split(",") if x.strip()]
+    if args.decider_model and args.modes is not None:
+        parser.error("--decider-model cannot be combined with --modes")
+    modes = [x.strip() for x in (args.modes if args.modes is not None else
+                                ",".join(gen.MODES)).split(",") if x.strip()]
     if not languages or not modes:
         parser.error("--languages and --modes must each contain at least one value")
     unsupported_modes = [mode for mode in modes if mode not in gen.MODES]
@@ -592,6 +597,9 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
           f"reference-complete: {sum(1 for t in targets if t.complete)}", file=sys.stderr)
 
     if args.dry_run:
+        if args.decider_model:
+            print(f"decider: {args.decider_model}; up to {len(targets)} additional calls; "
+                  "sampled modes will be replaced by decisions", file=sys.stderr)
         print(f"\ncall budget: {len(targets)} generation + {2 * len(targets)} grading "
               f"= {3 * len(targets)} calls", file=sys.stderr)
         for t in targets[:12]:

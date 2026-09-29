@@ -7,7 +7,7 @@ import hashlib
 import json
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -184,9 +184,16 @@ def _options(args, context, saved=None):
                 "reference_chars": None,
                 "generation_model": [context.setting("generation_model", "gpt-5.6-luna")],
                 "verifier_model": context.setting("verifier_model", "anthropic/claude-sonnet-5.5"),
-                "langs": None, "modes": None}
+                "langs": None, "modes": None, "decider_model": None}
     options = {key: getattr(args, key, None) if getattr(args, key, None) is not None
                else old.get(key, default) for key, default in defaults.items()}
+    if options["decider_model"] is None:
+        options.pop("decider_model")  # Keep existing run fingerprints stable.
+    elif options["decider_model"] not in ("generator", "jev"):
+        raise ValueError("--decider-model must be generator or jev")
+    elif options["modes"] or options["questions_per_mode"] is not None:
+        raise ValueError("--decider-model cannot be combined with --modes or --questions-per-mode; "
+                         "the decider selects modes from the supplied prompts")
     if options["questions_per_mode"] is None:
         options.pop("questions_per_mode")  # Preserve fingerprints of existing runs.
     elif options["questions_per_mode"] < 1:
@@ -229,7 +236,8 @@ def _select(sources, indexes, options):
     for position, source in enumerate(sources):
         batch = batches[source]
         languages = options["langs"] or (["en", "fr", "de", "es"] if source == "eurlex" else ["en", "fr", "es", "zh"])
-        modes = options["modes"] or (batch.gen.MODES if source == "eurlex" else batch.DEFAULT_MODES)
+        modes = (["lookup"] if options.get("decider_model") else options["modes"]
+                 or (batch.gen.MODES if source == "eurlex" else batch.DEFAULT_MODES))
         supported_langs = batch.ACT_LANGUAGES if source == "eurlex" else batch.UN_LANGUAGES
         supported_modes = batch.gen.MODES if source == "eurlex" else batch.SUPPORTED_MODES
         # Mixed-source selections may name the union of their supported personas/languages.
@@ -266,7 +274,9 @@ def _prepare(selections, indexes, options, operation):
         source, batch = entry["corpus"], batches[entry["corpus"]]
         supported_modes = batch.gen.MODES if source == "eurlex" else batch.SUPPORTED_MODES
         supported_languages = batch.ACT_LANGUAGES if source == "eurlex" else batch.UN_LANGUAGES
-        if target.mode not in supported_modes or target.language not in supported_languages:
+        automatic = operation == "generate" and bool(options.get("decider_model"))
+        if (target.mode not in supported_modes and not (automatic and target.mode == "auto")
+                or target.language not in supported_languages):
             raise ValueError(f"unsupported saved target persona/language for {source}")
         limits = {"max_references": options["max_references"]} if source == "eurlex" else {
             "context_chars": options["context_chars"], "reference_chars": options["reference_chars"]}
@@ -281,9 +291,15 @@ def _prepare(selections, indexes, options, operation):
         entry["payload_sha256"] = digest
         pack = batch.gen.PROMPTS
         prompts[f"{source}/faithfulness"] = pack.faithfulness("batch")
-        prompts[f"{source}/quality/{target.mode}"] = pack.quality(target.mode, "batch")
-        if operation == "generate":
-            prompts[f"{source}/generation/{target.mode}/{target.language}"] = pack.generation(target.mode, target.language)
+        modes = [target.mode]
+        if automatic:
+            from . import decider
+            modes = [decider.generation_mode(mode) for mode in decider.MODES[source]]
+            prompts[f"{source}/decider"] = decider.prompt_text(source, options["decider_model"])
+        for mode in modes:
+            prompts[f"{source}/quality/{mode}"] = pack.quality(mode, "batch")
+            if operation == "generate":
+                prompts[f"{source}/generation/{mode}/{target.language}"] = pack.generation(mode, target.language)
         prepared.append((entry, target, payload))
     return prepared, prompts
 
@@ -326,6 +342,16 @@ def generate(args, context, *, selections=None, supplied_indexes=None):
                 raise ValueError("--questions differs from the saved target count")
     indexes = _indexes(sources, supplied_indexes, context=context)
     selections = selections if selections is not None else _select(sources, indexes, options)
+    if options.get("decider_model"):
+        # A fixed-mode comparison plan can contain the same target several times.
+        # Route each source/target/language once for each generator instead.
+        unique = {}
+        for entry in selections:
+            entry = dict(entry, target=dict(entry["target"], mode="auto"))
+            identity = (entry["corpus"], entry["target"].get("eli_id")
+                        or entry["target"].get("block_id"), entry["target"]["language"])
+            unique.setdefault(identity, entry)
+        selections = list(unique.values())
     if getattr(args, "limit", None):
         if args.limit < 1:
             raise ValueError("--limit must be positive")
@@ -468,7 +494,8 @@ def _execute(args, context, operation, directory, output, saved, options, select
         return 0
     print(f"{operation}: {len(selections)} shared targets, {len(cases)} model/target cases -> {output}")
     if getattr(args, "dry_run", False):
-        print(f"no model calls; at most {len(cases) * (3 if operation == 'generate' else 2)} initial stage calls")
+        stages = (3 + bool(options.get("decider_model"))) if operation == "generate" else 2
+        print(f"no model calls; at most {len(cases) * stages} initial stage calls")
         return 0
     batches = _batches()
     originals = {row["candidate_id"]: row for row in original_rows or []}
@@ -509,11 +536,23 @@ def _execute(args, context, operation, directory, output, saved, options, select
             limits = {"max_references": options["max_references"]} if source == "eurlex" else {
                 "context_chars": options["context_chars"], "reference_chars": options["reference_chars"]}
             try:
+                checkpoint = state.checkpoint(task, retries=options["retries"])
+                decision = None
+                if operation == "generate" and options.get("decider_model"):
+                    from . import decider
+                    decision = decider.decide(source, payload, backend=options["decider_model"],
+                                              model=model, checkpoint=checkpoint)
+                    if decision["mode"] == "skip":
+                        state.outcome(task, [])
+                        return task, 0
+                    target = replace(target, mode=decision["generation_mode"])
                 result = batches[source].run_one(target, indexes[source], gen_model=model,
                     grade_model=options["verifier_model"], keep=options["keep"] if candidates is None else len(candidates),
-                    existing_candidates=candidates, checkpoint=state.checkpoint(task, retries=options["retries"]),
+                    existing_candidates=candidates, checkpoint=checkpoint,
                     retries=options["retries"], payload=payload, **limits)
                 for row in result:
+                    if decision is not None:
+                        row.update(decider.row_metadata(decision))
                     row.setdefault("generator_model_name", model.rsplit("/", 1)[-1])
                     row["source_payload_sha256"] = entry["payload_sha256"]
                     for phase, prompt_key in (("faithfulness", f"{source}/faithfulness"),
@@ -692,6 +731,7 @@ def legacy_main(args, *, index, corpus, targets):
         reference_chars=(_batches()["un"].refs.DEFAULT_REFERENCE_CHARS
                          if corpus == "un" and getattr(args, "no_fit", False) else None),
         generation_cache=getattr(args, "generation_cache", None),
+        decider_model=getattr(args, "decider_model", None),
     )
     if getattr(args, "generation_records", None):
         print("generation recording is included in run.sqlite; separate recording files are no longer needed")

@@ -1,0 +1,58 @@
+You select the question-generation mode for an EU legislative article: "fact_pattern" or "lookup".
+Choose the mode that best fits the target article’s substantive content. Do not generate questions
+or answers.
+
+INPUT STRUCTURE
+The input contains four marked blocks:
+- "### TARGET ARTICLE": the article that questions must be about.
+- "### REFERENCED ARTICLES": provisions cited from the same act.
+- "### REFERENCED ARTICLES FROM OTHER ACTS": provisions cited from other acts.
+- "### REFERENCED ANNEXES": cited annexes.
+
+References provide context or complete the target’s rule; they must not become the subject of the
+questions.
+
+Article blocks contain a language tag, article number and title, an "Act:" line identifying the
+instrument and its subject matter, and sometimes a "Location:" within the act. Other-act references
+and annexes have a "Cite as:" key identifying the provision. Empty blocks are marked.
+Different-language versions represent the same provision.
+
+Use metadata to understand the legal regime, but choose based on the target article’s text.
+
+AVAILABLE MODES
+
+FACT_PATTERN — The practitioner knows the situation, not the governing instrument.
+Questions describe a concrete case involving a private party or a national authority handling a
+file. The situation includes at least two legally relevant particulars, such as the actor, activity,
+product, omission, quantity, place, or time. These instantiate conditions the article explicitly
+addresses, without giving away the legal consequence.
+
+Typical information needs: whether the case is covered, permitted, prohibited, or eligible; what the
+actor must do; what deadline, amount, or consequence applies. Questions do not name the governing
+instrument.
+
+LOOKUP — The practitioner knows the regime and wants one point of law.
+Questions directly request a definition, scope rule, obligation, condition, deadline, threshold,
+reporting requirement, consequence, competent body, or procedure. They identify the regime through a
+specific actor, product, activity, or legal term, without requiring a concrete client situation.
+
+Each question has two otherwise identical renderings: one without an instrument identifier and one
+with the target instrument’s official identifier.
+
+SELECTION
+Choose fact_pattern when meaningful case particulars naturally connect a situation to the target’s
+legal treatment. Choose lookup when a direct request for a legal point is more natural and adding a
+case would mainly decorate the question.
+
+Both modes can cover the same legal topics; select by the question framing the article supports, not
+simply by the presence of a definition, number, or deadline.
+
+Return "skip" when neither mode is suitable, including when the target contains only boilerplate
+such as transposition, entry into force, or generic institutional review clauses.
+
+OUTPUT
+Return valid JSON only:
+{"mode": "<fact_pattern|lookup|skip>",
+ "reason": "<one short sentence explaining the fit to this article>"}
+
+Here is the input:

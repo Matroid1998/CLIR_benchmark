@@ -1,0 +1,49 @@
+{
+  "model": "jev-latest",
+  "state": "<Insert the complete UN input with its three marked sections>",
+  "questions": {
+    "mode": {
+      "type": "choice",
+      "instructions": {
+        "task": "Which question-generation mode best fits the TARGET BLOCK: lookup, practitioner, semantic, or skip? Select based on the substantive content and the information need it naturally supports.",
+        "input_structure": {
+          "### TARGET BLOCK": "One contiguous passage of a UN document. Questions must be about this text.",
+          "### REFERENCED DOCUMENTS": "Documents cited by the target, supplied with their symbols, titles, and text.",
+          "### DOCUMENT CONTEXT": "Surrounding text from the same document."
+        },
+        "metadata": "The target opens with metadata such as [EN] Document: <symbol> / Title: <title>, identifying the source and helping establish its type, organ or author, date, and subject. Different-language versions represent the same passage.",
+        "grounding": "Answers must be fully stated in the TARGET BLOCK. Metadata, references, and context may resolve names, dates, situations, and citations, but cannot supply any part of the answer. A rule merely quoted from another instrument belongs to that instrument; consider instead what the target itself applies, reports, alleges, or contests.",
+        "selection": [
+          "Choose according to the most natural information need: a precise point from a known source, a dated regime-specific norm or fact, or a conceptual question about a situation, response, or affected party.",
+          "The same topic may support several modes. A number, instrument identifier, or document type alone does not determine the choice, except for the meeting-record restriction.",
+          "Questions need an absolute time anchor and a specific substantive subject. Attributed claims and findings must remain attributed. Recurring documents must offer content specific to the instance, not merely unchanged boilerplate with a year attached.",
+          "For mixed blocks, assess the usable substance. Choose skip only when no mode supports a suitable question."
+        ],
+        "meeting_records": "When the TARGET document's symbol contains PV or SR, lookup and practitioner are unavailable. Choose semantic only if the block supports a substantive conceptual question about a concrete position, rationale, or situation assessment; otherwise choose skip."
+      },
+      "criteria": {
+        "lookup": {
+          "persona": "A practitioner knows which instrument or source they need and wants one precise fact from it.",
+          "question_properties": "The document is explicitly used as a locator. Each question has two renderings, identical except that an accurate dated description of the instrument is replaced by its official identifier. The description identifies the organ or author, document type, date or year, and subject. A substantive subject anchor remains outside that instrument phrase in both renderings.",
+          "information_needs": "A measure, deadline, ceiling, criterion, mandate task, reporting arrangement, responsible body, scope, or concrete reported fact. The question requests useful information, not a summary of what the passage says."
+        },
+        "practitioner": {
+          "persona": "A specialist knows the regime and wants to establish what applied at a particular time, not which document contains it.",
+          "question_properties": "A specialist question about what was required, permitted, covered, due, or in force. It names the regime, uses precise legal terminology, and carries an absolute time pin and at least two substantive anchors. No instrument is used as a locator; a dated report or letter may appear solely to attribute a finding. The focus is the norm or fact, not what an organ said or decided.",
+          "information_needs": "Obligations, exemptions, conditions, mandate scope, deadlines, ceilings, procedures, or concrete attributed findings and figures."
+        },
+        "semantic": {
+          "persona": "A searcher knows the situation but not the governing instrument or the document's vocabulary.",
+          "question_properties": "A conceptual question using ordinary-language descriptions while preserving legal terms and official names. It has a concrete subject anchor and an absolute year or date, without document identifiers. It asks about the situation itself, not how a speaker described it. Concrete preambular assessments can qualify; ceremonial recitals cannot.",
+          "information_needs": [
+            "Situation: the problem, development, concrete assessment, or explicitly stated rationale.",
+            "Response: the action or mechanism established, extended, or modified, and how it operates.",
+            "Stakeholder: who is bound, protected, or assisted and how, or a State's position on a concrete proposal or measure."
+          ],
+          "boundary": "Not a request for a named datum such as a troop ceiling, deadline, amount, or official. The answer may contain figures when they answer a genuine conceptual question; a block offering only isolated data points is not suitable."
+        },
+        "skip": "No mode supports a substantive, informative question answerable entirely from the target. Examples include ceremony, generic exhortations, unchanged recurring boilerplate, answers available only outside the target, or a meeting record without eligible semantic content."
+      }
+    }
+  }
+}

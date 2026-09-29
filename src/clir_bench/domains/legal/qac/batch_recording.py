@@ -423,6 +423,40 @@ class StageCheckpoint:
                     result.append(value)
             return result
 
+    def decisions(self, request: dict) -> dict:
+        """Record a native Decisions request and response without chat conversion."""
+        from clir_bench.core.llm import OPENROUTER_DECISIONS_URL, decisions
+
+        request_id, started = uuid4().hex, time.monotonic()
+        record = {"model": request["model"], "timestamp": datetime.now(timezone.utc).isoformat(),
+                  "endpoint": OPENROUTER_DECISIONS_URL, "request": request,
+                  "messages": [], "request_settings": {}, "status": "running",
+                  "input_characters": len(_json(request)), "context_capacity_exceeded": None}
+
+        def save():
+            with self.state.transaction() as db:
+                db.execute("INSERT OR REPLACE INTO requests VALUES (?,?,?,?)",
+                           (request_id, self.task, "decider",
+                            _json(_redact(record, self.state._secrets))))
+
+        save()
+        try:
+            response = decisions(request)
+            usage = response.get("usage") or {}
+            record.update(status="response", response=response,
+                          usage={"prompt_tokens": usage.get("input_tokens"),
+                                 "completion_tokens": usage.get("output_tokens"),
+                                 "provider_cost": usage.get("cost")})
+            return response
+        except Exception as exc:
+            status = getattr(getattr(exc, "response", None), "status_code", None)
+            record.update(status="error", error_type=type(exc).__name__, error=str(exc),
+                          status_code=status, context_capacity_exceeded=_capacity_error(str(exc), status))
+            raise
+        finally:
+            record["seconds"] = round(time.monotonic() - started, 6)
+            save()
+
     def client(self, stage: str, model: str, client: Any) -> Any:
         if hasattr(client, "with_options"):
             client = client.with_options(max_retries=0, timeout=180)
@@ -579,6 +613,9 @@ def export_traces(directory: Path) -> None:
         for position, message in enumerate(record["messages"], 1):
             lines.extend([f"### Input {position}: {message['role']}", block(message.get("content", ""))])
         response = record.get("response") or {}
+        if record.get("request"):
+            lines.extend(["### Decisions request", block(record["request"], "json"),
+                          "### Decisions response", block(response, "json")])
         for choice in response.get("choices", []):
             lines.extend([f"### Output: choice {choice.get('index', 0)}",
                           f"Finish reason: `{choice.get('finish_reason')}`.",

@@ -140,6 +140,39 @@ quota or the pool is exhausted. Surplus candidates remain in the run state, whil
 the CSV contains up to the requested count. `--trace` also writes `llm_calls.json` and `trace.md`
 with every prompt, response, retry, and parsed grade in the same run folder.
 
+For legal sources, add `--decider-model generator` to let each generator choose its
+generation prompt before writing questions, or `--decider-model jev` to use Jev:
+
+```bash
+clir --domain legal qac generate --source eurlex un --questions 30 \
+  --decider-model generator --generation-model gpt-5.6-luna --trace
+
+clir --domain legal qac generate --source un --questions 30 \
+  --decider-model jev --generation-model gpt-5.6-luna --trace
+```
+
+The decider sees the complete assembled generation payload. EUR-Lex choices are
+`fact_pattern`, `lookup`, and `skip`; UN choices are `lookup`, `practitioner`,
+`semantic`, and `skip` (`practitioner` maps to the existing `practitioners` prompts).
+A skip makes no generation or verifier calls. Otherwise the chosen mode's existing
+generator, verifiers, and best-candidate ranking run as usual. `--questions` counts
+targets, so skips can reduce output. Do not combine the decider with `--modes` or
+`--questions-per-mode`. Omit the flag to retain explicit mode selection. Reusing a
+fixed-mode target plan with a decider deduplicates repeated target/language pairs.
+
+Decisions are checkpointed in `run.sqlite`, including skips, and reused on resume.
+CSV rows include the selected mode, decider model, reason (chat models), and
+confidence/probabilities when returned by Jev. `--trace` includes the decider's raw
+request and response. Invalid decisions are retried and then recorded as failures;
+they never silently select a fallback mode. Regrading preserves decisions and only
+reruns the verifiers. The original batch module CLIs also accept `--decider-model`.
+
+Jev uses `OPENROUTER_API_KEY`, model `~typesafe/jev-latest`, and
+[OpenRouter's Decisions endpoint](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-request)
+(`POST https://openrouter.ai/api/alpha/decisions`). Its structured instructions and
+criteria are sent directly; it returns a typed choice rather than a prose reason.
+The four decider templates are packaged in each legal prompt pack's `decider/` directory.
+
 ```bash
 clir --domain legal qac generate --source eurlex --langs en \
   --modes lookup fact_pattern --questions-per-mode 15 \

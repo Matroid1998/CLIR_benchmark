@@ -586,12 +586,15 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.BlockIndex | None = No
     # not ask in it), all three prompt modes, gpt-5.4-mini generating and
     # Sonnet grading.
     parser.add_argument("--languages", default="en,fr,es,zh")
-    parser.add_argument("--modes", default=",".join(DEFAULT_MODES))
+    parser.add_argument("--modes", default=None,
+                        help=f"comma-separated modes (default: {','.join(DEFAULT_MODES)})")
     parser.add_argument("--targets-in", type=Path,
                         help="reuse this exact JSON target list; bypass sampling and ignore --n")
     parser.add_argument("--targets-out", type=Path,
                         help="save the selected target list for identical inputs across models")
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
+    parser.add_argument("--decider-model", choices=("generator", "jev"),
+                        help="choose the generation mode per target using the generator or Jev")
     parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5.5")
     parser.add_argument("--generation-cache", type=Path,
                         help="reuse saved responses only for the exact model and canonical messages")
@@ -631,7 +634,10 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.BlockIndex | None = No
             f"unsupported question language(s) for the UN corpus: {', '.join(unsupported)}. "
             f"The 6-way corpus carries {', '.join(UN_LANGUAGES)} -- a language without a "
             "corpus file has no source text to generate from.")
-    modes = [x.strip() for x in args.modes.split(",") if x.strip()]
+    if args.decider_model and args.modes is not None:
+        parser.error("--decider-model cannot be combined with --modes")
+    modes = [x.strip() for x in (args.modes if args.modes is not None else
+                                ",".join(DEFAULT_MODES)).split(",") if x.strip()]
     if not modes or any(mode not in SUPPORTED_MODES for mode in modes):
         parser.error(f"unsupported modes; choose from {', '.join(SUPPORTED_MODES)}")
 
@@ -678,6 +684,9 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.BlockIndex | None = No
               f"{len(index.incomplete):,}", file=sys.stderr)
 
     if args.dry_run:
+        if args.decider_model:
+            print(f"decider: {args.decider_model}; up to {len(targets)} additional calls; "
+                  "sampled modes will be replaced by decisions", file=sys.stderr)
         print(f"\ncall budget: {len(targets)} generation + {2 * len(targets)} grading "
               f"= {3 * len(targets)} calls", file=sys.stderr)
         for t in targets[:12]:

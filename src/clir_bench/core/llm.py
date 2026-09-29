@@ -21,6 +21,7 @@ from functools import lru_cache
 from typing import Any, Callable, Mapping, Optional, Sequence, TypeVar
 
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_DECISIONS_URL = "https://openrouter.ai/api/alpha/decisions"
 
 T = TypeVar("T")
 
@@ -63,6 +64,25 @@ def client_for(model: str) -> Any:
 # --------------------------------------------------------------------------- #
 # Calls
 # --------------------------------------------------------------------------- #
+
+def decisions(request: Mapping[str, Any]) -> dict[str, Any]:
+    """One OpenRouter Decisions call; the caller owns retries and validation."""
+    import requests
+
+    key = os.environ.get("OPENROUTER_API_KEY")
+    if not key:
+        raise RuntimeError("OPENROUTER_API_KEY is not set (add it to .env)")
+    with requests.post(
+        OPENROUTER_DECISIONS_URL,
+        headers={"Authorization": f"Bearer {key}"},
+        json=dict(request), timeout=180,
+    ) as response:
+        response.raise_for_status()
+        data = response.json()
+    if not isinstance(data, dict) or data.get("error"):
+        raise ValueError(f"invalid Decisions response: {data}")
+    return data
+
 
 def chat(
     client: Any,
@@ -208,10 +228,12 @@ def extract_usage(response: Any) -> dict[str, Any]:
 
 __all__ = [
     "OPENROUTER_BASE_URL",
+    "OPENROUTER_DECISIONS_URL",
     "call_with_retries",
     "chat",
     "chat_with_thinking",
     "client_for",
+    "decisions",
     "extract_usage",
     "openai_client",
     "openrouter_client",
