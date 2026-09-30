@@ -54,7 +54,7 @@ GENERATION REQUIREMENTS
 6. BLOCK TEST. The answer's substance must be fully in the TARGET BLOCK.
    References, context and metadata may resolve names, regime, dates and
    attribution for the QUESTION, never complete its answer. Metadata cannot
-   be the requested fact. Exclude meeting-record targets with PV/SR symbols.
+   be the requested fact.
    If the block quotes/restates another instrument's provision, questions
    about that underlying norm are off-target. THIS author's application,
    allegation or assessment may qualify when answered fully in the block.
@@ -133,7 +133,7 @@ question use null here and fail mode, rather than mislabel its native fluency.
 
 CHECKS
 Use pass, fail, or uncertain; explain failures/uncertainty in problems.
-- mode: English; eligible genre/content; norm-state stance; no forbidden
+- mode: English; eligible content; norm-state stance; no forbidden
   locator; explicit time and two anchors; one fact; length compliance.
 - support: correct premises, attribution and scope; complete deciding span
   in the target; no outside answer substance or quoted-norm targeting.

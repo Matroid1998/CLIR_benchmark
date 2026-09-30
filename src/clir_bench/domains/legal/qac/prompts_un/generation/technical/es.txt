@@ -50,14 +50,13 @@ El bloque objetivo comienza con líneas de METADATOS ([EN] Document: <signatura>
 LA REGLA DEFINITORIA — IDENTIFICADOR OBLIGATORIO:
 Toda pregunta DEBE citar el instrumento aplicable o el documento fuente por su identificador
   oficial, exactamente tal como está escrito: un número de resolución o de decisión («resolution 918
-  (1994)») o la signatura de un informe o de una carta («S/1999/746»), tomado del bloque, de una
-  referencia resuelta o de los metadatos. Así es como busca el profesional de este modo.
+  (1994)») o la signatura de un informe, de una carta o de un acta de sesión
+  («S/1999/746», «A/C.2/58/SR.18»), tomado del bloque, de una referencia resuelta o de los metadatos.
+  Así es como busca el profesional de este modo.
 Ámbito del identificador — solo los identificadores que las personas citan realmente:
-- PERMITIDOS: los números de resolución y de decisión; la signatura de un informe o de una carta
-  cuando la pregunta versa sobre las constataciones o el contenido propios de ese documento.
-- PROHIBIDAS: las signaturas de actas de sesiones (cualquier signatura que contenga «PV» o «SR») —
-  ningún profesional teclea en una barra de búsqueda la cota de un acta resumida. Si el bloque
-  objetivo es un acta de sesión, este modo no se aplica: devuelve [].
+- PERMITIDOS: los números de resolución y de decisión; la signatura de un informe, de una carta o de
+  un acta de sesión cuando la pregunta versa sobre las constataciones o el contenido propios de
+  ese documento.
 - Un número de párrafo nunca es el único anclaje. La cita deíctica («en virtud de la presente
   resolución», «el presente informe») nunca está permitida — cita el número, nunca «este».
 
@@ -145,7 +144,7 @@ REGLAS FUNDAMENTALES:
   categorías.
 - ABSTENERSE ANTES QUE RELLENAR: genera hasta TRES pares. Si el bloque admite menos de tres
   preguntas que superen todas las reglas, genera menos; si no admite ninguna — todo ceremonia, todo
-  lenguaje formulario, o un acta de sesión — devuelve []. Nunca fabriques una pregunta para llegar a
+  lenguaje formulario — devuelve []. Nunca fabriques una pregunta para llegar a
   tres; una pregunta de relleno envenena el conjunto de datos.
 
 QUÉ PREGUNTAR — ocho categorías, en orden de prioridad para este modo:
@@ -197,13 +196,12 @@ Target block (from report S/2005/673): "In its resolution 1559 (2004), the Secur
 FALLOS REALES DE UNA EJECUCIÓN ANTERIOR DE ESTE PROCESO — no reproduzcas nunca estos patrones:
 ✗ "According to CARICOM in A/C.2/58/SR.18, what was South-South cooperation considered to be in
   relation to a global cooperation system?"
-  → Two violations: a summary-record symbol in the question (forbidden scope — nobody searches by SR
-    shelf mark), and a rhetorical-positioning target with no operational content (fails
-    CONSEQUENTIAL CONTENT). The block is a meeting record: in this mode, return [].
+  → A rhetorical-positioning target with no operational content (fails CONSEQUENTIAL CONTENT).
+    Discard; take a qualifying fact from the block or generate fewer questions.
 ✗ "According to Mr. Schmiedchen in the Forum on industrial development issues, what kind of
   partnerships should developing countries establish?"
   → Bare surname attribution, and the answer ("regional partnerships") is an exhortation with no
-    operational content. Meeting record: return [].
+    operational content. Discard.
 ✗ "If the sides did not reach agreement within the designated time limit, what was to be considered
   regarding the Collective Peacekeeping Forces of the Commonwealth of Independent States in the
   conflict zone in Abkhazia, Georgia?"
@@ -222,22 +220,21 @@ FALLOS REALES DE UNA EJECUCIÓN ANTERIOR DE ESTE PROCESO — no reproduzcas nunc
     61/39?"
 
 AUTOVERIFICACIÓN de cada pregunta, en este orden:
-1. ¿Es el bloque un acta de sesión (PV/SR)? → devuelve [].
-2. ¿Identificador presente, dentro del ámbito permitido (número de resolución o de decisión, o
-  signatura de informe o de carta), reproducido exactamente?
-3. ¿Están presentes los tres puntos de anclaje: identificador + asunto sustantivo + tiempo absoluto?
-4. ¿Toda descripción definida está nombrada en la propia pregunta — nada de «el Comité», «las
+1. ¿Identificador presente, dentro del ámbito permitido (número de resolución o de decisión, o
+  signatura de informe, de carta o de acta de sesión), reproducido exactamente?
+2. ¿Están presentes los tres puntos de anclaje: identificador + asunto sustantivo + tiempo absoluto?
+3. ¿Toda descripción definida está nombrada en la propia pregunta — nada de «el Comité», «las
   partes», «la sesión» o «el orador» a secas?
-5. ¿Sin tiempo relativo al documento («actual», «en su próximo período de sesiones», «el día
+4. ¿Sin tiempo relativo al documento («actual», «en su próximo período de sesiones», «el día
   anterior»...)?
-6. ¿El segmento de respuesta CALIFICA según CONTENIDO TRASCENDENTE y supera la prueba del lenguaje
+5. ¿El segmento de respuesta CALIFICA según CONTENIDO TRASCENDENTE y supera la prueba del lenguaje
   formulario?
-7. ¿Superada LA PRUEBA DEL BLOQUE; no puede responderse a partir de una referencia por sí sola;
+6. ¿Superada LA PRUEBA DEL BLOQUE; no puede responderse a partir de una referencia por sí sola;
   ninguna respuesta tomada de los metadatos?
-8. ¿Atribución conservada, al Estado o al cargo, y merece la pena preguntarlo?
-9. ¿Un solo hecho de la unidad más pequeña; 8–20 palabras (máximo 25); números e identificadores
+7. ¿Atribución conservada, al Estado o al cargo, y merece la pena preguntarlo?
+8. ¿Un solo hecho de la unidad más pequeña; 8–20 palabras (máximo 25); números e identificadores
   exactos en la respuesta?
-10. ¿Han superado la verificación menos de tres preguntas? Devuelve menos. ¿Ninguna? Devuelve [].
+9. ¿Han superado la verificación menos de tres preguntas? Devuelve menos. ¿Ninguna? Devuelve [].
 
 SALIDA (solo JSON válido, sin markdown): una lista de CERO a TRES objetos:
 [

@@ -1,0 +1,9 @@
+﻿subset,decider,documents,selected_mode_scored,any_mode_scored,matched_best_including_ties,matched_best_percent,mean_selected_score_when_scored,mean_points_lost_when_scored,mean_score_zero_for_skip_or_no_candidate,mean_best_available_score_zero_for_no_candidate,mean_points_lost_including_skip_or_no_candidate,mean_audit_clear_score_zero_for_unavailable,skipped,skipped_despite_scored_alternative,unproductive_choice_despite_scored_alternative
+eurlex,jev,50,43,45,39,86.66666666666667,35.04651162790697,0.2558139534883721,30.14,31.66,1.52,29.42,5,1,1
+eurlex,generator,50,43,45,17,37.77777777777778,33.46511627906977,1.8372093023255813,28.78,31.66,2.88,26.26,5,1,1
+un_without_meetings,jev,30,27,28,17,60.714285714285715,30.444444444444443,0.7777777777777778,27.4,29.1,1.7,15.633333333333333,0,0,1
+un_without_meetings,generator,30,23,28,13,46.42857142857143,30.391304347826086,1.0869565217391304,23.3,29.1,5.8,13.6,0,0,5
+un_all,jev,50,41,46,31,67.3913043478261,30.73170731707317,0.5121951219512195,25.2,28.42,3.22,16.44,5,4,1
+un_all,generator,50,39,46,29,63.04347826086956,30.641025641025642,0.6410256410256411,23.9,28.42,4.52,15.22,3,2,5
+un_meetings_only,jev,20,14,18,14,77.77777777777777,31.285714285714285,0.0,21.9,27.4,5.5,17.65,5,4,0
+un_meetings_only,generator,20,16,18,16,88.88888888888889,31.0,0.0,24.8,27.4,2.6,17.65,3,2,0

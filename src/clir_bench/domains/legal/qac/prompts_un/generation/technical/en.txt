@@ -44,15 +44,12 @@ The target block begins with METADATA lines ([EN] Document: <symbol> / Title: <t
 
 THE DEFINING RULE — IDENTIFIER REQUIRED:
 Every question MUST cite its governing instrument or source document by official identifier, exactly
-  as written: a resolution or decision number ("resolution 918 (1994)") or the symbol of a report or
-  letter ("S/1999/746"), taken from the block, a resolved reference, or the metadata. This is how
-  the practitioner of this mode searches.
+  as written: a resolution or decision number ("resolution 918 (1994)") or the symbol of a report,
+  letter, or meeting record ("S/1999/746", "A/C.2/58/SR.18"), taken from the block, a resolved
+  reference, or the metadata. This is how the practitioner of this mode searches.
 Identifier scope — only identifiers humans actually cite:
-- ALLOWED: resolution and decision numbers; the symbol of a report or letter when the question
-  concerns that document's own findings or content.
-- FORBIDDEN: meeting-record symbols (any symbol containing "PV" or "SR") — no practitioner types a
-  summary-record shelf mark into a search bar. If the target block is a meeting record, this mode
-  does not apply: return [].
+- ALLOWED: resolution and decision numbers; the symbol of a report, letter, or meeting record
+  when the question concerns that document's own findings or content.
 - A paragraph number is never the only anchor. Deictic citation ("under this resolution", "the
   present report") is never allowed — cite the number, never "this".
 
@@ -128,8 +125,8 @@ CORE RULES:
   categories.
 - ABSTAIN RATHER THAN PAD: generate up to THREE pairs. If the block supports fewer than three
   questions that pass every rule, generate fewer; if it supports none — all ceremony, all
-  boilerplate, or a meeting record — return []. Never manufacture a question to reach three; a
-  padded question poisons the dataset.
+  boilerplate — return []. Never manufacture a question to reach three; a padded question poisons
+  the dataset.
 
 WHAT TO ASK — eight categories, in priority order for this mode:
   1. Sanctions, Conditions & Consequences: measures imposed (arms embargo, asset freeze, travel
@@ -177,13 +174,12 @@ Target block (from report S/2005/673): "In its resolution 1559 (2004), the Secur
 REAL FAILURES FROM A PREVIOUS RUN OF THIS PIPELINE — never reproduce these patterns:
 ✗ "According to CARICOM in A/C.2/58/SR.18, what was South-South cooperation considered to be in
   relation to a global cooperation system?"
-  → Two violations: a summary-record symbol in the question (forbidden scope — nobody searches by SR
-    shelf mark), and a rhetorical-positioning target with no operational content (fails
-    CONSEQUENTIAL CONTENT). The block is a meeting record: in this mode, return [].
+  → A rhetorical-positioning target with no operational content (fails CONSEQUENTIAL CONTENT).
+    Discard; take a qualifying fact from the block or generate fewer questions.
 ✗ "According to Mr. Schmiedchen in the Forum on industrial development issues, what kind of
   partnerships should developing countries establish?"
   → Bare surname attribution, and the answer ("regional partnerships") is an exhortation with no
-    operational content. Meeting record: return [].
+    operational content. Discard.
 ✗ "If the sides did not reach agreement within the designated time limit, what was to be considered
   regarding the Collective Peacekeeping Forces of the Commonwealth of Independent States in the
   conflict zone in Abkhazia, Georgia?"
@@ -202,18 +198,17 @@ REAL FAILURES FROM A PREVIOUS RUN OF THIS PIPELINE — never reproduce these pat
     61/39?"
 
 SELF-CHECK every question, in this order:
-1. Is the block a meeting record (PV/SR)? → return [].
-2. Identifier present, in scope (resolution/decision number, or report/letter symbol), reproduced
-  exactly?
-3. All three pins present: identifier + substantive subject + absolute time?
-4. Every definite description named in the question itself — no bare "the Committee", "the sides",
+1. Identifier present, in scope (resolution/decision number, or report/letter/meeting-record
+  symbol), reproduced exactly?
+2. All three pins present: identifier + substantive subject + absolute time?
+3. Every definite description named in the question itself — no bare "the Committee", "the sides",
   "the meeting", "the speaker"?
-5. No document-relative time ("current", "at its next session", "the day before"...)?
-6. Answer span QUALIFYING under CONSEQUENTIAL CONTENT, and passes the boilerplate test?
-7. BLOCK TEST passed; not answerable from a reference alone; no metadata answers?
-8. Attribution preserved, to State or office, and worth asking?
-9. One smallest-unit fact; 8–20 words (max 25); numbers and identifiers exact in the answer?
-10. Fewer than three questions passed? Output fewer. None passed? Output [].
+4. No document-relative time ("current", "at its next session", "the day before"...)?
+5. Answer span QUALIFYING under CONSEQUENTIAL CONTENT, and passes the boilerplate test?
+6. BLOCK TEST passed; not answerable from a reference alone; no metadata answers?
+7. Attribution preserved, to State or office, and worth asking?
+8. One smallest-unit fact; 8–20 words (max 25); numbers and identifiers exact in the answer?
+9. Fewer than three questions passed? Output fewer. None passed? Output [].
 
 OUTPUT (valid JSON only, no markdown): a list of ZERO to THREE objects:
 [

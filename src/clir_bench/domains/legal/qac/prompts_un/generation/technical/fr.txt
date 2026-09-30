@@ -53,14 +53,13 @@ Le bloc cible commence par des lignes de MÉTADONNÉES ([EN] Document: <cote> / 
 LA RÈGLE DÉFINITOIRE — IDENTIFIANT OBLIGATOIRE :
 Chaque question DOIT citer l'instrument applicable ou le document source par son identifiant
   officiel, exactement tel qu'il est écrit : un numéro de résolution ou de décision (« resolution
-  918 (1994) ») ou la cote d'un rapport ou d'une lettre (« S/1999/746 »), tiré du bloc, d'une
-  référence résolue ou des métadonnées. C'est ainsi que recherche le praticien de ce mode.
+  918 (1994) ») ou la cote d'un rapport, d'une lettre ou d'un compte rendu de séance
+  (« S/1999/746 », « A/C.2/58/SR.18 »), tiré du bloc, d'une référence résolue ou des métadonnées.
+  C'est ainsi que recherche le praticien de ce mode.
 Portée des identifiants — uniquement les identifiants que l'on cite réellement :
-- AUTORISÉS : les numéros de résolution et de décision ; la cote d'un rapport ou d'une lettre
-  lorsque la question porte sur les constats ou le contenu propres à ce document.
-- INTERDITES : les cotes de comptes rendus de séance (toute cote contenant « PV » ou « SR ») — aucun
-  praticien ne tape la cote de rangement d'un compte rendu analytique dans une barre de recherche.
-  Si le bloc cible est un compte rendu de séance, ce mode ne s'applique pas : renvoyez [].
+- AUTORISÉS : les numéros de résolution et de décision ; la cote d'un rapport, d'une lettre ou d'un
+  compte rendu de séance lorsque la question porte sur les constats ou le contenu propres à ce
+  document.
 - Un numéro de paragraphe n'est jamais le seul ancrage. La citation déictique (« en vertu de cette
   résolution », « le présent rapport ») n'est jamais autorisée — citez le numéro, jamais « ce » ni «
   cette ».
@@ -149,7 +148,7 @@ RÈGLES FONDAMENTALES :
   catégories.
 - ABSTENEZ-VOUS PLUTÔT QUE DE REMPLIR : générez jusqu'à TROIS paires. Si le bloc ne permet pas trois
   questions satisfaisant à toutes les règles, générez-en moins ; s'il n'en permet aucune — que du
-  cérémonial, que des formules toutes faites, ou un compte rendu de séance — renvoyez []. Ne
+  cérémonial, que des formules toutes faites — renvoyez []. Ne
   fabriquez jamais une question pour atteindre trois ; une question de remplissage empoisonne le jeu
   de données.
 
@@ -202,13 +201,12 @@ Target block (from report S/2005/673): "In its resolution 1559 (2004), the Secur
   schémas :
 ✗ "According to CARICOM in A/C.2/58/SR.18, what was South-South cooperation considered to be in
   relation to a global cooperation system?"
-  → Two violations: a summary-record symbol in the question (forbidden scope — nobody searches by SR
-    shelf mark), and a rhetorical-positioning target with no operational content (fails
-    CONSEQUENTIAL CONTENT). The block is a meeting record: in this mode, return [].
+  → A rhetorical-positioning target with no operational content (fails CONSEQUENTIAL CONTENT).
+    Discard; take a qualifying fact from the block or generate fewer questions.
 ✗ "According to Mr. Schmiedchen in the Forum on industrial development issues, what kind of
   partnerships should developing countries establish?"
   → Bare surname attribution, and the answer ("regional partnerships") is an exhortation with no
-    operational content. Meeting record: return [].
+    operational content. Discard.
 ✗ "If the sides did not reach agreement within the designated time limit, what was to be considered
   regarding the Collective Peacekeeping Forces of the Commonwealth of Independent States in the
   conflict zone in Abkhazia, Georgia?"
@@ -227,23 +225,22 @@ Target block (from report S/2005/673): "In its resolution 1559 (2004), the Secur
     61/39?"
 
 AUTO-VÉRIFICATION de chaque question, dans cet ordre :
-1. Le bloc est-il un compte rendu de séance (PV/SR) ? → renvoyez [].
-2. L'identifiant est-il présent, dans le champ autorisé (numéro de résolution ou de décision, ou
-  cote d'un rapport ou d'une lettre), et reproduit exactement ?
-3. Les trois ancrages sont-ils présents : identifiant + sujet substantiel + temporalité absolue ?
-4. Chaque expression définie est-elle nommée dans la question elle-même — pas de simple « le Comité
+1. L'identifiant est-il présent, dans le champ autorisé (numéro de résolution ou de décision, ou
+  cote d'un rapport, d'une lettre ou d'un compte rendu de séance), et reproduit exactement ?
+2. Les trois ancrages sont-ils présents : identifiant + sujet substantiel + temporalité absolue ?
+3. Chaque expression définie est-elle nommée dans la question elle-même — pas de simple « le Comité
   », « les parties », « la séance », « l'orateur » ?
-5. Aucune temporalité relative au document (« actuel », « à sa prochaine session », « la veille
+4. Aucune temporalité relative au document (« actuel », « à sa prochaine session », « la veille
   »...) ?
-6. Le segment de réponse est-il ADMISSIBLE au titre de CONTENU À PORTÉE RÉELLE, et passe-t-il le
+5. Le segment de réponse est-il ADMISSIBLE au titre de CONTENU À PORTÉE RÉELLE, et passe-t-il le
   test de la formule toute faite ?
-7. LE TEST DU BLOC est-il réussi ; impossible d'y répondre à partir du seul document référencé ;
+6. LE TEST DU BLOC est-il réussi ; impossible d'y répondre à partir du seul document référencé ;
   aucune réponse tirée des métadonnées ?
-8. L'attribution est-elle préservée, à l'État ou à la fonction, et le contenu attribué vaut-il
+7. L'attribution est-elle préservée, à l'État ou à la fonction, et le contenu attribué vaut-il
   d'être demandé ?
-9. Un seul fait, de la plus petite unité ; 8–20 mots (maximum 25) ; nombres et identifiants exacts
+8. Un seul fait, de la plus petite unité ; 8–20 mots (maximum 25) ; nombres et identifiants exacts
   dans la réponse ?
-10. Moins de trois questions ont-elles satisfait à toutes ces vérifications ? Produisez-en moins.
+9. Moins de trois questions ont-elles satisfait à toutes ces vérifications ? Produisez-en moins.
   Aucune n'y a satisfait ? Produisez [].
 
 SORTIE (JSON valide uniquement, pas de markdown) : une liste de ZÉRO à TROIS objets :

@@ -27,11 +27,10 @@ SCOPE AND EVIDENCE
    event does not establish who scheduled it. A missing answer component or
    outcome-changing exception fails support; unrelated context is unnecessary.
 
-3. Exclude meeting-record targets whose symbols contain PV or SR. When the
-   block quotes/restates another instrument's provision, exclude questions
-   about that underlying provision. Questions about THIS document's use of
-   it—application, allegation, amendment, or assessment—may qualify if their
-   answer is fully in the block.
+3. When the block quotes/restates another instrument's provision, exclude
+   questions about that underlying provision. Questions about THIS document's
+   use of it—application, allegation, amendment, or assessment—may qualify if
+   their answer is fully in the block.
 
 4. Target one concrete measure, deadline, ceiling, criterion, mandate task,
    named actor, defined term, reported event/figure, or attributed finding.
@@ -60,9 +59,9 @@ question_cited replaces the whole description with the exact TARGET
 identifier, optionally retaining source-type/office words needed for
 attribution. Everything outside the slot is word-identical. The identifier
 must identify the target, not an earlier instrument it cites. Permit only
-resolution/decision identifiers or report/letter/working-paper symbols;
-no PV/SR identifiers. The base has no document or paragraph identifiers.
-Calendar dates and quantities are not document identifiers.
+resolution/decision identifiers or report/letter/working-paper/meeting-record
+symbols, including PV/SR identifiers. The base has no document or paragraph
+identifiers. Calendar dates and quantities are not document identifiers.
 
 A substantive anchor—mission, country/situation, specific body or measure—
 must occur OUTSIDE the slot in both renderings. Generic actors such as
@@ -138,7 +137,7 @@ than mislabel its native-language fluency.
 
 CHECKS
 Use pass, fail, or uncertain; explain failures/uncertainty in problems.
-- mode: English, eligible genre/content, one smallest-unit lookup intent,
+- mode: English, eligible content, one smallest-unit lookup intent,
   identifier-free base, valid locator/anchor/time, and length compliance.
 - support: no false premise or attribution/scope shift; complete deciding
   answer in the target block, without outside answer substance or forbidden

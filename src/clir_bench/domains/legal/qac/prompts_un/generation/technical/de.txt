@@ -51,14 +51,12 @@ Der Zielblock beginnt mit METADATA-Zeilen ([EN] Document: <symbol> / Title: <tit
 DIE DEFINIERENDE REGEL — KENNUNG ERFORDERLICH:
 Jede Frage MUSS ihr maßgebliches Instrument oder Quelldokument mit der offiziellen Kennung zitieren,
   exakt so, wie sie geschrieben steht: eine Resolutions- oder Beschlussnummer („resolution 918
-  (1994)") oder das Symbol eines Berichts oder Schreibens („S/1999/746"), entnommen aus dem Block,
-  aus einer aufgelösten Referenz oder aus den Metadaten. So sucht der Praktiker dieses Modus.
+  (1994)") oder das Symbol eines Berichts, Schreibens oder Sitzungsprotokolls
+  („S/1999/746", „A/C.2/58/SR.18"), entnommen aus dem Block, aus einer aufgelösten Referenz oder aus
+  den Metadaten. So sucht der Praktiker dieses Modus.
 Geltungsbereich der Kennungen — nur Kennungen, die Menschen tatsächlich zitieren:
-- ZULÄSSIG: Resolutions- und Beschlussnummern; das Symbol eines Berichts oder Schreibens, wenn die
-  Frage die eigenen Feststellungen oder Inhalte dieses Dokuments betrifft.
-- VERBOTEN: Symbole von Sitzungsprotokollen (jedes Symbol, das „PV" oder „SR" enthält) — kein
-  Praktiker tippt die Signatur eines Kurzprotokolls in eine Suchleiste. Wenn der Zielblock ein
-  Sitzungsprotokoll ist, findet dieser Modus keine Anwendung: Geben Sie [] zurück.
+- ZULÄSSIG: Resolutions- und Beschlussnummern; das Symbol eines Berichts, Schreibens oder
+  Sitzungsprotokolls, wenn die Frage die eigenen Feststellungen oder Inhalte dieses Dokuments betrifft.
 - Eine Absatznummer ist niemals der einzige Anker. Deiktisches Zitieren („im Rahmen dieser
   Resolution", „der vorliegende Bericht") ist niemals zulässig — zitieren Sie die Nummer, niemals
   „diese".
@@ -145,7 +143,7 @@ KERNREGELN:
   Kategorien abdecken.
 - LIEBER VERZICHTEN ALS AUFFÜLLEN: Erzeugen Sie bis zu DREI Paare. Wenn der Block weniger als drei
   Fragen trägt, die jede Regel bestehen, erzeugen Sie weniger; wenn er keine trägt — nur
-  Zeremoniell, nur Formelsprache oder ein Sitzungsprotokoll — geben Sie [] zurück. Erfinden Sie
+  Zeremoniell, nur Formelsprache — geben Sie [] zurück. Erfinden Sie
   niemals eine Frage, um auf drei zu kommen; eine aufgefüllte Frage vergiftet den Datensatz.
 
 WORNACH FRAGEN — acht Kategorien, in der Prioritätsreihenfolge dieses Modus:
@@ -196,13 +194,12 @@ TATSÄCHLICHE FEHLER AUS EINEM FRÜHEREN LAUF DIESER PIPELINE — reproduzieren 
   niemals:
 ✗ "According to CARICOM in A/C.2/58/SR.18, what was South-South cooperation considered to be in
   relation to a global cooperation system?"
-  → Two violations: a summary-record symbol in the question (forbidden scope — nobody searches by SR
-    shelf mark), and a rhetorical-positioning target with no operational content (fails
-    CONSEQUENTIAL CONTENT). The block is a meeting record: in this mode, return [].
+  → A rhetorical-positioning target with no operational content (fails CONSEQUENTIAL CONTENT).
+    Discard; take a qualifying fact from the block or generate fewer questions.
 ✗ "According to Mr. Schmiedchen in the Forum on industrial development issues, what kind of
   partnerships should developing countries establish?"
   → Bare surname attribution, and the answer ("regional partnerships") is an exhortation with no
-    operational content. Meeting record: return [].
+    operational content. Discard.
 ✗ "If the sides did not reach agreement within the designated time limit, what was to be considered
   regarding the Collective Peacekeeping Forces of the Commonwealth of Independent States in the
   conflict zone in Abkhazia, Georgia?"
@@ -221,21 +218,20 @@ TATSÄCHLICHE FEHLER AUS EINEM FRÜHEREN LAUF DIESER PIPELINE — reproduzieren 
     61/39?"
 
 SELBSTPRÜFUNG jeder Frage, in dieser Reihenfolge:
-1. Ist der Block ein Sitzungsprotokoll (PV/SR)? → [] zurückgeben.
-2. Kennung vorhanden, im zulässigen Geltungsbereich (Resolutions-/Beschlussnummer oder Symbol eines
-  Berichts bzw. Schreibens) und exakt wiedergegeben?
-3. Alle drei Fixpunkte vorhanden: Kennung + materieller Gegenstand + absolute Zeitangabe?
-4. Jede bestimmte Beschreibung in der Frage selbst benannt — kein bloßes „der Ausschuss", „die
+1. Kennung vorhanden, im zulässigen Geltungsbereich (Resolutions-/Beschlussnummer oder Symbol eines
+  Berichts, Schreibens oder Sitzungsprotokolls) und exakt wiedergegeben?
+2. Alle drei Fixpunkte vorhanden: Kennung + materieller Gegenstand + absolute Zeitangabe?
+3. Jede bestimmte Beschreibung in der Frage selbst benannt — kein bloßes „der Ausschuss", „die
   Seiten", „die Sitzung", „der Redner"?
-5. Keine dokumentrelative Zeitangabe („aktuell", „auf seiner nächsten Tagung", „am Vortag" ...)?
-6. Ist die Antwortspanne unter NUR INHALTE MIT TRAGWEITE QUALIFIZIEREND und besteht sie den
+4. Keine dokumentrelative Zeitangabe („aktuell", „auf seiner nächsten Tagung", „am Vortag" ...)?
+5. Ist die Antwortspanne unter NUR INHALTE MIT TRAGWEITE QUALIFIZIEREND und besteht sie den
   Formelsprache-Test?
-7. BLOCK-TEST bestanden; nicht allein aus einer Referenz beantwortbar; keine Antworten aus den
+6. BLOCK-TEST bestanden; nicht allein aus einer Referenz beantwortbar; keine Antworten aus den
   Metadaten?
-8. Zuschreibung bewahrt, an Staat oder Amt, und des Fragens wert?
-9. Eine Tatsache in kleinster Einheit; 8–20 Wörter (max. 25); Zahlen und Kennungen in der Antwort
+7. Zuschreibung bewahrt, an Staat oder Amt, und des Fragens wert?
+8. Eine Tatsache in kleinster Einheit; 8–20 Wörter (max. 25); Zahlen und Kennungen in der Antwort
   exakt?
-10. Haben weniger als drei Fragen bestanden? Geben Sie weniger aus. Keine bestanden? Geben Sie []
+9. Haben weniger als drei Fragen bestanden? Geben Sie weniger aus. Keine bestanden? Geben Sie []
   aus.
 
 AUSGABE (nur gültiges JSON, kein Markdown): eine Liste von NULL bis DREI Objekten:

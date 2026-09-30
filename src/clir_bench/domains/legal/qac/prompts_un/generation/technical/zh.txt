@@ -37,12 +37,11 @@
 
 定义性规则 —— 必须给出标识符：
 每个问题都必须以官方标识符引用其管辖性文书或来源文件，并严格照原样书写：
-  决议号或决定编号（"resolution 918 (1994)"），或报告、信函的文件编号（"S/1999/746"），取自目标块、
-  已解析的引用或元数据。本模式的从业者正是这样检索的。
+  决议号或决定编号（"resolution 918 (1994)"），或报告、信函、会议记录的文件编号
+  （"S/1999/746"、"A/C.2/58/SR.18"），取自目标块、已解析的引用或元数据。本模式的从业者正是这样检索的。
 标识符的范围 —— 只使用人们真正会引用的标识符：
-- 允许：决议号和决定编号；当问题涉及某份报告或信函自身的调查结果或内容时，可以使用该文件的文件编号。
-- 禁止：会议记录的文件编号（任何含有 "PV" 或 "SR" 的文件编号）——
-  没有哪位从业者会把简要记录的档案编号敲进搜索栏。如果目标块是会议记录，本模式不适用：返回 []。
+- 允许：决议号和决定编号；当问题涉及某份报告、信函或会议记录自身的调查结果或内容时，
+  可以使用该文件的文件编号。
 - 段落编号绝不能是唯一的锚点。指示性引用（"根据本决议"、"本报告"）绝不允许 —— 请引用编号，
   绝不要用"本"来指称。
 
@@ -105,7 +104,7 @@
   不得把源文中的多词描述性片段用作问题骨架 —— 请改写它们。
 - 多样性：这些问题必须针对不同的事实，并且至少覆盖八个类别中的两个。
 - 宁可弃权，不要凑数：最多生成三对问答。如果目标块能支撑的、通过全部规则的问题少于三个，
-  就少生成几个；如果一个也支撑不了 —— 通篇都是礼节性表述、通篇都是套语，或者是一份会议记录 —— 就返回
+  就少生成几个；如果一个也支撑不了 —— 通篇都是礼节性表述、通篇都是套语 —— 就返回
   []。绝不要为了凑够三个而编造问题；一个凑数的问题会毒害整个数据集。
 
 问什么 —— 八个类别，按本模式的优先顺序排列：
@@ -147,13 +146,12 @@ Target block (from report S/2005/673): "In its resolution 1559 (2004), the Secur
 本流水线以往一次运行中的真实失败案例 —— 绝不要重现这些模式：
 ✗ "According to CARICOM in A/C.2/58/SR.18, what was South-South cooperation considered to be in
   relation to a global cooperation system?"
-  → Two violations: a summary-record symbol in the question (forbidden scope — nobody searches by SR
-    shelf mark), and a rhetorical-positioning target with no operational content (fails
-    CONSEQUENTIAL CONTENT). The block is a meeting record: in this mode, return [].
+  → A rhetorical-positioning target with no operational content (fails CONSEQUENTIAL CONTENT).
+    Discard; take a qualifying fact from the block or generate fewer questions.
 ✗ "According to Mr. Schmiedchen in the Forum on industrial development issues, what kind of
   partnerships should developing countries establish?"
   → Bare surname attribution, and the answer ("regional partnerships") is an exhortation with no
-    operational content. Meeting record: return [].
+    operational content. Discard.
 ✗ "If the sides did not reach agreement within the designated time limit, what was to be considered
   regarding the Collective Peacekeeping Forces of the Commonwealth of Independent States in the
   conflict zone in Abkhazia, Georgia?"
@@ -172,16 +170,15 @@ Target block (from report S/2005/673): "In its resolution 1559 (2004), the Secur
     61/39?"
 
 对每个问题按以下顺序自检：
-1. 目标块是否是会议记录（PV/SR）？→ 返回 []。
-2. 是否有标识符，且在允许范围内（决议号/决定编号，或报告/信函的文件编号），并严格照原样复制？
-3. 三个定位点是否齐备：标识符 + 实质主题 + 绝对时间？
-4. 每一个特指表述是否都在问题自身中指名 —— 没有孤零零的"该委员会"、"双方"、"该会议"、"该发言者"？
-5. 没有相对于文档的时间（"目前"、"在其下届会议上"、"前一天"……）？
-6. 答案片段在"只针对有实质后果的内容"下是否属于合格片段，并通过套语检验？
-7. 是否通过块检验；是否不能仅凭某份被引用文件就得到回答；是否没有取自元数据的答案？
-8. 归属是否保留、是否归于国家或职务，且是否值得提问？
-9. 是否只问一条最小单元的事实；是否为 8–20 个词（最多 25 个词）；答案中的数字和标识符是否精确？
-10. 通过的问题少于三个？就少输出几个。一个都没通过？就输出 []。
+1. 是否有标识符，且在允许范围内（决议号/决定编号，或报告/信函/会议记录的文件编号），并严格照原样复制？
+2. 三个定位点是否齐备：标识符 + 实质主题 + 绝对时间？
+3. 每一个特指表述是否都在问题自身中指名 —— 没有孤零零的"该委员会"、"双方"、"该会议"、"该发言者"？
+4. 没有相对于文档的时间（"目前"、"在其下届会议上"、"前一天"……）？
+5. 答案片段在"只针对有实质后果的内容"下是否属于合格片段，并通过套语检验？
+6. 是否通过块检验；是否不能仅凭某份被引用文件就得到回答；是否没有取自元数据的答案？
+7. 归属是否保留、是否归于国家或职务，且是否值得提问？
+8. 是否只问一条最小单元的事实；是否为 8–20 个词（最多 25 个词）；答案中的数字和标识符是否精确？
+9. 通过的问题少于三个？就少输出几个。一个都没通过？就输出 []。
 
 输出（只输出有效 JSON，不要 markdown）：一个包含零到三个对象的列表：
 [

@@ -10,8 +10,7 @@ The questions may be in any language. When evaluating SEARCH-BAR REALISM, PHRASI
   English one.
 MODE: these are identifier-mode questions. Every question MUST cite its governing instrument or
   source by an official identifier — a resolution or decision number ("resolution 918 (1994)") or
-  the symbol of a report or letter ("S/1999/746"). Meeting-record symbols (any symbol containing
-  "PV" or "SR") are out of scope: no practitioner types a summary-record shelf mark.
+  the symbol of a report, letter, or meeting record ("S/1999/746", "A/C.2/58/SR.18", "S/PV.6708").
 UN TARGET SCOPE: the context contains a TARGET BLOCK — one passage of one document — plus REFERENCED
   DOCUMENTS (instruments the target block cites, supplied for understanding only) and DOCUMENT
   CONTEXT (the same document's opening and neighbouring passages, supplied only so the target block
@@ -21,9 +20,6 @@ UN TARGET SCOPE: the context contains a TARGET BLOCK — one passage of one docu
   from that document alone, the target contributing nothing the question turns on), score its
   SPECIFICITY no higher than 2 and set failure_type to "off-target-reference" — it would retrieve
   the cited document, not this passage.
-MODE–GENRE CHECK: if the TARGET BLOCK itself is a meeting record (its document symbol contains "PV"
-  or "SR"), this mode's generator should have produced no questions at all. Score every candidate's
-  SEARCH-BAR REALISM at most 2 and set failure_type to "mode-genre-mismatch".
 GRADING INSTRUCTIONS:
 - Grade each candidate independently and against the absolute rubric below — not relative to the
   others.
@@ -106,9 +102,9 @@ SUB-CRITERIA:
      instrument (e.g. "What is the authorized troop ceiling?") cannot retrieve anything in
      particular: score its SPECIFICITY at most 2 and set its failure_type to "no-anchor".
    MISSING-IDENTIFIER CHECK (defining rule of this mode): if the question contains NO official
-     identifier at all — no resolution or decision number and no report/letter symbol — it violates
-     this mode's defining rule even if otherwise well formed: score its SPECIFICITY at most 2 and
-     set its failure_type to "missing-identifier".
+     identifier at all — no resolution or decision number and no report/letter/meeting-record
+     symbol — it violates this mode's defining rule even if otherwise well formed: score its
+     SPECIFICITY at most 2 and set its failure_type to "missing-identifier".
    UNRESOLVED REFERENT CHECK: every definite description must be named within the question itself.
      Bare "the Committee," "the speaker," "the sides," "the Regional Centre," "the General Assembly
      meeting" — where the name never appears in the question — cannot be resolved by a stranger:
@@ -156,11 +152,6 @@ SUB-CRITERIA:
      translation.
    1 — Ungrammatical, garbled, or incomprehensible.
 STANDALONE CHECKS (apply to every candidate):
-OUT-OF-SCOPE-IDENTIFIER CHECK: a meeting-record symbol in the question — any symbol containing "PV"
-  or "SR" ("A/C.2/58/SR.18", "S/PV.6708") — is not something a human searcher types: score
-  SEARCH-BAR REALISM at most 2 and set failure_type to "out-of-scope-identifier". Example from a
-  previous run: "According to CARICOM in A/C.2/58/SR.18, what was South-South cooperation considered
-  to be...?" — fails here and typically also under CEREMONIAL-TARGET.
 TEMPORAL DEIXIS CHECK: every temporal expression in the question must be absolute — years included
   with dates. Document-relative time — "current," "now," "recently," "today," "the day before," "at
   its next session," "last month," "the reporting period," or a day–month date with no year ("from
@@ -201,7 +192,7 @@ Output valid JSON only — a list with one object per candidate, in the order th
     "phrasing_economy": <1-5>,
     "focus": <1-5>,
     "linguistic_quality": <1-5>,
-    "failure_type": "<one of: language-issue, mode-genre-mismatch, off-target-reference, off-target-context, missing-identifier, out-of-scope-identifier, document-phrasing, deictic-time, unresolved-referent, ceremonial-target, unresolved-cross-reference, no-anchor, missing-attribution, surname-attribution, bundled-facts, high-overlap, broad-summary, overlong, weak-query-shape, poor-writing, none>",
+    "failure_type": "<one of: language-issue, off-target-reference, off-target-context, missing-identifier, document-phrasing, deictic-time, unresolved-referent, ceremonial-target, unresolved-cross-reference, no-anchor, missing-attribution, surname-attribution, bundled-facts, high-overlap, broad-summary, overlong, weak-query-shape, poor-writing, none>",
     "reason": "one short sentence explaining the grades"
   }
 ]
