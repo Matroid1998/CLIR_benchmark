@@ -1,0 +1,1452 @@
+[
+  {
+    "task_id": "decider/un/2012/e/res/2012/31#3/jev",
+    "target_id": "2012/e/res/2012/31#3",
+    "request_id": "f234954c524449ea953c2ddc3701cde2",
+    "timestamp": "2026-09-29T16:45:58.651771+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.68,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.02,
+            "semantic": 0.76,
+            "skip": 0.1
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700358-U77qu8zY8QkQoeTmbK7H",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000154728,
+        "input_tokens": 3684,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2001/s/res/1353_2001_#8/jev",
+    "target_id": "2001/s/res/1353_2001_#8",
+    "request_id": "5b001df80a26423d98d5345c500c0212",
+    "timestamp": "2026-09-29T16:46:05.840829+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.31,
+          "probabilities": {
+            "lookup": 0.48,
+            "practitioner": 0.42,
+            "semantic": 0.09,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700365-TEjFQv2ZV2DtmFePSoQD",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000191184, l
+        "input_tokens": 4552,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/1997/a/res/52/56#10/jev",
+    "target_id": "1997/a/res/52/56#10",
+    "request_id": "647ccc306a3c474ba043e694fb182bc5",
+    "timestamp": "2026-09-29T16:46:05.843655+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.51,
+          "probabilities": {
+            "lookup": 0.64,
+            "practitioner": 0.12,
+            "semantic": 0.2,
+            "skip": 0.04
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700365-VekVvUDWvELo1azuPkxB",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000174006,
+        "input_tokens": 4143,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2002/a/res/56/160#6/jev",
+    "target_id": "2002/a/res/56/160#6",
+    "request_id": "340d6ae5c93a4338ab604d414e41da2d",
+    "timestamp": "2026-09-29T16:46:05.849241+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "practitioner",
+          "confidence": 0.17,
+          "probabilities": {
+            "lookup": 0.36,
+            "practitioner": 0.38,
+            "semantic": 0.25,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700365-yCUoo9fg0TgVCdzcKKSJ",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000131292,
+        "input_tokens": 3126,
+        "output_tokens": 53
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2005/a/res/60/163#4/jev",
+    "target_id": "2005/a/res/60/163#4",
+    "request_id": "42ad0250c3a34bd6b1440726991a6f90",
+    "timestamp": "2026-09-29T16:46:05.890482+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.4,
+          "probabilities": {
+            "lookup": 0.09,
+            "practitioner": 0.11,
+            "semantic": 0.54,
+            "skip": 0.26
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700365-C1TaVmWBvolrhkd1viTc",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000119196,
+        "input_tokens": 2838,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2001/a/res/55/201#6/jev",
+    "target_id": "2001/a/res/55/201#6",
+    "request_id": "0de796c99d7d43f0a619b5bc40a48f77",
+    "timestamp": "2026-09-29T16:46:06.117711+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.54,
+            "practitioner": 0.12,
+            "semantic": 0.3,
+            "skip": 0.04
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700366-FigonMNj7dXLJgUJKV0M",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000150276,
+        "input_tokens": 3578,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2014/a/res/68/188#7/jev",
+    "target_id": "2014/a/res/68/188#7",
+    "request_id": "01f9bf3578ae48289edf707154cf7884",
+    "timestamp": "2026-09-29T16:46:06.157149+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.21,
+            "practitioner": 0.02,
+            "semantic": 0.56,
+            "skip": 0.21
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700366-04enH5w8icOgy6oyefPH",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000167076,
+        "input_tokens": 3978,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2013/a/hrc/dec/24/117#0/jev",
+    "target_id": "2013/a/hrc/dec/24/117#0",
+    "request_id": "24e81adfe0a14ab8a7506b6bc6b28b78",
+    "timestamp": "2026-09-29T16:46:06.399912+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.3,
+          "probabilities": {
+            "lookup": 0.47,
+            "practitioner": 0.03,
+            "semantic": 0.21,
+            "skip": 0.29
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700366-7BLJkBN3jjJk0HbQqIGu",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000211218,
+        "input_tokens": 5029,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2002/a/res/57/326#1/jev",
+    "target_id": "2002/a/res/57/326#1",
+    "request_id": "eee10f9c9ec849ab882f07ce323c1675",
+    "timestamp": "2026-09-29T16:46:08.961770+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.48,
+          "probabilities": {
+            "lookup": 0.61,
+            "practitioner": 0.21,
+            "semantic": 0.18,
+            "skip": 0
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700369-t3NxpedZosGFz6nrHnpL",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000133056,
+        "input_tokens": 3168,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2003/a/res/57/97#3/jev",
+    "target_id": "2003/a/res/57/97#3",
+    "request_id": "b2bd910350c44b6295e4bd990fe2e77a",
+    "timestamp": "2026-09-29T16:46:09.987704+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.54,
+            "practitioner": 0.21,
+            "semantic": 0.24,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700370-XDAlpUIizE0aRWR1cQ5p",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00010458,
+        "input_tokens": 2490,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2010/a/res/64/251#1/jev",
+    "target_id": "2010/a/res/64/251#1",
+    "request_id": "6b42cbba87d741f0a001564384cfbfe0",
+    "timestamp": "2026-09-29T16:46:10.207794+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.77,
+          "probabilities": {
+            "lookup": 0.09,
+            "practitioner": 0.07,
+            "semantic": 0.82,
+            "skip": 0.02
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700370-NatFTFr2HtJMZ2Ex50lq",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000207102,
+        "input_tokens": 4931,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2005/a/res/60/140#5/jev",
+    "target_id": "2005/a/res/60/140#5",
+    "request_id": "b11472e41f0b4eaa8e685f7bf25ea62a",
+    "timestamp": "2026-09-29T16:46:10.408439+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.16,
+          "probabilities": {
+            "lookup": 0.38,
+            "practitioner": 0.21,
+            "semantic": 0.33,
+            "skip": 0.08
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700370-bbjuLUlWDMrZMcJr8iwu",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00015939,
+        "input_tokens": 3795,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2011/a/res/65/133#13/jev",
+    "target_id": "2011/a/res/65/133#13",
+    "request_id": "4d89479ef14546a0947ebe8609e4966e",
+    "timestamp": "2026-09-29T16:46:10.702787+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.14,
+          "probabilities": {
+            "lookup": 0.33,
+            "practitioner": 0.3,
+            "semantic": 0.36,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700370-IiwYuVRd5g9byC91SkIp",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000195804,
+        "input_tokens": 4662,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2011/a/res/65/141#10/jev",
+    "target_id": "2011/a/res/65/141#10",
+    "request_id": "12d105a0ada14db0b22357d8587f84c2",
+    "timestamp": "2026-09-29T16:46:11.629867+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.69,
+          "probabilities": {
+            "lookup": 0.77,
+            "practitioner": 0.07,
+            "semantic": 0.15,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700371-Pb1Nk3FmTee6KSUPG0Gb",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000211008,
+        "input_tokens": 5024,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2006/a/res/61/173#1/jev",
+    "target_id": "2006/a/res/61/173#1",
+    "request_id": "bcfdf6ba459a41c89c9d60b8fcce7991",
+    "timestamp": "2026-09-29T16:46:11.944821+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.61,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.13,
+            "semantic": 0.71,
+            "skip": 0.03
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700371-HKGpyoQh41Q0KYgcy9Xc",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000149184,
+        "input_tokens": 3552,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2008/s/res/1814_2008_#13/jev",
+    "target_id": "2008/s/res/1814_2008_#13",
+    "request_id": "3e810d7570874d11b7751638c83b18f0",
+    "timestamp": "2026-09-29T16:46:12.255606+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.57,
+          "probabilities": {
+            "lookup": 0.68,
+            "practitioner": 0.14,
+            "semantic": 0.18,
+            "skip": 0
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700372-mc3ekf1FkUJeWMjAjQcT",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000201474,
+        "input_tokens": 4797,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2014/e/res/2014/23#3/jev",
+    "target_id": "2014/e/res/2014/23#3",
+    "request_id": "c938499b56ea4fb0aa6a054c34687fe7",
+    "timestamp": "2026-09-29T16:46:12.954718+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.69,
+          "probabilities": {
+            "lookup": 0.17,
+            "practitioner": 0.04,
+            "semantic": 0.77,
+            "skip": 0.02
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700372-Qr6ntOf2NtrjJZSUXA2L",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000182028,
+        "input_tokens": 4334,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2003/a/res/57/124#2/jev",
+    "target_id": "2003/a/res/57/124#2",
+    "request_id": "27dc05cd880e4910872ed25f6fea1fde",
+    "timestamp": "2026-09-29T16:46:13.665074+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.33,
+          "probabilities": {
+            "lookup": 0.5,
+            "practitioner": 0.18,
+            "semantic": 0.32,
+            "skip": 0
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700373-edAbMOKvvGq4SWASZ2O7",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000101262,
+        "input_tokens": 2411,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2011/a/res/65/178#8/jev",
+    "target_id": "2011/a/res/65/178#8",
+    "request_id": "e292e3b2dad8494cb22614181daddd7c",
+    "timestamp": "2026-09-29T16:46:13.982730+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.08,
+            "semantic": 0.62,
+            "skip": 0.02
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700374-DMFIOhv50LiF0IzY4Eix",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000215838,
+        "input_tokens": 5139,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2003/a/res/57/183#9/jev",
+    "target_id": "2003/a/res/57/183#9",
+    "request_id": "48a5d83cf44f4d4f806d313c0dfa9df1",
+    "timestamp": "2026-09-29T16:46:14.489727+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.51,
+          "probabilities": {
+            "lookup": 0.23,
+            "practitioner": 0.12,
+            "semantic": 0.63,
+            "skip": 0.02
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700374-988dpfYvDY454VeYh7mi",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000199374,
+        "input_tokens": 4747,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2014/a/hrc/res/25/6#7/jev",
+    "target_id": "2014/a/hrc/res/25/6#7",
+    "request_id": "836f43580f7648228a20f115769775f7",
+    "timestamp": "2026-09-29T16:46:14.798771+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "practitioner",
+          "confidence": 0.17,
+          "probabilities": {
+            "lookup": 0.26,
+            "practitioner": 0.38,
+            "semantic": 0.35,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700374-WB4POopkVPOBVUn0vXwW",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000269094,
+        "input_tokens": 6407,
+        "output_tokens": 53
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2005/a/res/60/129#8/jev",
+    "target_id": "2005/a/res/60/129#8",
+    "request_id": "c3ca46bb85714c6f8bec5f42316e675d",
+    "timestamp": "2026-09-29T16:46:15.254154+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "practitioner",
+          "confidence": 0.34,
+          "probabilities": {
+            "lookup": 0.18,
+            "practitioner": 0.51,
+            "semantic": 0.3,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700375-FuBI0KFrj2lETOmFQeMG",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000149268,
+        "input_tokens": 3554,
+        "output_tokens": 53
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2013/a/res/67/276#2/jev",
+    "target_id": "2013/a/res/67/276#2",
+    "request_id": "d1cda652b05e4622b15c2adb043aef36",
+    "timestamp": "2026-09-29T16:46:15.833807+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.28,
+          "probabilities": {
+            "lookup": 0.24,
+            "practitioner": 0.19,
+            "semantic": 0.46,
+            "skip": 0.11
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700375-BVrgL2hmtmveki0Q5eZV",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000149394,
+        "input_tokens": 3557,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2006/s/res/1663_2006_#1/jev",
+    "target_id": "2006/s/res/1663_2006_#1",
+    "request_id": "5e7c66e517e9441f8950b899e6a8707b",
+    "timestamp": "2026-09-29T16:46:16.437962+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.6,
+          "probabilities": {
+            "lookup": 0.23,
+            "practitioner": 0.06,
+            "semantic": 0.7,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700376-KVkB8jMRch8bF9FsPpGg",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000103614,
+        "input_tokens": 2467,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2008/s/res/1826_2008_#5/jev",
+    "target_id": "2008/s/res/1826_2008_#5",
+    "request_id": "4ee8cea861af463b927ae47911923b92",
+    "timestamp": "2026-09-29T16:46:16.746731+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.64,
+          "probabilities": {
+            "lookup": 0.73,
+            "practitioner": 0.2,
+            "semantic": 0.07,
+            "skip": 0
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700376-3gRgD1m0TqWPqw4NY4Qr",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00015162,
+        "input_tokens": 3610,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2007/cedaw/c/sr_806_a_#12/jev",
+    "target_id": "2007/cedaw/c/sr_806_a_#12",
+    "request_id": "858ad735421f4d1ba17aa34cfe1698fd",
+    "timestamp": "2026-09-29T16:46:17.050620+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.67,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0.02,
+            "semantic": 0.76,
+            "skip": 0.21
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700377-odnl6ECiClqwJpEPjo6C",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00023373,
+        "input_tokens": 5565,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2009/cd/pv_1154#3/jev",
+    "target_id": "2009/cd/pv_1154#3",
+    "request_id": "7426ede41d8348a382da3e3c0fd87734",
+    "timestamp": "2026-09-29T16:46:17.774787+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.56,
+          "probabilities": {
+            "lookup": 0.03,
+            "practitioner": 0.08,
+            "semantic": 0.66,
+            "skip": 0.23
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700377-XflbyI4x7RByxzRGP5Lu",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00026292,
+        "input_tokens": 6260,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/1999/cedaw/c/sr_438#8/jev",
+    "target_id": "1999/cedaw/c/sr_438#8",
+    "request_id": "a38cbc5553164b919b00dd77e4503528",
+    "timestamp": "2026-09-29T16:46:18.077267+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.58,
+          "probabilities": {
+            "lookup": 0.02,
+            "practitioner": 0.01,
+            "semantic": 0.6799999999999999,
+            "skip": 0.29
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700378-eo5pNFQZeIJRAreuXLCj",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000278082,
+        "input_tokens": 6621,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2008/cd/pv_1117#7/jev",
+    "target_id": "2008/cd/pv_1117#7",
+    "request_id": "c2401e808b1b4445b40a410ab6979a78",
+    "timestamp": "2026-09-29T16:46:18.791868+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "skip",
+          "confidence": 0.87,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.09,
+            "skip": 0.9
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700378-Hh64PBTCES9xpjK2qBL2",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000302862,
+        "input_tokens": 7211,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2011/cd/pv_1222#13/jev",
+    "target_id": "2011/cd/pv_1222#13",
+    "request_id": "f1fc412971a048598f0cb6654b738df0",
+    "timestamp": "2026-09-29T16:46:19.110731+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "skip",
+          "confidence": 0.83,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.12,
+            "skip": 0.87
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700379-gMnA2uGyb6KVnnOUMSq6",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000293412,
+        "input_tokens": 6986,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/1999/a/c_3/54/sr_31#11/jev",
+    "target_id": "1999/a/c_3/54/sr_31#11",
+    "request_id": "d7e205de6a0f4507bd4a90c5ab4f40cf",
+    "timestamp": "2026-09-29T16:46:19.517158+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.79,
+          "probabilities": {
+            "lookup": 0,
+            "practitioner": 0,
+            "semantic": 0.85,
+            "skip": 0.15
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700380-pKrEonEiUn9m9n5guXLk",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000215964,
+        "input_tokens": 5142,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2004/a/c_5/58/sr_45#2/jev",
+    "target_id": "2004/a/c_5/58/sr_45#2",
+    "request_id": "7ba3750c7f8b4aec82f0f95567b630a5",
+    "timestamp": "2026-09-29T16:46:19.714632+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.47,
+          "probabilities": {
+            "lookup": 0.03,
+            "practitioner": 0.01,
+            "semantic": 0.6,
+            "skip": 0.36
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700379-lR7qROIWurmKNhNoOkjb",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000127974,
+        "input_tokens": 3047,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2009/a/ac_109/2009/sr_4#6/jev",
+    "target_id": "2009/a/ac_109/2009/sr_4#6",
+    "request_id": "7b40b5323a814ef3882d43363a050660",
+    "timestamp": "2026-09-29T16:46:19.950956+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.87,
+          "probabilities": {
+            "lookup": 0,
+            "practitioner": 0.01,
+            "semantic": 0.9,
+            "skip": 0.09
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700379-9WhaEivKXWmosQyUd8By",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000153468,
+        "input_tokens": 3654,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2012/a/c_3/66/sr_22#7/jev",
+    "target_id": "2012/a/c_3/66/sr_22#7",
+    "request_id": "da5ab6a014e04359a92a86a0ccd86203",
+    "timestamp": "2026-09-29T16:46:20.327639+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.7,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.78,
+            "skip": 0.21
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700380-sGqwG8OmL7dxb3dkQfTr",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000275982,
+        "input_tokens": 6571,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2000/cd/pv_844#0/jev",
+    "target_id": "2000/cd/pv_844#0",
+    "request_id": "6297d0148d394255953a1efd64cf1cf9",
+    "timestamp": "2026-09-29T16:46:20.636931+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "skip",
+          "confidence": 0.87,
+          "probabilities": {
+            "lookup": 0,
+            "practitioner": 0,
+            "semantic": 0.09,
+            "skip": 0.91
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700380-R1IkkgrfF6dCp8a6tGbV",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000134694,
+        "input_tokens": 3207,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2005/a/59/pv_84#8/jev",
+    "target_id": "2005/a/59/pv_84#8",
+    "request_id": "fe190224f57c4df4b0adf33a18ae1235",
+    "timestamp": "2026-09-29T16:46:20.928807+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.78,
+          "probabilities": {
+            "lookup": 0,
+            "practitioner": 0,
+            "semantic": 0.84,
+            "skip": 0.16
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700380-csMKwT6qNK0n2mPEtAER",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000167034,
+        "input_tokens": 3977,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2014/a/c_3/69/sr_43#7/jev",
+    "target_id": "2014/a/c_3/69/sr_43#7",
+    "request_id": "e54c3bff87ea458cbe8314657b217db9",
+    "timestamp": "2026-09-29T16:46:21.271142+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.78,
+          "probabilities": {
+            "lookup": 0,
+            "practitioner": 0.01,
+            "semantic": 0.83,
+            "skip": 0.16
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700381-14ve5wx1gS5XHKF3EiBn",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000290976,
+        "input_tokens": 6928,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2007/a/cn_9/sr_845#7/jev",
+    "target_id": "2007/a/cn_9/sr_845#7",
+    "request_id": "abd50f42511d4f97859c9902a07c9b26",
+    "timestamp": "2026-09-29T16:46:21.558717+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.41,
+          "probabilities": {
+            "lookup": 0.02,
+            "practitioner": 0.01,
+            "semantic": 0.55,
+            "skip": 0.42
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700381-OMr0lM4cH6AehyfQZe9C",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000245196,
+        "input_tokens": 5838,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2006/a/c_4/61/sr_13#7/jev",
+    "target_id": "2006/a/c_4/61/sr_13#7",
+    "request_id": "4da6b2b8089844a38f76dd6a7abd6198",
+    "timestamp": "2026-09-29T16:46:21.878464+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.66,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.74,
+            "skip": 0.25
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700381-uNMMeiCVqvk6jxbSxIxZ",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000141414,
+        "input_tokens": 3367,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2002/cedaw/c/sr_560#20/jev",
+    "target_id": "2002/cedaw/c/sr_560#20",
+    "request_id": "0d2c850ed1af499998c7aedbc5401028",
+    "timestamp": "2026-09-29T16:46:22.069001+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.43,
+          "probabilities": {
+            "lookup": 0.02,
+            "practitioner": 0.01,
+            "semantic": 0.57,
+            "skip": 0.4
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700382-9GLVIMk8qOVmpWh8BVbZ",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00029904,
+        "input_tokens": 7120,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2007/a/cn_9/sr_841#21/jev",
+    "target_id": "2007/a/cn_9/sr_841#21",
+    "request_id": "2a1247c3b0a145b0b86e3b4d0ef939c0",
+    "timestamp": "2026-09-29T16:46:22.503223+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.55,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.66,
+            "skip": 0.33
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700382-IIhsOTh8AQPn5h48Dn9K",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000294588,
+        "input_tokens": 7014,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2007/cd/pv_1063#7/jev",
+    "target_id": "2007/cd/pv_1063#7",
+    "request_id": "b1c0f2bbfdd140f3869d2056bdfc880f",
+    "timestamp": "2026-09-29T16:46:22.817144+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "skip",
+          "confidence": 0.7,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.21,
+            "skip": 0.78
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700382-wVtqp93uhgCu6oMpK1Ra",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000315462,
+        "input_tokens": 7511,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2014/gc_15/sr_9#10/jev",
+    "target_id": "2014/gc_15/sr_9#10",
+    "request_id": "49f1051dc1f34fd3baaa5d423fb65734",
+    "timestamp": "2026-09-29T16:46:23.189922+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "skip",
+          "confidence": 0.75,
+          "probabilities": {
+            "lookup": 0,
+            "practitioner": 0,
+            "semantic": 0.18,
+            "skip": 0.8200000000000001
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700383-IRxxJDH2uYbQsVmf3Oaq",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00018711,
+        "input_tokens": 4455,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2009/a/c_2/64/sr_16#3/jev",
+    "target_id": "2009/a/c_2/64/sr_16#3",
+    "request_id": "c83b63991bf14266842ee8314da6b5e5",
+    "timestamp": "2026-09-29T16:46:23.448687+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.38,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.54,
+            "skip": 0.45
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700383-M6nHAnLQ4RRog9IwFomj",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000201012,
+        "input_tokens": 4786,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2010/a/cn_9/sr_902#16/jev",
+    "target_id": "2010/a/cn_9/sr_902#16",
+    "request_id": "c52aab9db0d34880bee143656f7aea3c",
+    "timestamp": "2026-09-29T16:46:24.013016+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.66,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0,
+            "semantic": 0.75,
+            "skip": 0.24
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700384-oxZX7j8ZGXSDYLLD68lk",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00030324,
+        "input_tokens": 7220,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2009/s/2009/658#0/jev",
+    "target_id": "2009/s/2009/658#0",
+    "request_id": "7c27576866bd4961970878e289f5e62a",
+    "timestamp": "2026-09-29T16:46:24.419962+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.61,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.01,
+            "semantic": 0.7,
+            "skip": 0.01
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700384-Jlc7o5SyG8vqHRa3KR9J",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00012852,
+        "input_tokens": 3060,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2002/a/c_5/56/46#12/jev",
+    "target_id": "2002/a/c_5/56/46#12",
+    "request_id": "e8899b54d868403fb7e76b5b453a671a",
+    "timestamp": "2026-09-29T16:46:25.062616+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "lookup",
+          "confidence": 0.16,
+          "probabilities": {
+            "lookup": 0.36,
+            "practitioner": 0.28,
+            "semantic": 0.34,
+            "skip": 0.02
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700385-bDoIrBLr0VVG6nWY1ScS",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000266532,
+        "input_tokens": 6346,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2006/s/2006/724#6/jev",
+    "target_id": "2006/s/2006/724#6",
+    "request_id": "b8728044a51445ee903c659555e60da0",
+    "timestamp": "2026-09-29T16:46:25.286082+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.24,
+          "probabilities": {
+            "lookup": 0.41,
+            "practitioner": 0.1,
+            "semantic": 0.44,
+            "skip": 0.05
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700385-w0Wk319SY2HX74QAGz1q",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00014448,
+        "input_tokens": 3440,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2004/s/2004/933#2/jev",
+    "target_id": "2004/s/2004/933#2",
+    "request_id": "02a9e25eedae4eeba5529e8c7b920494",
+    "timestamp": "2026-09-29T16:46:25.763944+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.77,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.04,
+            "semantic": 0.83,
+            "skip": 0
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700385-EVzMbuG62hb3AlfLna37",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.000127134,
+        "input_tokens": 3027,
+        "output_tokens": 49
+      }
+    }
+  },
+  {
+    "task_id": "decider/un/2011/s/2011/16#3/jev",
+    "target_id": "2011/s/2011/16#3",
+    "request_id": "d186f6c30bbd4426ac1a732da554bb6a",
+    "timestamp": "2026-09-29T16:46:25.944490+00:00",
+    "response": {
+      "answers": {
+        "mode": {
+          "choice": "semantic",
+          "confidence": 0.91,
+          "probabilities": {
+            "lookup": 0.05,
+            "practitioner": 0.01,
+            "semantic": 0.92,
+            "skip": 0.02
+          },
+          "type": "choice"
+        }
+      },
+      "id": "gen-dec-1790700385-ufMDDucPf9zjo2t0hSIT",
+      "model": "typesafe/jev-1.13-20260917",
+      "provider": "TypeSafe",
+      "usage": {
+        "cost": 0.00013944,
+        "input_tokens": 3320,
+        "output_tokens": 49
+      }
+    }
+  }
+]
