@@ -1,8 +1,8 @@
 """Reproducible paired decider screening on fixed legal targets.
 
 Each target is routed by both deciders and generated independently under every
-current decider mode. Meeting-record lookup/practitioner runs are diagnostic;
-they are never eligible winners. All provider calls use normal pipeline prompts,
+current decider mode, including all modes on meeting records.
+All provider calls use normal pipeline prompts,
 recorders, retry budgets, and candidate grading.
 """
 from __future__ import annotations
@@ -82,7 +82,7 @@ def export(state, directory, entries):
                 candidates.extend(result["rows"])
                 runs.append({"corpus": record["corpus"], "target_id": record["target_id"],
                     "mode": mode, "is_meeting": record["is_meeting"],
-                    "eligible": not record["is_meeting"] or mode == "semantic",
+                    "eligible": True,
                     "status": result["status"], "error": result["error"] or "",
                     "candidate_count": len(result["rows"])})
     _write_csv(directory / "decisions.csv", decisions)
@@ -120,6 +120,7 @@ def main():
     config = {"un": args.un, "eurlex": args.eurlex, "seed": args.seed,
               "generator": args.generator, "verifier": args.verifier, "retries": args.retries,
               "language": "en", "max_per_document": 1, "keep": 3,
+              "meeting_modes": "all",
               "jev_model": decider.JEV_MODEL, "prompts_sha256": digest(prompts),
               "targets_sha256": digest(entries)}
     fingerprint = digest(config)
@@ -164,7 +165,7 @@ def main():
                         retries=args.retries, **limits)
                     for row in rows:
                         row.update(screening_mode=mode, is_meeting=record["is_meeting"],
-                                   mode_eligible=not record["is_meeting"] or mode == "semantic")
+                                   mode_eligible=True)
                 error = "; ".join(sorted({row.get("grading_error", "") for row in rows
                                          if row.get("grading_status") == "failed"}))
                 state.outcome(task, rows, error)

@@ -5,44 +5,48 @@
     "mode": {
       "type": "choice",
       "instructions": {
-        "task": "Which question-generation mode best fits the TARGET BLOCK: lookup, practitioner, semantic, or skip? Select based on the substantive content and the information need it naturally supports.",
+        "task": "Select the question-generation mode best suited to the TARGET BLOCK: lookup, practitioner, semantic, or skip. Assess the strongest usable information need in the target, not the document as a whole. Do not generate questions or answers.",
         "input_structure": {
-          "### TARGET BLOCK": "One contiguous passage of a UN document. Questions must be about this text.",
-          "### REFERENCED DOCUMENTS": "Documents cited by the target, supplied with their symbols, titles, and text.",
-          "### DOCUMENT CONTEXT": "Surrounding text from the same document."
+          "### TARGET BLOCK": "The passage that questions must be about. Every answer must be fully stated here.",
+          "### REFERENCED DOCUMENTS": "Documents cited by the target, with symbols, titles, and text. These help interpretation but cannot supply answers.",
+          "### DOCUMENT CONTEXT": "Surrounding passages from the same document. These resolve names, dates, speakers, and situations but cannot supply answers."
         },
-        "metadata": "The target opens with metadata such as [EN] Document: <symbol> / Title: <title>, identifying the source and helping establish its type, organ or author, date, and subject. Different-language versions represent the same passage.",
-        "grounding": "Answers must be fully stated in the TARGET BLOCK. Metadata, references, and context may resolve names, dates, situations, and citations, but cannot supply any part of the answer. A rule merely quoted from another instrument belongs to that instrument; consider instead what the target itself applies, reports, alleges, or contests.",
-        "selection": [
-          "Choose according to the most natural information need: a precise point from a known source, a dated regime-specific norm or fact, or a conceptual question about a situation, response, or affected party.",
-          "The same topic may support several modes. A number, instrument identifier, or document type alone does not determine the choice, except for the meeting-record restriction.",
-          "Questions need an absolute time anchor and a specific substantive subject. Attributed claims and findings must remain attributed. Recurring documents must offer content specific to the instance, not merely unchanged boilerplate with a year attached.",
-          "For mixed blocks, assess the usable substance. Choose skip only when no mode supports a suitable question."
+        "metadata": "The target opens with a language tag, document symbol, and title. These help identify the source type, author or organ, date, and subject. Different-language versions represent the same passage. All modes are available for all document types, including resolutions, reports, letters, and PV/SR meeting records.",
+        "source_interpretation": "Resolve the actual speaker, reporting source, or responsible body from the target and local context. Do not assume that the chair, sender, recipient, or person named in the title made the target statement. Preserve whether the content is an adopted decision, recommendation, proposal, future commitment, completed action, or attributed assessment. A reported position is not automatically an applicable rule.",
+        "usable_content": [
+          "A mode must support at least one specific, informative question with a short answer fully available in the target. Questions may use supporting material to resolve context, but not to obtain missing answer substance.",
+          "A rule merely quoted or restated from another instrument is not the target's own contribution. Consider what this target itself applies, changes, reports, or contests instead.",
+          "Exclude ceremony, generic exhortations, and unchanged recurring statements without instance-specific substance. In mixed passages, retain concrete facts, decisions, mechanisms, or assessments; a ceremonial opening does not invalidate every fact that follows.",
+          "A year alone does not make generic content distinctive. Look for a specific mission, country, body, measure, event, reporting instance, or other substantive anchor. Do not invent missing distinctions or assume repetition solely because the document belongs to a recurring series."
         ],
-        "meeting_records": "When the TARGET document's symbol contains PV or SR, lookup and practitioner are unavailable. Choose semantic only if the block supports a substantive conceptual question about a concrete position, rationale, or situation assessment; otherwise choose skip."
+        "selection": [
+          "Assess all three modes before selecting. Prefer the strongest directly supported information need, not the broadest possible wording or the mode expected to receive higher verifier scores.",
+          "For precise information, prefer practitioner when the regime, date, and necessary attribution identify the need naturally without a document locator. Prefer lookup when locating the point in a particular source is itself useful. The presence of a document symbol is not evidence that lookup is the better mode.",
+          "Prefer semantic when the target directly supports a conceptual question about a concrete situation, response, mechanism, affected party, or stated rationale. Do not turn an isolated datum into a vague how or why question, or treat broad policy language as automatically semantic.",
+          "When several modes fit different parts of the target, choose the one supporting the clearest, most specific question with the least forced framing. Precise questions are not inferior merely because they are direct; conceptual questions are not superior merely because they sound broader.",
+          "Choose skip only when no mode has usable content. Failure of one mode does not establish the suitability of another. Do not force balanced mode frequencies or favour a mode because of its position in the choices."
+        ]
       },
       "criteria": {
         "lookup": {
-          "persona": "A practitioner knows which instrument or source they need and wants one precise fact from it.",
-          "question_properties": "The document is explicitly used as a locator. Each question has two renderings, identical except that an accurate dated description of the instrument is replaced by its official identifier. The description identifies the organ or author, document type, date or year, and subject. A substantive subject anchor remains outside that instrument phrase in both renderings.",
-          "information_needs": "A measure, deadline, ceiling, criterion, mandate task, reporting arrangement, responsible body, scope, or concrete reported fact. The question requests useful information, not a summary of what the passage says."
+          "persona": "A practitioner knows the source and wants one precise point from it.",
+          "information_need": "A measure, deadline, ceiling, criterion, mandate task, reporting arrangement, responsible body, procedure, scope, concrete figure, or attributed finding.",
+          "question_properties": "The source is an explicit locator. Two renderings differ only by replacing an accurate dated source description with its official identifier, including a PV/SR symbol when applicable. The subject anchor, necessary attribution, and absolute time remain clear in both renderings.",
+          "fit": "Best when source-specific retrieval is natural and both renderings can remain concise and self-contained. A speaker's statement must stay attributed to that speaker's State or office, not become a finding of the meeting body."
         },
         "practitioner": {
-          "persona": "A specialist knows the regime and wants to establish what applied at a particular time, not which document contains it.",
-          "question_properties": "A specialist question about what was required, permitted, covered, due, or in force. It names the regime, uses precise legal terminology, and carries an absolute time pin and at least two substantive anchors. No instrument is used as a locator; a dated report or letter may appear solely to attribute a finding. The focus is the norm or fact, not what an organ said or decided.",
-          "information_needs": "Obligations, exemptions, conditions, mandate scope, deadlines, ceilings, procedures, or concrete attributed findings and figures."
+          "persona": "A specialist knows the regime or operational setting and wants a precise norm or fact at a particular time, without locating a document.",
+          "information_need": "What was required, permitted, covered, due, or operationally established; a condition, exemption, mandate, deadline, ceiling, procedure, or concrete attributed fact or figure.",
+          "question_properties": "The question uses appropriate specialist terminology, an absolute time anchor, and at least two substantive anchors. It does not use an instrument or meeting record as a locator. Attribution to a State or office is allowed for concrete information reported in any document type.",
+          "fit": "Best when the precise information need stands naturally without a document reference. Preserve recommendations as recommendations and reported facts as attributed facts; do not infer binding law or implementation from a speech or proposal."
         },
         "semantic": {
-          "persona": "A searcher knows the situation but not the governing instrument or the document's vocabulary.",
-          "question_properties": "A conceptual question using ordinary-language descriptions while preserving legal terms and official names. It has a concrete subject anchor and an absolute year or date, without document identifiers. It asks about the situation itself, not how a speaker described it. Concrete preambular assessments can qualify; ceremonial recitals cannot.",
-          "information_needs": [
-            "Situation: the problem, development, concrete assessment, or explicitly stated rationale.",
-            "Response: the action or mechanism established, extended, or modified, and how it operates.",
-            "Stakeholder: who is bound, protected, or assisted and how, or a State's position on a concrete proposal or measure."
-          ],
-          "boundary": "Not a request for a named datum such as a troop ceiling, deadline, amount, or official. The answer may contain figures when they answer a genuine conceptual question; a block offering only isolated data points is not suitable."
+          "persona": "A searcher knows the situation but not the governing source or its vocabulary.",
+          "information_need": "Situation: a concrete problem, development, assessment, or stated rationale. Response: an action or mechanism and how it operates. Stakeholder: who is bound, protected, or assisted and how, or a State's position on an identifiable proposal or measure.",
+          "question_properties": "The question describes the situation in ordinary words while preserving legal terms, official names, attribution, and modality. It has a concrete substantive anchor and an absolute year or date, without document identifiers.",
+          "fit": "Best when conceptual framing captures substantive content explicitly present in the target. A figure may support a conceptual assessment, but requesting that figure by name belongs to a precise mode. Generic topics, speech summaries, and unsupported explanations do not qualify."
         },
-        "skip": "No mode supports a substantive, informative question answerable entirely from the target. Examples include ceremony, generic exhortations, unchanged recurring boilerplate, answers available only outside the target, or a meeting record without eligible semantic content."
+        "skip": "No mode supports a specific, informative, directly answerable question about the target. This includes ceremony, generic or unchanged recurring content without a usable fact, unresolved essential attribution, and answer substance available only outside the target. Document type alone never justifies skip."
       }
     }
   }

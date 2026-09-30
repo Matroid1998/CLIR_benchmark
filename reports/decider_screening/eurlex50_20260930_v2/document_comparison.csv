@@ -1,0 +1,773 @@
+﻿corpus,target_id,document_id,symbol,title,is_meeting,stratum,document_text,all_eligible_modes_completed,oracle_best_score,oracle_modes,oracle_audit_clear_score,fact_pattern_score,fact_pattern_audit_clear_score,fact_pattern_status,lookup_score,lookup_audit_clear_score,lookup_status,generator_mode,generator_reason,generator_confidence,generator_decision_status,generator_selected_score,generator_matches_best,generator_score_regret,generator_utility,generator_audit_clear_utility,generator_selected_mode_unproductive,generator_missed_opportunity,jev_mode,jev_reason,jev_confidence,jev_decision_status,jev_selected_score,jev_matches_best,jev_score_regret,jev_utility,jev_audit_clear_utility,jev_selected_mode_unproductive,jev_missed_opportunity,deciders_agree
+eurlex,http://data.europa.eu/eli/reg/2009/663/art_11/oj,32009R0663,32009R0663,Regulation (EC) No 663/2009 of the European Parliament and of the Council of 13 July 2009 establishing a programme to aid economic recovery by granting Community financial assistance to projects in the field of energy,False,no_refs,"Member States’ financial responsibilities
+
+1. Member States shall undertake the technical monitoring and financial control of projects in close cooperation with the Commission and shall certify the amount and the conformity with this Regulation of the expenditure incurred in respect of projects or parts of projects. Member States may request the participation of the Commission during on-the-spot checks.
+
+2. Member States shall inform the Commission of the measures taken under paragraph 1 and, in particular, shall supply a description of the control, management and monitoring systems established to ensure that projects are successfully completed.",True,36,fact_pattern,35,36,32,completed,35,35,completed,fact_pattern,"The article governs concrete Member State handling of an energy infrastructure project, including monitoring, expenditure certification, control systems, and possible Commission participation in on-the-spot checks.",,completed,36,True,0,36,32,False,False,lookup,,0.91,completed,35,False,1,35,35,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2012/1219/art_13/oj,32012R1219,32012R1219,Regulation (EU) No 1219/2012 of the European Parliament and of the Council of 12 December 2012 establishing transitional arrangements for bilateral investment agreements between Member States and third countries,False,no_refs,"Conduct of Member States with regard to a bilateral investment agreement with a third country
+
+Where a bilateral investment agreement falls within the scope of this Regulation, the Member State concerned shall:
+
+(a)
+inform the Commission without undue delay of all meetings which will take place under the provisions of the agreement. The Commission shall be provided with the agenda and all relevant information permitting an understanding of the topics to be discussed at those meetings. The Commission may request further information from the Member State concerned. Where an issue to be discussed might affect the implementation of the Union’s policies relating to investment, including in particular the common commercial policy, the Commission may require the Member State concerned to take a particular position;
+
+(b)
+inform the Commission without undue delay of any representations made to it that a particular measure is inconsistent with the agreement. The Member State shall also immediately inform the Commission of any request for dispute settlement lodged under the auspices of the bilateral investment agreement as soon as the Member State becomes aware of such a request. The Member State and the Commission shall fully cooperate and take all necessary measures to ensure an effective defence which may include, where appropriate, the participation in the procedure by the Commission;
+
+(c)
+seek the agreement of the Commission before activating any relevant mechanisms for dispute settlement against a third country included in the bilateral investment agreement and shall, where requested by the Commission, activate such mechanisms. Those mechanisms shall include consultations with the other party to a bilateral investment agreement and dispute settlement where provided for in the agreement. The Member State and the Commission shall fully cooperate in the conduct of procedures within the relevant mechanisms, which may include, where appropriate, the participation in the relevant procedures by the Commission.",True,34,lookup,34,32,32,completed,34,34,completed,fact_pattern,"The article governs concrete Member State situations involving agreement meetings, alleged breaches, dispute requests, and activation of dispute-settlement mechanisms.",,completed,32,False,2,32,32,False,False,lookup,,0.61,completed,34,True,0,34,34,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2013/1305/art_1/oj,32013R1305,32013R1305,Regulation (EU) No 1305/2013 of the European Parliament and of the Council of 17 December 2013 on support for rural development by the European Agricultural Fund for Rural Development (EAFRD) and repealing Council Regulation (EC) No 1698/2005,False,no_refs,"Subject matter
+
+1. This Regulation lays down general rules governing Union support for rural development, financed by the European Agricultural Fund for Rural Development (""the EAFRD"") and established by Regulation (EU) No 1306/2013. It sets out the objectives to which rural development policy is to contribute and the relevant Union priorities for rural development. It outlines the strategic context for rural development policy and defines the measures to be adopted in order to implement rural development policy. In addition, it lays down rules on programming, networking, management, monitoring and evaluation on the basis of responsibilities shared between the Member States and the Commission and rules to ensure coordination of the EAFRD with other Union instruments.
+
+2. This Regulation complements the provisions of Part Two of Regulation (EU) No 1303/2013 of the European Parliament and the Council.",True,33,lookup,33,27,,completed,33,33,completed,lookup,"The article primarily defines the Regulation’s scope, objectives, governance rules, and relationship with other Union instruments, making a direct legal-point request most natural.",,completed,33,True,0,33,33,False,False,lookup,,0.79,completed,33,True,0,33,33,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2009/470/art_5/oj,32009R0470,32009R0470,"Regulation (EC) No 470/2009 of the European Parliament and of the Council of 6 May 2009 laying down Community procedures for the establishment of residue limits of pharmacologically active substances in foodstuffs of animal origin, repealing Council Regulation (EEC) No 2377/90 and amending Directive 2001/82/EC of the European Parliament and of the Council and Regulation (EC) No 726/2004 of the European Parliament and of the Council (Text with EEA relevance)",False,no_refs,"Extrapolation
+With a view to ensuring the availability of authorised veterinary medicinal products for conditions affecting food-producing animals, the Agency, while ensuring a high level of protection of human health, shall, when carrying out scientific risk assessments and when drawing up risk management recommendations, consider using maximum residue limits established for a pharmacologically active substance in a particular foodstuff for another foodstuff derived from the same species, or maximum residue limits established for a pharmacologically active substance in one or more species for other species.",True,34,fact_pattern|lookup,34,34,34,completed,34,34,completed,lookup,The article sets out a direct requirement for the Agency to consider extrapolating maximum residue limits across foodstuffs and species during risk assessment and risk management.,,completed,34,True,0,34,34,False,False,lookup,,0.74,completed,34,True,0,34,34,False,False,True
+eurlex,http://data.europa.eu/eli/dir/2014/25/art_28/oj,32014L0025,32014L0025,"Directive 2014/25/EU of the European Parliament and of the Council of 26 February 2014 on procurement by entities operating in the water, energy, transport and postal services sectors and repealing Directive 2004/17/EC (Text with EEA relevance)",False,no_refs,"Contracts between contracting authorities
+
+1. A contract awarded by a contracting authority to a legal person governed by private or public law shall fall outside the scope of this Directive where all of the following conditions are fulfilled:
+
+(a)
+the contracting authority exercises over the legal person concerned a control which is similar to that which it exercises over its own departments;
+
+(b)
+more than 80 % of the activities of the controlled legal person are carried out in the performance of tasks entrusted to it by the controlling contracting authority or by other legal persons controlled by that contracting authority;
+
+(c)
+there is no direct private capital participation in the controlled legal person with the exception of non-controlling and non-blocking forms of private capital participation required by national legislative provisions, in conformity with the Treaties, which do not exert a decisive influence on the controlled legal person.
+
+A contracting authority shall be deemed to exercise over a legal person a control similar to that which it exercises over its own departments within the meaning of point (a) of the first subparagraph where it exercises a decisive influence over both strategic objectives and significant decisions of the controlled legal person. Such control may also be exercised by another legal person, which is itself controlled in the same way by the contracting authority.
+2. Paragraph 1 also applies where a controlled person which is a contracting authority awards a contract to its controlling contracting authority, or to another legal person controlled by the same contracting authority, provided that there is no direct private capital participation in the legal person being awarded the public contract with the exception of non-controlling and non-blocking forms of private capital participation required by national legislative provisions, in conformity with the Treaties, which do not exert a decisive influence on the controlled legal person.
+
+3. A contracting authority, which does not exercise over a legal person governed by private or public law control within the meaning of paragraph 1, may nevertheless award a contract to that legal person without applying this Directive, where all of the following conditions are fulfilled:
+
+(a)
+the contracting authority exercises jointly with other contracting authorities a control over that legal person which is similar to that which they exercise over their own departments;
+
+(b)
+more than 80 % of the activities of that legal person are carried out in the performance of tasks entrusted to it by the controlling contracting authorities or by other legal persons controlled by the same contracting authorities; and
+
+(c)
+there is no direct private capital participation in the controlled legal person with the exception of non-controlling and non-blocking forms of private capital participation required by national legislative provisions, in conformity with the Treaties, which do not exert a decisive influence on the controlled legal person.
+
+For the purposes of point (a) of the first subparagraph, contracting authorities shall be deemed to exercise joint control over a legal person where all of the following conditions are fulfilled:
+
+(i)
+the decision-making bodies of the controlled legal person are composed of representatives of all participating contracting authorities. Individual representatives may represent several or all of the participating contracting authorities;
+
+(ii)
+those contracting authorities are able to jointly exert decisive influence over the strategic objectives and significant decisions of the controlled legal person; and
+
+(iii)
+the controlled legal person does not pursue any interests which are contrary to those of the controlling contracting authorities.
+
+4. A contract concluded exclusively between two or more contracting authorities shall fall outside the scope of this Directive, where all of the following conditions are met:
+
+(a)
+the contract establishes or implements a cooperation between the participating contracting authorities with the aim of ensuring that public services they have to perform are provided with a view to achieving objectives they have in common;
+
+(b)
+the implementation of that cooperation is governed solely by considerations relating to the public interest; and
+
+(c)
+the participating contracting authorities perform on the open market less than 20 % of the activities concerned by the cooperation.
+
+5. For the determination of the percentage of activities referred to in point (b) of the first subparagraph of paragraph 1, point (b) of the first subparagraph of paragraph 3 and point (c) of paragraph 4, the average total turnover, or an appropriate alternative activity based measure such as costs incurred by the relevant legal person with respect to services, supplies and works for the three years preceding the contract award shall be taken into consideration.Where, because of the date on which the relevant legal person was created or commenced activities or because of a reorganisation of its activities, the turnover, or alternative activity based measure such as costs, are either not available for the preceding three years or no longer relevant, it shall be sufficient to show that the measurement of activity is credible, particularly by means of business projections.",True,33,fact_pattern,33,33,33,completed,32,32,completed,fact_pattern,"The article sets out detailed conditions for excluding contracts between contracting authorities from the Directive, which are best tested through concrete facts about control, activities, capital participation, cooperation, and turnover.",,completed,33,True,0,33,33,False,False,fact_pattern,,0.53,completed,33,True,0,33,33,False,False,True
+eurlex,http://data.europa.eu/eli/reg_del/2013/153/art_18/oj,32013R0153,32013R0153,Commission Delegated Regulation (EU) No 153/2013 of 19 December 2012 supplementing Regulation (EU) No 648/2012 of the European Parliament and of the Council with regard to regulatory technical standards on requirements for central counterparties (Text with EEA relevance),False,no_refs,"Business impact analysis
+
+1. A CCP shall conduct a business impact analysis which is designed to identify the business functions which are critical to ensure the services of the CCP. The criticality of these functions to other institutions and functions in the financial infrastructure shall be part of the analysis.
+
+2. A CCP shall use scenario based risk analysis which is designed to identify how various scenarios affect the risks to its critical business functions.
+
+3. In assessing risks, a CCP shall take into account dependencies on external providers, including utilities services. A CCP shall take action to manage such dependencies through appropriate contractual and organisational arrangements.
+
+4. Business impact analysis and scenario analysis shall be kept up to date, shall be reviewed at least on an annual basis and following an incident or significant organisational changes. The analyses shall take into account all relevant developments, including market and technology developments.",True,36,lookup,36,34,34,completed,36,36,completed,fact_pattern,"The article sets concrete business-continuity duties for a CCP based on its critical functions, dependencies, scenarios, incidents, and organisational changes.",,completed,34,False,2,34,34,False,False,lookup,,0.81,completed,36,True,0,36,36,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2010/407/art_9/oj,32010R0407,32010R0407,Council Regulation (EU) No 407/2010 of 11 May 2010 establishing a European financial stabilisation mechanism,False,no_refs,"Review and adaptation
+
+1. The Commission shall forward to the Economic and Financial Committee and to the Council, within six months following the entry into force of this Regulation and where appropriate every six months thereafter, a report on the implementation of this Regulation and on the continuation of the exceptional occurrences that justify the adoption of this Regulation.
+
+2. Where appropriate, the report shall be accompanied by a proposal for amendments to this Regulation with a view to adapting the possibility of granting financial assistance without affecting the validity of decisions already adopted.",True,,,,,,no_candidates,,,no_candidates,lookup,"The article sets out a Commission reporting timetable, recipients, report content, and possible amendment procedure, making direct legal lookup more natural than a case scenario.",,completed,,,,0,0,False,False,lookup,,0.54,completed,,,,0,0,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2013/1303/art_123/oj,32013R1303,32013R1303,"Regulation (EU) No 1303/2013 of the European Parliament and of the Council of 17 December 2013 laying down common provisions on the European Regional Development Fund, the European Social Fund, the Cohesion Fund, the European Agricultural Fund for Rural Development and the European Maritime and Fisheries Fund and laying down general provisions on the European Regional Development Fund, the European Social Fund, the Cohesion Fund and the European Maritime and Fisheries Fund and repealing Council Regulation (EC) No 1083/2006",False,no_refs,"Designation of authorities
+
+1. Each Member State shall designate, for each operational programme, a national, regional or local public authority or body or a private body as managing authority. The same managing authority may be designated for more than one operational programme.
+
+2. The Member State shall designate, for each operational programme, a national, regional or local public authority or body as a certifying authority, without prejudice to paragraph 3. The same certifying authority may be designated for more than one operational programme.
+
+3. The Member State may designate for an operational programme a managing authority, which is a public authority or body, to carry out, in addition, the functions of the certifying authority.
+
+4. The Member State shall designate, for each operational programme, a national, regional or local public authority or body, functionally independent from the managing authority and the certifying authority, as audit authority. The same audit authority may be designated for more than one operational programme.
+
+5. In the case of the Funds relating to the Investment for growth and jobs goal and in the case of the EMFF, provided that the principle of separation of functions is respected, the managing authority, the certifying authority, where applicable, and the audit authority may be part of the same public authority or body.Where the total amount of support from the Funds to an operational programme exceeds EUR 250000000 or from the EMFF exceeds EUR 100000000, the audit authority may be part of the same public authority or body as the managing authority either if, pursuant to the applicable provisions for the previous programming period, the Commission has informed the Member State prior to the date of adoption of the operational programme concerned of its conclusion that it can rely principally on its audit opinion, or if the Commission is satisfied on the basis of the experience of the previous programming period that the institutional organisation and accountability of the audit authority provide adequate guarantees of its functional independence and reliability.
+
+6. The Member State may designate one or more intermediate bodies to carry out certain tasks of the managing or the certifying authority under the responsibility of that authority. The relevant arrangements between the managing authority or certifying authority and the intermediate bodies shall be formally recorded in writing.
+
+7. The Member State or the managing authority may entrust the management of part of an operational programme to an intermediate body by way of an agreement in writing between the intermediate body and the Member State or managing authority (a 'global grant'). The intermediate body shall provide guarantees of its solvency and competence in the domain concerned, as well as of its administrative and financial management capacity.
+
+8. The Member State may, at its own initiative, designate a coordinating body whose responsibility shall be to liaise with and provide information to the Commission, to coordinate activities of the other relevant designated bodies and to promote the harmonised application of applicable law.
+
+9. The Member State shall lay down in writing rules governing its relationship with the managing authorities, certifying authorities and audit authorities, the relations between such authorities, and the relationship of such authorities with the Commission.",True,35,lookup,35,34,34,completed,35,35,completed,fact_pattern,"The article sets concrete designation and independence requirements for authorities handling operational programmes, which naturally support case-based questions involving specific programmes, bodies, functions, and funding thresholds.",,completed,34,False,1,34,34,False,False,lookup,,0.6,completed,35,True,0,35,35,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2012/1151/art_9/oj,32012R1151,32012R1151,Regulation (EU) No 1151/2012 of the European Parliament and of the Council of 21 November 2012 on quality schemes for agricultural products and foodstuffs,False,no_refs,"Transitional national protection
+A Member State may, on a transitional basis only, grant protection to a name under this Regulation at national level, with effect from the date on which an application is lodged with the Commission.Such national protection shall cease on the date on which either a decision on registration under this Regulation is taken or the application is withdrawn.Where a name is not registered under this Regulation, the consequences of such national protection shall be the sole responsibility of the Member State concerned.The measures taken by Member States under the first paragraph shall produce effects at national level only, and they shall have no effect on intra-Union or international trade.",True,36,lookup,36,35,35,completed,36,36,completed,fact_pattern,"The article governs a concrete Member State’s temporary national protection of a name after an EU registration application, including its duration, responsibility, and territorial effects.",,completed,35,False,1,35,35,False,False,lookup,,0.68,completed,36,True,0,36,36,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2009/1071/art_2/oj,32009R1071,32009R1071,Regulation (EC) No 1071/2009 of the European Parliament and of the Council of 21 October 2009 establishing common rules concerning the conditions to be complied with to pursue the occupation of road transport operator and repealing Council Directive 96/26/EC (Text with EEA relevance),False,no_refs,"Definitions
+
+For the purposes of this Regulation:
+
+1.
+‘the occupation of road haulage operator’ means the activity of any undertaking transporting goods for hire or reward by means either of motor vehicles or combinations of vehicles;
+
+2.
+‘the occupation of road passenger transport operator’ means the activity of any undertaking operating, by means of motor vehicles so constructed and equipped as to be suitable for carrying more than nine persons, including the driver, and intended for that purpose, passenger transport services for the public or for specific categories of users in return for payment by the person transported or by the transport organiser;
+
+3.
+‘the occupation of road transport operator’ means the occupation of road passenger transport operator or the occupation of road haulage operator;
+
+4.
+‘undertaking’ means any natural person, any legal person, whether profit-making or not, any association or group of persons without legal personality, whether profit-making or not, or any official body, whether having its own legal personality or being dependent upon an authority having such personality, engaged in the transport of passengers, or any natural or legal person engaged in the transport of freight with a commercial purpose;
+
+5.
+‘transport manager’ means a natural person employed by an undertaking or, if that undertaking is a natural person, that person or, where provided for, another natural person designated by that undertaking by means of a contract, who effectively and continuously manages the transport activities of that undertaking;
+
+6.
+‘authorisation to pursue the occupation of road transport operator’ means an administrative decision which authorises an undertaking which satisfies the conditions laid down in this Regulation to pursue the occupation of road transport operator;
+
+7.
+‘competent authority’ means a national, regional or local authority in a Member State which, for the purpose of authorising the pursuit of the occupation of road transport operator, verifies whether an undertaking satisfies the conditions laid down in this Regulation, and which is empowered to grant, suspend or withdraw an authorisation to pursue the occupation of road transport operator;
+
+8.
+‘Member State of establishment’ means the Member State in which an undertaking is established, regardless of whether its transport manager originates from another country.",True,35,lookup,35,32,32,completed,35,35,completed,lookup,"The article sets out several legal definitions, making direct requests for the meaning and scope of its terms more natural than case-based questions.",,completed,35,True,0,35,35,False,False,lookup,,0.89,completed,35,True,0,35,35,False,False,True
+eurlex,http://data.europa.eu/eli/dir/2013/59/art_56/oj,32013L0059,32013L0059,"Council Directive 2013/59/ Euratom of 5 December 2013 laying down basic safety standards for protection against the dangers arising from exposure to ionising radiation, and repealing Directives 89/618/Euratom, 90/641/Euratom, 96/29/Euratom, 97/43/Euratom and 2003/122/Euratom",False,no_refs,"Optimisation
+
+1. Member States shall ensure that all doses due to medical exposure for radiodiagnostic, interventional radiology, planning, guiding and verification purposes are kept as low as reasonably achievable consistent with obtaining the required medical information, taking into account economic and societal factors.For all medical exposure of patients for radiotherapeutic purposes, exposures of target volumes shall be individually planned and their delivery appropriately verified taking into account that doses to non-target volumes and tissues shall be as low as reasonably achievable and consistent with the intended radiotherapeutic purpose of the exposure.
+
+2. Member States shall ensure the establishment, regular review and use of diagnostic reference levels for radiodiagnostic examinations, having regard to the recommended European diagnostic reference levels where available, and where appropriate, for interventional radiology procedures, and the availability of guidance for this purpose.
+
+3. Member States shall ensure that for each medical or biomedical research project involving medical exposure:
+
+(a)
+the individuals concerned participate voluntarily;
+
+(b)
+these individuals are informed about the risks of exposure;
+
+(c)
+a dose constraint is established for individuals for whom no direct medical benefit is expected from exposure;
+
+(d)
+in the case of patients who voluntarily accept to undergo an experimental medical practice and who are expected to receive a diagnostic or therapeutic benefit from this practice, the dose levels concerned shall be considered on an individual basis by the practitioner and/or referrer prior to the exposure taking place.
+
+4. Member States shall ensure that the optimisation includes the selection of equipment, the consistent production of adequate diagnostic information or therapeutic outcomes, the practical aspects of medical radiological procedures, quality assurance, and the assessment and evaluation of patient doses or the verification of administered activities, taking into account economic and societal factors.
+
+5. Member States shall ensure that:
+
+(a)
+dose constraints are established for the exposure of carers and comforters, where appropriate;
+
+(b)
+appropriate guidance is established for the exposure of carers and comforters.
+
+6. Member States shall ensure that in the case of a patient undergoing treatment or diagnosis with radionuclides, the practitioner or the undertaking, as specified by Member States, provides the patient or their representative with information on the risks of ionising radiation and appropriate instructions with a view to restricting doses to persons in contact with the patient as far as reasonably achievable. For therapeutic procedures these shall be written instructions.These instructions shall be handed out before leaving the hospital or clinic or a similar institution.",True,37,lookup,37,34,34,completed,37,37,completed,fact_pattern,"The article sets detailed optimisation and information duties that naturally apply to concrete medical exposure, research, radiotherapy, and radionuclide-treatment situations.",,completed,34,False,3,34,34,False,False,lookup,,0.29,completed,37,True,0,37,37,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2013/1315/art_46/oj,32013R1315,32013R1315,Regulation (EU) No 1315/2013 of the European Parliament and of the Council of 11 December 2013 on Union guidelines for the development of the trans-European transport network and repealing Decision No 661/2010/EU (Text with EEA relevance),False,no_refs,"Governance of core network corridors
+
+1. For each core network corridor, the relevant European Coordinator shall be assisted in the performance of his/her tasks concerning the work plan and its implementation by a secretariat and by a consultative forum (the Corridor Forum). In agreement with the Member States concerned, the Corridor Forum shall be established and chaired by the European Coordinator. The Member States concerned shall agree on the membership of the Corridor Forum for their part of the core network corridor.
+
+2. With the agreement of the Member States concerned, the Coordinator may set up and chair corridor working groups which focus on:
+
+(a)
+modal integration,
+
+(b)
+interoperability,
+
+(c)
+the coordinated development of infrastructure in cross-border sections.",True,34,lookup,34,32,32,completed,34,34,completed,fact_pattern,"The article governs concrete arrangements for a European Coordinator, Member States, and corridor forums or working groups based on their agreement and designated focus.",,completed,32,False,2,32,32,False,False,lookup,,0.94,completed,34,True,0,34,34,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2007/5/art_2/oj,32007L0005,32007L0005,"Commission Directive 2007/5/EC of 7 February 2007 amending Council Directive 91/414/EEC to include captan, folpet, formetanate and methiocarb as active substances (Text with EEA relevance)",False,no_refs,"Member States shall adopt and publish by 31 March 2008 at the latest the laws, regulations and administrative provisions necessary to comply with this Directive. They shall forthwith communicate to the Commission the text of those provisions and a correlation table between those provisions and this Directive.They shall apply those provisions from 1 April 2008.When Member States adopt those provisions, they shall contain a reference to this Directive or be accompanied by such a reference on the occasion of their official publication. Member States shall determine how such reference is to be made.",True,,,,,,no_candidates,,,no_candidates,skip,"The article contains only standard transposition, notification, application-date, and publication-reference obligations.",,completed,,,,0,0,False,False,skip,,0.7,completed,,,,0,0,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2004/796/art_68/oj,32004R0796,32004R0796,"Commission Regulation (EC) No 796/2004 of 21 april 2004 laying down detailed rules for the implementation of cross-compliance, modulation and the integrated administration and control system provided for in of Council Regulation (EC) No 1782/2003 establishing common rules for direct support schemes under the common agricultural policy and establishing certain support schemes for farmers",False,no_refs,"Exceptions from the application of reductions and exclusions
+
+1. The reductions and exclusions provided for in Chapter I shall not apply where the farmer submitted factually correct information or where he can show otherwise that he is not at fault.
+
+2. The reductions and exclusions provided for in Chapter I shall not apply with regard to the parts of the aid application as to which the farmer informs the competent authority in writing that the aid application is incorrect or has become incorrect since it was lodged, provided that the farmer has not been informed of the competent authority's intention to carry out an on-the-spot check and that the authority has not already informed the farmer of any irregularity in the application.The information given by the farmer as referred to in the first subparagraph shall have the effect that the aid application is adjusted to the actual situation.",True,34,lookup,34,31,,completed,34,34,completed,fact_pattern,"The article turns on concrete facts about a farmer’s application, fault, and whether correction occurs before an inspection or irregularity notice.",,completed,31,False,3,31,0,False,False,fact_pattern,,0.44,completed,31,False,3,31,0,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2013/952/art_6/oj,32013R0952,32013R0952,Regulation (EU) No 952/2013 of the European Parliament and of the Council of 9 October 2013 laying down the Union Customs Code (recast),False,no_refs,"Means for the exchange and storage of information and common data requirements
+
+1. All exchanges of information, such as declarations, applications or decisions, between customs authorities and between economic operators and customs authorities, and the storage of such information, as required under the customs legislation, shall be made using electronic data-processing techniques.
+
+2. Common data requirements shall be drawn up for the purpose of the exchange and storage of information referred to in paragraph 1.
+
+3. Means for the exchange and storage of information, other than the electronic data-processing techniques referred to in paragraph 1, may be used as follows:
+
+(a)
+on a permanent basis where duly justified by the type of traffic or where the use of electronic data-processing techniques is not appropriate for the customs formalities concerned;
+
+(b)
+on a temporary basis, in the event of a temporary failure of the computerised system of the customs authorities or of the economic operators.
+
+4. By way of derogation from paragraph 1, the Commission may adopt in exceptional cases decisions allowing one or several Member States to use means for the exchange and storage of information other than electronic data-processing techniques.Such a decision on a derogation shall be justified by the specific situation of the Member State requesting it and the derogation shall be granted for a specific period of time. The derogation shall be reviewed periodically and may be extended for further specific periods of time upon further application by the Member State to which it is addressed. It shall be revoked where no longer justified.The derogation shall not affect the exchange of information between the Member State to which it is addressed and other Member States nor the exchange and storage of information in other Member States for the purpose of the application of the customs legislation.",True,35,lookup,35,32,32,completed,35,35,completed,fact_pattern,"The article is best applied to concrete customs situations involving electronic exchange requirements, system failures, or justified use of alternative information systems.",,completed,32,False,3,32,32,False,False,lookup,,0.65,completed,35,True,0,35,35,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2010/13/art_13/oj,32010L0013,32010L0013,"Directive 2010/13/EU of the European Parliament and of the Council of 10 March 2010 on the coordination of certain provisions laid down by law, regulation or administrative action in Member States concerning the provision of audiovisual media services (Audiovisual Media Services Directive) (codified version) (Text with EEA relevance)",False,no_refs,"1. Member States shall ensure that on-demand audiovisual media services provided by media service providers under their jurisdiction promote, where practicable and by appropriate means, the production of and access to European works. Such promotion could relate, inter alia, to the financial contribution made by such services to the production and rights acquisition of European works or to the share and/or prominence of European works in the catalogue of programmes offered by the on-demand audiovisual media service.
+
+2. Member States shall report to the Commission no later than 19 December 2011 and every 4 years thereafter on the implementation of paragraph 1.
+
+3. The Commission shall, on the basis of the information provided by Member States and of an independent study, report to the European Parliament and to the Council on the application of paragraph 1, taking into account the market and technological developments and the objective of cultural diversity.",True,36,lookup,36,31,,completed,36,36,completed,fact_pattern,"The article governs concrete on-demand audiovisual services and national reporting duties, making case-specific questions about providers, European works, promotion measures, and reporting timing natural.",,completed,31,False,5,31,0,False,False,lookup,,0.84,completed,36,True,0,36,36,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2010/113/art_6/oj,32010R0113,32010R0113,"Commission Regulation (EU) No 113/2010 of 9 February 2010 implementing Regulation (EC) No 471/2009 of the European Parliament and of the Council on Community statistics relating to external trade with non-member countries, as regards trade coverage, definition of the data, compilation of statistics on trade by business characteristics and by invoicing currency, and specific goods or movements (Text with EEA relevance)",False,no_refs,"Importing and exporting Member States
+
+1. The data on the importing or exporting Member States shall be coded in accordance with the nomenclature of countries and territories for the external trade statistics of the European Union and statistics of trade between Member States as laid down by the Commission, hereinafter referred to as the ‘Geonomenclature’.
+
+2. The data on the Member State where the customs declaration is lodged shall indicate the Member State with whose customs administration the customs declaration is lodged, or if a simplified procedure as defined in the Customs Code is used, to whose customs administration the supplementary declaration is submitted, including, if allowed by the customs authorities, the respective entry in the declarant’s records.
+
+3. On import, the data on the Member State of destination shall indicate the Member State to which it is known, at the time of release into the customs procedure, that the goods will be dispatched without any commercial transactions or other operations which change the legal status of the goods taking place in any intermediate Member State.Failing that, the data shall indicate the Member State where the goods are located at the time of release into the customs procedure.Where goods are imported with a view to processing under customs supervision, the Member State of destination shall be the Member State where the first processing activity is carried out.
+
+4. On export, the data on the Member State of actual export shall indicate the Member State from which it is known, at the time of release into the customs procedure, the goods are dispatched without any commercial transaction or other operations which change the legal status of the goods taking place in any intermediate Member State before release into the customs procedure.Where goods are exported following processing under customs supervision, the Member State where the last processing activity was carried out shall be the Member State of actual export.",True,35,lookup,35,33,33,completed,35,35,completed,fact_pattern,"The article sets case-specific rules for identifying importing and exporting Member States based on customs filing, destination, dispatch, and processing circumstances.",,completed,33,False,2,33,33,False,False,lookup,,0.64,completed,35,True,0,35,35,False,False,False
+eurlex,http://data.europa.eu/eli/reg_del/2013/885/art_2/oj,32013R0885,32013R0885,Commission Delegated Regulation (EU) No 885/2013 of 15 May 2013 supplementing ITS Directive 2010/40/EU of the European Parliament and of the Council with regard to the provision of information services for safe and secure parking places for trucks and commercial vehicles (Text with EEA relevance),False,no_refs,"Definitions
+
+For the purposes of this Regulation the following definitions shall apply:
+
+(1)
+‘safe and secure parking place’ means a parking place for commercial users allowing them to avoid unsuitable parking and contributing to safety of drivers and freight;
+
+(2)
+‘user’ means any truck or commercial vehicle driver, dispatcher, haulier, traffic management body, or any other body such as cargo owners, insurance companies, road authorities, and police forces. They should obtain the information from the service providers;
+
+(3)
+‘service provider’ means any public or private body that provides the information service to users;
+
+(4)
+‘data’ means information provided by a truck parking operator which describes the truck parking area;
+
+(5)
+‘information’ means any aggregated, processed and/or extracted data, offered by the service provider to the users through different channels;
+
+(6)
+‘information service’ means any service which provides guidance to its users, allowing them to comply with mandatory rest periods and breaks, to reduce unsuitable parking and optimise the use of parking places;
+
+(7)
+‘feedback from the users’ means information provided by users of the parking places, giving personal and anonymous advice to other future users and to truck parking area operators;
+
+(8)
+‘dynamic information’ means information indicating, at any given time, the available parking capacity available in a parking area or its current status (free/full/closed) of a parking area;
+
+(9)
+‘static information’ means information provided by the parking area operator relating to the description of the parking area;
+
+(10)
+‘reliability of information’ refers to the accuracy of the information service provided in comparison to the real situation;
+
+(11)
+‘unsuitable parking’ means stopping or parking of heavy goods vehicles outside of safe and secure parking places on motorways or corridors, on hard shoulders, or inside overcrowded parking places;
+
+(12)
+‘access point’ means a digital point of access where the information on parking places is collected, processed, and made available to be disseminated. These points of access will provide the possibility to disseminate the information services across borders;
+
+(13)
+‘priority zone’ means a section, as defined by the national authorities, where there is a shortage of spaces at one or several safe and secure parking places, which can be alleviated by providing information on other unused parking capacities in the same zone.",True,38,lookup,38,31,31,completed,38,38,completed,lookup,"The article consists entirely of defined terms, making direct requests for the meaning and scope of specific concepts more natural than case-based questions.",,completed,38,True,0,38,38,False,False,lookup,,0.96,completed,38,True,0,38,38,False,False,True
+eurlex,http://data.europa.eu/eli/reg_impl/2011/1034/art_8/oj,32011R1034,32011R1034,Commission Implementing Regulation (EU) No 1034/2011 of 17 October 2011 on safety oversight in air traffic management and air navigation services and amending Regulation (EU) No 691/2010 (Text with EEA relevance),False,no_refs,"Corrective actions
+
+1. Competent authorities shall communicate the audit findings to audited organisations and shall simultaneously request corrective actions to address the non-conformities identified without prejudice to any additional action required by the applicable safety regulatory requirements.
+
+2. Audited organisations shall determine the corrective actions deemed necessary to correct non-conformities and the time frame for their implementation.
+
+3. Competent authorities shall assess the corrective actions as well as their implementation as determined by audited organisations and accept them if the assessment concludes that they are sufficient to address the non-conformities.
+
+4. Audited organisations shall initiate the corrective actions accepted by competent authorities. These corrective actions and the subsequent follow-up process shall be completed within the time period accepted by competent authorities.",True,35,fact_pattern,33,35,33,completed,33,33,completed,fact_pattern,"The article governs a concrete audit-and-correction process involving competent authorities and audited organisations, with case-specific findings, corrective actions, assessment, acceptance, and implementation timelines.",,completed,35,True,0,35,33,False,False,lookup,,0.6,completed,33,False,2,33,33,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2014/104/art_1/oj,32014L0104,32014L0104,Directive 2014/104/EU of the European Parliament and of the Council of 26 November 2014 on certain rules governing actions for damages under national law for infringements of the competition law provisions of the Member States and of the European Union (Text with EEA relevance),False,no_refs,"Subject matter and scope
+
+1. This Directive sets out certain rules necessary to ensure that anyone who has suffered harm caused by an infringement of competition law by an undertaking or by an association of undertakings can effectively exercise the right to claim full compensation for that harm from that undertaking or association. It sets out rules fostering undistorted competition in the internal market and removing obstacles to its proper functioning, by ensuring equivalent protection throughout the Union for anyone who has suffered such harm.
+
+2. This Directive sets out rules coordinating the enforcement of the competition rules by competition authorities and the enforcement of those rules in damages actions before national courts.",True,33,lookup,33,30,30,completed,33,33,completed,fact_pattern,The article’s scope is naturally tested through a concrete case involving a person harmed by a competition-law infringement committed by an undertaking or association.,,completed,30,False,3,30,30,False,False,lookup,,0.88,completed,33,True,0,33,33,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2007/1566/art_13/oj,32007R1566,32007R1566,Commission Regulation (EC) No 1566/2007 of 21 December 2007 laying down detailed rules for the implementation of Council Regulation (EC) No 1966/2006 on electronic recording and reporting of fishing activities and on means of remote sensing,False,no_refs,"Data on the functioning of the electronic reporting system
+
+1. Member States shall maintain databases on the functioning of their electronic reporting system. They shall contain at least the following information:
+
+(a)
+the list of fishing vessels flying their flag whose electronic reporting systems have experienced technical failure or have failed to function;
+
+(b)
+the number of electronic logbook transmissions received per day and the average number of transmissions received per vessel, broken down by flag Member State;
+
+(c)
+the number of landing declaration, transhipment declaration, takeover declaration and sales note transmissions received, broken down by flag State.
+
+2. Summaries of information on the functioning of Member States’ electronic reporting systems shall be sent to the Commission on its request in a format and at time intervals to be decided in consultation between Member States and the Commission.",True,33,fact_pattern|lookup,33,33,33,completed,33,33,completed,fact_pattern,"The article sets operational record-keeping and reporting duties that can be applied to a concrete Member State electronic-reporting-system scenario involving failures, transmission figures, and a Commission request.",,completed,33,True,0,33,33,False,False,lookup,,0.95,completed,33,True,0,33,33,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2009/987/art_11/oj,32009R0987,32009R0987,Regulation (EC) No 987/2009 of the European Parliament and of the Council of 16 September 2009 laying down the procedure for implementing Regulation (EC) No 883/2004 on the coordination of social security systems (Text with relevance for the EEA and for Switzerland),False,no_refs,"Elements for determining residence
+
+1. Where there is a difference of views between the institutions of two or more Member States about the determination of the residence of a person to whom the basic Regulation applies, these institutions shall establish by common agreement the centre of interests of the person concerned, based on an overall assessment of all available information relating to relevant facts, which may include, as appropriate:
+
+(a)
+the duration and continuity of presence on the territory of the Member States concerned;
+
+(b)
+the person’s situation, including:
+
+(i)
+the nature and the specific characteristics of any activity pursued, in particular the place where such activity is habitually pursued, the stability of the activity, and the duration of any work contract;
+
+(ii)
+his family status and family ties;
+
+(iii)
+the exercise of any non-remunerated activity;
+
+(iv)
+in the case of students, the source of their income;
+
+(v)
+his housing situation, in particular how permanent it is;
+
+(vi)
+the Member State in which the person is deemed to reside for taxation purposes.
+
+2. Where the consideration of the various criteria based on relevant facts as set out in paragraph 1 does not lead to agreement between the institutions concerned, the person’s intention, as it appears from such facts and circumstances, especially the reasons that led the person to move, shall be considered to be decisive for establishing that person’s actual place of residence.",True,36,fact_pattern,36,36,36,completed,32,32,completed,fact_pattern,"The article determines a person's residence through a concrete cross-border fact pattern involving competing institutions and multiple personal, family, work, housing, and tax particulars.",,completed,36,True,0,36,36,False,False,fact_pattern,,0.36,completed,36,True,0,36,36,False,False,True
+eurlex,http://data.europa.eu/eli/dir/2009/71/art_4/oj,32009L0071,32009L0071,Council Directive 2009/71/ Euratom of 25 June 2009 establishing a Community framework for the nuclear safety of nuclear installations,False,no_refs,"Legislative, regulatory and organisational framework
+
+1. Member States shall establish and maintain a national legislative, regulatory and organisational framework (hereinafter referred to as the ‘national framework’) for nuclear safety of nuclear installations that allocates responsibilities and provides for coordination between relevant state bodies. The national framework shall establish responsibilities for:
+
+(a)
+the adoption of national nuclear safety requirements. The determination on how they are adopted and through which instrument they are applied rests with the competence of the Member States;
+
+(b)
+the provision of a system of licensing and prohibition of operation of nuclear installations without a licence;
+
+(c)
+the provision of a system of nuclear safety supervision;
+
+(d)
+enforcement actions, including suspension of operation and modification or revocation of a licence.
+
+2. Member States shall ensure that the national framework is maintained and improved when appropriate, taking into account operating experience, insights gained from safety analyses for operating nuclear installations, development of technology and results of safety research, when available and relevant.",True,33,fact_pattern,33,33,33,completed,32,32,completed,lookup,"The article sets out the required elements and maintenance obligations of Member States’ national nuclear-safety frameworks, making a direct legal-point request more natural than a concrete case.",,completed,32,False,1,32,32,False,False,lookup,,0.94,completed,32,False,1,32,32,False,False,True
+eurlex,http://data.europa.eu/eli/dir/2006/24/art_15/oj,32006L0024,32006L0024,Directive 2006/24/EC of the European Parliament and of the Council of 15 March 2006 on the retention of data generated or processed in connection with the provision of publicly available electronic communications services or of public communications networks and amending Directive 2002/58/EC,False,no_refs,"Transposition
+
+1. Member States shall bring into force the laws, regulations and administrative provisions necessary to comply with this Directive by no later than 15 September 2007. They shall forthwith inform the Commission thereof. When Member States adopt those measures, they shall contain a reference to this Directive or shall be accompanied by such reference on the occasion of their official publication. The methods of making such reference shall be laid down by Member States.
+
+2. Member States shall communicate to the Commission the text of the main provisions of national law which they adopt in the field covered by this Directive.
+
+3. Until 15 March 2009, each Member State may postpone application of this Directive to the retention of communications data relating to Internet Access, Internet telephony and Internet e-mail. Any Member State that intends to make use of this paragraph shall, upon adoption of this Directive, notify the Council and the Commission to that effect by way of a declaration. The declaration shall be published in the Official Journal of the European Union .",True,37,lookup,,,,no_candidates,37,,completed,lookup,"The article sets fixed transposition, notification, communication, and postponement requirements for Member States, making direct requests for those legal points most natural.",,completed,37,True,0,37,0,False,False,skip,,0.39,completed,,False,,0,0,False,True,False
+eurlex,http://data.europa.eu/eli/dir/2011/93/art_25/oj,32011L0093,32011L0093,"Directive 2011/92/EU of the European Parliament and of the Council of 13 December 2011 on combating the sexual abuse and sexual exploitation of children and child pornography, and replacing Council Framework Decision 2004/68/JHA",False,no_refs,"Measures against websites containing or disseminating child pornography
+
+1. Member States shall take the necessary measures to ensure the prompt removal of web pages containing or disseminating child pornography hosted in their territory and to endeavour to obtain the removal of such pages hosted outside of their territory.
+
+2. Member States may take measures to block access to web pages containing or disseminating child pornography towards the Internet users within their territory. These measures must be set by transparent procedures and provide adequate safeguards, in particular to ensure that the restriction is limited to what is necessary and proportionate, and that users are informed of the reason for the restriction. Those safeguards shall also include the possibility of judicial redress.",True,34,fact_pattern,34,34,34,completed,33,33,completed,fact_pattern,"The article governs concrete situations involving websites, hosting location, removal efforts, and access-blocking safeguards.",,completed,34,True,0,34,34,False,False,lookup,,0.74,completed,33,False,1,33,33,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2004/98/art_2/oj,32004L0098,32004L0098,Commission Directive 2004/98/EC of 30 September 2004 amending Council Directive 76/769/EEC as regards restrictions on the marketing and use of pentabromodiphenyl ether in aircraft emergency evacuation systems for the purpose of adapting its Annex I to technical progress (Text with EEA relevance),False,no_refs,"1. Member States shall adopt and publish, by 1 January 2005 at the latest, the laws, regulations and administrative provisions necessary to comply with this Directive. They shall forthwith communicate to the Commission the text of those provisions and a correlation table between those provisions and this Directive.They shall apply those provisions from 1 January 2005 at the latest.When Member States adopt those provisions, these shall contain a reference to this Directive or be accompanied by such a reference on the occasion of their official publication. Member States shall determine how such reference is to be made.
+
+2. Member States shall communicate to the Commission the text of the main provisions of national law which they adopt in the field covered by this Directive.",True,,,,,,no_candidates,,,no_candidates,skip,"The article contains only standard Member State transposition, publication, application, and notification requirements.",,completed,,,,0,0,False,False,skip,,0.6,completed,,,,0,0,False,False,True
+eurlex,http://data.europa.eu/eli/dir/2007/67/art_2/oj,32007L0067,32007L0067,"Commission Directive 2007/67/EC of 22 November 2007 amending Council Directive 76/768/EEC, concerning cosmetic products, for the purpose of adapting Annex III thereto to technical progress (Text with EEA relevance)",False,no_refs,"1. Member States shall adopt and publish, by 31 December 2007 at the latest, the laws, regulations and administrative provisions necessary to comply with this Directive. They shall forthwith communicate to the Commission the text of those provisions and a correlation table between those provisions and this Directive.They shall apply those provisions from 1 January 2008.When Member States adopt those provisions, they shall contain a reference to this Directive or be accompanied by such a reference on the occasion of their official publication. Member States shall determine how such reference is to be made.
+
+2. Member States shall communicate to the Commission the text of the main provisions of national law which they adopt in the field covered by this Directive.",True,,,,,,no_candidates,,,no_candidates,skip,"The article contains only standard transposition, notification, application-date, and publication-reference requirements.",,completed,,,,0,0,False,False,skip,,0.63,completed,,,,0,0,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2009/260/art_15/oj,32009R0260,32009R0260,Council Regulation (EC) No 260/2009 of 26 February 2009 on the common rules for imports (Codified version),False,no_refs,"1. Member States shall communicate to the Commission within the first 10 days of each month in the case of Community or regional surveillance:
+
+(a)
+in the case of prior surveillance, details of the sums of money (calculated on the basis of cif prices) and quantities of goods in respect of which surveillance documents were issued during the preceding period;
+
+(b)
+in every case, details of imports during the period preceding the period referred to in point (a).
+
+The information supplied by Member States shall be broken down by product and by country.Different provisions may be laid down at the same time and by the same procedure as the surveillance arrangements.
+2. Where the nature of the products or special circumstances so require, the Commission may, at the request of a Member State or on its own initiative, amend the timetables for submitting this information.
+
+3. The Commission shall inform the Member States accordingly.",True,35,lookup,35,31,31,completed,35,35,completed,fact_pattern,"The article governs a Member State’s concrete monthly reporting duties for surveillance data, including timing, content, product and country breakdowns, and possible timetable changes.",,completed,31,False,4,31,31,False,False,lookup,,0.88,completed,35,True,0,35,35,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2008/52/art_7/oj,32008L0052,32008L0052,Directive 2008/52/EC of the European Parliament and of the Council of 21 May 2008 on certain aspects of mediation in civil and commercial matters,False,no_refs,"Confidentiality of mediation
+
+1. Given that mediation is intended to take place in a manner which respects confidentiality, Member States shall ensure that, unless the parties agree otherwise, neither mediators nor those involved in the administration of the mediation process shall be compelled to give evidence in civil and commercial judicial proceedings or arbitration regarding information arising out of or in connection with a mediation process, except:
+
+(a)
+where this is necessary for overriding considerations of public policy of the Member State concerned, in particular when required to ensure the protection of the best interests of children or to prevent harm to the physical or psychological integrity of a person; or
+
+(b)
+where disclosure of the content of the agreement resulting from mediation is necessary in order to implement or enforce that agreement.
+
+2. Nothing in paragraph 1 shall preclude Member States from enacting stricter measures to protect the confidentiality of mediation.",True,33,fact_pattern,33,33,33,completed,32,32,completed,fact_pattern,"The article is well suited to concrete cases involving mediation participants, compelled evidence, and exceptions based on public policy or enforcement of a mediated agreement.",,completed,33,True,0,33,33,False,False,lookup,,0.42,completed,32,False,1,32,32,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2012/2/art_2/oj,32012L0002,32012L0002,"Commission Directive 2012/2/EU of 9 February 2012 amending Directive 98/8/EC of the European Parliament and of the Council to include copper (II) oxide, copper (II) hydroxide and basic copper carbonate as active substances in Annex I thereto (Text with EEA relevance)",False,no_refs,"1. Member States shall adopt and publish, by 31 January 2013 at the latest, the laws, regulations and administrative provisions necessary to comply with this Directive.They shall apply those provisions from 1 February 2014.When Member States adopt those provisions, they shall contain a reference to this Directive or be accompanied by such a reference on the occasion of their official publication. Member States shall determine how such reference is to be made.
+
+2. Member States shall communicate to the Commission the text of the main provisions of national law which they adopt in the field covered by this Directive.",True,,,,,,no_candidates,,,no_candidates,skip,"This article contains only generic transposition, application, publication-reference, and notification requirements.",,completed,,,,0,0,False,False,skip,,0.45,completed,,,,0,0,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2010/583/art_21/oj,32010R0583,32010R0583,Commission Regulation (EU) No 583/2010 of 1 July 2010 implementing Directive 2009/65/EC of the European Parliament and of the Council as regards key investor information and conditions to be met when providing key investor information or the prospectus in a durable medium other than paper or by means of a website (Text with EEA relevance),False,no_refs,"Use of cross-references to other sources of information
+
+1. Cross-references to other sources of information, including the prospectus and annual or half-yearly reports, may be included in the key investor information document, provided that all information fundamental to the investors’ understanding of the essential elements of the investment is included in the key investor information document itself.
+
+Cross-references shall be permitted to the website of the UCITS or the management company, including a part of any such website containing the prospectus and the periodic reports.
+
+2. Cross-references referred to in paragraph 1 shall direct the investor to the specific section of the relevant source of information. Several different cross-references may be used within the key investor information document but they shall be kept to a minimum.",True,38,lookup,38,35,35,completed,38,38,completed,fact_pattern,"The article naturally applies to a concrete UCITS document containing website or prospectus cross-references and requires assessing their placement, specificity, and necessity.",,completed,35,False,3,35,35,False,False,lookup,,0.69,completed,38,True,0,38,38,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2007/951/art_34/oj,32007R0951,32007R0951,Commission Regulation (EC) No 951/2007 of 9 August 2007 laying down implementing rules for cross-border cooperation programmes financed under Regulation (EC) No 1638/2006 of the European Parliament and of the Council laying down general provisions establishing a European Neighbourhood and Partnership Instrument,False,no_refs,"Non-eligible costs at joint operational programme level
+
+The following costs relating to the implementation of the joint operational programme by the Joint Managing Authority shall not be considered eligible as technical assistance costs:
+
+(a)
+debts and provisions for losses or debts;
+
+(b)
+interest owed;
+
+(c)
+items already financed in another framework;
+
+(d)
+purchases of land or buildings;
+
+(e)
+exchange-rate losses;
+
+(f)
+taxes, including VAT, unless the Joint Managing Authority cannot reclaim them and the applicable regulations authorise coverage of taxes;
+
+(g)
+loans to third parties;
+
+(h)
+fines.",True,34,fact_pattern,34,34,34,completed,32,32,completed,fact_pattern,The article lists concrete cost items incurred by a Joint Managing Authority and determines which are excluded from technical-assistance eligibility.,,completed,34,True,0,34,34,False,False,lookup,,0.75,completed,32,False,2,32,32,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2011/16/art_13/oj,32011L0016,32011L0016,Council Directive 2011/16/EU of 15 February 2011 on administrative cooperation in the field of taxation and repealing Directive 77/799/EEC,False,no_refs,"Request for notification
+
+1. At the request of the competent authority of a Member State, the competent authority of another Member State shall, in accordance with the rules governing the notification of similar instruments in the requested Member State, notify the addressee of any instruments and decisions which emanate from the administrative authorities of the requesting Member State and concern the application in its territory of legislation on taxes covered by this Directive.
+
+2. Requests for notification shall indicate the subject of the instrument or decision to be notified and shall specify the name and address of the addressee, together with any other information which may facilitate identification of the addressee.
+
+3. The requested authority shall inform the requesting authority immediately of its response and, in particular, of the date of notification of the instrument or decision to the addressee.
+
+4. The requesting authority shall only make a request for notification pursuant to this Article when it is unable to notify in accordance with the rules governing the notification of the instruments concerned in the requesting Member State, or where such notification would give rise to disproportionate difficulties. The competent authority of a Member State may notify any document by registered mail or electronically directly to a person within the territory of another Member State.",True,35,fact_pattern,35,35,35,completed,34,34,completed,fact_pattern,"The article sets out a cross-border notification procedure triggered by concrete circumstances such as an authority’s inability to notify domestically or disproportionate difficulty, with specified addressee information and response requirements.",,completed,35,True,0,35,35,False,False,lookup,,0.59,completed,34,False,1,34,34,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2009/250/art_3/oj,32009R0250,32009R0250,"Commission Regulation (EC) No 250/2009 of 11 March 2009 implementing Regulation (EC) No 295/2008 of the European Parliament and of the Council as regards the definitions of characteristics, the technical format for the transmission of data, the double reporting requirements for NACE Rev.1.1 and NACE Rev.2 and derogations to be granted for structural business statistics (Text with EEA relevance)",False,no_refs,"The data and metadata transmitted pursuant to this Regulation shall be sent in electronic form by Competent National Authorities (National Statistical Offices and Authorities supervising certain financial institutions) to the Commission (Eurostat). The transmission format shall conform to appropriate interchange standards specified by the Commission (Eurostat). Data shall be transmitted or uploaded by electronic means to the single entry point for data, maintained by the Commission (Eurostat).
+
+Member States shall implement the interchange standards and guidelines supplied by the Commission (Eurostat) according to the requirements of this Regulation.",True,36,lookup,36,33,,completed,36,36,completed,lookup,"The article chiefly sets out direct transmission obligations, required electronic format, and compliance with Commission standards for national authorities.",,completed,36,True,0,36,36,False,False,lookup,,0.94,completed,36,True,0,36,36,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2013/229/art_9/oj,32013R0229,32013R0229,Regulation (EU) No 229/2013 of the European Parliament and of the Council of 13 March 2013 laying down specific measures for agriculture in favour of the smaller Aegean islands and repealing Council Regulation (EC) No 1405/2006,False,no_refs,"Operation of the specific supply arrangements
+
+1. Aid shall be granted to supply the smaller islands with agricultural products.The amount of the aid shall be determined for each product concerned, taking account of the additional costs of marketing products in the smaller islands, calculated from the usual ports of shipment in mainland Greece, and from the ports of islands of transit or of loading for the islands of final destination. In the case of agricultural inputs and products intended for processing, such aid should take account of the additional costs associated with insularity, small size and distance from markets.
+
+2. The specific supply arrangements shall only apply to products of sound, fair and marketable quality.",True,37,lookup,37,34,34,completed,37,37,completed,fact_pattern,"The article applies aid and eligibility rules to concrete supplies of agricultural products to smaller Aegean islands, with relevant particulars such as product type, transport route, and product quality.",,completed,34,False,3,34,34,False,False,lookup,,0.65,completed,37,True,0,37,37,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2005/1138/art_4/oj,32005R1138,32005R1138,Commission Regulation (EC) No 1138/2005 of 15 July 2005 on a standing invitation to tender to determine levies and/or refunds on exports of white sugar for the 2005/2006 marketing year,False,no_refs,"1. The period during which tenders may be submitted in response to the first partial invitation to tender:
+
+(a)
+shall begin on 22 July 2005;
+
+(b)
+shall end on Thursday 28 July 2005 at 10.00, Brussels local time.
+
+2. The periods during which tenders may be submitted in response to the second and subsequent partial invitations:
+
+(a)
+shall begin on the first working day following the end of the preceding period;
+
+(b)
+shall end at 10.00, Brussels local time:
+
+11 and 25 August 2005,
+
+8, 15, 22 and 29 September 2005,
+
+6, 13, 20 and 27 October 2005,
+
+10 and 24 November 2005,
+
+8 and 22 December 2005,
+
+5 and 19 January 2006,
+
+2 and 16 February 2006,
+
+2, 16 and 30 March 2006,
+
+6 and 20 April 2006,
+
+4 and 18 May 2006,
+
+1, 8, 15, 22, and 29 June 2006,
+
+13 and 27 July 2006.",True,35,lookup,35,34,34,completed,35,35,completed,lookup,"The article sets out precise tender-submission periods and deadlines, making a direct request for the applicable schedule more natural than a case-specific scenario.",,completed,35,True,0,35,35,False,False,lookup,,0.85,completed,35,True,0,35,35,False,False,True
+eurlex,http://data.europa.eu/eli/dir/2010/65/art_4/oj,32010L0065,32010L0065,Directive 2010/65/EU of the European Parliament and of the Council of 20 October 2010 on reporting formalities for ships arriving in and/or departing from ports of the Member States and repealing Directive 2002/6/EC (Text with EEA relevance),False,no_refs,"Notification prior to arrival into ports
+
+Subject to specific provisions on notification provided for in the applicable legal acts of the Union or under international legal instruments applicable to maritime transport and binding on the Member States, including provisions on control of persons and goods, Member States shall ensure that the master or any other person duly authorised by the operator of the ship provides notification, prior to arriving in a port situated in a Member State, of the information required under the reporting formalities to the competent authority designated by that Member State:
+
+(a)
+at least 24 hours in advance; or
+
+(b)
+at the latest, at the time the ship leaves the previous port, if the voyage time is less than 24 hours; or
+
+(c)
+if the port of call is not known or it is changed during the voyage, as soon as this information is available.",True,35,lookup,35,34,34,completed,35,35,completed,fact_pattern,"The article sets timing duties for a ship’s pre-arrival notification that naturally turn on concrete voyage facts such as departure time, voyage duration, and when the port of call becomes known or changes.",,completed,34,False,1,34,34,False,False,fact_pattern,,0.41,completed,34,False,1,34,34,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2008/994/art_68/oj,32008R0994,32008R0994,Commission Regulation (EC) No 994/2008 of 8 October 2008 for a standardised and secured system of registries pursuant to Directive 2003/87/EC of the European Parliament and of the Council and Decision No 280/2004/EC of the European Parliament and of the Council (Text with EEA relevance),False,no_refs,"Finalisation of the external transfer process for Kyoto units involving Chapter VI registries
+
+A process involving a Chapter VI registry concerning the external transfer of a Kyoto unit shall be final if the following conditions are fulfilled:
+
+(a)
+both the ITL and the CITL inform the acquiring registry, or the Community registry if the acquiring registry is a Chapter VI registry, that they have not detected any discrepancies in the proposal sent by the initiating registry, or the Community registry if the initiating registry is a Chapter VI registry; and
+
+(b)
+the acquiring registry, or the Community registry if the acquiring registry is a Chapter VI registry, has successfully sent confirmation to both transaction logs that it has updated its records in accordance with the initiating registry's proposal.",True,35,lookup,35,29,,completed,35,35,completed,fact_pattern,The article sets finalisation of a specific external Kyoto-unit transfer based on concrete registry notifications and confirmation steps.,,completed,29,False,6,29,0,False,False,lookup,,0.61,completed,35,True,0,35,35,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2009/1121/art_69/oj,32009R1121,32009R1121,Commission Regulation (EC) No 1121/2009 of 29 October 2009 laying down detailed rules for the application of Council Regulation (EC) No 73/2009 as regards the support schemes for farmers provided for in Titles IV and V thereof,False,no_refs,"Transfer of rights and temporary leasing
+
+1. Member States may lay down, on the basis of their production structures, a minimum number of premium rights which may be the subject of a partial transfer not involving the transfer of a holding. This minimum may not exceed five premium rights.
+
+2. Transfers of premium rights and temporary leasing of such rights shall be effective only after they have been notified jointly to the competent authorities of the Member State by the farmer transferring and/or leasing the rights and by the farmer receiving the rights.
+
+Such notification shall take place within a deadline set by the Member State and not later than the date on which the farmer receiving the rights submits his premium application, except in those cases where the transfer of rights takes effect through an inheritance. In that case, the farmer who receives the rights shall be in a position to furnish appropriate legal documents to prove that he or she is the beneficiary of the deceased farmer.",True,36,fact_pattern,36,36,36,completed,34,34,completed,fact_pattern,"The article governs concrete transfers or temporary leases of premium rights, including joint notification deadlines and inheritance documentation.",,completed,36,True,0,36,36,False,False,lookup,,0.26,completed,34,False,2,34,34,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2014/508/art_42/oj,32014R0508,32014R0508,"Regulation (EU) No 508/2014 of the European Parliament and of the Council of 15 May 2014 on the European Maritime and Fisheries Fund and repealing Council Regulations (EC) No 2328/2003, (EC) No 861/2006, (EC) No 1198/2006 and (EC) No 791/2007 and Regulation (EU) No 1255/2011 of the European Parliament and of the Council",False,no_refs,"Added value, product quality and use of unwanted catches
+
+1. In order to improve the added value or quality of the fish caught, the EMFF may support:
+
+(a)
+investments that add value to fishery products, in particular by allowing fishermen to carry out the processing, marketing and direct sale of their own catches;
+
+(b)
+innovative investments on board that improve the quality of the fishery products.
+
+2. The support referred to in point (b) of paragraph 1 shall be conditional on the use of selective gears to minimise unwanted catches and shall only be granted to owners of Union fishing vessels that have carried out a fishing activity at sea for at least 60 days during the two calendar years preceding the date of submission of the application for support.",True,36,fact_pattern,36,36,36,completed,35,35,completed,fact_pattern,"The article sets case-specific eligibility conditions for support based on the investment, use of selective gears, vessel ownership, and fishing activity over a defined period.",,completed,36,True,0,36,36,False,False,fact_pattern,,0.27,completed,36,True,0,36,36,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2008/215/art_27/oj,32008R0215,32008R0215,Council Regulation (EC) No 215/2008 of 18 February 2008 on the Financial Regulation applicable to the 10th European Development Fund,False,one_ref,"1. The Commission shall ensure supervision, evaluation and control of the implementation of the tasks entrusted. It shall take the equivalence of control systems into account when it carries out controls using its own control systems.
+
+2. The European Anti-Fraud Office (OLAF) shall enjoy the same powers with regard to bodies to which tasks are delegated as it does with regard to Commission departments. The bodies in question shall adopt the necessary measures to help OLAF carry out internal investigations. Any act undertaken by such bodies for the implementation of EDF resources, and in particular any decision or any contract concluded by them, must specifically provide for the same controls as those provided for in Article 70(4).",True,37,lookup,37,34,34,completed,37,37,completed,fact_pattern,"The article addresses concrete controls over EDF tasks delegated to bodies, including Commission supervision and OLAF investigations of specific implementation acts or contracts.",,completed,34,False,3,34,34,False,False,lookup,,0.87,completed,37,True,0,37,37,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2014/53/art_3/oj,32014L0053,32014L0053,Directive 2014/53/EU of the European Parliament and of the Council of 16 April 2014 on the harmonisation of the laws of the Member States relating to the making available on the market of radio equipment and repealing Directive 1999/5/EC (Text with EEA relevance),False,one_ref,"Essential requirements
+
+1. Radio equipment shall be constructed so as to ensure:
+
+(a)
+the protection of health and safety of persons and of domestic animals and the protection of property, including the objectives with respect to safety requirements set out in Directive 2014/35/EU, but with no voltage limit applying;
+
+(b)
+an adequate level of electromagnetic compatibility as set out in Directive 2014/30/EU.
+
+2. Radio equipment shall be so constructed that it both effectively uses and supports the efficient use of radio spectrum in order to avoid harmful interference.
+
+3. Radio equipment within certain categories or classes shall be so constructed that it complies with the following essential requirements:
+
+(a)
+radio equipment interworks with accessories, in particular with common chargers;
+
+(b)
+radio equipment interworks via networks with other radio equipment;
+
+(c)
+radio equipment can be connected to interfaces of the appropriate type throughout the Union;
+
+(d)
+radio equipment does not harm the network or its functioning nor misuse network resources, thereby causing an unacceptable degradation of service;
+
+(e)
+radio equipment incorporates safeguards to ensure that the personal data and privacy of the user and of the subscriber are protected;
+
+(f)
+radio equipment supports certain features ensuring protection from fraud;
+
+(g)
+radio equipment supports certain features ensuring access to emergency services;
+
+(h)
+radio equipment supports certain features in order to facilitate its use by users with a disability;
+
+(i)
+radio equipment supports certain features in order to ensure that software can only be loaded into the radio equipment where the compliance of the combination of the radio equipment and software has been demonstrated.
+
+The Commission shall be empowered to adopt delegated acts in accordance with Article 44 specifying which categories or classes of radio equipment are concerned by each of the requirements set out in points (a) to (i) of the first subparagraph of this paragraph.",True,34,fact_pattern,34,34,34,completed,31,31,completed,fact_pattern,"The article sets concrete design requirements for radio equipment, making case-specific facts about the equipment, its functions, and potential interference or user-protection issues a natural fit.",,completed,34,True,0,34,34,False,False,lookup,,0.71,completed,31,False,3,31,31,False,False,False
+eurlex,http://data.europa.eu/eli/reg/2009/715/art_2/oj,32009R0715,32009R0715,Regulation (EC) No 715/2009 of the European Parliament and of the Council of 13 July 2009 on conditions for access to the natural gas transmission networks and repealing Regulation (EC) No 1775/2005 (Text with EEA relevance),False,one_ref,"Definitions
+
+1. For the purpose of this Regulation, the following definitions apply:
+
+1)
+‘transmission’ means the transport of natural gas through a network, which mainly contains high-pressure pipelines, other than an upstream pipeline network and other than the part of high-pressure pipelines primarily used in the context of local distribution of natural gas, with a view to its delivery to customers, but not including supply;
+
+2)
+‘transport contract’ means a contract which the transmission system operator has concluded with a network user with a view to carrying out transmission;
+
+3)
+‘capacity’ means the maximum flow, expressed in normal cubic meters per time unit or in energy unit per time unit, to which the network user is entitled in accordance with the provisions of the transport contract;
+
+4)
+‘unused capacity’ means firm capacity which a network user has acquired under a transport contract but which that user has not nominated by the deadline specified in the contract;
+
+5)
+‘congestion management’ means management of the capacity portfolio of the transmission system operator with a view to optimal and maximum use of the technical capacity and the timely detection of future congestion and saturation points;
+
+6)
+‘secondary market’ means the market of the capacity traded otherwise than on the primary market;
+
+7)
+‘nomination’ means the prior reporting by the network user to the transmission system operator of the actual flow that the network user wishes to inject into or withdraw from the system;
+
+8)
+‘re-nomination’ means the subsequent reporting of a corrected nomination;
+
+9)
+‘system integrity’ means any situation in respect of a transmission network including necessary transmission facilities in which the pressure and the quality of the natural gas remain within the minimum and maximum limits laid down by the transmission system operator, so that the transmission of natural gas is guaranteed from a technical standpoint;
+
+10)
+‘balancing period’ means the period within which the off-take of an amount of natural gas, expressed in units of energy, must be offset by every network user by means of the injection of the same amount of natural gas into the transmission network in accordance with the transport contract or the network code;
+
+11)
+‘network user’ means a customer or a potential customer of a transmission system operator, and transmission system operators themselves in so far as it is necessary for them to carry out their functions in relation to transmission;
+
+12)
+‘interruptible services’ means services offered by the transmission system operator in relation to interruptible capacity;
+
+13)
+‘interruptible capacity’ means gas transmission capacity that may be interrupted by the transmission system operator in accordance with the conditions stipulated in the transport contract;
+
+14)
+‘long-term services’ means services offered by the transmission system operator with a duration of one year or more;
+
+15)
+‘short-term services’ means services offered by the transmission system operator with a duration of less than one year;
+
+16)
+‘firm capacity’ means gas transmission capacity contractually guaranteed as uninterruptible by the transmission system operator;
+
+17)
+‘firm services’ mean services offered by the transmission system operator in relation to firm capacity;
+
+18)
+‘technical capacity’ means the maximum firm capacity that the transmission system operator can offer to the network users, taking account of system integrity and the operational requirements of the transmission network;
+
+19)
+‘contracted capacity’ means capacity that the transmission system operator has allocated to a network user by means of a transport contract;
+
+20)
+‘available capacity’ means the part of the technical capacity that is not allocated and is still available to the system at that moment;
+
+21)
+‘contractual congestion’ means a situation where the level of firm capacity demand exceeds the technical capacity;
+
+22)
+‘primary market’ means the market of the capacity traded directly by the transmission system operator;
+
+23)
+‘physical congestion’ means a situation where the level of demand for actual deliveries exceeds the technical capacity at some point in time;
+
+24)
+‘LNG facility capacity’ means capacity at an LNG terminal for the liquefaction of natural gas or the importation, offloading, ancillary services, temporary storage and re-gasification of LNG;
+
+25)
+‘space’ means the volume of gas which a user of a storage facility is entitled to use for the storage of gas;
+
+26)
+‘deliverability’ means the rate at which the storage facility user is entitled to withdraw gas from the storage facility;
+
+27)
+‘injectability’ means the rate at which the storage facility user is entitled to inject gas into the storage facility;
+
+28)
+‘storage capacity’ means any combination of space, injectability and deliverability.
+
+2. Without prejudice to the definitions in paragraph 1 of this Article, the definitions contained in Article 2 of Directive 2009/73/EC, which are relevant for the application of this Regulation, also apply, with the exception of the definition of transmission in point 3 of that Article.
+
+The definitions in points 3 to 23 of paragraph 1 of this Article in relation to transmission apply by analogy in relation to storage and LNG facilities.",True,38,lookup,38,34,34,completed,38,38,completed,lookup,"The article is a comprehensive definitions provision, so direct requests for the meanings and scope of its defined natural-gas transmission, storage, and LNG terms are more natural than concrete case scenarios.",,completed,38,True,0,38,38,False,False,lookup,,0.94,completed,38,True,0,38,38,False,False,True
+eurlex,http://data.europa.eu/eli/reg_impl/2013/131/art_4/oj,32013R0131,32013R0131,Commission Implementing Regulation (EU) No 131/2013 of 15 February 2013 laying down exceptional measures as regards the release of out-of-quota sugar and isoglucose on the Union market at reduced surplus levy during the 2012/2013 marketing year,False,one_ref,"Transmission of applications by the Member States
+
+1. The competent authorities of the Member States shall decide on the admissibility of applications on the basis of the conditions set out in Article 2. Where the competent authorities decide that an application is inadmissible, they shall inform the applicant without delay.
+
+2. The competent authority shall notify the Commission on Friday at the latest, by fax or electronic mail, of the admissible applications submitted during the preceding application period. That notification shall not contain the data referred to in Article 2(5)(a)(i). Member States that received no applications but have sugar or isoglucose quota allocated to them in the 2012/2013 marketing year, shall also send their nil returns notifications to the Commission within the same time limit.
+
+3. The form and content of the notifications shall be defined on the basis of models made available by the Commission to the Member States.",True,36,lookup,36,34,34,completed,36,36,completed,fact_pattern,"The article governs concrete Member State authority handling of applications, including admissibility notices, Friday notifications, and nil returns.",,completed,34,False,2,34,34,False,False,lookup,,0.84,completed,36,True,0,36,36,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2008/56/art_4/oj,32008L0056,32008L0056,Directive 2008/56/EC of the European Parliament and of the Council of 17 June 2008 establishing a framework for community action in the field of marine environmental policy (Marine Strategy Framework Directive) (Text with EEA relevance),False,few_refs,"Marine regions or subregions
+
+1. Member States shall, when implementing their obligations under this Directive, take due account of the fact that marine waters covered by their sovereignty or jurisdiction form an integral part of the following marine regions:
+
+(a)
+the Baltic Sea;
+
+(b)
+the North-east Atlantic Ocean;
+
+(c)
+the Mediterranean Sea;
+
+(d)
+the Black Sea.
+
+2. Member States may, in order to take into account the specificities of a particular area, implement this Directive by reference to subdivisions at the appropriate level of the marine waters referred to in paragraph 1, provided that such subdivisions are delimited in a manner compatible with the following marine subregions:
+
+(a)
+in the North-east Atlantic Ocean:
+
+(i)
+the Greater North Sea, including the Kattegat, and the English Channel;
+
+(ii)
+the Celtic Seas;
+
+(iii)
+the Bay of Biscay and the Iberian Coast;
+
+(iv)
+in the Atlantic Ocean, the Macaronesian biogeographic region, being the waters surrounding the Azores, Madeira and the Canary Islands;
+
+(b)
+in the Mediterranean Sea:
+
+(i)
+the Western Mediterranean Sea;
+
+(ii)
+the Adriatic Sea;
+
+(iii)
+the Ionian Sea and the Central Mediterranean Sea;
+
+(iv)
+the Aegean-Levantine Sea.
+
+Member States shall inform the Commission of any subdivisions by the date specified in the first subparagraph of Article 26(1) but may revise these upon completion of the initial assessment referred in Article 5(2), point (a)(i).",True,36,lookup,36,28,27,completed,36,36,completed,fact_pattern,"The article supports concrete cases involving a Member State’s marine waters, proposed regional subdivision, and notification or revision of that subdivision.",,completed,28,False,8,28,27,False,False,lookup,,0.91,completed,36,True,0,36,36,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2008/98/art_5/oj,32008L0098,32008L0098,Directive 2008/98/EC of the European Parliament and of the Council of 19 November 2008 on waste and repealing certain Directives (Text with EEA relevance),False,few_refs,"By-products
+
+1. A substance or object, resulting from a production process, the primary aim of which is not the production of that item, may be regarded as not being waste referred to in point (1) of Article 3 but as being a by-product only if the following conditions are met:
+
+(a)
+further use of the substance or object is certain;
+
+(b)
+the substance or object can be used directly without any further processing other than normal industrial practice;
+
+(c)
+the substance or object is produced as an integral part of a production process; and
+
+(d)
+further use is lawful, i.e. the substance or object fulfils all relevant product, environmental and health protection requirements for the specific use and will not lead to overall adverse environmental or human health impacts.
+
+2. On the basis of the conditions laid down in paragraph 1, measures may be adopted to determine the criteria to be met for specific substances or objects to be regarded as a by-product and not as waste referred to in point (1) of Article 3. Those measures, designed to amend non-essential elements of this Directive by supplementing it, shall be adopted in accordance with the regulatory procedure with scrutiny referred to in Article 39(2).",True,34,lookup,34,27,27,completed,34,34,completed,fact_pattern,"The article sets cumulative conditions for treating a substance arising from production as a by-product rather than waste, which naturally supports concrete case-based questions.",,completed,27,False,7,27,27,False,False,lookup,,0.46,completed,34,True,0,34,34,False,False,False
+eurlex,http://data.europa.eu/eli/reg_impl/2011/543/art_17/oj,32011R0543,32011R0543,Commission Implementing Regulation (EU) No 543/2011 of 7 June 2011 laying down detailed rules for the application of Council Regulation (EC) No 1234/2007 in respect of the fruit and vegetables and processed fruit and vegetables sectors,False,few_refs,"Methods of inspection
+
+1. The conformity checks provided for in this Chapter, with the exception of those at the point of retail sale to the end consumer, shall be carried out in accordance with the methods of inspection laid down in Annex V, save as otherwise provided in this Regulation.Member States shall lay down specific arrangements for checking conformity at the point of retail sale to the end consumer.
+
+2. Where inspectors find that the goods conform with the marketing standards, the inspection body may issue a certificate of conformity as set out in Annex III.
+
+3. Where the goods do not conform with the standards, the inspection body shall issue a finding of non-conformity for the attention of the trader or their representatives. Goods for which a finding of non-conformity has been issued may not be moved without the authorisation of the inspection body which issued that finding. That authorisation can be subject to the respect of conditions laid down by the inspection body.Traders may decide to bring all or some of the goods into conformity. Goods brought into conformity may not be marketed before the competent inspection body has ensured by all appropriate means that the goods have actually been brought into conformity. The competent inspection body shall issue, where applicable, a certificate of conformity as set out in Annex III for the lot or part thereof only after the goods have been brought into conformity.If an inspection body accepts a trader’s wish to bring the goods into conformity in a Member State other than that where the check leading to a finding of non-conformity has been carried out, the trader shall notify the competent inspection body of the destination Member State of the non-conforming lot. The Member State issuing the finding of non-conformity shall send a copy of that finding to the other Member States concerned including the Member State of destination of the non-conforming lot.Where the goods can neither be brought into conformity nor sent to animal feed, industrial processing or any other non-food use, the inspection body may, if necessary, request traders to take adequate measures in order to ensure that the products concerned are not marketed.Traders shall supply all information deemed necessary by Member States for the application of this paragraph.",True,36,fact_pattern,34,36,,completed,34,34,completed,fact_pattern,"The article directly governs inspection outcomes and trader actions in concrete cases involving conforming or non-conforming fruit and vegetable goods, including movement, remediation, notification, and marketing.",,completed,36,True,0,36,0,False,False,fact_pattern,,0.31,completed,36,True,0,36,0,False,False,True
+eurlex,http://data.europa.eu/eli/reg/2008/303/art_12/oj,32008R0303,32008R0303,"Commission Regulation (EC) No 303/2008 of 2 April 2008 establishing, pursuant to Regulation (EC) No 842/2006 of the European Parliament and of the Council, minimum requirements and the conditions for mutual recognition for the certification of companies and personnel as regards stationary refrigeration, air conditioning and heat pump equipment containing certain fluorinated greenhouse gases (Text with EEA relevance)",False,many_refs,"Notification
+
+1. By 4 July 2008, Member States shall notify the Commission of their intention to apply an interim certification system according to Articles 6 or 9, or both.
+
+2. By 4 January 2009, Member States shall notify the Commission, where applicable, of designated entities entitled to issue interim certificates and of enacted national provisions according to which documents issued by existing certification systems are deemed as interim certificates.
+
+3. By 4 January 2009, Member States shall notify the Commission of the names and contact details of certification bodies for personnel and companies covered by Article 10 and of the titles of certificates for personnel complying with the requirements of Article 5 and companies complying with the requirements of Article 8, using the format established by Regulation (EC) No 308/2008.
+
+4. Member States shall update the notification submitted pursuant to paragraph 3, with relevant new information, and submit it to the Commission without delay.",True,36,lookup,36,33,33,completed,36,36,completed,fact_pattern,"The article governs concrete notification actions and deadlines for a Member State implementing certification arrangements, making a national-authority case with dates and designated bodies a natural fit.",,completed,33,False,3,33,33,False,False,lookup,,0.9,completed,36,True,0,36,36,False,False,False
+eurlex,http://data.europa.eu/eli/dir/2010/44/art_30/oj,32010L0044,32010L0044,"Commission Directive 2010/42/EU of 1 July 2010 implementing Directive 2009/65/EC of the European Parliament and of the Council as regards certain provisions concerning fund mergers, master-feeder structures and notification procedure (Text with EEA relevance)",False,many_refs,"Scope of the information to be made accessible by Member States in accordance with Article 91(3) of Directive 2009/65/EC
+
+1. Member States shall ensure that the following categories of information on the relevant laws, regulations and administrative provisions are made accessible in accordance with Article 91(3) of Directive 2009/65/EC:
+
+(a)
+the definition of the term ‘marketing of units of UCITS’ or the equivalent legal term either as stated in national legislation or as developed in practice;
+
+(b)
+requirements for the contents, format and manner of presentation of marketing communications, including all compulsory warnings and restrictions on the use of certain words or phrases;
+
+(c)
+without prejudice to Chapter IX of Directive 2009/65/EC, details of any additional information required to be disclosed to investors;
+
+(d)
+details of any exemptions from rules or requirements governing arrangements made for marketing applicable in that Member State for certain UCITS, certain share classes of UCITS or certain categories of investors;
+
+(e)
+requirements for any reporting or transmission of information to the competent authorities of that Member State, and the procedure for lodging updated versions of required documents;
+
+(f)
+requirements for any fees or other sums to be paid to the competent authorities or any other statutory body in that Member State, either when marketing commences or periodically thereafter;
+
+(g)
+requirements in relation to the facilities to be made available to unit-holders as required by Article 92 of Directive 2009/65/EC;
+
+(h)
+conditions for the termination of marketing of units of UCITS in that Member State by a UCITS situated in another Member State;
+
+(i)
+detailed contents of the information required by a Member State to be included in Part B of the notification letter as referred to in Article 1 of Commission Regulation (EU) No 584/2010 of 1 July 2010 implementing Directive 2009/65/EC of the European Parliament and of the Council as regards the form and content of standard notification letter and UCITS attestation, the use of electronic communication between competent authorities for the purpose of notification, and procedures for on-the-spot verifications and investigations and the exchange of information between competent authorities;
+
+(j)
+the e-mail address designated for the purpose of Article 32.
+
+2. Member States shall give the information listed in paragraph 1 in the form of a narrative description, or a combination of a narrative description and a series of references or links to source documents.",True,36,fact_pattern,36,36,36,completed,31,31,completed,fact_pattern,A UCITS established in one Member State and seeking to market its units in another creates a concrete cross-border situation naturally tied to the host state's required accessible information.,,completed,36,True,0,36,36,False,False,lookup,,0.93,completed,31,False,5,31,31,False,False,False
+eurlex,http://data.europa.eu/eli/reg_impl/2014/809/art_12/oj,32014R0809,32014R0809,"Commission Implementing Regulation (EU) No 809/2014 of 17 July 2014 laying down rules for the application of Regulation (EU) No 1306/2013 of the European Parliament and of the Council with regard to the integrated administration and control system, rural development measures and cross compliance",False,many_refs,"General provisions pertaining to the single application and to the submission of applications for support under rural development measures
+
+1. If Member States decide pursuant to Article 72(4) of Regulation (EU) No 1306/2013 that the aid applications for direct payments and payment claims for rural development measures are to be covered by the single application, Articles 20, 21 and 22 of this Regulation shall apply mutatis mutandis in respect of the particular requirements established in view of the aid application and/or payment claim under those schemes or measures.
+
+2. A beneficiary applying for aid and/or support under any of the area-related direct payments or rural development measures may submit only one single application per year.
+
+3. Member States shall provide for appropriate procedures for the submission of applications for support under rural development measures.",True,36,lookup,36,33,31,completed,36,36,completed,fact_pattern,The article is well suited to concrete cases involving a beneficiary’s annual applications for area-related payments or rural development support and the Member State’s submission procedures.,,completed,33,False,3,33,31,False,False,lookup,,0.77,completed,36,True,0,36,36,False,False,False

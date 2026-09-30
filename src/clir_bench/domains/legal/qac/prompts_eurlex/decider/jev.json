@@ -5,34 +5,42 @@
     "mode": {
       "type": "choice",
       "instructions": {
-        "task": "Which question-generation mode best fits the TARGET ARTICLE: fact_pattern, lookup, or skip? Select based on the substantive content and the question framing it naturally supports.",
+        "task": "Select the question-generation mode best suited to the TARGET ARTICLE: fact_pattern, lookup, or skip. Assess the strongest usable legal point in the target, not the instrument or reference bundle as a whole. Do not generate questions or answers.",
         "input_structure": {
           "### TARGET ARTICLE": "The article that questions must be about.",
-          "### REFERENCED ARTICLES": "Provisions cited from the same act.",
-          "### REFERENCED ARTICLES FROM OTHER ACTS": "Provisions cited from other acts.",
+          "### REFERENCED ARTICLES": "Cited provisions from the same act.",
+          "### REFERENCED ARTICLES FROM OTHER ACTS": "Cited provisions from other acts.",
           "### REFERENCED ANNEXES": "Cited annexes."
         },
-        "metadata": "Article blocks contain a language tag, article number and title, an Act line identifying the instrument and its subject matter, and sometimes a Location within the act. Other-act references and annexes have a Cite as key identifying the provision. Empty blocks are marked. Different-language versions represent the same provision.",
-        "grounding": "Choose based on the target article's text. Metadata identifies the regime but cannot supply an answer. References may complete the target's rule, but must not become the subject of the questions. A question answerable from a referenced provision alone does not belong to this target.",
+        "metadata": "Article blocks contain a language tag, article number and title, an Act line identifying the instrument and subject matter, and sometimes a Location within the act. Other-act references and all annexes have a Cite as key. Empty blocks are marked. Different-language versions represent the same provision.",
+        "grounding": "The target must supply the legal point being asked about. Supplied references may complete its rule, but a question answerable from a referenced provision alone belongs to that provision. Metadata identifies the regime but cannot supply an answer. Missing references invalidate only the questions that depend on them.",
+        "usable_content": [
+          "A mode must support at least one substantive, informative question directly answerable from the supplied provisions. Do not require three questions or reject an otherwise usable article because some clauses are unsuitable.",
+          "The situation or regime anchor must distinguish the relevant body of law from similar acts without relying on an instrument identifier. Use legally meaningful actors, products, activities, or terms; do not invent distinguishing facts.",
+          "Exclude boilerplate such as transposition, general entry into force, repeal, generic institutional review, and generic penalties clauses. Preserve substantive application deadlines, reporting duties, specific consequences, and concrete regulatory procedures in mixed articles."
+        ],
         "selection": [
-          "Choose fact_pattern when meaningful case particulars naturally connect a client's situation to the target's legal treatment.",
-          "Choose lookup when a direct request for one point of law is more natural and adding a case would mainly decorate the question.",
-          "Both modes can cover the same legal topics. A definition, number, deadline, or instrument identifier alone does not determine the mode.",
-          "Assess the usable substantive content of mixed articles. Choose skip only when neither mode supports a suitable question."
+          "Assess fact_pattern and lookup independently. Both can target definitions, obligations, conditions, deadlines, thresholds, procedures, and consequences; topic labels alone do not determine the choice.",
+          "Prefer fact_pattern when two or more legally relevant particulars naturally connect a concrete actor's situation to the target's rule. The particulars must matter to the regime or legal treatment, not merely add a fictional actor and location.",
+          "Prefer lookup when a direct request for one point of law is more natural, or when a case would require unsupported assumptions, repeat the answer, or mainly decorate the request.",
+          "When both fit, choose the strongest question opportunity requiring the least artificial framing while preserving legal precision and regime specificity. Do not favour a mode because it could generate more questions or because of expected verifier scores.",
+          "Choose skip only when neither mode supports a suitable question. Do not force balanced mode frequencies or select solely from the instrument's title, identifier, or type."
         ]
       },
       "criteria": {
         "fact_pattern": {
-          "persona": "A practitioner knows the client's situation but does not name or necessarily know the governing instrument.",
-          "question_properties": "A concrete case involving a private party or a national authority handling a file, with at least two legally relevant particulars: actor, activity, product, omission, quantity, place, or time. These instantiate conditions explicitly addressed by the target without giving away the legal consequence. The protagonist is not an EU institution or official, or a Member State acting as legislator.",
-          "information_needs": "Whether the case is covered, permitted, prohibited, or eligible; what the actor must do; which condition, deadline, amount, procedure, or consequence applies. The situation identifies the regime without act or provision identifiers."
+          "persona": "A practitioner describes a private party's situation or a national authority's concrete file without naming or necessarily knowing the governing instrument.",
+          "information_need": "Whether the case is covered, permitted, prohibited, or eligible; what the actor must do; which condition, deadline, amount, procedure, or consequence applies.",
+          "question_properties": "The case contains at least two legally relevant particulars, such as actor, activity, product, omission, quantity, place, or time. These instantiate conditions explicitly addressed by the target without stating the answer or requiring unstated legal reasoning.",
+          "fit": "Best when the case is natural and the supplied rule directly decides it. A provision addressed to Member States may still support a private-party case when it expressly regulates that party's activity."
         },
         "lookup": {
-          "persona": "A practitioner knows the legal regime and wants one point of law, without needing a concrete client situation.",
-          "question_properties": "A direct, self-contained question identifying the regime through a specific regulated actor, product, activity, or legal term. Each question has two otherwise identical renderings: one without an instrument identifier and one with the target instrument's official identifier inserted. The base question must identify the regime without relying on that identifier.",
-          "information_needs": "A definition, scope rule, obligation, condition, deadline, threshold, reporting requirement, consequence, competent body, or procedure."
+          "persona": "A practitioner knows the legal regime and wants one point of law without needing a concrete client situation.",
+          "information_need": "A definition, scope rule, obligation, condition, deadline, threshold, reporting requirement, consequence, competent body, or procedure.",
+          "question_properties": "A direct, self-contained question identifies the regime through a specific actor, product, activity, or legal term. Two otherwise identical renderings differ only by insertion of the target instrument's official identifier; the regime anchor remains in both.",
+          "fit": "Best when the legal point is useful directly and a hypothetical case adds little. The identifier cannot rescue an ambiguous base question, and the absence of a conventional instrument short name does not make lookup unsuitable."
         },
-        "skip": "Neither mode supports a substantive, grounded question about the target. Examples include articles containing only transposition, entry-into-force, or generic institutional review clauses, or no usable legal point answerable from the supplied material."
+        "skip": "Neither mode supports a substantive, informative, grounded question about the target. Examples include boilerplate-only articles, indispensable answer material missing from the supplied provisions, or no supported way to distinguish the legal regime. An unusable clause does not justify skipping other usable content."
       }
     }
   }

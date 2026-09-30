@@ -1,0 +1,5 @@
+﻿version,subset,backend,n,complete_comparisons,routed,scored_selected,skipped,missed_score_opportunities,selected_mode_unproductive_despite_alternative,oracle_available,matches_oracle,mean_selected_score_when_available,mean_regret_when_scored,mean_utility_zero_for_skip_or_no_candidate,mean_audit_clear_utility,mean_oracle_utility
+previous,eurlex_all,generator,50,50,45,43,5,1,1,45,17,33.46511627906977,1.8372093023255813,28.78,26.26,31.66
+previous,eurlex_all,jev,50,50,45,43,5,1,1,45,39,35.04651162790697,0.2558139534883721,30.14,29.42,31.66
+updated,eurlex_all,generator,50,50,46,45,4,0,0,45,22,33.666666666666664,1.5777777777777777,30.3,26.84,31.72
+updated,eurlex_all,jev,50,50,45,44,5,1,0,45,32,34.68181818181818,0.5227272727272727,30.52,29.18,31.72

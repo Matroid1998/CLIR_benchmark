@@ -54,11 +54,11 @@ def test_invalid_jev_decisions_are_rejected(field, value):
 
 @pytest.mark.parametrize("symbol", ["S/PV.1234", "A/C.3/50/SR.3", "s/pv.1234"])
 @pytest.mark.parametrize("backend", ["generator", "jev"])
-def test_un_meeting_records_cannot_route_to_lookup(symbol, backend):
-    data = (jev_response("un", "lookup") if backend == "jev" else
-            {"mode": "lookup", "reason": "A ceiling"})
-    with pytest.raises(ValueError, match="meeting records"):
-        decider.parse_decision(data, "un", backend, symbol=symbol)
+@pytest.mark.parametrize("mode", ["lookup", "practitioner", "semantic", "skip"])
+def test_un_meeting_records_can_route_to_every_mode(symbol, backend, mode):
+    data = (jev_response("un", mode) if backend == "jev" else
+            {"mode": mode, "reason": "Supported by the target"})
+    assert decider.parse_decision(data, "un", backend, symbol=symbol)["mode"] == mode
 
 
 def test_jev_http_transport_uses_decisions_endpoint(monkeypatch):

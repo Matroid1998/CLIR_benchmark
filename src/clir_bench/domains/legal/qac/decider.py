@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import math
-import re
 from importlib.resources import files
 
 from clir_bench.core import llm
@@ -73,9 +72,6 @@ def parse_decision(data, source: str, backend: str, *, symbol: str = "") -> dict
         confidence = probabilities = None
     if not isinstance(mode, str) or mode not in allowed:
         raise ValueError(f"unsupported {source} decider mode: {mode!r}")
-    if (source == "un" and mode not in ("semantic", "skip")
-            and re.search(r"(?:^|/)\s*(?:PV|SR)(?:[./(\d]|$)", symbol.upper())):
-        raise ValueError("UN meeting records permit only semantic or skip")
     return {"mode": mode, "generation_mode": generation_mode(mode), "reason": reason,
             "confidence": confidence, "probabilities": probabilities}
 

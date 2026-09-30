@@ -1,0 +1,245 @@
+{
+  "config": {
+    "eurlex": 50,
+    "generator": "gpt-5.6-luna",
+    "jev_model": "~typesafe/jev-latest",
+    "keep": 3,
+    "language": "en",
+    "max_per_document": 1,
+    "prompts_sha256": "8070ecb370cf90c6f25ad3283961fca4547c2fe8f43373e58e7d37a9969ccedc",
+    "retries": 3,
+    "seed": 20260929,
+    "targets_sha256": "022378c5cd1877402b48b922e98f3d703aa612a5fc05965b4334c9f944daab46",
+    "un": 0,
+    "verifier": "anthropic/claude-sonnet-5.5"
+  },
+  "status": "completed",
+  "original_failed_tasks": 1,
+  "repaired_tasks": [
+    "mode/eurlex/http://data.europa.eu/eli/dir/2014/104/art_1/oj/fact_pattern"
+  ],
+  "outcomes": {
+    "completed": 189,
+    "no_candidates": 11
+  },
+  "distributions": [
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "fact_pattern",
+      "count": 36,
+      "n": 50,
+      "percent": 72.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "lookup",
+      "count": 10,
+      "n": 50,
+      "percent": 20.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "skip",
+      "count": 4,
+      "n": 50,
+      "percent": 8.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "error",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "fact_pattern",
+      "count": 6,
+      "n": 50,
+      "percent": 12.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "lookup",
+      "count": 39,
+      "n": 50,
+      "percent": 78.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "skip",
+      "count": 5,
+      "n": 50,
+      "percent": 10.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "error",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    }
+  ],
+  "policies": [
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "n": 50,
+      "complete_comparisons": 50,
+      "routed": 46,
+      "scored_selected": 45,
+      "skipped": 4,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 45,
+      "matches_oracle": 22,
+      "mean_selected_score_when_available": 33.666666666666664,
+      "mean_regret_when_scored": 1.5777777777777777,
+      "mean_utility_zero_for_skip_or_no_candidate": 30.3,
+      "mean_audit_clear_utility": 26.84,
+      "mean_oracle_utility": 31.72
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "n": 50,
+      "complete_comparisons": 50,
+      "routed": 45,
+      "scored_selected": 44,
+      "skipped": 5,
+      "missed_score_opportunities": 1,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 45,
+      "matches_oracle": 32,
+      "mean_selected_score_when_available": 34.68181818181818,
+      "mean_regret_when_scored": 0.5227272727272727,
+      "mean_utility_zero_for_skip_or_no_candidate": 30.52,
+      "mean_audit_clear_utility": 29.18,
+      "mean_oracle_utility": 31.72
+    }
+  ],
+  "agreement": [
+    {
+      "subset": "eurlex_all",
+      "n": 50,
+      "valid_pairs": 50,
+      "agree": 19,
+      "generator_better_utility": 10,
+      "jev_better_utility": 20,
+      "utility_ties": 20,
+      "mean_paired_utility_difference_generator_minus_jev": -0.22,
+      "bootstrap_95_interval": [
+        -1.5,
+        1.6
+      ]
+    }
+  ],
+  "modes": [
+    {
+      "subset": "eurlex_all",
+      "mode": "fact_pattern",
+      "attempted": 50,
+      "eligible": 50,
+      "completed_eligible": 50,
+      "scored": 44,
+      "generated_candidates": 118,
+      "no_candidates": 6,
+      "mean_best_score": 33.06818181818182,
+      "mean_best_faithfulness": 13.75,
+      "mean_best_quality": 19.318181818181817,
+      "mean_utility_zero_for_no_candidate": 29.1,
+      "mean_audit_clear_utility": 25.18,
+      "oracle_wins_including_ties": 16,
+      "best_candidate_blocking": 3,
+      "audit_clear_targets": 38
+    },
+    {
+      "subset": "eurlex_all",
+      "mode": "lookup",
+      "attempted": 50,
+      "eligible": 50,
+      "completed_eligible": 50,
+      "scored": 45,
+      "generated_candidates": 132,
+      "no_candidates": 5,
+      "mean_best_score": 34.644444444444446,
+      "mean_best_faithfulness": 14.488888888888889,
+      "mean_best_quality": 20.155555555555555,
+      "mean_utility_zero_for_no_candidate": 31.18,
+      "mean_audit_clear_utility": 30.44,
+      "oracle_wins_including_ties": 31,
+      "best_candidate_blocking": 1,
+      "audit_clear_targets": 44
+    }
+  ],
+  "usage": [
+    {
+      "stage": "decider",
+      "model": "~typesafe/jev-latest",
+      "calls": 50,
+      "provider_errors": 0,
+      "prompt_tokens": 98922,
+      "completion_tokens": 1956,
+      "reported_cost": 0.004154724000000001,
+      "calls_missing_cost": 0,
+      "mean_seconds": 0.27371260000000003,
+      "p95_seconds": 0.350067
+    },
+    {
+      "stage": "decider",
+      "model": "gpt-5.6-luna",
+      "calls": 50,
+      "provider_errors": 0,
+      "prompt_tokens": 60360,
+      "completion_tokens": 4977,
+      "reported_cost": 0,
+      "calls_missing_cost": 50,
+      "mean_seconds": 2.45336638,
+      "p95_seconds": 4.113839
+    },
+    {
+      "stage": "generation",
+      "model": "gpt-5.6-luna",
+      "calls": 100,
+      "provider_errors": 0,
+      "prompt_tokens": 683520,
+      "completion_tokens": 116407,
+      "reported_cost": 0,
+      "calls_missing_cost": 100,
+      "mean_seconds": 12.71968177,
+      "p95_seconds": 22.477861
+    },
+    {
+      "stage": "faithfulness",
+      "model": "anthropic/claude-sonnet-5.5",
+      "calls": 95,
+      "provider_errors": 0,
+      "prompt_tokens": 414862,
+      "completion_tokens": 37366,
+      "reported_cost": 1.203384,
+      "calls_missing_cost": 0,
+      "mean_seconds": 4.413403768421053,
+      "p95_seconds": 8.409671
+    },
+    {
+      "stage": "quality",
+      "model": "anthropic/claude-sonnet-5.5",
+      "calls": 98,
+      "provider_errors": 0,
+      "prompt_tokens": 473598,
+      "completion_tokens": 133773,
+      "reported_cost": 2.284926,
+      "calls_missing_cost": 0,
+      "mean_seconds": 9.96338681632653,
+      "p95_seconds": 18.069462
+    }
+  ]
+}

@@ -26,16 +26,25 @@ def test_best_score_enforces_grounding_and_exposes_audit_sensitivity():
     assert summary['graded_count'] == 3 and summary['grounded_count'] == 2
 
 
-def test_meeting_ineligible_mode_cannot_be_observed_winner():
+def test_meeting_all_modes_can_be_observed_winner():
     source = record(meeting=True)
     modes = [mode_summary(source, mode, outcome([candidate(score)]))
              for mode, score in [('lookup', 40), ('practitioner', 39), ('semantic', 32)]]
     row = compare_target(source, modes, {'generator': outcome([{'mode': 'semantic'}]),
                                          'jev': outcome([{'mode': 'skip'}])})
-    assert row['oracle_modes'] == 'semantic' and row['oracle_best_score'] == 32
-    assert row['generator_matches_best'] is True
+    assert row['oracle_modes'] == 'lookup' and row['oracle_best_score'] == 40
+    assert row['generator_matches_best'] is False
     assert row['jev_utility'] == 0 and row['jev_missed_opportunity'] is True
     assert row['jev_selected_score'] is None
+
+
+def test_historical_meeting_restriction_is_preserved_when_reanalyzing_old_runs():
+    source = record(meeting=True)
+    modes = [mode_summary(source, mode, outcome([candidate(score)]), meeting_modes='semantic_only')
+             for mode, score in [('lookup', 40), ('practitioner', 39), ('semantic', 32)]]
+    row = compare_target(source, modes, {'generator': outcome([{'mode': 'semantic'}])})
+    assert row['oracle_modes'] == 'semantic' and row['oracle_best_score'] == 32
+    assert row['generator_matches_best'] is True
 
 
 def test_ties_are_retained_and_regret_measures_selected_best_candidate():

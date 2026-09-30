@@ -35,7 +35,7 @@ def paired_ci(values):
     return [samples[125], samples[4874]]
 
 
-def mode_summary(record, mode, outcome):
+def mode_summary(record, mode, outcome, *, meeting_modes='all'):
     candidates = outcome['rows'] if outcome else []
     graded = [r for r in candidates if r.get('grading_status') == 'completed'
               and r.get('total_score') is not None]
@@ -46,7 +46,7 @@ def mode_summary(record, mode, outcome):
     return {'corpus': record['corpus'], 'target_id': record['target_id'],
             'document_id': record['document_id'], 'symbol': record['symbol'],
             'is_meeting': record['is_meeting'], 'stratum': record['stratum'], 'mode': mode,
-            'eligible': not record['is_meeting'] or mode == 'semantic',
+            'eligible': meeting_modes == 'all' or not record['is_meeting'] or mode == 'semantic',
             'status': outcome['status'] if outcome else 'pending',
             'error': outcome.get('error') or '' if outcome else '',
             'candidate_count': len(candidates), 'graded_count': len(graded),
@@ -150,7 +150,8 @@ def analyze(directory):
     write_csv(directory / 'decisions.csv', decision_rows)
     modes, comparisons = [], []
     for entry in entries:
-        rows = [mode_summary(entry, mode, outcomes.get(task_id('mode', entry, mode)))
+        rows = [mode_summary(entry, mode, outcomes.get(task_id('mode', entry, mode)),
+                            meeting_modes=metadata['config'].get('meeting_modes', 'semantic_only'))
                 for mode in decider.MODES[entry['corpus']]]
         for row in rows:
             row['generation_skip_reason'] = skip_reasons.get(task_id('mode', entry, row['mode']), '')
@@ -333,8 +334,10 @@ def report(directory, summary, comparisons):
         'Generation does not see either decider’s answer.'),
         ('“All modes” means the modes offered to the decider: lookup/practitioner/semantic for UN '
         'and fact_pattern/lookup for EUR-Lex. Legacy technical/descriptive modes are outside this comparison. '
-        'Meeting records are eligible only for semantic or skip; lookup/practitioner runs on them '
-        'are diagnostic restriction checks and cannot win. Semantic remains eligible on other UN documents.'),
+        + ('All three modes are eligible on UN meeting records, as on other UN documents.'
+           if cfg.get('meeting_modes') == 'all' else
+           'In this historical run, meeting records permit only semantic or skip; '
+           'lookup/practitioner trials are diagnostic and cannot win.')),
         ('Scores use the pipeline sum: faithfulness /15 plus mode-specific quality /25 = /40. '
         'For UN, the best candidate must also have grounding ≥3. “Oracle” means the best observed '
         'eligible mode in this single run, retaining ties—not human-labeled ground truth. '
