@@ -1,0 +1,16 @@
+{
+  "un": 50,
+  "eurlex": 50,
+  "seed": 20260930,
+  "generator": "gpt-5.6-luna",
+  "verifier": "anthropic/claude-sonnet-5.5",
+  "retries": 3,
+  "language": "en",
+  "max_per_document": 1,
+  "keep": 3,
+  "meeting_modes": "all",
+  "jev_model": "~typesafe/jev-latest",
+  "prompts_sha256": "2c9325f4dfd320d4e5fdb9efffb94430f98f19474495a07fd3120000cf2f72cb",
+  "targets_sha256": "4cbc8590864a2234cbb839290bd836d84b57c4bde5b3b87b4764a82437e2c8d0",
+  "excluded_documents_sha256": "609cd74c9b991e34b4ff5fbfcc527e28f666112d55585f0ae53d840a92f76a54"
+}

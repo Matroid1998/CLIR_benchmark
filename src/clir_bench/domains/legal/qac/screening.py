@@ -37,6 +37,8 @@ def task_id(kind, record, mode):
 
 def prepare(args):
     entries, payloads = [], {}
+    exclusion_file = getattr(args, 'exclude_documents', None)
+    exclusions = json.loads(exclusion_file.read_text()) if exclusion_file else []
     for source in ("un", "eurlex"):
         count = getattr(args, source)
         if not count:
@@ -45,7 +47,8 @@ def prepare(args):
         index = batch.ctx.BlockIndex() if source == "un" else batch.ctx.ArticleIndex()
         options = {"max_per_doc": 1} if source == "un" else {"max_per_act": 1}
         targets = batch.select(index, n=count, seed=args.seed, languages=["en"],
-                               modes=["lookup"], **options)
+                               modes=["lookup"], excluded_documents=frozenset(
+                                   r['document_id'] for r in exclusions if r['corpus'] == source), **options)
         if len(targets) != count:
             raise ValueError(f"Requested {count} {source} documents but selected {len(targets)}")
         for target in targets:
@@ -102,6 +105,8 @@ def main():
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--exclude-documents", type=Path,
+                        help="JSON list of corpus/document_id pairs excluded before sampling")
     args = parser.parse_args()
     if args.un < 0 or args.eurlex < 0 or args.un + args.eurlex < 1:
         parser.error("choose a positive number of documents")
@@ -123,6 +128,8 @@ def main():
               "meeting_modes": "all",
               "jev_model": decider.JEV_MODEL, "prompts_sha256": digest(prompts),
               "targets_sha256": digest(entries)}
+    if args.exclude_documents:
+        config['excluded_documents_sha256'] = digest(json.loads(args.exclude_documents.read_text()))
     fingerprint = digest(config)
     args.output.mkdir(parents=True, exist_ok=True)
     with RunState(args.output / "run.sqlite") as state:

@@ -238,7 +238,8 @@ def _excluded_doc(doc_id: str) -> bool:
 def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str],
            modes: Sequence[str], strata=GENRE_STRATA,
            max_per_doc: int = 0, genre_filter: bool = True,
-           fit_filter: bool = True, require_complete: bool = True) -> list[Target]:
+           fit_filter: bool = True, require_complete: bool = True,
+           excluded_documents: frozenset[str] = frozenset()) -> list[Target]:
     """Stratified, deterministic, block-level target selection.
 
     The pool is enumerated from the docs index alone (``target_idxs``) and
@@ -270,7 +271,7 @@ def select(index: ctx.BlockIndex, *, n: int, seed: int, languages: Sequence[str]
     pools: dict[str, list[tuple[str, int]]] = {name: [] for name, _ in strata}
     missing_idxs = 0
     for doc_id, doc in index.docs.items():
-        if _excluded_doc(doc_id):
+        if _excluded_doc(doc_id) or doc_id in excluded_documents:
             continue
         idxs = doc.get("target_idxs")
         if idxs is None:

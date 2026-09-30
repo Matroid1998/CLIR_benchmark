@@ -1,46 +1,74 @@
 {
   "model": "jev-latest",
-  "state": "<Insert the complete EUR-Lex input with its four marked blocks>",
+  "state": "<Insert the original EUR-Lex input, including all four marked blocks>",
   "questions": {
     "mode": {
       "type": "choice",
       "instructions": {
-        "task": "Select the question-generation mode best suited to the TARGET ARTICLE: fact_pattern, lookup, or skip. Assess the strongest usable legal point in the target, not the instrument or reference bundle as a whole. Do not generate questions or answers.",
+        "task": "Which question-generation mode best fits the TARGET ARTICLE: fact_pattern, lookup, or skip? Select one mode; do not generate questions or answers.",
         "input_structure": {
-          "### TARGET ARTICLE": "The article that questions must be about.",
+          "### TARGET ARTICLE": "The article whose legal rule questions must concern.",
           "### REFERENCED ARTICLES": "Cited provisions from the same act.",
           "### REFERENCED ARTICLES FROM OTHER ACTS": "Cited provisions from other acts.",
           "### REFERENCED ANNEXES": "Cited annexes."
         },
-        "metadata": "Article blocks contain a language tag, article number and title, an Act line identifying the instrument and subject matter, and sometimes a Location within the act. Other-act references and all annexes have a Cite as key. Empty blocks are marked. Different-language versions represent the same provision.",
-        "grounding": "The target must supply the legal point being asked about. Supplied references may complete its rule, but a question answerable from a referenced provision alone belongs to that provision. Metadata identifies the regime but cannot supply an answer. Missing references invalidate only the questions that depend on them.",
-        "usable_content": [
-          "A mode must support at least one substantive, informative question directly answerable from the supplied provisions. Do not require three questions or reject an otherwise usable article because some clauses are unsuitable.",
-          "The situation or regime anchor must distinguish the relevant body of law from similar acts without relying on an instrument identifier. Use legally meaningful actors, products, activities, or terms; do not invent distinguishing facts.",
-          "Exclude boilerplate such as transposition, general entry into force, repeal, generic institutional review, and generic penalties clauses. Preserve substantive application deadlines, reporting duties, specific consequences, and concrete regulatory procedures in mixed articles."
-        ],
+        "metadata": "Blocks include a language tag, article number and title, an Act line identifying the instrument and subject matter, and sometimes a Location. Other-act references and all annexes carry a Cite as key. Empty blocks are marked. Different-language versions represent the same provision.",
+        "grounding": "The target must supply the legal point. References may complete its rule, but must not become the question's real subject. Metadata identifies the regime, not an answer. A missing reference excludes only questions that depend on its content.",
         "selection": [
-          "Assess fact_pattern and lookup independently. Both can target definitions, obligations, conditions, deadlines, thresholds, procedures, and consequences; topic labels alone do not determine the choice.",
-          "Prefer fact_pattern when two or more legally relevant particulars naturally connect a concrete actor's situation to the target's rule. The particulars must matter to the regime or legal treatment, not merely add a fictional actor and location.",
-          "Prefer lookup when a direct request for one point of law is more natural, or when a case would require unsupported assumptions, repeat the answer, or mainly decorate the request.",
-          "When both fit, choose the strongest question opportunity requiring the least artificial framing while preserving legal precision and regime specificity. Do not favour a mode because it could generate more questions or because of expected verifier scores.",
-          "Choose skip only when neither mode supports a suitable question. Do not force balanced mode frequencies or select solely from the instrument's title, identifier, or type."
+          "Choose fact_pattern when a concrete situation with at least two legally relevant particulars naturally instantiates the target's conditions. A fictional actor or location added to a general request is not enough.",
+          "Choose lookup when the useful information need is a direct point of law and adding a case would mainly decorate it or require unsupported assumptions.",
+          "Both modes can ask about scope, definitions, obligations, conditions, deadlines, amounts, procedures, and consequences. A number, definition, formal addressee, or act identifier does not determine the mode.",
+          "Use the strongest substantive opportunity in a mixed article; one useful question is enough. Skip boilerplate-only or unsupported content, not an article merely because one clause is unusable.",
+          "Both modes need enough actor, product, activity, or legal-term specificity to identify the regime without an act identifier. Follow the distinctions illustrated below, not the example frequencies."
+        ],
+        "examples_note": "These are illustrative excerpts from the supplied EUR-Lex generation prompts, not scored Jev errors or independently verified legislative quotations. Ellipses indicate omitted source wording.",
+        "examples": [
+          {
+            "input": {
+              "metadata": "Article 98 — Decisions of the jury; utilities procurement directive.",
+              "target_excerpt": "The jury shall examine the plans and projects submitted by the candidates anonymously and solely on the basis of the criteria indicated in the contest notice."
+            },
+            "selected_mode": "fact_pattern",
+            "reason": "A water utility running a design contest and a jury considering unannounced criteria form a concrete case directly decided by the rule. The utility and contest details identify the regime; they are not decorative facts."
+          },
+          {
+            "input": {
+              "metadata": "Article 10 of Commission Directive 2010/43/EU; organisational requirements for UCITS management companies.",
+              "target_excerpt": "a compliance officer must be appointed and must be responsible for … reporting on a frequent basis, and at least annually, to the senior management on matters of compliance …"
+            },
+            "selected_mode": "lookup",
+            "reason": "The natural need is the reporting frequency for a UCITS management company's compliance officer. A made-up company and country would add little to that direct point of law. Keep the UCITS regime anchor."
+          },
+          {
+            "input": {
+              "metadata": "Article 1 of the Euratom regulation exempting small quantities of ores, source materials and special fissile materials from the Treaty's chapter on supplies.",
+              "target_excerpt": "transfers within and imports into the Community of quantities not exceeding, per transaction a dosage of one tonne of uranium and thorium (or uranium or thorium), within a limit of five tonnes per year per user in respect of each of these materials"
+            },
+            "selected_mode": "fact_pattern",
+            "reason": "The per-transaction and annual quantities can both be instantiated in a concrete import case within the stated limits. These particulars decide the exemption question, so the case adds substance rather than merely decorating a threshold lookup."
+          },
+          {
+            "input": {
+              "metadata": "Article 9 — Advisory body; Commission Regulation (EU) No 1300/2014, accessibility of the rail system for persons with reduced mobility.",
+              "target_excerpt": "The tasks of the advisory body shall include: (a) monitoring the development of a minimum data structure for the inventory of assets, …"
+            },
+            "selected_mode": "lookup",
+            "reason": "The target assigns a specific technical task to a body in the rail-accessibility regime. Identifying that body or task is a useful direct legal lookup; the excerpt supplies no natural private-party case with two rule-relevant particulars."
+          },
+          {
+            "input": {
+              "metadata": "Article 2 of Commission Directive 2012/4/EU; transposition clause.",
+              "target_excerpt": "Member States shall adopt and publish, by 4 April 2012 at the latest, the laws, regulations and administrative provisions necessary to comply with this Directive …"
+            },
+            "selected_mode": "skip",
+            "reason": "This is a transposition clause, not a substantive client-facing requirement. Its exact date and instrument identifier do not turn excluded boilerplate into a suitable lookup or fact pattern."
+          }
         ]
       },
       "criteria": {
-        "fact_pattern": {
-          "persona": "A practitioner describes a private party's situation or a national authority's concrete file without naming or necessarily knowing the governing instrument.",
-          "information_need": "Whether the case is covered, permitted, prohibited, or eligible; what the actor must do; which condition, deadline, amount, procedure, or consequence applies.",
-          "question_properties": "The case contains at least two legally relevant particulars, such as actor, activity, product, omission, quantity, place, or time. These instantiate conditions explicitly addressed by the target without stating the answer or requiring unstated legal reasoning.",
-          "fit": "Best when the case is natural and the supplied rule directly decides it. A provision addressed to Member States may still support a private-party case when it expressly regulates that party's activity."
-        },
-        "lookup": {
-          "persona": "A practitioner knows the legal regime and wants one point of law without needing a concrete client situation.",
-          "information_need": "A definition, scope rule, obligation, condition, deadline, threshold, reporting requirement, consequence, competent body, or procedure.",
-          "question_properties": "A direct, self-contained question identifies the regime through a specific actor, product, activity, or legal term. Two otherwise identical renderings differ only by insertion of the target instrument's official identifier; the regime anchor remains in both.",
-          "fit": "Best when the legal point is useful directly and a hypothetical case adds little. The identifier cannot rescue an ambiguous base question, and the absence of a conventional instrument short name does not make lookup unsuitable."
-        },
-        "skip": "Neither mode supports a substantive, informative, grounded question about the target. Examples include boilerplate-only articles, indispensable answer material missing from the supplied provisions, or no supported way to distinguish the legal regime. An unusable clause does not justify skipping other usable content."
+        "fact_pattern": "A practitioner describes a concrete private-party situation or a national authority's file without naming the governing instrument. At least two legally relevant particulars instantiate conditions the target explicitly addresses. The question asks how the rule treats the case: applicability, permission, obligation, prerequisite, deadline, amount, procedure, or consequence. The facts do not give away the answer; no unsupported legal reasoning is needed.",
+        "lookup": "A practitioner knows the legal regime and wants one point of law: a definition, scope rule, obligation, condition, deadline, threshold, reporting duty, consequence, competent body, or procedure. A specific regime anchor makes the question self-contained. Two renderings differ only by insertion of the target act's identifier; a concrete client situation is unnecessary.",
+        "skip": "Neither mode supports a substantive, informative, grounded question about the target. This includes boilerplate such as transposition, general entry into force, repeal, generic institutional review or generic penalties, and cases where indispensable answer substance is missing."
       }
     }
   }

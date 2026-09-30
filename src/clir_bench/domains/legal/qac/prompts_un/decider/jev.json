@@ -1,52 +1,122 @@
 {
   "model": "jev-latest",
-  "state": "<Insert the complete UN input with its three marked sections>",
+  "state": "<Insert the original UN input, including all three marked sections>",
   "questions": {
     "mode": {
       "type": "choice",
       "instructions": {
-        "task": "Select the question-generation mode best suited to the TARGET BLOCK: lookup, practitioner, semantic, or skip. Assess the strongest usable information need in the target, not the document as a whole. Do not generate questions or answers.",
+        "task": "Which question-generation mode best fits the TARGET BLOCK: lookup, practitioner, semantic, or skip? Select one mode; do not generate questions or answers.",
         "input_structure": {
-          "### TARGET BLOCK": "The passage that questions must be about. Every answer must be fully stated here.",
-          "### REFERENCED DOCUMENTS": "Documents cited by the target, with symbols, titles, and text. These help interpretation but cannot supply answers.",
-          "### DOCUMENT CONTEXT": "Surrounding passages from the same document. These resolve names, dates, speakers, and situations but cannot supply answers."
+          "### TARGET BLOCK": "The passage questions must be about. Every answer must be fully stated here.",
+          "### REFERENCED DOCUMENTS": "Cited documents supplied for interpretation, not as answer sources.",
+          "### DOCUMENT CONTEXT": "Surrounding text that resolves names, dates, speakers, and situations, not an additional answer source."
         },
-        "metadata": "The target opens with a language tag, document symbol, and title. These help identify the source type, author or organ, date, and subject. Different-language versions represent the same passage. All modes are available for all document types, including resolutions, reports, letters, and PV/SR meeting records.",
-        "source_interpretation": "Resolve the actual speaker, reporting source, or responsible body from the target and local context. Do not assume that the chair, sender, recipient, or person named in the title made the target statement. Preserve whether the content is an adopted decision, recommendation, proposal, future commitment, completed action, or attributed assessment. A reported position is not automatically an applicable rule.",
-        "usable_content": [
-          "A mode must support at least one specific, informative question with a short answer fully available in the target. Questions may use supporting material to resolve context, but not to obtain missing answer substance.",
-          "A rule merely quoted or restated from another instrument is not the target's own contribution. Consider what this target itself applies, changes, reports, or contests instead.",
-          "Exclude ceremony, generic exhortations, and unchanged recurring statements without instance-specific substance. In mixed passages, retain concrete facts, decisions, mechanisms, or assessments; a ceremonial opening does not invalidate every fact that follows.",
-          "A year alone does not make generic content distinctive. Look for a specific mission, country, body, measure, event, reporting instance, or other substantive anchor. Do not invent missing distinctions or assume repetition solely because the document belongs to a recurring series."
-        ],
+        "metadata": "The language tag, document symbol, and title help identify the source, date, and subject. Different-language versions represent the same passage. All modes are available for every document type, including PV/SR meeting records.",
         "selection": [
-          "Assess all three modes before selecting. Prefer the strongest directly supported information need, not the broadest possible wording or the mode expected to receive higher verifier scores.",
-          "For precise information, prefer practitioner when the regime, date, and necessary attribution identify the need naturally without a document locator. Prefer lookup when locating the point in a particular source is itself useful. The presence of a document symbol is not evidence that lookup is the better mode.",
-          "Prefer semantic when the target directly supports a conceptual question about a concrete situation, response, mechanism, affected party, or stated rationale. Do not turn an isolated datum into a vague how or why question, or treat broad policy language as automatically semantic.",
-          "When several modes fit different parts of the target, choose the one supporting the clearest, most specific question with the least forced framing. Precise questions are not inferior merely because they are direct; conceptual questions are not superior merely because they sound broader.",
-          "Choose skip only when no mode has usable content. Failure of one mode does not establish the suitability of another. Do not force balanced mode frequencies or favour a mode because of its position in the choices."
+          "Choose by the information need the target naturally supports: a precise point from an identified source, a dated specialist norm or fact, or a conceptual situation, response, or stakeholder question. No mode has automatic priority.",
+          "Lookup and practitioner may both fit precise content. Use the source-specific versus regime-specific distinction and the examples; neither an available identifier nor the possibility of omitting it decides the choice by itself.",
+          "Semantic needs an explicit mechanism, concrete assessment, affected-party relationship, or stated rationale. Broad policy language or the possibility of starting a question with how or why is not sufficient.",
+          "Assess usable content within mixed passages. One useful question is enough. Skip ceremony and generic or unchanged recurring content with no distinctive fact. A year alone does not make a generic statement specific.",
+          "Preserve the actual source and status of the information: a recommendation is not permission already granted, and a delegation claim is not established fact. A quoted rule from another instrument is not the target's own contribution.",
+          "The examples show preferred routes for their inputs, not exclusive eligibility or desired mode frequencies. Apply their distinctions to the current state; do not classify by shared country names or document symbols."
+        ],
+        "examples_note": "These examples retain the full target blocks from the reviewed UN export; context_summary condenses only supporting context. The labels are reviewed routing preferences, not copied verifier-score winners.",
+        "examples": [
+          {
+            "input": {
+              "document_symbol": "A/RES/57/326",
+              "title": "Resolution adopted by the General Assembly",
+              "target_block": [
+                "1. Takes note of the status of contributions to the United Nations Interim Administration Mission in Kosovo as at 31 March 2003, including the contributions outstanding in the amount of 105.2 million United States dollars, representing some 7 per cent of the total assessed contributions, notes with concern that only thirty-three Member States have paid their assessed contributions in full, and urges all other Member States, in particular those in arrears, to ensure payment of their outstanding assessed contributions;",
+                "2. Expresses its appreciation to those Member States which have paid their assessed contributions in full, and urges all other Member States to make every possible effort to ensure payment of their assessed contributions to the Mission in full;",
+                "3. Expresses concern at the financial situation with regard to peacekeeping activities, in particular as regards the reimbursements to troop contributors that bear additional burdens owing to overdue payments by Member States of their assessments;"
+              ],
+              "context_summary": "General Assembly financing of the United Nations Interim Administration Mission in Kosovo; the financial snapshot is explicitly dated 31 March 2003.",
+              "referenced_documents": []
+            },
+            "selected_mode": "practitioner",
+            "reason": "The distinctive content is a dated financial snapshot: outstanding contributions, their share, and the number of fully paying States. A specialist can ask directly about this mission and date. The surrounding payment appeals do not provide a comparably useful conceptual question."
+          },
+          {
+            "input": {
+              "document_symbol": "S/RES/1814(2008)",
+              "title": "Resolution 1814 (2008)",
+              "target_block": [
+                "14. Requests the Secretary-General to establish an effective capacity within UNPOS to monitor and enhance the protection of human rights in Somalia, and to ensure coordination, as appropriate, between UNPOS, the Office of the High Commissioner for Human Rights and the Human Rights Council Independent Expert, and further requests the Secretary-General to report on progress in achieving this in the report referred to in paragraph 5 above;",
+                "15. Supports the ongoing efforts of the United Nations, the African Union and interested Member States, in close cooperation with the TFG, to develop security sector institutions in Somalia, and requests the SRSG to enhance his coordination role in this area, aligning relevant United Nations programmes and Member States' activities;",
+                "16. Condemns all and any violations of human rights and international humanitarian law, calls upon all parties in Somalia to respect fully their obligations in this regard, and calls for those responsible for such violations in Somalia to be brought to justice;"
+              ],
+              "context_summary": "Security Council resolution adopted on 15 May 2008. UNPOS is the United Nations Political Office for Somalia; SRSG is the Special Representative of the Secretary-General.",
+              "referenced_documents": []
+            },
+            "selected_mode": "semantic",
+            "reason": "The target specifies how international support for Somalia's security institutions is to be coordinated, by aligning programmes and activities. This supports a concrete response or mechanism question, not merely a generic appeal to cooperate. Retain the requested rather than completed status."
+          },
+          {
+            "input": {
+              "document_symbol": "A/C.5/56/46",
+              "title": "Letter dated 27 June 2002 from the Acting President of the General Assembly addressed to the Chairman of the Fifth Committee",
+              "target_block": [
+                "Although the International Monetary Fund (IMF) had suspended its programme for Guinea-Bissau and donors were showing wariness, efforts were being made to respond to related concerns.",
+                "50. The Committee noted that Guinea-Bissau was negotiating a repayment schedule for its outstanding contributions to OAU.",
+                "It was informed, however, that, while the Government would like to consider a schedule of payments of its arrears to the United Nations, it was not in a position to do so, given its present situation.",
+                "51. The Committee concluded that the failure of Guinea-Bissau to pay the full minimum amount necessary to avoid the application of Article 19 was due to conditions beyond its control.",
+                "It therefore recommended that Guinea-Bissau be permitted to vote until 30 June 2003.",
+                "5. The Republic of Moldova",
+                "52. The Committee had before it the text of a letter dated 15 May 2002 from the President of the General Assembly addressed to the Chairman of the Committee on Contributions, transmitting a letter dated 15 May 2002 from the Permanent Representative of the Republic of Moldova to the United Nations requesting an exemption under Article 19.",
+                "It also had before it the text of a letter dated 16 May 2002 from the Permanent Representative of the Republic of Moldova to the United Nations addressed to the Chairman of the Committee on Contributions."
+              ],
+              "context_summary": "The letter transmits an extract from the Committee on Contributions report for action by the Fifth Committee. The Committee making the recommendation in the target is the Committee on Contributions.",
+              "referenced_documents": []
+            },
+            "selected_mode": "lookup",
+            "reason": "The information sought can be a precise recommendation and proposed voting period in this particular report extract. Source-specific lookup preserves that status. The target does not establish that voting permission was granted, and the Fifth Committee is not the author of the recommendation."
+          },
+          {
+            "input": {
+              "document_symbol": "A/RES/67/276",
+              "title": "Resolution adopted by the General Assembly on 28 June 2013",
+              "target_block": [
+                "3. Expresses its appreciation to those Member States which have paid their assessed contributions in full, and urges all other Member States to make every possible effort to ensure payment of their assessed contributions to the Mission in full;",
+                "4. Expresses concern at the financial situation with regard to peacekeeping activities, in particular as regards the reimbursements to troop contributors that bear additional burdens owing to overdue payments by Member States of their assessments;",
+                "5. Emphasizes that all future and existing peacekeeping missions shall be given equal and non-discriminatory treatment in respect of financial and administrative arrangements;",
+                "6. Also emphasizes that all peacekeeping missions shall be provided with adequate resources for the effective and efficient discharge of their respective mandates;",
+                "7. Requests the Secretary-General to ensure that proposed peacekeeping budgets are based on the relevant legislative mandates;",
+                "8. Endorses the conclusions and recommendations contained in the report of the Advisory Committee on Administrative and Budgetary Questions, subject to the provisions of the present resolution, and requests the Secretary-General to ensure their full implementation;"
+              ],
+              "context_summary": "General Assembly resolution of 28 June 2013 on financing the United Nations Interim Administration Mission in Kosovo.",
+              "referenced_documents": []
+            },
+            "selected_mode": "skip",
+            "reason": "Unlike the Kosovo financial-snapshot example, this target supplies no instance-specific balance, count, or operational change. It contains payment appeals, generic budget principles, and an endorsement whose substantive recommendations are not stated. Conceptual rewording would not fix that."
+          },
+          {
+            "input": {
+              "document_symbol": "A/CN.9/SR.845",
+              "title": "United Nations Commission on International Trade Law",
+              "target_block": [
+                "The Chairperson suggested deleting the words \"by a writing\" but retaining the reference to new recommendation 186.",
+                "Having heard no objections, she said she took it that the Committee wished to adopt recommendation 188, as amended.",
+                "Recommendation 188, as amended, was adopted.",
+                "Proposed new recommendations 189 and 190 (options A and B)",
+                "Mr. Macdonald (Canada) said that proposed new recommendation 190 under both options A and B was based on original recommendation 192.",
+                "Original recommendation 190, which referred only to consumer goods, had become redundant because its content had been addressed in proposed new recommendation 188, under which retention of title in consumer goods was effective against third parties upon conclusion of the sales contract.",
+                "Original recommendation 191 had also become redundant because its substance had been addressed in proposed new recommendation 184.",
+                "Ms. Stanivuković (Serbia), supported by Mr. Macdonald (Canada), proposed stating in subparagraph (b) of new recommendation 189 under both options that a notice relating to the retention-of-title or financial lessor's right should be registered in the general security rights registry."
+              ],
+              "context_summary": "2007 UNCITRAL consideration of the draft Legislative Guide on Secured Transactions, specifically acquisition financing rights. This is the summary record of the 845th meeting.",
+              "referenced_documents": []
+            },
+            "selected_mode": "lookup",
+            "reason": "The target records a precise drafting proposal about the registry for retention-of-title or financial lessor rights. Locating that proposal in this meeting record is a natural lookup need. Preserve the Serbian proposal and Canadian support; do not present it as generally applicable law."
+          }
         ]
       },
       "criteria": {
-        "lookup": {
-          "persona": "A practitioner knows the source and wants one precise point from it.",
-          "information_need": "A measure, deadline, ceiling, criterion, mandate task, reporting arrangement, responsible body, procedure, scope, concrete figure, or attributed finding.",
-          "question_properties": "The source is an explicit locator. Two renderings differ only by replacing an accurate dated source description with its official identifier, including a PV/SR symbol when applicable. The subject anchor, necessary attribution, and absolute time remain clear in both renderings.",
-          "fit": "Best when source-specific retrieval is natural and both renderings can remain concise and self-contained. A speaker's statement must stay attributed to that speaker's State or office, not become a finding of the meeting body."
-        },
-        "practitioner": {
-          "persona": "A specialist knows the regime or operational setting and wants a precise norm or fact at a particular time, without locating a document.",
-          "information_need": "What was required, permitted, covered, due, or operationally established; a condition, exemption, mandate, deadline, ceiling, procedure, or concrete attributed fact or figure.",
-          "question_properties": "The question uses appropriate specialist terminology, an absolute time anchor, and at least two substantive anchors. It does not use an instrument or meeting record as a locator. Attribution to a State or office is allowed for concrete information reported in any document type.",
-          "fit": "Best when the precise information need stands naturally without a document reference. Preserve recommendations as recommendations and reported facts as attributed facts; do not infer binding law or implementation from a speech or proposal."
-        },
-        "semantic": {
-          "persona": "A searcher knows the situation but not the governing source or its vocabulary.",
-          "information_need": "Situation: a concrete problem, development, assessment, or stated rationale. Response: an action or mechanism and how it operates. Stakeholder: who is bound, protected, or assisted and how, or a State's position on an identifiable proposal or measure.",
-          "question_properties": "The question describes the situation in ordinary words while preserving legal terms, official names, attribution, and modality. It has a concrete substantive anchor and an absolute year or date, without document identifiers.",
-          "fit": "Best when conceptual framing captures substantive content explicitly present in the target. A figure may support a conceptual assessment, but requesting that figure by name belongs to a precise mode. Generic topics, speech summaries, and unsupported explanations do not qualify."
-        },
-        "skip": "No mode supports a specific, informative, directly answerable question about the target. This includes ceremony, generic or unchanged recurring content without a usable fact, unresolved essential attribution, and answer substance available only outside the target. Document type alone never justifies skip."
+        "lookup": "The practitioner knows the source and wants one precise point: a measure, deadline, ceiling, criterion, task, figure, procedure, recommendation, or attributed finding. Questions have two renderings, swapping a dated source description for its official identifier, including PV/SR symbols. The substantive subject, necessary attribution, and time remain clear in both.",
+        "practitioner": "The specialist knows the regime or operational setting and asks what applied, was required, covered, due, or stood at a particular time. Questions seek a precise norm, condition, mandate, deadline, figure, or concrete attributed finding, using specialist terminology, an absolute time pin, and substantive anchors. No document is used as a locator; State or office attribution is allowed, including for meeting-record facts.",
+        "semantic": "The searcher knows the situation but not the source or its vocabulary. Questions use ordinary-language descriptions to ask about a concrete situation, response mechanism, affected party, or attributed position or rationale. They retain legal terms, necessary attribution, a concrete anchor, and an absolute year or date. They do not request an isolated datum by name or invent an explanation absent from the target.",
+        "skip": "No mode supports a substantive, specific, informative question answerable from the target. Examples include ceremony, generic exhortations, unchanged boilerplate without instance-specific information, or missing essential answer substance. Document type and difficulty choosing between valid modes are not reasons to skip."
       }
     }
   }

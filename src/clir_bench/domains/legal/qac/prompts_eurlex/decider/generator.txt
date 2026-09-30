@@ -50,6 +50,56 @@ simply by the presence of a definition, number, or deadline.
 Return "skip" when neither mode is suitable, including when the target contains only boilerplate
 such as transposition, entry into force, or generic institutional review clauses.
 
+EXAMPLES
+These are illustrative excerpts from the supplied EUR-Lex generation prompts, not scored Jev errors or independently verified legislative quotations. Ellipses indicate omitted source wording.
+
+These examples illustrate routing preferences, not required mode frequencies.
+
+Example 1
+Input:
+{
+  "metadata": "Article 98 — Decisions of the jury; utilities procurement directive.",
+  "target_excerpt": "The jury shall examine the plans and projects submitted by the candidates anonymously and solely on the basis of the criteria indicated in the contest notice."
+}
+Decision:
+{"mode": "fact_pattern", "reason": "A water utility running a design contest and a jury considering unannounced criteria form a concrete case directly decided by the rule. The utility and contest details identify the regime; they are not decorative facts."}
+
+Example 2
+Input:
+{
+  "metadata": "Article 10 of Commission Directive 2010/43/EU; organisational requirements for UCITS management companies.",
+  "target_excerpt": "a compliance officer must be appointed and must be responsible for … reporting on a frequent basis, and at least annually, to the senior management on matters of compliance …"
+}
+Decision:
+{"mode": "lookup", "reason": "The natural need is the reporting frequency for a UCITS management company's compliance officer. A made-up company and country would add little to that direct point of law. Keep the UCITS regime anchor."}
+
+Example 3
+Input:
+{
+  "metadata": "Article 1 of the Euratom regulation exempting small quantities of ores, source materials and special fissile materials from the Treaty's chapter on supplies.",
+  "target_excerpt": "transfers within and imports into the Community of quantities not exceeding, per transaction a dosage of one tonne of uranium and thorium (or uranium or thorium), within a limit of five tonnes per year per user in respect of each of these materials"
+}
+Decision:
+{"mode": "fact_pattern", "reason": "The per-transaction and annual quantities can both be instantiated in a concrete import case within the stated limits. These particulars decide the exemption question, so the case adds substance rather than merely decorating a threshold lookup."}
+
+Example 4
+Input:
+{
+  "metadata": "Article 9 — Advisory body; Commission Regulation (EU) No 1300/2014, accessibility of the rail system for persons with reduced mobility.",
+  "target_excerpt": "The tasks of the advisory body shall include: (a) monitoring the development of a minimum data structure for the inventory of assets, …"
+}
+Decision:
+{"mode": "lookup", "reason": "The target assigns a specific technical task to a body in the rail-accessibility regime. Identifying that body or task is a useful direct legal lookup; the excerpt supplies no natural private-party case with two rule-relevant particulars."}
+
+Example 5
+Input:
+{
+  "metadata": "Article 2 of Commission Directive 2012/4/EU; transposition clause.",
+  "target_excerpt": "Member States shall adopt and publish, by 4 April 2012 at the latest, the laws, regulations and administrative provisions necessary to comply with this Directive …"
+}
+Decision:
+{"mode": "skip", "reason": "This is a transposition clause, not a substantive client-facing requirement. Its exact date and instrument identifier do not turn excluded boilerplate into a suitable lookup or fact pattern."}
+
 OUTPUT
 Return valid JSON only:
 {"mode": "<fact_pattern|lookup|skip>",

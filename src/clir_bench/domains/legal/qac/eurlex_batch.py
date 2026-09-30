@@ -181,7 +181,7 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
            modes: Sequence[str], strata=DEFAULT_STRATA,
            include_amending: bool = False,
            max_per_act: int = 2,
-           require_complete: bool = True) -> list[Target]:
+           require_complete: bool = True, excluded_documents: frozenset[str] = frozenset()) -> list[Target]:
     """Stratified, deterministic target selection.
 
     ``require_complete`` restricts the pool to articles whose citations are all
@@ -221,7 +221,7 @@ def select(index: ctx.ArticleIndex, *, n: int, seed: int, languages: Sequence[st
         # an article.
         if unit.unit_type != "article":
             continue
-        if unit.celex_id in bad_acts or eli in amending:
+        if unit.celex_id in bad_acts or unit.celex_id in excluded_documents or eli in amending:
             continue
         text = unit.texts.get("en", "")
         if not (MIN_CHARS <= len(text) <= MAX_CHARS):

@@ -64,6 +64,104 @@ Return "skip" when no mode is suitable, including blocks containing only ceremon
 exhortations, unchanged recurring boilerplate, or answers available only outside the target. In
 mixed blocks, assess the substantive content rather than skipping the whole block.
 
+EXAMPLES
+These examples retain the full target blocks from the reviewed UN export; context_summary condenses only supporting context. The labels are reviewed routing preferences, not copied verifier-score winners.
+
+These examples illustrate routing preferences, not required mode frequencies.
+
+Example 1
+Input:
+{
+  "document_symbol": "A/RES/57/326",
+  "title": "Resolution adopted by the General Assembly",
+  "target_block": [
+    "1. Takes note of the status of contributions to the United Nations Interim Administration Mission in Kosovo as at 31 March 2003, including the contributions outstanding in the amount of 105.2 million United States dollars, representing some 7 per cent of the total assessed contributions, notes with concern that only thirty-three Member States have paid their assessed contributions in full, and urges all other Member States, in particular those in arrears, to ensure payment of their outstanding assessed contributions;",
+    "2. Expresses its appreciation to those Member States which have paid their assessed contributions in full, and urges all other Member States to make every possible effort to ensure payment of their assessed contributions to the Mission in full;",
+    "3. Expresses concern at the financial situation with regard to peacekeeping activities, in particular as regards the reimbursements to troop contributors that bear additional burdens owing to overdue payments by Member States of their assessments;"
+  ],
+  "context_summary": "General Assembly financing of the United Nations Interim Administration Mission in Kosovo; the financial snapshot is explicitly dated 31 March 2003.",
+  "referenced_documents": []
+}
+Decision:
+{"mode": "practitioner", "reason": "The distinctive content is a dated financial snapshot: outstanding contributions, their share, and the number of fully paying States. A specialist can ask directly about this mission and date. The surrounding payment appeals do not provide a comparably useful conceptual question."}
+
+Example 2
+Input:
+{
+  "document_symbol": "S/RES/1814(2008)",
+  "title": "Resolution 1814 (2008)",
+  "target_block": [
+    "14. Requests the Secretary-General to establish an effective capacity within UNPOS to monitor and enhance the protection of human rights in Somalia, and to ensure coordination, as appropriate, between UNPOS, the Office of the High Commissioner for Human Rights and the Human Rights Council Independent Expert, and further requests the Secretary-General to report on progress in achieving this in the report referred to in paragraph 5 above;",
+    "15. Supports the ongoing efforts of the United Nations, the African Union and interested Member States, in close cooperation with the TFG, to develop security sector institutions in Somalia, and requests the SRSG to enhance his coordination role in this area, aligning relevant United Nations programmes and Member States' activities;",
+    "16. Condemns all and any violations of human rights and international humanitarian law, calls upon all parties in Somalia to respect fully their obligations in this regard, and calls for those responsible for such violations in Somalia to be brought to justice;"
+  ],
+  "context_summary": "Security Council resolution adopted on 15 May 2008. UNPOS is the United Nations Political Office for Somalia; SRSG is the Special Representative of the Secretary-General.",
+  "referenced_documents": []
+}
+Decision:
+{"mode": "semantic", "reason": "The target specifies how international support for Somalia's security institutions is to be coordinated, by aligning programmes and activities. This supports a concrete response or mechanism question, not merely a generic appeal to cooperate. Retain the requested rather than completed status."}
+
+Example 3
+Input:
+{
+  "document_symbol": "A/C.5/56/46",
+  "title": "Letter dated 27 June 2002 from the Acting President of the General Assembly addressed to the Chairman of the Fifth Committee",
+  "target_block": [
+    "Although the International Monetary Fund (IMF) had suspended its programme for Guinea-Bissau and donors were showing wariness, efforts were being made to respond to related concerns.",
+    "50. The Committee noted that Guinea-Bissau was negotiating a repayment schedule for its outstanding contributions to OAU.",
+    "It was informed, however, that, while the Government would like to consider a schedule of payments of its arrears to the United Nations, it was not in a position to do so, given its present situation.",
+    "51. The Committee concluded that the failure of Guinea-Bissau to pay the full minimum amount necessary to avoid the application of Article 19 was due to conditions beyond its control.",
+    "It therefore recommended that Guinea-Bissau be permitted to vote until 30 June 2003.",
+    "5. The Republic of Moldova",
+    "52. The Committee had before it the text of a letter dated 15 May 2002 from the President of the General Assembly addressed to the Chairman of the Committee on Contributions, transmitting a letter dated 15 May 2002 from the Permanent Representative of the Republic of Moldova to the United Nations requesting an exemption under Article 19.",
+    "It also had before it the text of a letter dated 16 May 2002 from the Permanent Representative of the Republic of Moldova to the United Nations addressed to the Chairman of the Committee on Contributions."
+  ],
+  "context_summary": "The letter transmits an extract from the Committee on Contributions report for action by the Fifth Committee. The Committee making the recommendation in the target is the Committee on Contributions.",
+  "referenced_documents": []
+}
+Decision:
+{"mode": "lookup", "reason": "The information sought can be a precise recommendation and proposed voting period in this particular report extract. Source-specific lookup preserves that status. The target does not establish that voting permission was granted, and the Fifth Committee is not the author of the recommendation."}
+
+Example 4
+Input:
+{
+  "document_symbol": "A/RES/67/276",
+  "title": "Resolution adopted by the General Assembly on 28 June 2013",
+  "target_block": [
+    "3. Expresses its appreciation to those Member States which have paid their assessed contributions in full, and urges all other Member States to make every possible effort to ensure payment of their assessed contributions to the Mission in full;",
+    "4. Expresses concern at the financial situation with regard to peacekeeping activities, in particular as regards the reimbursements to troop contributors that bear additional burdens owing to overdue payments by Member States of their assessments;",
+    "5. Emphasizes that all future and existing peacekeeping missions shall be given equal and non-discriminatory treatment in respect of financial and administrative arrangements;",
+    "6. Also emphasizes that all peacekeeping missions shall be provided with adequate resources for the effective and efficient discharge of their respective mandates;",
+    "7. Requests the Secretary-General to ensure that proposed peacekeeping budgets are based on the relevant legislative mandates;",
+    "8. Endorses the conclusions and recommendations contained in the report of the Advisory Committee on Administrative and Budgetary Questions, subject to the provisions of the present resolution, and requests the Secretary-General to ensure their full implementation;"
+  ],
+  "context_summary": "General Assembly resolution of 28 June 2013 on financing the United Nations Interim Administration Mission in Kosovo.",
+  "referenced_documents": []
+}
+Decision:
+{"mode": "skip", "reason": "Unlike the Kosovo financial-snapshot example, this target supplies no instance-specific balance, count, or operational change. It contains payment appeals, generic budget principles, and an endorsement whose substantive recommendations are not stated. Conceptual rewording would not fix that."}
+
+Example 5
+Input:
+{
+  "document_symbol": "A/CN.9/SR.845",
+  "title": "United Nations Commission on International Trade Law",
+  "target_block": [
+    "The Chairperson suggested deleting the words \"by a writing\" but retaining the reference to new recommendation 186.",
+    "Having heard no objections, she said she took it that the Committee wished to adopt recommendation 188, as amended.",
+    "Recommendation 188, as amended, was adopted.",
+    "Proposed new recommendations 189 and 190 (options A and B)",
+    "Mr. Macdonald (Canada) said that proposed new recommendation 190 under both options A and B was based on original recommendation 192.",
+    "Original recommendation 190, which referred only to consumer goods, had become redundant because its content had been addressed in proposed new recommendation 188, under which retention of title in consumer goods was effective against third parties upon conclusion of the sales contract.",
+    "Original recommendation 191 had also become redundant because its substance had been addressed in proposed new recommendation 184.",
+    "Ms. Stanivuković (Serbia), supported by Mr. Macdonald (Canada), proposed stating in subparagraph (b) of new recommendation 189 under both options that a notice relating to the retention-of-title or financial lessor's right should be registered in the general security rights registry."
+  ],
+  "context_summary": "2007 UNCITRAL consideration of the draft Legislative Guide on Secured Transactions, specifically acquisition financing rights. This is the summary record of the 845th meeting.",
+  "referenced_documents": []
+}
+Decision:
+{"mode": "lookup", "reason": "The target records a precise drafting proposal about the registry for retention-of-title or financial lessor rights. Locating that proposal in this meeting record is a natural lookup need. Preserve the Serbian proposal and Canadian support; do not present it as generally applicable law."}
+
 OUTPUT
 Return valid JSON only:
 {"mode": "<lookup|practitioner|semantic|skip>",

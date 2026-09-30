@@ -1,0 +1,9 @@
+﻿subset,backend,n,complete_comparisons,routed,scored_selected,skipped,missed_score_opportunities,selected_mode_unproductive_despite_alternative,oracle_available,matches_oracle,mean_selected_score_when_available,mean_regret_when_scored,mean_utility_zero_for_skip_or_no_candidate,mean_audit_clear_utility,mean_oracle_utility
+un_all,generator,50,50,50,45,0,0,2,47,27,29.844444444444445,1.4444444444444444,26.86,15.52,29.34
+un_all,jev,50,50,41,38,9,6,3,47,26,30.44736842105263,1,23.14,16.8,29.34
+un_without_meetings,generator,30,30,30,26,0,0,1,27,19,30.692307692307693,0.8076923076923077,26.6,16.566666666666666,28.2
+un_without_meetings,jev,30,30,25,23,5,2,2,27,13,30.17391304347826,1.3043478260869565,23.133333333333333,15.433333333333334,28.2
+un_meetings_only,generator,20,20,20,19,0,0,1,20,8,28.68421052631579,2.3157894736842106,27.25,13.95,31.05
+un_meetings_only,jev,20,20,16,15,4,4,1,20,13,30.866666666666667,0.5333333333333333,23.15,18.85,31.05
+eurlex_all,generator,50,50,39,38,11,0,1,39,8,33.05263157894737,2.3947368421052633,25.12,22.98,27.68
+eurlex_all,jev,50,50,40,39,10,0,0,39,37,35.43589743589744,0.05128205128205128,27.64,26.3,27.68
