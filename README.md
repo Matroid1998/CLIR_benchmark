@@ -173,6 +173,75 @@ Jev uses `OPENROUTER_API_KEY`, model `~typesafe/jev-latest`, and
 criteria are sent directly; it returns a typed choice rather than a prose reason.
 The four decider templates are packaged in each legal prompt pack's `decider/` directory.
 
+### Legal prompt versions in local MLflow
+
+The [MLflow Prompt Registry](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.client.html#mlflow.client.MlflowClient.register_prompt)
+runs locally with SQLite and requires no account, API key, or server. Install its
+optional dependencies with `uv sync --extra prompts`. The default database is
+`.clir/prompts.db` at the workspace root; override it with
+`CLIR_PROMPT_REGISTRY_URI=sqlite:////absolute/path/to/prompts.db` or `--registry-uri`.
+
+After editing prompts, publish all EUR-Lex and UN templates and activate their
+pinned snapshot for subsequent legal runs:
+
+```bash
+python -m clir_bench.core.prompt_registry sync \
+  --bundle legal-next --label legal-next \
+  --output reports/prompt_versions/legal-next.json
+python -m clir_bench.core.prompt_registry activate \
+  --manifest reports/prompt_versions/legal-next.json \
+  --label production
+clir --domain legal qac generate --source eurlex un --langs en --questions 100
+```
+
+`sync` includes all 48 current templates: every language and supported legacy mode,
+not just the sixteen English prompts compared by the experiment. Other languages
+therefore remain available after activation. To publish a saved snapshot, use
+`publish --prompts path/to/prompts.json` with the same bundle, label and output
+arguments. The JSON maps logical keys, such as `un/generation/practitioner`, to
+exact prompt text; supplemental evaluation prompts may be included.
+
+Each publication records MLflow names, immutable version numbers, text SHA-256,
+and exact text in a self-contained manifest. Repeating the same experiment alias
+and text is idempotent. Changed text needs a new alias and manifest path; existing
+experiment aliases cannot silently move. The SDK supports moving aliases, but
+runtime reads pinned manifest text, so alias changes cannot change an ongoing run.
+
+`activate` verifies every pinned version, sets the chosen deployment alias and
+atomically writes `.clir/active_prompt_manifest.json`. Later legal loads discover
+this file from the workspace root or its subdirectories. Explicit
+`CLIR_PROMPT_MANIFEST=/absolute/path/to/manifest.json` selects a different run pin.
+Missing prompt keys or invalid hashes fail rather than falling back to edited
+local files. Jev JSON remains exact text until its native request is built.
+
+Before first activation, package prompts remain available. For intentional
+unregistered development, set `CLIR_PROMPT_SOURCE=local`; it bypasses the default
+active snapshot and cannot be combined with an explicit manifest. Tests can use
+`CLIR_PROMPT_SOURCE=local python -m pytest`. Keep immutable experiment manifests
+with their runs and preserve `.clir/prompts.db` to retain registry history.
+
+Activation updates aliases individually before replacing the local active
+snapshot; retry activation if interrupted. Existing active runs retain their
+snapshot. Normal publication does not activate a bundle automatically.
+
+For a paired prompt experiment, `python -m clir_bench.domains.legal.qac.screening`
+accepts `--selection previous/run/selection.json --prompt-manifest version/manifest.json`
+and an independent `--output` directory. It rebuilds and verifies the exact saved source
+payloads before making calls, then runs both deciders and all eligible generation modes.
+`screening_analysis` exports the native results. `screening_repair --recovery-only`
+can recover schema-only failures from recorded responses without new model calls;
+repairs retain pinned prompts and their own audit log.
+
+`python -m clir_bench.domains.legal.qac.experiment_evaluation` compares completed runs
+using one pinned, mode-blind rubric; identical pairs are graded once across versions.
+`reports/prompt_experiments/compare_versions.py` writes a standalone HTML report and
+paired CSV summaries. Its optional `--mlflow-registry-uri` logs aggregate experiment
+metrics alongside the registered prompts. See each command's `--help` and the
+[September 2026 experiment design](reports/prompt_experiments/legal_20260930/experiment_design.json)
+for the frozen sample, models, criteria and limitations. The
+[experiment findings](reports/prompt_experiments/legal_20260930/findings.html)
+record the completed reruns, controlled router comparisons, and current evaluation status.
+
 ```bash
 clir --domain legal qac generate --source eurlex --langs en \
   --modes lookup fact_pattern --questions-per-mode 15 \

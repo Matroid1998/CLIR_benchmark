@@ -29,7 +29,12 @@ chem = [
     "google-cloud-bigquery>=3.0.0",  # Google Patents extraction
     "stream-unzip>=0.0.96",  # EPO BDDS archive streaming
 ]
-all = ["clir-benchmark[eval,chem]"]
+all = ["clir-benchmark[eval,chem,prompts]"]
+prompts = [
+    "alembic>=1.13",
+    "mlflow-skinny>=3.0,<4",
+    "sqlalchemy>=2,<3",
+]
 
 [project.scripts]
 clir = "clir_bench.cli:main"
@@ -50,6 +55,7 @@ testpaths = ["tests"]
 
 [dependency-groups]
 dev = [
+    "pytest>=9",
     "ruff>=0.16.5",
 ]
 

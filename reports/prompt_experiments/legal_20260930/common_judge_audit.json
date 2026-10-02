@@ -1,0 +1,254 @@
+{
+  "status": "Partial descriptive audit of saved common-evaluator outputs; not a population estimate or corrected scoring result.",
+  "review_set": {
+    "source": "reports/prompt_experiments/legal_20260930/eurlex_case_review.json",
+    "reviewed_memberships": 10,
+    "completed_memberships": 4,
+    "missing_memberships": 6
+  },
+  "limitations": [
+    "The three target cases were purposively selected for native-grade review, not sampled to estimate judge error prevalence.",
+    "Only four of ten reviewed memberships have completed common grades at this checkpoint; missing grades remain missing.",
+    "All scores and reasons are copied from saved outputs. No replacement grades or population-quality estimates are supplied.",
+    "A frozen common rubric supports comparison but does not make its model judgments ground truth; actual noncompliance and mistaken evidence descriptions are documented here."
+  ],
+  "memberships": [
+    {
+      "version": "baseline",
+      "candidate_id": "q_cd43a80b91a286b3aa564e58",
+      "blind_id": "c_ecb3b898dfa048acf80a00cd",
+      "evaluation_status": "missing",
+      "case_id": "eurlex_paper_rolls_threshold_application",
+      "target_id": "http://data.europa.eu/eli/reg_impl/2011/452/art_1/oj",
+      "question": "A shipment of coated fine paper originating in the People's Republic of China consists of rolls weighing 80 g/m2 with brightness of 86; when tested under ISO 3783:2006, the rolls give results of 25 N/m in the cross-direction and 45 N/m in the machine direction. The paper is not multi-ply. Is it subject to the definitive countervailing duty?",
+      "answer": "The definitive countervailing duty does not concern rolls suitable for use in web-fed presses.",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv"
+    },
+    {
+      "version": "debiased",
+      "candidate_id": "q_2168e36f17dbcef78e9466cd",
+      "blind_id": "c_9d2584dbf60d3ee3fb1c031e",
+      "evaluation_status": "missing",
+      "case_id": "eurlex_paper_rolls_threshold_application",
+      "target_id": "http://data.europa.eu/eli/reg_impl/2011/452/art_1/oj",
+      "question": "A producer in the People's Republic of China exports coated fine paper in rolls, weighing 120 g/m2 with brightness of 90. When tested under the specified ISO method, the rolls give results of 25 N/m in the cross-direction and 45 N/m in the machine direction. Does the definitive countervailing duty cover these rolls?",
+      "answer": "The definitive countervailing duty does not concern rolls suitable for use in web-fed presses.",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv"
+    },
+    {
+      "version": "debiased",
+      "candidate_id": "q_97e4ad634af07318ccd23d98",
+      "blind_id": "c_d12454f48905d9e81dcdab0d",
+      "evaluation_status": "missing",
+      "case_id": "eurlex_paper_rolls_threshold_application",
+      "target_id": "http://data.europa.eu/eli/reg_impl/2011/452/art_1/oj",
+      "question": "Does the definitive countervailing duty on coated fine paper originating in the People's Republic of China cover rolls suitable for use in web-fed presses?",
+      "answer": "The definitive countervailing duty does not concern rolls suitable for use in web-fed presses.",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv"
+    },
+    {
+      "version": "baseline",
+      "candidate_id": "q_c42c209d3ad4879d2a693a61",
+      "blind_id": "c_afd1ed7cdfdbcf0425c0af60",
+      "evaluation_status": "completed",
+      "case_id": "eurlex_finnish_vat_category",
+      "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+      "question": "A Finnish publisher supplies newspapers to readers by subscription. Does this activity fall within a category for which an exemption with deductibility of VAT paid at the preceding stage may continue?",
+      "answer": "by Finland in respect of the supply of newspapers and periodicals sold by subscription",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv",
+      "saved_common_scores": {
+        "grounding": 4,
+        "answer_resolution": 4,
+        "retrievability": 4,
+        "information_value": 4,
+        "clarity": 4
+      },
+      "saved_total": 20,
+      "saved_usable": true,
+      "saved_reasons": {
+        "grounding": "The span supports the match, but the Article 110 conditions are not noted, which is a minor omission.",
+        "answer_resolution": "The span resolves whether the category is listed, though the truncated quote omits periodicals.",
+        "retrievability": "Finland, subscription and newspapers are good anchors.",
+        "information_value": "It applies facts to the rule, which is useful.",
+        "clarity": "The scenario is clear and the ask is bounded."
+      }
+    },
+    {
+      "version": "debiased",
+      "candidate_id": "q_12b121ba6114f9eb8f0c367d",
+      "blind_id": "c_d83b727de40898fcd43c5304",
+      "evaluation_status": "completed",
+      "case_id": "eurlex_finnish_vat_category",
+      "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+      "question": "A Finnish publisher supplies periodicals sold by subscription to readers. Is this one of the categories for which an exemption with deductibility of the VAT paid at the preceding stage may continue to be granted?",
+      "answer": "by Finland in respect of the supply of newspapers and periodicals sold by subscription",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv",
+      "saved_common_scores": {
+        "grounding": 4,
+        "answer_resolution": 4,
+        "retrievability": 4,
+        "information_value": 4,
+        "clarity": 4
+      },
+      "saved_total": 20,
+      "saved_usable": true,
+      "saved_reasons": {
+        "grounding": "The span supports the match, but conditions are not mentioned.",
+        "answer_resolution": "It resolves the category question, though the quote is truncated.",
+        "retrievability": "Finland, periodicals and subscription are clear anchors.",
+        "information_value": "It tests categorisation, a real unknown.",
+        "clarity": "The wording is clear and bounded."
+      }
+    },
+    {
+      "version": "debiased",
+      "candidate_id": "q_8f80cbed4c025c95a0363def",
+      "blind_id": "c_20c95470c0bb1ebf5e1d0d82",
+      "evaluation_status": "completed",
+      "case_id": "eurlex_finnish_vat_category",
+      "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+      "question": "Which Finnish supplies may continue to be granted VAT exemptions with deductibility of the VAT paid at the preceding stage?",
+      "answer": "by Finland in respect of the supply of newspapers and periodicals sold by subscription and the printing of publications distributed to the members of corporations for the public good",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv",
+      "saved_common_scores": {
+        "grounding": 5,
+        "answer_resolution": 5,
+        "retrievability": 5,
+        "information_value": 5,
+        "clarity": 5
+      },
+      "saved_total": 25,
+      "saved_usable": true,
+      "saved_reasons": {
+        "grounding": "The span is verbatim from Article 111(a).",
+        "answer_resolution": "It gives the full Finnish list.",
+        "retrievability": "Finland and the exemption with deductibility regime are distinctive anchors.",
+        "information_value": "It resolves which Finnish supplies qualify.",
+        "clarity": "The question is clear and bounded."
+      }
+    },
+    {
+      "version": "baseline",
+      "candidate_id": "q_074e443fc67a6d0f0c81daf5",
+      "blind_id": "c_1aa8e37990da327f65a8c1bc",
+      "evaluation_status": "missing",
+      "case_id": "eurlex_banana_notification_scope",
+      "target_id": "http://data.europa.eu/eli/reg_impl/2011/1333/art_11/oj",
+      "question": "A national agriculture authority is preparing the notification for the January to April reporting period of a calendar year. By when must it make that notification?",
+      "answer": "at the latest by the fifteenth day of the second month following the reporting period",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv"
+    },
+    {
+      "version": "debiased",
+      "candidate_id": "q_d15dac61c50db9ad5f0a57fc",
+      "blind_id": "c_6372bad8503569b49f177067",
+      "evaluation_status": "missing",
+      "case_id": "eurlex_banana_notification_scope",
+      "target_id": "http://data.europa.eu/eli/reg_impl/2011/1333/art_11/oj",
+      "question": "A Portuguese agricultural authority is preparing the notification for the January to April reporting period concerning Union-produced bananas marketed in Madeira, the Azores and the Algarve. By when must the notification be made?",
+      "answer": "at the latest by the fifteenth day of the second month following the reporting period",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv"
+    },
+    {
+      "version": "debiased",
+      "candidate_id": "q_0a5aa2ee54feac15d47c3e2d",
+      "blind_id": "c_21f7fc8dddddc01e589f0f69",
+      "evaluation_status": "missing",
+      "case_id": "eurlex_banana_notification_scope",
+      "target_id": "http://data.europa.eu/eli/reg_impl/2011/1333/art_11/oj",
+      "question": "By what deadline must Member States make banana-sector notifications for each reporting period?",
+      "answer": "at the latest by the fifteenth day of the second month following the reporting period",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv"
+    },
+    {
+      "version": "debiased",
+      "candidate_id": "q_7b19764fa59d0b2ba2855c6c",
+      "blind_id": "c_65f30386d636d13a7fd8e547",
+      "evaluation_status": "completed",
+      "case_id": "eurlex_banana_notification_scope",
+      "target_id": "http://data.europa.eu/eli/reg_impl/2011/1333/art_11/oj",
+      "question": "A Cypriot agricultural authority is reporting on Union-produced green bananas marketed in the Union outside Cyprus, with the goods still on board when they reach the first port of unloading. What price information must it include?",
+      "answer": "the average selling prices for green bananas at the stage of delivery at first port of unloading (goods not unloaded) in respect of bananas produced in the Union which are marketed in the Union outside their region of production",
+      "evidence_csv": "reports/prompt_experiments/legal_20260930/common/candidate_scores.csv",
+      "saved_common_scores": {
+        "grounding": 5,
+        "answer_resolution": 4,
+        "retrievability": 4,
+        "information_value": 4,
+        "clarity": 3
+      },
+      "saved_total": 20,
+      "saved_usable": true,
+      "saved_reasons": {
+        "grounding": "Matches (c); Cyprus is a listed region, so the application is supported.",
+        "answer_resolution": "Identifies the required price item; the quoted span is long but complete.",
+        "retrievability": "Specific anchors: first port of unloading, green bananas, outside the region.",
+        "information_value": "A scenario tests which item applies.",
+        "clarity": "Wordy; 'goods still on board' is a paraphrase of 'not unloaded'."
+      }
+    }
+  ],
+  "case_checks": [
+    {
+      "case_id": "eurlex_finnish_vat_category",
+      "version": "baseline",
+      "candidate_id": "q_c42c209d3ad4879d2a693a61",
+      "finding_type": "rubric_noncompliance",
+      "exact_judge_reason": "The span supports the match, but the Article 110 conditions are not noted, which is a minor omission.",
+      "exact_common_rule": "Judge only the actual ask: identifying a listed category does not require proving every\ncondition for final entitlement.",
+      "assessment": "The question expressly asks whether the activity belongs to a listed category. The grounding deduction demands additional entitlement conditions despite the frozen category-only rule. The paired revised lookup also omits those conditions and receives full grounding."
+    },
+    {
+      "case_id": "eurlex_finnish_vat_category",
+      "version": "debiased",
+      "candidate_id": "q_12b121ba6114f9eb8f0c367d",
+      "finding_type": "rubric_noncompliance",
+      "exact_judge_reason": "The span supports the match, but conditions are not mentioned.",
+      "exact_common_rule": "Judge only the actual ask: identifying a listed category does not require proving every\ncondition for final entitlement.",
+      "assessment": "The question expressly asks whether the activity belongs to a listed category. The grounding deduction demands additional entitlement conditions despite the frozen category-only rule. The paired revised lookup also omits those conditions and receives full grounding."
+    },
+    {
+      "case_id": "eurlex_finnish_vat_category",
+      "version": "baseline",
+      "candidate_id": "q_c42c209d3ad4879d2a693a61",
+      "finding_type": "demonstrably_false_answer_description",
+      "exact_judge_reason": "The span resolves whether the category is listed, though the truncated quote omits periodicals.",
+      "exact_saved_answer": "by Finland in respect of the supply of newspapers and periodicals sold by subscription",
+      "check": {
+        "alleged_omitted_word": "periodicals",
+        "word_present_in_saved_answer": true
+      },
+      "assessment": "The judge says the quote omits periodicals, but the exact answer includes 'newspapers and periodicals sold by subscription'. This factual criticism is incorrect."
+    },
+    {
+      "case_id": "eurlex_banana_notification_scope",
+      "version": "debiased",
+      "candidate_id": "q_7b19764fa59d0b2ba2855c6c",
+      "finding_type": "unsupported_case_fact_assumption",
+      "exact_judge_reason": "Matches (c); Cyprus is a listed region, so the application is supported.",
+      "exact_saved_question": "A Cypriot agricultural authority is reporting on Union-produced green bananas marketed in the Union outside Cyprus, with the goods still on board when they reach the first port of unloading. What price information must it include?",
+      "source_condition": "in respect of bananas produced in the Union which are marketed in the Union outside their region of production",
+      "assessment": "The question identifies a Cypriot authority and Union-produced bananas marketed outside Cyprus. It does not identify Cyprus as the production region. Cyprus being a listed production region does not establish that these bananas were produced there. The common judge misses the same decisive-fact gap as the native graders."
+    }
+  ],
+  "failed_response_contract_audit": {
+    "task": "common/0d7621e07cdfe6bbdba5fae1899515f85e39bdcf06b1fe25b0c886352f8d1087",
+    "provider_response_id": "gen-1790798336-Cum8ku4x4mIFdKpKPVLh",
+    "candidate_count": 6,
+    "structure": "Exact wrapper, all six candidate IDs, input order and zero-based indices are correct; all five score keys are present for every candidate.",
+    "incomplete_candidate_id": "c_331c2b5ceac81de3398ef97e",
+    "exact_invalid_reason_fields": {
+      "information_value": 3,
+      "clarity": 5
+    },
+    "individually_complete_candidate_ids": [
+      "c_d32709ddc3641c82cbbf77eb",
+      "c_5374eee55b07efb50c22a5bb",
+      "c_a0968a410991e533462a2d48",
+      "c_6d6d58372760d90faf39acc8",
+      "c_b01ec75d9434f8d260f4fdb6"
+    ],
+    "assessment": "Two required explanations are genuinely absent: numeric values were returned instead of text. Full-batch completion cannot be recovered by structural normalization. Five other candidate records validate individually; preserving them would need explicit partial-result recovery rather than completing this batch.",
+    "mutated": false
+  }
+}

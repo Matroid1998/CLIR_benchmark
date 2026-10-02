@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "parent_run": "/home/mehdi/Projects/CLIR_benchmark/reports/prompt_experiments/legal_20260930/simple/run",
+  "original_failed_tasks": 14,
+  "recovered_tasks": 14,
+  "recovered_candidates": 39,
+  "new_provider_calls": 0,
+  "repair_policy": {
+    "exact_prompt_snapshot": true,
+    "legacy_count_hint": false,
+    "prompts_sha256": "490186d83ec124579b3118d0476e2f620e40b627d049151af9efefe04a9b49dd"
+  },
+  "selection_policy": "Earliest recorded response with one unambiguous complete schema-valid batch after only explicitly recorded structural repairs. Existing completed grades are reused.",
+  "tasks": [
+    {
+      "task": "mode/eurlex/http://data.europa.eu/eli/reg/2006/1083/art_47/oj/lookup",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_6baa4b6945ded92974a58481",
+        "q_5848d7ca2efad6ad929990d7",
+        "q_2ec8c00424b7d72e7c555417"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "b11ea7f6d4604e4db84d3f3be95eaeff",
+        "transforms": [
+          {
+            "candidate_id": "q_2ec8c00424b7d72e7c555417",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_6baa4b6945ded92974a58481",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/eurlex/http://data.europa.eu/eli/reg/2011/492/art_17/oj/fact_pattern",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality response must have exactly: candidates, batch_diversity",
+      "candidate_ids": [
+        "q_b00153045725dfc9697df83c"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "5b8377d6de2f4e0c91deaafd45cb9ad6",
+        "transforms": [
+          {
+            "from": "candidates[0].batch_diversity",
+            "operation": "move",
+            "to": "batch_diversity",
+            "value": "not_applicable"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/eurlex/http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj/lookup",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_4139993fbff6a27f3f9ef7d4",
+        "q_4aaaec5798a4f2f33cc4246e",
+        "q_7a97e1b5813a05146fa95b9c"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "282ef22f61a947e58f00ef1e2fa6fb01",
+        "transforms": [
+          {
+            "candidate_id": "q_4139993fbff6a27f3f9ef7d4",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_4aaaec5798a4f2f33cc4246e",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2000/cd/pv_841#11/lookup",
+      "status": "completed",
+      "original_error": "faithfulness: RuntimeError: faithfulness failed after 3 attempts: JSONDecodeError: Extra data: line 1 column 1041 (char 1040)",
+      "candidate_ids": [
+        "q_c73b641385bc5e54244399c7",
+        "q_7570c73764eb09443f81a460",
+        "q_a55ee2e0c499e2d13b245892"
+      ],
+      "faithfulness": {
+        "method": "earliest response with exactly one schema-valid grade array",
+        "source_request_id": "4a34623f8f12487ab09a243d1f040e0f"
+      }
+    },
+    {
+      "task": "mode/un/2001/cd/pv_880#1/lookup",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_596fa0a4e6170290067dfbd3",
+        "q_c736d1955b18405d6c28756f",
+        "q_41e4b92b884b031671f3ab73"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "1ad243a7f1a549d3989956c43cfd00a3",
+        "transforms": [
+          {
+            "candidate_id": "q_c736d1955b18405d6c28756f",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2001/s/res/1376_2001_#2/lookup",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: JSONDecodeError: Extra data: line 3 column 1 (char 1000)",
+      "candidate_ids": [
+        "q_24261496f41feae9007ab787",
+        "q_01cc2c6928e86ee2a2747c6e",
+        "q_30147879329668e52f0aae1f"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "6f5f56115a4847deb01d0436b877d4ec",
+        "transforms": [
+          {
+            "end_character": 3793,
+            "operation": "extract_unique_complete_quality_object",
+            "start_character": 1008
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2003/a/res/58/298#4/practitioner",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_e000b0ac0ee9360558b7c29c",
+        "q_45215b9fdcd983b91d2cd7e2",
+        "q_1e9d19c16bd117633679d948"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "385bb939bd3c45559ba1d25a72e0fcf0",
+        "transforms": [
+          {
+            "candidate_id": "q_1e9d19c16bd117633679d948",
+            "index": 0,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_e000b0ac0ee9360558b7c29c",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_45215b9fdcd983b91d2cd7e2",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2004/s/2004/505#15/lookup",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_371ab9efe4baaa62552ccfb8",
+        "q_e55029e6a278351d2fa5502d",
+        "q_7b76f98f43754156454a9ac2"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "8d1b7af8233f4e4d8c53bb0ebd93d4da",
+        "transforms": [
+          {
+            "candidate_id": "q_7b76f98f43754156454a9ac2",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_371ab9efe4baaa62552ccfb8",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2005/a/res/60/226#3/practitioner",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_8873839e9a9c93a7dcf3c3cc",
+        "q_f1c889ed6350d4d8dc8baf53"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "fd216761ae44404198b358c834d825fd",
+        "transforms": [
+          {
+            "candidate_id": "q_8873839e9a9c93a7dcf3c3cc",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2006/ccw/conf_iii/sr_2#8/practitioner",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_3d6ad41b7ee9ac40b4fef6e6",
+        "q_31aa29a672d0f98e1cb5374d",
+        "q_901cb4be43a168e8e7ac87f4"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "c5d81f8e71564291946614b82db8d100",
+        "transforms": [
+          {
+            "candidate_id": "q_3d6ad41b7ee9ac40b4fef6e6",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_901cb4be43a168e8e7ac87f4",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2008/s/res/1806_2008_#8/practitioner",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_d21843fe0b2124533e0a4397",
+        "q_78d4b5da5207a34dde3fe5fa",
+        "q_a8bae69cd5f1026c71c05feb"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "a235a76142734726b4304c34d4675daf",
+        "transforms": [
+          {
+            "candidate_id": "q_78d4b5da5207a34dde3fe5fa",
+            "index": 0,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_a8bae69cd5f1026c71c05feb",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_d21843fe0b2124533e0a4397",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2009/a/ac_109/2009/sr_7#4/lookup",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_4aa5f169a561d290bb6bf9df",
+        "q_436506461ecdec10ae609440",
+        "q_8769b09a1d0b4716c05a5ed2"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "ac284d7e304344a19bc6c9c19233d66e",
+        "transforms": [
+          {
+            "candidate_id": "q_436506461ecdec10ae609440",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_8769b09a1d0b4716c05a5ed2",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2011/a/res/65/263#2/practitioner",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_8d08e42024612384482a0622",
+        "q_276dd09b72897d670739d272",
+        "q_a3a35943f28d4d7eabb1fb7a"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "6626e4c07afb4eefbe9b0cfe7fa7e6f7",
+        "transforms": [
+          {
+            "candidate_id": "q_a3a35943f28d4d7eabb1fb7a",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_8d08e42024612384482a0622",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    },
+    {
+      "task": "mode/un/2013/a/res/68/18#1/lookup",
+      "status": "completed",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "candidate_ids": [
+        "q_808d4c05764f87707686060b",
+        "q_1057f40949b32c962ebb8c7d",
+        "q_b0146c7659d2b3edd3f7f6e9"
+      ],
+      "quality": {
+        "method": "earliest response with one unique schema-valid quality batch; only explicitly recorded structural repairs",
+        "source_request_id": "05e461a1efba4bf5b86a9242f9c1045a",
+        "transforms": [
+          {
+            "candidate_id": "q_808d4c05764f87707686060b",
+            "index": 1,
+            "operation": "restore_index_from_unique_candidate_id"
+          },
+          {
+            "candidate_id": "q_1057f40949b32c962ebb8c7d",
+            "index": 2,
+            "operation": "restore_index_from_unique_candidate_id"
+          }
+        ]
+      }
+    }
+  ],
+  "transformation_counts": {
+    "restore_index_from_unique_candidate_id": 22,
+    "move": 1,
+    "extract_unique_complete_faithfulness_array": 1,
+    "extract_unique_complete_quality_object": 1
+  },
+  "final_candidate_count": 645,
+  "all_exported_candidates_graded": true
+}

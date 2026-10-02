@@ -1,0 +1,1652 @@
+[
+  {
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "source_note": "Target covers resolution legal effects, first implementation reports, and guests at the 15 April 2004 business debate. Surrounding context identifies resolution 1540 and its 28 April adoption; substantive business-role discussion lies outside the target.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Identifies the assessment clearly, but the resolution itself is unnamed."
+          },
+          {
+            "id": "A2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful reporting question with a clear source; identifying resolution 1540 would sharpen the issue."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear, source-specific request for the guest speakers at an identified event."
+          }
+        ],
+        "best_candidate_id": "A3",
+        "group_note": "Useful breadth with one shared resolution-identification weakness."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 4,
+            "answer_status": "minor",
+            "reason": "Useful deadline lookup, but report subject is omitted; the relative answer needs the adoption-date clock."
+          },
+          {
+            "id": "B2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful yes/no legal-effect question; source is identifiable although the resolution is unnamed."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural event-date lookup with subject and a specific source."
+          }
+        ],
+        "best_candidate_id": "B3",
+        "group_note": "Concise factual needs, including a legitimate yes/no question."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Identifies the source but leaves which resolution implicit."
+          },
+          {
+            "id": "C2",
+            "question_rating": 4,
+            "answer_status": "minor",
+            "reason": "Useful reporting deadline; assessment wording obscures the resolution as authority and the relative deadline needs an adoption-date reference."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear guest-speaker query locating the event and source."
+          }
+        ],
+        "best_candidate_id": "C3",
+        "group_note": "Similar coverage and quality to A; reporting formulation could be clearer."
+      }
+    ],
+    "preferred_labels": [
+      "A",
+      "B",
+      "C"
+    ],
+    "preference_reason": "Comparable usable source-based sets; all retain an implicit resolution in some questions."
+  },
+  {
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "source_note": "Target covers resolution legal effects, first implementation reports, and guests at the 15 April 2004 business debate. Surrounding context identifies resolution 1540 and its 28 April adoption; substantive business-role discussion lies outside the target.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear dated institutional event and a specific date request."
+          },
+          {
+            "id": "A2",
+            "question_rating": 4,
+            "answer_status": "minor",
+            "reason": "Identifies time and substantive regime; the relative six-month answer would benefit from the adoption date."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Two usable bounded facts; shorter coverage is not itself a defect."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Names the resolution and adoption date and asks a concrete reporting requirement."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Fully identifies the event and asks a credible guest-list question."
+          },
+          {
+            "id": "B3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Clear instrument and issue; asking what changed slightly presupposes change, which the answer correctly negates."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Most consistently self-contained set."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Regime, adoption period and reporting need are sufficiently identified."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear legal-effect question connecting two related limits of the same resolution."
+          },
+          {
+            "id": "C3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Missing year and institution leave the public meeting less identifiable on its own."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Two strong instrument questions, but its meeting question drops important event context."
+      }
+    ],
+    "preferred_labels": [
+      "B"
+    ],
+    "preference_reason": "B consistently identifies the episode and substantive need across its set."
+  },
+  {
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "source_note": "Target covers resolution legal effects, first implementation reports, and guests at the 15 April 2004 business debate. Surrounding context identifies resolution 1540 and its 28 April adoption; substantive business-role discussion lies outside the target.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "April Council agreement and the resolution remain unnamed, making the legal issue difficult to identify independently."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Well-identified event and a natural speaker-information need."
+          },
+          {
+            "id": "A3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "April 2004 Security Council resolution is not enough to identify the instrument without its subject."
+          }
+        ],
+        "best_candidate_id": "A2",
+        "group_note": "One strong event question, two underspecified resolution questions."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 2,
+            "answer_status": "major",
+            "reason": "Clear substantive question, but business roles and institutional approach are answered only in surrounding context, not this target block; target mismatch, not hallucination."
+          },
+          {
+            "id": "B2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Legal-effect topic is clear but the assessment and resolution are unnamed."
+          },
+          {
+            "id": "B3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The reporting request is meaningful, but the resolution and subject are unidentified."
+          }
+        ],
+        "best_candidate_id": "B2",
+        "group_note": "Substantive business question exceeds the assigned block; other questions retain unresolved instrument references."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly identifies the 2004 non-proliferation regime and an initial implementation need."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural question about two connected legal effects with sufficient regime context."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Both questions usable; no penalty for asking extractive facts under a semantic label."
+      }
+    ],
+    "preferred_labels": [
+      "C"
+    ],
+    "preference_reason": "C supplies consistently identifiable, target-answerable questions; B includes a target mismatch."
+  },
+  {
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "source_note": "The speaker is Ms. Goonesekere during Nepal’s 15 June 1999 CEDAW review. Target contains questions about a possible gender-management plan, requested budget detail, women’s inclusion in poverty relief, and a potential ICCPR Optional Protocol remedy after domestic exhaustion; CEDAW protocol is prospective.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly attributes a specific plan-and-coordination request in an identified review."
+          },
+          {
+            "id": "A2",
+            "question_rating": 2,
+            "answer_status": "major",
+            "reason": "Asks how the Government was asked to convey its intention, but the target only records a question asking how it planned to convey it; no method is supplied."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Precise, attributed request for budget information in an identified review."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Two strong requests and one question that mistakes an unanswered question for an answer."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful coordination question; wording slightly assumes a plan existed although existence was itself queried."
+          },
+          {
+            "id": "B2",
+            "question_rating": 3,
+            "answer_status": "minor",
+            "reason": "The enforcement message and unspecified prohibitions remain vague even with the review identified."
+          },
+          {
+            "id": "B3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful prerequisite question; naming the ICCPR remedy would make its scope clearer."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Generally useful but some scope and specificity weaknesses."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Asks what the expert wanted explained, which the target supports; the prohibitions themselves remain unspecified."
+          },
+          {
+            "id": "C2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful information request, though Nepal’s plan sounds established rather than a possibility being queried."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly asks for the remedy and prerequisite while preserving that these were identified by an expert."
+          }
+        ],
+        "best_candidate_id": "C3",
+        "group_note": "Most consistently substantive and supported set."
+      }
+    ],
+    "preferred_labels": [
+      "C"
+    ],
+    "preference_reason": "C most consistently frames answerable information requests; A contains a circular how-question."
+  },
+  {
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "source_note": "The speaker is Ms. Goonesekere during Nepal’s 15 June 1999 CEDAW review. Target contains questions about a possible gender-management plan, requested budget detail, women’s inclusion in poverty relief, and a potential ICCPR Optional Protocol remedy after domestic exhaustion; CEDAW protocol is prospective.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Relevant remedy question, but omits the historical episode and risks presenting Government action as a procedural condition."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear budget-information need grounded in Nepal’s 1999 CEDAW review."
+          },
+          {
+            "id": "A3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Substantive plan-and-coordination question; identifying the Committee would improve attribution."
+          }
+        ],
+        "best_candidate_id": "A2",
+        "group_note": "Mixed but strongest average usability."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 3,
+            "answer_status": "minor",
+            "reason": "Useful historical yes/no query, but Optional Protocol is ambiguous where two protocols are mentioned; answer is a dependent fragment."
+          },
+          {
+            "id": "B2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Treats the warning about Government inaction as the condition for legal redress, obscuring the actual exhaustion prerequisite."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Remedy scope and legal-condition wording need meaningful clarification."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear historical redress question preserving both exhaustion and the speaker’s conditional warning."
+          },
+          {
+            "id": "C2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Identifies only a date and discussion, omitting Nepal and the reviewing body needed to locate this claim."
+          },
+          {
+            "id": "C3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The dated review is unnamed, leaving the country and institutional context unclear."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Excellent first item; remaining items omit the episode’s identity."
+      }
+    ],
+    "preferred_labels": [
+      "A"
+    ],
+    "preference_reason": "A offers the strongest overall set through two identifiable practical information needs; C has one excellent remedy question but two underspecified questions."
+  },
+  {
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "source_note": "The speaker is Ms. Goonesekere during Nepal’s 15 June 1999 CEDAW review. Target contains questions about a possible gender-management plan, requested budget detail, women’s inclusion in poverty relief, and a potential ICCPR Optional Protocol remedy after domestic exhaustion; CEDAW protocol is prospective.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Clear conditional remedy question; historical date would help distinguish the then-prospective CEDAW route."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural question about women’s inclusion in a clearly identified historical policy discussion."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Coherent summary of related implementation, coordination and funding requests in an identified review."
+          }
+        ],
+        "best_candidate_id": "A2",
+        "group_note": "Strong set with only a modest temporal qualification needed for its first question."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 4,
+            "answer_status": "minor",
+            "reason": "Clear historical remedy need; failed domestic remedies is less precise than exhaustion, and the answer leaves future CEDAW availability only briefly qualified."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "One useful question; slight legal-terminology looseness."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear and supported summary of related requests with country, topic and time."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Preserves the historical and conditional nature of the potential international remedy."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear attributed policy-condition question, sufficiently located by country and time."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "All three questions are strong as written."
+      }
+    ],
+    "preferred_labels": [
+      "C"
+    ],
+    "preference_reason": "C is consistently clear, historically situated and answerable; A is close."
+  },
+  {
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "source_note": "Target is the Conference on Disarmament President’s opening statement at the 880th plenary meeting in 2001: pessimism about remaining substantive progress, interest in maintaining the forum, persistence, and requests to consider questionnaires and participate in consultations. Final weeks refers to the Conference’s work, not the final calendar weeks of 2001.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Meaningful prospects question, but the Conference is unnamed and the meeting cannot be identified from the question."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Identifies speaker, institution and meeting and asks a substantive institutional objective."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear attributed procedural request tied to the exact meeting; the two actions belong to one request."
+          }
+        ],
+        "best_candidate_id": "A2",
+        "group_note": "Strong specific meeting identification in two of three questions."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Supported yes/no request, though a 2001 plenary record alone does not distinguish the session."
+          },
+          {
+            "id": "B2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The participation-intensity question is thin and relies on unspecified questionnaires and a broad meeting reference."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "One legitimate yes/no question and one comparatively thin intensity question."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Identifies institution and period, but could locate the specific plenary meeting more clearly."
+          },
+          {
+            "id": "C2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful request with institution and topic; answer uses an ellipsis but retains the substantive actions."
+          },
+          {
+            "id": "C3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Substantive institutional objective, with only modest meeting-identification weakness."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Consistently good, though less precisely located than A’s strongest items."
+      }
+    ],
+    "preferred_labels": [
+      "A"
+    ],
+    "preference_reason": "A has two particularly well-specified substantive questions; its first requires the institution name."
+  },
+  {
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "source_note": "Target is the Conference on Disarmament President’s opening statement at the 880th plenary meeting in 2001: pessimism about remaining substantive progress, interest in maintaining the forum, persistence, and requests to consider questionnaires and participate in consultations. Final weeks refers to the Conference’s work, not the final calendar weeks of 2001.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [],
+        "best_candidate_id": null,
+        "group_note": "Abstention; no question-quality rating."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "A credible request, but neither the institution nor time is supplied for the President and special coordinators."
+          },
+          {
+            "id": "B2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Disarmament hints at the forum, but the Conference and episode remain implicit."
+          },
+          {
+            "id": "B3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Meaningful assessment, but the unnamed Conference and undated final weeks prevent standalone identification."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Supported content but all questions depend on missing institutional context."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Adds the year but still leaves the Conference unnamed."
+          },
+          {
+            "id": "C2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Adds time but the President, institution and questionnaire episode remain unspecified."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural institutional-role question that identifies the Conference on Disarmament and the period."
+          }
+        ],
+        "best_candidate_id": "C3",
+        "group_note": "Best nonempty set, led by its clear institutional-role query."
+      }
+    ],
+    "preferred_labels": [
+      "C"
+    ],
+    "preference_reason": "C includes one fully usable question and adds useful temporal context elsewhere; B’s whole set needs identification edits."
+  },
+  {
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "source_note": "Target is the Conference on Disarmament President’s opening statement at the 880th plenary meeting in 2001: pessimism about remaining substantive progress, interest in maintaining the forum, persistence, and requests to consider questionnaires and participate in consultations. Final weeks refers to the Conference’s work, not the final calendar weeks of 2001.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 4,
+            "answer_status": "minor",
+            "reason": "Clearly identifies the forum and period; slightly generalizes the President’s request to the institution, while the excerpted answer loses the request lead-in."
+          },
+          {
+            "id": "A2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Clear historical difficulty query; answer describes pessimism rather than a specific negotiating obstacle."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Two good questions with modest wording limitations."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Final weeks of 2001 incorrectly shifts the Conference’s closing work to the calendar year, and the President is unidentified."
+          },
+          {
+            "id": "B2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Delegations and institutional setting are unnamed, so the objective is difficult to locate independently."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly attributed prospects question identifying the forum and closing period."
+          }
+        ],
+        "best_candidate_id": "B3",
+        "group_note": "One strong question, one time error and one missing institutional context."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The shared approach is supported, but the Conference is unnamed and the request is vague."
+          },
+          {
+            "id": "C2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Useful institutional-role question, but the unnamed Conference leaves its subject implicit."
+          },
+          {
+            "id": "C3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Supported request, but President and Conference are not identified."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "All require the Conference’s identity to stand alone."
+      }
+    ],
+    "preferred_labels": [
+      "A"
+    ],
+    "preference_reason": "A identifies the forum consistently and supports credible historical needs; competing sets omit key context."
+  },
+  {
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "source_note": "Target records UNIDO Personnel Services Director Lässig explaining tax-reimbursement authority, equality of employment conditions, and amendment procedure with acquired-rights protection. Context separately supplies Legal Service’s nationality clarification and the reliance-based explanation of acquired rights; those are not target answer substance. Exact meeting date is not explicitly established in the supplied header; adjacent discussion treats May 1998 as forthcoming, so date precision is uncertain.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear attributed procedural question covering both recommendation and staff-rights safeguard."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Concrete suspension requirement, with institution, speaker and dispute clearly identified."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful question about the equality rationale, preserving the speaker and reimbursement context."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Strong attributed questions on procedure, suspension and rationale."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Precise institutional-procedure question with the relevant regulation and source."
+          },
+          {
+            "id": "B2",
+            "question_rating": 2,
+            "answer_status": "major",
+            "reason": "The nationality-coverage question is answered in a different Legal Service passage in surrounding context, not this target block; target mismatch."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear, correctly attributed request for what the regulation authorized to be refunded."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Two strong target questions but one outside the assigned block."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear authority question that names the institution, official and regulation."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Coherent procedure-and-safeguard question, fully supported by the target."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural practical question about the prerequisite for suspending reimbursement."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Consistently strong procedure and authority questions."
+      }
+    ],
+    "preferred_labels": [
+      "A",
+      "C"
+    ],
+    "preference_reason": "Both sets consistently ask useful questions answerable from the target; B includes context-only substance."
+  },
+  {
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "source_note": "Target records UNIDO Personnel Services Director Lässig explaining tax-reimbursement authority, equality of employment conditions, and amendment procedure with acquired-rights protection. Context separately supplies Legal Service’s nationality clarification and the reliance-based explanation of acquired rights; those are not target answer substance. Exact meeting date is not explicitly established in the supplied header; adjacent discussion treats May 1998 as forthcoming, so date precision is uncertain.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Staff Regulation 13.1 is not enough to identify whose staff regulations apply; UNIDO should be named."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear substantive equality-mechanism question whose general agency scope matches the explanation."
+          },
+          {
+            "id": "A3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Supported overview of reimbursement authority and suspension, but three linked asks make the need less focused."
+          }
+        ],
+        "best_candidate_id": "A2",
+        "group_note": "One missing institutional identity and one broad overview weaken an otherwise supported set."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear institutional amendment procedure and rights safeguard, a credible practical need."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Directly asks the legal prerequisite for suspension in the identified UNIDO regime."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear authority question with the dispute and regulation identified."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Consistently strong practical procedure and authority needs."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful yes/no suspension question preserving the official’s interpretation and relevant regulation."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear attributed authority question with institution and historical context."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful, attributed question about the acquired-rights protection."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Consistently strong attributed questions, including a valid yes/no check."
+      }
+    ],
+    "preferred_labels": [
+      "B",
+      "C"
+    ],
+    "preference_reason": "Both offer consistently useful and identified practical questions; the yes/no format in C is legitimate."
+  },
+  {
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "source_note": "Target records UNIDO Personnel Services Director Lässig explaining tax-reimbursement authority, equality of employment conditions, and amendment procedure with acquired-rights protection. Context separately supplies Legal Service’s nationality clarification and the reliance-based explanation of acquired rights; those are not target answer substance. Exact meeting date is not explicitly established in the supplied header; adjacent discussion treats May 1998 as forthcoming, so date precision is uncertain.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural rationale question about equal treatment and why reimbursement is needed."
+          },
+          {
+            "id": "A2",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The regulation and official are unnamed by institution, leaving the dispute difficult to identify independently."
+          },
+          {
+            "id": "A3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "Asks a real procedural issue but fails to identify whose Staff Regulations are meant."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Strong rationale question, but two others omit UNIDO’s identity."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear equality rationale under the specialized-agencies regime; no evidence-based need to penalize its question form."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear institutional amendment process and protection question with a useful practical purpose."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Two strong substantive questions; exact historical dating remains source-limited."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 2,
+            "answer_status": "major",
+            "reason": "The reliance-based explanation of prejudice appears only in surrounding context; target states the safeguard without explaining why suspension would prejudice rights."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear amendment procedure and protection question grounded in the target."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Identifies the institution, official, regulation and suspension issue and asks a coherent explanation."
+          }
+        ],
+        "best_candidate_id": "C2",
+        "group_note": "Two strong questions and one context-only explanation outside the assigned block."
+      }
+    ],
+    "preferred_labels": [
+      "B"
+    ],
+    "preference_reason": "B provides the most consistently self-contained and target-answerable set."
+  },
+  {
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "source_note": "In this 2006 Fifth Committee target, Argentina promises constructive consultations on UNOTIL resources; Pakistan credits UNAMA with specified support, agrees it needs strengthening, and attributes Afghanistan’s instability to inadequate rehabilitation/security support, drugs and warlords. These are delegations’ statements, not adopted Committee decisions; concrete strengthening measures appear only later in context.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear attributed causal assessment, with country, topic and historical source identified."
+          },
+          {
+            "id": "A2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Supported overview of achievements and strengthening position; what it agreed is slightly vague but resolved by the supplied subject."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear source-specific request for Argentina’s promised action rather than an enacted decision."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Strong set, with a slightly vague second ask in its UNAMA question."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Direct question about Argentina’s stated undertaking in the identified UNOTIL discussion."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear and attributed request for the critical factor Pakistan identified."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "A legitimate yes/no check of Pakistan’s claim about UNAMA and the Bonn Agreement."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "All three are clear and usable, including the yes/no query."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear attributed question about a specific pair of destabilizing factors."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful, clearly attributed request for the developments UNAMA supported."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural question about Argentina’s promised action on mission resources."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "All three are focused, attributed and supported."
+      }
+    ],
+    "preferred_labels": [
+      "B",
+      "C"
+    ],
+    "preference_reason": "B and C are consistently focused and clear; A is close but has a looser compound item."
+  },
+  {
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "source_note": "In this 2006 Fifth Committee target, Argentina promises constructive consultations on UNOTIL resources; Pakistan credits UNAMA with specified support, agrees it needs strengthening, and attributes Afghanistan’s instability to inadequate rehabilitation/security support, drugs and warlords. These are delegations’ statements, not adopted Committee decisions; concrete strengthening measures appear only later in context.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "A supported request for the other destabilizing factor, though its partial-answer setup feels narrower and less natural than asking for the factors."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly attributes a concrete historical assessment and asks a meaningful factor."
+          },
+          {
+            "id": "A3",
+            "question_rating": 3,
+            "answer_status": "minor",
+            "reason": "Singular process arbitrarily selects one of several supported processes; in 2006 can also attach to the achievements rather than the statement. Answer lists only one."
+          }
+        ],
+        "best_candidate_id": "A2",
+        "group_note": "Two useful bounded facts but one overly narrow, temporally ambiguous achievements question."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Coherent overview of Pakistan’s assessment of UNAMA and its strengthening position, accurately attributed."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear, substantive causal assessment with speaker and period identified."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural question about Argentina’s promised contribution, preserving its status as a statement."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Most consistently usable and contextualized set."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Clear substantive assessment, but this changing mission history would benefit from the date of Pakistan’s statement."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Identifies actor, specific mission and consultation issue; sufficient context for a practical information need."
+          },
+          {
+            "id": "C3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful attributed causal assessment, but the period matters for interpreting Afghanistan’s instability."
+          }
+        ],
+        "best_candidate_id": "C2",
+        "group_note": "Good set; two historical assessments need only modest temporal clarification."
+      }
+    ],
+    "preferred_labels": [
+      "B"
+    ],
+    "preference_reason": "B consistently identifies the historical statement and asks substantive, supported questions."
+  },
+  {
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "source_note": "In this 2006 Fifth Committee target, Argentina promises constructive consultations on UNOTIL resources; Pakistan credits UNAMA with specified support, agrees it needs strengthening, and attributes Afghanistan’s instability to inadequate rehabilitation/security support, drugs and warlords. These are delegations’ statements, not adopted Committee decisions; concrete strengthening measures appear only later in context.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 3,
+            "answer_status": "major",
+            "reason": "Asking what strengthening Pakistan considered necessary implies specific measures; this target only says the Mission needed strengthening, without specifying how."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear question about Argentina’s response, preserving its stated concern and proposed action."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful attributed causal assessment with the relevant country and period."
+          }
+        ],
+        "best_candidate_id": "A2",
+        "group_note": "Two strong questions; its first over-asks for a specific strengthening plan."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly locates Argentina’s proposal and asks its substantive support approach."
+          },
+          {
+            "id": "B2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Achievements and support for strengthening are both present, though the question makes their argumentative link more explicit than the source."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear historical causal assessment with institution and speaker attribution."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Strong set with one mild inference about the link between achievements and strengthening."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural and precisely attributed request for the specified instability factors."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear question about Argentina’s readiness to assist through resources consultations."
+          },
+          {
+            "id": "C3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Substantive and attributed, but in 2006 can be read as dating the achievements rather than Pakistan’s retrospective statement."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Strong concise set with a minor temporal-attachment ambiguity."
+      }
+    ],
+    "preferred_labels": [
+      "B",
+      "C"
+    ],
+    "preference_reason": "Both are consistently good; A’s strengthening question demands detail absent from the assigned block."
+  },
+  {
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "source_note": "Target is the opening of General Assembly resolution 60/47, adopted 8 December 2005: it recalls the 2002 request for an Antarctic Treaty Consultative Parties-based report, identifies Antarctica’s international significance, and reaffirms Charter-consistent management and international cooperation. These preambular positions are substantive and answerable, without implying a newly enacted detailed regulatory scheme.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly distinguishes the recalled 2002 request from the 2005 resolution and asks its substance."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural question about the interests making Antarctica significant, with source clearly identified."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear request for the Assembly’s reaffirmed management principles."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "All three useful as written; preambular status does not make them invalid."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful source-specific question about the listed dimensions of Antarctica’s importance."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear and accurately qualified reaffirmation question."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Specific report-content question that preserves the historical recall."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "All three useful as written, covering the same main substantive points."
+      },
+      {
+        "label": "C",
+        "candidates": [],
+        "best_candidate_id": null,
+        "group_note": "Abstention; no question-quality rating."
+      }
+    ],
+    "preferred_labels": [
+      "A",
+      "B"
+    ],
+    "preference_reason": "Both nonempty sets are clear, supported and substantively equivalent in quality."
+  },
+  {
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "source_note": "Target is the opening of General Assembly resolution 60/47, adopted 8 December 2005: it recalls the 2002 request for an Antarctic Treaty Consultative Parties-based report, identifies Antarctica’s international significance, and reaffirms Charter-consistent management and international cooperation. These preambular positions are substantive and answerable, without implying a newly enacted detailed regulatory scheme.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [],
+        "best_candidate_id": null,
+        "group_note": "Abstention; no question-quality rating."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear institutional and historical question about Antarctica’s recognized significance."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful, accurately framed question about the reaffirmed management framework."
+          },
+          {
+            "id": "B3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The report’s subject is omitted; date and Secretary-General alone do not identify which report is meant."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Two strong questions and one report question needing its subject restored."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Names the recalled resolution and Antarctica, asking a specific reporting request."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly identifies the Assembly’s position and asks the applicable management principles without overstating enactment."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear, substantive question about the significance attributed to Antarctica in the 2005 treatment."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "All three clearly identified and usable."
+      }
+    ],
+    "preferred_labels": [
+      "C"
+    ],
+    "preference_reason": "C identifies the issue consistently, whereas B’s report question omits Antarctica."
+  },
+  {
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "semantic",
+    "source_note": "Target is the opening of General Assembly resolution 60/47, adopted 8 December 2005: it recalls the 2002 request for an Antarctic Treaty Consultative Parties-based report, identifies Antarctica’s international significance, and reaffirms Charter-consistent management and international cooperation. These preambular positions are substantive and answerable, without implying a newly enacted detailed regulatory scheme.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly asks the earlier reporting request concerning Antarctica; the recalled request is contained in the target."
+          },
+          {
+            "id": "A2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural question about the substantive dimensions of Antarctica’s importance."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear policy-framework question preserving that the Assembly reaffirmed it."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Three strong, target-answerable policy questions."
+      },
+      {
+        "label": "B",
+        "candidates": [],
+        "best_candidate_id": null,
+        "group_note": "Abstention; no question-quality rating."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear substantive question about management principles under an identified Assembly position."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "A supported why-question answered by the listed peace, environmental, climate and research interests."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Two strong substantive questions; no automatic penalty for broad policy content."
+      }
+    ],
+    "preferred_labels": [
+      "A",
+      "C"
+    ],
+    "preference_reason": "Both nonempty sets are consistently strong; an extra candidate or a semantic label does not itself establish superiority."
+  },
+  {
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "source_note": "Target paragraphs 12–13 of the 2013 African refugee-assistance resolution recall registration responsibilities, describe harassment without documentation and protection benefits, request UNHCR help where States cannot register, and call for action and generous contributions. Requests and responsibilities must remain distinct from proof of actual State incapacity or implemented programs.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear conditional assistance question with source, subject and year identified."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "One strong conditional question."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful coherent question about the allocation of responsibility and conditional help, precisely located."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clearly asks the requested international response, preserving its requested status."
+          },
+          {
+            "id": "B3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Natural policy-purpose question about registration and documentation in the identified paragraph."
+          }
+        ],
+        "best_candidate_id": "B1",
+        "group_note": "Three clear, well-located substantive questions."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear request for the purposes of contributions under an identified refugee-assistance resolution."
+          },
+          {
+            "id": "C2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Useful question about protection and durable-solutions benefits, with sufficient source context."
+          },
+          {
+            "id": "C3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear conditional question asking UNHCR’s requested action rather than assuming it occurred."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Three clear and focused substantive questions."
+      }
+    ],
+    "preferred_labels": [
+      "A",
+      "B",
+      "C"
+    ],
+    "preference_reason": "All nonempty sets are strong; A’s single candidate limits coverage but not its question quality."
+  },
+  {
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "source_note": "Target paragraphs 12–13 of the 2013 African refugee-assistance resolution recall registration responsibilities, describe harassment without documentation and protection benefits, request UNHCR help where States cannot register, and call for action and generous contributions. Requests and responsibilities must remain distinct from proof of actual State incapacity or implemented programs.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The resolution is unnamed and the region and period are omitted, leaving this requested response difficult to locate."
+          },
+          {
+            "id": "A2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "A useful conditional assistance need; naming UNHCR and the policy episode would sharpen the requested action’s attribution."
+          },
+          {
+            "id": "A3",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear practical allocation-of-responsibility question with the substantive refugee-registration regime identified."
+          }
+        ],
+        "best_candidate_id": "A3",
+        "group_note": "One strong duty-allocation question, one good conditional question, one unresolved resolution reference."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The 2013 framework has no subject or institution, so the question is not self-contained."
+          },
+          {
+            "id": "B2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful responsibility-and-help question; naming the African resolution and UNHCR would clarify the broad framework reference."
+          },
+          {
+            "id": "B3",
+            "question_rating": 3,
+            "answer_status": "ok",
+            "reason": "The question supplies protection and durable solutions as its requested functions, leaving the target’s answer largely a restatement rather than a further substantive explanation."
+          }
+        ],
+        "best_candidate_id": "B2",
+        "group_note": "A vague framework reference and a thin restatement weaken the set."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear practical registration-responsibility question identifying population, region and historical period; the target explicitly recalls that responsibility."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "One strong practical question; coverage should be reported separately."
+      }
+    ],
+    "preferred_labels": [
+      "C"
+    ],
+    "preference_reason": "C’s sole question is fully usable; A is mixed and B requires more substantive clarification."
+  },
+  {
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "source_note": "Target paragraphs 12–13 of the 2013 African refugee-assistance resolution recall registration responsibilities, describe harassment without documentation and protection benefits, request UNHCR help where States cannot register, and call for action and generous contributions. Requests and responsibilities must remain distinct from proof of actual State incapacity or implemented programs.",
+    "groups": [
+      {
+        "label": "A",
+        "candidates": [
+          {
+            "id": "A1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "A substantive registration-policy question; how it should be handled is broader than the target’s responsibilities and assistance outline."
+          },
+          {
+            "id": "A2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Clear support need for identified populations, though the requested policy episode is left unspecified."
+          }
+        ],
+        "best_candidate_id": "A1",
+        "group_note": "Good policy questions with somewhat broad or incomplete episode framing."
+      },
+      {
+        "label": "B",
+        "candidates": [
+          {
+            "id": "B1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Useful fallback-role question, but past-tense incapacity and assigned role make a conditional request sound more like an actual event or assignment."
+          },
+          {
+            "id": "B2",
+            "question_rating": 5,
+            "answer_status": "ok",
+            "reason": "Clear historical allocation-of-registration-responsibility question with the relevant regional framework."
+          },
+          {
+            "id": "B3",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Natural protection-risk question; source offers only the broad category of harassment rather than specific forms."
+          }
+        ],
+        "best_candidate_id": "B2",
+        "group_note": "Best overall clarity, especially its division-of-responsibility question."
+      },
+      {
+        "label": "C",
+        "candidates": [
+          {
+            "id": "C1",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Two connected and supported policy asks, but the long construction and unnamed Office need modest clarification."
+          },
+          {
+            "id": "C2",
+            "question_rating": 4,
+            "answer_status": "ok",
+            "reason": "Asks a useful support response, though its final clause repetitively supplies part of that response."
+          }
+        ],
+        "best_candidate_id": "C1",
+        "group_note": "Supported questions that would benefit from simpler, less repetitive wording."
+      }
+    ],
+    "preferred_labels": [
+      "B"
+    ],
+    "preference_reason": "B provides the clearest overall substantive framing, with minor modality and specificity limitations."
+  }
+]

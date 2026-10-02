@@ -1,0 +1,9 @@
+﻿version,corpus,backend,targets,skips,errors,native_rank1_missing_routed_targets,common_native_rank1_regret_mean,common_native_rank1_missed_usable_targets,legacy_best_n,legacy_best_mean,legacy_best_accepted_n,legacy_best_accepted_mean,common_best_any_n,common_best_any_mean,common_best_usable_n,common_best_usable_mean,common_native_rank1_n,common_native_rank1_mean,common_native_rank1_usable_n,common_native_rank1_usable_mean
+baseline,eurlex,generator,50,11,0,1,,0,38,33.05263157894737,35,32.82857142857143,0,,0,,0,,0,
+baseline,eurlex,jev,50,10,0,1,,0,39,35.43589743589744,37,35.54054054054054,0,,0,,0,,0,
+baseline,un,generator,50,0,0,5,,0,45,29.844444444444445,25,31.04,0,,0,,0,,0,
+baseline,un,jev,50,9,0,3,,0,38,30.44736842105263,27,31.11111111111111,0,,0,,0,,0,
+debiased,eurlex,generator,50,11,0,1,,0,38,35.13157894736842,34,35.5,0,,0,,0,,0,
+debiased,eurlex,jev,50,10,0,1,,0,39,35.743589743589745,38,35.89473684210526,0,,0,,0,,0,
+debiased,un,generator,50,0,0,0,,0,50,34.02,39,34.61538461538461,0,,0,,0,,0,
+debiased,un,jev,50,0,0,0,,0,50,33.2,29,33.93103448275862,0,,0,,0,,0,

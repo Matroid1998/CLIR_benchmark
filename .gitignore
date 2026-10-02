@@ -11,6 +11,8 @@ __pycache__/
 # Heavy data + model caches (never tracked)
 data/
 .cache/
+.clir/
+mlruns/
 cluster/out/
 
 # Third-party checkouts driven as subprocesses. eur-lex-visualiser is GPL-3.0:

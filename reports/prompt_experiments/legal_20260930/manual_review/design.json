@@ -1,0 +1,106 @@
+{
+  "design": "Stratified deterministic sample, selected without scores or routing; all candidates included for each selected document and mode. Version labels randomized separately within each document/mode; candidate order randomized.",
+  "quotas": [
+    {
+      "corpus": "un",
+      "stratum": "resolution",
+      "documents": 10
+    },
+    {
+      "corpus": "un",
+      "stratum": "meeting",
+      "documents": 8
+    },
+    {
+      "corpus": "un",
+      "stratum": "letter",
+      "documents": 2
+    },
+    {
+      "corpus": "eurlex",
+      "stratum": "no_refs",
+      "documents": 16
+    },
+    {
+      "corpus": "eurlex",
+      "stratum": "one_ref",
+      "documents": 2
+    },
+    {
+      "corpus": "eurlex",
+      "stratum": "few_refs",
+      "documents": 1
+    },
+    {
+      "corpus": "eurlex",
+      "stratum": "many_refs",
+      "documents": 1
+    }
+  ],
+  "sample_size": 40,
+  "candidate_count": 717,
+  "seed": "manual-quality-review-v1",
+  "limitations": [
+    "Agent judgment, not human gold labels.",
+    "40 of 100 documents, not all 1778 candidates.",
+    "Reviewers know the project but receive no score or version labels in packets.",
+    "One reviewer per document; coordinator spot-checks cases.",
+    "The same original 100-document diagnostic pool informed prompt changes; this is not a held-out validation sample."
+  ],
+  "selected_target_ids": [
+    "2005/a/res/60/47#0",
+    "2005/a/res/60/226#3",
+    "2013/a/res/68/143#7",
+    "2003/a/res/58/298#4",
+    "2007/a/res/62/137#12",
+    "2013/a/res/67/145#7",
+    "2013/a/res/68/18#1",
+    "2013/a/res/67/199#12",
+    "2014/s/res/2140__2014_#13",
+    "2004/s/res/1565_2004_#11",
+    "1999/cedaw/c/sr_434#16",
+    "2007/cedaw/c/sr_770_b_#18",
+    "2001/cd/pv_880#1",
+    "2006/cedaw/c/sr_724#18",
+    "1998/gc_7/c_1/sr_5#16",
+    "2010/ccpr/c/sr_2695#25",
+    "2006/a/c_5/60/sr_64#14",
+    "2000/cd/pv_841#11",
+    "2004/s/2004/505#15",
+    "2012/s/2012/718#7",
+    "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "http://data.europa.eu/eli/dir/2006/60/art_2/oj",
+    "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "http://data.europa.eu/eli/dir/2006/28/art_3/oj",
+    "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "http://data.europa.eu/eli/dir/2010/42/art_2/oj",
+    "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "http://data.europa.eu/eli/dir/2011/81/art_2/oj",
+    "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "http://data.europa.eu/eli/dir/2014/26/art_2/oj"
+  ],
+  "question_criteria": [
+    "natural clarity",
+    "useful substantive information need",
+    "necessary context for standalone retrieval",
+    "sound premises",
+    "answerability from the assigned target and permitted references"
+  ],
+  "answer_scoring": "Answer defects are recorded separately as ok/minor/major; an answer-only flaw does not automatically lower a good question rating.",
+  "coordinator_checks": "11 documents or selected modes independently inspected with hidden labels; findings in coordinator_spot_checks.json. This is not a second complete review.",
+  "review_assignment": {
+    "eurlex": "eurlex_audit: all20 documents",
+    "un_a": "un_audit: indices0\u20136; results_audit: indices7\u20139",
+    "un_b": "results_audit: indices0\u20136; coordinator: indices7\u20139"
+  }
+}

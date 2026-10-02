@@ -481,6 +481,10 @@ def _execute(args, context, operation, directory, output, saved, options, select
              related_runs=None, validate_only=False):
     config = dict(options, operation=operation, targets=selections,
                   prompts_sha256={key: _digest(text.encode()) for key, text in prompts.items()})
+    from clir_bench.core.prompt_registry import manifest_metadata
+    registry = manifest_metadata()
+    if registry:
+        config["prompt_registry"] = registry
     cache_path = getattr(args, "generation_cache", None) or saved.get("config", {}).get("generation_cache")
     if cache_path:
         config["generation_cache"] = str(Path(cache_path).resolve())

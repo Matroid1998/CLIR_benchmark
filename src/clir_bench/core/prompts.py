@@ -14,23 +14,41 @@ into the cache here.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from functools import lru_cache
+from functools import cache
 from importlib import resources
-from typing import Optional
+
+from . import prompt_registry
 
 
-@lru_cache(maxsize=None)
 def load_prompt(package: str, *parts: str) -> str:
-    """Read a prompt file from a package, cached by (package, path)."""
+    """Read a pinned legal prompt or a local package resource."""
+    key = prompt_registry.logical_key(package, parts)
+    manifest = prompt_registry.selection() if key else None
+    if manifest:
+        return prompt_registry.resolve_prompt(key, manifest)
+    return _load_local_prompt(package, *parts)
+
+
+@cache
+def _load_local_prompt(package: str, *parts: str) -> str:
     resource = resources.files(package)
     for part in parts:
         resource = resource.joinpath(part)
     try:
-        return resource.read_text(encoding="utf-8").strip()
+        text = resource.read_text(encoding="utf-8")
+        return text if parts and parts[0] == "decider" else text.strip()
     except FileNotFoundError as exc:
         raise FileNotFoundError(
             f"prompt not found: {package}/{'/'.join(parts)}"
         ) from exc
+
+
+def _clear_prompt_cache():
+    _load_local_prompt.cache_clear()
+    prompt_registry.read_manifest.cache_clear()
+
+
+load_prompt.cache_clear = _clear_prompt_cache
 
 
 @dataclass(frozen=True)
@@ -66,6 +84,12 @@ class PromptPack:
         return load_prompt(self.package, *parts)
 
     def has(self, *parts: str) -> bool:
+        key = prompt_registry.logical_key(self.package, parts)
+        manifest = prompt_registry.selection() if key else None
+        if manifest:
+            # An existence probe may return False without loading a local substitute.
+            # Validate first: a corrupt bundle must not masquerade as a missing file.
+            return key in prompt_registry.read_manifest(manifest)["prompts"]
         try:
             load_prompt(self.package, *parts)
         except (FileNotFoundError, ModuleNotFoundError):

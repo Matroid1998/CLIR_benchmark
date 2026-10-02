@@ -1,0 +1,18 @@
+........................................................................ [  9%]
+........................................................................ [ 19%]
+........................................................................ [ 28%]
+........................................................................ [ 38%]
+........................................................................ [ 47%]
+........................................................................ [ 57%]
+........................................................................ [ 66%]
+........................................................................ [ 76%]
+........................................................................ [ 86%]
+........................................................................ [ 95%]
+.................................                                        [100%]
+=============================== warnings summary ===============================
+tests/test_experiment_tracking.py::test_local_mlflow_reuses_run_and_logs_new_revision_without_prompt_text
+  /home/mehdi/Projects/CLIR_benchmark/.venv/lib/python3.13/site-packages/mlflow/store/tracking/utils/sql_trace_metrics_utils.py:155: SADeprecationWarning: The ``noload`` loader strategy is deprecated and will be removed in a future release.  This option produces incorrect results by returning ``None`` for related items. (deprecated since: 2.1) (This warning originated from the `configure_mappers()` process, which was invoked automatically in response to a user-initiated operation.)
+    _SESSION_TRACE_METADATA = aliased(SqlTraceMetadata)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+753 passed, 1 warning in 25.92s

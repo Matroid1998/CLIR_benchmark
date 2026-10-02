@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import json
 import math
-from importlib.resources import files
 
 from clir_bench.core import llm
+from clir_bench.core.prompts import load_prompt
 
 JEV_MODEL = "~typesafe/jev-latest"
 MODES = {
@@ -19,8 +19,7 @@ def prompt_text(source: str, backend: str) -> str:
     if source not in MODES or backend not in ("generator", "jev"):
         raise ValueError(f"unsupported decider: {source}/{backend}")
     name = "jev.json" if backend == "jev" else "generator.txt"
-    return files(f"clir_bench.domains.legal.qac.prompts_{source}").joinpath(
-        "decider", name).read_text(encoding="utf-8")
+    return load_prompt(f"clir_bench.domains.legal.qac.prompts_{source}", "decider", name)
 
 
 def generation_mode(mode: str) -> str:

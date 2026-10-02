@@ -1,0 +1,313 @@
+{
+  "status": "Rationale and routing diagnostic only; no common-evaluation result claim.",
+  "snapshot_sha256": {
+    "baseline": "70d0c9b8500a1567b8172b6bb3f3465f3f44f1afb3247ad2d79bf58377b1fd46",
+    "debiased": "718b456d4e9c99803a22e688360b6dfe90c810046a70ef3e818d439c076070dc",
+    "simple": "4562ead376a5a2ac66149ccafeae1753bc73f5f550fb5f8c964d8691669a3d55"
+  },
+  "entries": [
+    {
+      "title": "EUR-Lex: broad lookup eligibility competes with a narrower case test",
+      "kind": "Routing policy intervention",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "eurlex/decider/jev",
+          "quote": "Choose fact_pattern when a concrete situation with at least two legally relevant particulars naturally instantiates the target's conditions. A fictional actor or location added to a general request is not enough.",
+          "json_pointer": "questions.mode.instructions.selection[0]",
+          "snapshot": "baseline/prompts.json"
+        },
+        {
+          "version": "baseline",
+          "key": "eurlex/decider/jev",
+          "quote": "Choose lookup when the useful information need is a direct point of law and adding a case would mainly decorate it or require unsupported assumptions.",
+          "json_pointer": "questions.mode.instructions.selection[1]",
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "eurlex/decider/jev",
+          "quote": "TIE POLICY: when both modes support good questions and the case passes the test, choose fact_pattern. The possibility of rewriting it as a direct lookup does not disqualify it. No mode quota or preferred frequency applies.",
+          "json_pointer": "questions.mode.instructions.selection[3]",
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "A direct lookup can describe almost every legal rule, while a scenario must clear additional factual conditions. The original prompts already supported fact patterns, included positive examples and preferred a case when meaningful particulars fit; the baseline standard GPT selected 37/50 fact patterns while Jev selected 0/50. The revised tie rule strengthens that preference. It does not remove an explicit original lookup priority, and it does not establish that fact patterns are better.",
+      "simple": "The simplified router preserves this same tie policy; it is not an independent neutral policy."
+    },
+    {
+      "title": "EUR-Lex: routine application was easy to classify as penalized inference",
+      "kind": "Faithfulness rubric correction",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "eurlex/faithfulness",
+          "quote": "No inference\n     whatsoever. (Rare.)",
+          "prompt_line": 63,
+          "snapshot": "baseline/prompts.json"
+        },
+        {
+          "version": "baseline",
+          "key": "eurlex/faithfulness",
+          "quote": "3 — Answer is grounded in the supplied text but requires one small, defensible inferential step —\n     combining a definition with a value, or connecting a pronoun to its referent, or similar.",
+          "prompt_line": 67,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "eurlex/faithfulness",
+          "quote": "Hypothetical facts belong to the question and need not be stated in legislation. Matching these\nstipulated facts to an explicit category, condition, threshold or date, identifying an explicit\nbreach, and resolving ordinary referents are direct application, not unsupported legal inference.\nThey do not by themselves reduce grounding.",
+          "prompt_line": 48,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "Fact patterns necessarily connect supplied hypothetical facts with a rule. The old scale could penalize that operation, or even pronoun resolution, despite correct evidence. The revised rule allows explicit condition/category matching while still excluding missing facts, converse rules and outside law.",
+      "simple": "Retains direct application and context resolution as permitted operations."
+    },
+    {
+      "title": "Both corpora: extreme brevity and rarity of 5s can distort faithfulness",
+      "kind": "Shared grading calibration",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "eurlex/faithfulness",
+          "quote": "5 is reserved for genuinely exceptional candidates with no identifiable weakness. If you can point\n  to any imperfection, it is not a 5. 5s should be uncommon.",
+          "prompt_line": 40,
+          "snapshot": "baseline/prompts.json"
+        },
+        {
+          "version": "baseline",
+          "key": "un/faithfulness",
+          "quote": "5 — Answer is the shortest possible span that fully answers the question. Not one extra word. No\n     surrounding context, no hedges, no elaboration. (Rare.)",
+          "prompt_line": 80,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "un/faithfulness",
+          "quote": "Completeness outranks minimum word count. Retain conditions, exceptions, units, status and necessary attribution. Evidence deciding a yes/no query adds information even when it repeats query terms. Do not punish a necessary multi-clause span.",
+          "prompt_line": 14,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "Necessary qualifiers, governing clauses and attribution can make a complete answer longer. A rarity prior also moves scores without a candidate defect. Revised grading rewards complete, appropriately concise evidence and requires a specific reason for deductions.",
+      "simple": "Preserves completeness, necessary context and criterion-based scoring without a rarity quota."
+    },
+    {
+      "title": "EUR-Lex: case evidence need not repeat the whole legal conclusion",
+      "kind": "Clarification of an ambiguous contract",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "eurlex/quality/fact_pattern",
+          "quote": "Matching stated\n   conditions and recognizing breach of an explicit duty or “only”\n   restriction are allowed.",
+          "prompt_line": 30,
+          "snapshot": "baseline/prompts.json"
+        },
+        {
+          "version": "baseline",
+          "key": "eurlex/quality/fact_pattern",
+          "quote": "Require outcome-changing qualifications, but not\n   unrelated conditions when only a category, value, or prerequisite is\n   requested.",
+          "prompt_line": 54,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "eurlex/quality/fact_pattern",
+          "quote": "The answer is an evidence span read with the question and supplied source; a phrase or list\n   item is sufficient when its governing clause supplies the legal relationship. Do not demand\n   an added yes/no, a calculated date, or a rewritten case-specific conclusion. Do not penalize\n   stipulated hypothetical facts for being absent from legislation.",
+          "prompt_line": 60,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "The baseline quality verifier already permitted condition matching, rejected an added yes/no answer and waived unrelated entitlement conditions for category-only asks. The revision reinforces existing permissions and aligns them with the conflicting faithfulness rubric; it also addresses observed over-strict grading. It is not new permission for case application. A case still needs two relevant particulars and every fact decisive for its actual ask.",
+      "simple": "Keeps ordinary case application valid without demanding extra drama or an added yes/no conclusion."
+    },
+    {
+      "title": "UN: the practitioner stance excluded concrete requests and authorizations",
+      "kind": "Generation/verifier eligibility correction",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "un/quality/practitioner",
+          "quote": "1. NORM-STATE STANCE. Ask what applied, was required/permitted, was due, or\n   stood at a specified time—not what an organ said, decided, requested,\n   authorized, reaffirmed, or continued to do. “What did the Security Council\n   authorize?” fails; “What troop ceiling applied?” can pass.",
+          "prompt_line": 16,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "un/quality/practitioner",
+          "quote": "Questions may ask what applied, was required/permitted, what an identified proposal would change, what task was requested, or what a source reported. Preserve a proposal or request as such; do not require every source to establish binding law.",
+          "prompt_line": 18,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "The baseline already allowed attributed findings, figures and concrete events. Its norm-state rule nevertheless excluded specific speech/request framings, such as asking what an organ requested or authorized. That can reject a useful request/proposal question or encourage a stronger legal status than the evidence supports. The revision expands those framings while preserving their status; it does not newly introduce all reported facts.",
+      "simple": "Allows concrete requests, proposals, tasks and reported facts; it does not convert them into binding duties."
+    },
+    {
+      "title": "UN: anchor quotas plus a hard word ceiling create conflicting demands",
+      "kind": "Generation/verifier eligibility correction",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "un/quality/practitioner",
+          "quote": "The question supplies the named regime, two substantive anchors and usable\nabsolute time. Name the actual spans. Missing time, fewer than two anchors,\nunnamed regime or unresolved essential reference: at most 2.",
+          "prompt_line": 109,
+          "snapshot": "baseline/prompts.json"
+        },
+        {
+          "version": "baseline",
+          "key": "un/generation/practitioner",
+          "quote": "Wording & Length: direct interrogative, 8–20 words, hard maximum 25.",
+          "prompt_line": 25,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "un/quality/practitioner",
+          "quote": "Require sufficient substantive context and relevant time, not two separately countable anchors. A named composite operational setting can identify the regime without additional generic institutions.",
+          "prompt_line": 20,
+          "snapshot": "debiased/prompts.json"
+        },
+        {
+          "version": "debiased",
+          "key": "un/generation/practitioner",
+          "quote": "Prefer concise natural questions, usually 8–25 words. This is a guideline: retain necessary scope, attribution and qualifications even when longer.",
+          "prompt_line": 10,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "A single distinctive operational phrase can identify a need, while adding a second separately counted anchor, date and attribution can force awkward or truncated wording. Revised prompts test actual identification and concision rather than independent counts.",
+      "simple": "Preserves one sufficient composite anchor and a soft 8–25-word guideline."
+    },
+    {
+      "title": "UN: recurring wording was required to contain yearly novelty",
+      "kind": "Generation/verifier eligibility correction",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "un/generation/practitioner",
+          "quote": "For these, the year alone is not enough when the paragraph is unchanged year to year: ask only about content specific to THIS instance — a date, a figure, a newly added task, a named event.",
+          "prompt_line": 13,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "un/generation/practitioner",
+          "quote": "Recurring wording is not automatically unusable: check whether the question identifies the relevant regime, reporting instance, measure or period. Do not assume unseen duplicates; do not require a norm to change every year to ask what applied then.",
+          "prompt_line": 6,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "A useful dated question about an unchanged norm can fail an instance-novelty test even when the regime and period are identified. The revision keeps specificity requirements but does not assume unseen duplicate passages or demand that a norm change annually.",
+      "simple": "Retains concrete recurring content and rejects unsupported assumptions about duplicates."
+    },
+    {
+      "title": "UN: guessed reader knowledge can suppress short, useful answers",
+      "kind": "Generation/verifier informativeness correction",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "un/generation/practitioner",
+          "quote": "Guessability: a specialist could complete the answer from the question with better than even odds (\"one-day\" for the duration of informal hearings; \"in writing\" for the form of a request).",
+          "prompt_line": 20,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "un/quality/practitioner",
+          "quote": "A yes/no condition can genuinely be unknown. Do not infer its answer from a conventional-looking question or speculate about what a specialist knows. Only actual circularity or disclosed answers reduce informativeness.",
+          "prompt_line": 11,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "The old better-than-even-odds test is an unmeasured prior about specialists, rather than evidence of an exposed answer. Revised grading penalizes actual circularity and answer disclosure, while permitting a short deciding span or genuine yes/no need.",
+      "simple": "Keeps actual unknown information as the test; familiar-looking facts are not automatically uninformative."
+    },
+    {
+      "title": "UN semantic grading: clarify that extraction is an answer contract",
+      "kind": "Clarification, not a relaxation of answer support",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "un/quality/semantic",
+          "quote": "lexical_distance:\nNatural conceptual reformulation with meaning intact. One avoidable copied\nconstruction can warrant 4; substantially mirrored predicates/syntax: at\nmost 3; heavy copied scaffolding or meaning-changing substitution: at most 2;\nnear-verbatim question conversion: 1.",
+          "prompt_line": 118,
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "un/quality/semantic",
+          "quote": "The answer is intentionally extractive: its overlap with the source is never a lexical-distance defect.",
+          "prompt_line": 20,
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "The baseline criterion already referred to question conversion, but observed notes sometimes criticized answer overlap. The revision explicitly restricts lexical-distance deductions to question scaffolding. It still rejects unsupported mechanisms, implementation claims and missing qualifications.",
+      "simple": "Explicitly says QUESTION scaffolding only and never penalizes copied ANSWER text."
+    },
+    {
+      "title": "UN routing still has an unresolved source-intent distinction",
+      "kind": "Remaining identification problem",
+      "before": [
+        {
+          "version": "baseline",
+          "key": "un/decider/jev",
+          "quote": "Lookup and practitioner may both fit precise content. Use the source-specific versus regime-specific distinction and the examples; neither an available identifier nor the possibility of omitting it decides the choice by itself.",
+          "json_pointer": "questions.mode.instructions.selection[1]",
+          "snapshot": "baseline/prompts.json"
+        }
+      ],
+      "after": [
+        {
+          "version": "debiased",
+          "key": "un/decider/jev",
+          "quote": "Lookup and practitioner often fit the same facts. Choose lookup when identifying a particular source is naturally part of the need; choose practitioner when the regime/situation and time identify the need naturally without that locator. An available symbol does not make lookup preferable.",
+          "json_pointer": "questions.mode.instructions.selection[1]",
+          "snapshot": "debiased/prompts.json"
+        }
+      ],
+      "mechanism": "Lookup and practitioner can ask about the same fact with different source-locator wording. The decider receives a passage, not an actual searcher or their source knowledge. Broader practitioner eligibility can therefore reverse the routing preference without proving greater question quality. Both prompts retain this overlap.",
+      "simple": "Retains the known-source versus source-free specialist distinction; shorter wording cannot by itself identify unobserved user intent."
+    }
+  ],
+  "un_jev_routing_checkpoint": [
+    {
+      "version": "baseline",
+      "decisions_present": 50,
+      "completed": 50,
+      "practitioner": 6
+    },
+    {
+      "version": "debiased",
+      "decisions_present": 50,
+      "completed": 50,
+      "practitioner": 44
+    }
+  ],
+  "caveats": [
+    "Native quality criteria differ by mode and are edited between versions; higher native /40 scores are not independent cross-version quality evidence.",
+    "The frozen, blinded common evaluator uses the same five criteria and usability gate across all versions. Its results are required before any claim that a version improves quality.",
+    "The fixed diagnostic sample is English only: 50 EUR-Lex articles and 50 UN passages, with 25 UN resolutions, 20 meeting passages and 5 letters. It is stratified, not a representative estimate of full-corpus or multilingual routing frequencies.",
+    "There is one generation draw per target/mode/version. Routing counts are not a success criterion, and best-of-batch score comparisons must show candidate availability and usable coverage.",
+    "The revised bundle changes several generation, routing and grading rules together. The simplified bundle compresses that contract; this is not a single-clause causal ablation."
+  ]
+}

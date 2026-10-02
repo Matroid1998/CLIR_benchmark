@@ -1,0 +1,38 @@
+2026/09/30 16:21:44 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at /home/mehdi/Projects/CLIR_benchmark/.venv/lib/python3.13/site-packages/mlflow/assistant/skills/instrumenting-with-mlflow-tracing/SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+{
+  "targets": 100,
+  "versions": [
+    "baseline",
+    "debiased",
+    "simple"
+  ],
+  "common": {
+    "available": true,
+    "path": "/home/mehdi/Projects/CLIR_benchmark/reports/prompt_experiments/legal_20260930/common/candidate_scores.csv",
+    "candidate_memberships": 1778,
+    "rows_present": 1778,
+    "completed_memberships": 424,
+    "missing_memberships": 1354,
+    "unique_graded_pairs": 424,
+    "config": {
+      "model": "anthropic/claude-sonnet-5.5",
+      "prompt": {
+        "name": "clir-legal-evaluation-common-en",
+        "version": 1,
+        "sha256": "9c513c4746377511e3b4c8758eda800fc763a315fbff385c6efd0cc59a351a58"
+      },
+      "jobs_sha256": "08f30d8b166bd051ab12ea4c5c58d77529a2507f46c763849f98e369b4feaf4b",
+      "memberships_sha256": "3255091081f0e9ad199baf40ec819e51877ee25f389b5707cf3f50e866e361f1",
+      "criteria": [
+        "grounding",
+        "answer_resolution",
+        "retrievability",
+        "information_value",
+        "clarity"
+      ],
+      "usable": "grounding>=4, answer_resolution>=4, all other criteria>=3"
+    },
+    "usability_gate": "grounding>=4, answer_resolution>=4, retrievability>=3, information_value>=3, clarity>=3"
+  },
+  "report": "/home/mehdi/Projects/CLIR_benchmark/reports/prompt_experiments/legal_20260930/comparison/report.html"
+}

@@ -1,0 +1,97 @@
+{
+  "review_type": "Independent coordinator reading with hidden version labels; qualitative checks rather than a second full numerical rating. Selected to examine specific ambiguities and modes, not a random inter-rater reliability sample.",
+  "documents_checked": 11,
+  "notes": [
+    {
+      "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+      "modes": [
+        "fact_pattern",
+        "lookup"
+      ],
+      "finding": "All groups ask supported questions about admissibility, presumptions or cross-border recognition. The main difference is direct rule wording versus a concrete company/court scenario. Extra nationalities and business details do not by themselves improve intrinsic question quality. Judge this separately from desired scenario variety."
+    },
+    {
+      "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+      "modes": [
+        "fact_pattern",
+        "lookup"
+      ],
+      "finding": "Fact-pattern C2 says financial collateral rather than title-transfer financial collateral, broadening the statutory subtype. C3 supplies the entitlement to net that its answer repeats. Lookup B1 omits the necessity of preserving deposit availability; its answer also lacks this condition. Lookup A1 strongly cues its own set-off/netting answer. Other groups preserve necessary conditions more clearly."
+    },
+    {
+      "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+      "modes": [
+        "fact_pattern",
+        "lookup"
+      ],
+      "finding": "Fact-pattern A1 and B1/B2 explicitly ask category membership, not ultimate entitlement. Their omission of Article 110 conditions should not invalidate those category questions. Conditions questions may legitimately use the explicitly supplied Article 110 reference. Lookup A1 is broader than the specific Finland/Sweden continuation setting; distinguish scope weakness from a factual error."
+    },
+    {
+      "target_id": "2004/s/2004/505#15",
+      "modes": [
+        "lookup",
+        "practitioner",
+        "semantic"
+      ],
+      "finding": "Several queries refer only to the resolution despite a Council monthly assessment covering many issues. Practitioner B1/B3 name resolution 1540; C1/C2 name the April 2004 WMD non-proliferation resolution. Semantic B1 asks about business roles using substantive answer text from surrounding paragraph 40, absent in the assigned target; this is a target mismatch, not invented content. Surrounding text confirms resolution 1540 was adopted 28 April."
+    },
+    {
+      "target_id": "2013/a/res/68/18#1",
+      "modes": [
+        "lookup",
+        "practitioner",
+        "semantic"
+      ],
+      "finding": "Preparatory periods and transition tasks are supported. Several questions omit what graduation means or the episode; semantic C explicitly identifies least-developed-country status and 2013. Lookup B2 asks which UN entity, but the source only supplies the UN system, not an individual entity. Treat this semantic mismatch separately from stronger deadline questions."
+    },
+    {
+      "target_id": "2000/cd/pv_841#11",
+      "modes": [
+        "lookup",
+        "practitioner",
+        "semantic"
+      ],
+      "finding": "A question asking the United Kingdom why an FMCT underpins global disarmament is meaningful. An answer stating only such an assurance is unresolved and omits the requested assurance; this is often an answer defect rather than a poor question. Anonymous consultations and unattributed normative claims are weaker standalone questions. Context confirms the speaker is Mr Soutar of the United Kingdom."
+    },
+    {
+      "target_id": "2006/cedaw/c/sr_724#18",
+      "modes": [
+        "lookup",
+        "practitioner",
+        "semantic"
+      ],
+      "finding": "Lookup B2 wrongly attributes paragraph 48 pay/social-protection requests to Ms Zou. Context paragraph 47 identifies Ms Tan as the continuing speaker; Ms Zou begins paragraph 49. Some requests-about-requests also repeat essentially the same information already in the question; a clearer question asks the missing topic rather than presupposing substantive measures supplied nowhere in the target."
+    },
+    {
+      "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+      "modes": [
+        "fact_pattern",
+        "lookup"
+      ],
+      "finding": "Most gas-nomination questions are sound. Direct case C3 and scenario A2/B3 identify the regulatory-approval trigger and ask the ensuing duty. Extra invented actors/story in B add length, not extra reasoning. Lookup wording naming gas balancing is easier to place than an isolated generic interconnection point."
+    },
+    {
+      "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+      "modes": [
+        "fact_pattern",
+        "lookup"
+      ],
+      "finding": "Naming the Rights, Equality and Citizenship Programme improves standalone retrieval. Some case questions omit the programme and rely on generic beneficiary or programme funding. Fact-pattern C2 repeats NGO support almost verbatim in its question, offering little new information. The inclusion-duty questions are useful even where repeated across versions."
+    },
+    {
+      "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+      "modes": [
+        "fact_pattern",
+        "lookup"
+      ],
+      "finding": "Lookup A2 includes the organisations it then asks the reader to identify, a circular question. Other scope questions are useful. References such as Titles I/II or Article 34 are valid identifiers for an explicitly asked provisions question, though identifying the governing copyright regime remains important. Direct-rule case formulations should not be called inaccurate merely for lacking a story."
+    },
+    {
+      "target_id": "2001/cd/pv_880#1",
+      "modes": [
+        "practitioner"
+      ],
+      "finding": "One group abstains while two produce usable questions about coordinator questionnaires, consultation participation and preservation of the Conference role. Broader generation increases coverage, but vague the President/the Conference/final weeks queries need adequate issue/episode context. Coverage gains and average output quality are separate."
+    }
+  ]
+}

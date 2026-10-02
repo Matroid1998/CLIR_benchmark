@@ -1,0 +1,6761 @@
+[
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_93c890f7fdfd4d15737ff15a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_8d395dd4a91039d65eb2a0b7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_da715a659bfce73c437d2737"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_f3ac51f008e80bf2cbcea1f5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_3699ae2384793c7c3b67b708"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_ced0e9c6b98da98787f044f4"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_e55029e6a278351d2fa5502d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_7b76f98f43754156454a9ac2"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_371ab9efe4baaa62552ccfb8"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_f751a5b7fa31d7746c576080"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_02c35f2dbd505a5f5b966e6b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_0ae236ba3864df4869d17c1d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_252e332c365eb29d0224935c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_8591f5d450e619b607518901"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_bf2e606ff1b64368aa01ab97"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_5deaceb5865ed81a5d91b890"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_71aeb9a5df4e6d3104bf31d7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_fc5ce6d48b34b50274c7419d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_617b2f226332ec694fed03ce"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_53196fe166b420e99c79a2b9"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_b6b62da40fb584bc74dc6bdf"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_e80c86ab96bf531c8d30650c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_4a8b5a2c3a22b0c5950b740f"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_90b510d30acdbeec8f31c364"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2004/s/2004/505#15",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_56302d6971fab93560b3b34a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_e6fd470d7e376eca452ad2fd"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_c573e2041e1621a698cb3ae1"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_7edd9923bec40136e7a0f6e0"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_3667fa433b0aed16eab47b7a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_1c71e95feb25a6476f8cb707"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_e6cd8729927170dd414ffeb5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_8efa38a5e6571f7c7826b908"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_ce283ea014034052949f235d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_d899f328be833b8af6cd62dd"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_8872f79fa6d20b73a018c942"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_225a0d56e6132e79017843bf"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_33e14c06bd547f680da1ca2b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_b738cdc8418f9b9cc0ce0d69"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_7efc48073fe0fcb9b5fdcaef"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_41e143e2041fbbae687bcae7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_a2a4fbeaef9f43f7a6ea2f59"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_5b70cf2bfffb0c06bc1c53e1"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_ace19294550a651990bfec98"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_7c013132fc7609360ef2891a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_b0e09eca4680988e18752c7d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_50a1d638dd80bdc4dc0ec5ee"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_97f37b96be18c74b7f2fbde7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_cd056c9319ed38482bbf2f2b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_879422cdcd937caa63bf09bc"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_c736d1955b18405d6c28756f"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_41e4b92b884b031671f3ab73"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_596fa0a4e6170290067dfbd3"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_64c1445103c0f8b67b103b77"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_219a27d08001af886fffb6d6"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_fc55ae57cd24441c20ce0395"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_51d46c39e81b25e0dec97666"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_a7015f75617769c4f9138cb7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "label": "A",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_c5b93bb9a701bee88047c9f9"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_da09e2aec9aa86019d714e6d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_996b5bfb4bed539db41110d7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_b9616d0a6e9d42f4ca2c487d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_ae846030e2f2b93f6b1e2930"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_28ea85d500fc91f6286be389"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_b9acc6c2036edf480e2a9275"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_f87a08d5485203df648806d5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_fe783dc748cf4c6dd9bf1214"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_1a982bff48d3a23decabbe9b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_476332cd554c04586f7c9e5b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_f28dad039be4ddccd8725477"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_583a28010d49b3272631175a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2001/cd/pv_880#1",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_f6bd4269a13827b0e4c54597"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_25d8a3c501e0a63481b80c76"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_8db9e66b8b30dd7d3da0fb03"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_5ebe3ef1278833e1a084c18a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_32ea4576954ea987a48a6c65"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_55780acd0195bc82608d188a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_38ef3dc37b28c3a78a42dd61"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_c63b4e8c8e52905a656e7f95"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_c85b1b0549448606914ef279"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_58b9e3303d2f344fe969cc02"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_76049019c4840944d782ad0f"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_698c32de58472689f2580ec2"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_6d15c1203d188f5abb5f209a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_b576953f96b7ec0e58af84fb"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_eabe5b4053c48f9178f8216c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_6d402836ed8e5cc2a175ec56"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_36616a51449ebb10fa7dcf52"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_714dc13cdae45ba57f59ce5a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_dbf6c1bf7db96ddf8a3d8359"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_26e7e319ce8201058cfb3fbb"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_cfd98686580f65961b156142"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_e9c719b3c09c4fc1354bf11e"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_a351fc70ebb906831408aef4"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_022ff60261a4c489eaed7dbd"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_f666180d3bb3749fa34fd8df"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_c651f126c1810ee3f5048268"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_364992c83eeea17168391e9b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_01616cc3f80a2a5c4bbd3d8e"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_76aad631e8fb4a198457c017"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_8873094718da3bff42658fdd"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_b29d0ad3c195aa96de7ee05a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_31a099bdb2a48534806e2a16"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_72a340221dbb3edafbda3d59"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_73b5293f27022f7a5ef4bf2e"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_391fc1898689beff7e357374"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_d4f01a448f9d7aa925cf0eed"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_f817a2d4662c2d732310a6da"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_5a86870330508e190d5d8242"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_e600e0d86452d7676d35989a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_32472690f5375a40bc7f3e98"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_73bb0a3e92da34d18bb0e562"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_8344930d1da1ac32c3045215"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_ab240f70eefd73b14aed0516"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_46517952730ac163984f385c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_fcda64e69b60c1523d277a54"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_b64ac067b884a1657a4c7d55"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_0484ec50274e42a10c38d8ec"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_44dee6b52144b963f514672f"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_bb55d5422edb30a4ce415a52"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_9f9961b21ac54f2ac6d72c51"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_609faea9534d11afa2b7279a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_c4b7fa73bcbcf201b2cb2cbf"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_2a545e4fb0376bad6fc8c049"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_516f2fcfce4a2ed35aafb2c4"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_6621ad702d4bcd4598aacfac"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_b981e1879c08c8564fb74195"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_af2ce560e189d19925a4e6fd"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_d9f3ceb3d2bb2056564ade6d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_a75625d4ef17211f8948ad9c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_93d0129781f6089dc3ba6e95"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "lookup",
+    "label": "C",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "label": "A",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_641429ddcc2c270cbade2df8"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_bfd8ef74c831c4b132ac43c5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_836adfa3ddb1f56302ab73d7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_7fbef1a6930c44bc65efade8"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_82e0347ff31b6bea7ddd95ca"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_861d46411f9d6dcc76db6873"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_ecfe741fe6768bcb812d2388"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_599434d433f49e41f5a73adc"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_5f1dcdad64cbd156a1b76c49"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "semantic",
+    "label": "B",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_bc4a2763d26f966dbb04425b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2005/a/res/60/47#0",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_bcdfe7037711a00f203a53d9"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_bdc8d8981ff76ecdc8d91240"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_784c96678a76fc4546f8c7fc"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_3f91092d7e08f5936b4416a4"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_538a50a85a75302aea56bd91"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_6829faef2a2b45858ffcea27"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_66bc99e1b7f42554538acdc3"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_0b2933119452542dc91072ac"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_b8fecbb13d69fff34ffe00c5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_f1d7268655bba69ca81520fe"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_651fd02ca452ac1ad6c5ac8a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_3d78242b8b589173b29a14b1"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_a1a54ae396e858dfdcb4d972"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_b3ea5267ea1c7e9940af65d0"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_ed568f33b5144ae550dacea0"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_4b928e31f448ce0a6ed341f0"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_7e6277c0e9f13a34dabb9280"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_76ced922b99c56edadd9349e"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_333bc1fe302a9fba2c982de1"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_a555090c7629f174ed9092dd"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_7839bf2ef0889f903b330a17"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/143#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_2133a620386d00df544987ec"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_01aec55607b5106b2c10b347"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_49867c928b582ed8032cba11"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_4b5444ff080e334d109e8544"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_a30af3aaff413326b6908797"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_70fcd85fb6964d6396069ef2"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_6f3373763e9030e2540170b2"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_776b4df8a7ef36b590dd377b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_d404cfeb3b3756e1d7cf90e5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_4ff05baaffdf87b9aff5400d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_a393585afd4aaf7245746f35"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_0e85e915d132f55d373aedd8"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_e4c685b129e18151e5fdd5bf"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_b544d3b75fe4fecd48930715"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_50abe9afd9f7774c4b8a3f26"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_a53a9549d3baa7dabc547f89"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_dfacf32aeffe5826fca43837"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2007/a/res/62/137#12",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_2d8f9ff890728711f6a4e85b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_1057f40949b32c962ebb8c7d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_b0146c7659d2b3edd3f7f6e9"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_808d4c05764f87707686060b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_c03268190a60c6802f0bbf12"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_039bc41a35c8e8dc5d23a594"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_3e2cd2922c05731d51a38b31"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_0a2b5b70697e3586949fec0a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_26aba70f5677cff07e71da0c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_53fce1c254f1e6be1f3f5809"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_c123efcc9c03303cfdeb94b2"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_b024225e8a7c1f90f4542602"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_29914aea71f1af96508e8db4"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_7b8d5d80ca44796f0a937d6a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_c2d86ab78beffe093c1aa6a7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_9891faf8bd7ac9bff4be206c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_143e53079a9d5ed0a059f3e4"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_7f0a66b92f6e73beedb29c5a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_12ba1f69f7fbe3ada6803801"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_d96090d4328847bf8f7a4ce2"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_176da4c2c50d93f7bb12b2ef"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_b17c6f9879a5e20325c0495a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_984266c9177fb9bf773d6a30"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_9e87a7e26b1f2f7d75f5a903"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_e96ce2ce650ad71aba7807d4"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_d34b7061568a34a2044ceb7a"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2013/a/res/68/18#1",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_081d63b23563f22cb839c941"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_0f4382472e7e78e8ed94fb12"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_b47950ecc34384e0c86469c9"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_fe3c74c14c81d565c15a25b5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_c5ff0d6dd992d0141808fbc7"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_b95b68d40826813f64c22412"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_3587cbfb56894fbd2fcb0028"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_b519f3e2098e590a66df9350"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_b146a25172987ce2186a6e4e"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_4238cba934a8d5e38297cd4b"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_0963ec21056048b37e5cb445"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_975144f68874c3b86a8442c5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_dda4db6efd022e10ed09390e"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_f9d87002b969b8ca2b4e3b4f"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_070b178c986e88402c2b4e1d"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_b1f0c944dfdff3b9e750d012"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_c3a71776a82194a4254bdfc6"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_be8d07e0fec7ea0e56e14eb5"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_a980eb08170f9392d56c99d3"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_91804c8e7a48b3348f09d326"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_8ae69306bc60606ca24eb800"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_29c05f90a3315dd87d568c46"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_530d8c0ad8390b9663e1123c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_c450eb0dae4af09c180898fe"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_7dd38337e838db8d34aba50c"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_811abf42c74f0854fec44c8e"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_bdf8fbabc0ca762d3e2c2d88"
+  },
+  {
+    "shard": "un_a",
+    "target_id": "2014/s/res/2140__2014_#13",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_8bff6165432cc9d1291645ee"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_78c1c1eae96d5ab559341bb9"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_dc702d4e1a05350632b8aea0"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_fcdfe7d2664ddec6ac43423e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_33ef8cf428964776ceeb1b9c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_aa93aabeec34c1dbacee9c6e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_ef50b03d39616e37e9ecd322"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_a9439b12f8362d949b1dc909"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_967417c046192164b0cbedb1"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_4cc8617ac599a588e079e413"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_002f5dc37c2a4b084e8a6bf8"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_7f568632429d99afbd8f7e6a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_14896a3ed7420d32e3cea230"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_631509afc7e771294e3ab73b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_24486705845a0d5092d555f0"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_90f43994c8c28b05545c6fd5"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_0dae00df1d0aa48d983f1588"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_8575366c5dbc4ae6c4f87d7c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_14d88b39de501b1b4f40f176"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_3aeadc20cdeec283be3e6af8"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_e4fbc613ce29cbcb458e4bcc"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_92f600fc57938f0220fb6ced"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_58b27fe9953dec7ec6e457ab"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_fe2938672c72ffd88ec098ec"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_2e093038de92cc2381170fd9"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2012/s/2012/718#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_fe9eac21ec6ef7d23fc63af0"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_d1bb4356acc35b489b9f7c2b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_bd1493a6d75031f9aec76769"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_41113f9be1acd97d5514432f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_d44a7c741e5509c7fc45d8a7"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_94bfa3c734ebb1d91b39134b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_95073e786217069021c07df5"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_dfc4188bf07bd5db9dfdfc9a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_8cd67ee4a87b8b78113e2c16"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_fc8391ec3f1cd01b9591942a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_67d3d6b5b3d77213b2d4a96d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_55e358d8248e45e6457a7374"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_753373497d907e0ea1047970"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_ccfdd5642a9f6653326f1eaa"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_37d1d29e5569d3d857404d6b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_54306ae191ccb16c9a82ecd1"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_a661f51e93b0f3947a7b8035"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_64cd9c076ecf03a19fa6ff0b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_7f01c4fcd0fa8e08352c3408"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_45ccba7a492f6ab7cb4fbe9c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_6d35c7e258cf924bab2bab47"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_f4a009139187a8be11fa54a6"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_24e084c2cac057d3c8aa6e3b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_66d4f3ee216dc81f5686b74e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_8f0dc54d15e54582b06421d3"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_dd8ca0fc0f47f5ded3b9e2ea"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_cf8726dda4dafdae85ebd2df"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_4b215ff77ae75d488e5a644b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_b7ff1d0276646d029d25c14b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_c408e10569e991a81330e93c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_84cfcd524cdd52c9370ffdbf"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_cf813650cfbd19615e3283a6"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_5cfa02b628a625970ab5daa3"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_67a2f32946b0877bd7c8d982"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_9f7ee36ea0a9318fcf44813c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_22b29f2cfa4646e9ac51689b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_d0f5332c35f8fcc8ca16201c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_2da03e0df592d3b212533dd4"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_01e48e90ae6378a167fb0af2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_66d4d4dd48adde10ddd265c2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_ff9deb141b1de15adc4f886d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_786d077c0c7308fe524d6167"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_3a4b98d96d4a6cd0b6cbbd90"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_7f8b17af7851603799837b4d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_4dfb37b5984f2560fa9f09dd"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_1fca13be6a9b0f5a2dd18a75"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_2ffeffa1388021c9d7798473"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "mode": "semantic",
+    "label": "C",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_1b08c1cdb1b3348dcbbf6f10"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_b7769fce01d7988f6bf8f181"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_01f7db10f7e24d08264716f8"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_efd39cb39e56c6e49e3e3995"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_e18bf2a5a81b444fb2e62854"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_ac123703e355ef5b76358d4f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_dd2f3e80dafc098d53637f8f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_c413240dfb604b862a47b8d7"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_8f239ae1e75ee37c22d23ac5"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_6949f73b9ea14b91da17373c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_a1239c01971b70bd5c6a4488"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_49da5d4f9bbfeb4c9a49364b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_2c58cbf432f8c1a05c9dc70d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_0d94a68f4a13f93a7fe4f9bf"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_80d01be018efb89bf2e9e1f0"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_04c9931e3ebbeffaf9a52e60"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_c61d0aa44ba4a9c69f9343fa"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_724401dadba8804f74ccd561"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_3a17cae90c7e119fb168070c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_cc3d5f5bc50231474f41453b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_a55ee2e0c499e2d13b245892"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_7570c73764eb09443f81a460"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_c73b641385bc5e54244399c7"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_05b58c58c3876577e8ec1bc9"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_dd0b60cf6933a5a9772dc8f5"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_ef4b5533726759109f5efa2c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_6162e4dfb23d87d3a7cc6d20"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_9b27144a414663068ec3826e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_383a353519c639e583665b37"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_2daf7c750ce7d62d29109d8a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_6366fb125cf1a8755916af79"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_23d7c724458294a138200919"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_37afe707d30e90ede7316250"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_31e300426b927e16148f04b9"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_cf34fcd3b4fa68677bb8011b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_ca79418ef4b3863ef7f202af"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_2eee48df73dc3e351ecc903f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_63fb2a577b5a92b6ef303f3b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_d2cfdeed179fff28b1275228"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_4ee83b46623b37d25a8aa8ab"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_68efc13f99762014d3556bcb"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2000/cd/pv_841#11",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_960a1ecc49ceda0cff075590"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_09d0ed8d5992d3f535ee7d0d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_41d787ef91e01a014fb82c63"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_e94aea5bdde94803bff18088"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_90af0dce4a70244eeb08e8b8"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_fc5fcc95ef68c60c19bf3123"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_ff7656bcf6f7c9f7d4fc6895"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_5cf3fb0ff992920ff99c7143"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_c61f07357e321c3d1312c36e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_8873839e9a9c93a7dcf3c3cc"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_f1c889ed6350d4d8dc8baf53"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_ca6a7d5e9a9d5d18317909e8"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_f86a240f72d181934096cc56"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_250dccc1145083f4829ba260"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_1fbe49d89a76c790284a2c2f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_43b53aa4d27bd71cc4c34568"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_3853bcd9c8a2fefd2ee83ea2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_911bdfcf69e0eae26410f316"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_66c759c753e3e31184dd1668"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_2121cd9afe124724a0b738f7"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_501e83687f2653bf5d50b08f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_5b8f3dc8bfb64cf9df730670"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2005/a/res/60/226#3",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_963024ad8fe44080e5e54097"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_348f84cca3aa7365b97e54d2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_e63fa5a988527ab9f1291fec"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_71bbf028644cea06dd60b599"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_925416225dd38f8d2119f481"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_0b4e61e245faddada885f254"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_446f501b9f37639742b4610c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_d8761bdfea847b45f89d8c0a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_f1dd38130c8f89c2fcc1e02d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_ee6357c9ec7f8aa69a2fc1c9"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_e000b0ac0ee9360558b7c29c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_45215b9fdcd983b91d2cd7e2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_1e9d19c16bd117633679d948"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_dd8659831246f1fe718bf642"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_56d71268dbfd3a2376e52e0f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_897f29e0561fb2508f26740d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_2abb3a8f83269924d9040526"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_f9f5f01f17b283045c396052"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_f1a0dec8ec568558f17d42fd"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_746444c5ae41db833a540273"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_d7ae7c3cd323a40daa6a1a20"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_eea2ab721d34cbbc25196af0"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_e75bb99c3dfbe845e2517136"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_bd30cb6c4ad82739943be5ef"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_245841c4c156fcce990a8806"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_1f3a5634ba955246c00dad09"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2003/a/res/58/298#4",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_0042bc075eb4542b87ba81ed"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_b2846e7c9efcc569c58aec9e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_4279730d8e7cb93c96c9166e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_59133edf739a398afdabbb1c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "lookup",
+    "label": "B",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_61c9ad9aac97d79ffa4f01e7"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_9ab638ef9270df1fa44c10d3"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_818618d5bf1e1f082b9a2e8a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_eadcf8056ca8b79cbae57a29"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_f0e4acf35f6f76f20c303486"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_d8c5871ca7b57aab8216e69a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "practitioner",
+    "label": "B",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_cfb47e3ca3797f511946f66a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_3762f1f598fedbfa5447ec07"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_b84aae135f57b05d713e8588"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_84fa2552f728199e55b7d522"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_e57c196ecffe73a6543a3878"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_ac4c4215963944812559c9e1"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_0db435b7595d3d185e39cac0"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_f6631d050a5444a7ca654bd4"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_ca2dd8ed3bbf42ae45438de8"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_8a622d1f90a933f13e41d540"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/145#7",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_e2c9994e940af5e66532ba4d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_8b5b3d20149bef1f97d271e2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_7b0174ae24ea8a6ffbff0eeb"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_cb3c495f5341fb7ec706a9f5"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_24b284c8144582e3537790e2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_ad3780d0aeaca4f9d3a24312"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_0ffbc3dddb7c9df3a2776a4c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "lookup",
+    "label": "C",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_d7a8c0c665aa6823890d6149"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_f113fa9a5b3b844cdc40d96a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_f25c380bc6654c692804f67a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "practitioner",
+    "label": "B",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_7a7251d37281850a1e57b864"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_d286f3fc777042d1565d8d47"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_5104e2d15df75156972d6b2f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_fa89f15ebd637b6f184d3b29"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_ffb125f3725a8bb55900b17e"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_db630e82142135c62669faff"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_e6c6d5d06f9539f47f2b263c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_8102f52ba1dd46ff0620d654"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_916bed5e27726e50d52dc877"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_d754958d7b119c6cdeb26b2a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2013/a/res/67/199#12",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_2863dad3e3aa11baaf44b915"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_3bc8676203bdd4a85620c7ff"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_10ae222ed65edef8e7d76cdf"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_3532950d6e8fe9f97155ef0a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_67f2f8a4dd6cb243f79a6c08"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_2726a73b9ea8b94a418a70ba"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_d10839b6cd9684ae9f8e3ded"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_be0e237618b0ab17e8d1cd50"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_28db8326647437c8dc1ac97a"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_9202a1bef6578bd3d3a368f5"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "practitioner",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_62f6c0aae080fea2dad95b4f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_465d597e8fe9d2720448da4d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "practitioner",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_f0887e3f953078b7be43172b"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_e7b589dfa773d29d630afd8f"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_4209e99990283d0d8518f4f2"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "practitioner",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_5a407fe2fa3cb03128dfbf8d"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_d34b68b9700c8c497e017ccd"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "semantic",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_d70a6a4be04d688ca7b8977c"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_d26913fe97b2145ce7f0ebde"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "semantic",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_c3cddc0c0868db4f0d785170"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_a32e1a7923c7db5e292f3d63"
+  },
+  {
+    "shard": "un_b",
+    "target_id": "2004/s/res/1565_2004_#11",
+    "mode": "semantic",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_f7adce56a22a9efe6adbc44d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_fdbe9b0ca5a2dcc803ee4ff1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_f14049f0e485ac37db802103"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_26aab4c17d90b7891a60914d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_86e2c6d733a7b62c32278d6c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_8028cebdb39bb073d57147bd"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_78ec26da6b94870328cb358a"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_14d9a440e5f463d6eb65644e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_3c792646021ab0ed4b2bae3e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_07313c4e9f958bce4e21b0bc"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_782e24defa4222ee03cb14d3"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_95f8c256364efb8cd413a672"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_fd68e4ace8a7465b34804077"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_d89845f4d581f02fec01820c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_74fb4916ef0c22325254e291"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_268f31453d5da2457734af86"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_1fa9d6ebe6702cec97c210f7"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_6fe655102e5068b671a4e166"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/910/art_41/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_34b259ef18778d6c0e6c4b1f"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_c558e7bd9e24c0f17ef042a4"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_9383ad421744796b8c353def"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_47a6359faa3ff45487aebc4c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_fcf79a47ac4d74d5f8ce7d6d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_c73bb617746ce72e8616a6ae"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_bbf1464ffa612b1b2c1b023e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_ccf27d6f6e22d926b6eb6129"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_d4a3e2e54e8ee132191b8c6c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_7a97e1b5813a05146fa95b9c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_4139993fbff6a27f3f9ef7d4"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_4aaaec5798a4f2f33cc4246e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_878870495b957485a66d9419"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2012/282/art_1/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_650cbb0bb2665284060c0557"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_f938e95fde0dd52cbd7ef9ec"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_26af7d5909a732648bbac549"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_ffb40b918065fae0388fcd74"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_809f608da957bf3a715c9cc3"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_e90b91cd66443571a6422aab"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_013b6b1ef67dca42cfe0dc51"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_92fff7211fb862d86821281c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_bf7886b5265f0402e80ef3b5"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_1b4410913bb548f1d23577bf"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_c402f3b7c825c41027988365"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_96db71273e55c8f91ba9d22e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_0877ae8a919f398ddc61aa93"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2010/1031/art_48/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_19e33fb9fb8df3d852a12483"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/60/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/60/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/60/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": null,
+    "version": "simple",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/60/art_2/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": null,
+    "version": "simple",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/60/art_2/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/60/art_2/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_411d7f84dda7ca45c15156f0"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_12e36f61edb7642106299898"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_039354b5522a4d506882dd88"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_7f01350dd701eea292d3cfe6"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_0c3a62e0a24ae985808e0129"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_28840f0beaeffa393428a70b"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_63a5bdda7e6ec5984bb9246e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_f3aad58b0f48f7a4ecf19b63"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_c89c6e2e7d8845a9a2625b15"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_5f28013b015dece8297b2345"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_1beacc74b3af838655fce7e8"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_b259c764d244e400f45224cc"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_f949ec8faf6c8889b028c166"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_c876889d5fca03f8ea900647"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_093eab37f172ba52e848d017"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/912/art_8/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_ebe5c5eae5337737e3ab1649"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_64d97634e6685bf5b5e0231f"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_eedd4ef13abd4eda150678ab"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_f40621c1b1f2d6a230ed0ee5"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_a9a8bf556dfeccee353de715"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_d6b3027e6f48d063650c7296"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_cfb80b6b1d87204fb4fc0faa"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_95a1ea5e090ddce3189d34ce"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_7da12b067257f92451328976"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_deb4e06c44ff3fefa98e4ffd"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_1fdc49ff422fd26303cc1a4d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_d1997a23909bcfef1fa52f62"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_1c076f61aca05e8ecee93514"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_c7aef66dc42fc8cdd9d66620"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_58c8bbe8a760e5052ffa65de"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_26fa07dc761f1a4a62911bf3"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_da4ebf80f658ee65ec36d6ab"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/59/art_77/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_64f238bc09c4d80668b848f1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_bc3eb671a3bb30e5551a3033"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_a3a5479d01e72ce16887c6c1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_e3cd0fbbdd7c0dc42b0d97a1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_f540a69bc5c43d77460f43f1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_31b92fd58c21beb250f9d23f"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_c8cc223cf0dabfa8bd1dd739"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_9bed2b343d52065a1456b281"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_fe9e109da4be1da4a303c181"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_d9cd6b02978b6d12ef05d106"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_22432643a866ceb7e7598925"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_0f6f5ce4d0d2efc86ca1d6c7"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_ecef296833a9e592eb54a0d2"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_3209333046651686633b39c9"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_9b9120899b8ee16c70d0099e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_242c35c0866d0c0f5a6282d9"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_9f3c6973b5b166a97f21fc68"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/312/art_16/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_aeeef0c6b2891b38797be37e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/28/art_3/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": null,
+    "version": "simple",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/28/art_3/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/28/art_3/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/28/art_3/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": null,
+    "version": "simple",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/28/art_3/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/28/art_3/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_db3796646c7ee64447f26b48"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_4ecb1f4a71df8ca92219cb63"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_f0ff52a1c7fe8567818f1d5e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_cc6dba2668f97ecab5a328a8"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_7806644122aeb780b586ec3e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_cbcf5ec080e981ae66d025bb"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_83bd241223f5301f7ca20380"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_b2a761af48959566349f221d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_e80e9b212793b09f3cdcd78e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_9c0178daa1a7028ea33948c7"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_f432287bbf35ee99cef35e36"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_a3b4da657f932a6e689487f7"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_63151926013b7b0c31814e1d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_980736a8af1bca93ec573f6e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_3c49c32ef7ec8d53126e0b96"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_b4af50af992ca662f8e24694"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_b69ff7c69372801512ca625d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/165/art_23/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_6693b0c5f473c461294d7d42"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2010/42/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": null,
+    "version": "simple",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2010/42/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2010/42/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2010/42/art_2/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": null,
+    "version": "simple",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2010/42/art_2/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2010/42/art_2/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_299437de2c06469d4f0fe8b0"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_60440fea5a35af5f4fa7b836"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_aab87527b30e64b1956f6902"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_3d84bf500cc24364949edec0"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_225f2cb11a5415b3a356bb91"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_0e825583cc30bad856ee5bca"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_5354cca9d7d4dca1055e8eae"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_c0b52c21dfd3f598679be80c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_3eaf749a0053485739d35f74"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_23e8f5fa77a298fd46151723"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_350572bf04613d79b659813e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_d906d7169b3b99d236ffe544"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_b4676dab4c9bb591affc93d2"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_dcfe7a5259bb4464fd9f3cc5"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_5f64f66d6fd1d846d5137484"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_dc82a9bf3346dd49073aa131"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_48ddaa5ef60c2bebf2e4ddcf"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2013/1381/art_5/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_beaf227b7e4275d4c6d409c0"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_c2276e6172d220ee83243370"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_d207d631c84be941c0be2d95"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_80a03a6f47757b6e90352232"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_39f5d753a4d9882c77838170"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_542c778ae6b10c2c894d4f73"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_5240b257f498ffb9d1d9385d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_2fdbc77a51b8ea4a14adf0d7"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_abbe3ec391c3b7204aeb7988"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_c7c1435300d1bb301d9fa2f6"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_c1ac2e29fdbc411cf74f82f6"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_d51eb34394cc6b40c57ccf60"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_c6e7806b62054cfc7378827d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_59babc5d37b34d8f894c7d84"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_e709ab57a3e6f06d732b8062"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_beaf50569f425776b2e4c54e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_11c2d8bb7d2610650cd019c8"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2005/1572/art_4/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_e551c9f70afc899b1409fe80"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2011/81/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2011/81/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": null,
+    "version": "simple",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2011/81/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2011/81/art_2/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2011/81/art_2/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_70b4d06ee00324dd52b0278a"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2011/81/art_2/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_fd4bc244157b2e8f15f99f54"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_78117c463808c4598811a7ef"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_f2548dc5b1ff4d9e0c7116d2"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_c48ff55d2f981a7b34741426"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_8997403b789db2c42c622498"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_42af2326f6a7f400b95865f1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_1dc47bea90a9a4f6b3305a36"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_c8780d749ce7e8a049cc1c3c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_a259d39c720e84eb11db8606"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_d632f55100836306a5ae83cb"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_70261e3284146f677de67570"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_186693b5ea1cc92311861234"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_f4d633de50a1dec5f6848d71"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_993f130f21f377cc9a0fdf5a"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_55de040da0683fa730290259"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_3ece53b16d9543ebae4bba44"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2014/788/art_20/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_496f50596616dd012cef3128"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_6d2b1a35c1c987d59652dc6c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_26dba25351850e62f5d98f21"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_adc603d0d184fcf0e9ed6bef"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_8b1cc33d277fac26a13bcdb9"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_1dcea34624490e6805795770"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_624deb6edc2ac0212e674a3a"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_e6b6ee4c56698e4fdcd511bf"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_0957e61ce2a0511e9487d47e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_7ba760dfeb99783e656d49cb"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_ee2f9f966d5f53e026cced2e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_4f4158ef92ca296328c8566e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_1c00e6c7d598e00066f12605"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_a67282efe750ac6b71c82dd9"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_a2f7e93227fc22a0e58ac9ef"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_73c00ee0dba2d893d79d7f78"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_6ecdd199ea825109abba4778"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_b90e07c31f9c40afd6bfffff"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2006/1906/art_50/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_874ef6411ffaa8c3b297add2"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": null,
+    "version": "revised",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": null,
+    "version": "original",
+    "candidate_id": null
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_98393f00c036238d12aaa9a7"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_81c9421cab2d421e8692d2a1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_31f71272712d952d4b0ae080"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_5121553211a3e4e6adafbec3"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "original",
+    "candidate_id": "q_a68a07ea9212076edc67b98a"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "original",
+    "candidate_id": "q_8af2069fd823aa7df18101eb"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_abd111b7ceb1373227fd6457"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_a340ee0abc480a2497c9284c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_f1a0bb973d72a47a97392681"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_545002251e61bb32ab9c9381"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_f17ec915a8538c1b2aa8e648"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2012/966/art_56/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_80b31874fb5c31ee8acda891"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_60dc7bf3576c75352470ebac"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_21143ca1721cebbf702d1d26"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_391e7df988b799c8a0390756"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "simple",
+    "candidate_id": "q_a37754f9095ab5e8e75a56e8"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "simple",
+    "candidate_id": "q_4f62bc3cefb59d7e466771b8"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "simple",
+    "candidate_id": "q_7558dac98fc6bb6d1e626243"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_f66131c9ce224616c75feb75"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_cea58deaa4c284997c129035"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_b0aeba0d1b7e80678dca4d11"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_dafe590d84736494003e2589"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_a34319f3c4ed379726d6bbbd"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_c34605b16f51b7f8c6f78ee2"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_28b8c41005d0a219252c1b58"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_8322fdf10861c900cb4b1526"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_27b908414cd5176c8666b77c"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_4a9405686fd2bdc419a73c69"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_b62d1c9024e3c53f9595e652"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg/2009/436/art_36/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_8db3b192219730fec46f44f6"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "original",
+    "candidate_id": "q_c42c209d3ad4879d2a693a61"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_366a1dafc3cc7126c09669b7"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_12b121ba6114f9eb8f0c367d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_e12cd3f22742721fc41e67da"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_18f8b23031ad0486feec3b8d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_c2500292e4c54a224b53a0d4"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_6d5ea1546f4981e5315a5d83"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_4f4af233edf61d98f0decf80"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_294c3a4b08fcfa2d78816b46"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_67fc38ea973875bd598c2734"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_c797554f7dab4c2a570cb8c9"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_8f80cbed4c025c95a0363def"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_a66fae86521307d3b269da6e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2006/112/art_111/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_6aec2a5731c3c1fff705c651"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_9c1679dbee14ad266b2d6a61"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_e3db887f667d3ad280999dc8"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_14d113ca9525cdd2f35ca8bd"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_b76befd2698c6239c0e08e61"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_5f874dfff63389782174fb14"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_6e8aeec4f43a0a528a1f9116"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_5d3bf49c4dedce58cfe212f0"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_89ef3ddf2f820cbb51d09265"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_2e1ba4411267bf3bbe5d0663"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_0965f97357e4fa0b049d33e6"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_7dcedbca2dbd4542f1b5e002"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_005b7d28758611c45b9aaf87"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "revised",
+    "candidate_id": "q_badefd9ee8293faedcb59f49"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "revised",
+    "candidate_id": "q_74a17ea15f7b2a815469bbc1"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "revised",
+    "candidate_id": "q_fc5a23e1ce54bb5e62d9fcd9"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "original",
+    "candidate_id": "q_dda7524699001bc5db9e9a23"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "original",
+    "candidate_id": "q_1e229a352091cec3ed8a3122"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/reg_impl/2014/181/art_5/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "original",
+    "candidate_id": "q_5f23ce7c5f09bf4a074e8d39"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A1",
+    "version": "revised",
+    "candidate_id": "q_46cc3c7c16a6b6591707b05e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A2",
+    "version": "revised",
+    "candidate_id": "q_e658f58c3a1564386e4a25da"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "A",
+    "id": "A3",
+    "version": "revised",
+    "candidate_id": "q_f849130b8bae82ae76346b07"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_8bbe87492c2051aec0751b97"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_fcd64508e4514b1af872ba85"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_e338dd874d2de4aa854b2376"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C1",
+    "version": "simple",
+    "candidate_id": "q_e5776a5b0543494162f7906b"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C2",
+    "version": "simple",
+    "candidate_id": "q_c31e36efd7d722b29a10a602"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "fact_pattern",
+    "label": "C",
+    "id": "C3",
+    "version": "simple",
+    "candidate_id": "q_11debaa0f5b1ee933a0ea27d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A1",
+    "version": "simple",
+    "candidate_id": "q_adc1c7b2953c146925d32b9a"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A2",
+    "version": "simple",
+    "candidate_id": "q_fc688af11a7032238290d6aa"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "A",
+    "id": "A3",
+    "version": "simple",
+    "candidate_id": "q_48a4daaa296bf34516895658"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B1",
+    "version": "original",
+    "candidate_id": "q_13502e3a68c855d97ac78212"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B2",
+    "version": "original",
+    "candidate_id": "q_ec7c651572e499f235e250ce"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "B",
+    "id": "B3",
+    "version": "original",
+    "candidate_id": "q_88ec7463bfa67f7075eaa2da"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C1",
+    "version": "revised",
+    "candidate_id": "q_0189b5267aca884d6ac0cc4e"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C2",
+    "version": "revised",
+    "candidate_id": "q_eb024ab524d753f45d98356d"
+  },
+  {
+    "shard": "eurlex",
+    "target_id": "http://data.europa.eu/eli/dir/2014/26/art_2/oj",
+    "mode": "lookup",
+    "label": "C",
+    "id": "C3",
+    "version": "revised",
+    "candidate_id": "q_2e8901ca5f78f61429d6c3aa"
+  }
+]

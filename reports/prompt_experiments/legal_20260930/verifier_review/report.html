@@ -1,0 +1,27 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Verifier performance against manual review</title><style>body{font:16px/1.55 system-ui;max-width:1100px;margin:32px auto;padding:0 20px;color:#17212b}table{border-collapse:collapse;width:100%;margin:20px 0}th,td{border:1px solid #ccd4dd;text-align:left;padding:10px}th{background:#eef3f8}.note{background:#fff2cf;padding:16px}</style>
+<h1>Verifier performance against the manual review</h1>
+<p>Revised verification retains more intrinsically good question–answer pairs but also accepts a larger proportion of weaker pairs. Ranking does not show a consistent improvement. These are descriptive results on each version’s own generated questions, not a controlled test of three verifiers on the same fixed candidate bank.</p>
+<p class="note">Manual reference:717 individually reviewed candidates from40 documents. A good pair means question score at least4/5 and no major answer defect. This proxy does not require compliance with every mode or metadata rule, so some rejected good questions may have valid operational reasons for rejection. Manual labels are agent judgments, not human gold labels.</p>
+<table><tr><th>Metric</th><th>Original</th><th>Revised</th><th>Simple</th></tr>
+<tr><td>Manually good pairs passing native acceptance</td><td>61.6% (106/172)</td><td>83.7% (170/203)</td><td>64.1% (118/184)</td></tr>
+<tr><td>Accepted pairs rated manually good</td><td>93.8% (106/113)</td><td>87.2% (170/195)</td><td>78.7% (118/150)</td></tr>
+<tr><td>Highest-scored candidate manually good, when a good candidate exists</td><td>94.9% (74/78)</td><td>88.6% (70/79)</td><td>88.5% (69/78)</td></tr>
+</table><p>The ranking metric uses82 matched document/mode families where all versions generated candidates, then excludes families with no manually good pair. candidate_rank=1 is the highest combined faithfulness/quality score before acceptance filtering. It is not a claim of actual delivered output.</p>
+<h2>Retention of manually good pairs by mode</h2><table><tr><th>Mode</th><th>Original</th><th>Revised</th><th>Simple</th></tr>
+<tr><td>eurlex/fact_pattern</td><td>55.9% (19/34)</td><td>92.9% (26/28)</td><td>61.8% (21/34)</td></tr>
+<tr><td>eurlex/lookup</td><td>95.2% (40/42)</td><td>97.7% (42/43)</td><td>75.7% (28/37)</td></tr>
+<tr><td>un/lookup</td><td>42.9% (15/35)</td><td>90.6% (48/53)</td><td>50.0% (23/46)</td></tr>
+<tr><td>un/practitioner</td><td>44.8% (13/29)</td><td>62.2% (23/37)</td><td>76.5% (26/34)</td></tr>
+<tr><td>un/semantic</td><td>59.4% (19/32)</td><td>73.8% (31/42)</td><td>60.6% (20/33)</td></tr>
+</table><h2>Concrete source checks</h2>
+<ul><li>EUR-Lex paper rolls: a legitimate threshold application received grounding/precision3/3 originally,4/4 revised, while revised lookup received5/5 for the same answer span. The penalty softened but remained. Question wording also changed, so this does not isolate a causal verifier effect.</li>
+<li>Finnish VAT category membership: original and revised valid category questions both received quality15/25 and total29/40. Both verifier rationales demanded grandfathering/social-reason conditions needed for ultimate exemption entitlement, although the question asked only whether the supply belonged to a listed category.</li>
+<li>UN CEDAW724: the Simple verifier correctly identified a question attributing Ms Tan’s request to Ms Zou. It assigned grounding2/5 and a blocking audit. A weak generated question therefore does not automatically imply a weak verifier.</li>
+<li>EUR-Lex copyright: the Simple verifier correctly described a circular question/answer-type mismatch and scored it28/40, but classified the audit as minor_issues. The ranking put it last, yet the diagnostic acceptance gate still let it through. Recognition of a defect and appropriate gate severity are distinct capabilities.</li></ul>
+<h2>Limitations</h2><ul>
+<li>No controlled fixed-candidate-bank comparison of all three verifier prompts was run. Across all1778 candidates, exact whitespace-normalized QA overlap is only1 original/revised pair and1 revised/simple pair; none across all three.</li>
+<li>Generation quality, number of candidates, mode policies, metadata validity, and candidate difficulty differ by version. Descriptive rates cannot isolate verifier accuracy improvements.</li>
+<li>Manual judgments are agent ratings rather than human gold labels; only40of100 documents reviewed.</li>
+<li>Good intrinsic questions may legitimately fail intended mode or metadata requirements; withheld does not automatically mean an erroneous rejection.</li>
+<li>Highest native total includes answer faithfulness, while primary manual ranking measures question quality. Answer-aware ranking is supplied separately.</li>
+</ul><p><a href="summary.json">Full statistics and definitions</a> · <a href="candidate_alignment.csv">Candidate-level manual/native alignment</a> · <a href="ranking_alignment.csv">Batch-level ranking alignment</a> · <a href="../manual_review/report.html">Manual review</a></p></html>

@@ -65,11 +65,12 @@ THE INFORMATIVENESS TEST: the answer must tell the asker something the question 
   contain. Two ways to fail it. Restatement — the answer repeats the question's words or the pointer
   it was built from: "in relation to matters to which it applies"; "a list of material approved" in
   reply to "what must they send about the material approved". Answer written into the question — the
-  number, date, list or decision that constitutes the answer already appears in it: "Is the maritime
-  accident investigation regime excluded for fishing vessels with a length of less than 15 metres?"
-  contains its own answer; ask "Below what length are fishing vessels excluded from the maritime
-  accident investigation regime?" (answer "15 metres"). Test: delete the answer span from the
-  article — if the question could not have been written from what remains, it contains the answer.
+  number, date, list or decision that constitutes the unknown already appears as an established
+  fact. Repeating a condition, actor or legal term is not itself leakage. Asking whether a fishing
+  vessel is excluded may leave the legal relationship unknown even if its length is supplied;
+  answer with the deciding source evidence, not merely the repeated length. If the unknown is the
+  threshold itself, ask "Below what length are fishing vessels excluded from the maritime
+  accident investigation regime?" rather than putting that threshold into the question.
   Write from the rule's conditions, never from its consequence, and ask about the substance: what
   the rule requires, permits or forbids, in which respects, for whom, by when.
 PARAPHRASE WITHOUT DRIFT: rewrite the article's scaffolding in your own words — do not lift
@@ -117,8 +118,13 @@ THE ONE-ARTICLE TEST: the question must turn on what the TARGET article lays dow
   the answer's substance lies behind a citation that was NOT supplied, discard.
 GROUNDING: the answer is the shortest contiguous span of the supplied text — the target article, or
   the target combined with a supplied referenced article — that fully answers the question; for a
-  yes/no question, the span that decides it, never "yes" or "no". No inference beyond following an
-  explicit cross-reference, no outside knowledge.
+  yes/no question, the span that decides it, never an added "yes" or "no" conclusion. Matching
+  stated facts to explicit conditions, categories, thresholds or dates and resolving ordinary
+  referents are allowed, as is following a supplied explicit cross-reference. Do not add outside
+  law, missing conditions, unstated sanctions or converse rules. The span is evidence, not a
+  standalone explanatory answer; read it with the question and supplied source. A category-only
+  ask does not require unrelated conditions for ultimate entitlement. A coverage or entitlement
+  claim does require all outcome-changing qualifications.
 DECLARING INVOLVED ARTICLES — "articles_involved" lists exactly the provisions a reader needs to
   produce the answer; it is graded, and an error here counts as a wrong answer:
 - The target article is always listed. A referenced article is listed only if its content is part of
@@ -146,7 +152,7 @@ WHAT TO ASK — eight categories ("question_type"), each with the shapes practit
     suspend / withdraw [X] when [Y]?"
   8. definition_actor_or_procedure — "What counts as [term] under [regime]?", "Which body [decides /
     monitors / approves] [X]?", "What is the procedure for [X]?"
-Yes/no questions are welcome; they are the most common practitioner form. Every question asks for
+Yes/no and wh-questions are equally valid; choose the form fitting the information need. Every question asks for
   exactly ONE piece of information and carries a regime anchor; a bare slot ("What must be taken
   into account when …?", "What factors deserve special consideration …?") is not a question. Purpose
   or rationale only when the text states it explicitly and completely.
@@ -291,9 +297,8 @@ SELF-CHECK for each question before finalizing:
 1. ANCHOR in both renderings, not a generic actor, reported verbatim in "anchor"; SIBLING TEST:
   would the question fit a different act word for word?
 2. COLLEAGUE TEST: every "the X" resolves from the question alone.
-3. INFORMATIVENESS: the answer adds something; no restatement; the answer's number, date, list or
-  decision is not in the question — delete the answer span from the article: could the question
-  still have been written?
+3. INFORMATIVENESS: the evidence resolves an unknown legal point. Do not assert the requested
+  number, date, list or decision as a premise; necessary conditions and legal terms may repeat.
 4. ONE-ARTICLE TEST: answerable from a referenced article alone? Discard. Answer's substance behind
   an unsupplied citation? Discard. Not boilerplate.
 5. RENDERINGS: "question" identifier-free and deixis-free; "question_cited" the same words plus

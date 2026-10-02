@@ -1,0 +1,80 @@
+{
+  "bundle": "un-practitioner-cases-20261001",
+  "previous_bundle": "debiased",
+  "provider": "local MLflow Prompt Registry",
+  "activation_alias": "production",
+  "active_manifest": ".clir/active_prompt_manifest.json",
+  "manifest": "manifest.json",
+  "previous_manifest": "before_manifest.json",
+  "changed_versions": {
+    "un/faithfulness": {
+      "previous_version": 2,
+      "new_version": 4,
+      "sha256": "74c63521399c1d5dff6908e17819fb49a299e75f9157ea9fb9257bcd1366e539"
+    },
+    "un/generation/practitioner": {
+      "previous_version": 2,
+      "new_version": 4,
+      "sha256": "6f1e8a03acedd1a291fd5f8e39b54d7dc0c66333b8896ab349e42d54bc760f8f"
+    },
+    "un/generation/practitioner/de": {
+      "previous_version": 2,
+      "new_version": 4,
+      "sha256": "5daedeb4e1aed9e00c33247f56722993838a8993227bbffc37988e6c2c83ada0"
+    },
+    "un/generation/practitioner/es": {
+      "previous_version": 2,
+      "new_version": 4,
+      "sha256": "ee9c33e5548f63a731e2df8f357b2fad0265f8dd724b3589b68e5d80cf4a47c7"
+    },
+    "un/generation/practitioner/fr": {
+      "previous_version": 2,
+      "new_version": 4,
+      "sha256": "cf8df87cf39946efaf8d21405f2e14dc0964cafe65125e7fafc900d3c645fd32"
+    },
+    "un/generation/practitioner/zh": {
+      "previous_version": 2,
+      "new_version": 4,
+      "sha256": "4fc0ed66960b1d41f7e5e112921360f7567d5d09c3a18dc2ebb542cc1ac9c213"
+    },
+    "un/quality/practitioner": {
+      "previous_version": 2,
+      "new_version": 4,
+      "sha256": "29a80592b9f07b7b853444201c0358a7b3d77755425a30970447224d70ddc492"
+    }
+  },
+  "unchanged_prompt_entries": 41,
+  "design_changes": [
+    "Practitioner generation now starts from a target answer and builds a concrete actor/task/circumstances with one unknown, inspired by EUR-Lex fact patterns and adapted to UN actors and source types.",
+    "Relevant case details replace fixed anchor counts and short word limits. Country, mission, period and attribution must distinguish the intended situation.",
+    "Requests, proposals and attributed findings remain eligible without being promoted to binding obligations, adopted measures or established events.",
+    "Clearly hypothetical conditions may instantiate explicit source rules; fabricated historical claims, unstated converses, sanctions and consequences remain invalid.",
+    "Answers remain one complete contiguous target span, with faithful translation allowed when the requested language version is absent. Context can identify referents but cannot supply answer substance.",
+    "French, German, Spanish and Chinese generation prompts replace the old prompt-plus-overrides with equivalent versions of the English contract.",
+    "The practitioner quality verifier uses the same case contract and existing five score keys. Consequence measures practical usefulness, not legal force. Category diversity is not required.",
+    "The shared UN faithfulness prompt adds a narrowly scoped practitioner-case clarification so hypothetical case facts are not scored as invented source facts."
+  ],
+  "validation": {
+    "pytest_command": "CLIR_PROMPT_SOURCE=local MLFLOW_DISABLE_AGENT_HINT=1 .venv/bin/python -m pytest -q tests/test_prompt_registry.py tests/test_rubric_keys.py tests/test_un_batch.py tests/test_un_context.py tests/test_un_batch_manifest.py tests/test_legal_batch_replay_integration.py tests/test_legal_decider.py",
+    "tests_passed": 263,
+    "warnings": 1,
+    "warning_description": "Existing MLflow/SQLAlchemy noload deprecation warning.",
+    "generation_languages_checked": [
+      "en",
+      "fr",
+      "de",
+      "es",
+      "zh"
+    ],
+    "illustrative_source_answer_spans_checked": 15,
+    "generation_output_and_skip_parse": "pass",
+    "quality_output_schema_and_score_keys": "pass",
+    "faithfulness_output_schema": "pass",
+    "changed_scope": "exactly seven expected prompt entries; other 41 entries retained",
+    "mlflow_versions_and_active_loader_text": "verified",
+    "model_generation_or_grading_calls": 0,
+    "measured_quality_improvement": null,
+    "limitation": "Static review and integration tests establish compatibility, not generated-question quality or verifier accuracy."
+  },
+  "rollback_command": ".venv/bin/python -m clir_bench.core.prompt_registry activate --manifest reports/prompt_versions/un_practitioner_cases_20261001/before_manifest.json --label production"
+}

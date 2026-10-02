@@ -1,0 +1,1061 @@
+{
+  "config": {
+    "eurlex": 50,
+    "generator": "gpt-5.6-luna",
+    "jev_model": "~typesafe/jev-latest",
+    "keep": 3,
+    "language": "en",
+    "max_per_document": 1,
+    "meeting_modes": "all",
+    "prompt_registry": {
+      "bundle": "debiased",
+      "bundle_sha256": "d4deb32e2668a73f124204f949674307a885cfc03c3b7f17178534150ef470b1",
+      "label": "legal-20260930-debiased",
+      "prompts": {
+        "eurlex/decider/generator": {
+          "name": "clir-legal-eurlex-decider-generator-en",
+          "sha256": "892009920fb64b7cd0c81129cb037619a102d6bb02bb5fbaad00474bbd5cf31a",
+          "version": 2
+        },
+        "eurlex/decider/jev": {
+          "name": "clir-legal-eurlex-decider-jev-en",
+          "sha256": "d5e57a94077bb199aeec14a5df975da80d220440f23e05d687a8634fea0ee16c",
+          "version": 2
+        },
+        "eurlex/faithfulness": {
+          "name": "clir-legal-eurlex-faithfulness-batch-en",
+          "sha256": "ff5f30bc175b59a055e9a990127b62d541efaa75e08fbb50a288e12c4384e5a9",
+          "version": 2
+        },
+        "eurlex/generation/fact_pattern": {
+          "name": "clir-legal-eurlex-generation-fact_pattern-en",
+          "sha256": "2b976b322cd36a7266854ed71481d891d5a17824f1dac810c8e5a42b9431504f",
+          "version": 2
+        },
+        "eurlex/generation/fact_pattern/de": {
+          "name": "clir-legal-eurlex-generation-fact_pattern-de",
+          "sha256": "43fefbeb978df6b4d613e65069841686491e762bad38a4cf1171ea07d31b9bef",
+          "version": 2
+        },
+        "eurlex/generation/fact_pattern/es": {
+          "name": "clir-legal-eurlex-generation-fact_pattern-es",
+          "sha256": "8a4a59262f98cca530633ff599dede127914d5d7378f3f9f471947a2cc0f572a",
+          "version": 2
+        },
+        "eurlex/generation/fact_pattern/fr": {
+          "name": "clir-legal-eurlex-generation-fact_pattern-fr",
+          "sha256": "003d0523f3172d5cd18b85f3fdb5f618e99c0bacd368c966628b6e592fa99cee",
+          "version": 2
+        },
+        "eurlex/generation/fact_pattern/zh": {
+          "name": "clir-legal-eurlex-generation-fact_pattern-zh",
+          "sha256": "800c52b222bcd8c9c25fea09ed0504e100bc9b20b6f7fce8d0ddf90d1b26e0eb",
+          "version": 2
+        },
+        "eurlex/generation/lookup": {
+          "name": "clir-legal-eurlex-generation-lookup-en",
+          "sha256": "42098d0db141007ccbc262a423bc9b188f5ff2aa2e5badbc4b4812033edd3605",
+          "version": 2
+        },
+        "eurlex/generation/lookup/de": {
+          "name": "clir-legal-eurlex-generation-lookup-de",
+          "sha256": "466643a5ae1f950925129cb3c1d9570934a5dcd548856d9e833c78f9a9caa290",
+          "version": 2
+        },
+        "eurlex/generation/lookup/es": {
+          "name": "clir-legal-eurlex-generation-lookup-es",
+          "sha256": "70a5f36b78fe5602645417514ea66ea0599d5864281abcb4aa401790af9d6eda",
+          "version": 2
+        },
+        "eurlex/generation/lookup/fr": {
+          "name": "clir-legal-eurlex-generation-lookup-fr",
+          "sha256": "c39539d3bdf1edb7b22514559fbeade6a046465c250b73b11c1c4e4b2174b85b",
+          "version": 2
+        },
+        "eurlex/generation/lookup/zh": {
+          "name": "clir-legal-eurlex-generation-lookup-zh",
+          "sha256": "008dc1dcbb74f9863199b026f7adb2583050136eaa1bb918c0bf41b752dac3a0",
+          "version": 2
+        },
+        "eurlex/quality/fact_pattern": {
+          "name": "clir-legal-eurlex-quality-fact_pattern-en",
+          "sha256": "80be78fb2b112042153dc98ab63613b37dd35c4d96493cf722d6b453dcc004d8",
+          "version": 2
+        },
+        "eurlex/quality/lookup": {
+          "name": "clir-legal-eurlex-quality-lookup-en",
+          "sha256": "e2a53fa6b4bf713264d8cd393fda6ad761fc146e88288569e43d1993a0af81bd",
+          "version": 2
+        },
+        "un/decider/generator": {
+          "name": "clir-legal-un-decider-generator-en",
+          "sha256": "551c0ccae2a55332cf6048f5d99028433c1bb939d4af4ff272ed380337143585",
+          "version": 2
+        },
+        "un/decider/jev": {
+          "name": "clir-legal-un-decider-jev-en",
+          "sha256": "afb32a59f0aad7606d2742b0aa51b01f29d3316652c72b2fcffdd655e14c82d5",
+          "version": 2
+        },
+        "un/faithfulness": {
+          "name": "clir-legal-un-faithfulness-batch-en",
+          "sha256": "93c94344805ba111890beaa702b15f1c148c61e53245b7b3c54406fd7696fdbf",
+          "version": 2
+        },
+        "un/generation/descriptive": {
+          "name": "clir-legal-un-generation-descriptive-en",
+          "sha256": "33ae092af1f6b3821788794dc5ab5c5e81e6fd75d043a69a24555dae182c0957",
+          "version": 2
+        },
+        "un/generation/descriptive/de": {
+          "name": "clir-legal-un-generation-descriptive-de",
+          "sha256": "9f5e9ea4b2e7a67c380656a8cec34463492ee83e174e8db188b0764eabd60fd0",
+          "version": 2
+        },
+        "un/generation/descriptive/es": {
+          "name": "clir-legal-un-generation-descriptive-es",
+          "sha256": "82b9ceb4a693856e7d1bb44e8084f40103d837ae9d4048734b11a7adf4760a6d",
+          "version": 2
+        },
+        "un/generation/descriptive/fr": {
+          "name": "clir-legal-un-generation-descriptive-fr",
+          "sha256": "01f33b6ca8fb66afe1a8db9b4c65fc1997067834748da90d21b9c34bbf4aeb08",
+          "version": 2
+        },
+        "un/generation/descriptive/zh": {
+          "name": "clir-legal-un-generation-descriptive-zh",
+          "sha256": "788cd99c769153fa0abea925d18e4b522b6919aa5b67d82267e4b126c3e5a971",
+          "version": 2
+        },
+        "un/generation/lookup": {
+          "name": "clir-legal-un-generation-lookup-en",
+          "sha256": "6f8ee6797635bd087a340b6ba3256ec58341616bd2bfdf8376027bb8b6bd699e",
+          "version": 2
+        },
+        "un/generation/lookup/de": {
+          "name": "clir-legal-un-generation-lookup-de",
+          "sha256": "7f760bbfebb981823e96fd0a2a28583aadaaf7259639a668d83043c06bea65ea",
+          "version": 2
+        },
+        "un/generation/lookup/es": {
+          "name": "clir-legal-un-generation-lookup-es",
+          "sha256": "cf66a8e9b2ed592da6b89d22984aa43bcbe8a3cc4a16256b9f0bbaa13f559083",
+          "version": 2
+        },
+        "un/generation/lookup/fr": {
+          "name": "clir-legal-un-generation-lookup-fr",
+          "sha256": "13b9e03f7761f6636ce9cef24ddba720ac5fc6cf1db7dee8b977087afb273f1b",
+          "version": 2
+        },
+        "un/generation/lookup/zh": {
+          "name": "clir-legal-un-generation-lookup-zh",
+          "sha256": "8073bad190efe5c35da03fe8c8fefeedf49e4a124adae50426884d88ee982538",
+          "version": 2
+        },
+        "un/generation/practitioner": {
+          "name": "clir-legal-un-generation-practitioner-en",
+          "sha256": "4453fa3dec8e4eb1b3427e945f1e39e32b0ab048fe579b68c3b8c6239a3a2a7c",
+          "version": 2
+        },
+        "un/generation/practitioner/de": {
+          "name": "clir-legal-un-generation-practitioner-de",
+          "sha256": "43e174381a7d9fb1ede5432bff921aa7cf84904264c03f9e5a98355b61901f79",
+          "version": 2
+        },
+        "un/generation/practitioner/es": {
+          "name": "clir-legal-un-generation-practitioner-es",
+          "sha256": "918fb6a4b591cd019f6d06012aa76dd74798cc15947c1af83d1f244ebc25fe8a",
+          "version": 2
+        },
+        "un/generation/practitioner/fr": {
+          "name": "clir-legal-un-generation-practitioner-fr",
+          "sha256": "d82e89e6bb6d173e84a7e52f640347d57ee1d74954264ee549b8f9cad81401ac",
+          "version": 2
+        },
+        "un/generation/practitioner/zh": {
+          "name": "clir-legal-un-generation-practitioner-zh",
+          "sha256": "08b06f038b5183955ace29c1ff6841e2be100f13e3a12d38af6e6274a5256049",
+          "version": 2
+        },
+        "un/generation/semantic": {
+          "name": "clir-legal-un-generation-semantic-en",
+          "sha256": "a8005d77bd9a39d30e512e50eb8b1d1652261e10f4da6c5f37493a39e6caf3a5",
+          "version": 2
+        },
+        "un/generation/semantic/de": {
+          "name": "clir-legal-un-generation-semantic-de",
+          "sha256": "353b6527439a4a03e1ac36f283a7168c0b8d490e0bf08a6e41f171d3722d2016",
+          "version": 2
+        },
+        "un/generation/semantic/es": {
+          "name": "clir-legal-un-generation-semantic-es",
+          "sha256": "ca58d653bde75e9c3034e5b134d1b2c1113994d5a31643e49d604a98ef5c8ee3",
+          "version": 2
+        },
+        "un/generation/semantic/fr": {
+          "name": "clir-legal-un-generation-semantic-fr",
+          "sha256": "123b00126c0f95be85e3125b7bad9ca4efab3feb1230de7a62a22ddd84648e96",
+          "version": 2
+        },
+        "un/generation/semantic/zh": {
+          "name": "clir-legal-un-generation-semantic-zh",
+          "sha256": "3648d1c00dd08731d999a1f3a4174a2d1be20b3560b0cbe8e496a2a26e737d84",
+          "version": 2
+        },
+        "un/generation/technical": {
+          "name": "clir-legal-un-generation-technical-en",
+          "sha256": "d1342668e6b6e37c0a0384c5ec99932ab3b652629c7b17506f1bcc39951d3534",
+          "version": 2
+        },
+        "un/generation/technical/de": {
+          "name": "clir-legal-un-generation-technical-de",
+          "sha256": "cf958f05ea552acf007c63a0d6e3348781f191919bcb440b769e2ed0640d2646",
+          "version": 2
+        },
+        "un/generation/technical/es": {
+          "name": "clir-legal-un-generation-technical-es",
+          "sha256": "fe48723f1f4d0f64ed92608f06d1df59a267a4d0e6e68dd37191763b8a94ad8c",
+          "version": 2
+        },
+        "un/generation/technical/fr": {
+          "name": "clir-legal-un-generation-technical-fr",
+          "sha256": "be3ec8a50372f18db783f73ee87b7503461e0c1ae812108bb0e46376921b7e65",
+          "version": 2
+        },
+        "un/generation/technical/zh": {
+          "name": "clir-legal-un-generation-technical-zh",
+          "sha256": "8dd91cd9af75fddf9cbea58f89bf0e88ff5fd626f286202822aeba0c0e9e4c16",
+          "version": 2
+        },
+        "un/quality/descriptive": {
+          "name": "clir-legal-un-quality-descriptive-en",
+          "sha256": "5c0b3bfa22579ca330233bfaf525d32c1d520f8bf36d48c04d43f19a87febd5a",
+          "version": 2
+        },
+        "un/quality/lookup": {
+          "name": "clir-legal-un-quality-lookup-en",
+          "sha256": "58897421a24d70994ffcd742e0479f922cdd596c88a72fd4ecf41bf5c2711261",
+          "version": 2
+        },
+        "un/quality/practitioner": {
+          "name": "clir-legal-un-quality-practitioner-en",
+          "sha256": "cf902d2248b1ed234d78c0dd9968060e47f605252f2424a271e35731ddb750b7",
+          "version": 2
+        },
+        "un/quality/semantic": {
+          "name": "clir-legal-un-quality-semantic-en",
+          "sha256": "022a71c28d27661bc162c8dc36836dd7320c3c3fd148adb4efea555a8aa3d8e2",
+          "version": 2
+        },
+        "un/quality/technical": {
+          "name": "clir-legal-un-quality-technical-en",
+          "sha256": "f705288ccd9a16f99f505f20dea44cbe3662bada6b5c65322d99f784d56891f7",
+          "version": 2
+        }
+      },
+      "provider": "mlflow",
+      "registry_uri": "sqlite:////home/mehdi/Projects/CLIR_benchmark/.clir/prompts.db",
+      "schema_version": 1
+    },
+    "prompts_sha256": "64c5c1736ca3dd72df4905722025a4f4d846ce7d0a1edc09abb8600dc6be734c",
+    "retries": 3,
+    "seed": 20260930,
+    "selection_source": "/home/mehdi/Projects/CLIR_benchmark/reports/decider_screening/fresh100_20260930_examples/selection.json",
+    "targets_sha256": "4cbc8590864a2234cbb839290bd836d84b57c4bde5b3b87b4764a82437e2c8d0",
+    "un": 50,
+    "verifier": "anthropic/claude-sonnet-5.5"
+  },
+  "status": "completed",
+  "original_failed_tasks": 13,
+  "repaired_tasks": [
+    "mode/un/2001/s/res/1376_2001_#2/practitioner",
+    "mode/un/2013/a/res/67/199#12/semantic",
+    "mode/un/2007/a/res/62/137#12/practitioner",
+    "mode/un/2002/a/res/56/188#8/semantic",
+    "mode/un/2008/a/ac_109/2008/sr_2#1/semantic",
+    "mode/un/2014/s/res/2140__2014_#13/semantic",
+    "mode/un/2003/a/res/57/300#10/semantic",
+    "mode/un/2004/a/c_2/58/sr_24#18/semantic",
+    "mode/eurlex/http://data.europa.eu/eli/reg/2011/333/art_2/oj/fact_pattern",
+    "mode/un/2004/s/2004/674#6/practitioner",
+    "mode/eurlex/http://data.europa.eu/eli/dir/2014/50/art_5/oj/fact_pattern",
+    "mode/eurlex/http://data.europa.eu/eli/reg/2009/436/art_36/oj/fact_pattern",
+    "mode/un/2004/s/2004/505#15/semantic"
+  ],
+  "outcomes": {
+    "completed": 427,
+    "no_candidates": 23
+  },
+  "distributions": [
+    {
+      "subset": "un_all",
+      "backend": "generator",
+      "mode": "lookup",
+      "count": 22,
+      "n": 50,
+      "percent": 44.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "generator",
+      "mode": "practitioner",
+      "count": 25,
+      "n": 50,
+      "percent": 50.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "generator",
+      "mode": "semantic",
+      "count": 3,
+      "n": 50,
+      "percent": 6.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "generator",
+      "mode": "skip",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "generator",
+      "mode": "error",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "jev",
+      "mode": "lookup",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "jev",
+      "mode": "practitioner",
+      "count": 44,
+      "n": 50,
+      "percent": 88.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "jev",
+      "mode": "semantic",
+      "count": 6,
+      "n": 50,
+      "percent": 12.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "jev",
+      "mode": "skip",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_all",
+      "backend": "jev",
+      "mode": "error",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "generator",
+      "mode": "lookup",
+      "count": 15,
+      "n": 30,
+      "percent": 50.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "generator",
+      "mode": "practitioner",
+      "count": 15,
+      "n": 30,
+      "percent": 50.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "generator",
+      "mode": "semantic",
+      "count": 0,
+      "n": 30,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "generator",
+      "mode": "skip",
+      "count": 0,
+      "n": 30,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "generator",
+      "mode": "error",
+      "count": 0,
+      "n": 30,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "jev",
+      "mode": "lookup",
+      "count": 0,
+      "n": 30,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "jev",
+      "mode": "practitioner",
+      "count": 28,
+      "n": 30,
+      "percent": 93.33333333333333
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "jev",
+      "mode": "semantic",
+      "count": 2,
+      "n": 30,
+      "percent": 6.666666666666667
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "jev",
+      "mode": "skip",
+      "count": 0,
+      "n": 30,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "jev",
+      "mode": "error",
+      "count": 0,
+      "n": 30,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "generator",
+      "mode": "lookup",
+      "count": 7,
+      "n": 20,
+      "percent": 35.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "generator",
+      "mode": "practitioner",
+      "count": 10,
+      "n": 20,
+      "percent": 50.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "generator",
+      "mode": "semantic",
+      "count": 3,
+      "n": 20,
+      "percent": 15.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "generator",
+      "mode": "skip",
+      "count": 0,
+      "n": 20,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "generator",
+      "mode": "error",
+      "count": 0,
+      "n": 20,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "jev",
+      "mode": "lookup",
+      "count": 0,
+      "n": 20,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "jev",
+      "mode": "practitioner",
+      "count": 16,
+      "n": 20,
+      "percent": 80.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "jev",
+      "mode": "semantic",
+      "count": 4,
+      "n": 20,
+      "percent": 20.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "jev",
+      "mode": "skip",
+      "count": 0,
+      "n": 20,
+      "percent": 0.0
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "jev",
+      "mode": "error",
+      "count": 0,
+      "n": 20,
+      "percent": 0.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "fact_pattern",
+      "count": 38,
+      "n": 50,
+      "percent": 76.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "lookup",
+      "count": 1,
+      "n": 50,
+      "percent": 2.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "skip",
+      "count": 11,
+      "n": 50,
+      "percent": 22.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "mode": "error",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "fact_pattern",
+      "count": 18,
+      "n": 50,
+      "percent": 36.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "lookup",
+      "count": 22,
+      "n": 50,
+      "percent": 44.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "skip",
+      "count": 10,
+      "n": 50,
+      "percent": 20.0
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "mode": "error",
+      "count": 0,
+      "n": 50,
+      "percent": 0.0
+    }
+  ],
+  "policies": [
+    {
+      "subset": "un_all",
+      "backend": "generator",
+      "n": 50,
+      "complete_comparisons": 50,
+      "routed": 50,
+      "scored_selected": 50,
+      "skipped": 0,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 50,
+      "matches_oracle": 24,
+      "mean_selected_score_when_available": 34.02,
+      "mean_regret_when_scored": 1.54,
+      "mean_utility_zero_for_skip_or_no_candidate": 34.02,
+      "mean_audit_clear_utility": 27,
+      "mean_oracle_utility": 35.56
+    },
+    {
+      "subset": "un_all",
+      "backend": "jev",
+      "n": 50,
+      "complete_comparisons": 50,
+      "routed": 50,
+      "scored_selected": 50,
+      "skipped": 0,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 50,
+      "matches_oracle": 14,
+      "mean_selected_score_when_available": 33.2,
+      "mean_regret_when_scored": 2.36,
+      "mean_utility_zero_for_skip_or_no_candidate": 33.2,
+      "mean_audit_clear_utility": 19.68,
+      "mean_oracle_utility": 35.56
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "generator",
+      "n": 30,
+      "complete_comparisons": 30,
+      "routed": 30,
+      "scored_selected": 30,
+      "skipped": 0,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 30,
+      "matches_oracle": 18,
+      "mean_selected_score_when_available": 34.36666666666667,
+      "mean_regret_when_scored": 1.3,
+      "mean_utility_zero_for_skip_or_no_candidate": 34.36666666666667,
+      "mean_audit_clear_utility": 27.966666666666665,
+      "mean_oracle_utility": 35.666666666666664
+    },
+    {
+      "subset": "un_without_meetings",
+      "backend": "jev",
+      "n": 30,
+      "complete_comparisons": 30,
+      "routed": 30,
+      "scored_selected": 30,
+      "skipped": 0,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 30,
+      "matches_oracle": 9,
+      "mean_selected_score_when_available": 33.266666666666666,
+      "mean_regret_when_scored": 2.4,
+      "mean_utility_zero_for_skip_or_no_candidate": 33.266666666666666,
+      "mean_audit_clear_utility": 19.5,
+      "mean_oracle_utility": 35.666666666666664
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "generator",
+      "n": 20,
+      "complete_comparisons": 20,
+      "routed": 20,
+      "scored_selected": 20,
+      "skipped": 0,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 20,
+      "matches_oracle": 6,
+      "mean_selected_score_when_available": 33.5,
+      "mean_regret_when_scored": 1.9,
+      "mean_utility_zero_for_skip_or_no_candidate": 33.5,
+      "mean_audit_clear_utility": 25.55,
+      "mean_oracle_utility": 35.4
+    },
+    {
+      "subset": "un_meetings_only",
+      "backend": "jev",
+      "n": 20,
+      "complete_comparisons": 20,
+      "routed": 20,
+      "scored_selected": 20,
+      "skipped": 0,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 20,
+      "matches_oracle": 5,
+      "mean_selected_score_when_available": 33.1,
+      "mean_regret_when_scored": 2.3,
+      "mean_utility_zero_for_skip_or_no_candidate": 33.1,
+      "mean_audit_clear_utility": 19.95,
+      "mean_oracle_utility": 35.4
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "generator",
+      "n": 50,
+      "complete_comparisons": 50,
+      "routed": 39,
+      "scored_selected": 38,
+      "skipped": 11,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 1,
+      "oracle_available": 39,
+      "matches_oracle": 12,
+      "mean_selected_score_when_available": 35.13157894736842,
+      "mean_regret_when_scored": 2.026315789473684,
+      "mean_utility_zero_for_skip_or_no_candidate": 26.7,
+      "mean_audit_clear_utility": 24.14,
+      "mean_oracle_utility": 28.98
+    },
+    {
+      "subset": "eurlex_all",
+      "backend": "jev",
+      "n": 50,
+      "complete_comparisons": 50,
+      "routed": 40,
+      "scored_selected": 39,
+      "skipped": 10,
+      "missed_score_opportunities": 0,
+      "selected_mode_unproductive_despite_alternative": 0,
+      "oracle_available": 39,
+      "matches_oracle": 17,
+      "mean_selected_score_when_available": 35.743589743589745,
+      "mean_regret_when_scored": 1.4102564102564104,
+      "mean_utility_zero_for_skip_or_no_candidate": 27.88,
+      "mean_audit_clear_utility": 27.28,
+      "mean_oracle_utility": 28.98
+    }
+  ],
+  "agreement": [
+    {
+      "subset": "un_all",
+      "n": 50,
+      "valid_pairs": 50,
+      "agree": 23,
+      "generator_better_utility": 19,
+      "jev_better_utility": 4,
+      "utility_ties": 27,
+      "mean_paired_utility_difference_generator_minus_jev": 0.82,
+      "bootstrap_95_interval": [
+        0.12,
+        1.5
+      ]
+    },
+    {
+      "subset": "un_without_meetings",
+      "n": 30,
+      "valid_pairs": 30,
+      "agree": 15,
+      "generator_better_utility": 12,
+      "jev_better_utility": 1,
+      "utility_ties": 17,
+      "mean_paired_utility_difference_generator_minus_jev": 1.1,
+      "bootstrap_95_interval": [
+        0.3,
+        1.9333333333333333
+      ]
+    },
+    {
+      "subset": "un_meetings_only",
+      "n": 20,
+      "valid_pairs": 20,
+      "agree": 8,
+      "generator_better_utility": 7,
+      "jev_better_utility": 3,
+      "utility_ties": 10,
+      "mean_paired_utility_difference_generator_minus_jev": 0.4,
+      "bootstrap_95_interval": [
+        -0.7,
+        1.4
+      ]
+    },
+    {
+      "subset": "eurlex_all",
+      "n": 50,
+      "valid_pairs": 50,
+      "agree": 29,
+      "generator_better_utility": 7,
+      "jev_better_utility": 12,
+      "utility_ties": 31,
+      "mean_paired_utility_difference_generator_minus_jev": -1.18,
+      "bootstrap_95_interval": [
+        -2.92,
+        -0.1
+      ]
+    }
+  ],
+  "modes": [
+    {
+      "subset": "un_all",
+      "mode": "lookup",
+      "attempted": 50,
+      "eligible": 50,
+      "completed_eligible": 50,
+      "scored": 50,
+      "generated_candidates": 147,
+      "no_candidates": 0,
+      "mean_best_score": 34.66,
+      "mean_best_faithfulness": 14.72,
+      "mean_best_quality": 19.94,
+      "mean_utility_zero_for_no_candidate": 34.66,
+      "mean_audit_clear_utility": 34.52,
+      "oracle_wins_including_ties": 28,
+      "best_candidate_blocking": 0,
+      "audit_clear_targets": 50
+    },
+    {
+      "subset": "un_all",
+      "mode": "practitioner",
+      "attempted": 50,
+      "eligible": 50,
+      "completed_eligible": 50,
+      "scored": 50,
+      "generated_candidates": 144,
+      "no_candidates": 0,
+      "mean_best_score": 32.98,
+      "mean_best_faithfulness": 14.44,
+      "mean_best_quality": 18.54,
+      "mean_utility_zero_for_no_candidate": 32.98,
+      "mean_audit_clear_utility": 19.58,
+      "oracle_wins_including_ties": 12,
+      "best_candidate_blocking": 10,
+      "audit_clear_targets": 29
+    },
+    {
+      "subset": "un_all",
+      "mode": "semantic",
+      "attempted": 50,
+      "eligible": 50,
+      "completed_eligible": 50,
+      "scored": 50,
+      "generated_candidates": 140,
+      "no_candidates": 0,
+      "mean_best_score": 34.12,
+      "mean_best_faithfulness": 14.64,
+      "mean_best_quality": 19.48,
+      "mean_utility_zero_for_no_candidate": 34.12,
+      "mean_audit_clear_utility": 29.52,
+      "oracle_wins_including_ties": 19,
+      "best_candidate_blocking": 4,
+      "audit_clear_targets": 43
+    },
+    {
+      "subset": "un_without_meetings",
+      "mode": "lookup",
+      "attempted": 30,
+      "eligible": 30,
+      "completed_eligible": 30,
+      "scored": 30,
+      "generated_candidates": 88,
+      "no_candidates": 0,
+      "mean_best_score": 34.833333333333336,
+      "mean_best_faithfulness": 14.766666666666667,
+      "mean_best_quality": 20.066666666666666,
+      "mean_utility_zero_for_no_candidate": 34.833333333333336,
+      "mean_audit_clear_utility": 34.766666666666666,
+      "oracle_wins_including_ties": 19,
+      "best_candidate_blocking": 0,
+      "audit_clear_targets": 30
+    },
+    {
+      "subset": "un_without_meetings",
+      "mode": "practitioner",
+      "attempted": 30,
+      "eligible": 30,
+      "completed_eligible": 30,
+      "scored": 30,
+      "generated_candidates": 86,
+      "no_candidates": 0,
+      "mean_best_score": 33.166666666666664,
+      "mean_best_faithfulness": 14.4,
+      "mean_best_quality": 18.766666666666666,
+      "mean_utility_zero_for_no_candidate": 33.166666666666664,
+      "mean_audit_clear_utility": 19.4,
+      "oracle_wins_including_ties": 9,
+      "best_candidate_blocking": 7,
+      "audit_clear_targets": 17
+    },
+    {
+      "subset": "un_without_meetings",
+      "mode": "semantic",
+      "attempted": 30,
+      "eligible": 30,
+      "completed_eligible": 30,
+      "scored": 30,
+      "generated_candidates": 82,
+      "no_candidates": 0,
+      "mean_best_score": 34.1,
+      "mean_best_faithfulness": 14.666666666666666,
+      "mean_best_quality": 19.433333333333334,
+      "mean_utility_zero_for_no_candidate": 34.1,
+      "mean_audit_clear_utility": 30.866666666666667,
+      "oracle_wins_including_ties": 10,
+      "best_candidate_blocking": 3,
+      "audit_clear_targets": 27
+    },
+    {
+      "subset": "un_meetings_only",
+      "mode": "lookup",
+      "attempted": 20,
+      "eligible": 20,
+      "completed_eligible": 20,
+      "scored": 20,
+      "generated_candidates": 59,
+      "no_candidates": 0,
+      "mean_best_score": 34.4,
+      "mean_best_faithfulness": 14.65,
+      "mean_best_quality": 19.75,
+      "mean_utility_zero_for_no_candidate": 34.4,
+      "mean_audit_clear_utility": 34.15,
+      "oracle_wins_including_ties": 9,
+      "best_candidate_blocking": 0,
+      "audit_clear_targets": 20
+    },
+    {
+      "subset": "un_meetings_only",
+      "mode": "practitioner",
+      "attempted": 20,
+      "eligible": 20,
+      "completed_eligible": 20,
+      "scored": 20,
+      "generated_candidates": 58,
+      "no_candidates": 0,
+      "mean_best_score": 32.7,
+      "mean_best_faithfulness": 14.5,
+      "mean_best_quality": 18.2,
+      "mean_utility_zero_for_no_candidate": 32.7,
+      "mean_audit_clear_utility": 19.85,
+      "oracle_wins_including_ties": 3,
+      "best_candidate_blocking": 3,
+      "audit_clear_targets": 12
+    },
+    {
+      "subset": "un_meetings_only",
+      "mode": "semantic",
+      "attempted": 20,
+      "eligible": 20,
+      "completed_eligible": 20,
+      "scored": 20,
+      "generated_candidates": 58,
+      "no_candidates": 0,
+      "mean_best_score": 34.15,
+      "mean_best_faithfulness": 14.6,
+      "mean_best_quality": 19.55,
+      "mean_utility_zero_for_no_candidate": 34.15,
+      "mean_audit_clear_utility": 27.5,
+      "oracle_wins_including_ties": 9,
+      "best_candidate_blocking": 1,
+      "audit_clear_targets": 16
+    },
+    {
+      "subset": "eurlex_all",
+      "mode": "fact_pattern",
+      "attempted": 50,
+      "eligible": 50,
+      "completed_eligible": 50,
+      "scored": 38,
+      "generated_candidates": 102,
+      "no_candidates": 12,
+      "mean_best_score": 35.026315789473685,
+      "mean_best_faithfulness": 14.81578947368421,
+      "mean_best_quality": 20.210526315789473,
+      "mean_utility_zero_for_no_candidate": 26.62,
+      "mean_audit_clear_utility": 24.06,
+      "oracle_wins_including_ties": 11,
+      "best_candidate_blocking": 3,
+      "audit_clear_targets": 34
+    },
+    {
+      "subset": "eurlex_all",
+      "mode": "lookup",
+      "attempted": 50,
+      "eligible": 50,
+      "completed_eligible": 50,
+      "scored": 39,
+      "generated_candidates": 115,
+      "no_candidates": 11,
+      "mean_best_score": 36.84615384615385,
+      "mean_best_faithfulness": 14.974358974358974,
+      "mean_best_quality": 21.871794871794872,
+      "mean_utility_zero_for_no_candidate": 28.74,
+      "mean_audit_clear_utility": 28.06,
+      "oracle_wins_including_ties": 32,
+      "best_candidate_blocking": 1,
+      "audit_clear_targets": 38
+    }
+  ],
+  "usage": [
+    {
+      "stage": "decider",
+      "model": "~typesafe/jev-latest",
+      "calls": 100,
+      "provider_errors": 0,
+      "prompt_tokens": 376134,
+      "completion_tokens": 4594,
+      "reported_cost": 0.015797627999999998,
+      "calls_missing_cost": 0,
+      "mean_seconds": 0.2890737,
+      "p95_seconds": 0.473367
+    },
+    {
+      "stage": "decider",
+      "model": "gpt-5.6-luna",
+      "calls": 100,
+      "provider_errors": 0,
+      "prompt_tokens": 324418,
+      "completion_tokens": 17066,
+      "reported_cost": 0,
+      "calls_missing_cost": 100,
+      "mean_seconds": 2.77985179,
+      "p95_seconds": 5.039165
+    },
+    {
+      "stage": "generation",
+      "model": "gpt-5.6-luna",
+      "calls": 250,
+      "provider_errors": 0,
+      "prompt_tokens": 1445003,
+      "completion_tokens": 263152,
+      "reported_cost": 0,
+      "calls_missing_cost": 250,
+      "mean_seconds": 10.124420928,
+      "p95_seconds": 17.715688
+    },
+    {
+      "stage": "faithfulness",
+      "model": "anthropic/claude-sonnet-5.5",
+      "calls": 229,
+      "provider_errors": 0,
+      "prompt_tokens": 1553200,
+      "completion_tokens": 89806,
+      "reported_cost": 4.004459999999999,
+      "calls_missing_cost": 0,
+      "mean_seconds": 4.047627794759825,
+      "p95_seconds": 5.475445
+    },
+    {
+      "stage": "quality",
+      "model": "anthropic/claude-sonnet-5.5",
+      "calls": 276,
+      "provider_errors": 0,
+      "prompt_tokens": 2305829,
+      "completion_tokens": 386422,
+      "reported_cost": 8.475878000000005,
+      "calls_missing_cost": 0,
+      "mean_seconds": 10.58703115942029,
+      "p95_seconds": 17.681265
+    }
+  ]
+}

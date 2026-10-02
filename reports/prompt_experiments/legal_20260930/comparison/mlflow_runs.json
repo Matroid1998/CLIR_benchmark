@@ -1,0 +1,10 @@
+{
+  "registry_uri": "sqlite:////home/mehdi/Projects/CLIR_benchmark/.clir/prompts.db",
+  "experiment_id": "1",
+  "experiment_name": "clir/legal/legal_20260930-f6da82399dac",
+  "runs": {
+    "baseline": "cd903aefa5124bd6a268c843210cec5e",
+    "debiased": "96e54ac9799b441cb4af86f4d58b1129",
+    "simple": "df70deee8ec84f9ebcc25d7815ae6c73"
+  }
+}

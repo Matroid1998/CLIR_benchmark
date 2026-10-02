@@ -1,0 +1,1204 @@
+{
+  "candidate_count": 717,
+  "acceptance": [
+    {
+      "scope": "all",
+      "version": "original",
+      "n": 202,
+      "accepted": 113,
+      "accepted_good": 106,
+      "good_n": 172,
+      "good_accepted": 106,
+      "major_answer_n": 5,
+      "major_answer_accepted": 2,
+      "major_answer_flagged": 2,
+      "bad_question_n": 2,
+      "bad_question_accepted": 1,
+      "good_withheld_audits": {
+        "repair": 14,
+        "blocking": 46,
+        "review": 6
+      }
+    },
+    {
+      "scope": "all",
+      "version": "revised",
+      "n": 258,
+      "accepted": 195,
+      "accepted_good": 170,
+      "good_n": 203,
+      "good_accepted": 170,
+      "major_answer_n": 12,
+      "major_answer_accepted": 5,
+      "major_answer_flagged": 2,
+      "bad_question_n": 4,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "repair": 8,
+        "blocking": 19,
+        "review": 6
+      }
+    },
+    {
+      "scope": "all",
+      "version": "simple",
+      "n": 257,
+      "accepted": 150,
+      "accepted_good": 118,
+      "good_n": 184,
+      "good_accepted": 118,
+      "major_answer_n": 21,
+      "major_answer_accepted": 9,
+      "major_answer_flagged": 5,
+      "bad_question_n": 16,
+      "bad_question_accepted": 6,
+      "good_withheld_audits": {
+        "repair": 47,
+        "review": 12,
+        "blocking": 7
+      }
+    },
+    {
+      "scope": "eurlex",
+      "version": "original",
+      "n": 85,
+      "accepted": 63,
+      "accepted_good": 59,
+      "good_n": 76,
+      "good_accepted": 59,
+      "major_answer_n": 2,
+      "major_answer_accepted": 2,
+      "major_answer_flagged": 0,
+      "bad_question_n": 1,
+      "bad_question_accepted": 1,
+      "good_withheld_audits": {
+        "repair": 11,
+        "blocking": 4,
+        "review": 2
+      }
+    },
+    {
+      "scope": "eurlex",
+      "version": "revised",
+      "n": 86,
+      "accepted": 76,
+      "accepted_good": 68,
+      "good_n": 71,
+      "good_accepted": 68,
+      "major_answer_n": 6,
+      "major_answer_accepted": 3,
+      "major_answer_flagged": 0,
+      "bad_question_n": 0,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "repair": 2,
+        "blocking": 1
+      }
+    },
+    {
+      "scope": "eurlex",
+      "version": "simple",
+      "n": 92,
+      "accepted": 61,
+      "accepted_good": 49,
+      "good_n": 71,
+      "good_accepted": 49,
+      "major_answer_n": 11,
+      "major_answer_accepted": 6,
+      "major_answer_flagged": 0,
+      "bad_question_n": 5,
+      "bad_question_accepted": 4,
+      "good_withheld_audits": {
+        "repair": 12,
+        "review": 10
+      }
+    },
+    {
+      "scope": "un",
+      "version": "original",
+      "n": 117,
+      "accepted": 50,
+      "accepted_good": 47,
+      "good_n": 96,
+      "good_accepted": 47,
+      "major_answer_n": 3,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 2,
+      "bad_question_n": 1,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "blocking": 42,
+        "repair": 3,
+        "review": 4
+      }
+    },
+    {
+      "scope": "un",
+      "version": "revised",
+      "n": 172,
+      "accepted": 119,
+      "accepted_good": 102,
+      "good_n": 132,
+      "good_accepted": 102,
+      "major_answer_n": 6,
+      "major_answer_accepted": 2,
+      "major_answer_flagged": 2,
+      "bad_question_n": 4,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "blocking": 18,
+        "review": 6,
+        "repair": 6
+      }
+    },
+    {
+      "scope": "un",
+      "version": "simple",
+      "n": 165,
+      "accepted": 89,
+      "accepted_good": 69,
+      "good_n": 113,
+      "good_accepted": 69,
+      "major_answer_n": 10,
+      "major_answer_accepted": 3,
+      "major_answer_flagged": 5,
+      "bad_question_n": 11,
+      "bad_question_accepted": 2,
+      "good_withheld_audits": {
+        "repair": 35,
+        "blocking": 7,
+        "review": 2
+      }
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "original",
+      "n": 40,
+      "accepted": 21,
+      "accepted_good": 19,
+      "good_n": 34,
+      "good_accepted": 19,
+      "major_answer_n": 0,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 0,
+      "bad_question_n": 0,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "repair": 11,
+        "blocking": 4
+      }
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "revised",
+      "n": 39,
+      "accepted": 31,
+      "accepted_good": 26,
+      "good_n": 28,
+      "good_accepted": 26,
+      "major_answer_n": 6,
+      "major_answer_accepted": 3,
+      "major_answer_flagged": 0,
+      "bad_question_n": 0,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "repair": 2
+      }
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "simple",
+      "n": 45,
+      "accepted": 29,
+      "accepted_good": 21,
+      "good_n": 34,
+      "good_accepted": 21,
+      "major_answer_n": 6,
+      "major_answer_accepted": 4,
+      "major_answer_flagged": 0,
+      "bad_question_n": 2,
+      "bad_question_accepted": 2,
+      "good_withheld_audits": {
+        "repair": 11,
+        "review": 2
+      }
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "original",
+      "n": 45,
+      "accepted": 42,
+      "accepted_good": 40,
+      "good_n": 42,
+      "good_accepted": 40,
+      "major_answer_n": 2,
+      "major_answer_accepted": 2,
+      "major_answer_flagged": 0,
+      "bad_question_n": 1,
+      "bad_question_accepted": 1,
+      "good_withheld_audits": {
+        "review": 2
+      }
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "revised",
+      "n": 47,
+      "accepted": 45,
+      "accepted_good": 42,
+      "good_n": 43,
+      "good_accepted": 42,
+      "major_answer_n": 0,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 0,
+      "bad_question_n": 0,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "blocking": 1
+      }
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "simple",
+      "n": 47,
+      "accepted": 32,
+      "accepted_good": 28,
+      "good_n": 37,
+      "good_accepted": 28,
+      "major_answer_n": 5,
+      "major_answer_accepted": 2,
+      "major_answer_flagged": 0,
+      "bad_question_n": 3,
+      "bad_question_accepted": 2,
+      "good_withheld_audits": {
+        "review": 8,
+        "repair": 1
+      }
+    },
+    {
+      "scope": "un/lookup",
+      "version": "original",
+      "n": 40,
+      "accepted": 16,
+      "accepted_good": 15,
+      "good_n": 35,
+      "good_accepted": 15,
+      "major_answer_n": 2,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 1,
+      "bad_question_n": 1,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "blocking": 19,
+        "review": 1
+      }
+    },
+    {
+      "scope": "un/lookup",
+      "version": "revised",
+      "n": 59,
+      "accepted": 53,
+      "accepted_good": 48,
+      "good_n": 53,
+      "good_accepted": 48,
+      "major_answer_n": 2,
+      "major_answer_accepted": 1,
+      "major_answer_flagged": 0,
+      "bad_question_n": 0,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "review": 3,
+        "blocking": 1,
+        "repair": 1
+      }
+    },
+    {
+      "scope": "un/lookup",
+      "version": "simple",
+      "n": 56,
+      "accepted": 25,
+      "accepted_good": 23,
+      "good_n": 46,
+      "good_accepted": 23,
+      "major_answer_n": 4,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 3,
+      "bad_question_n": 4,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "repair": 20,
+        "blocking": 3
+      }
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "original",
+      "n": 38,
+      "accepted": 14,
+      "accepted_good": 13,
+      "good_n": 29,
+      "good_accepted": 13,
+      "major_answer_n": 0,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 0,
+      "bad_question_n": 0,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "blocking": 15,
+        "repair": 1
+      }
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "revised",
+      "n": 57,
+      "accepted": 27,
+      "accepted_good": 23,
+      "good_n": 37,
+      "good_accepted": 23,
+      "major_answer_n": 1,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 1,
+      "bad_question_n": 3,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "review": 1,
+        "repair": 5,
+        "blocking": 8
+      }
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "simple",
+      "n": 55,
+      "accepted": 37,
+      "accepted_good": 26,
+      "good_n": 34,
+      "good_accepted": 26,
+      "major_answer_n": 2,
+      "major_answer_accepted": 1,
+      "major_answer_flagged": 0,
+      "bad_question_n": 3,
+      "bad_question_accepted": 1,
+      "good_withheld_audits": {
+        "repair": 5,
+        "review": 1,
+        "blocking": 2
+      }
+    },
+    {
+      "scope": "un/semantic",
+      "version": "original",
+      "n": 39,
+      "accepted": 20,
+      "accepted_good": 19,
+      "good_n": 32,
+      "good_accepted": 19,
+      "major_answer_n": 1,
+      "major_answer_accepted": 0,
+      "major_answer_flagged": 1,
+      "bad_question_n": 0,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "repair": 2,
+        "blocking": 8,
+        "review": 3
+      }
+    },
+    {
+      "scope": "un/semantic",
+      "version": "revised",
+      "n": 56,
+      "accepted": 39,
+      "accepted_good": 31,
+      "good_n": 42,
+      "good_accepted": 31,
+      "major_answer_n": 3,
+      "major_answer_accepted": 1,
+      "major_answer_flagged": 1,
+      "bad_question_n": 1,
+      "bad_question_accepted": 0,
+      "good_withheld_audits": {
+        "blocking": 9,
+        "review": 2
+      }
+    },
+    {
+      "scope": "un/semantic",
+      "version": "simple",
+      "n": 54,
+      "accepted": 27,
+      "accepted_good": 20,
+      "good_n": 33,
+      "good_accepted": 20,
+      "major_answer_n": 4,
+      "major_answer_accepted": 2,
+      "major_answer_flagged": 2,
+      "bad_question_n": 4,
+      "bad_question_accepted": 1,
+      "good_withheld_audits": {
+        "blocking": 2,
+        "repair": 10,
+        "review": 1
+      }
+    }
+  ],
+  "ranking": [
+    {
+      "scope": "all",
+      "version": "original",
+      "matched_families": 82,
+      "hits": 71,
+      "regret_mean": 0.17073170731707318,
+      "selected_question_mean": 4.524390243902439,
+      "available_best_mean": 4.695121951219512,
+      "gain_over_batch_mean": 0.11788617886178862,
+      "discriminative_n": 37,
+      "discriminative_hits": 26,
+      "rank1_good": 74
+    },
+    {
+      "scope": "all",
+      "version": "revised",
+      "matched_families": 82,
+      "hits": 65,
+      "regret_mean": 0.2926829268292683,
+      "selected_question_mean": 4.524390243902439,
+      "available_best_mean": 4.817073170731708,
+      "gain_over_batch_mean": 0.1199186991869919,
+      "discriminative_n": 45,
+      "discriminative_hits": 28,
+      "rank1_good": 70
+    },
+    {
+      "scope": "all",
+      "version": "simple",
+      "matched_families": 82,
+      "hits": 66,
+      "regret_mean": 0.24390243902439024,
+      "selected_question_mean": 4.451219512195122,
+      "available_best_mean": 4.695121951219512,
+      "gain_over_batch_mean": 0.23373983739837398,
+      "discriminative_n": 53,
+      "discriminative_hits": 37,
+      "rank1_good": 69
+    },
+    {
+      "scope": "eurlex",
+      "version": "original",
+      "matched_families": 31,
+      "hits": 28,
+      "regret_mean": 0.12903225806451613,
+      "selected_question_mean": 4.806451612903226,
+      "available_best_mean": 4.935483870967742,
+      "gain_over_batch_mean": 0.09677419354838708,
+      "discriminative_n": 11,
+      "discriminative_hits": 8,
+      "rank1_good": 29
+    },
+    {
+      "scope": "eurlex",
+      "version": "revised",
+      "matched_families": 31,
+      "hits": 29,
+      "regret_mean": 0.0967741935483871,
+      "selected_question_mean": 4.806451612903226,
+      "available_best_mean": 4.903225806451613,
+      "gain_over_batch_mean": 0.13440860215053765,
+      "discriminative_n": 10,
+      "discriminative_hits": 8,
+      "rank1_good": 27
+    },
+    {
+      "scope": "eurlex",
+      "version": "simple",
+      "matched_families": 31,
+      "hits": 25,
+      "regret_mean": 0.22580645161290322,
+      "selected_question_mean": 4.580645161290323,
+      "available_best_mean": 4.806451612903226,
+      "gain_over_batch_mean": 0.19354838709677424,
+      "discriminative_n": 18,
+      "discriminative_hits": 12,
+      "rank1_good": 27
+    },
+    {
+      "scope": "un",
+      "version": "original",
+      "matched_families": 51,
+      "hits": 43,
+      "regret_mean": 0.19607843137254902,
+      "selected_question_mean": 4.352941176470588,
+      "available_best_mean": 4.549019607843137,
+      "gain_over_batch_mean": 0.13071895424836602,
+      "discriminative_n": 26,
+      "discriminative_hits": 18,
+      "rank1_good": 45
+    },
+    {
+      "scope": "un",
+      "version": "revised",
+      "matched_families": 51,
+      "hits": 36,
+      "regret_mean": 0.4117647058823529,
+      "selected_question_mean": 4.352941176470588,
+      "available_best_mean": 4.764705882352941,
+      "gain_over_batch_mean": 0.11111111111111115,
+      "discriminative_n": 35,
+      "discriminative_hits": 20,
+      "rank1_good": 43
+    },
+    {
+      "scope": "un",
+      "version": "simple",
+      "matched_families": 51,
+      "hits": 41,
+      "regret_mean": 0.2549019607843137,
+      "selected_question_mean": 4.372549019607843,
+      "available_best_mean": 4.627450980392157,
+      "gain_over_batch_mean": 0.25816993464052285,
+      "discriminative_n": 35,
+      "discriminative_hits": 25,
+      "rank1_good": 42
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "original",
+      "matched_families": 15,
+      "hits": 13,
+      "regret_mean": 0.2,
+      "selected_question_mean": 4.666666666666667,
+      "available_best_mean": 4.866666666666666,
+      "gain_over_batch_mean": 0.08888888888888889,
+      "discriminative_n": 6,
+      "discriminative_hits": 4,
+      "rank1_good": 13
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "revised",
+      "matched_families": 15,
+      "hits": 15,
+      "regret_mean": 0,
+      "selected_question_mean": 4.8,
+      "available_best_mean": 4.8,
+      "gain_over_batch_mean": 0.2111111111111111,
+      "discriminative_n": 4,
+      "discriminative_hits": 4,
+      "rank1_good": 12
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "simple",
+      "matched_families": 15,
+      "hits": 11,
+      "regret_mean": 0.3333333333333333,
+      "selected_question_mean": 4.533333333333333,
+      "available_best_mean": 4.866666666666666,
+      "gain_over_batch_mean": 0.15555555555555559,
+      "discriminative_n": 10,
+      "discriminative_hits": 6,
+      "rank1_good": 13
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "original",
+      "matched_families": 16,
+      "hits": 15,
+      "regret_mean": 0.0625,
+      "selected_question_mean": 4.9375,
+      "available_best_mean": 5,
+      "gain_over_batch_mean": 0.10416666666666663,
+      "discriminative_n": 5,
+      "discriminative_hits": 4,
+      "rank1_good": 16
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "revised",
+      "matched_families": 16,
+      "hits": 14,
+      "regret_mean": 0.1875,
+      "selected_question_mean": 4.8125,
+      "available_best_mean": 5,
+      "gain_over_batch_mean": 0.06250000000000006,
+      "discriminative_n": 6,
+      "discriminative_hits": 4,
+      "rank1_good": 15
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "simple",
+      "matched_families": 16,
+      "hits": 14,
+      "regret_mean": 0.125,
+      "selected_question_mean": 4.625,
+      "available_best_mean": 4.75,
+      "gain_over_batch_mean": 0.2291666666666667,
+      "discriminative_n": 8,
+      "discriminative_hits": 6,
+      "rank1_good": 14
+    },
+    {
+      "scope": "un/lookup",
+      "version": "original",
+      "matched_families": 17,
+      "hits": 16,
+      "regret_mean": 0.058823529411764705,
+      "selected_question_mean": 4.470588235294118,
+      "available_best_mean": 4.529411764705882,
+      "gain_over_batch_mean": 0.18627450980392157,
+      "discriminative_n": 8,
+      "discriminative_hits": 7,
+      "rank1_good": 16
+    },
+    {
+      "scope": "un/lookup",
+      "version": "revised",
+      "matched_families": 17,
+      "hits": 14,
+      "regret_mean": 0.23529411764705882,
+      "selected_question_mean": 4.588235294117647,
+      "available_best_mean": 4.823529411764706,
+      "gain_over_batch_mean": 0.05882352941176476,
+      "discriminative_n": 8,
+      "discriminative_hits": 5,
+      "rank1_good": 16
+    },
+    {
+      "scope": "un/lookup",
+      "version": "simple",
+      "matched_families": 17,
+      "hits": 16,
+      "regret_mean": 0.058823529411764705,
+      "selected_question_mean": 4.647058823529412,
+      "available_best_mean": 4.705882352941177,
+      "gain_over_batch_mean": 0.32352941176470584,
+      "discriminative_n": 11,
+      "discriminative_hits": 10,
+      "rank1_good": 17
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "original",
+      "matched_families": 16,
+      "hits": 11,
+      "regret_mean": 0.4375,
+      "selected_question_mean": 4.125,
+      "available_best_mean": 4.5625,
+      "gain_over_batch_mean": -0.031249999999999972,
+      "discriminative_n": 9,
+      "discriminative_hits": 4,
+      "rank1_good": 12
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "revised",
+      "matched_families": 16,
+      "hits": 8,
+      "regret_mean": 0.75,
+      "selected_question_mean": 4,
+      "available_best_mean": 4.75,
+      "gain_over_batch_mean": 0.020833333333333398,
+      "discriminative_n": 13,
+      "discriminative_hits": 5,
+      "rank1_good": 10
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "simple",
+      "matched_families": 16,
+      "hits": 14,
+      "regret_mean": 0.1875,
+      "selected_question_mean": 4.5,
+      "available_best_mean": 4.6875,
+      "gain_over_batch_mean": 0.34375,
+      "discriminative_n": 10,
+      "discriminative_hits": 8,
+      "rank1_good": 13
+    },
+    {
+      "scope": "un/semantic",
+      "version": "original",
+      "matched_families": 18,
+      "hits": 16,
+      "regret_mean": 0.1111111111111111,
+      "selected_question_mean": 4.444444444444445,
+      "available_best_mean": 4.555555555555555,
+      "gain_over_batch_mean": 0.2222222222222222,
+      "discriminative_n": 9,
+      "discriminative_hits": 7,
+      "rank1_good": 17
+    },
+    {
+      "scope": "un/semantic",
+      "version": "revised",
+      "matched_families": 18,
+      "hits": 14,
+      "regret_mean": 0.2777777777777778,
+      "selected_question_mean": 4.444444444444445,
+      "available_best_mean": 4.722222222222222,
+      "gain_over_batch_mean": 0.24074074074074073,
+      "discriminative_n": 14,
+      "discriminative_hits": 10,
+      "rank1_good": 17
+    },
+    {
+      "scope": "un/semantic",
+      "version": "simple",
+      "matched_families": 18,
+      "hits": 11,
+      "regret_mean": 0.5,
+      "selected_question_mean": 4,
+      "available_best_mean": 4.5,
+      "gain_over_batch_mean": 0.12037037037037034,
+      "discriminative_n": 14,
+      "discriminative_hits": 7,
+      "rank1_good": 12
+    }
+  ],
+  "within_batch_ordering": [
+    {
+      "scope": "all",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 73,
+      "agreement_ties_half": 0.6712328767123288
+    },
+    {
+      "scope": "all",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 73,
+      "agreement_ties_half": 0.6438356164383562
+    },
+    {
+      "scope": "all",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 92,
+      "agreement_ties_half": 0.625
+    },
+    {
+      "scope": "all",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 92,
+      "agreement_ties_half": 0.6195652173913043
+    },
+    {
+      "scope": "all",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 106,
+      "agreement_ties_half": 0.75
+    },
+    {
+      "scope": "all",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 106,
+      "agreement_ties_half": 0.7169811320754716
+    },
+    {
+      "scope": "eurlex",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 23,
+      "agreement_ties_half": 0.6521739130434783
+    },
+    {
+      "scope": "eurlex",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 23,
+      "agreement_ties_half": 0.5869565217391305
+    },
+    {
+      "scope": "eurlex",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 21,
+      "agreement_ties_half": 0.8095238095238095
+    },
+    {
+      "scope": "eurlex",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 21,
+      "agreement_ties_half": 0.8095238095238095
+    },
+    {
+      "scope": "eurlex",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 36,
+      "agreement_ties_half": 0.7777777777777778
+    },
+    {
+      "scope": "eurlex",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 36,
+      "agreement_ties_half": 0.7361111111111112
+    },
+    {
+      "scope": "un",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 50,
+      "agreement_ties_half": 0.68
+    },
+    {
+      "scope": "un",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 50,
+      "agreement_ties_half": 0.67
+    },
+    {
+      "scope": "un",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 71,
+      "agreement_ties_half": 0.5704225352112676
+    },
+    {
+      "scope": "un",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 71,
+      "agreement_ties_half": 0.5633802816901409
+    },
+    {
+      "scope": "un",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 70,
+      "agreement_ties_half": 0.7357142857142858
+    },
+    {
+      "scope": "un",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 70,
+      "agreement_ties_half": 0.7071428571428572
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 13,
+      "agreement_ties_half": 0.5769230769230769
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 13,
+      "agreement_ties_half": 0.5
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 8,
+      "agreement_ties_half": 0.875
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 8,
+      "agreement_ties_half": 0.875
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 19,
+      "agreement_ties_half": 0.6842105263157895
+    },
+    {
+      "scope": "eurlex/fact_pattern",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 19,
+      "agreement_ties_half": 0.6052631578947368
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 10,
+      "agreement_ties_half": 0.75
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 10,
+      "agreement_ties_half": 0.7
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 13,
+      "agreement_ties_half": 0.7692307692307693
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 13,
+      "agreement_ties_half": 0.7692307692307693
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 17,
+      "agreement_ties_half": 0.8823529411764706
+    },
+    {
+      "scope": "eurlex/lookup",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 17,
+      "agreement_ties_half": 0.8823529411764706
+    },
+    {
+      "scope": "un/lookup",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 15,
+      "agreement_ties_half": 0.7333333333333333
+    },
+    {
+      "scope": "un/lookup",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 15,
+      "agreement_ties_half": 0.6666666666666666
+    },
+    {
+      "scope": "un/lookup",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 17,
+      "agreement_ties_half": 0.6470588235294118
+    },
+    {
+      "scope": "un/lookup",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 17,
+      "agreement_ties_half": 0.5882352941176471
+    },
+    {
+      "scope": "un/lookup",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 22,
+      "agreement_ties_half": 0.8863636363636364
+    },
+    {
+      "scope": "un/lookup",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 22,
+      "agreement_ties_half": 0.8181818181818182
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 19,
+      "agreement_ties_half": 0.6052631578947368
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 19,
+      "agreement_ties_half": 0.6052631578947368
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 27,
+      "agreement_ties_half": 0.5
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 27,
+      "agreement_ties_half": 0.5185185185185185
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 21,
+      "agreement_ties_half": 0.8095238095238095
+    },
+    {
+      "scope": "un/practitioner",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 21,
+      "agreement_ties_half": 0.7619047619047619
+    },
+    {
+      "scope": "un/semantic",
+      "version": "original",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 16,
+      "agreement_ties_half": 0.71875
+    },
+    {
+      "scope": "un/semantic",
+      "version": "original",
+      "score": "total_score",
+      "unequal_manual_pairs": 16,
+      "agreement_ties_half": 0.75
+    },
+    {
+      "scope": "un/semantic",
+      "version": "revised",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 27,
+      "agreement_ties_half": 0.5925925925925926
+    },
+    {
+      "scope": "un/semantic",
+      "version": "revised",
+      "score": "total_score",
+      "unequal_manual_pairs": 27,
+      "agreement_ties_half": 0.5925925925925926
+    },
+    {
+      "scope": "un/semantic",
+      "version": "simple",
+      "score": "qual_overall",
+      "unequal_manual_pairs": 27,
+      "agreement_ties_half": 0.5555555555555556
+    },
+    {
+      "scope": "un/semantic",
+      "version": "simple",
+      "score": "total_score",
+      "unequal_manual_pairs": 27,
+      "agreement_ties_half": 0.5740740740740741
+    }
+  ],
+  "answer_aware_ranking": [
+    {
+      "scope": "all",
+      "version": "original",
+      "families": 82,
+      "best_valid_available": 82,
+      "hit_best_valid": 71,
+      "good_available": 78,
+      "missed_good": 4,
+      "selected_good": 74
+    },
+    {
+      "scope": "all",
+      "version": "revised",
+      "families": 82,
+      "best_valid_available": 81,
+      "hit_best_valid": 63,
+      "good_available": 79,
+      "missed_good": 9,
+      "selected_good": 70
+    },
+    {
+      "scope": "all",
+      "version": "simple",
+      "families": 82,
+      "best_valid_available": 82,
+      "hit_best_valid": 66,
+      "good_available": 78,
+      "missed_good": 9,
+      "selected_good": 69
+    },
+    {
+      "scope": "eurlex",
+      "version": "original",
+      "families": 31,
+      "best_valid_available": 31,
+      "hit_best_valid": 28,
+      "good_available": 30,
+      "missed_good": 1,
+      "selected_good": 29
+    },
+    {
+      "scope": "eurlex",
+      "version": "revised",
+      "families": 31,
+      "best_valid_available": 30,
+      "hit_best_valid": 27,
+      "good_available": 29,
+      "missed_good": 2,
+      "selected_good": 27
+    },
+    {
+      "scope": "eurlex",
+      "version": "simple",
+      "families": 31,
+      "best_valid_available": 31,
+      "hit_best_valid": 25,
+      "good_available": 30,
+      "missed_good": 3,
+      "selected_good": 27
+    },
+    {
+      "scope": "un",
+      "version": "original",
+      "families": 51,
+      "best_valid_available": 51,
+      "hit_best_valid": 43,
+      "good_available": 48,
+      "missed_good": 3,
+      "selected_good": 45
+    },
+    {
+      "scope": "un",
+      "version": "revised",
+      "families": 51,
+      "best_valid_available": 51,
+      "hit_best_valid": 36,
+      "good_available": 50,
+      "missed_good": 7,
+      "selected_good": 43
+    },
+    {
+      "scope": "un",
+      "version": "simple",
+      "families": 51,
+      "best_valid_available": 51,
+      "hit_best_valid": 41,
+      "good_available": 48,
+      "missed_good": 6,
+      "selected_good": 42
+    }
+  ],
+  "methodology": {
+    "manual_sample": "717 manually reviewed candidates from40 source documents,20 EUR-Lex and20 UN. Each version judged on its own candidate bank.",
+    "manually_good_pair": "question_rating >=4 out of5 and answer_status is ok or minor, not major. This is an intrinsic-quality proxy, not mode/metadata compliance.",
+    "native_acceptance": "Completed numeric total, quality_audit_status clear or minor_issues; for UN also faith_grounding >=3. Diagnostic acceptance rule, not a claim of actual delivered output.",
+    "ranking": "Exported candidate_rank=1 is highest combined native faithfulness/quality total. It does not incorporate the acceptance gate. Ranking comparison uses82 document/mode families where all three versions generated candidates; ties at manual maximum count as hits.",
+    "best_valid": "Best manual question score among candidates whose manually assessed answer has no major defect. Highest-scored native candidate must also have no major answer defect to count as a hit.",
+    "limitations": [
+      "No controlled fixed-candidate-bank comparison of all three verifier prompts was run. Across all1778 candidates, exact whitespace-normalized QA overlap is only1 original/revised pair and1 revised/simple pair; none across all three.",
+      "Generation quality, number of candidates, mode policies, metadata validity, and candidate difficulty differ by version. Descriptive rates cannot isolate verifier accuracy improvements.",
+      "Manual judgments are agent ratings rather than human gold labels; only40of100 documents reviewed.",
+      "Good intrinsic questions may legitimately fail intended mode or metadata requirements; withheld does not automatically mean an erroneous rejection.",
+      "Highest native total includes answer faithfulness, while primary manual ranking measures question quality. Answer-aware ranking is supplied separately."
+    ]
+  }
+}

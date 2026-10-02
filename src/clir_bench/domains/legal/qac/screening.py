@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -36,6 +37,8 @@ def task_id(kind, record, mode):
 
 
 def prepare(args):
+    if getattr(args, "selection", None):
+        return replay_selection(args.selection)
     entries, payloads = [], {}
     exclusion_file = getattr(args, 'exclude_documents', None)
     exclusions = json.loads(exclusion_file.read_text()) if exclusion_file else []
@@ -66,6 +69,36 @@ def prepare(args):
                       "source_payload_sha256": hashlib.sha256(payload.text.encode()).hexdigest()}
             entries.append(record)
             payloads[(source, identifier)] = payload
+    return entries, payloads
+
+
+def replay_selection(path):
+    """Rebuild saved targets, refusing corpus or context drift before any calls."""
+    entries = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("Selection must be a nonempty list of saved screening targets")
+    indexes, payloads = {}, {}
+    for record in entries:
+        source = record["corpus"]
+        batch = BATCHES[source]
+        key = (source, record["target_id"])
+        if key in payloads:
+            raise ValueError(f"Duplicate saved target: {key}")
+        if source not in indexes:
+            indexes[source] = batch.ctx.BlockIndex() if source == "un" else batch.ctx.ArticleIndex()
+        target = batch.Target(**record["target"])
+        if target.language != "en":
+            raise ValueError("Screening comparisons currently require English targets")
+        payload = batch.prepare_payload(target, indexes[source])
+        expected = record["source_payload_sha256"]
+        saved = record["source_payload"]
+        if (payload is None or payload.text != saved
+                or hashlib.sha256(saved.encode()).hexdigest() != expected):
+            raise ValueError(f"Saved source payload changed for {key}; refusing unpaired comparison")
+        actual_id = payload.target.block_id if source == "un" else payload.target.eli_id
+        if actual_id != record["target_id"]:
+            raise ValueError(f"Saved target identity mismatch: {key}")
+        payloads[key] = payload
     return entries, payloads
 
 
@@ -105,12 +138,20 @@ def main():
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--prepare-only", action="store_true")
+    parser.add_argument("--selection", type=Path,
+                        help="Replay an existing selection.json and verify identical source payloads")
+    parser.add_argument("--prompt-manifest", type=Path,
+                        help="Pin an immutable registered prompt bundle for this run")
     parser.add_argument("--exclude-documents", type=Path,
                         help="JSON list of corpus/document_id pairs excluded before sampling")
     args = parser.parse_args()
     if args.un < 0 or args.eurlex < 0 or args.un + args.eurlex < 1:
         parser.error("choose a positive number of documents")
     load_env()
+    if args.prompt_manifest:
+        os.environ["CLIR_PROMPT_MANIFEST"] = str(args.prompt_manifest.resolve())
+    from clir_bench.core import prompt_registry
+    manifest_path = prompt_registry.selection()
     entries, payloads = prepare(args)
     prompts = {}
     for source in {entry["corpus"] for entry in entries}:
@@ -122,12 +163,17 @@ def main():
             for role in ("generation", "quality"):
                 prompts[f"{source}/{role}/{mode}"] = (pack.generation(decider.generation_mode(mode), "en")
                     if role == "generation" else pack.quality(decider.generation_mode(mode), "batch"))
-    config = {"un": args.un, "eurlex": args.eurlex, "seed": args.seed,
+    counts_by_source = Counter(entry["corpus"] for entry in entries)
+    config = {"un": counts_by_source["un"], "eurlex": counts_by_source["eurlex"], "seed": args.seed,
               "generator": args.generator, "verifier": args.verifier, "retries": args.retries,
               "language": "en", "max_per_document": 1, "keep": 3,
               "meeting_modes": "all",
               "jev_model": decider.JEV_MODEL, "prompts_sha256": digest(prompts),
               "targets_sha256": digest(entries)}
+    if args.selection:
+        config["selection_source"] = str(args.selection.resolve())
+    if manifest_path:
+        config["prompt_registry"] = prompt_registry.manifest_metadata()
     if args.exclude_documents:
         config['excluded_documents_sha256'] = digest(json.loads(args.exclude_documents.read_text()))
     fingerprint = digest(config)
@@ -138,6 +184,11 @@ def main():
         state.put("fingerprint", fingerprint)
         state.put("config", config)
         state.put("prompts", prompts)
+        if manifest_path:
+            manifest = prompt_registry.read_manifest(manifest_path)
+            state.put("prompt_manifest", manifest)
+            (args.output / "prompt_manifest.json").write_text(
+                json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
         state.put("targets", entries)
         state.put("output", "all_mode_candidates.csv")
         state.put("status", "prepared" if args.prepare_only else "running")
@@ -171,7 +222,9 @@ def main():
                         grade_model=args.verifier, keep=3, checkpoint=checkpoint,
                         retries=args.retries, **limits)
                     for row in rows:
-                        row.update(screening_mode=mode, is_meeting=record["is_meeting"],
+                        row.update(corpus=source, target_id=record["target_id"],
+                                   document_id=record["document_id"], symbol=record["symbol"],
+                                   screening_mode=mode, is_meeting=record["is_meeting"],
                                    mode_eligible=True)
                 error = "; ".join(sorted({row.get("grading_error", "") for row in rows
                                          if row.get("grading_status") == "failed"}))

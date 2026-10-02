@@ -1,0 +1,4624 @@
+{
+  "schema_version": 1,
+  "source": "UN",
+  "target_count": 50,
+  "requested_model": "~typesafe/jev-latest",
+  "resolved_backend": "typesafe/jev-1.13-20260917",
+  "validation": {
+    "all_states_byte_identical": true,
+    "all_recorded_requests_match_saved_templates": true,
+    "choice_order": [
+      "lookup",
+      "practitioner",
+      "semantic",
+      "skip"
+    ],
+    "no_local_criterion_weighting_or_choice_remapping": true
+  },
+  "original_prompts": {
+    "B": {
+      "run_directory": "/home/mehdi/Projects/CLIR_benchmark/reports/prompt_experiments/legal_20260930/debiased/run",
+      "template_sha256": "afb32a59f0aad7606d2742b0aa51b01f29d3316652c72b2fcffdd655e14c82d5",
+      "instruction_structure": [
+        "task",
+        "input_structure",
+        "selection"
+      ],
+      "instructions": {
+        "task": "Select lookup, practitioner, semantic or skip for the strongest naturally supported UN information need; do not generate questions or answers.",
+        "input_structure": {
+          "### TARGET BLOCK": "Only source of answer substance.",
+          "### REFERENCED DOCUMENTS": "Interpretation and reference resolution only.",
+          "### DOCUMENT CONTEXT": "Resolve names, dates, speakers and situations, not missing answer substance."
+        },
+        "selection": [
+          "Assess the strongest plausible question each mode could support before selecting. Judge faithful usefulness and natural fit, not expected verifier scores, mode order or desired frequencies. Do not generate those questions in the output.",
+          "Lookup and practitioner often fit the same facts. Choose lookup when identifying a particular source is naturally part of the need; choose practitioner when the regime/situation and time identify the need naturally without that locator. An available symbol does not make lookup preferable.",
+          "Choose semantic when the evidence supports a bounded conceptual relationship or assessment. Conceptual phrasing is not inherently better than a precise fact, and the words how/why are not evidence of a conceptual answer.",
+          "All document types, including PV/SR meeting records, support all modes. Preserve requests, recommendations, proposals and attributed findings as such; do not confuse their status with low quality. A useful attributed specialist question need not state binding law.",
+          "Require adequate substantive identification and relevant absolute time for every mode, not an arbitrary anchor count. Recurring content can be informative for an identified regime and period. Do not invent unseen duplicates, require yearly novelty, or treat an incidental ceremonial verb as disqualifying useful content.",
+          "Answer substance must be in the target. Supporting sections resolve context, not missing answers. One good question is sufficient; assess substance in mixed blocks and skip only when every mode lacks it."
+        ]
+      },
+      "criteria": {
+        "lookup": "The searcher knows a particular source and wants one precise fact using that source as a locator. The base question describes the source; a second rendering swaps in its identifier. The subject, attribution and relevant time must remain clear.",
+        "practitioner": "The specialist knows the regime or operational situation and needs a precise norm, condition, task, proposal, procedure or reported fact without using the target document as a locator. Preserve requests/proposals as such and attribute claims. One distinctive composite anchor and relevant time may identify the need; do not require two anchors or binding law.",
+        "semantic": "The searcher knows the situation but not the source or exact vocabulary and needs a conceptual account of a problem, response, rationale or affected party. Connected facts may answer one intent. Retain necessary terms, attribution, substantive context and relevant time. Do not repackage an isolated datum as a vague conceptual question.",
+        "skip": "No mode supports a specific, informative question fully answered in the target. Pure ceremony, generic appeals or missing essential substance can warrant skip. Document type, non-binding status, recurring wording or difficulty choosing between useful modes do not by themselves warrant skip."
+      }
+    },
+    "C": {
+      "run_directory": "/home/mehdi/Projects/CLIR_benchmark/reports/prompt_experiments/legal_20260930/simple/run",
+      "template_sha256": "dbd7eebf35da7ec529e86c57eaedaad4804862bc23fbd7118f350fe934a3093a",
+      "instruction_structure": [
+        "task"
+      ],
+      "instructions": {
+        "task": "Select lookup, practitioner, semantic or skip for a UN TARGET BLOCK. Supporting context/references/metadata resolve identity, time and attribution, never missing answers. All document types including PV/SR support every mode.\nLookup: a precise fact when a particular source is naturally part of the information need; render source description and identifier versions.\nPractitioner: a precise specialist need identified by regime/situation, attribution and time without a target-document locator. Requests, proposals and reported findings qualify with their status preserved; binding law is not required.\nSemantic: a conceptual situation, response, rationale or stakeholder need, supported directly by the text; not an isolated datum disguised as how/why.\nSkip: no specific informative answer is available under any mode.\nConsider the strongest plausible question in each mode, then choose the most useful natural fit. Do not output those questions. Source identifiers, option order, conceptual breadth, expected grades or desired frequencies do not decide. Lookup versus practitioner depends on source-seeking versus situation-seeking intent; neither has priority. Require adequate substantive identification and relevant absolute time equally, not a fixed anchor count. One distinctive composite anchor may suffice. Recurring or non-binding content can be useful; do not demand yearly novelty or invent duplicates. Judge propositions, not ceremonial verbs in mixed passages. Preserve actual speaker, attribution, and request/proposal/authorization status. One useful question is enough; skip only when every mode fails.\n"
+      },
+      "criteria": {
+        "lookup": "A precise need whose natural formulation locates a point in a particular source; description and identifier renderings preserve subject, attribution and time.",
+        "practitioner": "A precise specialist norm, task, proposal, procedure or reported fact naturally identified by regime/situation and relevant time without a target-document locator.",
+        "semantic": "A bounded conceptual situation, response, rationale or stakeholder need, directly supported by the target; not an isolated datum or vague speech report.",
+        "skip": "No specific informative question is supported in any mode; ceremony or missing substance may justify skip, but document type, recurrence or non-binding status alone do not."
+      }
+    }
+  },
+  "changed_clauses": {
+    "lookup": {
+      "B": "The searcher knows a particular source and wants one precise fact using that source as a locator. The base question describes the source; a second rendering swaps in its identifier. The subject, attribution and relevant time must remain clear.",
+      "C": "A precise need whose natural formulation locates a point in a particular source; description and identifier renderings preserve subject, attribution and time."
+    },
+    "practitioner": {
+      "B": "The specialist knows the regime or operational situation and needs a precise norm, condition, task, proposal, procedure or reported fact without using the target document as a locator. Preserve requests/proposals as such and attribute claims. One distinctive composite anchor and relevant time may identify the need; do not require two anchors or binding law.",
+      "C": "A precise specialist norm, task, proposal, procedure or reported fact naturally identified by regime/situation and relevant time without a target-document locator."
+    },
+    "semantic": {
+      "B": "The searcher knows the situation but not the source or exact vocabulary and needs a conceptual account of a problem, response, rationale or affected party. Connected facts may answer one intent. Retain necessary terms, attribution, substantive context and relevant time. Do not repackage an isolated datum as a vague conceptual question.",
+      "C": "A bounded conceptual situation, response, rationale or stakeholder need, directly supported by the target; not an isolated datum or vague speech report."
+    },
+    "skip": {
+      "B": "No mode supports a specific, informative question fully answered in the target. Pure ceremony, generic appeals or missing essential substance can warrant skip. Document type, non-binding status, recurring wording or difficulty choosing between useful modes do not by themselves warrant skip.",
+      "C": "No specific informative question is supported in any mode; ceremony or missing substance may justify skip, but document type, recurrence or non-binding status alone do not."
+    }
+  },
+  "structural_change": "B separates task, input_structure and selection. C folds instructions into one task string and shortens option criteria.",
+  "interpretation_caveat": "B/C change structure and wording together. Crossed variants isolate the instructions object from the criteria object, not individual words or internal backend weighting. These are routing results, not evidence that any mode generates better questions. One run per cell cannot establish repeat-run variability. No mode quota is a success criterion.",
+  "summaries": {
+    "B": {
+      "n": 50,
+      "mode_counts": {
+        "lookup": 0,
+        "practitioner": 44,
+        "semantic": 6,
+        "skip": 0
+      },
+      "mean_probabilities": {
+        "lookup": 0.0838,
+        "practitioner": 0.649,
+        "semantic": 0.2336,
+        "skip": 0.0334
+      },
+      "resolved_backends": {
+        "typesafe/jev-1.13-20260917": 50
+      }
+    },
+    "C": {
+      "n": 50,
+      "mode_counts": {
+        "lookup": 15,
+        "practitioner": 0,
+        "semantic": 35,
+        "skip": 0
+      },
+      "mean_probabilities": {
+        "lookup": 0.3726,
+        "practitioner": 0.1024,
+        "semantic": 0.5108,
+        "skip": 0.0138
+      },
+      "resolved_backends": {
+        "typesafe/jev-1.13-20260917": 50
+      }
+    },
+    "b_instructions_c_criteria": {
+      "n": 50,
+      "mode_counts": {
+        "lookup": 2,
+        "practitioner": 40,
+        "semantic": 8,
+        "skip": 0
+      },
+      "mean_probabilities": {
+        "lookup": 0.215,
+        "practitioner": 0.5002,
+        "semantic": 0.2678,
+        "skip": 0.017
+      },
+      "resolved_backends": {
+        "typesafe/jev-1.13-20260917": 50
+      }
+    },
+    "c_instructions_b_criteria": {
+      "n": 50,
+      "mode_counts": {
+        "lookup": 9,
+        "practitioner": 14,
+        "semantic": 27,
+        "skip": 0
+      },
+      "mean_probabilities": {
+        "lookup": 0.2324,
+        "practitioner": 0.32,
+        "semantic": 0.413,
+        "skip": 0.0344
+      },
+      "resolved_backends": {
+        "typesafe/jev-1.13-20260917": 50
+      }
+    }
+  },
+  "comparisons": {
+    "B_to_C": {
+      "n": 50,
+      "same_choice": 6,
+      "transitions": [
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 15
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 29
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 6
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.5466,
+        "min": 0.28,
+        "max": 0.77,
+        "positive_targets": 50
+      }
+    },
+    "B_to_b_instructions_c_criteria": {
+      "n": 50,
+      "same_choice": 46,
+      "transitions": [
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 2
+        },
+        {
+          "from": "practitioner",
+          "to": "practitioner",
+          "count": 40
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 2
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 6
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.1488,
+        "min": 0.0,
+        "max": 0.29000000000000004,
+        "positive_targets": 49
+      }
+    },
+    "B_to_c_instructions_b_criteria": {
+      "n": 50,
+      "same_choice": 20,
+      "transitions": [
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 9
+        },
+        {
+          "from": "practitioner",
+          "to": "practitioner",
+          "count": 14
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 21
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 6
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.329,
+        "min": 0.1499999999999999,
+        "max": 0.53,
+        "positive_targets": 50
+      }
+    },
+    "C_to_b_instructions_c_criteria": {
+      "n": 50,
+      "same_choice": 10,
+      "transitions": [
+        {
+          "from": "lookup",
+          "to": "lookup",
+          "count": 2
+        },
+        {
+          "from": "lookup",
+          "to": "practitioner",
+          "count": 13
+        },
+        {
+          "from": "semantic",
+          "to": "practitioner",
+          "count": 27
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 8
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": -0.3978,
+        "min": -0.67,
+        "max": -0.15,
+        "positive_targets": 0
+      }
+    },
+    "C_to_c_instructions_b_criteria": {
+      "n": 50,
+      "same_choice": 35,
+      "transitions": [
+        {
+          "from": "lookup",
+          "to": "lookup",
+          "count": 9
+        },
+        {
+          "from": "lookup",
+          "to": "practitioner",
+          "count": 5
+        },
+        {
+          "from": "lookup",
+          "to": "semantic",
+          "count": 1
+        },
+        {
+          "from": "semantic",
+          "to": "practitioner",
+          "count": 9
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 26
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": -0.2176,
+        "min": -0.35000000000000003,
+        "max": -0.08,
+        "positive_targets": 0
+      }
+    },
+    "b_instructions_c_criteria_to_c_instructions_b_criteria": {
+      "n": 50,
+      "same_choice": 24,
+      "transitions": [
+        {
+          "from": "lookup",
+          "to": "lookup",
+          "count": 2
+        },
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 7
+        },
+        {
+          "from": "practitioner",
+          "to": "practitioner",
+          "count": 14
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 19
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 8
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.1802,
+        "min": -0.01999999999999999,
+        "max": 0.38999999999999996,
+        "positive_targets": 48
+      }
+    }
+  },
+  "targets": [
+    {
+      "target_id": "2011/a/res/65/212#13",
+      "document_id": "2011/a/res/65/212",
+      "symbol": "A/RES/65/212",
+      "is_meeting": false,
+      "source_payload_sha256": "55d014e394a6216caf0fe7ffe96da838b21c13968a962a1ef449aca7bdc9f87b",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.51,
+          "probabilities": {
+            "lookup": 0.1,
+            "practitioner": 0.63,
+            "semantic": 0.25,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b6cec095e7f2436dadc25ccbc224c48d",
+          "response_id": "gen-dec-1790796485-ZMoC4WWDzq1WQ6iaBiuO",
+          "timestamp": "2026-09-30T19:28:05.286916+00:00",
+          "source_payload_sha256": "55d014e394a6216caf0fe7ffe96da838b21c13968a962a1ef449aca7bdc9f87b"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.48,
+          "probabilities": {
+            "lookup": 0.31,
+            "practitioner": 0.06,
+            "semantic": 0.62,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b9b99c88a6f64b48885cde33c29bb549",
+          "response_id": "gen-dec-1790797292-zzxsJzmtLhR8vAwdcpVB",
+          "timestamp": "2026-09-30T19:41:32.313856+00:00",
+          "source_payload_sha256": "55d014e394a6216caf0fe7ffe96da838b21c13968a962a1ef449aca7bdc9f87b"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.2,
+          "probabilities": {
+            "lookup": 0.27,
+            "practitioner": 0.4,
+            "semantic": 0.32,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1b005e3463d0477b9b4556aa004e0b8f",
+          "response_id": "gen-dec-1790797864-p9ArcIlTFQ9qdLril1ib",
+          "timestamp": "2026-09-30T19:51:04.511914+00:00",
+          "source_payload_sha256": "55d014e394a6216caf0fe7ffe96da838b21c13968a962a1ef449aca7bdc9f87b"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.34,
+          "probabilities": {
+            "lookup": 0.18,
+            "practitioner": 0.29,
+            "semantic": 0.51,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5ca29bcaaad74f128b97f55e654b430a",
+          "response_id": "gen-dec-1790797867-vkLAtSBELzLTc4Nt6sAp",
+          "timestamp": "2026-09-30T19:51:07.470485+00:00",
+          "source_payload_sha256": "55d014e394a6216caf0fe7ffe96da838b21c13968a962a1ef449aca7bdc9f87b"
+        }
+      }
+    },
+    {
+      "target_id": "2006/a/res/61/183#3",
+      "document_id": "2006/a/res/61/183",
+      "symbol": "A/RES/61/183",
+      "is_meeting": false,
+      "source_payload_sha256": "3eec92b7108f459fb4bf3eed77ff26bdb26245d730c1dcaa97a63c74465ad2df",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.68,
+          "probabilities": {
+            "lookup": 0.1,
+            "practitioner": 0.76,
+            "semantic": 0.12,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "ef748351a33146929db260321b9d35ae",
+          "response_id": "gen-dec-1790796511-vJwGJAgexR1dJ4ilrSkD",
+          "timestamp": "2026-09-30T19:28:31.350195+00:00",
+          "source_payload_sha256": "3eec92b7108f459fb4bf3eed77ff26bdb26245d730c1dcaa97a63c74465ad2df"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.26,
+          "probabilities": {
+            "lookup": 0.4,
+            "practitioner": 0.14,
+            "semantic": 0.45,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1c56b8ea623e4581b924e1f83685313b",
+          "response_id": "gen-dec-1790797317-ywuYJsuNkp8NAQIE0Dbi",
+          "timestamp": "2026-09-30T19:41:57.801771+00:00",
+          "source_payload_sha256": "3eec92b7108f459fb4bf3eed77ff26bdb26245d730c1dcaa97a63c74465ad2df"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.4,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.56,
+            "semantic": 0.18,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "d4897cf23c224fedb2fc0f1c38fd907d",
+          "response_id": "gen-dec-1790797864-Xzb7CWsNdPAMQFgKPvVj",
+          "timestamp": "2026-09-30T19:51:04.824147+00:00",
+          "source_payload_sha256": "3eec92b7108f459fb4bf3eed77ff26bdb26245d730c1dcaa97a63c74465ad2df"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.21,
+          "probabilities": {
+            "lookup": 0.23,
+            "practitioner": 0.41000000000000003,
+            "semantic": 0.33,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "ce989b5d4489456d91ce37b1f40aa508",
+          "response_id": "gen-dec-1790797867-eqgE2Z3L6SsPo2fzrCfO",
+          "timestamp": "2026-09-30T19:51:07.738221+00:00",
+          "source_payload_sha256": "3eec92b7108f459fb4bf3eed77ff26bdb26245d730c1dcaa97a63c74465ad2df"
+        }
+      }
+    },
+    {
+      "target_id": "2013/a/res/67/199#12",
+      "document_id": "2013/a/res/67/199",
+      "symbol": "A/RES/67/199",
+      "is_meeting": false,
+      "source_payload_sha256": "c4a52105e7bd2b9b8e0121c2fa6f68520bfe6c7fc0144c8f803951618e0ed9b0",
+      "variants": {
+        "B": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.32,
+          "probabilities": {
+            "lookup": 0.06,
+            "practitioner": 0.44,
+            "semantic": 0.48,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "dd26b093a0014ef7a39c8217594fc7c6",
+          "response_id": "gen-dec-1790796511-N078CpHnAoXe5bzwxMLy",
+          "timestamp": "2026-09-30T19:28:31.346499+00:00",
+          "source_payload_sha256": "c4a52105e7bd2b9b8e0121c2fa6f68520bfe6c7fc0144c8f803951618e0ed9b0"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.62,
+          "probabilities": {
+            "lookup": 0.22,
+            "practitioner": 0.05,
+            "semantic": 0.72,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7239e656a03c486ba69c258449c50bb0",
+          "response_id": "gen-dec-1790797317-dghlCjUfeZScyPT3mBMU",
+          "timestamp": "2026-09-30T19:41:57.804774+00:00",
+          "source_payload_sha256": "c4a52105e7bd2b9b8e0121c2fa6f68520bfe6c7fc0144c8f803951618e0ed9b0"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.33,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.3,
+            "semantic": 0.5,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "128e6ec57af04119b6c3d47f78caa80f",
+          "response_id": "gen-dec-1790797864-MEoc2pIhxtbj7FNY5kvs",
+          "timestamp": "2026-09-30T19:51:04.828976+00:00",
+          "source_payload_sha256": "c4a52105e7bd2b9b8e0121c2fa6f68520bfe6c7fc0144c8f803951618e0ed9b0"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.66,
+          "probabilities": {
+            "lookup": 0.1,
+            "practitioner": 0.13,
+            "semantic": 0.75,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "6304b15171724ce5b6932778719b0dba",
+          "response_id": "gen-dec-1790797868-R4Yq0JXOkdWgCMu87KB0",
+          "timestamp": "2026-09-30T19:51:07.742414+00:00",
+          "source_payload_sha256": "c4a52105e7bd2b9b8e0121c2fa6f68520bfe6c7fc0144c8f803951618e0ed9b0"
+        }
+      }
+    },
+    {
+      "target_id": "2011/a/res/65/263#2",
+      "document_id": "2011/a/res/65/263",
+      "symbol": "A/RES/65/263",
+      "is_meeting": false,
+      "source_payload_sha256": "48540c5b2d8a49113c6c78d96b2b4da946a3bd5c5a7e8900044a2153a12736c6",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.37,
+          "probabilities": {
+            "lookup": 0.18,
+            "practitioner": 0.53,
+            "semantic": 0.15,
+            "skip": 0.14
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "c47a76e799fe4ecbae40b35aa83833a3",
+          "response_id": "gen-dec-1790796511-ei2jBCyi2nNqbTQfHAm8",
+          "timestamp": "2026-09-30T19:28:31.418340+00:00",
+          "source_payload_sha256": "48540c5b2d8a49113c6c78d96b2b4da946a3bd5c5a7e8900044a2153a12736c6"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.56,
+            "practitioner": 0.06,
+            "semantic": 0.33,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "476ad29d5e614ff3b0e9f20c8dd73a3a",
+          "response_id": "gen-dec-1790797317-8k6SaCAhGzoYIHhCugJ1",
+          "timestamp": "2026-09-30T19:41:57.807542+00:00",
+          "source_payload_sha256": "48540c5b2d8a49113c6c78d96b2b4da946a3bd5c5a7e8900044a2153a12736c6"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.23,
+          "probabilities": {
+            "lookup": 0.42,
+            "practitioner": 0.37,
+            "semantic": 0.17,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "58dcd8e73baf4e718dc54b37717fde19",
+          "response_id": "gen-dec-1790797864-qbVZ5F4b2NK8Dp1QUQDI",
+          "timestamp": "2026-09-30T19:51:04.845495+00:00",
+          "source_payload_sha256": "48540c5b2d8a49113c6c78d96b2b4da946a3bd5c5a7e8900044a2153a12736c6"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.22,
+          "probabilities": {
+            "lookup": 0.42,
+            "practitioner": 0.21,
+            "semantic": 0.27,
+            "skip": 0.1
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1bcd31004aa74f17ba789e213e77d785",
+          "response_id": "gen-dec-1790797867-ilgVsbTwKXdwaoW9pCjB",
+          "timestamp": "2026-09-30T19:51:07.758450+00:00",
+          "source_payload_sha256": "48540c5b2d8a49113c6c78d96b2b4da946a3bd5c5a7e8900044a2153a12736c6"
+        }
+      }
+    },
+    {
+      "target_id": "2013/a/res/68/143#7",
+      "document_id": "2013/a/res/68/143",
+      "symbol": "A/RES/68/143",
+      "is_meeting": false,
+      "source_payload_sha256": "e95e51f0ab23ef43dad3c0522dec1656e7a299026ee57307e74f59935e20b01e",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.6,
+          "probabilities": {
+            "lookup": 0.08,
+            "practitioner": 0.69,
+            "semantic": 0.21,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7b9b215cac9e4946a25cb316494914fe",
+          "response_id": "gen-dec-1790796511-OGMNvDpNM3O373O8LFqr",
+          "timestamp": "2026-09-30T19:28:31.353923+00:00",
+          "source_payload_sha256": "e95e51f0ab23ef43dad3c0522dec1656e7a299026ee57307e74f59935e20b01e"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.12,
+            "semantic": 0.62,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b81f9bdeac1a4349bad1db4af5cf3fef",
+          "response_id": "gen-dec-1790797317-DvrED3PcTOc2P0udJ1gJ",
+          "timestamp": "2026-09-30T19:41:57.834462+00:00",
+          "source_payload_sha256": "e95e51f0ab23ef43dad3c0522dec1656e7a299026ee57307e74f59935e20b01e"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.54,
+            "semantic": 0.26,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "0709c2bdeec94cd099552e825afca8dc",
+          "response_id": "gen-dec-1790797864-fhtRB6cfsDEQGu7dJZ34",
+          "timestamp": "2026-09-30T19:51:04.833356+00:00",
+          "source_payload_sha256": "e95e51f0ab23ef43dad3c0522dec1656e7a299026ee57307e74f59935e20b01e"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.23,
+          "probabilities": {
+            "lookup": 0.17,
+            "practitioner": 0.37,
+            "semantic": 0.43,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "4f5e3a772ac844a6bab40ff90adc7e12",
+          "response_id": "gen-dec-1790797867-R35Z6PmieziaomW3DlsU",
+          "timestamp": "2026-09-30T19:51:07.746746+00:00",
+          "source_payload_sha256": "e95e51f0ab23ef43dad3c0522dec1656e7a299026ee57307e74f59935e20b01e"
+        }
+      }
+    },
+    {
+      "target_id": "2014/a/res/68/254#2",
+      "document_id": "2014/a/res/68/254",
+      "symbol": "A/RES/68/254",
+      "is_meeting": false,
+      "source_payload_sha256": "f84654eed8e64ac726761ed19e9e3a34cf8b1d7a5c1288f301f5c6fe4cda65f3",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.69,
+          "probabilities": {
+            "lookup": 0.09,
+            "practitioner": 0.78,
+            "semantic": 0.12,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "98926fcd8281496789c721799afa8a91",
+          "response_id": "gen-dec-1790796511-Y2WTj7lILN8YT41wjpZc",
+          "timestamp": "2026-09-30T19:28:31.393160+00:00",
+          "source_payload_sha256": "f84654eed8e64ac726761ed19e9e3a34cf8b1d7a5c1288f301f5c6fe4cda65f3"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.57,
+            "practitioner": 0.1,
+            "semantic": 0.32,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9defc5f07eff4ffc920a388a8f18fa52",
+          "response_id": "gen-dec-1790797318-seTBzMw84xW6wrk0Zlk5",
+          "timestamp": "2026-09-30T19:41:57.810410+00:00",
+          "source_payload_sha256": "f84654eed8e64ac726761ed19e9e3a34cf8b1d7a5c1288f301f5c6fe4cda65f3"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.36,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.51,
+            "semantic": 0.2,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "0f4ec4cca308400cadfbe6f58d98c61e",
+          "response_id": "gen-dec-1790797864-QCtD3qrlUMz2W9GDeY8z",
+          "timestamp": "2026-09-30T19:51:04.850165+00:00",
+          "source_payload_sha256": "f84654eed8e64ac726761ed19e9e3a34cf8b1d7a5c1288f301f5c6fe4cda65f3"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.21,
+          "probabilities": {
+            "lookup": 0.34,
+            "practitioner": 0.41,
+            "semantic": 0.23,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5a74b46485b743d284d3d0a69e66ee23",
+          "response_id": "gen-dec-1790797867-DGmHXXTgUu4Xd2FhmlwT",
+          "timestamp": "2026-09-30T19:51:07.813951+00:00",
+          "source_payload_sha256": "f84654eed8e64ac726761ed19e9e3a34cf8b1d7a5c1288f301f5c6fe4cda65f3"
+        }
+      }
+    },
+    {
+      "target_id": "2001/a/res/55/114#5",
+      "document_id": "2001/a/res/55/114",
+      "symbol": "A/RES/55/114",
+      "is_meeting": false,
+      "source_payload_sha256": "f29e3275a3d860c0ce8651bb1380e53ac09f5c961254067315a5b150ca0c8c87",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.86,
+          "probabilities": {
+            "lookup": 0.04,
+            "practitioner": 0.89,
+            "semantic": 0.06,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "346e87006b914d9197753a23773a7e5f",
+          "response_id": "gen-dec-1790796512-QODsL6WkKJsnhNfrouZy",
+          "timestamp": "2026-09-30T19:28:31.675183+00:00",
+          "source_payload_sha256": "f29e3275a3d860c0ce8651bb1380e53ac09f5c961254067315a5b150ca0c8c87"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.28,
+          "probabilities": {
+            "lookup": 0.27,
+            "practitioner": 0.25,
+            "semantic": 0.47000000000000003,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "d1592f34c3d643e99a3aa17024608424",
+          "response_id": "gen-dec-1790797318-XLB5CP24XgM0Sxwq40zU",
+          "timestamp": "2026-09-30T19:41:58.077806+00:00",
+          "source_payload_sha256": "f29e3275a3d860c0ce8651bb1380e53ac09f5c961254067315a5b150ca0c8c87"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.6,
+          "probabilities": {
+            "lookup": 0.18,
+            "practitioner": 0.7,
+            "semantic": 0.11,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5b3b78486d6847ed974fc2c14131a008",
+          "response_id": "gen-dec-1790797864-z4x2mTWWosS7IcFuzgqb",
+          "timestamp": "2026-09-30T19:51:04.837801+00:00",
+          "source_payload_sha256": "f29e3275a3d860c0ce8651bb1380e53ac09f5c961254067315a5b150ca0c8c87"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.44,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.57,
+            "semantic": 0.26,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "d142b2c6a0f747bba94796cfdf7f9c9e",
+          "response_id": "gen-dec-1790797867-nycSiCp5WJnwoTOH56e0",
+          "timestamp": "2026-09-30T19:51:07.751092+00:00",
+          "source_payload_sha256": "f29e3275a3d860c0ce8651bb1380e53ac09f5c961254067315a5b150ca0c8c87"
+        }
+      }
+    },
+    {
+      "target_id": "2007/a/res/62/137#12",
+      "document_id": "2007/a/res/62/137",
+      "symbol": "A/RES/62/137",
+      "is_meeting": false,
+      "source_payload_sha256": "8ce90168fe54792e2e468bc86d9a8d7268870cf742b1e07750ac8719336ab2fd",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.68,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.76,
+            "semantic": 0.08,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "8372678c03d14deab8fe74efa4d39138",
+          "response_id": "gen-dec-1790796511-wyvdfcIhkMEVLcAGIpbA",
+          "timestamp": "2026-09-30T19:28:31.729277+00:00",
+          "source_payload_sha256": "8ce90168fe54792e2e468bc86d9a8d7268870cf742b1e07750ac8719336ab2fd"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.55,
+            "practitioner": 0.1,
+            "semantic": 0.34,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a86991abc0104fa4a84592fbd5c68b63",
+          "response_id": "gen-dec-1790797318-frslCJIzgi3Kc3vD6U5M",
+          "timestamp": "2026-09-30T19:41:58.085555+00:00",
+          "source_payload_sha256": "8ce90168fe54792e2e468bc86d9a8d7268870cf742b1e07750ac8719336ab2fd"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.36,
+          "probabilities": {
+            "lookup": 0.34,
+            "practitioner": 0.52,
+            "semantic": 0.13,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "070b2ec220224d1490e0890605296905",
+          "response_id": "gen-dec-1790797864-FKlruiSTPQmBZ7Do7OY9",
+          "timestamp": "2026-09-30T19:51:04.854718+00:00",
+          "source_payload_sha256": "8ce90168fe54792e2e468bc86d9a8d7268870cf742b1e07750ac8719336ab2fd"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.18,
+          "probabilities": {
+            "lookup": 0.38,
+            "practitioner": 0.38,
+            "semantic": 0.21,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1299127c77f24b97b1c16327f76dc6a2",
+          "response_id": "gen-dec-1790797867-JTNcpm5K5wDm51lKpDhN",
+          "timestamp": "2026-09-30T19:51:07.774062+00:00",
+          "source_payload_sha256": "8ce90168fe54792e2e468bc86d9a8d7268870cf742b1e07750ac8719336ab2fd"
+        }
+      }
+    },
+    {
+      "target_id": "2005/a/res/60/226#3",
+      "document_id": "2005/a/res/60/226",
+      "symbol": "A/RES/60/226",
+      "is_meeting": false,
+      "source_payload_sha256": "e91680c46739761b17bb39e561f554d3ab182b327faa2cb08de741b9ed69131b",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.78,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.83,
+            "semantic": 0.05,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "d9a6a4e89e094c3c87b23d20b7e125e0",
+          "response_id": "gen-dec-1790796512-Se3LTLL3VhrO41BzYKtI",
+          "timestamp": "2026-09-30T19:28:32.115312+00:00",
+          "source_payload_sha256": "e91680c46739761b17bb39e561f554d3ab182b327faa2cb08de741b9ed69131b"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.35,
+          "probabilities": {
+            "lookup": 0.51,
+            "practitioner": 0.18,
+            "semantic": 0.3,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "8b640fc018a04aa3ad5b45e3b4e786db",
+          "response_id": "gen-dec-1790797318-9uUAS05zy0cfBxrcvxeo",
+          "timestamp": "2026-09-30T19:41:58.365923+00:00",
+          "source_payload_sha256": "e91680c46739761b17bb39e561f554d3ab182b327faa2cb08de741b9ed69131b"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.53,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.64,
+            "semantic": 0.1,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "c58e76919fde4b859a28cef8b1d7290b",
+          "response_id": "gen-dec-1790797864-9olmwy7JDk6jwUHjtNI8",
+          "timestamp": "2026-09-30T19:51:04.841542+00:00",
+          "source_payload_sha256": "e91680c46739761b17bb39e561f554d3ab182b327faa2cb08de741b9ed69131b"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.26,
+          "probabilities": {
+            "lookup": 0.38,
+            "practitioner": 0.45,
+            "semantic": 0.16,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "17864c5cd5b4465491a0a41e53f5907e",
+          "response_id": "gen-dec-1790797867-BObsqHBi1qHLxvoQp7K7",
+          "timestamp": "2026-09-30T19:51:07.754945+00:00",
+          "source_payload_sha256": "e91680c46739761b17bb39e561f554d3ab182b327faa2cb08de741b9ed69131b"
+        }
+      }
+    },
+    {
+      "target_id": "2013/a/res/68/18#1",
+      "document_id": "2013/a/res/68/18",
+      "symbol": "A/RES/68/18",
+      "is_meeting": false,
+      "source_payload_sha256": "94ba73211a06d8db83be6688375d2be2270bc22262faa50a126629e1fe2b0115",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.79,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.85,
+            "semantic": 0.02,
+            "skip": 0
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a037378fcf1d4ebeb93b8ec6deded557",
+          "response_id": "gen-dec-1790796512-0c83JVK2bGW52U4qlJpH",
+          "timestamp": "2026-09-30T19:28:32.826616+00:00",
+          "source_payload_sha256": "94ba73211a06d8db83be6688375d2be2270bc22262faa50a126629e1fe2b0115"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.52,
+          "probabilities": {
+            "lookup": 0.65,
+            "practitioner": 0.1,
+            "semantic": 0.24,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b23f594a5aad4ceb971da356e1440280",
+          "response_id": "gen-dec-1790797318-OBMtlFPo4Oa45IjyvbJt",
+          "timestamp": "2026-09-30T19:41:58.856750+00:00",
+          "source_payload_sha256": "94ba73211a06d8db83be6688375d2be2270bc22262faa50a126629e1fe2b0115"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.46,
+          "probabilities": {
+            "lookup": 0.33,
+            "practitioner": 0.6,
+            "semantic": 0.06,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "8379aa888bce49888cf4c4e8f40c9731",
+          "response_id": "gen-dec-1790797865-9PbKZLWT6NJWqbovNUql",
+          "timestamp": "2026-09-30T19:51:05.131690+00:00",
+          "source_payload_sha256": "94ba73211a06d8db83be6688375d2be2270bc22262faa50a126629e1fe2b0115"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.29,
+          "probabilities": {
+            "lookup": 0.46,
+            "practitioner": 0.36,
+            "semantic": 0.16,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "6afb3bfe2b4c4e4a82bccbc7b74bcfef",
+          "response_id": "gen-dec-1790797868-RVYgOUc8HWa0995ZNXkQ",
+          "timestamp": "2026-09-30T19:51:08.016722+00:00",
+          "source_payload_sha256": "94ba73211a06d8db83be6688375d2be2270bc22262faa50a126629e1fe2b0115"
+        }
+      }
+    },
+    {
+      "target_id": "2001/s/res/1376_2001_#2",
+      "document_id": "2001/s/res/1376_2001_",
+      "symbol": "S/RES/1376(2001)",
+      "is_meeting": false,
+      "source_payload_sha256": "8b7b118cedf3d6896d89ebcf75a3d7acd85db08583f210ccfe5a9bd4d0cba8d2",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.54,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.65,
+            "semantic": 0.21,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "322c69255d71441ab45bb092a176028d",
+          "response_id": "gen-dec-1790796514-YlfPlESlQKGjPOHpq2d1",
+          "timestamp": "2026-09-30T19:28:34.616636+00:00",
+          "source_payload_sha256": "8b7b118cedf3d6896d89ebcf75a3d7acd85db08583f210ccfe5a9bd4d0cba8d2"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.45,
+          "probabilities": {
+            "lookup": 0.34,
+            "practitioner": 0.07,
+            "semantic": 0.58,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "372757bace984442a22de0ba945726c8",
+          "response_id": "gen-dec-1790797320-8JpjXfWN2bhTGAB1GRtr",
+          "timestamp": "2026-09-30T19:42:00.145787+00:00",
+          "source_payload_sha256": "8b7b118cedf3d6896d89ebcf75a3d7acd85db08583f210ccfe5a9bd4d0cba8d2"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.19,
+          "probabilities": {
+            "lookup": 0.32,
+            "practitioner": 0.4,
+            "semantic": 0.27,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "3b6a10f0cdcf4871878c406dcaed1559",
+          "response_id": "gen-dec-1790797865-gUGveFqbmOuDkgW0LsBe",
+          "timestamp": "2026-09-30T19:51:05.154158+00:00",
+          "source_payload_sha256": "8b7b118cedf3d6896d89ebcf75a3d7acd85db08583f210ccfe5a9bd4d0cba8d2"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.24,
+          "probabilities": {
+            "lookup": 0.27,
+            "practitioner": 0.27,
+            "semantic": 0.42,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "2c8cff010f124e79a0cd030955852dee",
+          "response_id": "gen-dec-1790797868-BitlRJ4YF4ffZatumRTs",
+          "timestamp": "2026-09-30T19:51:08.055309+00:00",
+          "source_payload_sha256": "8b7b118cedf3d6896d89ebcf75a3d7acd85db08583f210ccfe5a9bd4d0cba8d2"
+        }
+      }
+    },
+    {
+      "target_id": "2008/s/res/1806_2008_#8",
+      "document_id": "2008/s/res/1806_2008_",
+      "symbol": "S/RES/1806(2008)",
+      "is_meeting": false,
+      "source_payload_sha256": "cb61ad03e5e2833e914d2d1d657053c1c69f9248931f3f0304216d5217be40ee",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.67,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.75,
+            "semantic": 0.12,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7c5489fd812b468da2ac1bf76123edbb",
+          "response_id": "gen-dec-1790796514-3pXmwAgFEAejPB34BOEs",
+          "timestamp": "2026-09-30T19:28:34.869644+00:00",
+          "source_payload_sha256": "cb61ad03e5e2833e914d2d1d657053c1c69f9248931f3f0304216d5217be40ee"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.26,
+          "probabilities": {
+            "lookup": 0.42,
+            "practitioner": 0.12,
+            "semantic": 0.45,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "0d76ef2dcc9e423aabaec16fa0176257",
+          "response_id": "gen-dec-1790797320-xGewuz0ZED9ttbAFN49g",
+          "timestamp": "2026-09-30T19:42:00.520393+00:00",
+          "source_payload_sha256": "cb61ad03e5e2833e914d2d1d657053c1c69f9248931f3f0304216d5217be40ee"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.34,
+          "probabilities": {
+            "lookup": 0.32,
+            "practitioner": 0.51,
+            "semantic": 0.16,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "888f7983354f4a9e841de8f97ace66e9",
+          "response_id": "gen-dec-1790797865-F6ctQR8vIp633y3Cn9B1",
+          "timestamp": "2026-09-30T19:51:05.264804+00:00",
+          "source_payload_sha256": "cb61ad03e5e2833e914d2d1d657053c1c69f9248931f3f0304216d5217be40ee"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.17,
+          "probabilities": {
+            "lookup": 0.36,
+            "practitioner": 0.37,
+            "semantic": 0.25,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "c09d71a2cf694a6e821abb312733cb8a",
+          "response_id": "gen-dec-1790797868-bmBqeBY3FG8eiH8VPido",
+          "timestamp": "2026-09-30T19:51:08.065762+00:00",
+          "source_payload_sha256": "cb61ad03e5e2833e914d2d1d657053c1c69f9248931f3f0304216d5217be40ee"
+        }
+      }
+    },
+    {
+      "target_id": "2003/s/res/1466_2003_#3",
+      "document_id": "2003/s/res/1466_2003_",
+      "symbol": "S/RES/1466(2003)",
+      "is_meeting": false,
+      "source_payload_sha256": "e215c0e1173d72ef1a3bd2a6d375310cd5a5016727123d27d9e37444125e1f86",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.68,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.76,
+            "semantic": 0.1,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "ab2382cc06bc49e88ee9ac5a23889321",
+          "response_id": "gen-dec-1790796515-bMrNUL6axQ6dWmSYN90d",
+          "timestamp": "2026-09-30T19:28:35.204038+00:00",
+          "source_payload_sha256": "e215c0e1173d72ef1a3bd2a6d375310cd5a5016727123d27d9e37444125e1f86"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.29,
+          "probabilities": {
+            "lookup": 0.44,
+            "practitioner": 0.09,
+            "semantic": 0.45999999999999996,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "4d0868000b004ebf9bf6373b9be32453",
+          "response_id": "gen-dec-1790797320-jhXix0nIhRMHkmhk6dic",
+          "timestamp": "2026-09-30T19:42:00.800776+00:00",
+          "source_payload_sha256": "e215c0e1173d72ef1a3bd2a6d375310cd5a5016727123d27d9e37444125e1f86"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.33,
+          "probabilities": {
+            "lookup": 0.32,
+            "practitioner": 0.5,
+            "semantic": 0.17,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "8e70a5052bbf4a7db5c5fc772cf5210a",
+          "response_id": "gen-dec-1790797865-OweDUs5o3Bpz88pwxhDJ",
+          "timestamp": "2026-09-30T19:51:05.260305+00:00",
+          "source_payload_sha256": "e215c0e1173d72ef1a3bd2a6d375310cd5a5016727123d27d9e37444125e1f86"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.15,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.36,
+            "semantic": 0.34,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "e655693d7ffa4a888139d4f80f5bdc21",
+          "response_id": "gen-dec-1790797868-bxTNC6BZWPthMovlk0Vd",
+          "timestamp": "2026-09-30T19:51:08.099355+00:00",
+          "source_payload_sha256": "e215c0e1173d72ef1a3bd2a6d375310cd5a5016727123d27d9e37444125e1f86"
+        }
+      }
+    },
+    {
+      "target_id": "2008/s/res/1845_2008_#3",
+      "document_id": "2008/s/res/1845_2008_",
+      "symbol": "S/RES/1845(2008)",
+      "is_meeting": false,
+      "source_payload_sha256": "6183ad789f8cdb14c5cc5443c7d2a3283f65e12480b319fe819fbbeda7cf2bd2",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.16,
+            "practitioner": 0.62,
+            "semantic": 0.14,
+            "skip": 0.08
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "015c214c9cbd4d52a28429c61b92944e",
+          "response_id": "gen-dec-1790796515-6pbXCxC4YPRmYpPiZQcH",
+          "timestamp": "2026-09-30T19:28:35.489964+00:00",
+          "source_payload_sha256": "6183ad789f8cdb14c5cc5443c7d2a3283f65e12480b319fe819fbbeda7cf2bd2"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.49,
+          "probabilities": {
+            "lookup": 0.62,
+            "practitioner": 0.06,
+            "semantic": 0.3,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "25093af13e20456bb2dd56b187691457",
+          "response_id": "gen-dec-1790797321-vIzzmgF17FuOTQ2brApc",
+          "timestamp": "2026-09-30T19:42:01.077676+00:00",
+          "source_payload_sha256": "6183ad789f8cdb14c5cc5443c7d2a3283f65e12480b319fe819fbbeda7cf2bd2"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.35,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.51,
+            "semantic": 0.17,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "92d4ebe1b3a3499db86b42ac44785769",
+          "response_id": "gen-dec-1790797865-pQdP7d16gUgWDvQxqPYU",
+          "timestamp": "2026-09-30T19:51:05.287789+00:00",
+          "source_payload_sha256": "6183ad789f8cdb14c5cc5443c7d2a3283f65e12480b319fe819fbbeda7cf2bd2"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.22,
+          "probabilities": {
+            "lookup": 0.41,
+            "practitioner": 0.28,
+            "semantic": 0.27,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "83b33b64a71e44358fce48027d24e165",
+          "response_id": "gen-dec-1790797868-GQojBOWSO7SdCfqGvDPP",
+          "timestamp": "2026-09-30T19:51:08.146829+00:00",
+          "source_payload_sha256": "6183ad789f8cdb14c5cc5443c7d2a3283f65e12480b319fe819fbbeda7cf2bd2"
+        }
+      }
+    },
+    {
+      "target_id": "2004/s/res/1565_2004_#11",
+      "document_id": "2004/s/res/1565_2004_",
+      "symbol": "S/RES/1565(2004)",
+      "is_meeting": false,
+      "source_payload_sha256": "0895d91f8ccd0398edc3e91bccb2553a00033aea16c1ccdf165f7900099f7a72",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.72,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.78,
+            "semantic": 0.08,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "965896a9a41747cc83525a727f96958f",
+          "response_id": "gen-dec-1790796515-92vREnqADf8cqIH6egr1",
+          "timestamp": "2026-09-30T19:28:35.594796+00:00",
+          "source_payload_sha256": "0895d91f8ccd0398edc3e91bccb2553a00033aea16c1ccdf165f7900099f7a72"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.34,
+          "probabilities": {
+            "lookup": 0.5,
+            "practitioner": 0.08,
+            "semantic": 0.41,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "bbd91684ebfd42559d7ca7a7149858c8",
+          "response_id": "gen-dec-1790797321-cAPr8AT8jJorki3A3b3N",
+          "timestamp": "2026-09-30T19:42:01.333287+00:00",
+          "source_payload_sha256": "0895d91f8ccd0398edc3e91bccb2553a00033aea16c1ccdf165f7900099f7a72"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.4,
+          "probabilities": {
+            "lookup": 0.29,
+            "practitioner": 0.54,
+            "semantic": 0.16,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b0d77e0108a9416e8242dde0a9446a80",
+          "response_id": "gen-dec-1790797865-Irr3tJ8UNrd6H7cO4lbY",
+          "timestamp": "2026-09-30T19:51:05.270067+00:00",
+          "source_payload_sha256": "0895d91f8ccd0398edc3e91bccb2553a00033aea16c1ccdf165f7900099f7a72"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.18,
+          "probabilities": {
+            "lookup": 0.33,
+            "practitioner": 0.38,
+            "semantic": 0.27,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "43846907a94944319285a09d329cfbe4",
+          "response_id": "gen-dec-1790797868-RuwP6v4KCOnt2IZpLwgx",
+          "timestamp": "2026-09-30T19:51:08.151038+00:00",
+          "source_payload_sha256": "0895d91f8ccd0398edc3e91bccb2553a00033aea16c1ccdf165f7900099f7a72"
+        }
+      }
+    },
+    {
+      "target_id": "2002/a/res/56/188#8",
+      "document_id": "2002/a/res/56/188",
+      "symbol": "A/RES/56/188",
+      "is_meeting": false,
+      "source_payload_sha256": "3ccb208eb0c57fdc6ea2cb46e10a498f23c92e435268bdefea85ee0ddc390175",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.65,
+          "probabilities": {
+            "lookup": 0.08,
+            "practitioner": 0.74,
+            "semantic": 0.16,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "4a247d0f08a6496c869ed052a1ce19ec",
+          "response_id": "gen-dec-1790796515-rFJA48q25BzH6Q986LD6",
+          "timestamp": "2026-09-30T19:28:35.756094+00:00",
+          "source_payload_sha256": "3ccb208eb0c57fdc6ea2cb46e10a498f23c92e435268bdefea85ee0ddc390175"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.44,
+          "probabilities": {
+            "lookup": 0.3,
+            "practitioner": 0.11,
+            "semantic": 0.58,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "8862c25c4ee2469bbb570a6640962438",
+          "response_id": "gen-dec-1790797323-EqaWZA5qwH3oYOkJeser",
+          "timestamp": "2026-09-30T19:42:01.560182+00:00",
+          "source_payload_sha256": "3ccb208eb0c57fdc6ea2cb46e10a498f23c92e435268bdefea85ee0ddc390175"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.37,
+          "probabilities": {
+            "lookup": 0.26,
+            "practitioner": 0.52,
+            "semantic": 0.21,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "398b37f22eb348bbb294d4833c6d6970",
+          "response_id": "gen-dec-1790797865-PnMDmD4yfccTxLRVrrCx",
+          "timestamp": "2026-09-30T19:51:05.273954+00:00",
+          "source_payload_sha256": "3ccb208eb0c57fdc6ea2cb46e10a498f23c92e435268bdefea85ee0ddc390175"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.23,
+          "probabilities": {
+            "lookup": 0.17,
+            "practitioner": 0.42,
+            "semantic": 0.39,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "f3ecc976a87244459c6b5f716e062901",
+          "response_id": "gen-dec-1790797868-AjDJPSMSLPDm4VjDhW4J",
+          "timestamp": "2026-09-30T19:51:08.165885+00:00",
+          "source_payload_sha256": "3ccb208eb0c57fdc6ea2cb46e10a498f23c92e435268bdefea85ee0ddc390175"
+        }
+      }
+    },
+    {
+      "target_id": "2005/a/res/60/47#0",
+      "document_id": "2005/a/res/60/47",
+      "symbol": "A/RES/60/47",
+      "is_meeting": false,
+      "source_payload_sha256": "d3d676e9daa5131639fa0da09aa43ae7244af073c4c32634c8101470813a322e",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.59,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.69,
+            "semantic": 0.12,
+            "skip": 0.07
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "62116d9eb3404a31ae9480556aaea3b2",
+          "response_id": "gen-dec-1790796516-SZRdZ6T9pcjs0iec21nn",
+          "timestamp": "2026-09-30T19:28:35.959581+00:00",
+          "source_payload_sha256": "d3d676e9daa5131639fa0da09aa43ae7244af073c4c32634c8101470813a322e"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.55,
+          "probabilities": {
+            "lookup": 0.67,
+            "practitioner": 0.07,
+            "semantic": 0.24,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b7696b32940e41528b93ee64f44455ab",
+          "response_id": "gen-dec-1790797322-5Tot7b0ck5M2hfxspT2z",
+          "timestamp": "2026-09-30T19:42:02.418468+00:00",
+          "source_payload_sha256": "d3d676e9daa5131639fa0da09aa43ae7244af073c4c32634c8101470813a322e"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.34,
+            "practitioner": 0.56,
+            "semantic": 0.08,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9fd52afb2b1c46a19caa071253297fc1",
+          "response_id": "gen-dec-1790797865-twoGhnv8qEmbHqG0JLQN",
+          "timestamp": "2026-09-30T19:51:05.368977+00:00",
+          "source_payload_sha256": "d3d676e9daa5131639fa0da09aa43ae7244af073c4c32634c8101470813a322e"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.28,
+          "probabilities": {
+            "lookup": 0.45,
+            "practitioner": 0.24,
+            "semantic": 0.25,
+            "skip": 0.06
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "da69478aab0c4dd293710d49449dfcfa",
+          "response_id": "gen-dec-1790797868-tX97n86ZXEK2uaLD8ewu",
+          "timestamp": "2026-09-30T19:51:08.297387+00:00",
+          "source_payload_sha256": "d3d676e9daa5131639fa0da09aa43ae7244af073c4c32634c8101470813a322e"
+        }
+      }
+    },
+    {
+      "target_id": "2011/s/res/1988_2011_#19",
+      "document_id": "2011/s/res/1988_2011_",
+      "symbol": "S/RES/1988(2011)",
+      "is_meeting": false,
+      "source_payload_sha256": "18cc1f25afc7be6f08d77b02a3df98f124e690782c5d25961042a47e31bb2d2d",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.87,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.9,
+            "semantic": 0.02,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "08c3a9bab21746598a706d28a49cbdc7",
+          "response_id": "gen-dec-1790796516-fmsR7Q8Wh9vdXyoOe6cA",
+          "timestamp": "2026-09-30T19:28:36.278928+00:00",
+          "source_payload_sha256": "18cc1f25afc7be6f08d77b02a3df98f124e690782c5d25961042a47e31bb2d2d"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.51,
+          "probabilities": {
+            "lookup": 0.63,
+            "practitioner": 0.13,
+            "semantic": 0.22,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "27c9041bdd7a4218af969b3d4f135569",
+          "response_id": "gen-dec-1790797323-m1p1Ak7yKj94Gbj425B6",
+          "timestamp": "2026-09-30T19:42:03.119750+00:00",
+          "source_payload_sha256": "18cc1f25afc7be6f08d77b02a3df98f124e690782c5d25961042a47e31bb2d2d"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.74,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.8,
+            "semantic": 0.05,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "f07256c56d3740f494f12ba51388ad4e",
+          "response_id": "gen-dec-1790797865-4g4gedTOyW4fJuS3P5Xf",
+          "timestamp": "2026-09-30T19:51:05.372623+00:00",
+          "source_payload_sha256": "18cc1f25afc7be6f08d77b02a3df98f124e690782c5d25961042a47e31bb2d2d"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.29,
+          "probabilities": {
+            "lookup": 0.4,
+            "practitioner": 0.47000000000000003,
+            "semantic": 0.1,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5c9714c0eaf845b19c5cc2a768f21235",
+          "response_id": "gen-dec-1790797868-PbMgS6fjpvG5FLfN9U4B",
+          "timestamp": "2026-09-30T19:51:08.313354+00:00",
+          "source_payload_sha256": "18cc1f25afc7be6f08d77b02a3df98f124e690782c5d25961042a47e31bb2d2d"
+        }
+      }
+    },
+    {
+      "target_id": "2004/a/res/59/61#0",
+      "document_id": "2004/a/res/59/61",
+      "symbol": "A/RES/59/61",
+      "is_meeting": false,
+      "source_payload_sha256": "6ede3e91686b85a25ed7d1b2b6a288eeac14e3a08a5644ccaeb9378e733e8bee",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.44,
+          "probabilities": {
+            "lookup": 0.08,
+            "practitioner": 0.58,
+            "semantic": 0.2,
+            "skip": 0.14
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7e80529ecc91498bb95a02100876fa22",
+          "response_id": "gen-dec-1790796516-Svpp5MDZ8sipGiYqrlFO",
+          "timestamp": "2026-09-30T19:28:36.910294+00:00",
+          "source_payload_sha256": "6ede3e91686b85a25ed7d1b2b6a288eeac14e3a08a5644ccaeb9378e733e8bee"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.38,
+          "probabilities": {
+            "lookup": 0.54,
+            "practitioner": 0.09,
+            "semantic": 0.36,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "cab32f5a09034b3b85fa31fdebb0f534",
+          "response_id": "gen-dec-1790797323-jykvletQV4Eh3SUNMT0K",
+          "timestamp": "2026-09-30T19:42:03.476202+00:00",
+          "source_payload_sha256": "6ede3e91686b85a25ed7d1b2b6a288eeac14e3a08a5644ccaeb9378e733e8bee"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.55,
+            "semantic": 0.17,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a6c4027e87d54adc9aa4ec1e2d0d316b",
+          "response_id": "gen-dec-1790797865-ggNOex8bgA0kkXJJJzur",
+          "timestamp": "2026-09-30T19:51:05.407359+00:00",
+          "source_payload_sha256": "6ede3e91686b85a25ed7d1b2b6a288eeac14e3a08a5644ccaeb9378e733e8bee"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.16,
+          "probabilities": {
+            "lookup": 0.31,
+            "practitioner": 0.21,
+            "semantic": 0.37,
+            "skip": 0.11
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9e52526d9edb4edf933b57bdfb6a781d",
+          "response_id": "gen-dec-1790797868-zUNoh4k6FGE7j5JcR400",
+          "timestamp": "2026-09-30T19:51:08.359350+00:00",
+          "source_payload_sha256": "6ede3e91686b85a25ed7d1b2b6a288eeac14e3a08a5644ccaeb9378e733e8bee"
+        }
+      }
+    },
+    {
+      "target_id": "2013/a/res/67/145#7",
+      "document_id": "2013/a/res/67/145",
+      "symbol": "A/RES/67/145",
+      "is_meeting": false,
+      "source_payload_sha256": "3f954c9e900a4f0a652567d5cecbd51f3269b92ab60c830c99e01c468ad7d768",
+      "variants": {
+        "B": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.25,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.43,
+            "semantic": 0.44,
+            "skip": 0.06
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "eaef21b84b3c4fe69ad62b5925115f5b",
+          "response_id": "gen-dec-1790796517-hlC2tuBl98guMviHBluQ",
+          "timestamp": "2026-09-30T19:28:37.243398+00:00",
+          "source_payload_sha256": "3f954c9e900a4f0a652567d5cecbd51f3269b92ab60c830c99e01c468ad7d768"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.08,
+            "semantic": 0.63,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "bba7d69cdb404df7a21be478ce96f666",
+          "response_id": "gen-dec-1790797324-INueHGRBZgxww2mYm0I4",
+          "timestamp": "2026-09-30T19:42:03.608693+00:00",
+          "source_payload_sha256": "3f954c9e900a4f0a652567d5cecbd51f3269b92ab60c830c99e01c468ad7d768"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.2,
+          "probabilities": {
+            "lookup": 0.2,
+            "practitioner": 0.39,
+            "semantic": 0.4,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "25b6ba77c48149d0a6416842e07d3292",
+          "response_id": "gen-dec-1790797865-5PKBkUOqlbtGo6VRd5Sj",
+          "timestamp": "2026-09-30T19:51:05.569837+00:00",
+          "source_payload_sha256": "3f954c9e900a4f0a652567d5cecbd51f3269b92ab60c830c99e01c468ad7d768"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.55,
+          "probabilities": {
+            "lookup": 0.1,
+            "practitioner": 0.19,
+            "semantic": 0.67,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a71428a9ad3949aab86ed1467d5006de",
+          "response_id": "gen-dec-1790797868-ZzqztDdTa90kl2KVCKrm",
+          "timestamp": "2026-09-30T19:51:08.373136+00:00",
+          "source_payload_sha256": "3f954c9e900a4f0a652567d5cecbd51f3269b92ab60c830c99e01c468ad7d768"
+        }
+      }
+    },
+    {
+      "target_id": "2003/a/res/58/298#4",
+      "document_id": "2003/a/res/58/298",
+      "symbol": "A/RES/58/298",
+      "is_meeting": false,
+      "source_payload_sha256": "09912ac03ddf6efeb25bae8600ea59e512437dc3093cc23f9a94c49239253aaf",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.64,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.72,
+            "semantic": 0.02,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a683e3db9cf24b418ad50193d5b0c368",
+          "response_id": "gen-dec-1790796517-qpQnGyvB9GyOIQwHawVL",
+          "timestamp": "2026-09-30T19:28:37.558372+00:00",
+          "source_payload_sha256": "09912ac03ddf6efeb25bae8600ea59e512437dc3093cc23f9a94c49239253aaf"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.81,
+          "probabilities": {
+            "lookup": 0.85,
+            "practitioner": 0.05,
+            "semantic": 0.09,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "fc94cbd8d47d4829ae215b2ae981455d",
+          "response_id": "gen-dec-1790797323-PxESAsDYb2rhhzEns6Xf",
+          "timestamp": "2026-09-30T19:42:03.750954+00:00",
+          "source_payload_sha256": "09912ac03ddf6efeb25bae8600ea59e512437dc3093cc23f9a94c49239253aaf"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.45,
+          "probabilities": {
+            "lookup": 0.38,
+            "practitioner": 0.58,
+            "semantic": 0.03,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "8c1842b6eadb4ca4872ea8df4195350e",
+          "response_id": "gen-dec-1790797865-TdBqKi0hLvecCOChR4GJ",
+          "timestamp": "2026-09-30T19:51:05.566644+00:00",
+          "source_payload_sha256": "09912ac03ddf6efeb25bae8600ea59e512437dc3093cc23f9a94c49239253aaf"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.61,
+          "probabilities": {
+            "lookup": 0.71,
+            "practitioner": 0.19,
+            "semantic": 0.09,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "cab40ed46eda412c93813d77f4a15917",
+          "response_id": "gen-dec-1790797868-1zBvp9fEcnNRIUhmWY8O",
+          "timestamp": "2026-09-30T19:51:08.451460+00:00",
+          "source_payload_sha256": "09912ac03ddf6efeb25bae8600ea59e512437dc3093cc23f9a94c49239253aaf"
+        }
+      }
+    },
+    {
+      "target_id": "2003/a/res/57/300#10",
+      "document_id": "2003/a/res/57/300",
+      "symbol": "A/RES/57/300",
+      "is_meeting": false,
+      "source_payload_sha256": "9093550b694913cd695d7cae6dc6fdb04c0011addc0d488be785f6c164927438",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.67,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.76,
+            "semantic": 0.12,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1ce64ca171d944bcadf517e1562b5a7c",
+          "response_id": "gen-dec-1790796518-lFWkGYCtyh04ZH0scsrO",
+          "timestamp": "2026-09-30T19:28:38.254334+00:00",
+          "source_payload_sha256": "9093550b694913cd695d7cae6dc6fdb04c0011addc0d488be785f6c164927438"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.55,
+            "practitioner": 0.07,
+            "semantic": 0.37,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7e1b877f131b4e95b9d21cd8af426539",
+          "response_id": "gen-dec-1790797324-m1CLm1Ln3J9GH2Q75sKC",
+          "timestamp": "2026-09-30T19:42:04.019209+00:00",
+          "source_payload_sha256": "9093550b694913cd695d7cae6dc6fdb04c0011addc0d488be785f6c164927438"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.31,
+          "probabilities": {
+            "lookup": 0.31,
+            "practitioner": 0.47,
+            "semantic": 0.2,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "919d2f91b75f40bdbf9452043ab318db",
+          "response_id": "gen-dec-1790797865-LcAaoDgc9vlUVIMC0mP2",
+          "timestamp": "2026-09-30T19:51:05.640729+00:00",
+          "source_payload_sha256": "9093550b694913cd695d7cae6dc6fdb04c0011addc0d488be785f6c164927438"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.14,
+          "probabilities": {
+            "lookup": 0.35,
+            "practitioner": 0.33,
+            "semantic": 0.29,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9a6eb52f428e4582b76e552fe9669c19",
+          "response_id": "gen-dec-1790797868-ttNXCrfyoq5FaLwFCb1W",
+          "timestamp": "2026-09-30T19:51:08.455222+00:00",
+          "source_payload_sha256": "9093550b694913cd695d7cae6dc6fdb04c0011addc0d488be785f6c164927438"
+        }
+      }
+    },
+    {
+      "target_id": "2013/a/res/67/222#6",
+      "document_id": "2013/a/res/67/222",
+      "symbol": "A/RES/67/222",
+      "is_meeting": false,
+      "source_payload_sha256": "5109eb94ffc92aaf885dda2a598e3bc3b92ab2c7863bd002791f93ca9ca2f85c",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.61,
+          "probabilities": {
+            "lookup": 0.08,
+            "practitioner": 0.71,
+            "semantic": 0.2,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5f03ec80d0964bea9b63d58c1e6bb77e",
+          "response_id": "gen-dec-1790796518-NOzvsvRHHaeHNPFuB9zn",
+          "timestamp": "2026-09-30T19:28:38.575384+00:00",
+          "source_payload_sha256": "5109eb94ffc92aaf885dda2a598e3bc3b92ab2c7863bd002791f93ca9ca2f85c"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.46,
+          "probabilities": {
+            "lookup": 0.3,
+            "practitioner": 0.1,
+            "semantic": 0.59,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "3efc31e2f5e54ffa91305dff43ccae54",
+          "response_id": "gen-dec-1790797324-PW1NcxCLh0ZfYj0qYT4H",
+          "timestamp": "2026-09-30T19:42:04.330479+00:00",
+          "source_payload_sha256": "5109eb94ffc92aaf885dda2a598e3bc3b92ab2c7863bd002791f93ca9ca2f85c"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.3,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.47,
+            "semantic": 0.33,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a3aba0b4fe7f459682edf2252e08483e",
+          "response_id": "gen-dec-1790797865-hSZOHtMBJtTsU2TZ00A7",
+          "timestamp": "2026-09-30T19:51:05.680413+00:00",
+          "source_payload_sha256": "5109eb94ffc92aaf885dda2a598e3bc3b92ab2c7863bd002791f93ca9ca2f85c"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.26,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.38,
+            "semantic": 0.45,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "c97b5f4befb24e6ea125169d4b94801c",
+          "response_id": "gen-dec-1790797868-CjhCCIMUzQREKihhylUX",
+          "timestamp": "2026-09-30T19:51:08.563582+00:00",
+          "source_payload_sha256": "5109eb94ffc92aaf885dda2a598e3bc3b92ab2c7863bd002791f93ca9ca2f85c"
+        }
+      }
+    },
+    {
+      "target_id": "2003/a/res/57/137#1",
+      "document_id": "2003/a/res/57/137",
+      "symbol": "A/RES/57/137",
+      "is_meeting": false,
+      "source_payload_sha256": "d1b1101a37a3da340ce0c8e72724806159997d4f874285789e2b2669ab64071d",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.47,
+          "probabilities": {
+            "lookup": 0.1,
+            "practitioner": 0.59,
+            "semantic": 0.24,
+            "skip": 0.07
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "45de12e2803d42baad55257c3bb827dc",
+          "response_id": "gen-dec-1790796519-Ob2pmPixs2WD2eAH8UWG",
+          "timestamp": "2026-09-30T19:28:39.281682+00:00",
+          "source_payload_sha256": "d1b1101a37a3da340ce0c8e72724806159997d4f874285789e2b2669ab64071d"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.36,
+          "probabilities": {
+            "lookup": 0.35,
+            "practitioner": 0.11,
+            "semantic": 0.52,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "094aa3e32b904ba399b57299ebd440c7",
+          "response_id": "gen-dec-1790797325-RfR7MdOnOMZzX7FIPzyd",
+          "timestamp": "2026-09-30T19:42:05.164093+00:00",
+          "source_payload_sha256": "d1b1101a37a3da340ce0c8e72724806159997d4f874285789e2b2669ab64071d"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.21,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.41,
+            "semantic": 0.28,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a6f5b0f4e0804953a5996c433da6b0dc",
+          "response_id": "gen-dec-1790797865-nG4AcJVz6JrnEo4woxob",
+          "timestamp": "2026-09-30T19:51:05.647615+00:00",
+          "source_payload_sha256": "d1b1101a37a3da340ce0c8e72724806159997d4f874285789e2b2669ab64071d"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.26,
+          "probabilities": {
+            "lookup": 0.21,
+            "practitioner": 0.29,
+            "semantic": 0.45,
+            "skip": 0.05
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "6b6dcd7202ce4c7793ea60ca0edaec1d",
+          "response_id": "gen-dec-1790797868-DMQ7h3OtsVDBbnR9dUjB",
+          "timestamp": "2026-09-30T19:51:08.597710+00:00",
+          "source_payload_sha256": "d1b1101a37a3da340ce0c8e72724806159997d4f874285789e2b2669ab64071d"
+        }
+      }
+    },
+    {
+      "target_id": "2014/s/res/2140__2014_#13",
+      "document_id": "2014/s/res/2140__2014_",
+      "symbol": "S/RES/2140(2014)",
+      "is_meeting": false,
+      "source_payload_sha256": "ed9553c1c522dc7e88b5a1125bc4259d7d6cd653d483694d61856dc3b9cda2a7",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.84,
+          "probabilities": {
+            "lookup": 0.08,
+            "practitioner": 0.89,
+            "semantic": 0.02,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "11742dc40f1e4303bda681a844a3a744",
+          "response_id": "gen-dec-1790796519-Vndo8S5ZTk1runIOXRay",
+          "timestamp": "2026-09-30T19:28:39.703507+00:00",
+          "source_payload_sha256": "ed9553c1c522dc7e88b5a1125bc4259d7d6cd653d483694d61856dc3b9cda2a7"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.36,
+          "probabilities": {
+            "lookup": 0.52,
+            "practitioner": 0.19,
+            "semantic": 0.28,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "6ac6b6fee23b4d9ea4bf1615e700acfc",
+          "response_id": "gen-dec-1790797325-UGjZIbK93IGhmLjY3jyC",
+          "timestamp": "2026-09-30T19:42:05.492234+00:00",
+          "source_payload_sha256": "ed9553c1c522dc7e88b5a1125bc4259d7d6cd653d483694d61856dc3b9cda2a7"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.67,
+          "probabilities": {
+            "lookup": 0.17,
+            "practitioner": 0.75,
+            "semantic": 0.07,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1b0341a024574c9eaf8fe6e9055b4833",
+          "response_id": "gen-dec-1790797865-l1cMsPX1p8cb5i5HDB81",
+          "timestamp": "2026-09-30T19:51:05.659308+00:00",
+          "source_payload_sha256": "ed9553c1c522dc7e88b5a1125bc4259d7d6cd653d483694d61856dc3b9cda2a7"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.38,
+          "probabilities": {
+            "lookup": 0.35,
+            "practitioner": 0.54,
+            "semantic": 0.09,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5ce421111f1e442b978ab6ef6139fb09",
+          "response_id": "gen-dec-1790797868-hxAc7kgNdwRFAHlMwSl0",
+          "timestamp": "2026-09-30T19:51:08.639176+00:00",
+          "source_payload_sha256": "ed9553c1c522dc7e88b5a1125bc4259d7d6cd653d483694d61856dc3b9cda2a7"
+        }
+      }
+    },
+    {
+      "target_id": "2004/a/c_2/58/sr_24#18",
+      "document_id": "2004/a/c_2/58/sr_24",
+      "symbol": "A/C.2/58/SR.24",
+      "is_meeting": true,
+      "source_payload_sha256": "5142fa1607abb1d0f15595512d438386b89941d974c43a7a1a28f5fd6d9b66e0",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.48,
+          "probabilities": {
+            "lookup": 0.02,
+            "practitioner": 0.62,
+            "semantic": 0.36,
+            "skip": 0
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "febf9d4112d848d188bf942e73f31290",
+          "response_id": "gen-dec-1790796519-42ydjKsz65lS0ZNT7ohQ",
+          "timestamp": "2026-09-30T19:28:39.886372+00:00",
+          "source_payload_sha256": "5142fa1607abb1d0f15595512d438386b89941d974c43a7a1a28f5fd6d9b66e0"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.76,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.07,
+            "semantic": 0.82,
+            "skip": 0
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "2ec64066aa4d44de8deb107b8d197eb6",
+          "response_id": "gen-dec-1790797325-mHgzYimQDe76hHMfKkMn",
+          "timestamp": "2026-09-30T19:42:05.770823+00:00",
+          "source_payload_sha256": "5142fa1607abb1d0f15595512d438386b89941d974c43a7a1a28f5fd6d9b66e0"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.44,
+          "probabilities": {
+            "lookup": 0.04,
+            "practitioner": 0.58,
+            "semantic": 0.38,
+            "skip": 0
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "2360482f05e94e8099641e64417edaa0",
+          "response_id": "gen-dec-1790797865-v355lEzNVO4sS8etns0T",
+          "timestamp": "2026-09-30T19:51:05.683833+00:00",
+          "source_payload_sha256": "5142fa1607abb1d0f15595512d438386b89941d974c43a7a1a28f5fd6d9b66e0"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.63,
+          "probabilities": {
+            "lookup": 0.08,
+            "practitioner": 0.19,
+            "semantic": 0.72,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "dd0f66e0fdc84ee3aec01676b87cf6ea",
+          "response_id": "gen-dec-1790797868-mINgythGUrfKQvci73cn",
+          "timestamp": "2026-09-30T19:51:08.662498+00:00",
+          "source_payload_sha256": "5142fa1607abb1d0f15595512d438386b89941d974c43a7a1a28f5fd6d9b66e0"
+        }
+      }
+    },
+    {
+      "target_id": "2008/cd/pv_1097#14",
+      "document_id": "2008/cd/pv_1097",
+      "symbol": "CD/PV.1097",
+      "is_meeting": true,
+      "source_payload_sha256": "b76bcf9ba5692263a2eb3561d45bd2e377dcde7a278f1935a2406d89f36dd7f9",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.38,
+          "probabilities": {
+            "lookup": 0.04,
+            "practitioner": 0.53,
+            "semantic": 0.36,
+            "skip": 0.07
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "dae8dc16392f4906a73de9fe69c64663",
+          "response_id": "gen-dec-1790796520-NV6ofa1APFlpbSQrUAf1",
+          "timestamp": "2026-09-30T19:28:40.304120+00:00",
+          "source_payload_sha256": "b76bcf9ba5692263a2eb3561d45bd2e377dcde7a278f1935a2406d89f36dd7f9"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.6,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.09,
+            "semantic": 0.7,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "8891b9745c544fa6b60a538f0d0c9234",
+          "response_id": "gen-dec-1790797326-7yisCf65MCOSXX4S3SB4",
+          "timestamp": "2026-09-30T19:42:06.091280+00:00",
+          "source_payload_sha256": "b76bcf9ba5692263a2eb3561d45bd2e377dcde7a278f1935a2406d89f36dd7f9"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.3,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.48,
+            "semantic": 0.37,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b88e17acf23a496aa6e4ae14305c135f",
+          "response_id": "gen-dec-1790797865-G9petAAm2SQU2q31Gk63",
+          "timestamp": "2026-09-30T19:51:05.780656+00:00",
+          "source_payload_sha256": "b76bcf9ba5692263a2eb3561d45bd2e377dcde7a278f1935a2406d89f36dd7f9"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.09,
+            "practitioner": 0.23,
+            "semantic": 0.62,
+            "skip": 0.06
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "96d27fafbe9b455dba77aedd65971911",
+          "response_id": "gen-dec-1790797868-SS3Ofl0nwBQAWgrQTUg1",
+          "timestamp": "2026-09-30T19:51:08.714315+00:00",
+          "source_payload_sha256": "b76bcf9ba5692263a2eb3561d45bd2e377dcde7a278f1935a2406d89f36dd7f9"
+        }
+      }
+    },
+    {
+      "target_id": "2006/a/c_5/60/sr_64#14",
+      "document_id": "2006/a/c_5/60/sr_64",
+      "symbol": "A/C.5/60/SR.64",
+      "is_meeting": true,
+      "source_payload_sha256": "69a7f38e9bb9c1452c9deae93e75585f0fdd88771c9914230e32294984917caa",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.43,
+          "probabilities": {
+            "lookup": 0.05,
+            "practitioner": 0.58,
+            "semantic": 0.36,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "40d4a339e7554b219d6e278715209111",
+          "response_id": "gen-dec-1790796520-3lSgly8AtMTBHTJrIbVL",
+          "timestamp": "2026-09-30T19:28:40.626379+00:00",
+          "source_payload_sha256": "69a7f38e9bb9c1452c9deae93e75585f0fdd88771c9914230e32294984917caa"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.51,
+          "probabilities": {
+            "lookup": 0.28,
+            "practitioner": 0.07,
+            "semantic": 0.63,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "dd370f144db145d7845eae6d1e72e93f",
+          "response_id": "gen-dec-1790797326-oXppvr3rSKs2qtbhGHVa",
+          "timestamp": "2026-09-30T19:42:06.512923+00:00",
+          "source_payload_sha256": "69a7f38e9bb9c1452c9deae93e75585f0fdd88771c9914230e32294984917caa"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.32,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.5,
+            "semantic": 0.36,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9ac5652cdbb94511b331a0eb7c379e53",
+          "response_id": "gen-dec-1790797865-uCH2J32GSCSgLccqjNQR",
+          "timestamp": "2026-09-30T19:51:05.802117+00:00",
+          "source_payload_sha256": "69a7f38e9bb9c1452c9deae93e75585f0fdd88771c9914230e32294984917caa"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.43,
+          "probabilities": {
+            "lookup": 0.14,
+            "practitioner": 0.27,
+            "semantic": 0.57,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "506ea2a89d82494ba811d58d18637feb",
+          "response_id": "gen-dec-1790797868-PAYMOi6oGSPYI0cXHZm5",
+          "timestamp": "2026-09-30T19:51:08.732070+00:00",
+          "source_payload_sha256": "69a7f38e9bb9c1452c9deae93e75585f0fdd88771c9914230e32294984917caa"
+        }
+      }
+    },
+    {
+      "target_id": "2001/cedaw/c/sr_451#4",
+      "document_id": "2001/cedaw/c/sr_451",
+      "symbol": "CEDAW/C/SR.451",
+      "is_meeting": true,
+      "source_payload_sha256": "33bba429870c569e226251c2388144b266680aded505985721de929bb58ad8fb",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.59,
+          "probabilities": {
+            "lookup": 0.06,
+            "practitioner": 0.6799999999999999,
+            "semantic": 0.23,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "6d3aaa078d1247e9be59fd83ae5cb8c3",
+          "response_id": "gen-dec-1790796520-S73VuVjfQMEvO0hkuT2I",
+          "timestamp": "2026-09-30T19:28:40.918490+00:00",
+          "source_payload_sha256": "33bba429870c569e226251c2388144b266680aded505985721de929bb58ad8fb"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.23,
+          "probabilities": {
+            "lookup": 0.37,
+            "practitioner": 0.19,
+            "semantic": 0.42,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "81ef3bc034bb4e799af48b0dfdde726c",
+          "response_id": "gen-dec-1790797326-DP2xbjtpHLQfIXUKcQlF",
+          "timestamp": "2026-09-30T19:42:06.884975+00:00",
+          "source_payload_sha256": "33bba429870c569e226251c2388144b266680aded505985721de929bb58ad8fb"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.47,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.6,
+            "semantic": 0.18,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "e4739a78aa524c7db940a19cd751cf47",
+          "response_id": "gen-dec-1790797865-7ivJrgZ5TTvEE80mrcOo",
+          "timestamp": "2026-09-30T19:51:05.878854+00:00",
+          "source_payload_sha256": "33bba429870c569e226251c2388144b266680aded505985721de929bb58ad8fb"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.37,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.53,
+            "semantic": 0.32,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "bd5f6b60f93f441ebfa124800547950c",
+          "response_id": "gen-dec-1790797868-YpyKiVe2Ipt1Uitv02io",
+          "timestamp": "2026-09-30T19:51:08.817240+00:00",
+          "source_payload_sha256": "33bba429870c569e226251c2388144b266680aded505985721de929bb58ad8fb"
+        }
+      }
+    },
+    {
+      "target_id": "2008/a/ac_109/2008/sr_2#1",
+      "document_id": "2008/a/ac_109/2008/sr_2",
+      "symbol": "A/AC.109/2008/SR.2",
+      "is_meeting": true,
+      "source_payload_sha256": "ab5728540b5a7ec5a02bbcfa94eb0ee60fb775148c803d1d49135729b9562b83",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.6,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.7,
+            "semantic": 0.03,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "281a816353d54b1183b1bd2b8303e350",
+          "response_id": "gen-dec-1790796521-UqqFwCmoqIlxw6wtzNuu",
+          "timestamp": "2026-09-30T19:28:41.222684+00:00",
+          "source_payload_sha256": "ab5728540b5a7ec5a02bbcfa94eb0ee60fb775148c803d1d49135729b9562b83"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.8,
+          "probabilities": {
+            "lookup": 0.85,
+            "practitioner": 0.05,
+            "semantic": 0.09,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7949d1b7396b499a8afb738107f181a6",
+          "response_id": "gen-dec-1790797327-h8pAAFvVXkKVyoQe8q4h",
+          "timestamp": "2026-09-30T19:42:07.153903+00:00",
+          "source_payload_sha256": "ab5728540b5a7ec5a02bbcfa94eb0ee60fb775148c803d1d49135729b9562b83"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.36,
+          "probabilities": {
+            "lookup": 0.52,
+            "practitioner": 0.42,
+            "semantic": 0.04,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "4847ee0d00b34731aaf940000b9a27e1",
+          "response_id": "gen-dec-1790797865-EFoNOvKtn8SRB3ZloeQp",
+          "timestamp": "2026-09-30T19:51:05.881959+00:00",
+          "source_payload_sha256": "ab5728540b5a7ec5a02bbcfa94eb0ee60fb775148c803d1d49135729b9562b83"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.47,
+          "probabilities": {
+            "lookup": 0.61,
+            "practitioner": 0.26,
+            "semantic": 0.11,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "baf854fa3efd4d649bf5bf18575996aa",
+          "response_id": "gen-dec-1790797868-HWcwf2Bic2goQAGsP53I",
+          "timestamp": "2026-09-30T19:51:08.857053+00:00",
+          "source_payload_sha256": "ab5728540b5a7ec5a02bbcfa94eb0ee60fb775148c803d1d49135729b9562b83"
+        }
+      }
+    },
+    {
+      "target_id": "2010/ccpr/c/sr_2695#25",
+      "document_id": "2010/ccpr/c/sr_2695",
+      "symbol": "CCPR/C/SR.2695",
+      "is_meeting": true,
+      "source_payload_sha256": "73abd0def08bb5a62a30413187526cef791b4446e75c68a55a026eca7239e1dc",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.48,
+          "probabilities": {
+            "lookup": 0.08,
+            "practitioner": 0.61,
+            "semantic": 0.29,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "21050348ccc043d885374eb3f6f5122f",
+          "response_id": "gen-dec-1790796521-Qn4z0LJrtBaY4aXBJUkY",
+          "timestamp": "2026-09-30T19:28:41.556216+00:00",
+          "source_payload_sha256": "73abd0def08bb5a62a30413187526cef791b4446e75c68a55a026eca7239e1dc"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.55,
+          "probabilities": {
+            "lookup": 0.24,
+            "practitioner": 0.09,
+            "semantic": 0.66,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "c173ce245b014b4eb8d9e1b33f7f5d06",
+          "response_id": "gen-dec-1790797327-UK1KuUSKA7IhXwJank2x",
+          "timestamp": "2026-09-30T19:42:07.429815+00:00",
+          "source_payload_sha256": "73abd0def08bb5a62a30413187526cef791b4446e75c68a55a026eca7239e1dc"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.21,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.4,
+            "semantic": 0.34,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "78147fd7b8824ab18e87885400fe6ac3",
+          "response_id": "gen-dec-1790797865-vVHkztb7IgrJy53qKRgI",
+          "timestamp": "2026-09-30T19:51:05.925201+00:00",
+          "source_payload_sha256": "73abd0def08bb5a62a30413187526cef791b4446e75c68a55a026eca7239e1dc"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.36,
+          "probabilities": {
+            "lookup": 0.18,
+            "practitioner": 0.28,
+            "semantic": 0.52,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "4a254b6f087441dcbe781115252e5abf",
+          "response_id": "gen-dec-1790797868-4AD7drK8kAds1CQbYVZb",
+          "timestamp": "2026-09-30T19:51:08.860364+00:00",
+          "source_payload_sha256": "73abd0def08bb5a62a30413187526cef791b4446e75c68a55a026eca7239e1dc"
+        }
+      }
+    },
+    {
+      "target_id": "2007/gc_12/c_1/sr_1#10",
+      "document_id": "2007/gc_12/c_1/sr_1",
+      "symbol": "GC.12/C.1/SR.1",
+      "is_meeting": true,
+      "source_payload_sha256": "255d7d67e96370d7d7c2a9ed9aa55f17c6556a3b9524203ac6eb4ab2cf5aaee6",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.64,
+          "probabilities": {
+            "lookup": 0.03,
+            "practitioner": 0.74,
+            "semantic": 0.22,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9b1b03ef9d904646b1131f92be86f89e",
+          "response_id": "gen-dec-1790796521-qHa2kSHkiPI22BO0xpn3",
+          "timestamp": "2026-09-30T19:28:41.854632+00:00",
+          "source_payload_sha256": "255d7d67e96370d7d7c2a9ed9aa55f17c6556a3b9524203ac6eb4ab2cf5aaee6"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.38,
+          "probabilities": {
+            "lookup": 0.23,
+            "practitioner": 0.23,
+            "semantic": 0.53,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7ea7db9242324c42a8778c6cdfeedca3",
+          "response_id": "gen-dec-1790797327-gY6iMocKbmfE8Lh4cbG5",
+          "timestamp": "2026-09-30T19:42:07.827687+00:00",
+          "source_payload_sha256": "255d7d67e96370d7d7c2a9ed9aa55f17c6556a3b9524203ac6eb4ab2cf5aaee6"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.41,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.56,
+            "semantic": 0.3,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "bb1354c33f8d431b801d5480cb50cc51",
+          "response_id": "gen-dec-1790797866-whJLj8bYkPDkk5CnaMOL",
+          "timestamp": "2026-09-30T19:51:05.920806+00:00",
+          "source_payload_sha256": "255d7d67e96370d7d7c2a9ed9aa55f17c6556a3b9524203ac6eb4ab2cf5aaee6"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.44,
+          "probabilities": {
+            "lookup": 0.09,
+            "practitioner": 0.58,
+            "semantic": 0.31,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "3de8f77df13c471792c5da4b48b80d82",
+          "response_id": "gen-dec-1790797868-RnU97HAeuw3ZuWG4NcOK",
+          "timestamp": "2026-09-30T19:51:08.889208+00:00",
+          "source_payload_sha256": "255d7d67e96370d7d7c2a9ed9aa55f17c6556a3b9524203ac6eb4ab2cf5aaee6"
+        }
+      }
+    },
+    {
+      "target_id": "2006/cedaw/c/sr_724#18",
+      "document_id": "2006/cedaw/c/sr_724",
+      "symbol": "CEDAW/C/SR.724",
+      "is_meeting": true,
+      "source_payload_sha256": "5452b755ea946a9b51f7e2f14a1dffbcba8c57971cb734ef4059531f9719aa1c",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.65,
+          "probabilities": {
+            "lookup": 0.05,
+            "practitioner": 0.74,
+            "semantic": 0.19,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "95680d38205944a09c264fdf45f323b8",
+          "response_id": "gen-dec-1790796522-HeDbvMnYol1ZteATEutv",
+          "timestamp": "2026-09-30T19:28:42.704778+00:00",
+          "source_payload_sha256": "5452b755ea946a9b51f7e2f14a1dffbcba8c57971cb734ef4059531f9719aa1c"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.29,
+          "probabilities": {
+            "lookup": 0.46,
+            "practitioner": 0.05,
+            "semantic": 0.47,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "be6931faba6b4a098f609a463f046c71",
+          "response_id": "gen-dec-1790797328-gQkXCBwAaEf93dzol9pV",
+          "timestamp": "2026-09-30T19:42:08.177326+00:00",
+          "source_payload_sha256": "5452b755ea946a9b51f7e2f14a1dffbcba8c57971cb734ef4059531f9719aa1c"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.49,
+          "probabilities": {
+            "lookup": 0.14,
+            "practitioner": 0.62,
+            "semantic": 0.23,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "eb46ddeb7b504fadb3b8d2ba9e6bbf8a",
+          "response_id": "gen-dec-1790797866-LkhrYKN657XHlTb5ZDvE",
+          "timestamp": "2026-09-30T19:51:05.952151+00:00",
+          "source_payload_sha256": "5452b755ea946a9b51f7e2f14a1dffbcba8c57971cb734ef4059531f9719aa1c"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.27,
+          "probabilities": {
+            "lookup": 0.22,
+            "practitioner": 0.3,
+            "semantic": 0.45,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9800e2abed7744e59c269ca26f3c29c4",
+          "response_id": "gen-dec-1790797868-K8PthAglJfec3l6bO3ut",
+          "timestamp": "2026-09-30T19:51:08.910229+00:00",
+          "source_payload_sha256": "5452b755ea946a9b51f7e2f14a1dffbcba8c57971cb734ef4059531f9719aa1c"
+        }
+      }
+    },
+    {
+      "target_id": "2005/cd/pv_983#13",
+      "document_id": "2005/cd/pv_983",
+      "symbol": "CD/PV.983",
+      "is_meeting": true,
+      "source_payload_sha256": "ac466c6dfcf6436c84657250ddcb057f36f5e253bd1155f5fe68a3710ede6440",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.16,
+          "probabilities": {
+            "lookup": 0.05,
+            "practitioner": 0.37,
+            "semantic": 0.32,
+            "skip": 0.26
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9d50d25d00024bdd8707e1f71d029a07",
+          "response_id": "gen-dec-1790796523-h8Hdu9tJi4iEx8g7byt0",
+          "timestamp": "2026-09-30T19:28:43.048985+00:00",
+          "source_payload_sha256": "ac466c6dfcf6436c84657250ddcb057f36f5e253bd1155f5fe68a3710ede6440"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.49,
+          "probabilities": {
+            "lookup": 0.23,
+            "practitioner": 0.09,
+            "semantic": 0.62,
+            "skip": 0.06
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "2077d55703f84f23963b18c77e112470",
+          "response_id": "gen-dec-1790797329-bpluTg9zu5WYraIHCVnU",
+          "timestamp": "2026-09-30T19:42:09.149956+00:00",
+          "source_payload_sha256": "ac466c6dfcf6436c84657250ddcb057f36f5e253bd1155f5fe68a3710ede6440"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.16,
+          "probabilities": {
+            "lookup": 0.16,
+            "practitioner": 0.37,
+            "semantic": 0.34,
+            "skip": 0.13
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "7a29690307784eaa958644b8cb5a3efe",
+          "response_id": "gen-dec-1790797866-m3GCfh9Ghv58bCnrT3Tz",
+          "timestamp": "2026-09-30T19:51:05.989604+00:00",
+          "source_payload_sha256": "ac466c6dfcf6436c84657250ddcb057f36f5e253bd1155f5fe68a3710ede6440"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.32,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.19,
+            "semantic": 0.49,
+            "skip": 0.21
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "61d946238db240d1b1ac824e2d0c081f",
+          "response_id": "gen-dec-1790797869-q9L9a9uhEFuSqtXTVmHy",
+          "timestamp": "2026-09-30T19:51:08.959339+00:00",
+          "source_payload_sha256": "ac466c6dfcf6436c84657250ddcb057f36f5e253bd1155f5fe68a3710ede6440"
+        }
+      }
+    },
+    {
+      "target_id": "1998/gc_7/c_1/sr_5#16",
+      "document_id": "1998/gc_7/c_1/sr_5",
+      "symbol": "GC.7/C.1/SR.5",
+      "is_meeting": true,
+      "source_payload_sha256": "b8cd40f9e87a4945d10038524a382023fcd6c42216c58c5e9626edd0bdccee68",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.57,
+          "probabilities": {
+            "lookup": 0.02,
+            "practitioner": 0.68,
+            "semantic": 0.29,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "f325b883f5c34029b96b1c1295e90b63",
+          "response_id": "gen-dec-1790796523-BuAG5AC41WKTSOMagz0m",
+          "timestamp": "2026-09-30T19:28:43.612737+00:00",
+          "source_payload_sha256": "b8cd40f9e87a4945d10038524a382023fcd6c42216c58c5e9626edd0bdccee68"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.51,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.17,
+            "semantic": 0.63,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "21520f97edf4430fb73e540a8a356adf",
+          "response_id": "gen-dec-1790797329-JjCFMXWvV3xgu4UWSQGF",
+          "timestamp": "2026-09-30T19:42:09.478390+00:00",
+          "source_payload_sha256": "b8cd40f9e87a4945d10038524a382023fcd6c42216c58c5e9626edd0bdccee68"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.52,
+          "probabilities": {
+            "lookup": 0.09,
+            "practitioner": 0.64,
+            "semantic": 0.27,
+            "skip": 0
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b22128e4100c44a5a62881ae0b1d8023",
+          "response_id": "gen-dec-1790797866-RmmrOqcsRCgtXm0WedCW",
+          "timestamp": "2026-09-30T19:51:06.070224+00:00",
+          "source_payload_sha256": "b8cd40f9e87a4945d10038524a382023fcd6c42216c58c5e9626edd0bdccee68"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.31,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.39,
+            "semantic": 0.48,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "76f60519259449c082fa877521690864",
+          "response_id": "gen-dec-1790797869-yw0GDkU8YQQsX8pd2i15",
+          "timestamp": "2026-09-30T19:51:09.005337+00:00",
+          "source_payload_sha256": "b8cd40f9e87a4945d10038524a382023fcd6c42216c58c5e9626edd0bdccee68"
+        }
+      }
+    },
+    {
+      "target_id": "2006/ccw/conf_iii/sr_2#8",
+      "document_id": "2006/ccw/conf_iii/sr_2",
+      "symbol": "CCW/CONF.III/SR.2",
+      "is_meeting": true,
+      "source_payload_sha256": "235d92a6fdd3bb9caf7ac8efb09e72f0bda82052260cc58ea88d02d8b55ea8dc",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.55,
+          "probabilities": {
+            "lookup": 0.03,
+            "practitioner": 0.67,
+            "semantic": 0.25,
+            "skip": 0.05
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "e6533ce524224122bccad5248aa30b05",
+          "response_id": "gen-dec-1790796523-yWxDlPoPpATZMHnZVbM6",
+          "timestamp": "2026-09-30T19:28:43.911702+00:00",
+          "source_payload_sha256": "235d92a6fdd3bb9caf7ac8efb09e72f0bda82052260cc58ea88d02d8b55ea8dc"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.23,
+            "practitioner": 0.19,
+            "semantic": 0.56,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "afc4bbaeee7846859e8901ed8d28c990",
+          "response_id": "gen-dec-1790797329-Ufvh0OrD5Uk100DsJSzP",
+          "timestamp": "2026-09-30T19:42:09.705719+00:00",
+          "source_payload_sha256": "235d92a6fdd3bb9caf7ac8efb09e72f0bda82052260cc58ea88d02d8b55ea8dc"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.1,
+            "practitioner": 0.62,
+            "semantic": 0.26,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "41d2e196acae42e6911f88016a486478",
+          "response_id": "gen-dec-1790797866-v4jN6EX3PzaSX1xXcAPP",
+          "timestamp": "2026-09-30T19:51:06.170028+00:00",
+          "source_payload_sha256": "235d92a6fdd3bb9caf7ac8efb09e72f0bda82052260cc58ea88d02d8b55ea8dc"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.31,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.48,
+            "semantic": 0.36,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a97e7f05782349488d32358de7bab76d",
+          "response_id": "gen-dec-1790797869-GqNRqjZC94MVRypBltd1",
+          "timestamp": "2026-09-30T19:51:09.080217+00:00",
+          "source_payload_sha256": "235d92a6fdd3bb9caf7ac8efb09e72f0bda82052260cc58ea88d02d8b55ea8dc"
+        }
+      }
+    },
+    {
+      "target_id": "2001/cd/pv_880#1",
+      "document_id": "2001/cd/pv_880",
+      "symbol": "CD/PV.880",
+      "is_meeting": true,
+      "source_payload_sha256": "f56ee04337e591adb2787424197886ffcd2215efde016afb0107f5d584bb1474",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.03,
+            "practitioner": 0.56,
+            "semantic": 0.34,
+            "skip": 0.06
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a142145e621143feb933d318bf2aeec2",
+          "response_id": "gen-dec-1790796524-05tOwExZIW6PSdEa7qNA",
+          "timestamp": "2026-09-30T19:28:44.038176+00:00",
+          "source_payload_sha256": "f56ee04337e591adb2787424197886ffcd2215efde016afb0107f5d584bb1474"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.64,
+          "probabilities": {
+            "lookup": 0.17,
+            "practitioner": 0.09,
+            "semantic": 0.73,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1224f442b43b4a2aa4bdde11fa5e1fad",
+          "response_id": "gen-dec-1790797330-9gUgWizlSz5AgCRa0e53",
+          "timestamp": "2026-09-30T19:42:09.965450+00:00",
+          "source_payload_sha256": "f56ee04337e591adb2787424197886ffcd2215efde016afb0107f5d584bb1474"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.27,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.45,
+            "semantic": 0.42,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "69c7484e473245bab5abff0db2e97f79",
+          "response_id": "gen-dec-1790797866-0a69JUDMcyv83nxFqxkA",
+          "timestamp": "2026-09-30T19:51:06.173439+00:00",
+          "source_payload_sha256": "f56ee04337e591adb2787424197886ffcd2215efde016afb0107f5d584bb1474"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.44,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.28,
+            "semantic": 0.58,
+            "skip": 0.07
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "af81ae1419c84ffabd8e0f47dadafcf5",
+          "response_id": "gen-dec-1790797869-oekS21fBCvifxis57Pbf",
+          "timestamp": "2026-09-30T19:51:09.092799+00:00",
+          "source_payload_sha256": "f56ee04337e591adb2787424197886ffcd2215efde016afb0107f5d584bb1474"
+        }
+      }
+    },
+    {
+      "target_id": "2010/a/cn_9/sr_917#10",
+      "document_id": "2010/a/cn_9/sr_917",
+      "symbol": "A/CN.9/SR.917",
+      "is_meeting": true,
+      "source_payload_sha256": "e03ba968fccb5a4994453e701f213f70737eb684fbddb2406d9871a92e9979ce",
+      "variants": {
+        "B": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.03,
+            "practitioner": 0.33,
+            "semantic": 0.63,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "fb7fdd357e854809b219efc9aed7a237",
+          "response_id": "gen-dec-1790796524-u80gC8ViaR4BdGWUiM4L",
+          "timestamp": "2026-09-30T19:28:44.248114+00:00",
+          "source_payload_sha256": "e03ba968fccb5a4994453e701f213f70737eb684fbddb2406d9871a92e9979ce"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.74,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.04,
+            "semantic": 0.8,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "57bb3184668146538fe3c800b338d867",
+          "response_id": "gen-dec-1790797330-lwqmBf4wGTlZXjTQuZZB",
+          "timestamp": "2026-09-30T19:42:10.332150+00:00",
+          "source_payload_sha256": "e03ba968fccb5a4994453e701f213f70737eb684fbddb2406d9871a92e9979ce"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.61,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.22,
+            "semantic": 0.7,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "e1865b6d54dc4ad8972c89cab6c45cad",
+          "response_id": "gen-dec-1790797866-xup2cA3dz6EUN3xYacSz",
+          "timestamp": "2026-09-30T19:51:06.211675+00:00",
+          "source_payload_sha256": "e03ba968fccb5a4994453e701f213f70737eb684fbddb2406d9871a92e9979ce"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.59,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.18,
+            "semantic": 0.7,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "952615c75d6a4b899612b8b8c16bb39c",
+          "response_id": "gen-dec-1790797869-9eQ7dyPIuDFMEFmgyLb7",
+          "timestamp": "2026-09-30T19:51:09.112880+00:00",
+          "source_payload_sha256": "e03ba968fccb5a4994453e701f213f70737eb684fbddb2406d9871a92e9979ce"
+        }
+      }
+    },
+    {
+      "target_id": "2003/a/58/pv_1#15",
+      "document_id": "2003/a/58/pv_1",
+      "symbol": "A/58/PV.1",
+      "is_meeting": true,
+      "source_payload_sha256": "c6c86ad26e178923ab0ffb131735b49780887d57d5ad34ed0e4519721c8bcbc8",
+      "variants": {
+        "B": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.4,
+          "probabilities": {
+            "lookup": 0.04,
+            "practitioner": 0.37,
+            "semantic": 0.55,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "251fab4ae2b146b9984f3a91feb8243f",
+          "response_id": "gen-dec-1790796524-905CaFegxFFjLH5xfjlO",
+          "timestamp": "2026-09-30T19:28:44.466937+00:00",
+          "source_payload_sha256": "c6c86ad26e178923ab0ffb131735b49780887d57d5ad34ed0e4519721c8bcbc8"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.7,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.05,
+            "semantic": 0.78,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1c566044af024b3ab1ef1dc897cfe610",
+          "response_id": "gen-dec-1790797330-ibuxS4lquNesIeIc3Fwc",
+          "timestamp": "2026-09-30T19:42:10.628453+00:00",
+          "source_payload_sha256": "c6c86ad26e178923ab0ffb131735b49780887d57d5ad34ed0e4519721c8bcbc8"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.46,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.27,
+            "semantic": 0.59,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "75c15d8822de467e8453404889271eb2",
+          "response_id": "gen-dec-1790797866-XMyDZx3r04bb6bFPBn3H",
+          "timestamp": "2026-09-30T19:51:06.215663+00:00",
+          "source_payload_sha256": "c6c86ad26e178923ab0ffb131735b49780887d57d5ad34ed0e4519721c8bcbc8"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.67,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.14,
+            "semantic": 0.75,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "47aa186d0f20423d886891b8c8e066f9",
+          "response_id": "gen-dec-1790797869-oC5FXH720c0fcGDodnqU",
+          "timestamp": "2026-09-30T19:51:09.144271+00:00",
+          "source_payload_sha256": "c6c86ad26e178923ab0ffb131735b49780887d57d5ad34ed0e4519721c8bcbc8"
+        }
+      }
+    },
+    {
+      "target_id": "2007/cedaw/c/sr_770_b_#18",
+      "document_id": "2007/cedaw/c/sr_770_b_",
+      "symbol": "CEDAW/C/SR(770.B)",
+      "is_meeting": true,
+      "source_payload_sha256": "0594c6ad9bb710bc2f07ddbcb8311219bb919ea31a02e2d2dc8b6ac0c97f1727",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.38,
+          "probabilities": {
+            "lookup": 0.01,
+            "practitioner": 0.53,
+            "semantic": 0.45,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "07c3eda9d1b84f8f8ec26c60adfd095b",
+          "response_id": "gen-dec-1790796525-9bPDFdue6rMzAto2QqaE",
+          "timestamp": "2026-09-30T19:28:45.420311+00:00",
+          "source_payload_sha256": "0594c6ad9bb710bc2f07ddbcb8311219bb919ea31a02e2d2dc8b6ac0c97f1727"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.7,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.07,
+            "semantic": 0.77,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "236cc52f38d34a88b97a1a82d8473874",
+          "response_id": "gen-dec-1790797331-D2D8xYJL1R3Aoietv8fw",
+          "timestamp": "2026-09-30T19:42:11.232189+00:00",
+          "source_payload_sha256": "0594c6ad9bb710bc2f07ddbcb8311219bb919ea31a02e2d2dc8b6ac0c97f1727"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.31,
+          "probabilities": {
+            "lookup": 0.05,
+            "practitioner": 0.48,
+            "semantic": 0.46,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "92d2340885024923ba7dfe00382c3a36",
+          "response_id": "gen-dec-1790797866-CMqvqKZfSfAgevZhrL4c",
+          "timestamp": "2026-09-30T19:51:06.251202+00:00",
+          "source_payload_sha256": "0594c6ad9bb710bc2f07ddbcb8311219bb919ea31a02e2d2dc8b6ac0c97f1727"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.62,
+          "probabilities": {
+            "lookup": 0.05,
+            "practitioner": 0.21,
+            "semantic": 0.72,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "ccc405a7b4134829975e16a488fd10d7",
+          "response_id": "gen-dec-1790797869-zXVJ3A6dkDACLX959DQk",
+          "timestamp": "2026-09-30T19:51:09.161886+00:00",
+          "source_payload_sha256": "0594c6ad9bb710bc2f07ddbcb8311219bb919ea31a02e2d2dc8b6ac0c97f1727"
+        }
+      }
+    },
+    {
+      "target_id": "2002/a/c_4/57/sr_18#15",
+      "document_id": "2002/a/c_4/57/sr_18",
+      "symbol": "A/C.4/57/SR.18",
+      "is_meeting": true,
+      "source_payload_sha256": "2327166b13e0b7c5333fd51cdcefc8b3420345e4702079d0de92380dd96defff",
+      "variants": {
+        "B": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.29,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.44,
+            "semantic": 0.47,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b3e4c8cbd6d34a9593eac429edb76d87",
+          "response_id": "gen-dec-1790796525-J187aLQ8LUXbn7z8ym7q",
+          "timestamp": "2026-09-30T19:28:45.906967+00:00",
+          "source_payload_sha256": "2327166b13e0b7c5333fd51cdcefc8b3420345e4702079d0de92380dd96defff"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.64,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.07,
+            "semantic": 0.73,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "cbfc50dc975c47f69f0276a1994ac524",
+          "response_id": "gen-dec-1790797331-Gf37Y7w5saO3aMBJgCox",
+          "timestamp": "2026-09-30T19:42:11.502217+00:00",
+          "source_payload_sha256": "2327166b13e0b7c5333fd51cdcefc8b3420345e4702079d0de92380dd96defff"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.35,
+          "probabilities": {
+            "lookup": 0.22,
+            "practitioner": 0.22,
+            "semantic": 0.52,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "afc0638ffb424941a8b8f6223841d09d",
+          "response_id": "gen-dec-1790797867-kGwEfpmdaHXMwl0BzZqZ",
+          "timestamp": "2026-09-30T19:51:06.264864+00:00",
+          "source_payload_sha256": "2327166b13e0b7c5333fd51cdcefc8b3420345e4702079d0de92380dd96defff"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.49,
+          "probabilities": {
+            "lookup": 0.12,
+            "practitioner": 0.24,
+            "semantic": 0.62,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "d2226201156b4025b38a1cddcbf57301",
+          "response_id": "gen-dec-1790797869-LWWnLKfusbh1rHDjVWOi",
+          "timestamp": "2026-09-30T19:51:09.181647+00:00",
+          "source_payload_sha256": "2327166b13e0b7c5333fd51cdcefc8b3420345e4702079d0de92380dd96defff"
+        }
+      }
+    },
+    {
+      "target_id": "2007/cedaw/c/sr_778#5",
+      "document_id": "2007/cedaw/c/sr_778",
+      "symbol": "CEDAW/C/SR.778",
+      "is_meeting": true,
+      "source_payload_sha256": "32ae72b2039daecf37fffa40736579bf742db7cbb7a9ae62d9016f96334c210a",
+      "variants": {
+        "B": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.02,
+            "practitioner": 0.43,
+            "semantic": 0.54,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "6eed78c55d0740f3ba7a4617ef4d3077",
+          "response_id": "gen-dec-1790796526-yoDagvkaWog80oKe35aP",
+          "timestamp": "2026-09-30T19:28:46.702795+00:00",
+          "source_payload_sha256": "32ae72b2039daecf37fffa40736579bf742db7cbb7a9ae62d9016f96334c210a"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.7,
+          "probabilities": {
+            "lookup": 0.2,
+            "practitioner": 0.02,
+            "semantic": 0.77,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "eb873e3a1e144292b834667e5dc705f7",
+          "response_id": "gen-dec-1790797332-JXkKpp5tjLdnohfwq8Bg",
+          "timestamp": "2026-09-30T19:42:12.005814+00:00",
+          "source_payload_sha256": "32ae72b2039daecf37fffa40736579bf742db7cbb7a9ae62d9016f96334c210a"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.38,
+          "probabilities": {
+            "lookup": 0.06,
+            "practitioner": 0.39,
+            "semantic": 0.54,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "47942b8f03414ff184407d3731b888c4",
+          "response_id": "gen-dec-1790797866-xtvEIBI3IGjZRqDjoCKt",
+          "timestamp": "2026-09-30T19:51:06.346609+00:00",
+          "source_payload_sha256": "32ae72b2039daecf37fffa40736579bf742db7cbb7a9ae62d9016f96334c210a"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.67,
+          "probabilities": {
+            "lookup": 0.11,
+            "practitioner": 0.12,
+            "semantic": 0.75,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "22431f01be7f4a8c8e53c9deb96a47c4",
+          "response_id": "gen-dec-1790797869-zYxUwwQFCRc0TPL8JYHs",
+          "timestamp": "2026-09-30T19:51:09.229660+00:00",
+          "source_payload_sha256": "32ae72b2039daecf37fffa40736579bf742db7cbb7a9ae62d9016f96334c210a"
+        }
+      }
+    },
+    {
+      "target_id": "2000/cd/pv_841#11",
+      "document_id": "2000/cd/pv_841",
+      "symbol": "CD/PV.841",
+      "is_meeting": true,
+      "source_payload_sha256": "422435bb86510249107b343c7475c53003f897022f9d84c2d633139fe4672a5f",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.49,
+          "probabilities": {
+            "lookup": 0.02,
+            "practitioner": 0.62,
+            "semantic": 0.35,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "720f854f7d85415b8d3e927d15174219",
+          "response_id": "gen-dec-1790796527-7sxXVBtDExuSMj0EbKWD",
+          "timestamp": "2026-09-30T19:28:46.964739+00:00",
+          "source_payload_sha256": "422435bb86510249107b343c7475c53003f897022f9d84c2d633139fe4672a5f"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.59,
+          "probabilities": {
+            "lookup": 0.16,
+            "practitioner": 0.14,
+            "semantic": 0.69,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "aa07f183d8de4e3d839b69e0d8f8fd89",
+          "response_id": "gen-dec-1790797332-8p7vvRgQ5IZoNIMxscqT",
+          "timestamp": "2026-09-30T19:42:12.637250+00:00",
+          "source_payload_sha256": "422435bb86510249107b343c7475c53003f897022f9d84c2d633139fe4672a5f"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.29,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.46,
+            "semantic": 0.45999999999999996,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "18aeed57d9db4b1786863416cd033e0e",
+          "response_id": "gen-dec-1790797866-J0lom3K70Yq1oBvkseJW",
+          "timestamp": "2026-09-30T19:51:06.412970+00:00",
+          "source_payload_sha256": "422435bb86510249107b343c7475c53003f897022f9d84c2d633139fe4672a5f"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.41,
+          "probabilities": {
+            "lookup": 0.09,
+            "practitioner": 0.34,
+            "semantic": 0.55,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "4b4df43d9cdf40f5bb3070ebe59c74c4",
+          "response_id": "gen-dec-1790797869-y7R11FiijOC2Be7L2wgp",
+          "timestamp": "2026-09-30T19:51:09.250752+00:00",
+          "source_payload_sha256": "422435bb86510249107b343c7475c53003f897022f9d84c2d633139fe4672a5f"
+        }
+      }
+    },
+    {
+      "target_id": "1999/cedaw/c/sr_434#16",
+      "document_id": "1999/cedaw/c/sr_434",
+      "symbol": "CEDAW/C/SR.434",
+      "is_meeting": true,
+      "source_payload_sha256": "785e41a3cc50a84ecf6589dbaf190cea61cbbf5237effd421a191c483a7180a1",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.49,
+          "probabilities": {
+            "lookup": 0.04,
+            "practitioner": 0.62,
+            "semantic": 0.27,
+            "skip": 0.07
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "ce1cf6afd21e4cfbaa9ab66239fd87d4",
+          "response_id": "gen-dec-1790796527-4wTs1qIYc7L1IrenjCI6",
+          "timestamp": "2026-09-30T19:28:47.221426+00:00",
+          "source_payload_sha256": "785e41a3cc50a84ecf6589dbaf190cea61cbbf5237effd421a191c483a7180a1"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.34,
+            "practitioner": 0.09,
+            "semantic": 0.54,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5c7542b6a70e4c3f8f0c6a409f55e47b",
+          "response_id": "gen-dec-1790797333-ikDlHJ66ulMAQiHtUzbT",
+          "timestamp": "2026-09-30T19:42:12.938144+00:00",
+          "source_payload_sha256": "785e41a3cc50a84ecf6589dbaf190cea61cbbf5237effd421a191c483a7180a1"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.41,
+          "probabilities": {
+            "lookup": 0.16,
+            "practitioner": 0.55,
+            "semantic": 0.26,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "90cb75b866dc4399bf93bfab081037a4",
+          "response_id": "gen-dec-1790797866-oBezEKKyjHagdjsHK5x2",
+          "timestamp": "2026-09-30T19:51:06.451614+00:00",
+          "source_payload_sha256": "785e41a3cc50a84ecf6589dbaf190cea61cbbf5237effd421a191c483a7180a1"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.32,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.3,
+            "semantic": 0.49,
+            "skip": 0.08
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1e7a4c717da64e259b361e3145e7c373",
+          "response_id": "gen-dec-1790797869-U3eJu9iih5yGi7MMFIgy",
+          "timestamp": "2026-09-30T19:51:09.341236+00:00",
+          "source_payload_sha256": "785e41a3cc50a84ecf6589dbaf190cea61cbbf5237effd421a191c483a7180a1"
+        }
+      }
+    },
+    {
+      "target_id": "2009/a/ac_109/2009/sr_7#4",
+      "document_id": "2009/a/ac_109/2009/sr_7",
+      "symbol": "A/AC.109/2009/SR.7",
+      "is_meeting": true,
+      "source_payload_sha256": "b5b88d06464cea1dd4f7239aadb46cec2a1a0ffb1231b0a5cb0bf346e4c4d13b",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.45,
+          "probabilities": {
+            "lookup": 0.06,
+            "practitioner": 0.59,
+            "semantic": 0.34,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "b22f85bf4c7c404d8c018796ea279db8",
+          "response_id": "gen-dec-1790796527-82cNRpATWcao9J5gpnY1",
+          "timestamp": "2026-09-30T19:28:47.465236+00:00",
+          "source_payload_sha256": "b5b88d06464cea1dd4f7239aadb46cec2a1a0ffb1231b0a5cb0bf346e4c4d13b"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.37,
+          "probabilities": {
+            "lookup": 0.31,
+            "practitioner": 0.15,
+            "semantic": 0.53,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "d6a32b3b93b84418954e5ac7cc29f09f",
+          "response_id": "gen-dec-1790797333-VGElGNbMcEAL5ozqBBP5",
+          "timestamp": "2026-09-30T19:42:13.294720+00:00",
+          "source_payload_sha256": "b5b88d06464cea1dd4f7239aadb46cec2a1a0ffb1231b0a5cb0bf346e4c4d13b"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.34,
+          "probabilities": {
+            "lookup": 0.16,
+            "practitioner": 0.51,
+            "semantic": 0.32,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "ff2d54ee4bd0440dad26134125f1e672",
+          "response_id": "gen-dec-1790797866-dvC2XTrzSyCWJlwQi1Aj",
+          "timestamp": "2026-09-30T19:51:06.494150+00:00",
+          "source_payload_sha256": "b5b88d06464cea1dd4f7239aadb46cec2a1a0ffb1231b0a5cb0bf346e4c4d13b"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.32,
+          "probabilities": {
+            "lookup": 0.18,
+            "practitioner": 0.31,
+            "semantic": 0.49,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5728e9546cc24841bb8674c9fb479ab3",
+          "response_id": "gen-dec-1790797869-vziYvx4MGMIzYCHyojEM",
+          "timestamp": "2026-09-30T19:51:09.356662+00:00",
+          "source_payload_sha256": "b5b88d06464cea1dd4f7239aadb46cec2a1a0ffb1231b0a5cb0bf346e4c4d13b"
+        }
+      }
+    },
+    {
+      "target_id": "2008/s/2008/774#11",
+      "document_id": "2008/s/2008/774",
+      "symbol": "S/2008/774",
+      "is_meeting": false,
+      "source_payload_sha256": "f9f99a0f9a013f1cf41edbc6d1112f60bd2536ba1a03709ba7deaea5eec134de",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.32,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.5,
+            "semantic": 0.41,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "f43c8ed1377440e7a5fd946c8dbb6974",
+          "response_id": "gen-dec-1790796527-XPi5NRn1pgie1sM6R4fi",
+          "timestamp": "2026-09-30T19:28:47.733215+00:00",
+          "source_payload_sha256": "f9f99a0f9a013f1cf41edbc6d1112f60bd2536ba1a03709ba7deaea5eec134de"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.46,
+          "probabilities": {
+            "lookup": 0.31,
+            "practitioner": 0.08,
+            "semantic": 0.6,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "1fb86b88cd9444df967ebef5686fb753",
+          "response_id": "gen-dec-1790797334-7hhuQ6xpMRVXQarRWIWa",
+          "timestamp": "2026-09-30T19:42:13.914685+00:00",
+          "source_payload_sha256": "f9f99a0f9a013f1cf41edbc6d1112f60bd2536ba1a03709ba7deaea5eec134de"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.28,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.37,
+            "semantic": 0.47000000000000003,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9f9c82ee0a894896910e9eb86eda378d",
+          "response_id": "gen-dec-1790797866-7ra7KmwkMfJBiOwdg80M",
+          "timestamp": "2026-09-30T19:51:06.496966+00:00",
+          "source_payload_sha256": "f9f99a0f9a013f1cf41edbc6d1112f60bd2536ba1a03709ba7deaea5eec134de"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.39,
+          "probabilities": {
+            "lookup": 0.17,
+            "practitioner": 0.26,
+            "semantic": 0.54,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "f7e7ae73ad194a1fb8943c582227135d",
+          "response_id": "gen-dec-1790797869-M4dQzX8UWcGO1wsO6DMg",
+          "timestamp": "2026-09-30T19:51:09.370612+00:00",
+          "source_payload_sha256": "f9f99a0f9a013f1cf41edbc6d1112f60bd2536ba1a03709ba7deaea5eec134de"
+        }
+      }
+    },
+    {
+      "target_id": "2012/s/2012/718#7",
+      "document_id": "2012/s/2012/718",
+      "symbol": "S/2012/718",
+      "is_meeting": false,
+      "source_payload_sha256": "48e89b194844b33d11bf60085b6e32d956eb84da12ace06f14dfa129a89b220a",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.63,
+          "probabilities": {
+            "lookup": 0.07,
+            "practitioner": 0.72,
+            "semantic": 0.2,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "76df81f1f4ef430db301bd9c2800fb56",
+          "response_id": "gen-dec-1790796527-9Ji7ahSr1SQij4CXqdRG",
+          "timestamp": "2026-09-30T19:28:47.928307+00:00",
+          "source_payload_sha256": "48e89b194844b33d11bf60085b6e32d956eb84da12ace06f14dfa129a89b220a"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.37,
+          "probabilities": {
+            "lookup": 0.33,
+            "practitioner": 0.13,
+            "semantic": 0.53,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "51afd6edde274b8b9a5d19465a8ff0ce",
+          "response_id": "gen-dec-1790797334-DhajcP63mfVXUW0i4ssu",
+          "timestamp": "2026-09-30T19:42:14.197555+00:00",
+          "source_payload_sha256": "48e89b194844b33d11bf60085b6e32d956eb84da12ace06f14dfa129a89b220a"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.43,
+          "probabilities": {
+            "lookup": 0.2,
+            "practitioner": 0.58,
+            "semantic": 0.21,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "a879f169fcb4429c8ee05598eb25b66a",
+          "response_id": "gen-dec-1790797866-whcHxWFtuFfhwl4vjqrI",
+          "timestamp": "2026-09-30T19:51:06.516425+00:00",
+          "source_payload_sha256": "48e89b194844b33d11bf60085b6e32d956eb84da12ace06f14dfa129a89b220a"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.22,
+          "probabilities": {
+            "lookup": 0.2,
+            "practitioner": 0.41,
+            "semantic": 0.37,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "003b8bb7f0fc4453890e4b691d80d45c",
+          "response_id": "gen-dec-1790797870-hzk9gnWziSqjdmTE3wnu",
+          "timestamp": "2026-09-30T19:51:09.396202+00:00",
+          "source_payload_sha256": "48e89b194844b33d11bf60085b6e32d956eb84da12ace06f14dfa129a89b220a"
+        }
+      }
+    },
+    {
+      "target_id": "1998/s/1998/458#1",
+      "document_id": "1998/s/1998/458",
+      "symbol": "S/1998/458",
+      "is_meeting": false,
+      "source_payload_sha256": "43365dfcbfa025d97a704b902d887dd5d157eef62a29a9eca303e168786a2d0b",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.77,
+          "probabilities": {
+            "lookup": 0.04,
+            "practitioner": 0.82,
+            "semantic": 0.13,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "144b59a135ad4c218ae0c84d84d136f9",
+          "response_id": "gen-dec-1790796528-ZvySW4g4F1C493nFPRhK",
+          "timestamp": "2026-09-30T19:28:48.157888+00:00",
+          "source_payload_sha256": "43365dfcbfa025d97a704b902d887dd5d157eef62a29a9eca303e168786a2d0b"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.52,
+          "probabilities": {
+            "lookup": 0.19,
+            "practitioner": 0.16,
+            "semantic": 0.64,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "fb5342f3cb7b411998877f498f43c538",
+          "response_id": "gen-dec-1790797334-dZfGy9dwx0A0G8BAKfr7",
+          "timestamp": "2026-09-30T19:42:14.524990+00:00",
+          "source_payload_sha256": "43365dfcbfa025d97a704b902d887dd5d157eef62a29a9eca303e168786a2d0b"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.5,
+          "probabilities": {
+            "lookup": 0.18,
+            "practitioner": 0.63,
+            "semantic": 0.19,
+            "skip": 0
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "04bfd0e0ac1341b9b83c35d31f0957b5",
+          "response_id": "gen-dec-1790797866-qROG1QYfnNfWP9eR2BBp",
+          "timestamp": "2026-09-30T19:51:06.596034+00:00",
+          "source_payload_sha256": "43365dfcbfa025d97a704b902d887dd5d157eef62a29a9eca303e168786a2d0b"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.27,
+          "probabilities": {
+            "lookup": 0.13,
+            "practitioner": 0.41,
+            "semantic": 0.45,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "5b81d18bf44147ea91e81a8df2109799",
+          "response_id": "gen-dec-1790797869-uoRuez0BvmfgVc0cTWdU",
+          "timestamp": "2026-09-30T19:51:09.441632+00:00",
+          "source_payload_sha256": "43365dfcbfa025d97a704b902d887dd5d157eef62a29a9eca303e168786a2d0b"
+        }
+      }
+    },
+    {
+      "target_id": "2004/s/2004/505#15",
+      "document_id": "2004/s/2004/505",
+      "symbol": "S/2004/505",
+      "is_meeting": false,
+      "source_payload_sha256": "a783b8a0f747a2cdeeae4dda34ba474edc0501ccabfac76a99ee91826f7ff824",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.56,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.67,
+            "semantic": 0.17,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "08c44bcbba2f45b48a3734d0e63903ff",
+          "response_id": "gen-dec-1790796528-CfYPJrnM1laQaIDnX9cf",
+          "timestamp": "2026-09-30T19:28:48.368867+00:00",
+          "source_payload_sha256": "a783b8a0f747a2cdeeae4dda34ba474edc0501ccabfac76a99ee91826f7ff824"
+        },
+        "C": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.44,
+          "probabilities": {
+            "lookup": 0.58,
+            "practitioner": 0.07,
+            "semantic": 0.33,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "f2d029af90a541dab9006844a74262af",
+          "response_id": "gen-dec-1790797335-kcjvAOFmRUbhwzVmzkG2",
+          "timestamp": "2026-09-30T19:42:15.304406+00:00",
+          "source_payload_sha256": "a783b8a0f747a2cdeeae4dda34ba474edc0501ccabfac76a99ee91826f7ff824"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.42,
+          "probabilities": {
+            "lookup": 0.25,
+            "practitioner": 0.56,
+            "semantic": 0.18,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "194dc877171b4aa3a506f38bfb85389c",
+          "response_id": "gen-dec-1790797866-GYOAZuQxpRoC1QUWMwuA",
+          "timestamp": "2026-09-30T19:51:06.633751+00:00",
+          "source_payload_sha256": "a783b8a0f747a2cdeeae4dda34ba474edc0501ccabfac76a99ee91826f7ff824"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "lookup",
+          "generation_mode": "lookup",
+          "reason": "",
+          "confidence": 0.19,
+          "probabilities": {
+            "lookup": 0.39,
+            "practitioner": 0.26,
+            "semantic": 0.32,
+            "skip": 0.03
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "ea5903d5f32947d4b0d6b096c8ba017f",
+          "response_id": "gen-dec-1790797869-sz3JV1QkBs2mPkiB7X0J",
+          "timestamp": "2026-09-30T19:51:09.431290+00:00",
+          "source_payload_sha256": "a783b8a0f747a2cdeeae4dda34ba474edc0501ccabfac76a99ee91826f7ff824"
+        }
+      }
+    },
+    {
+      "target_id": "2004/s/2004/674#6",
+      "document_id": "2004/s/2004/674",
+      "symbol": "S/2004/674",
+      "is_meeting": false,
+      "source_payload_sha256": "42b50a3535dd82590ea4a8da31e5e3206770fd998819e6b2a96fa768d1b49d1f",
+      "variants": {
+        "B": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.47,
+          "probabilities": {
+            "lookup": 0.15,
+            "practitioner": 0.6,
+            "semantic": 0.2,
+            "skip": 0.05
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "9b8b41b3892c45418233438aa56ed9da",
+          "response_id": "gen-dec-1790796529-UnYeLO0KJlEhGU9ggAPq",
+          "timestamp": "2026-09-30T19:28:49.057617+00:00",
+          "source_payload_sha256": "42b50a3535dd82590ea4a8da31e5e3206770fd998819e6b2a96fa768d1b49d1f"
+        },
+        "C": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.3,
+          "probabilities": {
+            "lookup": 0.42,
+            "practitioner": 0.09,
+            "semantic": 0.48,
+            "skip": 0.01
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "04d5ed952c574782bcaf23d40d38ac4e",
+          "response_id": "gen-dec-1790797335-7WfCgOYqmksDjrCIRdIP",
+          "timestamp": "2026-09-30T19:42:15.388842+00:00",
+          "source_payload_sha256": "42b50a3535dd82590ea4a8da31e5e3206770fd998819e6b2a96fa768d1b49d1f"
+        },
+        "b_instructions_c_criteria": {
+          "mode": "practitioner",
+          "generation_mode": "practitioners",
+          "reason": "",
+          "confidence": 0.23,
+          "probabilities": {
+            "lookup": 0.33,
+            "practitioner": 0.43,
+            "semantic": 0.22,
+            "skip": 0.02
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "be900e625af94b1b9f46ce8a73800902",
+          "response_id": "gen-dec-1790797866-fFBZeUdh14sOu5kj08lC",
+          "timestamp": "2026-09-30T19:51:06.678693+00:00",
+          "source_payload_sha256": "42b50a3535dd82590ea4a8da31e5e3206770fd998819e6b2a96fa768d1b49d1f"
+        },
+        "c_instructions_b_criteria": {
+          "mode": "semantic",
+          "generation_mode": "semantic",
+          "reason": "",
+          "confidence": 0.15,
+          "probabilities": {
+            "lookup": 0.26,
+            "practitioner": 0.34,
+            "semantic": 0.36,
+            "skip": 0.04
+          },
+          "resolved_backend": "typesafe/jev-1.13-20260917",
+          "provider": "TypeSafe",
+          "request_id": "070db986750a4878864aaa6812367d5f",
+          "response_id": "gen-dec-1790797869-IeT6wC0UTAU7EtRdxsVJ",
+          "timestamp": "2026-09-30T19:51:09.472918+00:00",
+          "source_payload_sha256": "42b50a3535dd82590ea4a8da31e5e3206770fd998819e6b2a96fa768d1b49d1f"
+        }
+      }
+    }
+  ],
+  "crossed_runs": {
+    "b_instructions_c_criteria": {
+      "directory": "/home/mehdi/Projects/CLIR_benchmark/reports/prompt_experiments/legal_20260930/router_ablation/b_instructions_c_criteria/run",
+      "template_sha256": "da0f9cd99979052782aec1b4b72d7006a773150a15f721a899847e1294df8de5",
+      "swap": {
+        "base_template": "B",
+        "base_template_sha256": "afb32a59f0aad7606d2742b0aa51b01f29d3316652c72b2fcffdd655e14c82d5",
+        "changed_property": "questions.mode.criteria",
+        "criteria_from": "C",
+        "criteria_source_template_sha256": "dbd7eebf35da7ec529e86c57eaedaad4804862bc23fbd7118f350fe934a3093a",
+        "instructions_from": "B",
+        "unchanged": "All other JSON properties and choice order"
+      },
+      "manifest": {
+        "bundle": "b_instructions_c_criteria",
+        "bundle_sha256": "b4a95b34c31c5d8a864322a6551f451f1c6d6a35be11061376b936d799fb9d82",
+        "label": "legal-20260930-un-router-bi-cc",
+        "prompts": {
+          "un/decider/jev": {
+            "name": "clir-legal-un-decider-jev-en",
+            "sha256": "da0f9cd99979052782aec1b4b72d7006a773150a15f721a899847e1294df8de5",
+            "text": "{\n  \"model\": \"jev-latest\",\n  \"state\": \"<Insert the original UN input, including all three marked sections>\",\n  \"questions\": {\n    \"mode\": {\n      \"type\": \"choice\",\n      \"instructions\": {\n        \"task\": \"Select lookup, practitioner, semantic or skip for the strongest naturally supported UN information need; do not generate questions or answers.\",\n        \"input_structure\": {\n          \"### TARGET BLOCK\": \"Only source of answer substance.\",\n          \"### REFERENCED DOCUMENTS\": \"Interpretation and reference resolution only.\",\n          \"### DOCUMENT CONTEXT\": \"Resolve names, dates, speakers and situations, not missing answer substance.\"\n        },\n        \"selection\": [\n          \"Assess the strongest plausible question each mode could support before selecting. Judge faithful usefulness and natural fit, not expected verifier scores, mode order or desired frequencies. Do not generate those questions in the output.\",\n          \"Lookup and practitioner often fit the same facts. Choose lookup when identifying a particular source is naturally part of the need; choose practitioner when the regime/situation and time identify the need naturally without that locator. An available symbol does not make lookup preferable.\",\n          \"Choose semantic when the evidence supports a bounded conceptual relationship or assessment. Conceptual phrasing is not inherently better than a precise fact, and the words how/why are not evidence of a conceptual answer.\",\n          \"All document types, including PV/SR meeting records, support all modes. Preserve requests, recommendations, proposals and attributed findings as such; do not confuse their status with low quality. A useful attributed specialist question need not state binding law.\",\n          \"Require adequate substantive identification and relevant absolute time for every mode, not an arbitrary anchor count. Recurring content can be informative for an identified regime and period. Do not invent unseen duplicates, require yearly novelty, or treat an incidental ceremonial verb as disqualifying useful content.\",\n          \"Answer substance must be in the target. Supporting sections resolve context, not missing answers. One good question is sufficient; assess substance in mixed blocks and skip only when every mode lacks it.\"\n        ]\n      },\n      \"criteria\": {\n        \"lookup\": \"A precise need whose natural formulation locates a point in a particular source; description and identifier renderings preserve subject, attribution and time.\",\n        \"practitioner\": \"A precise specialist norm, task, proposal, procedure or reported fact naturally identified by regime/situation and relevant time without a target-document locator.\",\n        \"semantic\": \"A bounded conceptual situation, response, rationale or stakeholder need, directly supported by the target; not an isolated datum or vague speech report.\",\n        \"skip\": \"No specific informative question is supported in any mode; ceremony or missing substance may justify skip, but document type, recurrence or non-binding status alone do not.\"\n      }\n    }\n  }\n}\n",
+            "version": 4
+          }
+        },
+        "provider": "mlflow",
+        "registry_uri": "sqlite:////home/mehdi/Projects/CLIR_benchmark/.clir/prompts.db",
+        "schema_version": 1
+      },
+      "usage": {
+        "native_requests": 50,
+        "response_count": 50,
+        "reported_cost_usd": 0.009917418
+      }
+    },
+    "c_instructions_b_criteria": {
+      "directory": "/home/mehdi/Projects/CLIR_benchmark/reports/prompt_experiments/legal_20260930/router_ablation/c_instructions_b_criteria/run",
+      "template_sha256": "2670f1f6da1a9bd3b737d84045db8d52b04a654289324230d25d872580d02335",
+      "swap": {
+        "base_template": "C",
+        "base_template_sha256": "dbd7eebf35da7ec529e86c57eaedaad4804862bc23fbd7118f350fe934a3093a",
+        "changed_property": "questions.mode.criteria",
+        "criteria_from": "B",
+        "criteria_source_template_sha256": "afb32a59f0aad7606d2742b0aa51b01f29d3316652c72b2fcffdd655e14c82d5",
+        "instructions_from": "C",
+        "unchanged": "All other JSON properties and choice order"
+      },
+      "manifest": {
+        "bundle": "c_instructions_b_criteria",
+        "bundle_sha256": "b39f91ef878cea1d2569f0e2de246cfd75cf60145715c4107ddb51c510e21429",
+        "label": "legal-20260930-un-router-ci-bc",
+        "prompts": {
+          "un/decider/jev": {
+            "name": "clir-legal-un-decider-jev-en",
+            "sha256": "2670f1f6da1a9bd3b737d84045db8d52b04a654289324230d25d872580d02335",
+            "text": "{\n  \"model\": \"jev-latest\",\n  \"state\": \"<Insert the original UN input, including all three marked sections>\",\n  \"questions\": {\n    \"mode\": {\n      \"type\": \"choice\",\n      \"instructions\": {\n        \"task\": \"Select lookup, practitioner, semantic or skip for a UN TARGET BLOCK. Supporting context/references/metadata resolve identity, time and attribution, never missing answers. All document types including PV/SR support every mode.\\nLookup: a precise fact when a particular source is naturally part of the information need; render source description and identifier versions.\\nPractitioner: a precise specialist need identified by regime/situation, attribution and time without a target-document locator. Requests, proposals and reported findings qualify with their status preserved; binding law is not required.\\nSemantic: a conceptual situation, response, rationale or stakeholder need, supported directly by the text; not an isolated datum disguised as how/why.\\nSkip: no specific informative answer is available under any mode.\\nConsider the strongest plausible question in each mode, then choose the most useful natural fit. Do not output those questions. Source identifiers, option order, conceptual breadth, expected grades or desired frequencies do not decide. Lookup versus practitioner depends on source-seeking versus situation-seeking intent; neither has priority. Require adequate substantive identification and relevant absolute time equally, not a fixed anchor count. One distinctive composite anchor may suffice. Recurring or non-binding content can be useful; do not demand yearly novelty or invent duplicates. Judge propositions, not ceremonial verbs in mixed passages. Preserve actual speaker, attribution, and request/proposal/authorization status. One useful question is enough; skip only when every mode fails.\\n\"\n      },\n      \"criteria\": {\n        \"lookup\": \"The searcher knows a particular source and wants one precise fact using that source as a locator. The base question describes the source; a second rendering swaps in its identifier. The subject, attribution and relevant time must remain clear.\",\n        \"practitioner\": \"The specialist knows the regime or operational situation and needs a precise norm, condition, task, proposal, procedure or reported fact without using the target document as a locator. Preserve requests/proposals as such and attribute claims. One distinctive composite anchor and relevant time may identify the need; do not require two anchors or binding law.\",\n        \"semantic\": \"The searcher knows the situation but not the source or exact vocabulary and needs a conceptual account of a problem, response, rationale or affected party. Connected facts may answer one intent. Retain necessary terms, attribution, substantive context and relevant time. Do not repackage an isolated datum as a vague conceptual question.\",\n        \"skip\": \"No mode supports a specific, informative question fully answered in the target. Pure ceremony, generic appeals or missing essential substance can warrant skip. Document type, non-binding status, recurring wording or difficulty choosing between useful modes do not by themselves warrant skip.\"\n      }\n    }\n  }\n}\n",
+            "version": 5
+          }
+        },
+        "provider": "mlflow",
+        "registry_uri": "sqlite:////home/mehdi/Projects/CLIR_benchmark/.clir/prompts.db",
+        "schema_version": 1
+      },
+      "usage": {
+        "native_requests": 50,
+        "response_count": 50,
+        "reported_cost_usd": 0.009946818
+      }
+    }
+  },
+  "factorial_comparisons": {
+    "simplify_instructions_with_B_criteria": {
+      "n": 50,
+      "same_choice": 20,
+      "transitions": [
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 9
+        },
+        {
+          "from": "practitioner",
+          "to": "practitioner",
+          "count": 14
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 21
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 6
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.329,
+        "min": 0.1499999999999999,
+        "max": 0.53,
+        "positive_targets": 50
+      }
+    },
+    "simplify_instructions_with_C_criteria": {
+      "n": 50,
+      "same_choice": 10,
+      "transitions": [
+        {
+          "from": "lookup",
+          "to": "lookup",
+          "count": 2
+        },
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 13
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 27
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 8
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.3978,
+        "min": 0.15,
+        "max": 0.67,
+        "positive_targets": 50
+      }
+    },
+    "simplify_criteria_with_B_instructions": {
+      "n": 50,
+      "same_choice": 46,
+      "transitions": [
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 2
+        },
+        {
+          "from": "practitioner",
+          "to": "practitioner",
+          "count": 40
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 2
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 6
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.1488,
+        "min": 0.0,
+        "max": 0.29000000000000004,
+        "positive_targets": 49
+      }
+    },
+    "simplify_criteria_with_C_instructions": {
+      "n": 50,
+      "same_choice": 35,
+      "transitions": [
+        {
+          "from": "lookup",
+          "to": "lookup",
+          "count": 9
+        },
+        {
+          "from": "practitioner",
+          "to": "lookup",
+          "count": 5
+        },
+        {
+          "from": "practitioner",
+          "to": "semantic",
+          "count": 9
+        },
+        {
+          "from": "semantic",
+          "to": "lookup",
+          "count": 1
+        },
+        {
+          "from": "semantic",
+          "to": "semantic",
+          "count": 26
+        }
+      ],
+      "practitioner_probability_drop": {
+        "mean": 0.2176,
+        "min": 0.08,
+        "max": 0.35000000000000003,
+        "positive_targets": 50
+      }
+    }
+  },
+  "finding": "Both prompt blocks affect routing. The simplified instructions cause the larger practitioner-probability reduction at either fixed criterion set; the simplified criteria also reduce it at either fixed instruction set. The instruction comparison changes both wording and JSON structure, so these results cannot attribute the effect to a particular sentence, property name or internal backend mechanism.",
+  "new_experiment_usage": {
+    "native_requests": 100,
+    "reported_cost_usd": 0.019864236,
+    "generation_requests": 0,
+    "verifier_requests": 0
+  }
+}

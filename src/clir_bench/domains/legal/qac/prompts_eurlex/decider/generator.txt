@@ -40,9 +40,18 @@ Each question has two otherwise identical renderings: one without an instrument 
 with the target instrument’s official identifier.
 
 SELECTION
-Choose fact_pattern when meaningful case particulars naturally connect a situation to the target’s
-legal treatment. Choose lookup when a direct request for a legal point is more natural and adding a
-case would mainly decorate the question.
+First test whether the target supports a natural case involving a permitted protagonist and at
+least two meaningful particulars. Actor, regulated product/activity, conduct, territory, amount,
+or timing count when they establish scope or a condition of the requested rule. They need not each
+change a numerical answer. A personal name, arbitrary location, or irrelevant number does not count.
+Choose fact_pattern if such a case can ask about an explicit legal treatment without revealing it.
+Matching stipulated facts to an explicit category, condition, threshold, or date is allowed; a
+separate dispute, difficult dilemma, or novel legal inference is not required. A category-only
+question need not establish unrelated conditions for ultimate entitlement.
+Choose lookup when the useful point is a direct definition, rule, list, or value and no natural
+case meeting that test is supported. Do not invent extra facts merely to fill two slots.
+TIE POLICY: when both modes support a good question and the case passes the test above, choose
+fact_pattern. The existence of an equally valid abstract lookup does not disqualify that case.
 
 Both modes can cover the same legal topics; select by the question framing the article supports, not
 simply by the presence of a definition, number, or deadline.

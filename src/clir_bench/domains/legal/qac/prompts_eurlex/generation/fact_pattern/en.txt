@@ -33,13 +33,14 @@ THE SITUATION — the defining rules of this mode:
   the rule turns on it, how much / when / where. Report them in "particulars".
 2. PROTAGONIST. A private party, or a national authority acting on a file (a paying agency, a
   competent authority handling an application, a customs office). Never the Commission, an EU agency
-  or official, or a Member State as legislator — they are not clients, and the clauses addressed to
-  them are institutional boilerplate.
+  or official, or a Member State as legislator — they are outside this mode's client scope.
+  A substantive institutional duty may instead support lookup; its addressee alone is not boilerplate.
 3. INSIDE THE CASE. Place every particular where the article decides it: a quantity under the
   ceiling when the rule exempts what is under the ceiling; the Member State the article names; the
   omission the article makes a condition. Then the article's own words decide the case and no
-  inference is needed. Never build a case whose outcome needs weighing, negation or reasoning the
-  article does not state.
+  unsupported legal inference is needed. Matching stipulated facts to an explicit category,
+  condition, threshold or date, and recognizing breach of an explicit duty or "only" restriction,
+  are allowed. Never invent missing conditions, unstated sanctions, converses or outside law.
 4. CONDITIONS, NEVER THE CONSEQUENCE. The situation says what the actor is and what it did or failed
   to do; it never says what the rule requires — for how long, to whom, in which form, at what rate.
   "A generation undertaking with one 250 MW plant is asked to keep its hourly data at the disposal
@@ -47,10 +48,12 @@ THE SITUATION — the defining rules of this mode:
   covered by the five-year storage duty?" hands the answer to the asker. Ask instead: "A generation
   undertaking's only plant has an installed capacity of 250 MW. For how long must it keep the
   plant's hourly generation data available to the regulators?" Test: delete the answer span from the
-  article — if the situation could not have been written from what remains, it contains the answer.
-5. PARTIAL FACTS, PLAIN WORDS, EXACT TERMS. A client presents two or three facts, never the
-  article's full enumeration: when the article lists five products or four conditions, the situation
-  names one or two ("plastic plates and straws", not all five items). Describe facts in plain
+  article — do the facts state the requested consequence? Conditions may also occur in the answer
+  span; repeating a necessary actor, product, condition or legal term is not answer leakage.
+5. PARTIAL FACTS, PLAIN WORDS, EXACT TERMS. Use a few relevant facts, not the source's complete
+  enumeration merely for overlap. A product list may be narrowed to one or two
+  ("plastic plates and straws", not all five items); include every condition necessary to resolve
+  the actual ask. Describe facts in plain
   business language, at a distance from the article's wording ("800 kg in one shipment" for
   "quantities not exceeding, per transaction, one tonne"; "criteria that were not in the contest
   notice" for "solely on the basis of the criteria indicated in the contest notice"). Keep terms of
@@ -61,8 +64,14 @@ THE SITUATION — the defining rules of this mode:
 6. VOICE AND ASK. Third person, a practitioner describing a case — never "my landlord", "discuss
   whether", "what does the regulation say about", or a bare slot ("what must be taken into account
   when ..."). One ask per question: is it permitted / required / covered; what must the actor do;
-  what rate, threshold or time limit applies; what is the consequence; which body decides. Yes/no is
-  the default; the answer is always the span that decides the question, never "yes" or "no".
+  what rate, threshold or time limit applies; what is the consequence; which body decides. Choose
+  yes/no or wh-form according to the information need; neither form is preferred. The answer is
+  always the source span that decides the question, never an added "yes" or "no" conclusion.
+  A routine application or category check is sufficient; do not invent a dispute or dilemma.
+  Actor and product/activity can count as separate particulars when both determine scope. Each
+  fact need not change the answer numerically. Arbitrary names, countries or quantities do not count.
+  For a category-only ask, establish membership of that category, not every condition for an
+  ultimate benefit. For full entitlement or coverage, include all outcome-changing conditions.
 THE SIBLING TEST: EU legislation repeats provisions across sister acts, so the particulars must fix
   the regime. "An asset manager" fits UCITS, AIFMD and MiFID; "a UCITS management company" fits one.
   "A public buyer holding a design contest" fits the classic and utilities procurement directives;
@@ -81,7 +90,9 @@ THE ONE-ARTICLE TEST: the question must turn on what the TARGET article lays dow
   the answer's substance lies behind a citation that was NOT supplied, discard.
 GROUNDING: the answer is a contiguous span of the supplied text — the target article, or a supplied
   referenced article the target's citation led to — that governs the situation as described. No
-  inference beyond following an explicit cross-reference, no outside knowledge. Invented particulars
+  unsupported legal inference or outside law. Matching stipulated facts to explicit categories,
+  thresholds, dates and conditions, resolving ordinary referents, and following supplied explicit
+  cross-references are allowed; they are not unsupported inference. Invented particulars
   are allowed in the question, never in the answer, and a particular that instantiates a threshold
   must sit on the correct side of it.
 BOILERPLATE — SKIP: transposition, application-date, entry-into-force, addressee, "binding in its
@@ -223,8 +234,8 @@ SELF-CHECK for each question before finalizing:
 1. Situation with two or more particulars that instantiate the rule's CONDITIONS, all inside the
   case the article decides, reported in "particulars"; protagonist a private party or an authority
   on a file.
-2. The situation states no consequence of the rule — delete the answer span from the article: could
-  the situation still have been written?
+2. The situation states no requested legal consequence. Necessary conditions may overlap the answer
+  span; a yes/no question leaves the legal relationship unknown even when its terms are repeated.
 3. SIBLING TEST: would a different act govern this situation just as well? Add the fixing particular
   or discard.
 4. ONE-ARTICLE TEST: answerable from a referenced article alone? Discard. Answer's substance behind
