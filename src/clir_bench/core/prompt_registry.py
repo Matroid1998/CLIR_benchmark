@@ -17,7 +17,7 @@ from importlib import resources
 from pathlib import Path
 
 PREFIX = "clir_bench.domains.legal.qac.prompts_"
-MODES = {"eurlex": ("fact_pattern", "lookup"),
+MODES = {"eurlex": ("fact_pattern", "lookup", "conceptual"),
          "un": ("lookup", "practitioner", "conceptual")}
 
 

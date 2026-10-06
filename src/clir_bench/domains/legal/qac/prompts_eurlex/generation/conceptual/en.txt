@@ -1,0 +1,35 @@
+You create conceptual retrieval questions from EU legislation. The searcher knows a regulated issue or activity, but not the governing instrument or its exact wording. Ask about a problem explicitly identified by the provision, a legal response or mechanism, or the position of an affected party. A conceptual question is not inherently better than a precise lookup or a concrete fact pattern.
+
+SOURCE AND EVIDENCE
+The input has four sections: TARGET ARTICLE, REFERENCED ARTICLES from the same act, REFERENCED ARTICLES FROM OTHER ACTS, and REFERENCED ANNEXES. Act, Location, titles and language tags identify the supplied provisions; metadata alone does not establish an answer. Different language versions are the same provision.
+The target article must supply the question's legal point. Follow its explicit cross-references into supplied articles or annexes only to complete or clarify that point. Do not ask a question answered by a reference alone with no dependence on the target's rule. Missing references exclude only questions that need their missing substance.
+The answer is one contiguous evidence span from a supplied provision, read with the question and any explicitly linked governing clause. Include necessary conditions, exceptions, modality and scope. Several adjacent clauses or sentences are acceptable for one coherent answer; do not stitch passages, add a summary, calculate a result, or invent an explanation. If no single span sufficiently answers the question in that context, narrow the question or omit it. An evidence span can answer a yes/no question without adding yes or no.
+Declare the target and every reference contributing to the answer or necessary legal clarification in articles_involved, and no unused provisions. Same-act articles use bare article numbers. Other-act articles and ALL annexes use their exact Cite as keys (for example 32004R0021:5 or 32019R0904:anx_1). Language versions are not separate entries.
+
+CONCEPTUAL NEED
+Choose one framing per question:
+- situation: an expressly identified regulatory problem, risk, assessment or stated rationale;
+- response: how a specified legal measure, safeguard, procedure or allocation of duties addresses an issue or operates;
+- stakeholder: how a defined party is protected, affected or assigned a role within that arrangement.
+These framings have equal standing. A rationale is eligible only if the supplied text states it; do not invent policy reasons from a rule or an act title. Obligations and authorizations establish legal arrangements, not their implementation, effectiveness or actual effects. A stated aim is not evidence of a mechanism or of success. Preserve distinctions between shall, may, exceptions, conditions and discretion, and between Member States, EU institutions and private parties.
+Ask for one bounded relationship, not a survey of the act. Connected facts can answer a single intent. An isolated date, amount, named body or definition requested by itself belongs to lookup; merely adding how or why does not make it conceptual. Do not create a hypothetical client's case to force this mode. Institutional duties can support a useful conceptual question; the party need not be private.
+
+RETRIEVAL CONTEXT AND WORDING
+Identify the substantive regime using the regulated activity, product, actor, risk or distinctive legal terms. One distinctive composite anchor may suffice; no fixed anchor count is required. Resolve essential references within the question. Do not name the target act by number, CELEX/ELI identifier, article/paragraph/annex pointer or its exact official title as a locator. Do not use “this Regulation”, “the above article” or other unseen-document references. Necessary legal terms and substantive regime names are allowed.
+Ask about the supplied version, not assumed current law. Add supported time, territory or version context when needed to distinguish changing measures; do not demand an arbitrary year for every standing rule. A publication or adoption date is not automatically its effective date. Do not give away an unknown date or condition in the question.
+Write questions and answers in English. Use the supplied output-language text when present and English as the meaning reference. If only another language is supplied, faithfully translate the single deciding span into the requested language; do not present it as a verbatim original-language quotation. Preserve legal distinctions, names, numerical values, units and official identifiers; never invent an official translation.
+Paraphrase ordinary question wording naturally, keeping necessary terms and qualifications. The answer remains evidence, not a paraphrased explanation. No synonym quota, fixed word limit or penalty for unavoidable legal terminology. Keep the question concise and standalone. Reject circular questions that reveal the relationship being asked about.
+
+USEFULNESS AND OUTPUT
+Prefer substantive regulatory content. Skip pure transposition, general commencement/repeal, generic review or generic penalty boilerplate lacking an informative regulatory relationship. A concrete safeguard, transition or enforcement mechanism is not boilerplate merely because of its heading. In a mixed article use its substantive part.
+Return up to three distinct questions; one strong question is sufficient. Do not force all framings or a fixed candidate count. Return valid JSON only:
+[{"question":"...","answer":"...","framing":"situation|response|stakeholder","anchor":"...","articles_involved":["..."]}]
+Choose one actual framing value. anchor is a substantive phrase copied exactly from the question. No question_cited or particulars fields are needed. If none qualifies, return [{"skip_reason":"one short reason"}].
+
+ILLUSTRATION (invented wording, not a legislative quotation)
+Target Article 7; regime: EU consumer product recalls. Text: “Economic operators shall inform consumers directly where their contact details are available. Otherwise they shall publish a recall notice accessible to consumers.”
+Question: “How must economic operators communicate EU consumer product recalls when consumer contact details are unavailable?”
+Answer: “Otherwise they shall publish a recall notice accessible to consumers.”
+framing: response; anchor: “EU consumer product recalls”; articles_involved: ["7"]. The preceding condition is resolved by the question. This states a required communication mechanism, not evidence that recalls succeeded. “How effective have EU product recalls been?” would require evidence absent here.
+
+Here is the input:

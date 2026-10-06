@@ -134,6 +134,9 @@ def analyze(directory):
     run_modes = dict(decider.MODES)
     if any(task.startswith('mode/un/') and task.endswith('/semantic') for task in outcomes):
         run_modes['un'] = ('lookup', 'practitioner', 'semantic')
+    if not any(task.startswith('mode/eurlex/') and task.endswith('/conceptual') for task in outcomes):
+        run_modes['eurlex'] = ('fact_pattern', 'lookup')
+    run_modes.update(metadata['config'].get('modes_by_source', {}))
     entries = metadata['targets']
     write_csv(directory / 'documents.csv', [{k: v for k, v in e.items() if k != 'target'}
                                             for e in entries])
@@ -336,7 +339,7 @@ def report(directory, summary, comparisons):
         'candidates), followed by the existing faithfulness and mode-specific quality verifiers. '
         'Generation does not see either decider’s answer.'),
         ('“All modes” means the modes offered to the decider: lookup/practitioner/conceptual (formerly semantic) for UN '
-        'and fact_pattern/lookup for EUR-Lex. Legacy technical/descriptive modes are outside this comparison. '
+        'and fact_pattern/lookup/conceptual for EUR-Lex (older runs have two modes). Legacy technical/descriptive modes are outside this comparison. '
         + ('All three modes are eligible on UN meeting records, as on other UN documents.'
            if cfg.get('meeting_modes') == 'all' else
            'In this historical run, meeting records permit only semantic or skip; '

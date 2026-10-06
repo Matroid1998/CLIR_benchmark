@@ -1,22 +1,12 @@
-"""
-EUR-Lex generation is exactly two practitioner modes: ``lookup`` and
-``fact_pattern``. The three earlier modes (technical, semantic, descriptive) are
-gone from this pack -- ``descriptive`` survives only in the UN pack.
-
-Both new modes are fact-extraction modes and therefore reuse the *technical*
-quality columns, so ``core.grading`` needs no per-mode branch. What is new is
-that each mode emits fields the other does not: ``lookup`` renders every
-question twice (with and without the target act's identifier) and reports its
-regime anchor; ``fact_pattern`` reports the particulars its situation was built
-from. These tests pin that split, because a field leaking across modes is
-invisible in the CSV -- it just silently fills the wrong column.
-"""
+"""EUR-Lex mode-specific fields, prompt availability, provenance and grading contracts."""
 
 from __future__ import annotations
 
 import pytest
 
 from clir_bench.core.grading import (
+    CONCEPTUAL_QUALITY_FIELDS,
+    CONCEPTUAL_QUALITY_KEYS,
     FACT_PATTERN_QUALITY_FIELDS,
     FACT_PATTERN_QUALITY_KEYS,
     LOOKUP_QUALITY_FIELDS,
@@ -50,10 +40,10 @@ def payload() -> ctx.GenerationPayload:
     return ctx.GenerationPayload(target, [], [], ctx.render_payload(target, []))
 
 
-# -- the pack holds two modes and only two ---------------------------------- #
+# -- the pack holds three modes ---------------------------------- #
 
-def test_the_pack_declares_exactly_the_two_modes() -> None:
-    assert gen.MODES == (gen.MODE_LOOKUP, gen.MODE_FACT_PATTERN)
+def test_the_pack_declares_three_modes() -> None:
+    assert gen.MODES == (gen.MODE_LOOKUP, gen.MODE_FACT_PATTERN, gen.MODE_CONCEPTUAL)
     assert not hasattr(gen, "MODE_TECHNICAL")
     assert not hasattr(gen, "MODE_SEMANTIC")
     assert not hasattr(gen, "MODE_DESCRIPTIVE")
@@ -94,6 +84,7 @@ FACT_PATTERN_JSON = {
 
 
 EXPECTED_QUALITY = {
+    gen.MODE_CONCEPTUAL: (CONCEPTUAL_QUALITY_KEYS, CONCEPTUAL_QUALITY_FIELDS),
     gen.MODE_LOOKUP: (LOOKUP_QUALITY_KEYS, LOOKUP_QUALITY_FIELDS),
     gen.MODE_FACT_PATTERN: (FACT_PATTERN_QUALITY_KEYS, FACT_PATTERN_QUALITY_FIELDS),
 }
@@ -238,7 +229,7 @@ def test_the_batch_schema_covers_every_generated_column(payload) -> None:
     for column in ("question_cited", "instrument_short_name", "anchor", "particulars"):
         assert column in row
         assert column in batch.FIELDS
-    assert "framing" not in row and "framing" not in batch.FIELDS
+    assert row["framing"] == "" and "framing" in batch.FIELDS
 
 
 # -- the source text a question was written from ---------------------------- #

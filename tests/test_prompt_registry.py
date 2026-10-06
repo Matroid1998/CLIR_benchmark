@@ -103,15 +103,16 @@ def test_manifest_path_switch_is_not_hidden_by_prompt_cache(client, tmp_path, mo
         assert pack.quality("lookup") == label
 
 
-def test_sync_inventory_covers_all_languages_and_legacy_modes():
+def test_sync_inventory_covers_current_modes_and_retained_legacy_verifiers():
     prompts = registry.local_legal_prompts()
-    assert len(prompts) == 48
+    assert len(prompts) == 44
     for source in registry.MODES:
         assert prompts[f"{source}/decider/jev"] == decider.prompt_text(source, "jev")
     for language in ("de", "es", "fr", "zh"):
         assert f"eurlex/generation/fact_pattern/{language}" in prompts
+        assert f"eurlex/generation/conceptual/{language}" in prompts
         assert f"un/generation/practitioner/{language}" in prompts
-    assert "un/generation/technical" in prompts
+    assert "un/quality/technical" in prompts
     assert "un/quality/descriptive" in prompts
     assert len({registry.prompt_name(key) for key in prompts}) == len(prompts)
 
@@ -179,3 +180,31 @@ def test_local_conceptual_alias_and_language_inventory(monkeypatch):
     chemistry = "clir_bench.domains.chemistry.qac.prompts"
     assert registry.local_parts(chemistry, ("generation", "semantic", "en.txt")) == (
         "generation", "semantic", "en.txt")
+
+
+def test_old_eurlex_bundle_keeps_two_mode_routing(client, tmp_path, monkeypatch):
+    template = {"questions": {"mode": {"type": "choice", "criteria": {
+        "fact_pattern": "Case", "lookup": "Point", "skip": "No evidence"}}}}
+    manifest = client.publish({"eurlex/decider/jev": json.dumps(template)},
+                              bundle="historical", label="historical")
+    path = tmp_path / "historical.json"
+    registry.write_manifest(path, manifest)
+    monkeypatch.setenv("CLIR_PROMPT_MANIFEST", str(path))
+    assert decider.prompt_modes("eurlex") == ("fact_pattern", "lookup")
+    with pytest.raises(ValueError, match="missing eurlex/generation/conceptual"):
+        PromptPack(registry.PREFIX + "eurlex").generation("conceptual", "en")
+
+
+def test_language_discovery_uses_pinned_inventory_instead_of_local_files(client, tmp_path, monkeypatch):
+    manifest = client.publish({"eurlex/generation/conceptual/fr": "French only",
+                               "un/generation/semantic/de": "Historical German"},
+                              bundle="partial-languages", label="partial-languages")
+    path = tmp_path / "languages.json"
+    registry.write_manifest(path, manifest)
+    monkeypatch.setenv("CLIR_PROMPT_MANIFEST", str(path))
+    eurlex = PromptPack(registry.PREFIX + "eurlex")
+    un = PromptPack(registry.PREFIX + "un")
+    assert eurlex.available_languages("conceptual") == ("fr",)
+    assert eurlex.available_languages("lookup") == ()
+    assert un.available_languages("conceptual") == ("de",)
+    assert un.available_languages("semantic") == ("de",)

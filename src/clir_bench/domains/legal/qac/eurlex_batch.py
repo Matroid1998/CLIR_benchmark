@@ -298,7 +298,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     payload = payload or prepare_payload(target, index, max_references=max_references)
     if payload is None:
         return []
-    # Both EUR-Lex rubrics are hostile-reviewer prompts: each runs a multi-step
+    # EUR-Lex quality rubrics require source-based checks: each runs a multi-step
     # grading procedure and returns, per candidate, an expert rewrite plus a
     # prose flaw note for every one of the five criteria. That is far more
     # output than the score-only rubrics the defaults were sized for -- 12k
@@ -334,7 +334,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     else:
         candidates = [gen.Candidate(
             question=row["question"], answer=row["answer"],
-            classification=row.get("question_type", ""),
+            classification=row.get("framing" if target.mode == gen.MODE_CONCEPTUAL else "question_type", ""),
             articles_involved=[value for value in row.get("articles_involved", "").split(",") if value],
             involved_elis=[value for value in row.get("articles_involved_eli", "").split(",") if value],
             rejected_involved=[value for value in row.get("rejected_involved", "").split(",") if value],
@@ -369,7 +369,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             ("instrument_short_name", c.instrument_short_name),
             ("anchor", c.anchor),
             ("particulars", list(c.particulars)),
-            ("question_type", c.classification),
+            ("framing" if target.mode == gen.MODE_CONCEPTUAL else "question_type", c.classification),
         )})
         for pair, c in zip(qa, candidates)
     ]
@@ -437,7 +437,8 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "mode": target.mode,
             "question": candidate.question,
             "answer": candidate.answer,
-            "question_type": candidate.classification,
+            "question_type": candidate.classification if target.mode != gen.MODE_CONCEPTUAL else "",
+            "framing": candidate.classification if target.mode == gen.MODE_CONCEPTUAL else "",
             # Mode-specific columns, empty in the mode that does not emit them.
             "question_cited": candidate.question_cited,
             "instrument_short_name": candidate.instrument_short_name,
@@ -494,7 +495,7 @@ FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           "n_annex_available", "annex_references_supplied",
           "annex_references_dropped",
           "reference_complete", "cites_annex", "question_language", "mode",
-          "question", "answer", "question_type",
+          "question", "answer", "question_type", "framing",
           # ``lookup`` fills question_cited/instrument_short_name/anchor;
           # ``fact_pattern`` fills particulars. The unused ones stay empty.
           "question_cited", "instrument_short_name", "anchor", "particulars",
@@ -511,10 +512,10 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
     parser.add_argument("--keep", type=int, default=3,
                         help="candidates written to the all-candidates file")
     # The production configuration: all four corpus languages (zh is skipped
-    # on purpose -- no EUR-Lex zh versions exist, so we do not ask in it), both
+    # on purpose -- no EUR-Lex zh versions exist, so we do not ask in it), all three
     # prompt modes, gpt-5.4-mini generating and Sonnet grading.
     parser.add_argument("--languages", default="en,fr,de,es")
-    parser.add_argument("--modes", default=None, help="comma-separated modes (default: both)")
+    parser.add_argument("--modes", default=None, help="comma-separated modes (default: lookup,fact_pattern,conceptual)")
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
     parser.add_argument("--decider-model", choices=("generator", "jev"),
                         help="choose the generation mode per target using the generator or Jev")

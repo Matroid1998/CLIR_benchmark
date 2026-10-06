@@ -10,7 +10,7 @@ from clir_bench.core.prompts import load_prompt
 
 JEV_MODEL = "~typesafe/jev-latest"
 MODES = {
-    "eurlex": ("fact_pattern", "lookup"),
+    "eurlex": ("fact_pattern", "lookup", "conceptual"),
     "un": ("lookup", "practitioner", "conceptual"),
 }
 
@@ -24,11 +24,8 @@ def prompt_text(source: str, backend: str) -> str:
 
 def prompt_modes(source: str) -> tuple[str, ...]:
     """Use the pinned bundle's mode vocabulary when replaying older prompts."""
-    if source == "un":
-        criteria = json.loads(prompt_text(source, "jev"))["questions"]["mode"]["criteria"]
-        if "semantic" in criteria and "conceptual" not in criteria:
-            return ("lookup", "practitioner", "semantic")
-    return MODES[source]
+    criteria = json.loads(prompt_text(source, "jev"))["questions"]["mode"]["criteria"]
+    return tuple(mode for mode in criteria if mode != "skip")
 
 
 def generation_mode(mode: str) -> str:
@@ -54,6 +51,8 @@ def _probability(value):
 
 def parse_decision(data, source: str, backend: str, *, symbol: str = "") -> dict:
     allowed = {*MODES[source], "skip"}
+    legacy_allowed = (allowed - {"conceptual"} | {"semantic"} if source == "un"
+                      else allowed - {"conceptual"})
     if not isinstance(data, dict):
         raise ValueError("decider must return an object")  # noqa: TRY004 - invalid model output
     if backend == "jev":
@@ -68,9 +67,10 @@ def parse_decision(data, source: str, backend: str, *, symbol: str = "") -> dict
             _probability(confidence)
         if probabilities is not None:
             if (not isinstance(probabilities, dict) or
-                    set(probabilities) not in (allowed, allowed - {"conceptual"} | {"semantic"}
-                                              if source == "un" else allowed)):
+                    set(probabilities) not in (allowed, legacy_allowed)):
                 raise ValueError("Jev probabilities must cover exactly the allowed modes")
+            if not isinstance(mode, str) or mode not in probabilities:
+                raise ValueError("Jev selected mode is absent from its probabilities")
             values = [_probability(value) for value in probabilities.values()]
             if not math.isclose(sum(values), 1.0, abs_tol=0.02):
                 raise ValueError("Jev probabilities must sum to one")

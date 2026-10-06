@@ -167,3 +167,16 @@ def test_evaluation_never_accepts_misattributed_or_fabricated_scores(change):
         del row["scores"]["clarity"]
     with pytest.raises(ValueError):
         validate(data, [{"candidate_id": "q1"}])
+
+
+def test_new_eurlex_run_must_include_declared_conceptual_attempts():
+    selection = [{"corpus": "eurlex", "target_id": "article1"}]
+    config = {"meeting_modes": "all", "modes_by_source": {
+        "eurlex": ["fact_pattern", "lookup", "conceptual"]}}
+    outcomes = [{"corpus": "eurlex", "target_id": "article1", "mode": mode,
+                 "eligible": True, "status": "no_candidates", "candidate_count": 0}
+                for mode in ("fact_pattern", "lookup")]
+    with pytest.raises(ValueError, match="missing generation outcomes"):
+        validate_generation_completion("new", selection, config, outcomes, [])
+    outcomes.append(dict(outcomes[0], mode="conceptual"))
+    validate_generation_completion("new", selection, config, outcomes, [])

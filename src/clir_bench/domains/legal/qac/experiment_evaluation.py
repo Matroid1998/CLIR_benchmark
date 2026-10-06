@@ -46,6 +46,13 @@ def validate_generation_completion(version, selection, config, mode_runs, candid
     modes = dict(MODES)
     if any(row["corpus"] == "un" and row["mode"] == "semantic" for row in mode_runs):
         modes["un"] = ("lookup", "practitioner", "semantic")
+    if not any(row["corpus"] == "eurlex" and row["mode"] == "conceptual" for row in mode_runs):
+        modes["eurlex"] = ("fact_pattern", "lookup")
+    for corpus, declared in config.get("modes_by_source", {}).items():
+        allowed = set(MODES.get(corpus, ())) | ({"semantic"} if corpus == "un" else set())
+        if not declared or len(set(declared)) != len(declared) or not set(declared) <= allowed:
+            raise ValueError(f"{version}: invalid declared modes for {corpus}")
+        modes[corpus] = tuple(declared)
     expected = {(corpus, target_id, mode) for corpus, target_id in targets for mode in modes[corpus]}
     grouped = defaultdict(list)
     for row in candidates:

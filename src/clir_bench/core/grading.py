@@ -113,17 +113,22 @@ FACT_PATTERN_QUALITY_KEYS = (
     "linguistic_quality",
 )
 
+CONCEPTUAL_QUALITY_KEYS = (
+    "search_realism", "anchoring_and_time", "consequence", "lexical_distance", "linguistic_quality",
+)
+CONCEPTUAL_QUALITY_FIELDS = tuple(f"qual_{key}" for key in CONCEPTUAL_QUALITY_KEYS) + ("qual_overall",)
+
 # Modes whose rubric is not the technical one. A mode absent here falls back to
 # the technical five, which is what ``descriptive`` and the chemistry flows want.
 _QUALITY_KEYS_BY_MODE = {
     MODE_SEMANTIC: SEMANTIC_QUALITY_KEYS,
-    MODE_CONCEPTUAL: SEMANTIC_QUALITY_KEYS,
+    MODE_CONCEPTUAL: CONCEPTUAL_QUALITY_KEYS,
     MODE_LOOKUP: LOOKUP_QUALITY_KEYS,
     MODE_FACT_PATTERN: FACT_PATTERN_QUALITY_KEYS,
 }
 _QUALITY_FIELDS_BY_MODE = {
     MODE_SEMANTIC: SEMANTIC_QUALITY_FIELDS,
-    MODE_CONCEPTUAL: SEMANTIC_QUALITY_FIELDS,
+    MODE_CONCEPTUAL: CONCEPTUAL_QUALITY_FIELDS,
     MODE_LOOKUP: LOOKUP_QUALITY_FIELDS,
     MODE_FACT_PATTERN: FACT_PATTERN_QUALITY_FIELDS,
 }
@@ -246,6 +251,7 @@ _CANDIDATE_EXTRAS = (
     ("anchor", "Anchor (declared)"),
     ("particulars", "Particulars (declared)"),
     ("question_type", "Question type (declared)"),
+    ("framing", "Framing (declared)"),
 )
 
 
@@ -523,7 +529,7 @@ def _normalize_legal_quality(data: Any, prompt: str, envelope: Mapping[str, Any]
         if item["suggested_repair"] is not None:
             _string(item["suggested_repair"], "suggested_repair")
         if item["suggested_mode"] is not None:
-            _enum(item["suggested_mode"], ("eurlex_fact_pattern", "eurlex_lookup", "un_lookup", "un_practitioner", "un_semantic", "un_conceptual", "other_persona"), "suggested_mode")
+            _enum(item["suggested_mode"], ("eurlex_fact_pattern", "eurlex_lookup", "eurlex_conceptual", "un_lookup", "un_practitioner", "un_semantic", "un_conceptual", "other_persona"), "suggested_mode")
         if not isinstance(item["evidence"], list):
             raise ValueError("Evidence must be an array")  # noqa: TRY004 -- invalid verifier JSON
         if version == "legal-qg-v3.0" and len(item["evidence"]) > 10:
@@ -823,6 +829,9 @@ def rank_candidates(
 
 
 __all__ = [
+    "CONCEPTUAL_QUALITY_FIELDS",
+    "CONCEPTUAL_QUALITY_KEYS",
+    "MODE_CONCEPTUAL",
     "FACT_PATTERN_QUALITY_FIELDS",
     "FACT_PATTERN_QUALITY_KEYS",
     "FAITHFULNESS_FIELDS",

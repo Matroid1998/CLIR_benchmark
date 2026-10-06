@@ -98,6 +98,19 @@ class PromptPack:
 
     def available_languages(self, mode: str) -> tuple[str, ...]:
         """Languages with a generation prompt for ``mode``."""
+        key = prompt_registry.logical_key(self.package, (self.generation_dir, mode, "en.txt"))
+        manifest = prompt_registry.selection() if key else None
+        if manifest:
+            entries = prompt_registry.read_manifest(manifest)["prompts"]
+            languages = {parts[3] if len(parts) == 4 else "en"
+                         for entry in entries
+                         if len(parts := entry.split("/")) in (3, 4)
+                         and parts[1] == "generation"}
+            return tuple(sorted(language for language in languages
+                                if prompt_registry.manifest_key(
+                                    prompt_registry.logical_key(
+                                        self.package, (self.generation_dir, mode, f"{language}.txt")),
+                                    entries) is not None))
         try:
             parts = prompt_registry.local_parts(self.package, (self.generation_dir, mode))
             directory = resources.files(self.package).joinpath(*parts)

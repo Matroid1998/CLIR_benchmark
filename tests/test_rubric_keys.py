@@ -34,7 +34,7 @@ PACKS = {
     "un": (PromptPack("clir_bench.domains.legal.qac.prompts_un"),
            ("lookup", "practitioners", "conceptual", "semantic", "technical", "descriptive")),
     "eurlex": (PromptPack("clir_bench.domains.legal.qac.prompts_eurlex"),
-               ("lookup", "fact_pattern")),
+               ("lookup", "fact_pattern", "conceptual")),
 }
 CASES = [(p, m) for p, (_, modes) in PACKS.items() for m in modes]
 
@@ -90,7 +90,7 @@ def test_both_batch_drivers_default_to_the_same_generator() -> None:
     assert un_batch.DEFAULT_GEN_MODEL == eurlex_batch.DEFAULT_GEN_MODEL == "gpt-5.6-luna"
 
 
-LEGAL_CASES = [("eurlex", "lookup"), ("eurlex", "fact_pattern"),
+LEGAL_CASES = [("eurlex", "lookup"), ("eurlex", "fact_pattern"), ("eurlex", "conceptual"),
                ("un", "lookup"), ("un", "practitioners"), ("un", "semantic"), ("un", "conceptual")]
 
 

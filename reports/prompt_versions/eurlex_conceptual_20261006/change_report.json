@@ -1,0 +1,50 @@
+{
+  "base_bundle": "un-conceptual-rename-20261006",
+  "bundle": "eurlex-conceptual-20261006",
+  "added_persona": "eurlex/conceptual",
+  "changed_prompts": {
+    "eurlex/decider/generator": {
+      "name": "clir-legal-eurlex-decider-generator-en",
+      "version": 4
+    },
+    "eurlex/decider/jev": {
+      "name": "clir-legal-eurlex-decider-jev-en",
+      "version": 4
+    },
+    "eurlex/faithfulness": {
+      "name": "clir-legal-eurlex-faithfulness-batch-en",
+      "version": 4
+    },
+    "eurlex/generation/conceptual": {
+      "name": "clir-legal-eurlex-generation-conceptual-en",
+      "version": 1
+    },
+    "eurlex/generation/conceptual/de": {
+      "name": "clir-legal-eurlex-generation-conceptual-de",
+      "version": 1
+    },
+    "eurlex/generation/conceptual/es": {
+      "name": "clir-legal-eurlex-generation-conceptual-es",
+      "version": 1
+    },
+    "eurlex/generation/conceptual/fr": {
+      "name": "clir-legal-eurlex-generation-conceptual-fr",
+      "version": 1
+    },
+    "eurlex/generation/conceptual/zh": {
+      "name": "clir-legal-eurlex-generation-conceptual-zh",
+      "version": 1
+    },
+    "eurlex/quality/conceptual": {
+      "name": "clir-legal-eurlex-quality-conceptual-en",
+      "version": 1
+    }
+  },
+  "unchanged_prompts": 45,
+  "notes": [
+    "Five generation languages, conceptual quality verifier, both EUR-Lex deciders, and shared faithfulness language clarification.",
+    "Existing EUR-Lex lookup/fact_pattern generation and quality prompts are unchanged; all UN prompt entries are unchanged.",
+    "Historical manifests retain their original text and mode vocabulary. Existing registered legacy UN entries are preserved although some no longer have source files.",
+    "No paid generation or model quality comparison performed."
+  ]
+}

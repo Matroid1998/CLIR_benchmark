@@ -10,7 +10,8 @@ single passage. Nothing in `core/` knows about any of this.
 
     generation/lookup/{en,fr,de,es,zh}.txt
     generation/fact_pattern/{en,fr,de,es,zh}.txt
-    verifiers/{faithfulness,lookup,fact_pattern}_batch.txt
+    generation/conceptual/{en,fr,de,es,zh}.txt
+    verifiers/{faithfulness,lookup,fact_pattern,conceptual}_batch.txt
 
 The production question languages are en, fr, de, es (the batch driver's
 default): the corpus has no zh act versions, so Chinese is not generated. The
@@ -18,25 +19,38 @@ zh prompt files exist as complete translations should a cross-language run
 (question in a language the corpus lacks) ever be wanted, but no default run
 uses them.
 
-## The two modes
+## The three modes
 
-EUR-Lex generation is **`lookup` and `fact_pattern`, and nothing else**. The
-earlier `technical` / `semantic` / `descriptive` trio was retired: all three
-asked the model to write *about* an article, which produced grounded, precise
-questions that no practitioner would ever type. `descriptive` survives in the UN
-pack only (`prompts_un`), which still runs the older four.
+EUR-Lex supports `lookup`, `fact_pattern`, and `conceptual`. Retired
+`technical`, `semantic`, and `descriptive` modes remain unavailable here.
 
-Both new modes are framed from the **information need** rather than from the
-text, and both are fact-extraction modes, so both reuse the *technical* quality
-columns and `core.grading` needs no per-mode branch.
-
-| | `lookup` | `fact_pattern` |
+| Mode | Information need | Extra fields |
 |---|---|---|
-| the asker | knows the regime, wants one point of law | has a situation, not a citation |
-| what pins the question to the act | a **regime anchor** — the regulated actor, product, activity, or a term of art unique to the regime | the **particulars** of the situation, at least two of them |
-| identifiers | forbidden in `question`, required in `question_cited` | forbidden everywhere in the question |
-| typical form | "How often must a UCITS management company's compliance officer report to senior management?" | "A water utility is holding a design contest, and the jury wants to rank entries partly on criteria that were not in the contest notice. Is that allowed?" |
-| extra output fields | `question_cited`, `instrument_short_name`, `anchor` | `particulars` |
+| `lookup` | One precise legal point in a known substantive regime | `question_type`, `question_cited`, `instrument_short_name`, `anchor` |
+| `fact_pattern` | How an explicit rule applies to a concrete case | `question_type`, `particulars` |
+| `conceptual` | A stated regulatory problem, operation of a legal response, or a party's role/protection | `framing`, `anchor` |
+
+All modes declare `articles_involved`. They have separate quality rubrics;
+the runtime reads each rubric's five criteria and exports those scores.
+The conceptual rubric scores search realism, anchoring/time, consequence,
+lexical distance, and linguistic quality, alongside the shared faithfulness
+rubric. The decider compares all three without a fixed persona preference.
+
+Conceptual mirrors UN's situation/response/stakeholder framings but follows
+EUR-Lex evidence rules: supplied references may complete the target's rule,
+the target must remain necessary, and the answer is a sufficient contiguous
+span. It requires neither a hypothetical client case nor a date on every
+standing rule. It distinguishes statutory arrangements from their actual
+implementation or effectiveness and does not assume current law. Substantive
+institutional mechanisms qualify; pure boilerplate does not.
+
+The new prompts and deciders are versioned in
+`reports/prompt_versions/eurlex_conceptual_20261006/manifest.json`, built on
+the active v4-derived bundle. Old bundles retain their original two-mode
+routing vocabulary and exact text. Production source languages remain
+EN/FR/DE/ES; adding the Chinese prompt does not add a Chinese corpus.
+
+### Existing lookup and fact-pattern requirements
 
 Both prompts carry the same three defences against the failure modes a
 production run actually produced:
@@ -57,7 +71,7 @@ production run actually produced:
 
 ### Skipping
 
-Both prompts answer a boilerplate-only article with
+All three prompts answer a boilerplate-only article with
 
     [{"skip_reason": "transposition clause only"}]
 
@@ -100,7 +114,7 @@ with a `Cite as:` key of the form `CELEX:anx_<id>`, declared the same way.
 
 Why separate rather than concatenate: given one undifferentiated blob the model
 asks about whichever article reads most interestingly, which is usually not the
-one we meant. Both prompts therefore say the question is *about* the target, and
+one we meant. All three prompts therefore say the question is *about* the target, and
 add THE ONE-ARTICLE TEST — "could a reader answer this completely by reading
 ONLY the referenced article, never having seen the target? If yes, discard it".
 In a production run, *every* multi-article question generated failed that test,
@@ -161,6 +175,7 @@ The field is a JSON key and stays untranslated in every language variant.
                   "answer", "question_type", "anchor", "articles_involved"}
     fact_pattern {"question", "answer", "question_type",
                   "particulars", "articles_involved"}
+    conceptual   {"question", "answer", "framing", "anchor", "articles_involved"}
 
 `parse_candidates` reads the extra fields **per mode**, so a field belonging to
 the other mode cannot leak into a row — the two prompts are near-identical
@@ -169,14 +184,13 @@ siblings and a model that has seen both will occasionally emit the wrong one.
 established use; a model told to write null sometimes writes the *string*, so
 `_short_name` maps `None`, `"null"` and `"none"` alike to `""`.
 
-Both modes write one CSV with one schema; the columns the other mode does not
+All three modes write one CSV with one schema; the columns the other mode does not
 emit stay empty. `particulars` join on `|`, not `,`, because a particular
 routinely contains a comma ("40 tonnes placed on the Spanish market last year").
 
 ### 5. Verifiers
 
-`faithfulness_batch.txt` is shared by both modes and is unchanged by the mode
-swap:
+`faithfulness_batch.txt` is shared by all three modes:
 
 - the input description covers all four blocks (including REFERENCED ANNEXES)
   and the `Cite as` keys, and the candidates it grades carry their declared
@@ -188,9 +202,9 @@ swap:
   wrong in either direction, **cap at 1** if the substance came from an article
   never supplied.
 
-`lookup_batch.txt` and `fact_pattern_batch.txt` share the technical five
-sub-criteria and emit the same JSON keys, so `core.grading` needs no change.
-Each adds the checks its mode turns on:
+Each mode has its own five quality criteria and structured checks. The
+conceptual rubric evaluates its framing and anchor without requiring lookup
+renderings or fact-pattern particulars. The older modes retain these checks:
 
 | check | `lookup` | `fact_pattern` |
 |---|---|---|
@@ -201,7 +215,8 @@ Each adds the checks its mode turns on:
 | TERM-SUBSTITUTION — a term of art swapped for a near-synonym | | ✓ |
 | BOILERPLATE — the answer is a transposition/entry-into-force/addressee clause | ✓ | ✓ |
 
-The graders see only `question`, `answer` and `articles_involved`, so every
+The faithfulness grader sees `question`, `answer` and `articles_involved`; the
+quality grader also sees the mode metadata. Every
 check above is judged from the question text itself rather than from the
 generator's own `anchor` / `particulars` self-report.
 

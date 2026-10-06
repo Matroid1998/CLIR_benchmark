@@ -42,14 +42,11 @@ from clir_bench.domains.legal.qac.env import load_env
 
 PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_eurlex")
 
-# The two practitioner modes. Both are fact-extraction modes and share the
-# technical quality columns; they differ in how the question reaches the act.
-# ``lookup`` names the regime and carries a second, identifier-bearing rendering
-# of the same question; ``fact_pattern`` describes a situation and never cites
-# anything at all. Nothing else is generated for EUR-Lex.
+# Three retrieval needs with separate generation and quality contracts.
 MODE_LOOKUP = "lookup"
 MODE_FACT_PATTERN = "fact_pattern"
-MODES = (MODE_LOOKUP, MODE_FACT_PATTERN)
+MODE_CONCEPTUAL = "conceptual"
+MODES = (MODE_LOOKUP, MODE_FACT_PATTERN, MODE_CONCEPTUAL)
 
 # ``particulars`` are phrases that routinely contain commas ("40 tonnes placed
 # on the Spanish market last year"), so they cannot share the comma join the
@@ -92,7 +89,7 @@ def _short_name(value: Any) -> str:
 def is_skip(data: Any) -> bool:
     """True when the model declined the article, e.g. ``[{"skip_reason": ...}]``.
 
-    Both prompts answer a boilerplate-only article with a single ``skip_reason``
+    The prompts answer a boilerplate-only article with a single ``skip_reason``
     object rather than padding out three questions. That is a correct outcome,
     not a parse failure, and callers must be able to tell the two apart.
     """
@@ -115,10 +112,10 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
                      mode: str) -> list[Candidate]:
     """Validate the model's JSON, including the ``articles_involved`` field.
 
-    ``mode`` selects which of the two prompts' extra fields are read, so a field
+    ``mode`` selects which of the prompts' extra fields are read, so a field
     belonging to the other mode cannot leak into a row: ``lookup`` carries
     ``question_cited`` / ``instrument_short_name`` / ``anchor``, ``fact_pattern``
-    carries ``particulars``.
+    carries ``particulars``; ``conceptual`` carries ``framing`` and ``anchor``.
     """
     if isinstance(data, Mapping):
         data = [data]
@@ -137,7 +134,7 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
         out.append(Candidate(
             question=question,
             answer=answer,
-            classification=str(item.get("question_type", "other")).strip(),
+            classification=str(item.get("framing" if mode == MODE_CONCEPTUAL else "question_type", "other")).strip(),
             articles_involved=involved,
             involved_elis=ctx.involved_elis(involved, payload),
             rejected_involved=rejected,
@@ -152,7 +149,7 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
             instrument_short_name=(_short_name(item.get("instrument_short_name"))
                                    if mode == MODE_LOOKUP else ""),
             anchor=(str(item.get("anchor", "")).strip()
-                    if mode == MODE_LOOKUP else ""),
+                    if mode in (MODE_LOOKUP, MODE_CONCEPTUAL) else ""),
             particulars=([str(x).strip() for x in (raw_particulars or []) if str(x).strip()]
                          if mode == MODE_FACT_PATTERN else []),
         ))
@@ -187,9 +184,10 @@ def rows_for(payload: ctx.GenerationPayload, candidates: Sequence[Candidate], *,
         "mode": mode,
         "question": c.question,
         "answer": c.answer,
-        "question_type": c.classification,
+        "question_type": c.classification if mode != MODE_CONCEPTUAL else "",
+        "framing": c.classification if mode == MODE_CONCEPTUAL else "",
         # Mode-specific columns. Each is empty in the mode that does not emit it,
-        # so both modes share one schema and one CSV.
+        # so all modes share one schema and one CSV.
         "question_cited": c.question_cited,
         "instrument_short_name": c.instrument_short_name,
         "anchor": c.anchor,

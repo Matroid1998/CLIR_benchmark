@@ -168,6 +168,7 @@ def main():
               "generator": args.generator, "verifier": args.verifier, "retries": args.retries,
               "language": "en", "max_per_document": 1, "keep": 3,
               "meeting_modes": "all",
+              "modes_by_source": {source: list(decider.prompt_modes(source)) for source in counts_by_source},
               "jev_model": decider.JEV_MODEL, "prompts_sha256": digest(prompts),
               "targets_sha256": digest(entries)}
     if args.selection:

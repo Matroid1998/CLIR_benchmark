@@ -237,3 +237,12 @@ def test_historical_semantic_decisions_keep_their_recorded_label(backend):
                 "probabilities": {"lookup": 0, "practitioner": 0, "semantic": 1, "skip": 0}}}}
     result = decider.parse_decision(data, "un", backend)
     assert result["mode"] == result["generation_mode"] == "semantic"
+
+
+def test_historical_eurlex_probability_vocabulary_remains_supported():
+    data = {"answers": {"mode": {"type": "choice", "choice": "lookup",
+            "probabilities": {"fact_pattern": 0.1, "lookup": 0.8, "skip": 0.1}}}}
+    assert decider.parse_decision(data, "eurlex", "jev")["mode"] == "lookup"
+    data["answers"]["mode"]["choice"] = "conceptual"
+    with pytest.raises(ValueError, match="absent from its probabilities"):
+        decider.parse_decision(data, "eurlex", "jev")

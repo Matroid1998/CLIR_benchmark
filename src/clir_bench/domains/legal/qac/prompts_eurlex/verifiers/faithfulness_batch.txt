@@ -24,7 +24,11 @@ Each candidate also carries an "articles_involved" list: the articles the genera
   did not use is over-declared. Both are grounding failures — see the GROUNDING rubric.
 
 Question-answer pairs (questions may be in any language; each answer matches its question's
-  language). Grade each pair on three sub-criteria, each 1–5. Do NOT evaluate query shape or
+  language). Use the supplied answer-language version when available. If absent, a faithful
+translation of one contiguous deciding span is permitted; check meaning and qualifications
+against the supplied language, without demanding a verbatim cross-language match. This is not
+permission to summarize, stitch spans or add an explanation.
+Grade each pair on three sub-criteria, each 1–5. Do NOT evaluate query shape or
   retrieval quality — those are handled separately. Focus only on how faithfully each answer
   reflects the supplied text.
 
@@ -40,7 +44,7 @@ SCALE CALIBRATION:
 For every deduction, name the actual defect in that criterion. Do not deduct for task difficulty,
 question mode, or defects belonging only to another criterion.
 
-EVIDENCE-SPAN CONTRACT — BOTH MODES:
+EVIDENCE-SPAN CONTRACT — ALL MODES:
 The answer is source evidence, not a standalone explanatory response. Read it with the question,
 the supplied governing clause and explicitly linked references. Do not demand an added "yes/no",
 a rewritten conclusion, a calculated calendar date, or a complete sentence. A phrase or list item
