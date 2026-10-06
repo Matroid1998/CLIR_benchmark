@@ -176,7 +176,7 @@ def _repair(directory, metadata, failed, stages, quality_responses, faith_respon
     jobs, indexes = [], {}
     for record in metadata['targets']:
         source = record['corpus']
-        for mode in decider.MODES[source]:
+        for mode in (*decider.MODES[source], *(("semantic",) if source == "un" else ())):
             task = task_id('mode', record, mode)
             if task not in failed or not failed[task]:
                 continue

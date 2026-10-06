@@ -64,7 +64,7 @@ def case(corpus):
         ]
         return eb, eg, target, payload, candidates
     target = ub.Target("1994/s/res/example", "1994/s/res/example#0", 0, 1,
-                       "resolution", "semantic", "en")
+                       "resolution", "conceptual", "en")
     block = uc.BlockUnit(
         block_id=target.block_id, doc_id=target.doc_id, symbol="S/RES/1(1994)",
         title="Exampleland mission", block_index=0, n_blocks=1, line_start=0, line_end=1,

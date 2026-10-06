@@ -147,3 +147,35 @@ def test_has_probe_reports_absence_but_does_not_mask_corrupt_manifest(client, tm
     monkeypatch.setenv("CLIR_PROMPT_MANIFEST", str(broken))
     with pytest.raises(ValueError, match="unsupported prompt manifest"):
         pack.has("verifiers", "lookup_batch.txt")
+
+
+def test_conceptual_alias_preserves_exact_historical_snapshots(client, tmp_path, monkeypatch):
+    pack = PromptPack(registry.PREFIX + "un")
+    for mode in ("semantic", "conceptual"):
+        manifest = client.publish({f"un/generation/{mode}": f"Exact {mode} generation",
+                                   f"un/quality/{mode}": f"Exact {mode} rubric"},
+                                  bundle=mode, label=mode)
+        path = tmp_path / f"{mode}.json"
+        registry.write_manifest(path, manifest)
+        original = path.read_bytes()
+        monkeypatch.setenv("CLIR_PROMPT_MANIFEST", str(path))
+        for alias in ("semantic", "conceptual"):
+            assert pack.generation(alias, "en") == f"Exact {mode} generation"
+            assert pack.quality(alias) == f"Exact {mode} rubric"
+            assert pack.has("verifiers", f"{alias}_batch.txt")
+        assert path.read_bytes() == original
+
+
+def test_local_conceptual_alias_and_language_inventory(monkeypatch):
+    monkeypatch.setenv("CLIR_PROMPT_SOURCE", "local")
+    pack = PromptPack(registry.PREFIX + "un")
+    assert pack.available_languages("conceptual") == ("de", "en", "es", "fr", "zh")
+    assert pack.available_languages("semantic") == pack.available_languages("conceptual")
+    for language in pack.available_languages("conceptual"):
+        assert pack.generation("conceptual", language) == pack.generation("semantic", language)
+    assert pack.quality("conceptual") == pack.quality("semantic")
+    assert "UN conceptual" in pack.generation("conceptual", "en")
+    # Other domains retain their own mode names and resources.
+    chemistry = "clir_bench.domains.chemistry.qac.prompts"
+    assert registry.local_parts(chemistry, ("generation", "semantic", "en.txt")) == (
+        "generation", "semantic", "en.txt")

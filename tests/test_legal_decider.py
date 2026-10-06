@@ -54,7 +54,7 @@ def test_invalid_jev_decisions_are_rejected(field, value):
 
 @pytest.mark.parametrize("symbol", ["S/PV.1234", "A/C.3/50/SR.3", "s/pv.1234"])
 @pytest.mark.parametrize("backend", ["generator", "jev"])
-@pytest.mark.parametrize("mode", ["lookup", "practitioner", "semantic", "skip"])
+@pytest.mark.parametrize("mode", ["lookup", "practitioner", "conceptual", "skip"])
 def test_un_meeting_records_can_route_to_every_mode(symbol, backend, mode):
     data = (jev_response("un", mode) if backend == "jev" else
             {"mode": mode, "reason": "Supported by the target"})
@@ -64,7 +64,7 @@ def test_un_meeting_records_can_route_to_every_mode(symbol, backend, mode):
 def test_jev_http_transport_uses_decisions_endpoint(monkeypatch):
     import requests
     calls = []
-    expected = jev_response("un", "semantic")
+    expected = jev_response("un", "conceptual")
 
     class Response:
         def __enter__(self):
@@ -191,7 +191,7 @@ def test_jev_retry_resume_and_trace(tmp_path, monkeypatch):
 
     def native(request):
         calls.append(request)
-        return {"answers": {}} if len(calls) == 1 else jev_response("un", "semantic")
+        return {"answers": {}} if len(calls) == 1 else jev_response("un", "conceptual")
 
     monkeypatch.setattr(llm, "decisions", native)
     with RunState(tmp_path / "run.sqlite") as state:
@@ -227,3 +227,13 @@ def test_failed_decider_attempt_budget_survives_resume(tmp_path, monkeypatch):
 def test_decider_rejects_conflicting_mode_controls(tmp_path, extra):
     with pytest.raises(ValueError, match="cannot be combined"):
         qac._options(SimpleNamespace(decider_model="jev", **extra), _context(tmp_path, "legal"))
+
+
+@pytest.mark.parametrize("backend", ["generator", "jev"])
+def test_historical_semantic_decisions_keep_their_recorded_label(backend):
+    data = {"mode": "semantic", "reason": "Historical decision"}
+    if backend == "jev":
+        data = {"answers": {"mode": {"type": "choice", "choice": "semantic",
+                "probabilities": {"lookup": 0, "practitioner": 0, "semantic": 1, "skip": 0}}}}
+    result = decider.parse_decision(data, "un", backend)
+    assert result["mode"] == result["generation_mode"] == "semantic"

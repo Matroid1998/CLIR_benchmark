@@ -11,7 +11,7 @@ from clir_bench.core.prompts import load_prompt
 JEV_MODEL = "~typesafe/jev-latest"
 MODES = {
     "eurlex": ("fact_pattern", "lookup"),
-    "un": ("lookup", "practitioner", "semantic"),
+    "un": ("lookup", "practitioner", "conceptual"),
 }
 
 
@@ -20,6 +20,15 @@ def prompt_text(source: str, backend: str) -> str:
         raise ValueError(f"unsupported decider: {source}/{backend}")
     name = "jev.json" if backend == "jev" else "generator.txt"
     return load_prompt(f"clir_bench.domains.legal.qac.prompts_{source}", "decider", name)
+
+
+def prompt_modes(source: str) -> tuple[str, ...]:
+    """Use the pinned bundle's mode vocabulary when replaying older prompts."""
+    if source == "un":
+        criteria = json.loads(prompt_text(source, "jev"))["questions"]["mode"]["criteria"]
+        if "semantic" in criteria and "conceptual" not in criteria:
+            return ("lookup", "practitioner", "semantic")
+    return MODES[source]
 
 
 def generation_mode(mode: str) -> str:
@@ -58,7 +67,9 @@ def parse_decision(data, source: str, backend: str, *, symbol: str = "") -> dict
         if confidence is not None:
             _probability(confidence)
         if probabilities is not None:
-            if not isinstance(probabilities, dict) or set(probabilities) != allowed:
+            if (not isinstance(probabilities, dict) or
+                    set(probabilities) not in (allowed, allowed - {"conceptual"} | {"semantic"}
+                                              if source == "un" else allowed)):
                 raise ValueError("Jev probabilities must cover exactly the allowed modes")
             values = [_probability(value) for value in probabilities.values()]
             if not math.isclose(sum(values), 1.0, abs_tol=0.02):
@@ -69,7 +80,7 @@ def parse_decision(data, source: str, backend: str, *, symbol: str = "") -> dict
             raise ValueError("decider must provide a nonempty reason")
         reason = reason.strip()
         confidence = probabilities = None
-    if not isinstance(mode, str) or mode not in allowed:
+    if not isinstance(mode, str) or mode not in (allowed | ({"semantic"} if source == "un" else set())):
         raise ValueError(f"unsupported {source} decider mode: {mode!r}")
     return {"mode": mode, "generation_mode": generation_mode(mode), "reason": reason,
             "confidence": confidence, "probabilities": probabilities}

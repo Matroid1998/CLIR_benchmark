@@ -46,7 +46,7 @@ def mode_summary(record, mode, outcome, *, meeting_modes='all'):
     return {'corpus': record['corpus'], 'target_id': record['target_id'],
             'document_id': record['document_id'], 'symbol': record['symbol'],
             'is_meeting': record['is_meeting'], 'stratum': record['stratum'], 'mode': mode,
-            'eligible': meeting_modes == 'all' or not record['is_meeting'] or mode == 'semantic',
+            'eligible': meeting_modes == 'all' or not record['is_meeting'] or mode in ('semantic', 'conceptual'),
             'status': outcome['status'] if outcome else 'pending',
             'error': outcome.get('error') or '' if outcome else '',
             'candidate_count': len(candidates), 'graded_count': len(graded),
@@ -131,6 +131,9 @@ def analyze(directory):
                     repaired.append(task)
             requests.extend((stage + '_repair', json.loads(record)) for stage, record in db.execute(
                 'SELECT stage,record FROM requests'))
+    run_modes = dict(decider.MODES)
+    if any(task.startswith('mode/un/') and task.endswith('/semantic') for task in outcomes):
+        run_modes['un'] = ('lookup', 'practitioner', 'semantic')
     entries = metadata['targets']
     write_csv(directory / 'documents.csv', [{k: v for k, v in e.items() if k != 'target'}
                                             for e in entries])
@@ -152,7 +155,7 @@ def analyze(directory):
     for entry in entries:
         rows = [mode_summary(entry, mode, outcomes.get(task_id('mode', entry, mode)),
                             meeting_modes=metadata['config'].get('meeting_modes', 'semantic_only'))
-                for mode in decider.MODES[entry['corpus']]]
+                for mode in run_modes[entry['corpus']]]
         for row in rows:
             row['generation_skip_reason'] = skip_reasons.get(task_id('mode', entry, row['mode']), '')
         modes.extend(rows)
@@ -176,7 +179,7 @@ def analyze(directory):
         ids = {r['target_id'] for r in records}
         for backend in ('generator', 'jev'):
             counts = Counter(r[f'{backend}_mode'] or 'error' for r in records)
-            for mode in (*decider.MODES[source], 'skip', 'error'):
+            for mode in (*run_modes[source], 'skip', 'error'):
                 distributions.append({'subset': subset, 'backend': backend, 'mode': mode,
                     'count': counts[mode], 'n': len(records),
                     'percent': 100 * counts[mode] / len(records) if records else 0})
@@ -209,7 +212,7 @@ def analyze(directory):
             'jev_better_utility': sum(d < 0 for d in delta), 'utility_ties': sum(d == 0 for d in delta),
             'mean_paired_utility_difference_generator_minus_jev': avg(delta),
             'bootstrap_95_interval': paired_ci(delta)})
-        for mode in decider.MODES[source]:
+        for mode in run_modes[source]:
             rows = [r for r in modes if r['corpus'] == source and r['target_id'] in ids and r['mode'] == mode]
             eligible = [r for r in rows if r['eligible']]
             completed = [r for r in eligible if r['status'] in ('completed', 'no_candidates')]
@@ -332,7 +335,7 @@ def report(directory, summary, comparisons):
         'both deciders and every generation mode. Each mode gets one generation batch (up to three '
         'candidates), followed by the existing faithfulness and mode-specific quality verifiers. '
         'Generation does not see either decider’s answer.'),
-        ('“All modes” means the modes offered to the decider: lookup/practitioner/semantic for UN '
+        ('“All modes” means the modes offered to the decider: lookup/practitioner/conceptual (formerly semantic) for UN '
         'and fact_pattern/lookup for EUR-Lex. Legacy technical/descriptive modes are outside this comparison. '
         + ('All three modes are eligible on UN meeting records, as on other UN documents.'
            if cfg.get('meeting_modes') == 'all' else
@@ -385,7 +388,7 @@ def report(directory, summary, comparisons):
         '## Disagreements for manual review',
         table([r for r in comparisons if r['deciders_agree'] is False],
               ['symbol', 'target_id', 'generator_mode', 'jev_mode', 'oracle_modes',
-               'lookup_score', 'practitioner_score', 'semantic_score']),
+               'lookup_score', 'practitioner_score', 'conceptual_score', 'semantic_score']),
         '## Recorded usage',
         table(summary['usage'], ['stage', 'model', 'calls', 'provider_errors', 'prompt_tokens',
              'completion_tokens', 'reported_cost', 'calls_missing_cost']),

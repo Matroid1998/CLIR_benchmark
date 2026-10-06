@@ -294,7 +294,7 @@ def _prepare(selections, indexes, options, operation):
         modes = [target.mode]
         if automatic:
             from . import decider
-            modes = [decider.generation_mode(mode) for mode in decider.MODES[source]]
+            modes = [decider.generation_mode(mode) for mode in decider.prompt_modes(source)]
             prompts[f"{source}/decider"] = decider.prompt_text(source, options["decider_model"])
         for mode in modes:
             prompts[f"{source}/quality/{mode}"] = pack.quality(mode, "batch")

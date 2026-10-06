@@ -16,7 +16,8 @@ from clir_bench.domains.legal.qac.batch_recording import RunState, export_traces
 from clir_bench.domains.legal.qac.env import load_env
 
 KEY = 'un/decider/jev'
-CHOICES = ('lookup', 'practitioner', 'semantic', 'skip')
+CHOICES = ('lookup', 'practitioner', 'conceptual', 'skip')
+LEGACY_CHOICES = ('lookup', 'practitioner', 'semantic', 'skip')
 CROSSES = {'b_instructions_c_criteria': ('B', 'C'),
            'c_instructions_b_criteria': ('C', 'B')}
 
@@ -29,7 +30,7 @@ def crossed_template(base, criteria_source):
     """Change exactly one JSON property, preserving all other values and order."""
     result = copy.deepcopy(base)
     left, right = base['questions']['mode'], criteria_source['questions']['mode']
-    if list(left['criteria']) != list(right['criteria']) or list(left['criteria']) != list(CHOICES):
+    if list(left['criteria']) != list(right['criteria']) or tuple(left['criteria']) not in (CHOICES, LEGACY_CHOICES):
         raise ValueError('The UN criterion names and order must match')
     for template in (base, criteria_source):
         if template['questions']['mode']['type'] != 'choice':
@@ -112,8 +113,9 @@ def prepare_sources(base_dir):
 
 def summarize(decisions):
     values = list(decisions.values())
-    return {'n': len(values), 'mode_counts': {mode: sum(v['mode'] == mode for v in values) for mode in CHOICES},
-            'mean_probabilities': {mode: mean(v['probabilities'][mode] for v in values) for mode in CHOICES},
+    choices = tuple(values[0]["probabilities"]) if values else CHOICES
+    return {'n': len(values), 'mode_counts': {mode: sum(v['mode'] == mode for v in values) for mode in choices},
+            'mean_probabilities': {mode: mean(v['probabilities'][mode] for v in values) for mode in choices},
             'resolved_backends': dict(Counter(v['resolved_backend'] for v in values))}
 
 
@@ -132,11 +134,12 @@ def comparison(left, right):
 def write_report(base_dir, runs, ids, expected_backend, crossed=None):
     decisions = {label: run['decisions'] for label, run in runs.items()}
     decisions.update({label: run['decisions'] for label, run in (crossed or {}).items()})
+    choices = tuple(next(iter(runs.values()))['template']['questions']['mode']['criteria'])
     report = {
         'schema_version': 1, 'source': 'UN', 'target_count': 50,
         'requested_model': decider.JEV_MODEL, 'resolved_backend': expected_backend,
         'validation': {'all_states_byte_identical': True, 'all_recorded_requests_match_saved_templates': True,
-                       'choice_order': list(CHOICES), 'no_local_criterion_weighting_or_choice_remapping': True},
+                       'choice_order': list(choices), 'no_local_criterion_weighting_or_choice_remapping': True},
         'original_prompts': {label: {'run_directory': run['directory'],
                                     'template_sha256': prompt_registry.sha256(run['text']),
                                     'instruction_structure': list(run['template']['questions']['mode']['instructions']),
@@ -144,7 +147,7 @@ def write_report(base_dir, runs, ids, expected_backend, crossed=None):
                                     'criteria': run['template']['questions']['mode']['criteria']}
                              for label, run in runs.items()},
         'changed_clauses': {mode: {label: run['template']['questions']['mode']['criteria'][mode]
-                                  for label, run in runs.items()} for mode in CHOICES},
+                                  for label, run in runs.items()} for mode in choices},
         'structural_change': 'B separates task, input_structure and selection. C folds instructions into one task string and shortens option criteria.',
         'interpretation_caveat': 'B/C change structure and wording together. Crossed variants isolate the instructions object from the criteria object, not individual words or internal backend weighting. These are routing results, not evidence that any mode generates better questions. One run per cell cannot establish repeat-run variability. No mode quota is a success criterion.',
         'summaries': {label: summarize(rows) for label, rows in decisions.items()},

@@ -5,7 +5,7 @@
     "mode": {
       "type": "choice",
       "instructions": {
-        "task": "Select lookup, practitioner, semantic or skip for the strongest naturally supported UN information need; do not generate questions or answers.",
+        "task": "Select lookup, practitioner, conceptual or skip for the strongest naturally supported UN information need; do not generate questions or answers.",
         "input_structure": {
           "### TARGET BLOCK": "Only source of answer substance.",
           "### REFERENCED DOCUMENTS": "Interpretation and reference resolution only.",
@@ -14,7 +14,7 @@
         "selection": [
           "Assess the strongest plausible question each mode could support before selecting. Judge faithful usefulness and natural fit, not expected verifier scores, mode order or desired frequencies. Do not generate those questions in the output.",
           "Lookup and practitioner often fit the same facts. Choose lookup when identifying a particular source is naturally part of the need; choose practitioner when the regime/situation and time identify the need naturally without that locator. An available symbol does not make lookup preferable.",
-          "Choose semantic when the evidence supports a bounded conceptual relationship or assessment. Conceptual phrasing is not inherently better than a precise fact, and the words how/why are not evidence of a conceptual answer.",
+          "Choose conceptual when the evidence supports a bounded conceptual relationship or assessment. Conceptual phrasing is not inherently better than a precise fact, and the words how/why are not evidence of a conceptual answer.",
           "All document types, including PV/SR meeting records, support all modes. Preserve requests, recommendations, proposals and attributed findings as such; do not confuse their status with low quality. A useful attributed specialist question need not state binding law.",
           "Require adequate substantive identification and relevant absolute time for every mode, not an arbitrary anchor count. Recurring content can be informative for an identified regime and period. Do not invent unseen duplicates, require yearly novelty, or treat an incidental ceremonial verb as disqualifying useful content.",
           "Answer substance must be in the target. Supporting sections resolve context, not missing answers. One good question is sufficient; assess substance in mixed blocks and skip only when every mode lacks it."
@@ -23,7 +23,7 @@
       "criteria": {
         "lookup": "The searcher knows a particular source and wants one precise fact using that source as a locator. The base question describes the source; a second rendering swaps in its identifier. The subject, attribution and relevant time must remain clear.",
         "practitioner": "The specialist knows the regime or operational situation and needs a precise norm, condition, task, proposal, procedure or reported fact without using the target document as a locator. Preserve requests/proposals as such and attribute claims. One distinctive composite anchor and relevant time may identify the need; do not require two anchors or binding law.",
-        "semantic": "The searcher knows the situation but not the source or exact vocabulary and needs a conceptual account of a problem, response, rationale or affected party. Connected facts may answer one intent. Retain necessary terms, attribution, substantive context and relevant time. Do not repackage an isolated datum as a vague conceptual question.",
+        "conceptual": "The searcher knows the situation but not the source or exact vocabulary and needs a conceptual account of a problem, response, rationale or affected party. Connected facts may answer one intent. Retain necessary terms, attribution, substantive context and relevant time. Do not repackage an isolated datum as a vague conceptual question.",
         "skip": "No mode supports a specific, informative question fully answered in the target. Pure ceremony, generic appeals or missing essential substance can warrant skip. Document type, non-binding status, recurring wording or difficulty choosing between useful modes do not by themselves warrant skip."
       }
     }

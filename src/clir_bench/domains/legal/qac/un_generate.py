@@ -30,7 +30,9 @@ from clir_bench.domains.legal.un import paths as un_paths
 PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_un")
 
 MODE_TECHNICAL = "technical"
-MODE_SEMANTIC = "semantic"
+MODE_SEMANTIC = "semantic"  # Legacy saved runs.
+MODE_CONCEPTUAL = "conceptual"
+CONCEPTUAL_MODES = (MODE_CONCEPTUAL, MODE_SEMANTIC)
 MODE_DESCRIPTIVE = "descriptive"
 MODE_LOOKUP = "lookup"
 MODE_PRACTITIONERS = "practitioners"
@@ -44,7 +46,7 @@ ANCHOR_SEP = " | "
 class Candidate:
     question: str
     answer: str
-    classification: str     # question_type (technical) or framing (semantic)
+    classification: str     # question_type (technical) or framing (conceptual)
     # ``lookup`` only: the same question with the instrument's official
     # identifier swapped in for the description, plus the subject anchor.
     question_cited: str = ""
@@ -83,7 +85,7 @@ def parse_candidates(data: Any, mode: str) -> list[Candidate]:
     """
     if isinstance(data, Mapping):
         data = [data]
-    key = "framing" if mode == MODE_SEMANTIC else "question_type"
+    key = "framing" if mode in CONCEPTUAL_MODES else "question_type"
     out: list[Candidate] = []
     for item in list(data or []):
         if not isinstance(item, Mapping):
@@ -101,10 +103,10 @@ def parse_candidates(data: Any, mode: str) -> list[Candidate]:
             classification=str(item.get(key, "other")).strip(),
             question_cited=(str(item.get("question_cited", "")).strip()
                             if mode == MODE_LOOKUP else ""),
-            # ``lookup`` and ``semantic`` both carry a single ``anchor``;
+            # ``lookup`` and ``conceptual`` both carry a single ``anchor``;
             # ``practitioners`` carries the ``anchors`` list instead.
             anchor=(str(item.get("anchor", "")).strip()
-                    if mode in (MODE_LOOKUP, MODE_SEMANTIC) else ""),
+                    if mode in (MODE_LOOKUP, *CONCEPTUAL_MODES) else ""),
             anchors=([str(x).strip() for x in (raw_anchors or []) if str(x).strip()]
                      if mode == MODE_PRACTITIONERS else []),
         ))
@@ -142,7 +144,7 @@ def rows_for(payload: ctx.GenerationPayload, candidates: list[Candidate], *,
         "mode": mode,
         "question": c.question,
         "answer": c.answer,
-        ("framing" if mode == MODE_SEMANTIC else "question_type"): c.classification,
+        ("framing" if mode in CONCEPTUAL_MODES else "question_type"): c.classification,
         "references_supplied": ",".join(r.symbol for r in payload.references),
         "references_dropped": ",".join(payload.dropped_references),
         "context_blocks_supplied": len(payload.context_blocks),
@@ -168,7 +170,7 @@ def main() -> None:
     parser.add_argument("--doc", required=True, help="document id (`.ids` first token)")
     parser.add_argument("--block", type=int, required=True, help="target block index (0-based)")
     parser.add_argument("--mode", default=MODE_TECHNICAL,
-                        choices=[MODE_TECHNICAL, MODE_SEMANTIC, MODE_DESCRIPTIVE])
+                        choices=[MODE_TECHNICAL, *CONCEPTUAL_MODES, MODE_DESCRIPTIVE])
     parser.add_argument("--language", default="en")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
     parser.add_argument("--blocks", default=None, help="override blocks_en.jsonl path")

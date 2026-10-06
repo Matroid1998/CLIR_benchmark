@@ -16,8 +16,8 @@ Loaded with `PromptPack("clir_bench.domains.legal.qac.prompts_un")`. Nothing in
 
     generation/technical/{en,de,fr,es,zh}.txt
     generation/descriptive/{en,de,fr,es,zh}.txt
-    generation/semantic/{en,de,fr,es,zh}.txt
-    verifiers/{faithfulness,technical,descriptive,semantic}_batch.txt
+    generation/conceptual/{en,de,fr,es,zh}.txt
+    verifiers/{faithfulness,technical,descriptive,conceptual}_batch.txt
 
 Each language file is a full-file translation with the same convention as
 `prompts_eurlex`: the literal markers, JSON keys, and enum values stay in
@@ -91,7 +91,7 @@ remain auditable in the all-candidates file).
 
 There is consequently no `documents_involved` field. Output is
 `{question, answer, question_type}` (technical) or `{question, answer, framing}`
-(semantic).
+(conceptual).
 
 ### 1b. Two technical flavours: `technical` and `descriptive`
 
@@ -100,7 +100,7 @@ There is consequently no `documents_involved` field. Output is
 the instrument to be named by **organ + year + subject** ("the 1994 Security
 Council resolution expanding the UN mission in Rwanda"). An identifier is a
 language-invariant string that a retriever can match without any cross-lingual
-or semantic work; describing the instrument turns a lookup into a real retrieval
+or conceptual work; describing the instrument turns a lookup into a real retrieval
 problem — which is what the referenced documents make possible. Both are
 fact-extraction modes: same eight categories, same `question_type` field, same
 quality columns (`quality_keys('descriptive')` returns the technical keys). Only
@@ -116,10 +116,10 @@ carry a dedicated NAMING FOR RETRIEVABILITY section ("the most important rule
 of this task"): every question must name the situation, country, mission, body,
 or instrument; never "this resolution" / "the present report" / a bare
 paragraph number. Technical mode may use identifiers from the metadata
-(`resolution 918 (1994)`); semantic mode must anchor with proper nouns and
+(`resolution 918 (1994)`); conceptual mode must anchor with proper nouns and
 subject matter instead (identifiers are an identifier-leak there). The quality
 verifiers back this with an ANCHOR CHECK (`no-anchor`, specificity ≤ 2) and the
-semantic BOILERPLATE CHECK.
+conceptual BOILERPLATE CHECK.
 
 ### 3. Two genre rules EU legislation never needed
 
@@ -157,3 +157,8 @@ are replaced by the context-leak cap; new failure_types: `off-target-context`,
 `no-anchor`, `missing-attribution`. The unresolved-citation check survives
 unchanged in spirit: UN texts cite other resolutions constantly and nothing
 resolves them.
+
+The `conceptual` mode was previously named `semantic`. Older mode names and pinned
+MLflow manifests remain readable. The rename bundle is saved at
+`reports/prompt_versions/un_conceptual_rename_20261006/manifest.json`, based on v4.
+The question contract and grading criteria are unchanged by this rename.

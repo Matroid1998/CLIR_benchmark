@@ -32,7 +32,7 @@ from clir_bench.domains.legal.qac import eurlex_batch, un_batch
 
 PACKS = {
     "un": (PromptPack("clir_bench.domains.legal.qac.prompts_un"),
-           ("lookup", "practitioners", "semantic", "technical", "descriptive")),
+           ("lookup", "practitioners", "conceptual", "semantic", "technical", "descriptive")),
     "eurlex": (PromptPack("clir_bench.domains.legal.qac.prompts_eurlex"),
                ("lookup", "fact_pattern")),
 }
@@ -91,7 +91,7 @@ def test_both_batch_drivers_default_to_the_same_generator() -> None:
 
 
 LEGAL_CASES = [("eurlex", "lookup"), ("eurlex", "fact_pattern"),
-               ("un", "lookup"), ("un", "practitioners"), ("un", "semantic")]
+               ("un", "lookup"), ("un", "practitioners"), ("un", "semantic"), ("un", "conceptual")]
 
 
 def _compact_example(pack="eurlex", mode="lookup", count=1):

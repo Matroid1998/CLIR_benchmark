@@ -26,7 +26,7 @@ def load_prompt(package: str, *parts: str) -> str:
     manifest = prompt_registry.selection() if key else None
     if manifest:
         return prompt_registry.resolve_prompt(key, manifest)
-    return _load_local_prompt(package, *parts)
+    return _load_local_prompt(package, *prompt_registry.local_parts(package, parts))
 
 
 @cache
@@ -89,7 +89,7 @@ class PromptPack:
         if manifest:
             # An existence probe may return False without loading a local substitute.
             # Validate first: a corrupt bundle must not masquerade as a missing file.
-            return key in prompt_registry.read_manifest(manifest)["prompts"]
+            return prompt_registry.manifest_key(key, prompt_registry.read_manifest(manifest)["prompts"]) is not None
         try:
             load_prompt(self.package, *parts)
         except (FileNotFoundError, ModuleNotFoundError):
@@ -99,7 +99,8 @@ class PromptPack:
     def available_languages(self, mode: str) -> tuple[str, ...]:
         """Languages with a generation prompt for ``mode``."""
         try:
-            directory = resources.files(self.package).joinpath(self.generation_dir, mode)
+            parts = prompt_registry.local_parts(self.package, (self.generation_dir, mode))
+            directory = resources.files(self.package).joinpath(*parts)
             return tuple(
                 sorted(
                     entry.name[:-4]

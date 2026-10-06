@@ -31,6 +31,7 @@ from clir_bench.core.llm import (
 
 MODE_TECHNICAL = "technical"
 MODE_SEMANTIC = "semantic"
+MODE_CONCEPTUAL = "conceptual"
 # A fact-extraction mode like technical -- same categories, same quality
 # columns -- differing only in that the QUESTION must describe an instrument
 # rather than cite it. It therefore shares the technical quality rubric.
@@ -116,11 +117,13 @@ FACT_PATTERN_QUALITY_KEYS = (
 # the technical five, which is what ``descriptive`` and the chemistry flows want.
 _QUALITY_KEYS_BY_MODE = {
     MODE_SEMANTIC: SEMANTIC_QUALITY_KEYS,
+    MODE_CONCEPTUAL: SEMANTIC_QUALITY_KEYS,
     MODE_LOOKUP: LOOKUP_QUALITY_KEYS,
     MODE_FACT_PATTERN: FACT_PATTERN_QUALITY_KEYS,
 }
 _QUALITY_FIELDS_BY_MODE = {
     MODE_SEMANTIC: SEMANTIC_QUALITY_FIELDS,
+    MODE_CONCEPTUAL: SEMANTIC_QUALITY_FIELDS,
     MODE_LOOKUP: LOOKUP_QUALITY_FIELDS,
     MODE_FACT_PATTERN: FACT_PATTERN_QUALITY_FIELDS,
 }
@@ -520,7 +523,7 @@ def _normalize_legal_quality(data: Any, prompt: str, envelope: Mapping[str, Any]
         if item["suggested_repair"] is not None:
             _string(item["suggested_repair"], "suggested_repair")
         if item["suggested_mode"] is not None:
-            _enum(item["suggested_mode"], ("eurlex_fact_pattern", "eurlex_lookup", "un_lookup", "un_practitioner", "un_semantic", "other_persona"), "suggested_mode")
+            _enum(item["suggested_mode"], ("eurlex_fact_pattern", "eurlex_lookup", "un_lookup", "un_practitioner", "un_semantic", "un_conceptual", "other_persona"), "suggested_mode")
         if not isinstance(item["evidence"], list):
             raise ValueError("Evidence must be an array")  # noqa: TRY004 -- invalid verifier JSON
         if version == "legal-qg-v3.0" and len(item["evidence"]) > 10:

@@ -112,7 +112,7 @@ def export(state, directory, entries):
             if result:
                 decisions.append(meta | {"backend": backend, "status": result["status"],
                     "error": result["error"] or ""} | (result["rows"][0] if result["rows"] else {}))
-        for mode in decider.MODES[record["corpus"]]:
+        for mode in (*decider.MODES[record["corpus"]], *(("semantic",) if record["corpus"] == "un" else ())):
             result = outcomes.get(task_id("mode", record, mode))
             if result:
                 candidates.extend(result["rows"])
@@ -159,7 +159,7 @@ def main():
         for backend in ("generator", "jev"):
             prompts[f"{source}/decider/{backend}"] = decider.prompt_text(source, backend)
         prompts[f"{source}/faithfulness"] = pack.faithfulness("batch")
-        for mode in decider.MODES[source]:
+        for mode in decider.prompt_modes(source):
             for role in ("generation", "quality"):
                 prompts[f"{source}/{role}/{mode}"] = (pack.generation(decider.generation_mode(mode), "en")
                     if role == "generation" else pack.quality(decider.generation_mode(mode), "batch"))
@@ -249,7 +249,7 @@ def main():
             raise RuntimeError("Endpoint preflight failed; inspect run.sqlite/trace.md before scaling")
         completed.update(task for task, _ in smoke_results)
         jobs = [("decider", entry, backend) for entry in entries for backend in ("generator", "jev")]
-        jobs += [("mode", entry, mode) for entry in entries for mode in decider.MODES[entry["corpus"]]]
+        jobs += [("mode", entry, mode) for entry in entries for mode in decider.prompt_modes(entry["corpus"])]
         jobs = [job for job in jobs if task_id(*job) not in completed]
         counts = Counter()
         executor = ThreadPoolExecutor(max_workers=args.workers)

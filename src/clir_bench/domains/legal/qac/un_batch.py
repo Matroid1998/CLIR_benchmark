@@ -79,8 +79,8 @@ MIN_GROUNDING_FOR_BEST = 3
 # whole text of every referenced document stays inside the context budget --
 # then nothing the model sees is ever truncated or windowed.
 FIT_BUDGET = ctx.DEFAULT_CONTEXT_CHARS
-DEFAULT_MODES = (gen.MODE_TECHNICAL, gen.MODE_SEMANTIC, gen.MODE_DESCRIPTIVE)
-SUPPORTED_MODES = (*DEFAULT_MODES, gen.MODE_LOOKUP, gen.MODE_PRACTITIONERS)
+DEFAULT_MODES = (gen.MODE_TECHNICAL, gen.MODE_CONCEPTUAL, gen.MODE_DESCRIPTIVE)
+SUPPORTED_MODES = (*DEFAULT_MODES, gen.MODE_SEMANTIC, gen.MODE_LOOKUP, gen.MODE_PRACTITIONERS)
 
 
 def genre_for(doc_id: str, title: str) -> str | None:
@@ -390,7 +390,7 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
     else:
         candidates = [gen.Candidate(
             question=row["question"], answer=row["answer"],
-            classification=row.get("framing" if target.mode == gen.MODE_SEMANTIC else "question_type", ""),
+            classification=row.get("framing" if target.mode in gen.CONCEPTUAL_MODES else "question_type", ""),
             question_cited=row.get("question_cited", ""), anchor=row.get("anchor", ""),
             anchors=[value for value in row.get("anchors", "").split(gen.ANCHOR_SEP) if value],
         ) for row in existing_candidates]
@@ -413,8 +413,8 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             ("question_cited", c.question_cited),
             ("anchor", c.anchor),
             ("anchors", list(c.anchors)),
-            # semantic declares ``framing``; the other modes ``question_type``.
-            ("framing" if target.mode == gen.MODE_SEMANTIC else "question_type",
+            # conceptual declares ``framing``; the other modes ``question_type``.
+            ("framing" if target.mode in gen.CONCEPTUAL_MODES else "question_type",
              c.classification),
         )})
         for pair, c in zip(qa, candidates)
@@ -475,8 +475,8 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             "mode": target.mode,
             "question": candidate.question,
             "answer": candidate.answer,
-            "question_type": candidate.classification if target.mode != "semantic" else "",
-            "framing": candidate.classification if target.mode == "semantic" else "",
+            "question_type": candidate.classification if target.mode not in gen.CONCEPTUAL_MODES else "",
+            "framing": candidate.classification if target.mode in gen.CONCEPTUAL_MODES else "",
             # ``lookup`` fills question_cited/anchor; ``practitioners`` fills
             # anchors. The unused ones stay empty.
             "question_cited": candidate.question_cited,
@@ -570,7 +570,7 @@ FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "qual_search_realism", "qual_lexical_distance",
           "qual_conceptual_framing", "qual_retrievability",
           "qual_practitioner_realism", "qual_anchoring", "qual_informativeness",
-          # scored by the revised lookup / practitioners / semantic rubrics
+          # scored by the revised lookup / practitioners / conceptual rubrics
           "qual_consequence", "qual_anchoring_and_time",
           "qual_linguistic_quality", "qual_overall",
           "faith_reason", "qual_failure_type", "qual_reason", "total_score")

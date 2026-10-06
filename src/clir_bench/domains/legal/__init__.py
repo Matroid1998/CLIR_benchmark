@@ -65,7 +65,7 @@ SPEC = DomainSpec(
         ),
     },
     analysis=AnalysisVocab(
-        modes=("lookup", "fact_pattern", "technical", "semantic", "descriptive")
+        modes=("lookup", "fact_pattern", "technical", "conceptual", "semantic", "descriptive")
     ),
     data_layout={
         "eurlex_structure": "eurlex/structure",

@@ -153,7 +153,7 @@ clir --domain legal qac generate --source un --questions 30 \
 
 The decider sees the complete assembled generation payload. EUR-Lex choices are
 `fact_pattern`, `lookup`, and `skip`; UN choices are `lookup`, `practitioner`,
-`semantic`, and `skip` (`practitioner` maps to the existing `practitioners` prompts).
+`conceptual`, and `skip` (`practitioner` maps to the existing `practitioners` prompts).
 A skip makes no generation or verifier calls. Otherwise the chosen mode's existing
 generator, verifiers, and best-candidate ranking run as usual. `--questions` counts
 targets, so skips can reduce output. Do not combine the decider with `--modes` or

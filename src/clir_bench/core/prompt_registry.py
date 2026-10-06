@@ -18,7 +18,7 @@ from pathlib import Path
 
 PREFIX = "clir_bench.domains.legal.qac.prompts_"
 MODES = {"eurlex": ("fact_pattern", "lookup"),
-         "un": ("lookup", "practitioner", "semantic")}
+         "un": ("lookup", "practitioner", "conceptual")}
 
 
 def sha256(text: str) -> str:
@@ -48,6 +48,29 @@ def logical_key(package: str, parts: tuple[str, ...]) -> str | None:
         return f"{source}/quality/{'practitioner' if mode == 'practitioners' else mode}"
     # An explicit bundle must not quietly load an unregistered legal template.
     return f"{source}/resource/{path}"
+
+
+def local_parts(package: str, parts: tuple[str, ...]) -> tuple[str, ...]:
+    """The old UN resource name remains readable; chemistry keeps semantic."""
+    if package == PREFIX + "un":
+        return tuple({"semantic": "conceptual", "semantic_batch.txt":
+                      "conceptual_batch.txt"}.get(part, part) for part in parts)
+    return parts
+
+
+def manifest_key(key: str, entries: dict) -> str | None:
+    """Prefer exact historical keys; alias only the renamed UN mode."""
+    if key in entries:
+        return key
+    parts = key.split("/")
+    if len(parts) >= 3 and parts[0] == "un" and parts[1] in ("generation", "quality"):
+        aliases = {"semantic": "conceptual", "conceptual": "semantic"}
+        if parts[2] in aliases:
+            parts[2] = aliases[parts[2]]
+            alias = "/".join(parts)
+            if alias in entries:
+                return alias
+    return None
 
 
 def prompt_name(key: str) -> str:
@@ -141,9 +164,10 @@ def read_manifest(path: str) -> dict:
 
 def resolve_prompt(key: str, path: str) -> str:
     entries = read_manifest(path)["prompts"]
-    if key not in entries:
+    resolved = manifest_key(key, entries)
+    if resolved is None:
         raise ValueError(f"selected prompt bundle is missing {key}; local fallback is disabled")
-    return entries[key]["text"]
+    return entries[resolved]["text"]
 
 
 def manifest_metadata() -> dict | None:

@@ -43,7 +43,10 @@ def validate_generation_completion(version, selection, config, mode_runs, candid
     targets = {(row["corpus"], row["target_id"]) for row in selection}
     if len(targets) != len(selection):
         raise ValueError(f"{version}: duplicate selection targets")
-    expected = {(corpus, target_id, mode) for corpus, target_id in targets for mode in MODES[corpus]}
+    modes = dict(MODES)
+    if any(row["corpus"] == "un" and row["mode"] == "semantic" for row in mode_runs):
+        modes["un"] = ("lookup", "practitioner", "semantic")
+    expected = {(corpus, target_id, mode) for corpus, target_id in targets for mode in modes[corpus]}
     grouped = defaultdict(list)
     for row in candidates:
         key = candidate_key(row)
