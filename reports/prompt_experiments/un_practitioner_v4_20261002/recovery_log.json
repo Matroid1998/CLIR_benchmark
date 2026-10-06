@@ -1,0 +1,72 @@
+[
+  {
+    "task": "221c6397e28de9b0b54fbd8c7f08b18bcd840b39483bf36c1fac8ffddf0be90d",
+    "target_id": "2003/a/58/pv_1#15",
+    "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+    "method": "recorded_schema_recovery",
+    "source_request_id": "129260e1d9c9463f935999d1aae2d351",
+    "transforms": [
+      {
+        "operation": "restore_index_from_unique_candidate_id",
+        "candidate_id": "q_7cc8557229dd15966f09ba52",
+        "index": 0
+      },
+      {
+        "operation": "restore_index_from_unique_candidate_id",
+        "candidate_id": "q_384ac188ee9603ea035947c5",
+        "index": 1
+      },
+      {
+        "operation": "restore_index_from_unique_candidate_id",
+        "candidate_id": "q_ac8c6c9568c4c7369b67f4db",
+        "index": 2
+      }
+    ]
+  },
+  {
+    "task": "f559b3526ca50be89e0fe216bada04888a46def4e474b1e6376bb4a92600fa3a",
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: score_notes.consequence must be a nonempty string",
+    "method": "quality_only_retry_same_request",
+    "original_request_id": "39b13a4c408245d58235931cca222bfc"
+  },
+  {
+    "task": "5112bc1f50f67b76ec6b58bd90caee2ecfedd57b83172691ed515834fca9855f",
+    "target_id": "2002/a/c_4/57/sr_18#15",
+    "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+    "method": "recorded_schema_recovery",
+    "source_request_id": "dcc3841e2f5f4e3cb08ad91a0862c6b7",
+    "transforms": [
+      {
+        "operation": "restore_index_from_unique_candidate_id",
+        "candidate_id": "q_c5f2f0bb4fbc8a570abc5480",
+        "index": 0
+      },
+      {
+        "operation": "remove_matching_input_language_echo",
+        "candidate_id": "q_c5f2f0bb4fbc8a570abc5480",
+        "question_language": "en"
+      },
+      {
+        "operation": "restore_index_from_unique_candidate_id",
+        "candidate_id": "q_90ba68d2a9d46de109929d84",
+        "index": 1
+      },
+      {
+        "operation": "remove_matching_input_language_echo",
+        "candidate_id": "q_90ba68d2a9d46de109929d84",
+        "question_language": "en"
+      },
+      {
+        "operation": "restore_index_from_unique_candidate_id",
+        "candidate_id": "q_a697b8b329f8968ab4b439b0",
+        "index": 2
+      },
+      {
+        "operation": "remove_matching_input_language_echo",
+        "candidate_id": "q_a697b8b329f8968ab4b439b0",
+        "question_language": "en"
+      }
+    ]
+  }
+]

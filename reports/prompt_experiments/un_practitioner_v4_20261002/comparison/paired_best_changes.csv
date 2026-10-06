@@ -1,0 +1,10 @@
+﻿mode,score,matched_documents,mean_difference_v4_minus_revised,v4_higher,tied,v4_lower
+all,faith_overall,50,0.26,12,33,5
+all,qual_overall,50,-0.06,16,12,22
+all,total_score,50,0.2,16,12,22
+practitioner,faith_overall,44,0.3181818181818182,11,30,3
+practitioner,qual_overall,44,-0.18181818181818182,13,10,21
+practitioner,total_score,44,0.13636363636363635,13,11,20
+semantic,faith_overall,6,-0.16666666666666666,1,3,2
+semantic,qual_overall,6,0.8333333333333334,3,2,1
+semantic,total_score,6,0.6666666666666666,3,1,2

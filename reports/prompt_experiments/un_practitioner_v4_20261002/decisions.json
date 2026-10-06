@@ -1,0 +1,752 @@
+[
+  {
+    "target_id": "2011/a/res/65/212#13",
+    "backend": "jev",
+    "confidence": 0.5,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.11,
+      "practitioner": 0.62,
+      "semantic": 0.25,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2013/a/res/67/199#12",
+    "backend": "jev",
+    "confidence": 0.38,
+    "generation_mode": "semantic",
+    "mode": "semantic",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.04,
+      "practitioner": 0.41,
+      "semantic": 0.53,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2006/a/res/61/183#3",
+    "backend": "jev",
+    "confidence": 0.71,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.08,
+      "practitioner": 0.78,
+      "semantic": 0.12,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2014/a/res/68/254#2",
+    "backend": "jev",
+    "confidence": 0.68,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.1,
+      "practitioner": 0.76,
+      "semantic": 0.13,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2013/a/res/68/143#7",
+    "backend": "jev",
+    "confidence": 0.58,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.1,
+      "practitioner": 0.6799999999999999,
+      "semantic": 0.2,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2011/a/res/65/263#2",
+    "backend": "jev",
+    "confidence": 0.29,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.2,
+      "practitioner": 0.47,
+      "semantic": 0.15,
+      "skip": 0.18
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2001/a/res/55/114#5",
+    "backend": "jev",
+    "confidence": 0.84,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.05,
+      "practitioner": 0.88,
+      "semantic": 0.06,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2007/a/res/62/137#12",
+    "backend": "jev",
+    "confidence": 0.65,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.15,
+      "practitioner": 0.73,
+      "semantic": 0.09,
+      "skip": 0.03
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2005/a/res/60/226#3",
+    "backend": "jev",
+    "confidence": 0.79,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.1,
+      "practitioner": 0.84,
+      "semantic": 0.05,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2013/a/res/68/18#1",
+    "backend": "jev",
+    "confidence": 0.8,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.11,
+      "practitioner": 0.85,
+      "semantic": 0.03,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2001/s/res/1376_2001_#2",
+    "backend": "jev",
+    "confidence": 0.56,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.1,
+      "practitioner": 0.67,
+      "semantic": 0.2,
+      "skip": 0.03
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2008/s/res/1806_2008_#8",
+    "backend": "jev",
+    "confidence": 0.67,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.13,
+      "practitioner": 0.75,
+      "semantic": 0.11,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2003/s/res/1466_2003_#3",
+    "backend": "jev",
+    "confidence": 0.72,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.09,
+      "practitioner": 0.79,
+      "semantic": 0.11,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2008/s/res/1845_2008_#3",
+    "backend": "jev",
+    "confidence": 0.56,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.14,
+      "practitioner": 0.67,
+      "semantic": 0.12,
+      "skip": 0.07
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2004/s/res/1565_2004_#11",
+    "backend": "jev",
+    "confidence": 0.75,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.11,
+      "practitioner": 0.81,
+      "semantic": 0.07,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2002/a/res/56/188#8",
+    "backend": "jev",
+    "confidence": 0.63,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.07,
+      "practitioner": 0.73,
+      "semantic": 0.19,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2005/a/res/60/47#0",
+    "backend": "jev",
+    "confidence": 0.57,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.13,
+      "practitioner": 0.68,
+      "semantic": 0.13,
+      "skip": 0.06
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2011/s/res/1988_2011_#19",
+    "backend": "jev",
+    "confidence": 0.89,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.05,
+      "practitioner": 0.92,
+      "semantic": 0.02,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2004/a/res/59/61#0",
+    "backend": "jev",
+    "confidence": 0.41,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.07,
+      "practitioner": 0.56,
+      "semantic": 0.19,
+      "skip": 0.18
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2013/a/res/67/145#7",
+    "backend": "jev",
+    "confidence": 0.35,
+    "generation_mode": "semantic",
+    "mode": "semantic",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.05,
+      "practitioner": 0.39,
+      "semantic": 0.51,
+      "skip": 0.05
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2003/a/res/58/298#4",
+    "backend": "jev",
+    "confidence": 0.64,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.25,
+      "practitioner": 0.72,
+      "semantic": 0.02,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2003/a/res/57/300#10",
+    "backend": "jev",
+    "confidence": 0.61,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.13,
+      "practitioner": 0.71,
+      "semantic": 0.14,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2013/a/res/67/222#6",
+    "backend": "jev",
+    "confidence": 0.6,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.06,
+      "practitioner": 0.7,
+      "semantic": 0.23,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2003/a/res/57/137#1",
+    "backend": "jev",
+    "confidence": 0.49,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.08,
+      "practitioner": 0.62,
+      "semantic": 0.25,
+      "skip": 0.05
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2014/s/res/2140__2014_#13",
+    "backend": "jev",
+    "confidence": 0.8,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.11,
+      "practitioner": 0.86,
+      "semantic": 0.02,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2004/a/c_2/58/sr_24#18",
+    "backend": "jev",
+    "confidence": 0.46,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.02,
+      "practitioner": 0.58,
+      "semantic": 0.39,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2008/cd/pv_1097#14",
+    "backend": "jev",
+    "confidence": 0.39,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.04,
+      "practitioner": 0.54,
+      "semantic": 0.33,
+      "skip": 0.08
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2006/a/c_5/60/sr_64#14",
+    "backend": "jev",
+    "confidence": 0.41,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.05,
+      "practitioner": 0.56,
+      "semantic": 0.38,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2001/cedaw/c/sr_451#4",
+    "backend": "jev",
+    "confidence": 0.64,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.05,
+      "practitioner": 0.73,
+      "semantic": 0.2,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2008/a/ac_109/2008/sr_2#1",
+    "backend": "jev",
+    "confidence": 0.7,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.18,
+      "practitioner": 0.77,
+      "semantic": 0.03,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2010/ccpr/c/sr_2695#25",
+    "backend": "jev",
+    "confidence": 0.51,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.08,
+      "practitioner": 0.63,
+      "semantic": 0.27,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2007/gc_12/c_1/sr_1#10",
+    "backend": "jev",
+    "confidence": 0.65,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.03,
+      "practitioner": 0.74,
+      "semantic": 0.22,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2006/cedaw/c/sr_724#18",
+    "backend": "jev",
+    "confidence": 0.58,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.09,
+      "practitioner": 0.68,
+      "semantic": 0.2,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2005/cd/pv_983#13",
+    "backend": "jev",
+    "confidence": 0.18,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.04,
+      "practitioner": 0.39,
+      "semantic": 0.33,
+      "skip": 0.24
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "1998/gc_7/c_1/sr_5#16",
+    "backend": "jev",
+    "confidence": 0.54,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.03,
+      "practitioner": 0.65,
+      "semantic": 0.31,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2006/ccw/conf_iii/sr_2#8",
+    "backend": "jev",
+    "confidence": 0.62,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.04,
+      "practitioner": 0.71,
+      "semantic": 0.2,
+      "skip": 0.05
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2001/cd/pv_880#1",
+    "backend": "jev",
+    "confidence": 0.39,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.03,
+      "practitioner": 0.54,
+      "semantic": 0.35,
+      "skip": 0.08
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2010/a/cn_9/sr_917#10",
+    "backend": "jev",
+    "confidence": 0.41,
+    "generation_mode": "semantic",
+    "mode": "semantic",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.04,
+      "practitioner": 0.39,
+      "semantic": 0.56,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2003/a/58/pv_1#15",
+    "backend": "jev",
+    "confidence": 0.44,
+    "generation_mode": "semantic",
+    "mode": "semantic",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.03,
+      "practitioner": 0.33,
+      "semantic": 0.58,
+      "skip": 0.06
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2007/cedaw/c/sr_770_b_#18",
+    "backend": "jev",
+    "confidence": 0.39,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.01,
+      "practitioner": 0.54,
+      "semantic": 0.44,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2002/a/c_4/57/sr_18#15",
+    "backend": "jev",
+    "confidence": 0.28,
+    "generation_mode": "semantic",
+    "mode": "semantic",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.06,
+      "practitioner": 0.46,
+      "semantic": 0.46,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2007/cedaw/c/sr_778#5",
+    "backend": "jev",
+    "confidence": 0.36,
+    "generation_mode": "semantic",
+    "mode": "semantic",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.02,
+      "practitioner": 0.45,
+      "semantic": 0.52,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2000/cd/pv_841#11",
+    "backend": "jev",
+    "confidence": 0.46,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.03,
+      "practitioner": 0.59,
+      "semantic": 0.37,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "1999/cedaw/c/sr_434#16",
+    "backend": "jev",
+    "confidence": 0.44,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.04,
+      "practitioner": 0.58,
+      "semantic": 0.3,
+      "skip": 0.08
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2009/a/ac_109/2009/sr_7#4",
+    "backend": "jev",
+    "confidence": 0.41,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.06,
+      "practitioner": 0.56,
+      "semantic": 0.36,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2008/s/2008/774#11",
+    "backend": "jev",
+    "confidence": 0.33,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.06,
+      "practitioner": 0.5,
+      "semantic": 0.42,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2012/s/2012/718#7",
+    "backend": "jev",
+    "confidence": 0.56,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.08,
+      "practitioner": 0.66,
+      "semantic": 0.24,
+      "skip": 0.02
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "1998/s/1998/458#1",
+    "backend": "jev",
+    "confidence": 0.77,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.04,
+      "practitioner": 0.82,
+      "semantic": 0.13,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2004/s/2004/505#15",
+    "backend": "jev",
+    "confidence": 0.6,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.11,
+      "practitioner": 0.7,
+      "semantic": 0.18,
+      "skip": 0.01
+    },
+    "reason": ""
+  },
+  {
+    "target_id": "2004/s/2004/674#6",
+    "backend": "jev",
+    "confidence": 0.45,
+    "generation_mode": "practitioners",
+    "mode": "practitioner",
+    "model": "~typesafe/jev-latest",
+    "probabilities": {
+      "lookup": 0.16,
+      "practitioner": 0.59,
+      "semantic": 0.19,
+      "skip": 0.06
+    },
+    "reason": ""
+  }
+]

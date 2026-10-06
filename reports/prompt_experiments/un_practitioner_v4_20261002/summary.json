@@ -1,0 +1,593 @@
+{
+  "run_status": "completed_after_grade_recovery",
+  "documents": 50,
+  "original_run_status": "completed_with_errors",
+  "grade_repairs": [
+    {
+      "task": "221c6397e28de9b0b54fbd8c7f08b18bcd840b39483bf36c1fac8ffddf0be90d",
+      "target_id": "2003/a/58/pv_1#15",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "method": "recorded_schema_recovery",
+      "source_request_id": "129260e1d9c9463f935999d1aae2d351",
+      "transforms": [
+        {
+          "operation": "restore_index_from_unique_candidate_id",
+          "candidate_id": "q_7cc8557229dd15966f09ba52",
+          "index": 0
+        },
+        {
+          "operation": "restore_index_from_unique_candidate_id",
+          "candidate_id": "q_384ac188ee9603ea035947c5",
+          "index": 1
+        },
+        {
+          "operation": "restore_index_from_unique_candidate_id",
+          "candidate_id": "q_ac8c6c9568c4c7369b67f4db",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "task": "f559b3526ca50be89e0fe216bada04888a46def4e474b1e6376bb4a92600fa3a",
+      "target_id": "1999/cedaw/c/sr_434#16",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: score_notes.consequence must be a nonempty string",
+      "method": "quality_only_retry_same_request",
+      "original_request_id": "39b13a4c408245d58235931cca222bfc"
+    },
+    {
+      "task": "5112bc1f50f67b76ec6b58bd90caee2ecfedd57b83172691ed515834fca9855f",
+      "target_id": "2002/a/c_4/57/sr_18#15",
+      "original_error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems",
+      "method": "recorded_schema_recovery",
+      "source_request_id": "dcc3841e2f5f4e3cb08ad91a0862c6b7",
+      "transforms": [
+        {
+          "operation": "restore_index_from_unique_candidate_id",
+          "candidate_id": "q_c5f2f0bb4fbc8a570abc5480",
+          "index": 0
+        },
+        {
+          "operation": "remove_matching_input_language_echo",
+          "candidate_id": "q_c5f2f0bb4fbc8a570abc5480",
+          "question_language": "en"
+        },
+        {
+          "operation": "restore_index_from_unique_candidate_id",
+          "candidate_id": "q_90ba68d2a9d46de109929d84",
+          "index": 1
+        },
+        {
+          "operation": "remove_matching_input_language_echo",
+          "candidate_id": "q_90ba68d2a9d46de109929d84",
+          "question_language": "en"
+        },
+        {
+          "operation": "restore_index_from_unique_candidate_id",
+          "candidate_id": "q_a697b8b329f8968ab4b439b0",
+          "index": 2
+        },
+        {
+          "operation": "remove_matching_input_language_echo",
+          "candidate_id": "q_a697b8b329f8968ab4b439b0",
+          "question_language": "en"
+        }
+      ]
+    }
+  ],
+  "language": "en",
+  "strata": {
+    "resolution": 25,
+    "meeting": 20,
+    "letter": 5
+  },
+  "bundle": "un-practitioner-cases-20261001",
+  "bundle_sha256": "1fb58cf80e6b313258fa481cf5bb439a1d64c3203c699924175386eef3f385fc",
+  "models": {
+    "decider": "~typesafe/jev-latest",
+    "generator": [
+      "gpt-5.6-luna"
+    ],
+    "verifier": "anthropic/claude-sonnet-5.5"
+  },
+  "original_outcomes": {
+    "completed": 47,
+    "failed": 3
+  },
+  "final_documents_with_complete_grades": 50,
+  "routing": {
+    "practitioner": 44,
+    "semantic": 6
+  },
+  "prior_routing": {
+    "practitioner": 44,
+    "semantic": 6
+  },
+  "unchanged_routes": 50,
+  "current": {
+    "candidates": 104,
+    "targets_with_candidates": 50,
+    "fully_graded_candidates": 104,
+    "mean_candidate_faithfulness_15": 14.384615384615385,
+    "mean_candidate_quality_25": 17.682692307692307,
+    "mean_candidate_total_40": 32.06730769230769,
+    "best_candidates": 50,
+    "mean_best_faithfulness_15": 14.74,
+    "mean_best_quality_25": 18.66,
+    "mean_best_total_40": 33.4,
+    "candidate_audit_status": {
+      "minor_issues": 55,
+      "clear": 19,
+      "repair": 3,
+      "blocking": 24,
+      "review": 3
+    },
+    "best_audit_status": {
+      "minor_issues": 26,
+      "clear": 15,
+      "blocking": 8,
+      "repair": 1
+    },
+    "targets_with_an_accepted_candidate": 42
+  },
+  "previous_revised_routed": {
+    "candidates": 143,
+    "targets_with_candidates": 50,
+    "fully_graded_candidates": 143,
+    "mean_candidate_faithfulness_15": 14.272727272727273,
+    "mean_candidate_quality_25": 16.636363636363637,
+    "mean_candidate_total_40": 30.90909090909091,
+    "best_candidates": 50,
+    "mean_best_faithfulness_15": 14.48,
+    "mean_best_quality_25": 18.72,
+    "mean_best_total_40": 33.2,
+    "candidate_audit_status": {
+      "minor_issues": 45,
+      "review": 19,
+      "blocking": 51,
+      "clear": 13,
+      "repair": 15
+    },
+    "best_audit_status": {
+      "minor_issues": 19,
+      "blocking": 10,
+      "clear": 9,
+      "repair": 5,
+      "review": 7
+    },
+    "targets_with_an_accepted_candidate": 29
+  },
+  "per_mode": {
+    "lookup": {
+      "current": {
+        "candidates": 0,
+        "targets_with_candidates": 0,
+        "fully_graded_candidates": 0,
+        "mean_candidate_faithfulness_15": null,
+        "mean_candidate_quality_25": null,
+        "mean_candidate_total_40": null,
+        "best_candidates": 0,
+        "mean_best_faithfulness_15": null,
+        "mean_best_quality_25": null,
+        "mean_best_total_40": null,
+        "candidate_audit_status": {},
+        "best_audit_status": {},
+        "targets_with_an_accepted_candidate": 0
+      },
+      "previous": {
+        "candidates": 0,
+        "targets_with_candidates": 0,
+        "fully_graded_candidates": 0,
+        "mean_candidate_faithfulness_15": null,
+        "mean_candidate_quality_25": null,
+        "mean_candidate_total_40": null,
+        "best_candidates": 0,
+        "mean_best_faithfulness_15": null,
+        "mean_best_quality_25": null,
+        "mean_best_total_40": null,
+        "candidate_audit_status": {},
+        "best_audit_status": {},
+        "targets_with_an_accepted_candidate": 0
+      }
+    },
+    "practitioner": {
+      "current": {
+        "candidates": 86,
+        "targets_with_candidates": 44,
+        "fully_graded_candidates": 86,
+        "mean_candidate_faithfulness_15": 14.476744186046512,
+        "mean_candidate_quality_25": 17.6046511627907,
+        "mean_candidate_total_40": 32.08139534883721,
+        "best_candidates": 44,
+        "mean_best_faithfulness_15": 14.795454545454545,
+        "mean_best_quality_25": 18.40909090909091,
+        "mean_best_total_40": 33.20454545454545,
+        "candidate_audit_status": {
+          "minor_issues": 44,
+          "blocking": 22,
+          "repair": 2,
+          "clear": 16,
+          "review": 2
+        },
+        "best_audit_status": {
+          "minor_issues": 22,
+          "blocking": 8,
+          "clear": 13,
+          "repair": 1
+        },
+        "targets_with_an_accepted_candidate": 36
+      },
+      "previous": {
+        "candidates": 126,
+        "targets_with_candidates": 44,
+        "fully_graded_candidates": 126,
+        "mean_candidate_faithfulness_15": 14.261904761904763,
+        "mean_candidate_quality_25": 16.452380952380953,
+        "mean_candidate_total_40": 30.714285714285715,
+        "best_candidates": 44,
+        "mean_best_faithfulness_15": 14.477272727272727,
+        "mean_best_quality_25": 18.59090909090909,
+        "mean_best_total_40": 33.06818181818182,
+        "candidate_audit_status": {
+          "minor_issues": 37,
+          "review": 18,
+          "blocking": 49,
+          "clear": 9,
+          "repair": 13
+        },
+        "best_audit_status": {
+          "minor_issues": 17,
+          "blocking": 9,
+          "clear": 7,
+          "repair": 5,
+          "review": 6
+        },
+        "targets_with_an_accepted_candidate": 25
+      }
+    },
+    "semantic": {
+      "current": {
+        "candidates": 18,
+        "targets_with_candidates": 6,
+        "fully_graded_candidates": 18,
+        "mean_candidate_faithfulness_15": 13.944444444444445,
+        "mean_candidate_quality_25": 18.055555555555557,
+        "mean_candidate_total_40": 32.0,
+        "best_candidates": 6,
+        "mean_best_faithfulness_15": 14.333333333333334,
+        "mean_best_quality_25": 20.5,
+        "mean_best_total_40": 34.833333333333336,
+        "candidate_audit_status": {
+          "clear": 3,
+          "repair": 1,
+          "minor_issues": 11,
+          "blocking": 2,
+          "review": 1
+        },
+        "best_audit_status": {
+          "clear": 2,
+          "minor_issues": 4
+        },
+        "targets_with_an_accepted_candidate": 6
+      },
+      "previous": {
+        "candidates": 17,
+        "targets_with_candidates": 6,
+        "fully_graded_candidates": 17,
+        "mean_candidate_faithfulness_15": 14.352941176470589,
+        "mean_candidate_quality_25": 18.0,
+        "mean_candidate_total_40": 32.35294117647059,
+        "best_candidates": 6,
+        "mean_best_faithfulness_15": 14.5,
+        "mean_best_quality_25": 19.666666666666668,
+        "mean_best_total_40": 34.166666666666664,
+        "candidate_audit_status": {
+          "minor_issues": 8,
+          "clear": 4,
+          "blocking": 2,
+          "review": 1,
+          "repair": 2
+        },
+        "best_audit_status": {
+          "minor_issues": 2,
+          "clear": 2,
+          "blocking": 1,
+          "review": 1
+        },
+        "targets_with_an_accepted_candidate": 4
+      }
+    }
+  },
+  "usage": {
+    "decider:~typesafe/jev-latest": {
+      "calls": 50,
+      "errors": 0,
+      "reported_cost_usd": 0.010140017999999999,
+      "calls_without_reported_cost": 0,
+      "prompt_tokens": 241429,
+      "completion_tokens": 2626
+    },
+    "generation:gpt-5.6-luna": {
+      "calls": 50,
+      "errors": 0,
+      "reported_cost_usd": 0,
+      "calls_without_reported_cost": 50,
+      "prompt_tokens": 259601,
+      "completion_tokens": 38391
+    },
+    "faithfulness:anthropic/claude-sonnet-5.5": {
+      "calls": 50,
+      "errors": 0,
+      "reported_cost_usd": 1.0023980000000001,
+      "calls_without_reported_cost": 0,
+      "prompt_tokens": 402419,
+      "completion_tokens": 19756
+    },
+    "quality:anthropic/claude-sonnet-5.5": {
+      "calls": 60,
+      "errors": 0,
+      "reported_cost_usd": 1.9672100000000001,
+      "calls_without_reported_cost": 0,
+      "prompt_tokens": 622300,
+      "completion_tokens": 72261
+    }
+  },
+  "document_outcomes": [
+    {
+      "target_id": "2014/a/res/68/254#2",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2006/a/res/61/183#3",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2011/a/res/65/212#13",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2011/a/res/65/263#2",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2013/a/res/67/199#12",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2013/a/res/68/143#7",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2007/a/res/62/137#12",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2005/a/res/60/226#3",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2001/a/res/55/114#5",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2001/s/res/1376_2001_#2",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2013/a/res/68/18#1",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2008/s/res/1806_2008_#8",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2003/s/res/1466_2003_#3",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2004/s/res/1565_2004_#11",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2008/s/res/1845_2008_#3",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2002/a/res/56/188#8",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2005/a/res/60/47#0",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2011/s/res/1988_2011_#19",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2004/a/res/59/61#0",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2013/a/res/67/145#7",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2003/a/res/57/300#10",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2003/a/res/57/137#1",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2013/a/res/67/222#6",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2003/a/res/58/298#4",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2014/s/res/2140__2014_#13",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2004/a/c_2/58/sr_24#18",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2008/cd/pv_1097#14",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2008/a/ac_109/2008/sr_2#1",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2010/ccpr/c/sr_2695#25",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2007/gc_12/c_1/sr_1#10",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2006/a/c_5/60/sr_64#14",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2001/cedaw/c/sr_451#4",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2005/cd/pv_983#13",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2006/cedaw/c/sr_724#18",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2006/ccw/conf_iii/sr_2#8",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2001/cd/pv_880#1",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "1998/gc_7/c_1/sr_5#16",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2010/a/cn_9/sr_917#10",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2007/cedaw/c/sr_770_b_#18",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2007/cedaw/c/sr_778#5",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2000/cd/pv_841#11",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2003/a/58/pv_1#15",
+      "status": "failed",
+      "error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems"
+    },
+    {
+      "target_id": "2009/a/ac_109/2009/sr_7#4",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2008/s/2008/774#11",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "1999/cedaw/c/sr_434#16",
+      "status": "failed",
+      "error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: score_notes.consequence must be a nonempty string"
+    },
+    {
+      "target_id": "2002/a/c_4/57/sr_18#15",
+      "status": "failed",
+      "error": "quality: RuntimeError: quality failed after 3 attempts: ValueError: Quality grade must have exactly: index, candidate_id, scores, score_notes, checks, problems"
+    },
+    {
+      "target_id": "1998/s/1998/458#1",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2012/s/2012/718#7",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2004/s/2004/674#6",
+      "status": "completed",
+      "error": ""
+    },
+    {
+      "target_id": "2004/s/2004/505#15",
+      "status": "completed",
+      "error": ""
+    }
+  ],
+  "limitations": [
+    "Native before/after scores use each run's own verifiers. Practitioner quality and UN faithfulness changed; score differences do not isolate question-quality improvement.",
+    "Each document was generated only in its Jev-selected mode. This run cannot measure whether the decider chose the highest-scoring alternative mode.",
+    "Best follows pipeline score ranking with grounding >=3; audit acceptance is reported separately and is not an independent human evaluation.",
+    "Reported costs exclude calls whose provider did not supply cost data.",
+    "The raw run is preserved. Recovery logs distinguish structural recovery of recorded grades from new quality-only retry calls; questions and successful faithfulness grades were preserved."
+  ]
+}
