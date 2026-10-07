@@ -5,7 +5,7 @@
     "lookup": {
       "type": "noul",
       "instructions": {
-        "task": "Determine independently whether this supplied target can support at least one natural, fully supported lookup question under the requirements below. Assess generation eligibility before generation; do not generate questions, answers or claims.",
+        "task": "Predict independently whether the current generator's best lookup question for this supplied target is likely to score above31/40 under Gemini legal-clir-exceptional-r3. Decide before generation; do not output draft questions, answers or claims.",
         "independence": "This target may support zero, one or several modes. Judge only this mode. A different mode being easier, stronger or also valid never makes this mode false. Do not rank modes, choose a single winner, impose quotas or prefer a mode for its rarity.",
         "input_structure": {
           "### TARGET BLOCK": "All substantive answer evidence.",
@@ -25,19 +25,41 @@
           "A source need not already contain a user query, case, uncertain assertion or remembered clue. Such framing may be formed during generation when its substantive requirements and answer are supported. Require a real mode-specific information need, not a decorative wrapper around another mode.",
           "The eventual question must stand alone with sufficient substantive and temporal identification while leaving its requested information unknown. Use only supplied source, event or session anchors; a directory year or cited letter date does not establish target adoption. If indispensable context is unavailable, reject that proposed need and check whether another supported need exists.",
           "Require one sufficient contiguous answer span from one permitted source unit, retaining material conditions and qualifications. Never stitch different provisions, calculate or infer a missing consequence. For source_finding, the answer is exact supplied target identity and a separate contiguous target-body span proves the substantive clue.",
-          "Return true if at least one need meets this mode and all applicable evidence rules. One good question is sufficient; do not require three, estimate verifier scores or reject because other modes also work. Return false only when no qualifying need is supported by the supplied material."
+          "Return true only when a source-supported, naturally framed best candidate is likely to reach at least32/40 under the quality forecast. Return false when the best realistic candidate is expected to score31 or below, including formally valid but only adequate queries, or when generation should skip. Do not maximize the number of admitted modes."
         ],
-        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries."
+        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries.",
+        "quality_forecast": {
+          "objective": "Predict the best realized candidate from the current generator, which returns up to three candidates, under Gemini legal-clir-exceptional-r3. This is a question-quality screening prediction, not a document-category choice and not basic feasibility.",
+          "cutoff": "Accept only when the strongest natural, well-supported candidate is likely to score MORE THAN 31 out of 40 (at least 32). Reject if its likely best score is 31 or less, or no question should be generated. Judge modes independently.",
+          "score_ladder": "The combined score has three faithfulness and five mode-specific quality criteria, each 1–5. Four means strong or fully successful; three means adequate or ordinary. Eight strong fours total 32 and qualify. A correct quotation plus adequate generic question can total 31 or less and must be rejected. Do not presume exceptional fives to offset a weak dimension. A genuinely evidenced five may offset an adequate three only when the combined forecast still exceeds31.",
+          "no_complexity_bias": "No exceptional score, long question, multiple numerical facts or complicated source is required. A simple focused question can be strong throughout. Numerical fidelity without relevant numerical or citational content is4, not a reason to reject.",
+          "strong_candidate_witness": [
+            "A concrete, useful unknown fits the actual persona; the answer is not already supplied as established in the question.",
+            "The packet supplies sufficient regime, actor or source, issue and any indispensable time/session context to frame a standalone identifier-free question without arbitrary invented premises.",
+            "One permitted continuous evidence span directly resolves the actual unknown, with material scope, exceptions, attribution, status and temporal roles preserved. Source identity is handled separately for source_finding.",
+            "The need can be expressed naturally and concisely without a decorative persona wrapper, circular checking need, generic two-sided pairing or avoidable near-copy of source scaffolding.",
+            "For the strongest plausible current-generator output, the three faithfulness criteria and five quality dimensions are likely strong4 rather than merely adequate3. Identify actual source features supporting that forecast; general usefulness and availability of an answer span alone are insufficient."
+          ],
+          "limits": "Use only source-visible evidence. Do not fetch sources, inspect prior generated questions, scores or model explanations, memorize identifiers, impose acceptance quotas or invent exceptional evidence. Predict the strongest realistically generated candidate, not an ideal rewrite needing missing source content.",
+          "mode_quality": "A useful precise professional unknown and economical substantive source/regime locator must support a natural direct query. An easy fact span or metadata identifier is insufficient. The identifier-free and cited renderings must both be strong and identify the same supported need. UN needs source body/author/type/subject and necessary supported time or session; EUR-Lex needs an informative regime anchor. Do not reject a simple clear rule merely for simplicity.",
+          "quality_criteria": [
+            "practitioner_realism",
+            "anchoring",
+            "informativeness",
+            "consequence",
+            "linguistic_quality"
+          ]
+        }
       },
       "criteria": {
-        "true": "At least one natural, informative lookup question can be generated with its substantive need, answer and necessary context fully supported under this mode and the corpus evidence rules. Other modes may simultaneously qualify.",
-        "false": "No qualifying lookup question is supported: every plausible need lacks indispensable evidence or context, violates the mode or corpus rules, is formal or ceremonial excluded content, or merely disguises another mode."
+        "true": "The best realistically generated lookup question is likely to score at least32/40 under the declared rubric, with enough source evidence for strong execution across faithfulness and mode-specific quality. Other modes may independently qualify.",
+        "false": "The best realistically generated lookup question is likely to score31/40 or less, or must skip: the packet lacks a strong mode-specific need, necessary standalone context, complete decisive evidence or a natural economical formulation. Mere possibility of one valid question is not enough."
       }
     },
     "practitioner": {
       "type": "noul",
       "instructions": {
-        "task": "Determine independently whether this supplied target can support at least one natural, fully supported practitioner question under the requirements below. Assess generation eligibility before generation; do not generate questions, answers or claims.",
+        "task": "Predict independently whether the current generator's best practitioner question for this supplied target is likely to score above31/40 under Gemini legal-clir-exceptional-r3. Decide before generation; do not output draft questions, answers or claims.",
         "independence": "This target may support zero, one or several modes. Judge only this mode. A different mode being easier, stronger or also valid never makes this mode false. Do not rank modes, choose a single winner, impose quotas or prefer a mode for its rarity.",
         "input_structure": {
           "### TARGET BLOCK": "All substantive answer evidence.",
@@ -56,19 +78,41 @@
           "A source need not already contain a user query, case, uncertain assertion or remembered clue. Such framing may be formed during generation when its substantive requirements and answer are supported. Require a real mode-specific information need, not a decorative wrapper around another mode.",
           "The eventual question must stand alone with sufficient substantive and temporal identification while leaving its requested information unknown. Use only supplied source, event or session anchors; a directory year or cited letter date does not establish target adoption. If indispensable context is unavailable, reject that proposed need and check whether another supported need exists.",
           "Require one sufficient contiguous answer span from one permitted source unit, retaining material conditions and qualifications. Never stitch different provisions, calculate or infer a missing consequence. For source_finding, the answer is exact supplied target identity and a separate contiguous target-body span proves the substantive clue.",
-          "Return true if at least one need meets this mode and all applicable evidence rules. One good question is sufficient; do not require three, estimate verifier scores or reject because other modes also work. Return false only when no qualifying need is supported by the supplied material."
+          "Return true only when a source-supported, naturally framed best candidate is likely to reach at least32/40 under the quality forecast. Return false when the best realistic candidate is expected to score31 or below, including formally valid but only adequate queries, or when generation should skip. Do not maximize the number of admitted modes."
         ],
-        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries."
+        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries.",
+        "quality_forecast": {
+          "objective": "Predict the best realized candidate from the current generator, which returns up to three candidates, under Gemini legal-clir-exceptional-r3. This is a question-quality screening prediction, not a document-category choice and not basic feasibility.",
+          "cutoff": "Accept only when the strongest natural, well-supported candidate is likely to score MORE THAN 31 out of 40 (at least 32). Reject if its likely best score is 31 or less, or no question should be generated. Judge modes independently.",
+          "score_ladder": "The combined score has three faithfulness and five mode-specific quality criteria, each 1–5. Four means strong or fully successful; three means adequate or ordinary. Eight strong fours total 32 and qualify. A correct quotation plus adequate generic question can total 31 or less and must be rejected. Do not presume exceptional fives to offset a weak dimension. A genuinely evidenced five may offset an adequate three only when the combined forecast still exceeds31.",
+          "no_complexity_bias": "No exceptional score, long question, multiple numerical facts or complicated source is required. A simple focused question can be strong throughout. Numerical fidelity without relevant numerical or citational content is4, not a reason to reject.",
+          "strong_candidate_witness": [
+            "A concrete, useful unknown fits the actual persona; the answer is not already supplied as established in the question.",
+            "The packet supplies sufficient regime, actor or source, issue and any indispensable time/session context to frame a standalone identifier-free question without arbitrary invented premises.",
+            "One permitted continuous evidence span directly resolves the actual unknown, with material scope, exceptions, attribution, status and temporal roles preserved. Source identity is handled separately for source_finding.",
+            "The need can be expressed naturally and concisely without a decorative persona wrapper, circular checking need, generic two-sided pairing or avoidable near-copy of source scaffolding.",
+            "For the strongest plausible current-generator output, the three faithfulness criteria and five quality dimensions are likely strong4 rather than merely adequate3. Identify actual source features supporting that forecast; general usefulness and availability of an answer span alone are insufficient."
+          ],
+          "limits": "Use only source-visible evidence. Do not fetch sources, inspect prior generated questions, scores or model explanations, memorize identifiers, impose acceptance quotas or invent exceptional evidence. Predict the strongest realistically generated candidate, not an ideal rewrite needing missing source content.",
+          "mode_quality": "An evidenced actor/task link must support a concrete decision, requested action or constraint, with a clear useful unknown. A routine task can be strong4; a generic official, report reader or analyst wrapper with no source-supported task consequence is merely adequate or weak. Preserve non-binding/conditional status and actual speaking capacity.",
+          "quality_criteria": [
+            "practitioner_realism",
+            "anchoring_and_time",
+            "consequence",
+            "informativeness",
+            "linguistic_quality"
+          ]
+        }
       },
       "criteria": {
-        "true": "At least one natural, informative practitioner question can be generated with its substantive need, answer and necessary context fully supported under this mode and the corpus evidence rules. Other modes may simultaneously qualify.",
-        "false": "No qualifying practitioner question is supported: every plausible need lacks indispensable evidence or context, violates the mode or corpus rules, is formal or ceremonial excluded content, or merely disguises another mode."
+        "true": "The best realistically generated practitioner question is likely to score at least32/40 under the declared rubric, with enough source evidence for strong execution across faithfulness and mode-specific quality. Other modes may independently qualify.",
+        "false": "The best realistically generated practitioner question is likely to score31/40 or less, or must skip: the packet lacks a strong mode-specific need, necessary standalone context, complete decisive evidence or a natural economical formulation. Mere possibility of one valid question is not enough."
       }
     },
     "conceptual": {
       "type": "noul",
       "instructions": {
-        "task": "Determine independently whether this supplied target can support at least one natural, fully supported conceptual question under the requirements below. Assess generation eligibility before generation; do not generate questions, answers or claims.",
+        "task": "Predict independently whether the current generator's best conceptual question for this supplied target is likely to score above31/40 under Gemini legal-clir-exceptional-r3. Decide before generation; do not output draft questions, answers or claims.",
         "independence": "This target may support zero, one or several modes. Judge only this mode. A different mode being easier, stronger or also valid never makes this mode false. Do not rank modes, choose a single winner, impose quotas or prefer a mode for its rarity.",
         "input_structure": {
           "### TARGET BLOCK": "All substantive answer evidence.",
@@ -87,19 +131,41 @@
           "A source need not already contain a user query, case, uncertain assertion or remembered clue. Such framing may be formed during generation when its substantive requirements and answer are supported. Require a real mode-specific information need, not a decorative wrapper around another mode.",
           "The eventual question must stand alone with sufficient substantive and temporal identification while leaving its requested information unknown. Use only supplied source, event or session anchors; a directory year or cited letter date does not establish target adoption. If indispensable context is unavailable, reject that proposed need and check whether another supported need exists.",
           "Require one sufficient contiguous answer span from one permitted source unit, retaining material conditions and qualifications. Never stitch different provisions, calculate or infer a missing consequence. For source_finding, the answer is exact supplied target identity and a separate contiguous target-body span proves the substantive clue.",
-          "Return true if at least one need meets this mode and all applicable evidence rules. One good question is sufficient; do not require three, estimate verifier scores or reject because other modes also work. Return false only when no qualifying need is supported by the supplied material."
+          "Return true only when a source-supported, naturally framed best candidate is likely to reach at least32/40 under the quality forecast. Return false when the best realistic candidate is expected to score31 or below, including formally valid but only adequate queries, or when generation should skip. Do not maximize the number of admitted modes."
         ],
-        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries."
+        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries.",
+        "quality_forecast": {
+          "objective": "Predict the best realized candidate from the current generator, which returns up to three candidates, under Gemini legal-clir-exceptional-r3. This is a question-quality screening prediction, not a document-category choice and not basic feasibility.",
+          "cutoff": "Accept only when the strongest natural, well-supported candidate is likely to score MORE THAN 31 out of 40 (at least 32). Reject if its likely best score is 31 or less, or no question should be generated. Judge modes independently.",
+          "score_ladder": "The combined score has three faithfulness and five mode-specific quality criteria, each 1–5. Four means strong or fully successful; three means adequate or ordinary. Eight strong fours total 32 and qualify. A correct quotation plus adequate generic question can total 31 or less and must be rejected. Do not presume exceptional fives to offset a weak dimension. A genuinely evidenced five may offset an adequate three only when the combined forecast still exceeds31.",
+          "no_complexity_bias": "No exceptional score, long question, multiple numerical facts or complicated source is required. A simple focused question can be strong throughout. Numerical fidelity without relevant numerical or citational content is4, not a reason to reject.",
+          "strong_candidate_witness": [
+            "A concrete, useful unknown fits the actual persona; the answer is not already supplied as established in the question.",
+            "The packet supplies sufficient regime, actor or source, issue and any indispensable time/session context to frame a standalone identifier-free question without arbitrary invented premises.",
+            "One permitted continuous evidence span directly resolves the actual unknown, with material scope, exceptions, attribution, status and temporal roles preserved. Source identity is handled separately for source_finding.",
+            "The need can be expressed naturally and concisely without a decorative persona wrapper, circular checking need, generic two-sided pairing or avoidable near-copy of source scaffolding.",
+            "For the strongest plausible current-generator output, the three faithfulness criteria and five quality dimensions are likely strong4 rather than merely adequate3. Identify actual source features supporting that forecast; general usefulness and availability of an answer span alone are insufficient."
+          ],
+          "limits": "Use only source-visible evidence. Do not fetch sources, inspect prior generated questions, scores or model explanations, memorize identifiers, impose acceptance quotas or invent exceptional evidence. Predict the strongest realistically generated candidate, not an ideal rewrite needing missing source content.",
+          "mode_quality": "The target must establish a coherent substantive explanation, connected response/safeguard mechanism or stakeholder role that can be asked with clear context and a complete continuous answer. An isolated fact with how/why, unsupported efficacy inference, generic topic summary or source-shaped compound ask forecasts<=31.",
+          "quality_criteria": [
+            "search_realism",
+            "anchoring_and_time",
+            "consequence",
+            "lexical_distance",
+            "linguistic_quality"
+          ]
+        }
       },
       "criteria": {
-        "true": "At least one natural, informative conceptual question can be generated with its substantive need, answer and necessary context fully supported under this mode and the corpus evidence rules. Other modes may simultaneously qualify.",
-        "false": "No qualifying conceptual question is supported: every plausible need lacks indispensable evidence or context, violates the mode or corpus rules, is formal or ceremonial excluded content, or merely disguises another mode."
+        "true": "The best realistically generated conceptual question is likely to score at least32/40 under the declared rubric, with enough source evidence for strong execution across faithfulness and mode-specific quality. Other modes may independently qualify.",
+        "false": "The best realistically generated conceptual question is likely to score31/40 or less, or must skip: the packet lacks a strong mode-specific need, necessary standalone context, complete decisive evidence or a natural economical formulation. Mere possibility of one valid question is not enough."
       }
     },
     "comparison": {
       "type": "noul",
       "instructions": {
-        "task": "Determine independently whether this supplied target can support at least one natural, fully supported comparison question under the requirements below. Assess generation eligibility before generation; do not generate questions, answers or claims.",
+        "task": "Predict independently whether the current generator's best comparison question for this supplied target is likely to score above31/40 under Gemini legal-clir-exceptional-r3. Decide before generation; do not output draft questions, answers or claims.",
         "independence": "This target may support zero, one or several modes. Judge only this mode. A different mode being easier, stronger or also valid never makes this mode false. Do not rank modes, choose a single winner, impose quotas or prefer a mode for its rarity.",
         "input_structure": {
           "### TARGET BLOCK": "All substantive answer evidence.",
@@ -118,19 +184,41 @@
           "A source need not already contain a user query, case, uncertain assertion or remembered clue. Such framing may be formed during generation when its substantive requirements and answer are supported. Require a real mode-specific information need, not a decorative wrapper around another mode.",
           "The eventual question must stand alone with sufficient substantive and temporal identification while leaving its requested information unknown. Use only supplied source, event or session anchors; a directory year or cited letter date does not establish target adoption. If indispensable context is unavailable, reject that proposed need and check whether another supported need exists.",
           "Require one sufficient contiguous answer span from one permitted source unit, retaining material conditions and qualifications. Never stitch different provisions, calculate or infer a missing consequence. For source_finding, the answer is exact supplied target identity and a separate contiguous target-body span proves the substantive clue.",
-          "Return true if at least one need meets this mode and all applicable evidence rules. One good question is sufficient; do not require three, estimate verifier scores or reject because other modes also work. Return false only when no qualifying need is supported by the supplied material."
+          "Return true only when a source-supported, naturally framed best candidate is likely to reach at least32/40 under the quality forecast. Return false when the best realistic candidate is expected to score31 or below, including formally valid but only adequate queries, or when generation should skip. Do not maximize the number of admitted modes."
         ],
-        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries."
+        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries.",
+        "quality_forecast": {
+          "objective": "Predict the best realized candidate from the current generator, which returns up to three candidates, under Gemini legal-clir-exceptional-r3. This is a question-quality screening prediction, not a document-category choice and not basic feasibility.",
+          "cutoff": "Accept only when the strongest natural, well-supported candidate is likely to score MORE THAN 31 out of 40 (at least 32). Reject if its likely best score is 31 or less, or no question should be generated. Judge modes independently.",
+          "score_ladder": "The combined score has three faithfulness and five mode-specific quality criteria, each 1–5. Four means strong or fully successful; three means adequate or ordinary. Eight strong fours total 32 and qualify. A correct quotation plus adequate generic question can total 31 or less and must be rejected. Do not presume exceptional fives to offset a weak dimension. A genuinely evidenced five may offset an adequate three only when the combined forecast still exceeds31.",
+          "no_complexity_bias": "No exceptional score, long question, multiple numerical facts or complicated source is required. A simple focused question can be strong throughout. Numerical fidelity without relevant numerical or citational content is4, not a reason to reject.",
+          "strong_candidate_witness": [
+            "A concrete, useful unknown fits the actual persona; the answer is not already supplied as established in the question.",
+            "The packet supplies sufficient regime, actor or source, issue and any indispensable time/session context to frame a standalone identifier-free question without arbitrary invented premises.",
+            "One permitted continuous evidence span directly resolves the actual unknown, with material scope, exceptions, attribution, status and temporal roles preserved. Source identity is handled separately for source_finding.",
+            "The need can be expressed naturally and concisely without a decorative persona wrapper, circular checking need, generic two-sided pairing or avoidable near-copy of source scaffolding.",
+            "For the strongest plausible current-generator output, the three faithfulness criteria and five quality dimensions are likely strong4 rather than merely adequate3. Identify actual source features supporting that forecast; general usefulness and availability of an answer span alone are insufficient."
+          ],
+          "limits": "Use only source-visible evidence. Do not fetch sources, inspect prior generated questions, scores or model explanations, memorize identifiers, impose acceptance quotas or invent exceptional evidence. Predict the strongest realistically generated candidate, not an ideal rewrite needing missing source content.",
+          "mode_quality": "Two identifiable substantive sides and ONE common aspect must be established in the same permitted sufficient span. The relationship must be a useful actual unknown, not two loosely related names. Baseline/additional protection and explicitly identical treatment may be strong4. Missing side, status/actor mismatch, vague paired asks and merely possible comparison predict<=31.",
+          "quality_criteria": [
+            "search_realism",
+            "anchoring_and_time",
+            "consequence",
+            "lexical_distance",
+            "linguistic_quality"
+          ]
+        }
       },
       "criteria": {
-        "true": "At least one natural, informative comparison question can be generated with its substantive need, answer and necessary context fully supported under this mode and the corpus evidence rules. Other modes may simultaneously qualify.",
-        "false": "No qualifying comparison question is supported: every plausible need lacks indispensable evidence or context, violates the mode or corpus rules, is formal or ceremonial excluded content, or merely disguises another mode."
+        "true": "The best realistically generated comparison question is likely to score at least32/40 under the declared rubric, with enough source evidence for strong execution across faithfulness and mode-specific quality. Other modes may independently qualify.",
+        "false": "The best realistically generated comparison question is likely to score31/40 or less, or must skip: the packet lacks a strong mode-specific need, necessary standalone context, complete decisive evidence or a natural economical formulation. Mere possibility of one valid question is not enough."
       }
     },
     "claim_verification": {
       "type": "noul",
       "instructions": {
-        "task": "Determine independently whether this supplied target can support at least one natural, fully supported claim_verification question under the requirements below. Assess generation eligibility before generation; do not generate questions, answers or claims.",
+        "task": "Predict independently whether the current generator's best claim_verification question for this supplied target is likely to score above31/40 under Gemini legal-clir-exceptional-r3. Decide before generation; do not output draft questions, answers or claims.",
         "independence": "This target may support zero, one or several modes. Judge only this mode. A different mode being easier, stronger or also valid never makes this mode false. Do not rank modes, choose a single winner, impose quotas or prefer a mode for its rarity.",
         "input_structure": {
           "### TARGET BLOCK": "All substantive answer evidence.",
@@ -149,19 +237,41 @@
           "A source need not already contain a user query, case, uncertain assertion or remembered clue. Such framing may be formed during generation when its substantive requirements and answer are supported. Require a real mode-specific information need, not a decorative wrapper around another mode.",
           "The eventual question must stand alone with sufficient substantive and temporal identification while leaving its requested information unknown. Use only supplied source, event or session anchors; a directory year or cited letter date does not establish target adoption. If indispensable context is unavailable, reject that proposed need and check whether another supported need exists.",
           "Require one sufficient contiguous answer span from one permitted source unit, retaining material conditions and qualifications. Never stitch different provisions, calculate or infer a missing consequence. For source_finding, the answer is exact supplied target identity and a separate contiguous target-body span proves the substantive clue.",
-          "Return true if at least one need meets this mode and all applicable evidence rules. One good question is sufficient; do not require three, estimate verifier scores or reject because other modes also work. Return false only when no qualifying need is supported by the supplied material."
+          "Return true only when a source-supported, naturally framed best candidate is likely to reach at least32/40 under the quality forecast. Return false when the best realistic candidate is expected to score31 or below, including formally valid but only adequate queries, or when generation should skip. Do not maximize the number of admitted modes."
         ],
-        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries."
+        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries.",
+        "quality_forecast": {
+          "objective": "Predict the best realized candidate from the current generator, which returns up to three candidates, under Gemini legal-clir-exceptional-r3. This is a question-quality screening prediction, not a document-category choice and not basic feasibility.",
+          "cutoff": "Accept only when the strongest natural, well-supported candidate is likely to score MORE THAN 31 out of 40 (at least 32). Reject if its likely best score is 31 or less, or no question should be generated. Judge modes independently.",
+          "score_ladder": "The combined score has three faithfulness and five mode-specific quality criteria, each 1–5. Four means strong or fully successful; three means adequate or ordinary. Eight strong fours total 32 and qualify. A correct quotation plus adequate generic question can total 31 or less and must be rejected. Do not presume exceptional fives to offset a weak dimension. A genuinely evidenced five may offset an adequate three only when the combined forecast still exceeds31.",
+          "no_complexity_bias": "No exceptional score, long question, multiple numerical facts or complicated source is required. A simple focused question can be strong throughout. Numerical fidelity without relevant numerical or citational content is4, not a reason to reject.",
+          "strong_candidate_witness": [
+            "A concrete, useful unknown fits the actual persona; the answer is not already supplied as established in the question.",
+            "The packet supplies sufficient regime, actor or source, issue and any indispensable time/session context to frame a standalone identifier-free question without arbitrary invented premises.",
+            "One permitted continuous evidence span directly resolves the actual unknown, with material scope, exceptions, attribution, status and temporal roles preserved. Source identity is handled separately for source_finding.",
+            "The need can be expressed naturally and concisely without a decorative persona wrapper, circular checking need, generic two-sided pairing or avoidable near-copy of source scaffolding.",
+            "For the strongest plausible current-generator output, the three faithfulness criteria and five quality dimensions are likely strong4 rather than merely adequate3. Identify actual source features supporting that forecast; general usefulness and availability of an answer span alone are insufficient."
+          ],
+          "limits": "Use only source-visible evidence. Do not fetch sources, inspect prior generated questions, scores or model explanations, memorize identifiers, impose acceptance quotas or invent exceptional evidence. Predict the strongest realistically generated candidate, not an ideal rewrite needing missing source content.",
+          "mode_quality": "A concise materially useful UNCERTAIN assertion must have decisive supported or explicitly contradicted evidence at matching scope/time/status/attribution. A relevant checking need can be strong without numbers or contradiction. Mechanical negation, a copied paragraph wrapper, silence-based verdicts, overbroad universals or an invented settled premise predict<=31.",
+          "quality_criteria": [
+            "search_realism",
+            "anchoring_and_time",
+            "consequence",
+            "lexical_distance",
+            "linguistic_quality"
+          ]
+        }
       },
       "criteria": {
-        "true": "At least one natural, informative claim_verification question can be generated with its substantive need, answer and necessary context fully supported under this mode and the corpus evidence rules. Other modes may simultaneously qualify.",
-        "false": "No qualifying claim_verification question is supported: every plausible need lacks indispensable evidence or context, violates the mode or corpus rules, is formal or ceremonial excluded content, or merely disguises another mode."
+        "true": "The best realistically generated claim_verification question is likely to score at least32/40 under the declared rubric, with enough source evidence for strong execution across faithfulness and mode-specific quality. Other modes may independently qualify.",
+        "false": "The best realistically generated claim_verification question is likely to score31/40 or less, or must skip: the packet lacks a strong mode-specific need, necessary standalone context, complete decisive evidence or a natural economical formulation. Mere possibility of one valid question is not enough."
       }
     },
     "source_finding": {
       "type": "noul",
       "instructions": {
-        "task": "Determine independently whether this supplied target can support at least one natural, fully supported source_finding question under the requirements below. Assess generation eligibility before generation; do not generate questions, answers or claims.",
+        "task": "Predict independently whether the current generator's best source_finding question for this supplied target is likely to score above31/40 under Gemini legal-clir-exceptional-r3. Decide before generation; do not output draft questions, answers or claims.",
         "independence": "This target may support zero, one or several modes. Judge only this mode. A different mode being easier, stronger or also valid never makes this mode false. Do not rank modes, choose a single winner, impose quotas or prefer a mode for its rarity.",
         "input_structure": {
           "### TARGET BLOCK": "All substantive answer evidence.",
@@ -180,14 +290,46 @@
           "A source need not already contain a user query, case, uncertain assertion or remembered clue. Such framing may be formed during generation when its substantive requirements and answer are supported. Require a real mode-specific information need, not a decorative wrapper around another mode.",
           "The eventual question must stand alone with sufficient substantive and temporal identification while leaving its requested information unknown. Use only supplied source, event or session anchors; a directory year or cited letter date does not establish target adoption. If indispensable context is unavailable, reject that proposed need and check whether another supported need exists.",
           "Require one sufficient contiguous answer span from one permitted source unit, retaining material conditions and qualifications. Never stitch different provisions, calculate or infer a missing consequence. For source_finding, the answer is exact supplied target identity and a separate contiguous target-body span proves the substantive clue.",
-          "Return true if at least one need meets this mode and all applicable evidence rules. One good question is sufficient; do not require three, estimate verifier scores or reject because other modes also work. Return false only when no qualifying need is supported by the supplied material."
+          "Return true only when a source-supported, naturally framed best candidate is likely to reach at least32/40 under the quality forecast. Return false when the best realistic candidate is expected to score31 or below, including formally valid but only adequate queries, or when generation should skip. Do not maximize the number of admitted modes."
         ],
-        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries."
+        "language": "Decide by meaning in all supplied languages. Translations are the same evidence, not independent corroboration. Language variants do not alter these intent boundaries.",
+        "quality_forecast": {
+          "objective": "Predict the best realized candidate from the current generator, which returns up to three candidates, under Gemini legal-clir-exceptional-r3. This is a question-quality screening prediction, not a document-category choice and not basic feasibility.",
+          "cutoff": "Accept only when the strongest natural, well-supported candidate is likely to score MORE THAN 31 out of 40 (at least 32). Reject if its likely best score is 31 or less, or no question should be generated. Judge modes independently.",
+          "score_ladder": "The combined score has three faithfulness and five mode-specific quality criteria, each 1–5. Four means strong or fully successful; three means adequate or ordinary. Eight strong fours total 32 and qualify. A correct quotation plus adequate generic question can total 31 or less and must be rejected. Do not presume exceptional fives to offset a weak dimension. A genuinely evidenced five may offset an adequate three only when the combined forecast still exceeds31.",
+          "no_complexity_bias": "No exceptional score, long question, multiple numerical facts or complicated source is required. A simple focused question can be strong throughout. Numerical fidelity without relevant numerical or citational content is4, not a reason to reject.",
+          "strong_candidate_witness": [
+            "A concrete, useful unknown fits the actual persona; the answer is not already supplied as established in the question.",
+            "The packet supplies sufficient regime, actor or source, issue and any indispensable time/session context to frame a standalone identifier-free question without arbitrary invented premises.",
+            "One permitted continuous evidence span directly resolves the actual unknown, with material scope, exceptions, attribution, status and temporal roles preserved. Source identity is handled separately for source_finding.",
+            "The need can be expressed naturally and concisely without a decorative persona wrapper, circular checking need, generic two-sided pairing or avoidable near-copy of source scaffolding.",
+            "For the strongest plausible current-generator output, the three faithfulness criteria and five quality dimensions are likely strong4 rather than merely adequate3. Identify actual source features supporting that forecast; general usefulness and availability of an answer span alone are insufficient."
+          ],
+          "limits": "Use only source-visible evidence. Do not fetch sources, inspect prior generated questions, scores or model explanations, memorize identifiers, impose acceptance quotas or invent exceptional evidence. Predict the strongest realistically generated candidate, not an ideal rewrite needing missing source content.",
+          "mode_quality": "A concise connected target-body clue must accurately preserve every material actor/status/scope distinction and be useful for retrieving the target whose exact identity is supplied in metadata. A mere identifier copy, generic unconnected facts, exhaustive source fingerprint, wrong speaking capacity or source-derived long wrapper predicts<=31. No corpus-wide uniqueness requirement.",
+          "quality_criteria": [
+            "search_realism",
+            "anchoring_and_time",
+            "consequence",
+            "lexical_distance",
+            "linguistic_quality"
+          ]
+        }
       },
       "criteria": {
-        "true": "At least one natural, informative source_finding question can be generated with its substantive need, answer and necessary context fully supported under this mode and the corpus evidence rules. Other modes may simultaneously qualify.",
-        "false": "No qualifying source_finding question is supported: every plausible need lacks indispensable evidence or context, violates the mode or corpus rules, is formal or ceremonial excluded content, or merely disguises another mode."
+        "true": "The best realistically generated source_finding question is likely to score at least32/40 under the declared rubric, with enough source evidence for strong execution across faithfulness and mode-specific quality. Other modes may independently qualify.",
+        "false": "The best realistically generated source_finding question is likely to score31/40 or less, or must skip: the packet lacks a strong mode-specific need, necessary standalone context, complete decisive evidence or a natural economical formulation. Mere possibility of one valid question is not enough."
       }
     }
+  },
+  "routing_policy": {
+    "kind": "pre_generation_predicted_best_score",
+    "reference_rubric": "legal-clir-exceptional-r3",
+    "best_score_cutoff": 31,
+    "score_acceptance_rule": "best_question_total >31",
+    "probability_threshold": 0.55,
+    "calibration_documents": 30,
+    "minimum_high_score_retention_development": 0.5,
+    "selection_objective": "low_rejection"
   }
 }

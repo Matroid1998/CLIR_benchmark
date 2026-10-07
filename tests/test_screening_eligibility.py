@@ -17,6 +17,7 @@ def local_prompts(monkeypatch):
     monkeypatch.setenv("CLIR_PROMPT_SOURCE", "local")
     monkeypatch.delenv("CLIR_PROMPT_MANIFEST", raising=False)
     monkeypatch.setattr(screening_eligibility, "load_env", lambda: None)
+    monkeypatch.setattr(decider, "eligibility_policy", lambda source: {"probability_threshold": 0.5})
 
 
 def response(source, values=None):
@@ -27,12 +28,10 @@ def response(source, values=None):
     }}
 
 
-@pytest.fixture
-def parent_run(tmp_path):
-    directory = tmp_path / "parent"
+def record_parent(directory, corpora):
     entries = []
     with RunState(directory / "run.sqlite") as state:
-        for index, corpus in enumerate(("un", "eurlex", "un")):
+        for index, corpus in enumerate(corpora):
             text = f"### TARGET {'BLOCK' if corpus == 'un' else 'ARTICLE'}\nExact source {index}: é ≤ 70\n"
             entry = {
                 "corpus": corpus, "target_id": f"document-{index}#1",
@@ -50,6 +49,11 @@ def parent_run(tmp_path):
         state.put("targets", entries)
         state.put("status", "completed")
     return directory, entries
+
+
+@pytest.fixture
+def parent_run(tmp_path):
+    return record_parent(tmp_path / "parent", ("un", "eurlex", "un"))
 
 
 @pytest.mark.parametrize("source", ["un", "eurlex"])
@@ -208,3 +212,114 @@ def test_resume_rejects_changed_settings_before_another_call(parent_run, tmp_pat
         screening_eligibility.run(parent, output, **kwargs)
     with RunState(output / "run.sqlite") as state:
         assert state.get("status") == "completed"
+
+
+@pytest.mark.parametrize("selection", [
+    [], {}, [None], [{"corpus": "un"}],
+    [{"corpus": None, "document_id": "document-0"}],
+    [{"corpus": "un", "document_id": " "}],
+    [{"corpus": "un", "document_id": 0}],
+    [{"corpus": "unknown", "document_id": "document-0"}],
+    [{"corpus": "un", "document_id": "missing"}],
+    [{"corpus": "un", "document_id": "document-0"}] * 2,
+])
+def test_invalid_document_selection_makes_no_provider_call(
+    parent_run, tmp_path, monkeypatch, selection,
+):
+    parent, _ = parent_run
+    path = tmp_path / "selection.json"
+    path.write_text(json.dumps(selection), encoding="utf-8")
+    monkeypatch.setattr(llm, "decisions", lambda _: pytest.fail("Invalid selection made a call"))
+    output = tmp_path / "output"
+    with pytest.raises(ValueError):
+        screening_eligibility.run(parent, output, document_selection=path)
+    assert not output.exists()
+
+
+def test_document_selection_replays_30_original_targets_and_resumes_after_file_move(
+    tmp_path, monkeypatch,
+):
+    parent, entries = record_parent(tmp_path / "parent", ("un", "eurlex") * 25)
+    selected = entries[10:40]
+    path = tmp_path / "selection.json"
+    # Selection order and unrelated split metadata cannot alter source replay order.
+    path.write_text(json.dumps([
+        {"corpus": entry["corpus"], "document_id": entry["document_id"], "split": "development"}
+        for entry in reversed(selected)
+    ]), encoding="utf-8")
+    output, calls = tmp_path / "output", []
+    monkeypatch.setattr(llm, "decisions", fake_decisions(calls))
+    screening_eligibility.run(parent, output, workers=2, retries=1, document_selection=path)
+    assert len(calls) == 30
+    assert {call["state"] for call in calls} == {entry["source_payload"] for entry in selected}
+    with RunState(output / "run.sqlite") as state:
+        recorded = state.get("targets")
+        assert [entry["document_id"] for entry in recorded] == [
+            entry["document_id"] for entry in selected
+        ]
+        config = state.get("config")
+        assert config["documents_by_corpus"] == {"un": 15, "eurlex": 15}
+        assert config["targets_sha256"] == screening_eligibility.digest(recorded)
+        assert config["document_selection_sha256"] == screening_eligibility.digest([
+            {"corpus": entry["corpus"], "document_id": entry["document_id"]}
+            for entry in selected
+        ])
+        assert state.get("summary")["decisions"] == 180
+    moved = tmp_path / "moved.json"
+    path.rename(moved)
+    monkeypatch.setattr(llm, "decisions", lambda _: pytest.fail("Resume made a provider call"))
+    screening_eligibility.run(parent, output, workers=1, retries=1, document_selection=moved)
+    # A different selection is a different replay even if it has the same size.
+    moved.write_text(json.dumps([
+        {"corpus": entry["corpus"], "document_id": entry["document_id"]}
+        for entry in entries[11:41]
+    ]), encoding="utf-8")
+    with pytest.raises(ValueError, match="changed on resume"):
+        screening_eligibility.run(parent, output, retries=1, document_selection=moved)
+
+
+@pytest.mark.parametrize("explicit, expected", [(None, 0.63), (0.5, 0.5)])
+def test_run_uses_prompt_policy_unless_threshold_is_explicit(
+    parent_run, tmp_path, monkeypatch, explicit, expected,
+):
+    parent, entries = parent_run
+    monkeypatch.setattr(decider, "eligibility_policy", lambda source: {"probability_threshold": 0.63})
+    monkeypatch.setattr(llm, "decisions", fake_decisions([]))
+    output = tmp_path / "output"
+    screening_eligibility.run(parent, output, threshold=explicit, retries=1)
+    with RunState(output / "run.sqlite") as state:
+        assert state.get("config")["threshold"] == expected
+        rows = [row for outcome in state.outcomes() for row in outcome["rows"]]
+        assert all(row["threshold"] == expected for row in rows)
+        expected_yes = len(entries) * (2 if expected == 0.63 else 3)
+        assert sum(row["selected"] for row in rows) == expected_yes
+
+
+def test_different_corpus_policies_require_explicit_threshold(
+    parent_run, tmp_path, monkeypatch,
+):
+    parent, _ = parent_run
+    monkeypatch.setattr(decider, "eligibility_policy", lambda source: {
+        "probability_threshold": 0.6 if source == "un" else 0.7,
+    })
+    monkeypatch.setattr(llm, "decisions", lambda _: pytest.fail("Policy disagreement made a call"))
+    output = tmp_path / "output"
+    with pytest.raises(ValueError, match="supply an explicit threshold"):
+        screening_eligibility.run(parent, output)
+    assert not output.exists()
+    monkeypatch.setattr(llm, "decisions", fake_decisions([]))
+    screening_eligibility.run(parent, output, threshold=0.63, retries=1)
+    with RunState(output / "run.sqlite") as state:
+        assert state.get("config")["threshold"] == 0.63
+
+
+@pytest.mark.parametrize("threshold", [True, "0.5", -0.1, 1.1, float("nan")])
+def test_run_rejects_invalid_explicit_threshold_before_provider_call(
+    parent_run, tmp_path, monkeypatch, threshold,
+):
+    parent, _ = parent_run
+    monkeypatch.setattr(llm, "decisions", lambda _: pytest.fail("Invalid threshold made a call"))
+    output = tmp_path / "output"
+    with pytest.raises(ValueError):
+        screening_eligibility.run(parent, output, threshold=threshold)
+    assert not output.exists()

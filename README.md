@@ -251,14 +251,17 @@ To evaluate each persona independently on a completed screening selection:
 ```bash
 python -m clir_bench.domains.legal.qac.screening_eligibility previous/run \
   --output reports/decider_screening/jev_eligibility \
-  --prompt-manifest .clir/active_prompt_manifest.json \
-  --grades-csv reports/decider_screening/five_verifiers_blinded_20261007/all_verifier_grades.csv
+  --prompt-manifest .clir/active_prompt_manifest.json
 ```
 
 This sends each exact recorded source packet to Jev with six independent `noul`
-questions from `decider/jev_eligibility.json`. The initial yes/no cutoff is
-`--threshold 0.5` (inclusive); it is an exploratory threshold, not a calibrated
-quality guarantee. No generation or verifier calls are made. The separate output
+questions from `decider/jev_eligibility.json`. The current prompt forecasts whether
+the best generated question in each mode will score above 31/40 under
+`legal-clir-exceptional-r3`. Its locally versioned `routing_policy` sets the default
+yes-probability cutoff to 0.55 (inclusive); `--threshold` overrides it. Historical
+prompts without a policy use 0.5. The local policy is omitted from the native API
+request. This is a prediction before generation, not a guarantee of the realized
+grade. No generation or verifier calls are made. The separate output
 directory stores resumable calls, a `decisions_only.csv` (one row per
 document), a `decisions.csv` row per document/mode, and optional comparisons with
 all five existing blinded verifiers. `questions_with_jev_and_grades.csv` preserves
@@ -266,6 +269,24 @@ the original questions, grades, and reasons alongside the new decisions.
 An observed passing candidate demonstrates feasibility; a failed sampled batch
 does not establish that no valid question could be generated. The original
 single-choice router remains available for comparison.
+
+For a numeric-cutoff comparison with saved Gemini grades, use:
+
+```bash
+python -m clir_bench.domains.legal.qac.screening_cutoff \
+  --decisions run/decisions.csv --grades previous/verifier_grades.csv \
+  --output run --probability-threshold 0.55
+```
+
+It compares the maximum numeric total per document/mode with the strict rule
+`best_total > 31`, treats generation skips as negative observations, and reports
+audit validity separately. Optional `--split` supplies document-level development
+and validation assignments. Threshold proposals use development documents only;
+`--selection-objective low_rejection --minimum-high-retention 0.5` favors rejecting
+low-scoring modes while retaining at least half the high-scoring development modes.
+`--documents` on the Jev replay command restricts calls to an explicit JSON list of
+corpus/document IDs for development experiments. Keep validation documents out of
+prompt and threshold selection.
 
 `python -m clir_bench.domains.legal.qac.experiment_evaluation` compares completed runs
 using one pinned, mode-blind rubric; identical pairs are graded once across versions.

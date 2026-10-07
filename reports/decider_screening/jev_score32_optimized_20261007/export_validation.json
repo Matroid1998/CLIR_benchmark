@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "documents": 50,
+  "document_modes": 300,
+  "question_rows": 450,
+  "questions_reused": 440,
+  "generation_skips": 10,
+  "final_jev_calls": 50,
+  "generation_calls": 0,
+  "verifier_calls": 0,
+  "source_only_requests": true,
+  "routing_policy_not_sent_to_api": true,
+  "probability_threshold": 0.55,
+  "best_score_cutoff": 31,
+  "split_sha256": "187181e172fe9551d05c56869b7d650206b4c593aee958e91c09ce44540b62dc",
+  "selected_from_development_only": true,
+  "known_provider_cost_usd": 0.028216272
+}

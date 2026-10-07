@@ -35,7 +35,7 @@ def generation_mode(mode: str) -> str:
 
 
 def eligibility_prompt_text(source: str) -> str:
-    """Independent mode suitability, separate from the historical single winner."""
+    """Independent quality prediction, separate from the historical single winner."""
     if source not in MODES:
         raise ValueError(f"unsupported eligibility source: {source}")
     return load_prompt(f"clir_bench.domains.legal.qac.prompts_{source}",
@@ -44,12 +44,28 @@ def eligibility_prompt_text(source: str) -> str:
 
 def build_eligibility_request(source: str, text: str) -> dict:
     request = json.loads(eligibility_prompt_text(source))
+    # Local routing policy is pinned with the prompt, but is not Decisions API input.
+    request.pop("routing_policy", None)
     questions = request.get("questions")
     if (not isinstance(questions, dict) or set(questions) != set(MODES[source])
             or any(not isinstance(q, dict) or q.get("type") != "noul"
                    for q in questions.values())):
         raise ValueError("Eligibility prompt must ask one noul question per mode")
     return dict(request, model=JEV_MODEL, state=text)
+
+
+def eligibility_policy(source: str) -> dict:
+    """Read a calibrated local cutoff; historical prompts retain their 0.5 default."""
+    prompt = json.loads(eligibility_prompt_text(source))
+    policy = prompt.get("routing_policy", {"probability_threshold": 0.5})
+    if not isinstance(policy, dict) or "probability_threshold" not in policy:
+        raise ValueError("Eligibility routing policy must declare probability_threshold")
+    _probability(policy["probability_threshold"])
+    cutoff = policy.get("best_score_cutoff")
+    if cutoff is not None and (isinstance(cutoff, bool) or not isinstance(cutoff, (int, float))
+                               or not math.isfinite(cutoff) or not 0 <= cutoff <= 40):
+        raise ValueError("Eligibility score cutoff must be finite and in [0,40]")
+    return policy
 
 
 def parse_eligibility(data, source: str, *, threshold: float = 0.5) -> dict:
@@ -70,8 +86,10 @@ def parse_eligibility(data, source: str, *, threshold: float = 0.5) -> dict:
             "backend": "jev_eligibility"}
 
 
-def decide_eligibility(source: str, text: str, *, threshold: float = 0.5,
+def decide_eligibility(source: str, text: str, *, threshold: float | None = None,
                        checkpoint=None, retries: int = 3) -> dict:
+    if threshold is None:
+        threshold = eligibility_policy(source)["probability_threshold"]
     _probability(threshold)
     request = build_eligibility_request(source, text)
 

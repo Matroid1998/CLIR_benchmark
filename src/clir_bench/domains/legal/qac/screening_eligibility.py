@@ -63,15 +63,49 @@ def load_targets(parent: Path) -> list[dict]:
     return targets
 
 
-def run(parent: Path, output: Path, *, threshold=0.5, workers=8, retries=3):
+def select_documents(targets: list[dict], selection: Path) -> list[dict]:
+    """Select existing documents while preserving the recorded parent order."""
+    entries = json.loads(selection.read_text(encoding="utf-8"))
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("Document selection must be a nonempty JSON list")
+    requested = set()
+    available = {(entry["corpus"], entry["document_id"]) for entry in targets}
+    for entry in entries:
+        if not isinstance(entry, dict) or any(
+            not isinstance(entry.get(key), str) or not entry[key].strip()
+            for key in ("corpus", "document_id")
+        ):
+            raise ValueError("Each selected document requires string corpus and document_id")
+        pair = entry["corpus"], entry["document_id"]
+        if pair in requested:
+            raise ValueError(f"Duplicate selected document: {pair}")
+        if pair not in available:
+            raise ValueError(f"Selected document is absent from parent run: {pair}")
+        requested.add(pair)
+    return [entry for entry in targets if (entry["corpus"], entry["document_id"]) in requested]
+
+
+def run(parent: Path, output: Path, *, threshold=None, workers=8, retries=3,
+        document_selection: Path | None = None):
     if parent.resolve() == output.resolve():
         raise ValueError("Eligibility output must be separate from its parent")
-    decider._probability(threshold)
+    if threshold is not None:
+        decider._probability(threshold)
     if workers < 1 or retries < 1:
         raise ValueError("workers and retries must be positive")
     load_env()
     targets = load_targets(parent)
+    if document_selection is not None:
+        targets = select_documents(targets, document_selection)
     sources = sorted({entry["corpus"] for entry in targets})
+    if threshold is None:
+        policy_thresholds = {
+            decider._probability(decider.eligibility_policy(source)["probability_threshold"])
+            for source in sources
+        }
+        if len(policy_thresholds) != 1:
+            raise ValueError("Corpus policy thresholds differ; supply an explicit threshold")
+        threshold = policy_thresholds.pop()
     prompts = {source: decider.eligibility_prompt_text(source) for source in sources}
     # Validate every request before making any provider call.
     for source in sources:
@@ -82,6 +116,11 @@ def run(parent: Path, output: Path, *, threshold=0.5, workers=8, retries=3):
               "source_inputs": "Exact recorded parent Jev state; no questions or grades",
               "targets_sha256": digest(targets), "prompts_sha256": digest(prompts),
               "prompt_registry": prompt_registry.manifest_metadata()}
+    if document_selection is not None:
+        config["document_selection_sha256"] = digest([
+            {"corpus": entry["corpus"], "document_id": entry["document_id"]}
+            for entry in targets
+        ])
     fingerprint = digest(config)
     output.mkdir(parents=True, exist_ok=True)
     with RunState(output / "run.sqlite") as state:
@@ -168,7 +207,10 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--grades-csv", type=Path, help="Existing blinded five-verifier grades to compare")
     parser.add_argument("--prompt-manifest", type=Path)
-    parser.add_argument("--threshold", type=float, default=0.5)
+    parser.add_argument("--documents", type=Path,
+                        help="JSON list of existing corpus/document_id pairs to replay")
+    parser.add_argument("--threshold", type=float,
+                        help="Override the probability threshold pinned in the prompt policy")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--retries", type=int, default=3)
     args = parser.parse_args()
@@ -176,7 +218,8 @@ def main():
         os.environ["CLIR_PROMPT_MANIFEST"] = str(args.prompt_manifest.resolve())
     if args.grades_csv and not args.grades_csv.is_file():
         parser.error("--grades-csv must exist")
-    run(args.parent, args.output, threshold=args.threshold, workers=args.workers, retries=args.retries)
+    run(args.parent, args.output, threshold=args.threshold, workers=args.workers,
+        retries=args.retries, document_selection=args.documents)
     if args.grades_csv:
         from clir_bench.domains.legal.qac.screening_eligibility_analysis import analyze
         analyze(args.output, args.grades_csv)

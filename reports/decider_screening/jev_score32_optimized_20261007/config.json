@@ -1,0 +1,434 @@
+{
+  "operation": "jev_eligibility_only",
+  "parent_run": "/home/mehdi/Projects/CLIR_benchmark/reports/decider_screening/english_bundles_fresh50_20261007",
+  "model": "~typesafe/jev-latest",
+  "threshold": 0.55,
+  "retries": 3,
+  "documents_by_corpus": {
+    "un": 25,
+    "eurlex": 25
+  },
+  "source_inputs": "Exact recorded parent Jev state; no questions or grades",
+  "targets_sha256": "d524ee94bc92556afa43d102a48b579e893c9ad96667a99c795e88312f54f719",
+  "prompts_sha256": "cb90868df89b5b7d800a0c6de591ed2f8a92547e190f4eb1b09aa404fd5ccdd6",
+  "prompt_registry": {
+    "schema_version": 1,
+    "provider": "mlflow",
+    "bundle": "legal-decider-score32-optimized-20261007",
+    "label": "decider-score32-optimized-20261007",
+    "registry_uri": "sqlite:////home/mehdi/Projects/CLIR_benchmark/.clir/prompts.db",
+    "bundle_sha256": "931307d5d99f62b832afe0ed6b93bac8fc701acc944fbbe26d30f426d4c7f53a",
+    "prompts": {
+      "eurlex/decider/generator": {
+        "name": "clir-legal-eurlex-decider-generator-en",
+        "version": 14,
+        "sha256": "c3d060f4680c568885f4c222fd04c0fc40b683814fb85140c15e3e6b34bca00f"
+      },
+      "eurlex/decider/jev": {
+        "name": "clir-legal-eurlex-decider-jev-en",
+        "version": 14,
+        "sha256": "0cae3a26cd93a7ea5e9b073a97493f8efba13fec33cbf46ffc9a73bfdcac1a2b"
+      },
+      "eurlex/decider/jev_eligibility": {
+        "name": "clir-legal-eurlex-decider-jev_eligibility-en",
+        "version": 7,
+        "sha256": "1de0ce809beec4d4372e66e0fceb21326ebfae9b516615cbe5db66645d19d036"
+      },
+      "eurlex/faithfulness": {
+        "name": "clir-legal-eurlex-faithfulness-batch-en",
+        "version": 12,
+        "sha256": "c1ee252ec8130595d0962db3799fc652ef6ef47395a788b8a13cadd592013569"
+      },
+      "eurlex/generation/claim_verification": {
+        "name": "clir-legal-eurlex-generation-claim_verification-en",
+        "version": 8,
+        "sha256": "0ce61311fd4acad8b7ac5fb093398359dbfb4eae7527a61dcc88f21b1c675339"
+      },
+      "eurlex/generation/claim_verification/de": {
+        "name": "clir-legal-eurlex-generation-claim_verification-de",
+        "version": 8,
+        "sha256": "5df230791c62124e4ab9b711de0cdef65b0d95f6fa9e91d3739c2e8c00c0b5a7"
+      },
+      "eurlex/generation/claim_verification/es": {
+        "name": "clir-legal-eurlex-generation-claim_verification-es",
+        "version": 8,
+        "sha256": "26264797a0d08b56d6613606a2396afe12efa3f469a31f416fc206884f04bd48"
+      },
+      "eurlex/generation/claim_verification/fr": {
+        "name": "clir-legal-eurlex-generation-claim_verification-fr",
+        "version": 8,
+        "sha256": "e5d04765f49087c87a67cdbb31cd9b345ddf76099e111cb041fccc68bde6070b"
+      },
+      "eurlex/generation/claim_verification/zh": {
+        "name": "clir-legal-eurlex-generation-claim_verification-zh",
+        "version": 8,
+        "sha256": "b507e17c47d4e5a713988110dc10240c50b5e25c08c4542969c54da9b4d1dcfd"
+      },
+      "eurlex/generation/comparison": {
+        "name": "clir-legal-eurlex-generation-comparison-en",
+        "version": 8,
+        "sha256": "af323f281356e65e84e8e02f0c7f6553f3c781413620df4b62ae79c72cf70409"
+      },
+      "eurlex/generation/comparison/de": {
+        "name": "clir-legal-eurlex-generation-comparison-de",
+        "version": 8,
+        "sha256": "541804aa71f3533ed85aa2a93305b26a0f2ae047d991eefd340da2bef7f77951"
+      },
+      "eurlex/generation/comparison/es": {
+        "name": "clir-legal-eurlex-generation-comparison-es",
+        "version": 8,
+        "sha256": "013ae8eb4da115e95bf25308afbeb802eefc6d279748942a9552c36ebc9d270b"
+      },
+      "eurlex/generation/comparison/fr": {
+        "name": "clir-legal-eurlex-generation-comparison-fr",
+        "version": 8,
+        "sha256": "f950f23e678c1b7faf81b103c116ddd19e8c6a07ff511ac6041534be76f215bf"
+      },
+      "eurlex/generation/comparison/zh": {
+        "name": "clir-legal-eurlex-generation-comparison-zh",
+        "version": 8,
+        "sha256": "0ca8ed486936c21cda7002ef16e1fbc27e5f6ea4164a9030194848c99058b971"
+      },
+      "eurlex/generation/conceptual": {
+        "name": "clir-legal-eurlex-generation-conceptual-en",
+        "version": 9,
+        "sha256": "bef648ec3afcf78d95f0b39800dbbb0810d2c440564a5d40e042ba6e8f09858a"
+      },
+      "eurlex/generation/conceptual/de": {
+        "name": "clir-legal-eurlex-generation-conceptual-de",
+        "version": 9,
+        "sha256": "92f3fe0f27dbf2d1a11f3664b241ff5e16dd33b6b3e56252a0438cabd636021c"
+      },
+      "eurlex/generation/conceptual/es": {
+        "name": "clir-legal-eurlex-generation-conceptual-es",
+        "version": 9,
+        "sha256": "2bf432221f806c1d40dc773e3f4351348237cd8d9e2a8718714003178d950ae4"
+      },
+      "eurlex/generation/conceptual/fr": {
+        "name": "clir-legal-eurlex-generation-conceptual-fr",
+        "version": 9,
+        "sha256": "779b97bd1c092b5427c3bdc0248eb4e6d36b0576b66768cd50d6bfd36bdefac9"
+      },
+      "eurlex/generation/conceptual/zh": {
+        "name": "clir-legal-eurlex-generation-conceptual-zh",
+        "version": 9,
+        "sha256": "1a7baaf4358342c24309efdc62f7a188ab92b2c41853636f6fda74c355f23889"
+      },
+      "eurlex/generation/fact_pattern": {
+        "name": "clir-legal-eurlex-generation-fact_pattern-en",
+        "version": 11,
+        "sha256": "4ec5ed337d5563ee24682dd5a46f9a361d75f3076b245fbf441ee764bdd76010"
+      },
+      "eurlex/generation/fact_pattern/de": {
+        "name": "clir-legal-eurlex-generation-fact_pattern-de",
+        "version": 11,
+        "sha256": "43fefbeb978df6b4d613e65069841686491e762bad38a4cf1171ea07d31b9bef"
+      },
+      "eurlex/generation/fact_pattern/es": {
+        "name": "clir-legal-eurlex-generation-fact_pattern-es",
+        "version": 11,
+        "sha256": "8a4a59262f98cca530633ff599dede127914d5d7378f3f9f471947a2cc0f572a"
+      },
+      "eurlex/generation/fact_pattern/fr": {
+        "name": "clir-legal-eurlex-generation-fact_pattern-fr",
+        "version": 11,
+        "sha256": "003d0523f3172d5cd18b85f3fdb5f618e99c0bacd368c966628b6e592fa99cee"
+      },
+      "eurlex/generation/fact_pattern/zh": {
+        "name": "clir-legal-eurlex-generation-fact_pattern-zh",
+        "version": 11,
+        "sha256": "800c52b222bcd8c9c25fea09ed0504e100bc9b20b6f7fce8d0ddf90d1b26e0eb"
+      },
+      "eurlex/generation/lookup": {
+        "name": "clir-legal-eurlex-generation-lookup-en",
+        "version": 11,
+        "sha256": "71264381054518abe46dc73a95f7ab23c7e9151185146157d85929337be7cadd"
+      },
+      "eurlex/generation/lookup/de": {
+        "name": "clir-legal-eurlex-generation-lookup-de",
+        "version": 11,
+        "sha256": "466643a5ae1f950925129cb3c1d9570934a5dcd548856d9e833c78f9a9caa290"
+      },
+      "eurlex/generation/lookup/es": {
+        "name": "clir-legal-eurlex-generation-lookup-es",
+        "version": 11,
+        "sha256": "70a5f36b78fe5602645417514ea66ea0599d5864281abcb4aa401790af9d6eda"
+      },
+      "eurlex/generation/lookup/fr": {
+        "name": "clir-legal-eurlex-generation-lookup-fr",
+        "version": 11,
+        "sha256": "c39539d3bdf1edb7b22514559fbeade6a046465c250b73b11c1c4e4b2174b85b"
+      },
+      "eurlex/generation/lookup/zh": {
+        "name": "clir-legal-eurlex-generation-lookup-zh",
+        "version": 11,
+        "sha256": "008dc1dcbb74f9863199b026f7adb2583050136eaa1bb918c0bf41b752dac3a0"
+      },
+      "eurlex/generation/source_finding": {
+        "name": "clir-legal-eurlex-generation-source_finding-en",
+        "version": 8,
+        "sha256": "af447ff4bdb2adee6b35f4de9af2935f437c74da48336737299d32861c3f7f76"
+      },
+      "eurlex/generation/source_finding/de": {
+        "name": "clir-legal-eurlex-generation-source_finding-de",
+        "version": 8,
+        "sha256": "ff4a9c2325010699635e777996ae7988f73773dd5db9220ded6593fe2fe11860"
+      },
+      "eurlex/generation/source_finding/es": {
+        "name": "clir-legal-eurlex-generation-source_finding-es",
+        "version": 8,
+        "sha256": "b09a80935e8a342a914e5beaa3c034a7e3cec2b771530de01cb333e2c791b138"
+      },
+      "eurlex/generation/source_finding/fr": {
+        "name": "clir-legal-eurlex-generation-source_finding-fr",
+        "version": 8,
+        "sha256": "60d4c88dec6b95da237a28f26d7c2c82b8c6acf2193fc628b8a375f4d737edfc"
+      },
+      "eurlex/generation/source_finding/zh": {
+        "name": "clir-legal-eurlex-generation-source_finding-zh",
+        "version": 8,
+        "sha256": "8668f76d8f5deed4fc68cc68013f88429657ece1a81efe66323977f35cfc4ceb"
+      },
+      "eurlex/quality/claim_verification": {
+        "name": "clir-legal-eurlex-quality-claim_verification-en",
+        "version": 8,
+        "sha256": "0cda861222d8c12a089a131f973ad81dd0fba92a490b5993c456656a1caa1ebd"
+      },
+      "eurlex/quality/comparison": {
+        "name": "clir-legal-eurlex-quality-comparison-en",
+        "version": 8,
+        "sha256": "743d9f0afcd8b1ad8a52db483674408fc7b23e00b8af18f5d038623656e1ef84"
+      },
+      "eurlex/quality/conceptual": {
+        "name": "clir-legal-eurlex-quality-conceptual-en",
+        "version": 9,
+        "sha256": "b3954515b7bc4d82d601bd8897d396beadf3652dea152d93b693ef278a11a3b7"
+      },
+      "eurlex/quality/fact_pattern": {
+        "name": "clir-legal-eurlex-quality-fact_pattern-en",
+        "version": 11,
+        "sha256": "600ee962529b1d8a1dc33f81a0441bfb21018e664f82d9662bedb9d701177fb9"
+      },
+      "eurlex/quality/lookup": {
+        "name": "clir-legal-eurlex-quality-lookup-en",
+        "version": 11,
+        "sha256": "54cdd5ab749cfa9d6961d6d4db03ea5dc4ad3826dc3c478322d76ea735f794ec"
+      },
+      "eurlex/quality/source_finding": {
+        "name": "clir-legal-eurlex-quality-source_finding-en",
+        "version": 8,
+        "sha256": "9b87d0f46fc96dba6af671905f0d1c71cd8815f3e96f29c603783622a873e1e1"
+      },
+      "un/decider/generator": {
+        "name": "clir-legal-un-decider-generator-en",
+        "version": 12,
+        "sha256": "87ef8981a8a9e247d2f66b6a323770b4dd8760d562dff598f6635c270a152a66"
+      },
+      "un/decider/jev": {
+        "name": "clir-legal-un-decider-jev-en",
+        "version": 14,
+        "sha256": "3bd693bc90d79aa8c2376cd1615870cf83b9cf58e3467c4a01f4419a096df5df"
+      },
+      "un/decider/jev_eligibility": {
+        "name": "clir-legal-un-decider-jev_eligibility-en",
+        "version": 7,
+        "sha256": "6f127a910379e3e30e214b02e0d6226e705129453b462bce5588594f82815a0b"
+      },
+      "un/faithfulness": {
+        "name": "clir-legal-un-faithfulness-batch-en",
+        "version": 12,
+        "sha256": "84a4db50d71693e9f9861068c4a1854bc06556722501204b17c86d4aa13cfb5a"
+      },
+      "un/generation/claim_verification": {
+        "name": "clir-legal-un-generation-claim_verification-en",
+        "version": 8,
+        "sha256": "3b5dd1c022ece53ed3e2a76fbefa265300b72d7fd48f59e9e065de60b4718328"
+      },
+      "un/generation/claim_verification/de": {
+        "name": "clir-legal-un-generation-claim_verification-de",
+        "version": 8,
+        "sha256": "8447bef5260616bc2cafcf7b097042115725ef75c2533c727ec21cc56a6a7661"
+      },
+      "un/generation/claim_verification/es": {
+        "name": "clir-legal-un-generation-claim_verification-es",
+        "version": 8,
+        "sha256": "fa153e1a961ef755cb51383284f3e604dde39783889f9643737b00c2d87013e2"
+      },
+      "un/generation/claim_verification/fr": {
+        "name": "clir-legal-un-generation-claim_verification-fr",
+        "version": 8,
+        "sha256": "cfd6ce483bbe968ea4a687a20abbbc4aa6f48688fcaaf3c8281879053366012e"
+      },
+      "un/generation/claim_verification/zh": {
+        "name": "clir-legal-un-generation-claim_verification-zh",
+        "version": 8,
+        "sha256": "aea613d87777afd8643fb74ea761e0676baf698a020f10512426de95f3e8d943"
+      },
+      "un/generation/comparison": {
+        "name": "clir-legal-un-generation-comparison-en",
+        "version": 8,
+        "sha256": "9d115a7c386fc30eb529bc907518ae3fcabd0a77de6a14b2ec93299bd66e0a0c"
+      },
+      "un/generation/comparison/de": {
+        "name": "clir-legal-un-generation-comparison-de",
+        "version": 8,
+        "sha256": "2dda616c77156646de0d3f89fc0ab2b9472de3521e718c610a7e77491df8b01b"
+      },
+      "un/generation/comparison/es": {
+        "name": "clir-legal-un-generation-comparison-es",
+        "version": 8,
+        "sha256": "ba54b4e3e72ce13bc5d555036c4f80b8c0d22dd997a76cc2fa5054146faf2ab0"
+      },
+      "un/generation/comparison/fr": {
+        "name": "clir-legal-un-generation-comparison-fr",
+        "version": 8,
+        "sha256": "ee6282ecaa57009e184159d3fe7f01b7af401fdb4e40e4e57c260d6e88f6c92d"
+      },
+      "un/generation/comparison/zh": {
+        "name": "clir-legal-un-generation-comparison-zh",
+        "version": 8,
+        "sha256": "b5d67f00c7099a601fb68615029b65b8bcab0cae59540978a84aa5d2a9a375a1"
+      },
+      "un/generation/conceptual": {
+        "name": "clir-legal-un-generation-conceptual-en",
+        "version": 9,
+        "sha256": "9fa6d065c430bf7772d2684a34ffc1eff5568cb65ca94fe1043e9d23fb8296b1"
+      },
+      "un/generation/conceptual/de": {
+        "name": "clir-legal-un-generation-conceptual-de",
+        "version": 9,
+        "sha256": "f3260e8604a85bce05434ed4d7d2a62e0c6220fb16a4cfa3786dcc8a902d341b"
+      },
+      "un/generation/conceptual/es": {
+        "name": "clir-legal-un-generation-conceptual-es",
+        "version": 9,
+        "sha256": "12cf1260ecb574d1c434b4895b5b72cbd47db055ecc39d3d1102d58bec188a54"
+      },
+      "un/generation/conceptual/fr": {
+        "name": "clir-legal-un-generation-conceptual-fr",
+        "version": 9,
+        "sha256": "30db88187dfa5f93a36f7aa47e5711c9f352c7027bd696d70ada54bd3b4a780c"
+      },
+      "un/generation/conceptual/zh": {
+        "name": "clir-legal-un-generation-conceptual-zh",
+        "version": 9,
+        "sha256": "e032253c81236cafb979e23bf7409be1132c32c3fc8e7fb405a2b4fdfd0c382f"
+      },
+      "un/generation/lookup": {
+        "name": "clir-legal-un-generation-lookup-en",
+        "version": 11,
+        "sha256": "df730ba3b589be2a3830dec64136bf195ef96fa8ac87525ce5a6b3fd74b3e4ad"
+      },
+      "un/generation/lookup/de": {
+        "name": "clir-legal-un-generation-lookup-de",
+        "version": 11,
+        "sha256": "7f760bbfebb981823e96fd0a2a28583aadaaf7259639a668d83043c06bea65ea"
+      },
+      "un/generation/lookup/es": {
+        "name": "clir-legal-un-generation-lookup-es",
+        "version": 11,
+        "sha256": "cf66a8e9b2ed592da6b89d22984aa43bcbe8a3cc4a16256b9f0bbaa13f559083"
+      },
+      "un/generation/lookup/fr": {
+        "name": "clir-legal-un-generation-lookup-fr",
+        "version": 11,
+        "sha256": "13b9e03f7761f6636ce9cef24ddba720ac5fc6cf1db7dee8b977087afb273f1b"
+      },
+      "un/generation/lookup/zh": {
+        "name": "clir-legal-un-generation-lookup-zh",
+        "version": 11,
+        "sha256": "8073bad190efe5c35da03fe8c8fefeedf49e4a124adae50426884d88ee982538"
+      },
+      "un/generation/practitioner": {
+        "name": "clir-legal-un-generation-practitioner-en",
+        "version": 12,
+        "sha256": "383190984545e0a415b224b906cec9e12b4e30b83489f3378d8ded101d42fd78"
+      },
+      "un/generation/practitioner/de": {
+        "name": "clir-legal-un-generation-practitioner-de",
+        "version": 12,
+        "sha256": "5daedeb4e1aed9e00c33247f56722993838a8993227bbffc37988e6c2c83ada0"
+      },
+      "un/generation/practitioner/es": {
+        "name": "clir-legal-un-generation-practitioner-es",
+        "version": 12,
+        "sha256": "ee9c33e5548f63a731e2df8f357b2fad0265f8dd724b3589b68e5d80cf4a47c7"
+      },
+      "un/generation/practitioner/fr": {
+        "name": "clir-legal-un-generation-practitioner-fr",
+        "version": 12,
+        "sha256": "cf8df87cf39946efaf8d21405f2e14dc0964cafe65125e7fafc900d3c645fd32"
+      },
+      "un/generation/practitioner/zh": {
+        "name": "clir-legal-un-generation-practitioner-zh",
+        "version": 12,
+        "sha256": "4fc0ed66960b1d41f7e5e112921360f7567d5d09c3a18dc2ebb542cc1ac9c213"
+      },
+      "un/generation/source_finding": {
+        "name": "clir-legal-un-generation-source_finding-en",
+        "version": 8,
+        "sha256": "f3725b395390202aa43410b41c415d5533fc416f29b18e109b6ed46722e17c05"
+      },
+      "un/generation/source_finding/de": {
+        "name": "clir-legal-un-generation-source_finding-de",
+        "version": 8,
+        "sha256": "81b81bd92428b04b83d13d73d7f23306501e179c4ac154dff7ca2a80a411e7b9"
+      },
+      "un/generation/source_finding/es": {
+        "name": "clir-legal-un-generation-source_finding-es",
+        "version": 8,
+        "sha256": "86571693563f2b1566dde734e4e711057660599509c596ddbfa3da0a51ed9199"
+      },
+      "un/generation/source_finding/fr": {
+        "name": "clir-legal-un-generation-source_finding-fr",
+        "version": 8,
+        "sha256": "00db1cd214c702d18ceafe3a639c2194815c3337f74033765f41f5d888b3ba1b"
+      },
+      "un/generation/source_finding/zh": {
+        "name": "clir-legal-un-generation-source_finding-zh",
+        "version": 8,
+        "sha256": "eee04e082a8d5c2e1b1a8e6eda487cfda8cc60480899285826e6beca2ffc7c55"
+      },
+      "un/quality/claim_verification": {
+        "name": "clir-legal-un-quality-claim_verification-en",
+        "version": 8,
+        "sha256": "922adfdd8c72e1ba195b6c7e0ac06a684207ca1d8d650b03f2b439ea7f356ee2"
+      },
+      "un/quality/comparison": {
+        "name": "clir-legal-un-quality-comparison-en",
+        "version": 8,
+        "sha256": "aedbd972d1dacfaa369cf51363879eaf132ed4a9bd4d4d7eb239f27d7c423b9a"
+      },
+      "un/quality/conceptual": {
+        "name": "clir-legal-un-quality-conceptual-en",
+        "version": 9,
+        "sha256": "3fd80fead83777c38108e91d487af058c0d97fb3a4fb0a7cfd1bbfaaffad5e51"
+      },
+      "un/quality/descriptive": {
+        "name": "clir-legal-un-quality-descriptive-en",
+        "version": 11,
+        "sha256": "5c0b3bfa22579ca330233bfaf525d32c1d520f8bf36d48c04d43f19a87febd5a"
+      },
+      "un/quality/lookup": {
+        "name": "clir-legal-un-quality-lookup-en",
+        "version": 11,
+        "sha256": "41af5acb1ae18233b53a363d71f16ac12538403fb0efd32954585ff3ae1f703a"
+      },
+      "un/quality/practitioner": {
+        "name": "clir-legal-un-quality-practitioner-en",
+        "version": 12,
+        "sha256": "a0403a28d40c7a3c457f166221ea1850ac0f3be8b850b8545d03d63543e1fe88"
+      },
+      "un/quality/source_finding": {
+        "name": "clir-legal-un-quality-source_finding-en",
+        "version": 8,
+        "sha256": "4692c0d03175e8792de342fc7f3a00d0eec943c83e961cdb591027ac9579aab4"
+      },
+      "un/quality/technical": {
+        "name": "clir-legal-un-quality-technical-en",
+        "version": 11,
+        "sha256": "f705288ccd9a16f99f505f20dea44cbe3662bada6b5c65322d99f784d56891f7"
+      }
+    }
+  }
+}
