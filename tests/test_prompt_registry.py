@@ -105,7 +105,7 @@ def test_manifest_path_switch_is_not_hidden_by_prompt_cache(client, tmp_path, mo
 
 def test_sync_inventory_covers_current_modes_and_retained_legacy_verifiers():
     prompts = registry.local_legal_prompts()
-    assert len(prompts) == 74
+    assert len(prompts) == 80
     for source in registry.MODES:
         assert prompts[f"{source}/decider/jev"] == decider.prompt_text(source, "jev")
     for language in ("de", "es", "fr", "zh"):

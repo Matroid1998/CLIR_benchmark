@@ -44,7 +44,33 @@ SCALE CALIBRATION:
 For every deduction, name the actual defect in that criterion. Do not deduct for task difficulty,
 question mode, or defects belonging only to another criterion.
 
-EVIDENCE-SPAN CONTRACT — ALL MODES:
+ADDITIONAL MODE CONTRACTS
+For comparison, the answer must establish BOTH sides on the shared aspect in one
+contiguous supplied-provision span under the target's rule. A necessary referenced
+category definition can clarify the sides and must be declared in articles_involved.
+Silence cannot establish a missing side or a difference.
+For claim_verification, the claim is explicitly uncertain, not an asserted premise.
+A contradicted claim may deliberately differ from the source in a number, timing or
+relationship; this alone is not a fidelity error. Grade the actual deciding answer
+and whether claim_status agrees with it at the same scope, time and attribution.
+Non-mention cannot establish contradiction; a wrong verdict is a grounding failure.
+For source_finding, the following exception overrides the answer-span rules below:
+answer identifies the target act and article from supplied metadata; evidence is
+the separate contiguous TARGET-ARTICLE span proving the substantive clue. Check
+BOTH identity and evidence. source_identifier copies the official act-type-and-number
+designation at the start of Act:, retaining institutional/implementing/delegated
+qualifiers but excluding the enacting formula, date and subject-matter title.
+Prefer the supplied English designation; do not invent a translated identifier.
+source_article copies the target article number including its suffix. The answer
+combines these with the article label in the query language; order/separator may vary.
+The identifier need not occur in the evidence. References may resolve indispensable
+terminology but cannot supply a missing clue or replace target identity. Require the
+target and exactly indispensable references in articles_involved. Apply grounding,
+precision and numerical fidelity to the identity and submitted evidence together.
+evidence_is_translation describes the evidence, not the copied identifier answer.
+A supported substantive clue in the question is intentional, not answer leakage.
+
+EVIDENCE-SPAN CONTRACT — EXCEPT SOURCE-FINDING IDENTITY ANSWERS:
 The answer is source evidence, not a standalone explanatory response. Read it with the question,
 the supplied governing clause and explicitly linked references. Do not demand an added "yes/no",
 a rewritten conclusion, a calculated calendar date, or a complete sentence. A phrase or list item

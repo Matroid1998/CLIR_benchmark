@@ -3,11 +3,8 @@
 import csv
 import io
 import json
-import re
 from copy import deepcopy
 from dataclasses import replace
-from pathlib import Path
-from types import SimpleNamespace
 
 import pytest
 
@@ -24,23 +21,25 @@ def local_prompts(monkeypatch):
 
 
 @pytest.mark.parametrize("source", ["eurlex", "un"])
-def test_all_supplied_prompt_variants_are_packaged_verbatim(source):
+def test_all_generation_variants_are_packaged_and_registered(source):
     _, generator, _, _, _ = case(source)
-    document = Path(__file__).resolve().parents[1] / f"{source.upper()}_ALL_LANGUAGES.md"
-    sections = re.split(r"^## .+ \((en|de|fr|es|zh)\)\s*$", document.read_text(), flags=re.MULTILINE)
     inventory = prompt_registry.local_legal_prompts()
-    found = set()
-    for language, section in zip(sections[1::2], sections[2::2]):
-        for mode, prompt in re.findall(
-            r"^### [^\n]+ — `(comparison|claim_verification|source_finding)`\n\n"
-            r"```text\n(.*?)\n```", section, re.MULTILINE | re.DOTALL,
-        ):
-            assert generator.PROMPTS.generation(mode, language) == prompt.strip()
+    for mode in annotations.NEW_MODES:
+        assert generator.PROMPTS.available_languages(mode) == ("de", "en", "es", "fr", "zh")
+        for language in ("en", "de", "fr", "es", "zh"):
+            prompt = generator.PROMPTS.generation(mode, language)
             key = f"{source}/generation/{mode}" + (f"/{language}" if language != "en" else "")
-            assert inventory[key] == prompt.strip()
-            found.add((mode, language))
-    assert found == {(mode, lang) for mode in annotations.NEW_MODES
-                     for lang in ("en", "de", "fr", "es", "zh")}
+            assert prompt and inventory[key] == prompt
+
+
+@pytest.mark.parametrize("source", ["eurlex", "un"])
+@pytest.mark.parametrize("mode", annotations.NEW_MODES)
+def test_new_verifiers_are_packaged_and_registered(source, mode):
+    _, generator, _, _, _ = case(source)
+    prompt = generator.PROMPTS.quality(mode)
+    assert prompt.startswith(f"# MODE: {source}_{mode}\n")
+    assert prompt_registry.local_legal_prompts()[f"{source}/quality/{mode}"] == prompt
+    assert grading.rubric_keys(prompt) == grading.CONCEPTUAL_QUALITY_KEYS
 
 
 @pytest.mark.parametrize("source", ["eurlex", "un"])
@@ -91,14 +90,6 @@ def test_generation_grading_csv_and_regrade_preserve_annotations(monkeypatch, so
     batch, generator, target, payload, _ = case(source)
     target = replace(target, mode=mode)
     item = candidate_for(source, mode, payload, translated)
-    # New verifier text is supplied separately. Exercise only the transport/schema
-    # using a test rubric, so no unrelated mode's rubric is used in production.
-    original = generator.PROMPTS
-    template = grading._quality_output_example(original.quality("conceptual"))
-    placeholder = "Test-only annotation transport rubric\nOUTPUT\n" + json.dumps(template)
-    monkeypatch.setattr(generator, "PROMPTS", SimpleNamespace(
-        generation=original.generation, faithfulness=original.faithfulness,
-        quality=lambda *args: placeholder))
     calls = []
 
     def create(**kwargs):

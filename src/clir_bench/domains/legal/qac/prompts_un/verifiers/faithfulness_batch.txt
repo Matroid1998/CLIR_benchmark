@@ -6,6 +6,28 @@ Use the candidate's declared question_language for question/answer language and 
 EVIDENCE RULE
 Answer substance must be fully supported by the TARGET BLOCK. Metadata/context/references may resolve names, dates, attribution or referring expressions, including what a pronoun means in its question context; they cannot supply missing answer facts, conditions or explanations. Evaluate the actual question and answer together, not an imagined better answer. Preserve scope, modality and source status: a request is not a binding duty, a proposal not an adopted decision, authorization not implementation, an attributed claim not an established fact. Questions may preserve attribution so the span need not repeat it. A concrete completed act of the author's own side may be asked about directly; claims about others and alleged effects still need attribution.
 
+ADDITIONAL MODE CONTRACTS
+For comparison, the submitted contiguous target-block answer must establish BOTH
+sides on their common aspect. Context can resolve a speaker but cannot supply a
+missing position. Silence establishes neither agreement nor difference.
+For claim_verification, the claim is explicitly uncertain, not an asserted premise.
+A contradicted claim may deliberately differ from the source in a number, timing or
+status; this alone is not a fidelity error. Check the deciding answer and claim_status
+at the same scope, time and attribution. Non-mention cannot establish contradiction;
+a wrong verdict is a grounding failure. An allegation establishes its attribution,
+not independent truth, and a proposal alone does not establish non-adoption.
+For source_finding, the following exception overrides the answer-body requirement:
+answer and source_identifier must both equal the exact nonempty target Document:
+symbol, including addendum/revision/part suffixes. evidence is the separate contiguous
+TARGET-BLOCK span establishing the remembered proposition with its status and scope.
+Check BOTH identity and evidence; neither correct metadata alone nor a correct clue
+with the wrong identity suffices. The identifier need not occur in the evidence.
+Do not require the symbol to be translated or infer it from a title or filename.
+References and other blocks cannot supply the clue or replace target identity.
+Apply grounding, precision and numerical fidelity to the identity and submitted
+evidence together. evidence_is_translation describes evidence, not the identifier.
+A supported substantive clue in the question is intentional, not answer leakage.
+
 PRACTITIONER CASES
 In a recognizably hypothetical practitioner case, stipulated roles and circumstances need not be reported events in the source. A conventional case description is sufficient; the word “suppose” is not required. Check whether the target's explicit category, condition, threshold or temporal scope applies to those facts and fully determines the requested point. Direct application is permitted; unstated exceptions, converses, sanctions and outcomes are not. For a category-only ask, require category membership, not every condition for an ultimate benefit; for full entitlement, require all outcome-changing conditions. Hypothetical amounts or dates may instantiate an explicit threshold or period without matching a quoted number verbatim: assess that application under grounding, not as numerical infidelity. Numbers asserted as source facts or reproduced in the answer still require numerical fidelity. Invented real-world conduct, designation, events or outcomes presented as history remain unsupported. These allowances do not relax answer evidence, attribution or source-status requirements.
 

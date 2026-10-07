@@ -29,12 +29,13 @@ from clir_bench.core.grading import (
 )
 from clir_bench.core.prompts import PromptPack
 from clir_bench.domains.legal.qac import eurlex_batch, un_batch
+from clir_bench.domains.legal.qac.generation_metadata import NEW_MODES
 
 PACKS = {
     "un": (PromptPack("clir_bench.domains.legal.qac.prompts_un"),
-           ("lookup", "practitioners", "conceptual", "semantic", "technical", "descriptive")),
+           ("lookup", "practitioners", "conceptual", "semantic", "technical", "descriptive", *NEW_MODES)),
     "eurlex": (PromptPack("clir_bench.domains.legal.qac.prompts_eurlex"),
-               ("lookup", "fact_pattern", "conceptual")),
+               ("lookup", "fact_pattern", "conceptual", *NEW_MODES)),
 }
 CASES = [(p, m) for p, (_, modes) in PACKS.items() for m in modes]
 
@@ -91,7 +92,8 @@ def test_both_batch_drivers_default_to_the_same_generator() -> None:
 
 
 LEGAL_CASES = [("eurlex", "lookup"), ("eurlex", "fact_pattern"), ("eurlex", "conceptual"),
-               ("un", "lookup"), ("un", "practitioners"), ("un", "semantic"), ("un", "conceptual")]
+               ("un", "lookup"), ("un", "practitioners"), ("un", "semantic"), ("un", "conceptual"),
+               *((source, mode) for source in ("eurlex", "un") for mode in NEW_MODES)]
 
 
 def _compact_example(pack="eurlex", mode="lookup", count=1):
