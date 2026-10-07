@@ -1,0 +1,21 @@
+{
+  "seed": 20261007,
+  "sampling": "Existing stratified random sampler; one English target per distinct document/act",
+  "previous_document_counts": {
+    "un": 100,
+    "eurlex": 100
+  },
+  "selected_document_counts": {
+    "un": 25,
+    "eurlex": 25
+  },
+  "overlap_with_previous_documents": 0,
+  "prompt_bundle": "legal-english-bundles-20261007",
+  "prompt_label": "english-bundles-20261007",
+  "imported_runtime_templates": 30,
+  "all_generation_modes_run_independently_of_decider": true,
+  "source_bundle_sha256": {
+    "EURLEX_ENGLISH_BUNDLE.md": "751d1b3edd7c14c4489b040e11373cdf0ce667093e597431f564e550c381e1b6",
+    "UN_ENGLISH_BUNDLE.md": "ef8439610d6981248c531c34c4b6761a5b45b85da4e1e17a20610899f0d8527c"
+  }
+}

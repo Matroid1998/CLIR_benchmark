@@ -42,3 +42,7 @@ reports/**/llm_calls.json
 reports/**/trace.md
 reports/**/all_mode_candidates.csv
 reports/**/*.log
+
+# Import bundles are local; extracted current templates are tracked under src/.
+/EURLEX_ENGLISH_BUNDLE.md
+/UN_ENGLISH_BUNDLE.md

@@ -125,8 +125,8 @@ def test_the_rubric_scores_exactly_the_keys_grading_sums(mode: str) -> None:
 def test_each_verifier_carries_its_defining_check() -> None:
     lookup = EURLEX.quality(gen.MODE_LOOKUP, "batch")
     fact_pattern = EURLEX.quality(gen.MODE_FACT_PATTERN, "batch")
-    assert "regime anchor" in lookup
-    assert "third-person case" in fact_pattern
+    assert "identifiable EU regime" in lookup
+    assert "A first-person or identified-act question breaches this mode's voice/locator contract" in fact_pattern
     for rubric in (lookup, fact_pattern):
         # Scores and source-relative validity are separately auditable.
         assert '"scores"' in rubric

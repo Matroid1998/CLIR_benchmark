@@ -27,6 +27,53 @@ def avg(values):
     return mean(values) if values else None
 
 
+def document_question_rows(entries, outcomes, run_modes, skip_reasons):
+    """Keep every mode and candidate next to its source and decider choices."""
+    all_modes = list(dict.fromkeys(mode for modes in run_modes.values() for mode in modes))
+    candidate_fields = {
+        'candidate_id': 'candidate_id', 'question': 'question', 'answer': 'answer',
+        'evidence': 'evidence', 'question_cited': 'question_cited',
+        'claim': 'claim', 'claim_status': 'claim_status',
+        'comparison_entities': 'comparison_entities', 'comparison_aspect': 'comparison_aspect',
+        'source_identifier': 'source_identifier', 'source_article': 'source_article',
+        'faithfulness_15': 'faith_overall', 'quality_25': 'qual_overall', 'total_40': 'total_score',
+        'audit_status': 'quality_audit_status', 'grading_status': 'grading_status',
+        'grading_error': 'grading_error', 'faithfulness_response': 'faithfulness_verifier_response_json',
+        'quality_response': 'quality_verifier_response_json',
+    }
+    rows = []
+    for entry in entries:
+        row = {key: entry.get(key, '') for key in (
+            'corpus', 'document_id', 'target_id', 'symbol', 'title', 'document_text', 'source_payload')}
+        for backend in ('jev', 'generator'):
+            result = outcomes.get(task_id('decider', entry, backend), {})
+            decision = next(iter(result.get('rows', [])), {})
+            row[f'{backend}_status'] = result.get('status', 'pending')
+            row[f'{backend}_pick'] = decision.get('mode', '')
+            row[f'{backend}_reason'] = decision.get('reason', '')
+            row[f'{backend}_confidence'] = decision.get('confidence')
+            row[f'{backend}_probabilities_json'] = json.dumps(decision.get('probabilities'))
+        for mode in all_modes:
+            task = task_id('mode', entry, mode)
+            result = outcomes.get(task, {})
+            candidates = result.get('rows', [])
+            applicable = mode in run_modes[entry['corpus']]
+            row[f'{mode}__status'] = result.get('status', 'pending') if applicable else 'not_applicable_to_corpus'
+            row[f'{mode}__no_question_reason'] = skip_reasons.get(task, '')
+            row[f'{mode}__error'] = result.get('error') or ''
+            row[f'{mode}__candidate_count'] = len(candidates) if applicable else ''
+            # Keep three visible slots even when a mode skips or returns fewer pairs.
+            for index in range(max(3, len(candidates))):
+                candidate = candidates[index] if index < len(candidates) else {}
+                for label, field in candidate_fields.items():
+                    value = candidate.get(field, '')
+                    if isinstance(value, (dict, list)):
+                        value = json.dumps(value, ensure_ascii=False)
+                    row[f'{mode}__{label}_{index + 1}'] = value
+        rows.append(row)
+    return rows
+
+
 def paired_ci(values):
     if not values:
         return None
@@ -170,6 +217,8 @@ def analyze(directory):
     write_csv(directory / 'document_comparison.csv', comparisons)
     write_csv(directory / 'all_mode_candidates.csv', [row for task, result in outcomes.items()
                                                      if task.startswith('mode/') for row in result['rows']])
+    write_csv(directory / 'all_modes_per_document_with_jev_and_grades.csv',
+              document_question_rows(entries, outcomes, run_modes, skip_reasons))
     subsets = {}
     for source in dict.fromkeys(e['corpus'] for e in entries):
         subsets[f'{source}_all'] = [r for r in comparisons if r['corpus'] == source]
@@ -409,6 +458,7 @@ def report(directory, summary, comparisons):
         'Reported cost is in USD where provided. Missing provider costs are unknown, not zero.',
         '## Artifacts',
         ('- [Documents and full source payloads](documents.csv)\n'
+        '- [All modes side by side, one row per document](all_modes_per_document_with_jev_and_grades.csv)\n'
         '- [Documents and decisions, including reasons/probabilities](decisions.csv)\n'
         '- [Per-document comparison and regrets](document_comparison.csv)\n'
         '- [All generated questions and verifier grades](all_mode_candidates.csv)\n'

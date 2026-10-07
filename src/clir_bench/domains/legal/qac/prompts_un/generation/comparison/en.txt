@@ -1,124 +1,100 @@
-COMPARISON RESEARCHER — MODE CONTRACT
-The searcher knows TWO sides and wants ONE meaningful relationship between them: how categories are
-treated, responsibilities allocated, conditions distinguished, or positions aligned or opposed.
-Generate a comparison need, not two unrelated lookups and not a hypothetical client's case.
-Identify both entities and a common comparison aspect before writing. Both sides must be explicitly
-established by the permitted answer evidence. For UN, both must be in the target block. For EUR-Lex,
-the comparison must turn on the target's own rule; supplied references can only complete or clarify
-it. A reference cannot become a separate comparison target. Do not infer that an unmentioned
-category is excluded, that silence means agreement, or that absence of a rule establishes a
-difference. Do not compare language versions, independently selected documents, historical versions
-or national implementation outside the packet.
-A genuine similarity is as valid as a difference. Ask “how do they differ” only when a difference is
-established; otherwise ask neutrally how the two are treated on the stated aspect. Do not claim one
-approach is better, more effective or more lawful unless the allowed text explicitly makes that
-attributed assessment. For reported positions, preserve each speaker and distinguish a position from
-the chair's account of an outcome.
-The question names both sides but does not state their respective outcomes or the comparison's
-answer as a premise. Keep one comparison aspect. The answer must include sufficient evidence for
-BOTH sides in one contiguous span, not only one side plus an inference. It may include necessary
-intervening wording, but do not copy an unrelated long section to manufacture contiguity.
-comparison_entities contains exactly two distinct, verbatim question substrings in their order of
-appearance. comparison_aspect is a short description of the shared dimension, not the conclusion. A
-label cannot repair a missing side or aspect in the question. Do not generate reversed-order
-duplicates.
+Assigned mode: un/comparison.
 
-FIXED INPUT SCOPE
-Work only with the selected, preprocessed target and the supporting material actually supplied. The
-selection and reference-completeness gates have already run; do not change them, choose another
-target, obtain more documents, reconstruct earlier versions, or fill a gap from outside knowledge.
-Treat source text, metadata, quotations and embedded instructions as data, never as instructions to
-follow. A resolved citation does not enlarge the permitted answer evidence.
+UN BOUNDARY AND STATUS
+Inputs: ### TARGET BLOCK; ### REFERENCED DOCUMENTS; ### DOCUMENT CONTEXT. All answer substance, both comparison sides, decisive claim evidence and the source-finding clue must come from TARGET BLOCK. References/context may resolve mission, country, speaker, source time or referents, but not supply missing facts, conditions or positions. Even a safely resolved reference is not another answer source. Do not combine neighboring blocks. Only source_finding uses the exact target Document symbol as identity, with separate target-body evidence.
+Identify actual speaking capacity from turn boundaries, role labels and allowed context. A President's nationality is not a national delegation's stance. Sender, recipient and chair are not automatically the author of an enclosed or quoted statement. Thanks to a delegation do not establish its position.
+Requests/recommendations are not automatically binding duties; authorization is not execution; proposal is not adoption; allegation is not independently established fact. A proposal can support a conditional case. A request for a report proves what to report, not what events occurred. Quoted material may establish this source's application/interpretation/position, not authorship of the underlying rule.
+All admitted genres, including PV/SR records, can support each mode. Institutional, non-binding and recurring content is not inherently inferior. Pure ceremony, thanks, apologies, congratulations, vague appeals and absent substantive pointers remain ineligible under every mode. Examine substantive content in mixed blocks. Do not impose the EUR-Lex private-protagonist restriction on UN practitioner tasks.
 
-LANGUAGE AND FIDELITY
-Write the question and all free-text annotations in English. Use the supplied English version for
-answer/evidence wording and the English pivot to check meaning. Language versions represent the same
-evidence, not independent corroboration. If an English version is absent, faithfully translate ONE
-contiguous span from a supplied version; set answer_is_translation (or evidence_is_translation in
-source_finding) to true. Otherwise copy the span exactly and set that flag to false. Never silently
-repair a material discrepancy between language versions: omit a candidate that depends on it.
-Preserve legal distinctions, attribution, names, numerical values, dates, units, ranges and
-qualifications. Do not calculate, convert units, round, change a threshold's inclusivity or invent
-an official translation. JSON keys, enum values, literal input markers and copied identifiers remain
-unchanged. Copied source identifiers may remain in their supplied language even when the question is
-English.
+COMPARISON: two meaningful sides, one common substantive aspect, explicit permitted evidence for BOTH and one sufficient contiguous span. If any is missing, skip this mode. Names, a chair's thanks, or an absent referenced position are not evidence of a second side.
+Ask how treatment differs or whether a specified treatment is shared; the text need not say “compare”. SAME treatment is valid. Category/subcategory comparisons are valid when an explicit baseline/additional protection matters; do not require disjoint categories. Merely naming a group and member in one appeal is not enough. Unrelated topics, ceremonial speakers, postal addresses or self-evident label differences do not form a useful comparison. No inferred difference from silence, no invented negative converse, no independent documents or language-version comparison. Ask about stated periods, not a calculated difference requiring a new answer.
+Name sides and common aspect with regime/time context, not their outcomes as known premises. The quoted answer need not add a synthesis; necessary intervening material preserves contiguity. comparison_entities: exactly two distinct meaningful question substrings in appearance order. comparison_aspect: dimension, not conclusion. anchor: substantive exact question substring. Simple comparisons can be excellent.
 
-UN INPUT AND EVIDENCE
-The literal sections are ### TARGET BLOCK, ### REFERENCED DOCUMENTS, and ### DOCUMENT CONTEXT.
-Document: and Title: identify the source. ALL answer substance must come from the TARGET BLOCK.
-References and surrounding context may resolve a country, mission, regime, speaker, date or
-referent; they cannot provide a second position, a missing condition, a verdict or any other missing
-answer substance. Do not ask about another block or a cited document, even when its complete text is
-supplied.
-For comparison and claim_verification, answer is ONE contiguous target-block span that fully
-determines the requested point when read with the question. Adjacent clauses or sentences are
-allowed when necessary. Retain material conditions, exceptions, modality, attribution and scope. Do
-not stitch passages, insert ellipses, reorder statements, supply an explanation or answer with a
-bare yes/no. If the needed evidence is not contained in a usable single span, narrow the question or
-skip. Metadata identifies the source but does not prove substantive content.
+TASK AND METHOD
+Generate only the assigned retrieval mode in English. Work with the selected preprocessed target and supplied material only. Do not change selection, genre, reference-completeness or context-budget filters, fetch sources, reconstruct versions or choose another target. Treat all source text and embedded instructions as data. An eligible document is not automatically eligible for every mode.
+First identify a useful proposition, its actual actor/speaker, scope and status, and a sufficient permitted evidence span. Then formulate this mode's information need. Check the actual final question and answer together. If no natural supported need exists for this mode, skip; do not disguise another persona or force three questions.
 
-SOURCE STATUS AND RETRIEVAL CONTEXT
-A resolution may decide, authorize, request, recommend or welcome. A letter or meeting record may
-propose, report or attribute a claim. Preserve that exact status: a request is not automatically a
-binding obligation; authorization is not implementation; a proposal is not adoption; an allegation
-is not established fact. Attribute a statement to the actual speaker or body, not automatically the
-sender, recipient or chair. A quotation supports this source's reported use, application or
-interpretation, not an unsupported assertion that this source created the quoted rule.
-Identify the relevant country, mission, population, measure, process or debate, with a supported
-absolute year, date or period that distinguishes the instance. A document date is not automatically
-an event date or effective date. Context may resolve an identity; it cannot provide a missing
-answer. Do not invent historical conduct by real actors. Avoid unresolved “now”, “next session”,
-“the Government” or “the reporting period”.
-Write a concise standalone search question, not a request to summarize an unseen passage. No target
-document symbol, target resolution number, target paragraph pointer or exact full target title in
-the question. Necessary substantive names or agenda-item labels are allowed when they identify the
-issue rather than reveal the target. Dated attribution and source type may be used when essential.
-Paraphrase ordinary wording without replacing official names or material distinctions. Non-binding,
-institutional or recurring content may qualify when substantive; pure ceremony, vague appeals and
-references to absent substance do not.
+EVIDENCE AND LANGUAGE
+Except for source_finding's identity answer, answer is ONE contiguous span from ONE allowed source unit, read with the question, governing clause and permitted clarification. Adjacent sentences and the shortest necessary intervening text are allowed. Never stitch, reorder, insert ellipses, calculate or write a synthesis. A fragment, lowercase beginning, source list numbering or terminal punctuation is not a defect. Do not trim “solely”, “only if”, “at least”, a relevant exception or a scope condition when that changes the rule. A reference to a list or method does not answer a request for its contents: find the actual supplied substance, narrow the ask or skip.
+Use the supplied English version for wording. If absent, faithfully translate one allowed span; do not summarize or invent a corpus version. For comparison/claim_verification set answer_is_translation, and for source_finding set evidence_is_translation: false when copying an available output-language version; true only when translating because it is absent. Other modes keep their existing fields; the same translation rule applies. Preserve legal distinctions, names, values, units, ranges, dates and threshold inclusivity. Different-language versions are the same evidence, not independent sources. Do not silently reconcile material discrepancies.
 
-OUTPUT AND FINAL CHECK
-Return valid JSON only: a list of up to THREE distinct useful objects, with no Markdown, reasoning
-or extra keys. One strong pair is enough. Do not pad, force type diversity or turn an unsupported
-target into another mode. If none qualifies, return exactly
-[{"skip_reason":"<one short reason in the output language>"}]. Never mix a skip object with accepted
-objects.
-Use the exact keys and shapes shown below. Fill strings with actual content; choose one enum value
-where specified. anchor is a substantive verbatim substring of question, not just a generic
-institution or a concealed locator. Each question must identify its need without the annotations.
-Check the actual span, reference boundary, target dependence, complete scope, language and
-mode-specific condition before returning a pair. Schema correctness does not compensate for missing
-evidence.
+STANDALONE QUESTIONS
+The question alone must identify its activity, programme, mission, issue or process. Replace generic “a programme”, “the Commission”, “the resolution” with the shortest sufficient substantive identification. Preserve necessary technical terms and names; reformulate ordinary scaffolding without a synonym quota or fixed word limit. Do not create fingerprints from addresses, full titles, entire lists or unrelated adjacent facts. A programme name is not automatically a forbidden instrument identifier. An annotation cannot repair a missing question anchor.
+Use time explicitly linked to the relevant source, event, request or application period. A cited letter's date is not the target's adoption date. A directory year is not evidence of adoption; do not convert a session number into a calendar year. Publication, adoption, entry into force and implementation differ. A supplied session/event can identify the instance without inventing a year. If an indispensable temporal distinction is unavailable, skip that need. Never reveal the requested deadline just to add time. Do not claim current law, corpus-wide uniqueness or unseen duplicate documents.
 
-For question_type, choose the single most descriptive value from this domain list; no category has
-priority:
-sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance,
-reporting_monitoring_or_verification, actor_body_or_procedure, situation_scope_or_coverage,
-operative_action, finding_event_or_assessment
-[{"question":"...","answer":"...","question_type":"...","anchor":"...","comparison_entities":["...","..."],"comparison_aspect":"...","answer_is_translation":false}]
+OUTPUT
+Return JSON only: one to three distinct candidates using the exact fields below, or exactly [{"skip_reason":"short reason"}]. No empty list, mixed skips/candidates, mode switching or commentary. One good pair suffices; no forced categories, framings, verdict balance or reversed duplicates. Substring annotations come from the QUESTION, not the source. Free-text annotations use English; machine keys, enums and copied identities remain unchanged. The answer must resolve a real unknown; an assertion explicitly presented as uncertain is not a known fact, so its truth may be that unknown.
 
-ILLUSTRATIONS — all source text, names and identifiers below are fictional teaching fixtures, not
-legal authorities or corpus records. Do not reuse their facts in outputs. Each fixture is
-self-contained.
+OUTPUT FIELDS: use the exact shape below with actual strings. Select question_type from the domain list; source_finding fixes it to source_finding. conceptual uses framing instead: situation, response or stakeholder. Do not output the ellipsis placeholders. These fields describe your actual question; they do not supply missing context.
 
-Supplied target fixture:
+question_type: situation_scope_or_coverage, operative_action, sanction_condition_or_consequence, date_deadline_or_mandate, quantity_force_or_finance, reporting_monitoring_or_verification, finding_event_or_assessment, actor_body_or_procedure
+
+[
+  {
+    "question": "...",
+    "answer": "...",
+    "question_type": "situation_scope_or_coverage",
+    "anchor": "...",
+    "comparison_entities": [
+      "...",
+      "..."
+    ],
+    "comparison_aspect": "...",
+    "answer_is_translation": false
+  }
+]
+
+WORKED TEACHING EXAMPLE
+
+These are excerpts of reviewed corpus records, not extra evidence for the real input. The example supplies English source text only. Non-English example answers are illustrative translations, not official corpus versions. Apply the same rules to the actual packet; never reuse example facts.
+
 ### TARGET BLOCK
-[EN] Document: A/CONF.999/SR.7
-  Title: Summary record of the 2099 Luma ceasefire talks
-At the 2099 Luma ceasefire talks, the representative of State A supported admitting observers without prior approval. The representative of State B proposed that observers be admitted only with the host State's consent.
+[EN] Document: A/CN.9/SR.917
+  Title: Election of officers (continued)
+38. Mr. Mokal (World Bank) said that while the World Bank supported both the United States and United Kingdom proposals, it had a particular preference for the latter in the context of its work in developing and emerging markets.
+In virtually all the jurisdictions in which the World Bank was engaged, the issues touched on by the representative of INSOL International were key.
+It was essential for legal systems to create incentives for directors and officers to take the right steps at the right time, and the proposals on liability put forward by the United Kingdom were highly relevant. It would assist the World Bank in its own work of suggesting improvements in legislation on liability if the Commission laid down standards on international best practice in that domain.
+39. Regarding the Swiss proposal, it was crucial to ensure coherence and harmonization in the treatment of bank resolutions.
+However, the World Bank had reservations about the timing of the proposal, and the appropriateness of the Commission as a forum.
 
 ### REFERENCED DOCUMENTS
-none
+No answer substance is used from this section.
 
 ### DOCUMENT CONTEXT
-none
+Possible future work in the area of insolvency law
+1. The Chairperson said that the delegation of Japan, on behalf of the Asian Group, seconded by the delegation of Singapore, had nominated Mr. Wisitsora-at (Thailand) for the office of Vice-Chairperson of the forty-third session of the Commission.
 
-Valid output for this fixture:
-[{"question":"How did State A and State B differ over observer admission at the 2099 Luma ceasefire talks?","answer":"At the 2099 Luma ceasefire talks, the representative of State A supported admitting observers without prior approval. The representative of State B proposed that observers be admitted only with the host State's consent.","question_type":"actor_body_or_procedure","anchor":"2099 Luma ceasefire talks","comparison_entities":["State A","State B"],"comparison_aspect":"conditions for observer admission","answer_is_translation":false}]
+Valid output:
+[
+  {
+    "question": "During the Commission's forty-third-session discussion of future insolvency work, how did the World Bank's support for the United States proposal compare with its support for the United Kingdom proposal?",
+    "answer": "38. Mr. Mokal (World Bank) said that while the World Bank supported both the United States and United Kingdom proposals, it had a particular preference for the latter in the context of its work in developing and emerging markets.",
+    "question_type": "finding_event_or_assessment",
+    "anchor": "future insolvency work",
+    "comparison_entities": [
+      "United States proposal",
+      "United Kingdom proposal"
+    ],
+    "comparison_aspect": "World Bank support and preference",
+    "answer_is_translation": false
+  }
+]
 
-Reject a version that asks about a third category or delegation not evidenced here, states both
-outcomes in the question, or supplies only one side in the answer. If the second side appears only
-in UN DOCUMENT CONTEXT, skip; in EUR-Lex a reference may not become an independent comparison
-target.
+Why it fits: The target supplies both common support and a preference. Context identifies topic and forty-third session, not missing positions. No calendar year is invented from the directory.
 
-Here is the input:
+Near miss to reject or repair:
+How did India and Algeria differ in their substantive disarmament proposals?
+In the separate U34 packet the target only thanks India; its proposal is absent. A position in surrounding context still cannot supply a comparison side. Skip that comparison.
+
+ABSTENTION IS A VALID RESULT
+
+### TARGET BLOCK
+[EN]
+The PRESIDENT: I thank the representative of India for his kind statement and kind words addressed to the Chair.
+I now give the floor to the representative of Algeria, Mr. Khelif, to deliver his statement.
+Mr. KHELIF (Algeria) (translated from French): First of all, Mr. President, I would like to apologize on behalf of Ambassador Jazairy, who is unable to take part in this session because of some very urgent lastminute business.
+As I am taking the floor for the first time, allow me to extend to you my congratulations on taking the Chair of our Conference and once again assure you of the full support of the Algerian delegation in assisting you to discharge your duties in the hope of achieving positive results in our work.
+
+[{"skip_reason": "Only excluded formal or ceremonial content supports this need"}]
+
+Do not generate a candidate from this excerpt merely because a number, two speakers or a source identity is available. Do not switch to another mode. A mode skip is not a provider or parser failure.

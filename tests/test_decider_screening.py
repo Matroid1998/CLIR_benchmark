@@ -1,6 +1,41 @@
 from clir_bench.domains.legal.qac.screening_analysis import compare_target, mode_summary
 
 
+def test_document_export_keeps_all_modes_candidates_and_skip_reasons(tmp_path):
+    import csv
+
+    from clir_bench.domains.legal.qac.screening import task_id
+    from clir_bench.domains.legal.qac.screening_analysis import document_question_rows, write_csv
+
+    source = dict(record(), source_payload='Full context, with\nmultiple lines')
+    lookup = dict(candidate(), candidate_id='lookup-1', question='Which, exactly?')
+    conceptual = dict(candidate(37), candidate_id='conceptual-1', question='Why this measure?')
+    outcomes = {
+        task_id('decider', source, 'jev'): outcome([{'mode': 'lookup', 'confidence': .8}]),
+        task_id('mode', source, 'lookup'): outcome([lookup]),
+        task_id('mode', source, 'conceptual'): outcome([conceptual]),
+        task_id('mode', source, 'comparison'): outcome([], 'no_candidates'),
+    }
+    rows = document_question_rows([source], outcomes,
+        {'un': ['lookup', 'conceptual', 'comparison'], 'eurlex': ['fact_pattern', 'lookup']},
+        {task_id('mode', source, 'comparison'): 'No supported comparison'})
+    path = tmp_path / 'wide.csv'
+    write_csv(path, rows)
+    with path.open(encoding='utf-8-sig', newline='') as stream:
+        exported = list(csv.DictReader(stream))
+    assert len(exported) == 1
+    row = exported[0]
+    assert row['source_payload'] == source['source_payload']
+    assert row['jev_pick'] == 'lookup'
+    assert row['lookup__question_1'] == lookup['question']
+    assert row['conceptual__question_1'] == conceptual['question']
+    assert row['conceptual__total_40_1'] == '37'
+    assert row['lookup__question_2'] == row['lookup__question_3'] == ''
+    assert row['comparison__status'] == 'no_candidates'
+    assert row['comparison__no_question_reason'] == 'No supported comparison'
+    assert row['fact_pattern__status'] == 'not_applicable_to_corpus'
+
+
 def record(meeting=False):
     return {'corpus': 'un', 'target_id': 'doc#0', 'document_id': 'doc', 'symbol': 'S/PV.1' if meeting else 'S/RES/1',
                 'title': 'Source', 'is_meeting': meeting, 'stratum': 'meeting' if meeting else 'resolution',

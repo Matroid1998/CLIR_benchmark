@@ -175,7 +175,7 @@ def test_local_conceptual_alias_and_language_inventory(monkeypatch):
     for language in pack.available_languages("conceptual"):
         assert pack.generation("conceptual", language) == pack.generation("semantic", language)
     assert pack.quality("conceptual") == pack.quality("semantic")
-    assert "UN conceptual" in pack.generation("conceptual", "en")
+    assert "Assigned mode: un/conceptual." in pack.generation("conceptual", "en")
     # Other domains retain their own mode names and resources.
     chemistry = "clir_bench.domains.chemistry.qac.prompts"
     assert registry.local_parts(chemistry, ("generation", "semantic", "en.txt")) == (
