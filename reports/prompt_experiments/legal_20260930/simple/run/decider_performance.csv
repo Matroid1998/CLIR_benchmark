@@ -1,9 +1,0 @@
-﻿subset,backend,n,complete_comparisons,routed,scored_selected,skipped,missed_score_opportunities,selected_mode_unproductive_despite_alternative,oracle_available,matches_oracle,mean_selected_score_when_available,mean_regret_when_scored,mean_utility_zero_for_skip_or_no_candidate,mean_audit_clear_utility,mean_oracle_utility
-un_all,generator,50,50,50,49,0,0,1,50,26,34.285714285714285,1.163265306122449,33.6,23.96,35.42
-un_all,jev,50,50,50,50,0,0,0,50,30,34.5,0.92,34.5,23.98,35.42
-un_without_meetings,generator,30,30,30,30,0,0,0,30,16,34.266666666666666,1.2666666666666666,34.266666666666666,21.833333333333332,35.53333333333333
-un_without_meetings,jev,30,30,30,30,0,0,0,30,17,34.46666666666667,1.0666666666666667,34.46666666666667,25.466666666666665,35.53333333333333
-un_meetings_only,generator,20,20,20,19,0,0,1,20,10,34.31578947368421,1,32.6,27.15,35.25
-un_meetings_only,jev,20,20,20,20,0,0,0,20,13,34.55,0.7,34.55,21.75,35.25
-eurlex_all,generator,50,50,38,38,12,2,0,40,6,34.05263157894737,2.6315789473684212,25.88,20.66,29.32
-eurlex_all,jev,50,50,45,39,5,1,0,40,16,34.794871794871796,1.9230769230769231,27.14,22.82,29.32

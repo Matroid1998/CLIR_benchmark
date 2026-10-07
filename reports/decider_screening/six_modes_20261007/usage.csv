@@ -1,0 +1,7 @@
+﻿stage,model,calls,provider_errors,prompt_tokens,completion_tokens,reported_cost,calls_missing_cost,mean_seconds,p95_seconds
+decider,~typesafe/jev-latest,100,0,468884,7654,0.019693128,0,0.29315764,0.412123
+decider,gpt-5.6-luna,100,0,331118,18617,0,100,3.3917216,6.551602
+generation,gpt-5.6-luna,600,0,2828408,507817,0,600,8.968482053333334,16.879321
+faithfulness,anthropic/claude-sonnet-5.5,568,0,4104775,186206,10.071610000000016,0,3.364534579225352,4.913384
+quality,anthropic/claude-sonnet-5.5,648,1,5965067,874901,20.679143999999994,1,9.987660674382717,19.204281
+quality_repair,anthropic/claude-sonnet-5.5,7,0,71055,7651,0.21862,0,8.494539142857143,10.650252

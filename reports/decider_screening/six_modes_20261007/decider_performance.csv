@@ -1,0 +1,9 @@
+﻿subset,backend,n,complete_comparisons,routed,scored_selected,skipped,missed_score_opportunities,selected_mode_unproductive_despite_alternative,oracle_available,matches_oracle,mean_selected_score_when_available,mean_regret_when_scored,mean_utility_zero_for_skip_or_no_candidate,mean_audit_clear_utility,mean_oracle_utility
+un_all,generator,50,50,50,50,0,0,0,50,15,33.7,2.26,33.7,31.1,35.96
+un_all,jev,50,50,49,49,1,1,0,50,26,35,1,34.3,32.28,35.96
+un_without_meetings,generator,30,30,30,30,0,0,0,30,13,34.43333333333333,1.9,34.43333333333333,34.36666666666667,36.333333333333336
+un_without_meetings,jev,30,30,30,30,0,0,0,30,19,35.46666666666667,0.8666666666666667,35.46666666666667,35.46666666666667,36.333333333333336
+un_meetings_only,generator,20,20,20,20,0,0,0,20,2,32.6,2.8,32.6,26.2,35.4
+un_meetings_only,jev,20,20,19,19,1,1,0,20,7,34.26315789473684,1.2105263157894737,32.55,27.5,35.4
+eurlex_all,generator,50,50,39,39,11,11,0,50,23,36.717948717948715,0.6153846153846154,28.64,27.3,36.62
+eurlex_all,jev,50,50,38,38,12,12,0,50,21,36.60526315789474,0.7105263157894737,27.82,26.48,36.62

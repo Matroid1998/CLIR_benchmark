@@ -1,0 +1,34 @@
+{
+  "un": 50,
+  "eurlex": 50,
+  "seed": 20260930,
+  "generator": "gpt-5.6-luna",
+  "verifier": "anthropic/claude-sonnet-5.5",
+  "retries": 3,
+  "language": "en",
+  "max_per_document": 1,
+  "keep": 3,
+  "meeting_modes": "all",
+  "modes_by_source": {
+    "un": [
+      "lookup",
+      "practitioner",
+      "conceptual",
+      "comparison",
+      "claim_verification",
+      "source_finding"
+    ],
+    "eurlex": [
+      "fact_pattern",
+      "lookup",
+      "conceptual",
+      "comparison",
+      "claim_verification",
+      "source_finding"
+    ]
+  },
+  "jev_model": "~typesafe/jev-latest",
+  "prompts_sha256": "b01fc3179e78e84ecb84df3000fe2a470e122186716d2ae811928f676e6f6702",
+  "targets_sha256": "4cbc8590864a2234cbb839290bd836d84b57c4bde5b3b87b4764a82437e2c8d0",
+  "selection_source": "/home/mehdi/Projects/CLIR_benchmark/reports/decider_screening/fresh100_20260930_examples/selection.json"
+}

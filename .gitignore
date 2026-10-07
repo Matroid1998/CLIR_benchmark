@@ -26,3 +26,19 @@ reports/**/experimental_plots/
 reports/**/experimental_codes/
 .pytest_cache/
 reports/runs/*/parts/
+
+# Prompt version history stays local; current prompts live under src/.
+reports/prompt_versions/
+reports/prompt_experiments/*/
+reports/**/prompt_manifest.json
+reports/**/before_manifest.json
+reports/**/changed_manifest.json
+reports/**/registry_prompts.json
+
+# Raw run records include prompt snapshots and can exceed GitHub's size limit.
+reports/**/*.sqlite
+reports/**/*.sqlite-*
+reports/**/llm_calls.json
+reports/**/trace.md
+reports/**/all_mode_candidates.csv
+reports/**/*.log

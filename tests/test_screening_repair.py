@@ -145,7 +145,9 @@ def test_quality_diversity_relocation_is_single_candidate_and_fully_valid(defect
 
 
 @pytest.mark.parametrize('recoverable', [True, False])
-def test_recovery_only_keeps_successful_faith_and_recovers_original_quality(tmp_path, monkeypatch, recoverable):
+@pytest.mark.parametrize('response_source', ['original', 'repair'])
+def test_recovery_only_keeps_successful_faith_and_recovers_recorded_quality(
+        tmp_path, monkeypatch, recoverable, response_source):
     keys = ('practitioner_realism', 'anchoring', 'consequence', 'informativeness', 'linguistic_quality')
     grade = {'index': 0, 'candidate_id': 'q1', 'scores': dict.fromkeys(keys, 4),
              'score_notes': dict.fromkeys(keys, 'Supported'),
@@ -179,9 +181,11 @@ def test_recovery_only_keeps_successful_faith_and_recovers_original_quality(tmp_
         state.put('targets', [record])
         state.checkpoint(task).run('faithfulness', lambda: original_faith)
         state.outcome(task, [row], 'Missing quality index')
+    response_db = tmp_path / ('run.sqlite' if response_source == 'original' else 'grade_repairs/run.sqlite')
+    with RunState(response_db) as state:
         with state.transaction() as db:
             db.execute('INSERT INTO requests VALUES (?,?,?,?)',
-                       ('original-response', task, 'quality', json.dumps(raw)))
+                       (response_source + '-response', task, 'quality', json.dumps(raw)))
 
     allow_retry, calls = [], []
 
@@ -217,7 +221,7 @@ def test_recovery_only_keeps_successful_faith_and_recovers_original_quality(tmp_
         if recoverable:
             provenance = json.loads(db.execute("SELECT value FROM metadata WHERE key=?",
                                                ('index_recovery/' + task,)).fetchone()[0])
-            assert provenance['source_request_id'] == 'original-response'
+            assert provenance['source_request_id'] == response_source + '-response'
         else:
             assert db.execute("SELECT count(*) FROM stages WHERE stage='quality'").fetchone()[0] == 0
     assert not calls

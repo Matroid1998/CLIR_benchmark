@@ -1,7 +1,0 @@
-﻿subset,backend,n,complete_comparisons,routed,scored_selected,skipped,missed_score_opportunities,selected_mode_unproductive_despite_alternative,oracle_available,matches_oracle,mean_selected_score_when_available,mean_regret_when_scored,mean_utility_zero_for_skip_or_no_candidate,mean_audit_clear_utility,mean_oracle_utility
-un_all,generator,50,50,47,39,3,2,5,46,29,30.641025641025642,0.6410256410256411,23.9,15.22,28.42
-un_all,jev,50,50,45,41,5,4,1,46,31,30.73170731707317,0.5121951219512195,25.2,16.44,28.42
-un_without_meetings,generator,30,30,30,23,0,0,5,28,13,30.391304347826086,1.0869565217391304,23.3,13.6,29.1
-un_without_meetings,jev,30,30,30,27,0,0,1,28,17,30.444444444444443,0.7777777777777778,27.4,15.633333333333333,29.1
-un_meetings_only,generator,20,20,17,16,3,2,0,18,16,31,0,24.8,17.65,27.4
-un_meetings_only,jev,20,20,15,14,5,4,0,18,14,31.285714285714285,0,21.9,17.65,27.4

@@ -297,16 +297,20 @@ def plot(directory, distributions, modes):
     for ext in ('png', 'pdf'):
         fig.savefig(directory / f'mode_distribution.{ext}', dpi=180)
     plt.close(fig)
-    rows = [r for r in modes if r['subset'].endswith('without_meetings')]
-    if not rows:
-        rows = [r for r in modes if r['subset'].endswith('all')]
-    fig, ax = plt.subplots(figsize=(7, 4.5))
-    bars = ax.bar([r['mode'] for r in rows], [r['mean_best_score'] or 0 for r in rows], color='#3976af')
-    ax.bar_label(bars, labels=[f"{r['mean_best_score'] or 0:.2f}\nn={r['scored']}" for r in rows], padding=4)
-    ax.set_ylim(0, 44)
-    ax.set_ylabel('Mean best candidate score (out of 40)')
-    ax.set_title('Mode comparison: non-meeting targets with a scored candidate')
-    ax.spines[['top', 'right']].set_visible(False)
+    score_subsets = list(dict.fromkeys(r['subset'] for r in modes if r['subset'].endswith('_all')))
+    fig, axes = plt.subplots(1, len(score_subsets), figsize=(7 * len(score_subsets), 5), squeeze=False)
+    for ax, subset in zip(axes[0], score_subsets):
+        rows = [r for r in modes if r['subset'] == subset]
+        bars = ax.bar([r['mode'] for r in rows], [r['mean_best_score'] or 0 for r in rows], color='#3976af')
+        ax.bar_label(bars, labels=[f"{r['mean_best_score'] or 0:.2f}\nn={r['scored']}" for r in rows], padding=4)
+        ax.set_ylim(0, 44)
+        ax.set_ylabel('Mean best candidate score (out of 40)')
+        ax.set_title(subset.replace('_', ' '))
+        ax.tick_params(axis='x', labelrotation=30)
+        for label in ax.get_xticklabels():
+            label.set_ha('right')
+        ax.spines[['top', 'right']].set_visible(False)
+    fig.suptitle('Mode comparison: targets with a scored candidate')
     fig.tight_layout()
     for ext in ('png', 'pdf'):
         fig.savefig(directory / f'mode_scores.{ext}', dpi=180)
@@ -326,6 +330,14 @@ def table(rows, columns):
 
 def report(directory, summary, comparisons):
     cfg = summary['config']
+    run_modes = cfg.get('modes_by_source') or {
+        source: [row['mode'] for row in summary['modes'] if row['subset'] == f'{source}_all']
+        for source in ('eurlex', 'un')}
+    mode_descriptions = '; '.join(
+        f"{source}: {', '.join(run_modes[source])}"
+        for source in ('eurlex', 'un') if cfg.get(source))
+    score_columns = [f'{mode}_score' for mode in dict.fromkeys(
+        mode for modes in run_modes.values() for mode in modes)]
     parts = ['# Decider screening',
         (f"Run status: **{summary['status']}**. Seed {cfg['seed']}; "
         f"{cfg['un']} UN documents and {cfg['eurlex']} EUR-Lex acts, one English target per document/act. "
@@ -338,9 +350,9 @@ def report(directory, summary, comparisons):
         'both deciders and every generation mode. Each mode gets one generation batch (up to three '
         'candidates), followed by the existing faithfulness and mode-specific quality verifiers. '
         'Generation does not see either decider’s answer.'),
-        ('“All modes” means the modes offered to the decider: lookup/practitioner/conceptual (formerly semantic) for UN '
-        'and fact_pattern/lookup/conceptual for EUR-Lex (older runs have two modes). Legacy technical/descriptive modes are outside this comparison. '
-        + ('All three modes are eligible on UN meeting records, as on other UN documents.'
+        (f'“All modes” means the modes offered to the decider in this run: {mode_descriptions}. '
+        'Legacy technical/descriptive modes are outside this comparison. '
+        + ('All declared modes are eligible on UN meeting records, as on other UN documents.'
            if cfg.get('meeting_modes') == 'all' else
            'In this historical run, meeting records permit only semantic or skip; '
            'lookup/practitioner trials are diagnostic and cannot win.')),
@@ -358,14 +370,13 @@ def report(directory, summary, comparisons):
         'Bootstrap intervals resample these targets and do not capture model rerun variability.'),
         (f"Original failed tasks: {summary['original_failed_tasks']}; successfully repaired: "
          f"{len(summary['repaired_tasks'])}. Repairs reuse generation and successful verifier stages. "
-         'The faithfulness retry adds only an explicit actual-batch-size instruction to avoid '
-         'fabricated extra grade objects when fewer than three candidates were supplied. '
-         'The grading rubric is unchanged. Original calls remain in `run.sqlite`; '
+         'Recorded structural recoveries retain provider scores; missing grades are retried '
+         'under the saved repair policy. Original calls remain in `run.sqlite`; '
          'repair calls and provenance are in [grade_repairs/trace.md](grade_repairs/trace.md). '
          'Where surrounding prose prevented parsing, an unambiguous grade array was recovered '
          'only after validating the exact count, indices, score ranges, and required fields; '
          'no extra grade objects were silently discarded. '
-         'One quality response omitted positional indices; those were restored from exact, '
+         'Omitted positional indices can be restored from exact, '
          'unique candidate IDs in the recorded input, followed by full schema validation. '
          'The earliest valid recorded response was used, without changing its scores. '
          'Candidate counts vary by mode, so best-of-batch scores reflect the pipeline outcome '
@@ -391,7 +402,7 @@ def report(directory, summary, comparisons):
         '## Disagreements for manual review',
         table([r for r in comparisons if r['deciders_agree'] is False],
               ['symbol', 'target_id', 'generator_mode', 'jev_mode', 'oracle_modes',
-               'lookup_score', 'practitioner_score', 'conceptual_score', 'semantic_score']),
+               *score_columns]),
         '## Recorded usage',
         table(summary['usage'], ['stage', 'model', 'calls', 'provider_errors', 'prompt_tokens',
              'completion_tokens', 'reported_cost', 'calls_missing_cost']),

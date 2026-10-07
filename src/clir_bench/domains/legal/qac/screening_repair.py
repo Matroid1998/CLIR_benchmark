@@ -222,7 +222,14 @@ def _repair(directory, metadata, failed, stages, quality_responses, faith_respon
             faith_prompt = batch.gen.PROMPTS.faithfulness('batch')
             recovered_quality = None
             if (task, 'quality') not in stages:
-                for request_id, raw in quality_responses.get(task, []):
+                with state.transaction() as db:
+                    previous_quality = db.execute(
+                        'SELECT id,record FROM requests WHERE task=? AND stage=?',
+                        (task, 'quality')).fetchall()
+                previous_quality = [(request_id, json.loads(raw)) for request_id, raw in previous_quality]
+                previous_quality = quality_responses.get(task, []) + previous_quality
+                previous_quality.sort(key=lambda pair: (pair[1].get('timestamp', ''), pair[0]))
+                for request_id, raw in previous_quality:
                     quality_provenance = {}
                     recovered_quality = recover_quality(raw, batch.gen.PROMPTS.quality(target.mode, 'batch'),
                                                         rows, target.mode, provenance=quality_provenance)
