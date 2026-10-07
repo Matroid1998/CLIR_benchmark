@@ -10,8 +10,10 @@ from clir_bench.core.prompts import load_prompt
 
 JEV_MODEL = "~typesafe/jev-latest"
 MODES = {
-    "eurlex": ("fact_pattern", "lookup", "conceptual"),
-    "un": ("lookup", "practitioner", "conceptual"),
+    "eurlex": ("fact_pattern", "lookup", "conceptual",
+               "comparison", "claim_verification", "source_finding"),
+    "un": ("lookup", "practitioner", "conceptual",
+           "comparison", "claim_verification", "source_finding"),
 }
 
 
@@ -51,8 +53,9 @@ def _probability(value):
 
 def parse_decision(data, source: str, backend: str, *, symbol: str = "") -> dict:
     allowed = {*MODES[source], "skip"}
-    legacy_allowed = (allowed - {"conceptual"} | {"semantic"} if source == "un"
-                      else allowed - {"conceptual"})
+    previous_allowed = allowed - {"comparison", "claim_verification", "source_finding"}
+    legacy_allowed = (previous_allowed - {"conceptual"} | {"semantic"} if source == "un"
+                      else previous_allowed - {"conceptual"})
     if not isinstance(data, dict):
         raise ValueError("decider must return an object")  # noqa: TRY004 - invalid model output
     if backend == "jev":
@@ -67,7 +70,7 @@ def parse_decision(data, source: str, backend: str, *, symbol: str = "") -> dict
             _probability(confidence)
         if probabilities is not None:
             if (not isinstance(probabilities, dict) or
-                    set(probabilities) not in (allowed, legacy_allowed)):
+                    set(probabilities) not in (allowed, previous_allowed, legacy_allowed)):
                 raise ValueError("Jev probabilities must cover exactly the allowed modes")
             if not isinstance(mode, str) or mode not in probabilities:
                 raise ValueError("Jev selected mode is absent from its probabilities")

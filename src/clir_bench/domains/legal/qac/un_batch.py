@@ -80,7 +80,7 @@ MIN_GROUNDING_FOR_BEST = 3
 # then nothing the model sees is ever truncated or windowed.
 FIT_BUDGET = ctx.DEFAULT_CONTEXT_CHARS
 DEFAULT_MODES = (gen.MODE_TECHNICAL, gen.MODE_CONCEPTUAL, gen.MODE_DESCRIPTIVE)
-SUPPORTED_MODES = (*DEFAULT_MODES, gen.MODE_SEMANTIC, gen.MODE_LOOKUP, gen.MODE_PRACTITIONERS)
+SUPPORTED_MODES = gen.MODES
 
 
 def genre_for(doc_id: str, title: str) -> str | None:
@@ -389,6 +389,7 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
         candidates = [gen.Candidate(**item) for item in saved]
     else:
         candidates = [gen.Candidate(
+            **gen.annotations.restore_metadata(row, target.mode, eurlex=False),
             question=row["question"], answer=row["answer"],
             classification=row.get("framing" if target.mode in gen.CONCEPTUAL_MODES else "question_type", ""),
             question_cited=row.get("question_cited", ""), anchor=row.get("anchor", ""),
@@ -403,6 +404,9 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
                                 ["un", target.block_id, target.mode, target.language, gen_model,
                                  position, c.question, c.answer], ensure_ascii=False).encode()).hexdigest()[:24]),
            "question_language": target.language} for position, c in enumerate(candidates)]
+    if target.mode in gen.NEW_MODES:
+        for pair, candidate in zip(qa, candidates):
+            pair.update(mode=target.mode, **gen.annotations.metadata(candidate))
     # The quality rubrics run consistency checks ON the mode's own fields -- is
     # the declared anchor actually a substring of the question, does the cited
     # rendering differ from the base one by nothing but the identifier -- none of
@@ -437,7 +441,8 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             target.mode, strict=enhanced, sources=quality_sources(payload, target.language),
             target_source_id=target.block_id, rubric_mode="un_practitioner" if target.mode == gen.MODE_PRACTITIONERS else f"un_{target.mode}",
             policies={"target_granularity": "block", "reference_policy": "target_only",
-                      "answer_role": "evidence_span", "source_time_policy": "supplied_version",
+                      "answer_role": ("source_identity" if target.mode == gen.MODE_SOURCE_FINDING
+                                      else "evidence_span"), "source_time_policy": "supplied_version",
                       "require_unique_gold": False}))
     except Exception as error:
         if not enhanced:
@@ -475,6 +480,7 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             "mode": target.mode,
             "question": candidate.question,
             "answer": candidate.answer,
+            **gen.annotations.row_metadata(candidate),
             "question_type": candidate.classification if target.mode not in gen.CONCEPTUAL_MODES else "",
             "framing": candidate.classification if target.mode in gen.CONCEPTUAL_MODES else "",
             # ``lookup`` fills question_cited/anchor; ``practitioners`` fills
@@ -559,6 +565,7 @@ FIELDS = ("doc_id", "symbol", "block_id", "block_index", "n_blocks",
           "context_blocks_supplied", "context_blocks_dropped",
           "question_language", "mode", "question", "answer",
           "question_type", "framing",
+          *gen.annotations.FIELDS,
           "question_cited", "anchor", "anchors",
           "title", "target_block_text",
           "references_supplied", "references_dropped",

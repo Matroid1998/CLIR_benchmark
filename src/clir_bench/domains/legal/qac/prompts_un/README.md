@@ -162,3 +162,30 @@ The `conceptual` mode was previously named `semantic`. Older mode names and pinn
 MLflow manifests remain readable. The rename bundle is saved at
 `reports/prompt_versions/un_conceptual_rename_20261006/manifest.json`, based on v4.
 The question contract and grading criteria are unchanged by this rename.
+
+## Additional retrieval modes
+
+`comparison`, `claim_verification`, and `source_finding` each have standalone
+`generation/<mode>/{en,de,fr,es,zh}.txt` prompts. Quality verifiers for these
+modes will be supplied separately; until then use the standalone generation
+modules. The batch pipeline requires a matching verifier and will reject a run
+whose prompt pack does not contain one.
+The generation text is extracted verbatim from the corresponding all-languages
+Markdown source at the repository root. Existing corpus-language eligibility and
+batch defaults are unchanged; select these modes explicitly with `--modes` or
+use either decider, which now supports all six current personas.
+
+All three modes preserve `anchor`. Comparison also stores `comparison_entities`
+(as a JSON array in CSV) and `comparison_aspect`; claim verification stores
+`claim` and `claim_status`. Both store `answer_is_translation`. Source finding
+stores `source_identifier`, `evidence`, and `evidence_is_translation`; EUR-Lex
+also stores `source_article`. Its answer identifies the source, while the
+separate contiguous target evidence establishes the clue. The selected article
+or block remains the retrieval unit. These annotations are retained in checkpoints and CSV export, and are passed
+through to graders and regrading once matching verifiers are available.
+Source-finding also requires a faithfulness rubric that grades the identifier
+answer against metadata and the separate evidence against the target text.
+
+Prompt bundles are immutable: an older active bundle will not contain these
+modes. Use `CLIR_PROMPT_SOURCE=local` to run the edited files, or publish and
+activate a new bundle with the existing prompt-registry workflow.

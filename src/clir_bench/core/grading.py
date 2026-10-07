@@ -246,12 +246,22 @@ class GraderConfig:
 
 # Rendered between the question and the answer, in this order, when present.
 _CANDIDATE_EXTRAS = (
+    ("mode", "Mode"),
     ("question_cited", "Question (cited rendering)"),
     ("instrument_short_name", "Instrument short name"),
     ("anchor", "Anchor (declared)"),
     ("particulars", "Particulars (declared)"),
     ("question_type", "Question type (declared)"),
     ("framing", "Framing (declared)"),
+    ("comparison_entities", "comparison_entities"),
+    ("comparison_aspect", "comparison_aspect"),
+    ("claim", "claim"),
+    ("claim_status", "claim_status"),
+    ("answer_is_translation", "answer_is_translation"),
+    ("source_identifier", "source_identifier"),
+    ("source_article", "source_article"),
+    ("evidence", "evidence"),
+    ("evidence_is_translation", "evidence_is_translation"),
 )
 
 
@@ -276,7 +286,7 @@ def candidates_block(qa_pairs: Sequence[Mapping[str, Any]]) -> str:
         entry = f"Candidate {i}:\n  Question: {qa.get('question', '')}"
         for key, label in _CANDIDATE_EXTRAS:
             value = qa.get(key)
-            if not value:
+            if not value and value is not False:
                 continue
             if isinstance(value, (list, tuple)):
                 value = "; ".join(str(v) for v in value)
@@ -378,6 +388,9 @@ _CANDIDATE_INPUT_FIELDS = (
     "question_cited", "instrument_short_name", "anchor", "anchors", "particulars",
     "articles_involved", "framing", "question_template", "instrument_slot_base",
     "instrument_slot_cited", "instrument_description",
+    "comparison_entities", "comparison_aspect", "claim", "claim_status",
+    "answer_is_translation", "source_identifier", "source_article", "evidence",
+    "evidence_is_translation",
 )
 
 

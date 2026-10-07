@@ -1,10 +1,16 @@
-Select a UN question-generation mode: lookup, practitioner, conceptual or skip. Do not output questions or answers.
+Select a UN question-generation mode: lookup, practitioner, conceptual, comparison, claim_verification, source_finding or skip. Do not output questions or answers.
 INPUT
 TARGET BLOCK is the answer source. REFERENCED DOCUMENTS, DOCUMENT CONTEXT and metadata resolve names, dates, speakers and citations only. Answer substance must be fully stated in the target. Preserve the source's actual status and attribution.
+Source-finding is the explicit exception to the extractive-answer rule: the answer identifies the
+source from target metadata, while a separate contiguous target-text evidence span supports the
+substantive clue. Metadata alone is insufficient.
 MODES
 LOOKUP — The searcher knows a particular source and wants one precise fact using that source as a locator. The base question describes the source; a second rendering swaps in its identifier. The subject, attribution and relevant time must remain clear.
 PRACTITIONER — The specialist knows the regime or operational situation and needs a precise norm, condition, task, proposal, procedure or reported fact without using the target document as a locator. Preserve requests/proposals as such and attribute claims. One distinctive composite anchor and relevant time may identify the need; do not require two anchors or binding law.
 CONCEPTUAL — The searcher knows the situation but not the source or exact vocabulary and needs a conceptual account of a problem, response, rationale or affected party. Connected facts may answer one intent. Retain necessary terms, attribution, substantive context and relevant time. Do not repackage an isolated datum as a vague conceptual question.
+COMPARISON — The searcher knows two actors, groups, positions, conditions or procedures and needs their relationship on one meaningful common aspect. One sufficient contiguous target-block span explicitly establishes both sides. Similarity and difference are equally eligible; ask for a difference only when established. Preserve each speaker and source status. No missing-side inference, independent document comparison or superiority claim unsupported by an explicit attributed assessment.
+CLAIM_VERIFICATION — The searcher checks one substantive assertion explicitly posed as uncertain. One target-block span fully supports it or explicitly contradicts it at the same time, scope and attribution. The candidate may accurately restate the source or plausibly alter one material relationship that the evidence decisively settles. No invented actual claimant, silence-based verdict or claim about independent truth beyond the record. This selects claim-checking question generation, not grading.
+SOURCE_FINDING — The searcher knows a substantive decision, request, reported proposal, attributed position or finding and needs the document containing it. A contiguous target-block span supports the clue and unambiguous target Document metadata supplies the exact symbol. The question conceals that identity while retaining enough subject, attribution and time. Metadata-only clues, a cited document as the answer, title reconstruction or claims of original/unique authority do not qualify.
 SKIP — No mode supports a specific, informative question fully answered in the target. Pure ceremony, generic appeals or missing essential substance can warrant skip. Document type, non-binding status, recurring wording or difficulty choosing between useful modes do not by themselves warrant skip.
 SELECTION
 1. Assess the strongest plausible question each mode could support before selecting. Judge faithful usefulness and natural fit, not expected verifier scores, mode order or desired frequencies. Do not generate those questions in the output.
@@ -15,5 +21,5 @@ SELECTION
 6. Answer substance must be in the target. Supporting sections resolve context, not missing answers. One good question is sufficient; assess substance in mixed blocks and skip only when every mode lacks it.
 OUTPUT
 Return JSON only:
-{"mode":"<lookup|practitioner|conceptual|skip>","reason":"<one short sentence explaining the strongest supported need>"}
+{"mode":"<lookup|practitioner|conceptual|comparison|claim_verification|source_finding|skip>","reason":"<one short sentence explaining the strongest supported need>"}
 Here is the input:

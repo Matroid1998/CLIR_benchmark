@@ -237,7 +237,7 @@ def _select(sources, indexes, options):
         batch = batches[source]
         languages = options["langs"] or (["en", "fr", "de", "es"] if source == "eurlex" else ["en", "fr", "es", "zh"])
         modes = (["lookup"] if options.get("decider_model") else options["modes"]
-                 or (batch.gen.MODES if source == "eurlex" else batch.DEFAULT_MODES))
+                 or (batch.gen.DEFAULT_MODES if source == "eurlex" else batch.DEFAULT_MODES))
         supported_langs = batch.ACT_LANGUAGES if source == "eurlex" else batch.UN_LANGUAGES
         supported_modes = batch.gen.MODES if source == "eurlex" else batch.SUPPORTED_MODES
         # Mixed-source selections may name the union of their supported personas/languages.

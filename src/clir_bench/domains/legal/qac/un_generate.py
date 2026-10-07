@@ -3,11 +3,14 @@ UN question generation: one target block, cited documents and the rest of the
 document as understanding-only context.
 
 The payload separates the TARGET BLOCK (questions are about it, and every
-answer must exist fully inside it), REFERENCED DOCUMENTS (cited instruments,
+answer evidence must exist fully inside it), REFERENCED DOCUMENTS (cited instruments,
 supplied only so the model understands the block's citations), and DOCUMENT
 CONTEXT (the surrounding document). Neither supporting section may contribute
 answer substance -- the faithfulness verifier caps grounding when one does,
 and the batch driver refuses to keep a best candidate below that floor.
+
+Source-finding returns target document identity as the answer and a separate
+contiguous target-block evidence span. Other modes return the evidence as answer.
 
 Usage:
     python -m clir_bench.domains.legal.qac.un_generate \
@@ -18,14 +21,21 @@ from __future__ import annotations
 
 import argparse
 import json
+from collections.abc import Mapping
 from dataclasses import dataclass, field
-from typing import Any, Mapping
+from typing import Any
 
 from clir_bench.core.prompts import PromptPack
+from clir_bench.domains.legal.qac import generation_metadata as annotations
 from clir_bench.domains.legal.qac import un_context as ctx
 from clir_bench.domains.legal.qac.env import load_env
 from clir_bench.domains.legal.un import UN_LANGUAGES
 from clir_bench.domains.legal.un import paths as un_paths
+
+MODE_COMPARISON = annotations.MODE_COMPARISON
+MODE_CLAIM_VERIFICATION = annotations.MODE_CLAIM_VERIFICATION
+MODE_SOURCE_FINDING = annotations.MODE_SOURCE_FINDING
+NEW_MODES = annotations.NEW_MODES
 
 PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_un")
 
@@ -36,6 +46,8 @@ CONCEPTUAL_MODES = (MODE_CONCEPTUAL, MODE_SEMANTIC)
 MODE_DESCRIPTIVE = "descriptive"
 MODE_LOOKUP = "lookup"
 MODE_PRACTITIONERS = "practitioners"
+MODES = (MODE_TECHNICAL, *CONCEPTUAL_MODES, MODE_DESCRIPTIVE,
+         MODE_LOOKUP, MODE_PRACTITIONERS, *NEW_MODES)
 
 # ``particulars``-style multi-valued fields are joined for the CSV; ``anchors``
 # routinely contains commas ("Abkhazia, Georgia"), so it cannot use one.
@@ -43,7 +55,7 @@ ANCHOR_SEP = " | "
 
 
 @dataclass
-class Candidate:
+class Candidate(annotations.GenerationMetadata):
     question: str
     answer: str
     classification: str     # question_type (technical) or framing (conceptual)
@@ -82,6 +94,8 @@ def parse_candidates(data: Any, mode: str) -> list[Candidate]:
     ``mode`` selects which of the prompts' extra fields are read, so a field
     belonging to another mode cannot leak into a row: ``lookup`` carries
     ``question_cited`` and ``anchor``, ``practitioners`` carries ``anchors``.
+    The new retrieval modes retain their own annotations through the shared
+    generation metadata parser, including source identity and separate evidence.
     """
     if isinstance(data, Mapping):
         data = [data]
@@ -98,15 +112,16 @@ def parse_candidates(data: Any, mode: str) -> list[Candidate]:
         if isinstance(raw_anchors, str):
             raw_anchors = [raw_anchors]
         out.append(Candidate(
+            **annotations.parse_metadata(item, mode, eurlex=False),
             question=question,
             answer=answer,
             classification=str(item.get(key, "other")).strip(),
             question_cited=(str(item.get("question_cited", "")).strip()
                             if mode == MODE_LOOKUP else ""),
-            # ``lookup`` and ``conceptual`` both carry a single ``anchor``;
+            # Lookup, conceptual and the new modes carry one ``anchor``;
             # ``practitioners`` carries the ``anchors`` list instead.
             anchor=(str(item.get("anchor", "")).strip()
-                    if mode in (MODE_LOOKUP, *CONCEPTUAL_MODES) else ""),
+                    if mode in (MODE_LOOKUP, *CONCEPTUAL_MODES, *NEW_MODES) else ""),
             anchors=([str(x).strip() for x in (raw_anchors or []) if str(x).strip()]
                      if mode == MODE_PRACTITIONERS else []),
         ))
@@ -144,6 +159,10 @@ def rows_for(payload: ctx.GenerationPayload, candidates: list[Candidate], *,
         "mode": mode,
         "question": c.question,
         "answer": c.answer,
+        **annotations.row_metadata(c),
+        "question_cited": c.question_cited,
+        "anchor": c.anchor,
+        "anchors": ANCHOR_SEP.join(c.anchors),
         ("framing" if mode in CONCEPTUAL_MODES else "question_type"): c.classification,
         "references_supplied": ",".join(r.symbol for r in payload.references),
         "references_dropped": ",".join(payload.dropped_references),
@@ -169,8 +188,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--doc", required=True, help="document id (`.ids` first token)")
     parser.add_argument("--block", type=int, required=True, help="target block index (0-based)")
-    parser.add_argument("--mode", default=MODE_TECHNICAL,
-                        choices=[MODE_TECHNICAL, *CONCEPTUAL_MODES, MODE_DESCRIPTIVE])
+    parser.add_argument("--mode", default=MODE_TECHNICAL, choices=MODES)
     parser.add_argument("--language", default="en")
     parser.add_argument("--context-chars", type=int, default=ctx.DEFAULT_CONTEXT_CHARS)
     parser.add_argument("--blocks", default=None, help="override blocks_en.jsonl path")

@@ -435,7 +435,7 @@ def legal_run(tmp_path, monkeypatch):
 
         return SimpleNamespace(
             Target=Target,
-            gen=SimpleNamespace(MODES=modes, PROMPTS=Prompts()),
+            gen=SimpleNamespace(MODES=modes, DEFAULT_MODES=modes, PROMPTS=Prompts()),
             DEFAULT_MODES=modes,
             SUPPORTED_MODES=modes,
             ACT_LANGUAGES=("en", "de"),

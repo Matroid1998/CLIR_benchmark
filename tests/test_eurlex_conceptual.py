@@ -210,7 +210,7 @@ def test_eurlex_decider_can_choose_conceptual(conceptual_case, monkeypatch, back
         calls.append(request)
         assert backend == "jev" and request["state"] == payload.text
         choices = request["questions"]["mode"]["criteria"]
-        assert set(choices) == {"lookup", "fact_pattern", "conceptual", "skip"}
+        assert set(choices) == {*decider.MODES["eurlex"], "skip"}
         return {"answers": {"mode": {"type": "choice", "choice": "conceptual",
                 "confidence": 1.0, "probabilities": {key: float(key == "conceptual") for key in choices}}}}
 

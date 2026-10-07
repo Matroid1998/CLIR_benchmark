@@ -97,6 +97,16 @@ def test_decider_routes_real_batch_and_survives_resume(tmp_path, monkeypatch, so
     from clir_bench.cli import build_parser
 
     batch, generator, target, payload, candidates = case(source)
+    # The additional generation modes await user-supplied verifiers. Supply
+    # placeholders for preflight while exercising the existing routed mode's
+    # real rubric, generation, persistence and resume behavior below.
+    original = generator.PROMPTS
+    monkeypatch.setattr(generator, "PROMPTS", SimpleNamespace(
+        generation=original.generation, faithfulness=original.faithfulness,
+        quality=lambda mode, arity="batch": (
+            "Test-only pending verifier" if mode in generator.NEW_MODES
+            else original.quality(mode, arity)),
+    ))
     chosen = "skip" if skip else ("fact_pattern" if source == "eurlex" else "practitioner")
     routed = decider.generation_mode(chosen)
     model = "gpt-test"

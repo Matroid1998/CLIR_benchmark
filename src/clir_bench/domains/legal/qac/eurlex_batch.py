@@ -333,6 +333,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
         candidates = [gen.Candidate(**item) for item in saved]
     else:
         candidates = [gen.Candidate(
+            **gen.annotations.restore_metadata(row, target.mode, eurlex=True),
             question=row["question"], answer=row["answer"],
             classification=row.get("framing" if target.mode == gen.MODE_CONCEPTUAL else "question_type", ""),
             articles_involved=[value for value in row.get("articles_involved", "").split(",") if value],
@@ -357,6 +358,9 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
                                  position, c.question, c.answer], ensure_ascii=False).encode()).hexdigest()[:24]),
            "question_language": target.language,
            "articles_involved": list(c.articles_involved)} for position, c in enumerate(candidates)]
+    if target.mode in gen.NEW_MODES:
+        for pair, candidate in zip(qa, candidates):
+            pair.update(mode=target.mode, **gen.annotations.metadata(candidate))
     # The quality rubrics run consistency checks ON the mode's own fields -- is
     # the declared anchor actually present in the question, is the short name
     # invented, does the cited rendering differ from the base one by nothing but
@@ -391,7 +395,8 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             target.mode, strict=enhanced, sources=quality_sources(payload, target.language),
             target_source_id=target.eli_id, rubric_mode=f"eurlex_{target.mode}",
             policies={"target_granularity": "article", "reference_policy": "target_plus_supplied_references",
-                      "answer_role": "evidence_span", "source_time_policy": "supplied_version",
+                      "answer_role": ("source_identity" if target.mode == gen.MODE_SOURCE_FINDING
+                                      else "evidence_span"), "source_time_policy": "supplied_version",
                       "require_unique_gold": False, "fact_pattern_voice": "third_person_client",
                       "fact_pattern_clients": "private_clients"}))
     except Exception as error:
@@ -437,6 +442,7 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             "mode": target.mode,
             "question": candidate.question,
             "answer": candidate.answer,
+            **gen.annotations.row_metadata(candidate),
             "question_type": candidate.classification if target.mode != gen.MODE_CONCEPTUAL else "",
             "framing": candidate.classification if target.mode == gen.MODE_CONCEPTUAL else "",
             # Mode-specific columns, empty in the mode that does not emit them.
@@ -498,6 +504,7 @@ FIELDS = ("celex_id", "target_article_id", "target_article_number", "stratum",
           "question", "answer", "question_type", "framing",
           # ``lookup`` fills question_cited/instrument_short_name/anchor;
           # ``fact_pattern`` fills particulars. The unused ones stay empty.
+          *gen.annotations.FIELDS,
           "question_cited", "instrument_short_name", "anchor", "particulars",
           "articles_involved", "articles_involved_eli",
           "target_article_text", "referenced_articles_text", "multi_article",
@@ -554,7 +561,7 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
     if args.decider_model and args.modes is not None:
         parser.error("--decider-model cannot be combined with --modes")
     modes = [x.strip() for x in (args.modes if args.modes is not None else
-                                ",".join(gen.MODES)).split(",") if x.strip()]
+                                ",".join(gen.DEFAULT_MODES)).split(",") if x.strip()]
     if not languages or not modes:
         parser.error("--languages and --modes must each contain at least one value")
     unsupported_modes = [mode for mode in modes if mode not in gen.MODES]

@@ -32,21 +32,28 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 from clir_bench.core.prompts import PromptPack
 from clir_bench.domains.legal.qac import eurlex_context as ctx
+from clir_bench.domains.legal.qac import generation_metadata as annotations
 from clir_bench.domains.legal.qac.env import load_env
+
+MODE_COMPARISON = annotations.MODE_COMPARISON
+MODE_CLAIM_VERIFICATION = annotations.MODE_CLAIM_VERIFICATION
+MODE_SOURCE_FINDING = annotations.MODE_SOURCE_FINDING
+NEW_MODES = annotations.NEW_MODES
 
 PROMPTS = PromptPack("clir_bench.domains.legal.qac.prompts_eurlex")
 
-# Three retrieval needs with separate generation and quality contracts.
+# Retrieval needs with separate generation contracts.
 MODE_LOOKUP = "lookup"
 MODE_FACT_PATTERN = "fact_pattern"
 MODE_CONCEPTUAL = "conceptual"
-MODES = (MODE_LOOKUP, MODE_FACT_PATTERN, MODE_CONCEPTUAL)
+DEFAULT_MODES = (MODE_LOOKUP, MODE_FACT_PATTERN, MODE_CONCEPTUAL)
+MODES = (*DEFAULT_MODES, *NEW_MODES)
 
 # ``particulars`` are phrases that routinely contain commas ("40 tonnes placed
 # on the Spanish market last year"), so they cannot share the comma join the
@@ -55,7 +62,7 @@ PARTICULAR_SEP = "|"
 
 
 @dataclass
-class Candidate:
+class Candidate(annotations.GenerationMetadata):
     question: str
     answer: str
     classification: str
@@ -116,6 +123,8 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
     belonging to the other mode cannot leak into a row: ``lookup`` carries
     ``question_cited`` / ``instrument_short_name`` / ``anchor``, ``fact_pattern``
     carries ``particulars``; ``conceptual`` carries ``framing`` and ``anchor``.
+    The new modes retain their own annotations through the shared metadata
+    parser; source-finding keeps its identifier answer and separate evidence.
     """
     if isinstance(data, Mapping):
         data = [data]
@@ -132,6 +141,7 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
         if isinstance(raw_particulars, str):
             raw_particulars = [raw_particulars]
         out.append(Candidate(
+            **annotations.parse_metadata(item, mode, eurlex=True),
             question=question,
             answer=answer,
             classification=str(item.get("framing" if mode == MODE_CONCEPTUAL else "question_type", "other")).strip(),
@@ -149,7 +159,7 @@ def parse_candidates(data: Any, payload: ctx.GenerationPayload,
             instrument_short_name=(_short_name(item.get("instrument_short_name"))
                                    if mode == MODE_LOOKUP else ""),
             anchor=(str(item.get("anchor", "")).strip()
-                    if mode in (MODE_LOOKUP, MODE_CONCEPTUAL) else ""),
+                    if mode in (MODE_LOOKUP, MODE_CONCEPTUAL, *NEW_MODES) else ""),
             particulars=([str(x).strip() for x in (raw_particulars or []) if str(x).strip()]
                          if mode == MODE_FACT_PATTERN else []),
         ))
@@ -184,6 +194,7 @@ def rows_for(payload: ctx.GenerationPayload, candidates: Sequence[Candidate], *,
         "mode": mode,
         "question": c.question,
         "answer": c.answer,
+        **annotations.row_metadata(c),
         "question_type": c.classification if mode != MODE_CONCEPTUAL else "",
         "framing": c.classification if mode == MODE_CONCEPTUAL else "",
         # Mode-specific columns. Each is empty in the mode that does not emit it,

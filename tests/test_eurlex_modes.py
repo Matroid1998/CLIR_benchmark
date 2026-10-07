@@ -40,10 +40,11 @@ def payload() -> ctx.GenerationPayload:
     return ctx.GenerationPayload(target, [], [], ctx.render_payload(target, []))
 
 
-# -- the pack holds three modes ---------------------------------- #
+# -- the pack holds six modes ---------------------------------- #
 
-def test_the_pack_declares_three_modes() -> None:
-    assert gen.MODES == (gen.MODE_LOOKUP, gen.MODE_FACT_PATTERN, gen.MODE_CONCEPTUAL)
+def test_the_pack_declares_six_modes() -> None:
+    assert gen.MODES == (gen.MODE_LOOKUP, gen.MODE_FACT_PATTERN, gen.MODE_CONCEPTUAL,
+                         gen.MODE_COMPARISON, gen.MODE_CLAIM_VERIFICATION, gen.MODE_SOURCE_FINDING)
     assert not hasattr(gen, "MODE_TECHNICAL")
     assert not hasattr(gen, "MODE_SEMANTIC")
     assert not hasattr(gen, "MODE_DESCRIPTIVE")
@@ -90,7 +91,7 @@ EXPECTED_QUALITY = {
 }
 
 
-@pytest.mark.parametrize("mode", gen.MODES)
+@pytest.mark.parametrize("mode", EXPECTED_QUALITY)
 def test_each_mode_has_its_own_quality_columns(mode: str) -> None:
     """Unlike technical/descriptive, these two do NOT share a rubric: each is
     graded on the criteria its own generation prompt turns on."""
@@ -107,7 +108,7 @@ def test_the_two_modes_are_graded_on_different_criteria() -> None:
     assert set(lookup) & set(fact_pattern) == {"focus", "linguistic_quality"}
 
 
-@pytest.mark.parametrize("mode", gen.MODES)
+@pytest.mark.parametrize("mode", EXPECTED_QUALITY)
 def test_the_rubric_scores_exactly_the_keys_grading_sums(mode: str) -> None:
     """The regression this file exists for.
 
