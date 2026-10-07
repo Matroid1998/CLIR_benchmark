@@ -39,7 +39,7 @@ def logical_key(package: str, parts: tuple[str, ...]) -> str | None:
         return None
     source = package[len(PREFIX):]
     path = "/".join(parts)
-    if path in ("decider/generator.txt", "decider/jev.json"):
+    if path in ("decider/generator.txt", "decider/jev.json", "decider/jev_eligibility.json"):
         return f"{source}/decider/{Path(path).stem}"
     if len(parts) == 3 and parts[0] == "generation" and parts[2].endswith(".txt"):
         mode = "practitioner" if parts[1] == "practitioners" else parts[1]

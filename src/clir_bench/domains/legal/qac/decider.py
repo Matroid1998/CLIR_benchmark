@@ -34,6 +34,55 @@ def generation_mode(mode: str) -> str:
     return "practitioners" if mode == "practitioner" else mode
 
 
+def eligibility_prompt_text(source: str) -> str:
+    """Independent mode suitability, separate from the historical single winner."""
+    if source not in MODES:
+        raise ValueError(f"unsupported eligibility source: {source}")
+    return load_prompt(f"clir_bench.domains.legal.qac.prompts_{source}",
+                       "decider", "jev_eligibility.json")
+
+
+def build_eligibility_request(source: str, text: str) -> dict:
+    request = json.loads(eligibility_prompt_text(source))
+    questions = request.get("questions")
+    if (not isinstance(questions, dict) or set(questions) != set(MODES[source])
+            or any(not isinstance(q, dict) or q.get("type") != "noul"
+                   for q in questions.values())):
+        raise ValueError("Eligibility prompt must ask one noul question per mode")
+    return dict(request, model=JEV_MODEL, state=text)
+
+
+def parse_eligibility(data, source: str, *, threshold: float = 0.5) -> dict:
+    """Validate independent probabilities; they are not normalized across modes."""
+    _probability(threshold)
+    answers = data.get("answers") if isinstance(data, dict) else None
+    if not isinstance(answers, dict) or set(answers) != set(MODES[source]):
+        raise ValueError("Jev eligibility answers must cover exactly the six modes")
+    probabilities = {}
+    for mode in MODES[source]:
+        answer = answers[mode]
+        if not isinstance(answer, dict) or answer.get("type") != "noul":
+            raise ValueError(f"Jev eligibility answer for {mode} must have type noul")
+        probabilities[mode] = _probability(answer.get("noul"))
+    return {"probabilities_yes": probabilities, "threshold": threshold,
+            "selected_modes": [mode for mode, p in probabilities.items() if p >= threshold],
+            "model": JEV_MODEL, "response_model": data.get("model"),
+            "backend": "jev_eligibility"}
+
+
+def decide_eligibility(source: str, text: str, *, threshold: float = 0.5,
+                       checkpoint=None, retries: int = 3) -> dict:
+    _probability(threshold)
+    request = build_eligibility_request(source, text)
+
+    def call():
+        data = checkpoint.decisions(request) if checkpoint else llm.decisions(request)
+        return parse_eligibility(data, source, threshold=threshold)
+
+    return (checkpoint.run("eligibility", call) if checkpoint else
+            llm.call_with_retries(call, retries=retries, label="eligibility"))
+
+
 def build_request(source: str, backend: str, text: str, model: str) -> dict:
     prompt = prompt_text(source, backend)
     if backend == "jev":

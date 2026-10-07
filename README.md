@@ -194,8 +194,8 @@ python -m clir_bench.core.prompt_registry activate \
 clir --domain legal qac generate --source eurlex un --langs en --questions 100
 ```
 
-`sync` includes all 48 current templates: every language and supported legacy mode,
-not just the sixteen English prompts compared by the experiment. Other languages
+`sync` includes all current legal templates: every language, decider, and supported
+legacy mode, including the independent Jev eligibility prompts. Other languages
 therefore remain available after activation. To publish a saved snapshot, use
 `publish --prompts path/to/prompts.json` with the same bundle, label and output
 arguments. The JSON maps logical keys, such as `un/generation/practitioner`, to
@@ -231,6 +231,27 @@ payloads before making calls, then runs both deciders and all eligible generatio
 `screening_analysis` exports the native results. `screening_repair --recovery-only`
 can recover schema-only failures from recorded responses without new model calls;
 repairs retain pinned prompts and their own audit log.
+
+To evaluate each persona independently on a completed screening selection:
+
+```bash
+python -m clir_bench.domains.legal.qac.screening_eligibility previous/run \
+  --output reports/decider_screening/jev_eligibility \
+  --prompt-manifest .clir/active_prompt_manifest.json \
+  --grades-csv reports/decider_screening/five_verifiers_blinded_20261007/all_verifier_grades.csv
+```
+
+This sends each exact recorded source packet to Jev with six independent `noul`
+questions from `decider/jev_eligibility.json`. The initial yes/no cutoff is
+`--threshold 0.5` (inclusive); it is an exploratory threshold, not a calibrated
+quality guarantee. No generation or verifier calls are made. The separate output
+directory stores resumable calls, a `decisions_only.csv` (one row per
+document), a `decisions.csv` row per document/mode, and optional comparisons with
+all five existing blinded verifiers. `questions_with_jev_and_grades.csv` preserves
+the original questions, grades, and reasons alongside the new decisions.
+An observed passing candidate demonstrates feasibility; a failed sampled batch
+does not establish that no valid question could be generated. The original
+single-choice router remains available for comparison.
 
 `python -m clir_bench.domains.legal.qac.experiment_evaluation` compares completed runs
 using one pinned, mode-blind rubric; identical pairs are graded once across versions.
