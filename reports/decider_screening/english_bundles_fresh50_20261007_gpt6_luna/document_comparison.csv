@@ -1,0 +1,633 @@
+﻿corpus,target_id,document_id,symbol,title,is_meeting,stratum,document_text,all_eligible_modes_completed,oracle_best_score,oracle_modes,oracle_audit_clear_score,lookup_score,lookup_audit_clear_score,lookup_status,practitioner_score,practitioner_audit_clear_score,practitioner_status,conceptual_score,conceptual_audit_clear_score,conceptual_status,comparison_score,comparison_audit_clear_score,comparison_status,claim_verification_score,claim_verification_audit_clear_score,claim_verification_status,source_finding_score,source_finding_audit_clear_score,source_finding_status,generator_mode,generator_reason,generator_confidence,generator_decision_status,generator_selected_score,generator_matches_best,generator_score_regret,generator_utility,generator_audit_clear_utility,generator_selected_mode_unproductive,generator_missed_opportunity,jev_mode,jev_reason,jev_confidence,jev_decision_status,jev_selected_score,jev_matches_best,jev_score_regret,jev_utility,jev_audit_clear_utility,jev_selected_mode_unproductive,jev_missed_opportunity,deciders_agree,fact_pattern_score,fact_pattern_audit_clear_score,fact_pattern_status
+un,2002/a/res/56/150#3,2002/a/res/56/150,A/RES/56/150,Resolution adopted by the General Assembly,False,resolution,"Underlining the fact that meeting the objectives of good governance also depends on good governance at the international level and on transparency in the financial, monetary and trading systems and an open, equitable, rules-based, predictable and non-discriminatory multilateral trading and financial system,
+Underlining also the fact that the realization of the right to development requires effective development policies at the national level as well as equitable economic relations and a favourable economic environment at the international level,
+Underlining further the important role of the United Nations High Commissioner for Human Rights in the promotion and protection of the right to development,
+Recalling the need for coordination and cooperation throughout the United Nations system for a more effective promotion and realization of the right to development,
+Taking note of the outcome of the South Summit of the Group of Seventy-seven, held in Havana from 10 to 14 April 2000, relating to the realization of the right to development,",True,40,lookup|practitioner|conceptual|comparison|source_finding,40,40,40,completed,40,40,completed,40,40,completed,40,40,completed,39,39,completed,40,40,completed,conceptual,"The target explains the relationship between realizing the right to development and the conditions required for it: effective national development policies, equitable international economic relations, a favourable international environment, and coordinated UN action. This supports a natural rationale-focused information need.",,completed,40,True,0,40,40,False,False,conceptual,,0.78,completed,40,True,0,40,40,False,False,True,,,
+un,2012/a/res/66/106#10,2012/a/res/66/106,A/RES/66/106,Resolution adopted by the General Assembly on 9 December 2011,False,resolution,"(c) Judges must cooperate with any formal inquiry into their conduct in office;
+(d) Judges must not engage in conduct that is prejudicial to the effective and expeditious administration of justice or the work of the Tribunal;
+(e) When engaged in the administration of justice, judges must attend chambers during their normal working hours, as determined by the members of the Tribunal, and attend hearings and deliberations of the Tribunal during stipulated hours, unless they have a good reason not to do so.
+Judges must inform the presiding judge of the Tribunal in advance if they need to be absent.
+If they are to be absent for longer than three days, they must obtain the approval of the presiding judge of their Tribunal;
+(f) Judges must respect and comply with the reasonable administrative requests of the presiding judge of the Tribunal of which they are members;
+(g) Judges must take reasonable steps to maintain the necessary level of professional competence and to keep themselves informed about relevant developments in international administrative and employment law, as well as international human rights norms;
+(h) Judges' judicial duties must take precedence over other duties and activities.",True,40,lookup|practitioner|conceptual|comparison|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The target explicitly states the precise attendance and absence requirements for judges, including that absences longer than three days require approval from the presiding judge.",,completed,40,True,0,40,40,False,False,lookup,,0.86,completed,40,True,0,40,40,False,False,True,,,
+un,2008/s/res/1825_2008_#3,2008/s/res/1825_2008_,S/RES/1825(2008),"The Security Council,",False,resolution,"Recognizing the need to pay special attention to the needs of women, children and traditionally marginalized groups in the peace process, as mentioned in the Comprehensive Peace Agreement and resolution 1325 (2000),
+Recognizing that civil society can play an important role in democratic transition and conflict prevention,
+Expressing appreciation for the efforts of the Secretary-General's Special Representative and his team in UNMIN, and the United Nations Country Team, including the Office of the High Commissioner for Human Rights which is monitoring human rights at the request of the Government, and stressing the need for coordination and complementarity of efforts between the mission and all the United Nations actors in the mission area, particularly in order to ensure continuity, as the mandate comes to an end,
+1. Decides in line with the request from the Government of Nepal and the Secretary-General's recommendations, to renew the mandate of UNMIN as established under resolution 1740 (2007) until 23 January 2009, taking into account the completion of some elements of the mandate, the ongoing work on the monitoring and the management of arms and armed personnel in line with the 25 June Agreement among the political parties, which will support the completion of the peace process;",True,40,lookup|conceptual|source_finding,40,40,40,completed,36,,completed,40,40,completed,,,no_candidates,39,39,completed,40,40,completed,lookup,"The target explicitly states the precise Security Council decision: UNMIN’s mandate was renewed until 23 January 2009, in line with Nepal’s request and the Secretary-General’s recommendations, while taking account of ongoing arms-management monitoring and completion of the peace process.",,completed,40,True,0,40,40,False,False,lookup,,0.64,completed,40,True,0,40,40,False,False,True,,,
+un,2010/s/res/1912_2010_#2,2010/s/res/1912_2010_,S/RES/1912(2010),Resolution 1912 (2010),False,resolution,"Noting the statement made by President José Ramos-Horta on 9 December 2009 on the views of the Timorese authorities regarding the future role of UNMIT police during the 2010-2012 period,
+Expressing its full support for the role of the international security forces in assisting the Government of Timor-Leste and UNMIT, in the maintenance of law and stability, in response to the requests of the Government of Timor-Leste,
+Expressing deep concern with the high rates of unemployment and poverty among the Timorese population, as indicated in the report of the Secretary-General, welcoming in this regard the actions already taken by the Government of Timor-Leste to address these issues, in particular the efforts to finalize the National Strategic Development Plan, and underlining the importance of continued support by the international community for the socio-economic development of Timor-Leste,
+Recalling that while the manifestations of the current challenges in Timor-Leste are political and institutional in nature, poverty and its associated deprivations also contribute to these challenges, paying tribute to Timor-Leste's bilateral and multilateral partners for their invaluable assistance, particularly with regard to human resource development, institutional capacity-building and social and economic development, and recognizing the progress being made in the development of many aspects of governance in Timor-Leste,",True,40,lookup|practitioner|conceptual|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,,completed,39,39,completed,40,40,completed,40,40,completed,conceptual,"The target explicitly links Timor-Leste’s political and institutional challenges with poverty and associated deprivations, while identifying international assistance and socio-economic development support as relevant responses. This supports a conceptual question about that problem-and-response relationship.",,completed,40,True,0,40,0,False,False,conceptual,,0.77,completed,40,True,0,40,0,False,False,True,,,
+un,2009/s/res/1900_2009_#2,2009/s/res/1900_2009_,S/RES/1900(2009),Resolution 1900 (2009),False,resolution,"1. Underlines its intention to extend, by 30 June 2010, the terms of office of all trial judges at the International Tribunal based on the Tribunal's projected trial schedule and the terms of office of all appeals judges until 31 December 2012, or until the completion of the cases to which they are assigned if sooner, and requests the President of the International Tribunal to submit to the Council an updated trial and appeals schedule, including information on the judges whose extension of the terms of office or redeployment to the Appeals Chamber will be sought;
+2. Decides that, notwithstanding the expiry of their terms of office on 31 December 2009, Judges Kimberley Prost (Canada) and Ole Bjørn Støle (Norway) complete the Popović case which they began before the expiry of their terms of office; and takes note of the intention of the International Tribunal to complete the case before the end of March 2010;",True,40,lookup|practitioner,40,40,40,completed,40,40,completed,39,,completed,38,38,completed,39,39,completed,34,,completed,comparison,"The target explicitly treats trial and appeals judges differently: trial judges’ terms are intended to extend to 30 June 2010, while appeals judges’ terms extend until 31 December 2012 or earlier case completion. This supports a bounded comparison of their respective term extensions.",,completed,38,False,2,38,38,False,False,lookup,,0.57,completed,40,True,0,40,40,False,False,False,,,
+un,2011/a/res/64/155#6,2011/a/res/64/155,A/RES/64/155,Resolution adopted by the General Assembly on 18 December 2009,False,resolution,"6. Recommends that, throughout the time span of the entire electoral cycle, including before and after elections, as appropriate, based on a needs assessment and in accordance with the evolving needs of requesting Member States, bearing in mind sustainability and costeffectiveness, the United Nations continue to provide technical advice and other assistance to requesting States and electoral institutions in order to help to strengthen their democratic processes;
+7. Notes with appreciation the additional efforts being made to enhance cooperation with other international, governmental and nongovernmental organizations in order to facilitate more comprehensive and needsspecific responses to requests for electoral assistance, encourages those organizations to share knowledge and experience in order to promote best practices in the assistance they provide and in their reporting on electoral processes, and expresses its appreciation to those Member States, regional organizations and nongovernmental organizations that have provided observers or technical experts in support of United Nations electoral assistance efforts;",True,40,lookup|practitioner|conceptual|comparison|claim_verification|source_finding,40,40,40,completed,40,,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The target directly specifies the conditions and scope for continued UN electoral assistance: it may span the entire electoral cycle, must reflect assessed and evolving needs of requesting States, and should consider sustainability and cost-effectiveness.",,completed,40,True,0,40,40,False,False,lookup,,0.36,completed,40,True,0,40,40,False,False,True,,,
+un,2001/a/res/55/203#3,2001/a/res/55/203,A/RES/55/203,Resolution adopted by the General Assembly,False,resolution,"Taking note of resolution GC(44)/RES/17 of 22 September 2000 of the General Conference of the International Atomic Energy Agency on safety of transport of radioactive materials,
+Mindful of the diversity and dynamic interaction and competition among socio-economic activities for the use of the coastal areas and the marine environment and their resources,
+Mindful also of the efforts of the Caribbean countries to address in a more holistic manner the sectoral issues relating to the management of the Caribbean Sea area and, in so doing, to promote an integrated management approach to the Caribbean Sea area in the context of sustainable development, through a regional cooperative effort among Caribbean countries,
+Noting the efforts of the Caribbean countries, within the framework of the Association of Caribbean States, to develop further support for their concept of the Caribbean Sea as an area of special importance, in the context of sustainable development and in conformity with the relevant provisions of the United Nations Convention on the Law of the Sea,5",True,40,lookup|practitioner|comparison|source_finding,40,40,40,completed,40,40,completed,38,,completed,40,40,completed,39,39,completed,40,40,completed,conceptual,The target directly links the Caribbean countries’ holistic treatment of sectoral issues with promoting an integrated management approach to the Caribbean Sea through regional cooperation in the context of sustainable development.,,completed,38,False,2,38,0,False,False,conceptual,,0.69,completed,38,False,2,38,0,False,False,True,,,
+un,2002/a/res/56/29#1,2002/a/res/56/29,A/RES/56/29,Resolution adopted by the General Assembly,False,resolution,"Recognizing further that prospects for closer Euro-Mediterranean cooperation in all spheres can be enhanced by positive developments worldwide, in particular in Europe, in the Maghreb and in the Middle East,
+Reaffirming the responsibility of all States to contribute to the stability and prosperity of the Mediterranean region and their commitment to respecting the purposes and principles of the Charter of the United Nations, as well as the provisions of the Declaration on Principles of International Law concerning Friendly Relations and Cooperation among States in accordance with the Charter of the United Nations,
+Noting the peace negotiations in the Middle East, which should be of a comprehensive nature and represent an appropriate framework for the peaceful settlement of contentious issues in the region,
+Expressing its concern at the persistent tension and continuing military activities in parts of the Mediterranean that hinder efforts to strengthen security and cooperation in the region,
+Taking note of the report of the Secretary-General,",True,40,lookup|practitioner|conceptual|comparison|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,40,,completed,40,40,completed,40,40,completed,conceptual,"The target explicitly links persistent tension and continuing military activities in parts of the Mediterranean to the hindering of efforts to strengthen regional security and cooperation, supporting a question about that problem-and-response relationship.",,completed,40,True,0,40,40,False,False,conceptual,,0.72,completed,40,True,0,40,40,False,False,True,,,
+un,2014/a/hrc/res/26/31#3,2014/a/hrc/res/26/31,A/HRC/RES/26/31,Technical assistance and capacity-building,False,resolution,"7. Calls upon the international community to assist neighbouring countries hosting refugees, especially women, children and persons with disabilities;
+8. Requests the United Nations High Commissioner for Human Rights, as a matter of urgency, to monitor the situation of human rights in South Sudan and to report thereon to the Human Rights Council at its twenty-eighth session, with recommendations on technical assistance and capacity-building measures, including on human rights education to overcome challenges in the areas of security and on the importance of accountability and transitional justice in South Sudan;
+9. Decides to convene, at its twenty-seventh session, a panel discussion on the human rights situation in South Sudan, and in this regard;
+(a) Requests the High Commissioner to submit an interim report on the human rights situation in South Sudan for discussion by the panel;
+(b) Also requests the High Commissioner to invite the Government of South Sudan, the Chairperson of the African Union Commission of Inquiry for South Sudan, the Chief Mediator of the Intergovernmental Authority on Development, the Special Representative of the Secretary-General for South Sudan and the Chairperson of the South Sudan Human Rights Commission;",True,40,lookup|practitioner|conceptual|comparison|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,practitioner,"The target assigns the High Commissioner concrete tasks: urgently monitor South Sudan’s human-rights situation, report to the Council’s twenty-eighth session with recommendations, and prepare interim and panel-discussion reports. This directly supports a practitioner need concerning implementation of those mandated actions.",,completed,40,True,0,40,40,False,False,practitioner,,0.58,completed,40,True,0,40,40,False,False,True,,,
+un,2006/a/res/61/163#4,2006/a/res/61/163,A/RES/61/163,Resolution adopted by the General Assembly on 19 December 2006,False,resolution,"5. Encourages all States to take action to address gender inequality and discrimination against women, in particular where it contributes to the malnutrition of women and girls, including measures to ensure the full and equal realization of the right to food and ensuring that women have equal access to resources, including income, land and water, to enable them to feed themselves and their families;
+6. Encourages the Special Rapporteur of the Human Rights Council on the right to food to continue mainstreaming a gender perspective in the fulfilment of his mandate, and encourages the Food and Agriculture Organization of the United Nations and all other United Nations bodies and mechanisms addressing the right to food and food insecurity to integrate a gender perspective into their relevant policies, programmes and activities;
+7. Encourages all States to take steps with a view to achieving progressively the full realization of the right to food, including steps to promote the conditions for everyone to be free from hunger and, as soon as possible, to enjoy fully the right to food, and to create and adopt national plans to combat hunger;",True,40,lookup|comparison|claim_verification|source_finding,40,40,40,completed,37,,completed,38,,completed,40,40,completed,40,,completed,40,40,completed,practitioner,"The target gives concrete UN-related tasks to identifiable actors: States are encouraged to address gender inequality, ensure women’s equal access to resources, progressively realize the right to food, and adopt national anti-hunger plans, while the Special Rapporteur and UN bodies are asked to integrate a gender perspective into their work.",,completed,37,False,3,37,0,False,False,conceptual,,0.56,completed,38,False,2,38,0,False,False,False,,,
+un,2012/a/res/66/30#2,2012/a/res/66/30,A/RES/66/30,Resolution adopted by the General Assembly on 2 December 2011,False,resolution,"Bearing in mind the new challenges for the international community in the fields of development, poverty eradication and the elimination of the diseases that afflict humanity,
+Stressing the importance of the symbiotic relationship between disarmament and development and the important role of security in this connection, and concerned at increasing global military expenditure, which could otherwise be spent on development needs,
+Recalling the report of the Group of Governmental Experts on the relationship between disarmament and development and its reappraisal of this significant issue in the current international context,
+Bearing in mind the importance of following up on the implementation of the action programme adopted at the 1987 International Conference on the Relationship between Disarmament and Development,
+1. Stresses the central role of the United Nations in the disarmament-development relationship, and requests the Secretary-General to strengthen further the role of the Organization in this field, in particular the high-level Steering Group on Disarmament and Development, in order to ensure continued and effective coordination and close cooperation between the relevant United Nations departments, agencies and sub-agencies;",True,40,lookup|practitioner|conceptual|comparison|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,conceptual,"The text expressly connects disarmament, development and security, explaining that rising military expenditure could otherwise support development needs, while identifying strengthened UN coordination as the response.",,completed,40,True,0,40,40,False,False,conceptual,,0.49,completed,40,True,0,40,40,False,False,True,,,
+un,2010/a/hrc/res/14/9#2,2010/a/hrc/res/14/9,A/HRC/RES/14/9,"Promotion and protection of all human rights, civil,",False,resolution,"Recognizing that cultural diversity and the pursuit of cultural development by all peoples and nations are a source of mutual enrichment for the cultural life of humankind,
+Determined to treat human rights globally in a fair and equal manner, on the same footing and with the same emphasis,
+1. Reaffirms that cultural rights are an integral part of human rights, which are universal, indivisible, interrelated and interdependent;
+2. Recognizes the right of everyone to take part in cultural life and to enjoy the benefits of scientific progress and its applications;
+3. Reaffirms that, while the significance of national and regional particularities and various historical, cultural and religious backgrounds must be borne in mind, it is the duty of the States, regardless of their political, economic and cultural systems, to promote and protect all human rights and fundamental freedoms;
+4. Recalls that, as expressed in the Universal Declaration on Cultural Diversity, no one may invoke cultural diversity to infringe upon human rights guaranteed by international law, nor to limit their scope;",True,40,lookup|practitioner|comparison|claim_verification|source_finding,40,40,40,completed,40,40,completed,39,39,completed,40,40,completed,40,40,completed,40,40,completed,conceptual,"The target directly explains the relationship between cultural diversity and universal human rights: cultural diversity is a source of mutual enrichment, but cannot be invoked to infringe or limit rights guaranteed by international law.",,completed,39,False,1,39,39,False,False,conceptual,,0.56,completed,39,False,1,39,39,False,False,True,,,
+un,2008/a/res/63/114#2,2008/a/res/63/114,A/RES/63/114,Resolution adopted by the General Assembly on 5 December 2008,False,resolution,"Having considered the report of the Secretary-General on cooperation between the United Nations and regional and other organizations,
+Taking into account the desire of the two organizations to continue to cooperate closely in the political, economic, social, humanitarian, cultural and scientific fields and in their common search for solutions to global problems, such as questions relating to international peace and security, disarmament, self-determination, the promotion of a culture of peace through dialogue and cooperation, decolonization, fundamental human rights and economic and social development,
+Recalling the Articles of the Charter of the United Nations that encourage activities through regional cooperation for the promotion of the purposes and principles of the United Nations,
+Recalling also the decision of the Annual Coordination Meeting of Ministers for Foreign Affairs of the States members of the Organization of the Islamic Conference, held in New York on 26 September 2008, to recognize the merit of celebrating the fortieth anniversary of the Organization of the Islamic Conference in 2009 through national and international programmes on different aspects of the Organization of the Islamic Conference, highlighting its activities, evolution and reform through the four decades of its existence,",True,40,lookup|practitioner|conceptual|source_finding,40,40,39,completed,40,40,completed,40,,completed,39,39,completed,39,39,completed,40,40,completed,lookup,"The target explicitly identifies the fields in which the United Nations and the Organization of the Islamic Conference wished to continue close cooperation, including political, economic, social, humanitarian, cultural and scientific matters.",,completed,40,True,0,40,39,False,False,conceptual,,0.32,completed,40,True,0,40,0,False,False,False,,,
+un,1999/a/54/pv_76#9,1999/a/54/pv_76,A/54/PV.76,Reports of the Sixth Committee,True,meeting,"It would also request the Special Committee to continue to consider, on a priority basis, the question of the implementation of the provisions of the Charter of the United Nations related to assistance to third States affected by the application of sanctions imposed under Chapter VII of the Charter.
+The Assembly would further request the Special Committee to continue its work on the question of the peaceful settlement of disputes between States, to continue to consider proposals concerning the Trusteeship Council and to continue to consider, on a priority basis, ways and means to improve its working methods and enhance its efficiency.
+It would also commend the Secretary-General for his continued efforts to reduce the backlog in the publication of the Repertory of Practice of United Nations Organs and endorse his efforts to eliminate the backlog in the publication of the Repertoire of the Practice of the Security Council.
+The Assembly would further decide to transmit the report of the Secretary-General to the Economic and Social Council at its substantive session in 2000.",True,40,lookup|comparison|claim_verification|source_finding,40,40,40,completed,36,,completed,38,,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The target directly specifies several precise proposed actions, including what the Special Committee would continue considering and the decision to transmit the Secretary-General’s report to ECOSOC at its 2000 substantive session.",,completed,40,True,0,40,40,False,False,lookup,,0.54,completed,40,True,0,40,40,False,False,True,,,
+un,2006/a/c_4/61/sr_10#17,2006/a/c_4/61/sr_10,A/C.4/61/SR.10,Special Political and Decolonization Committee,True,meeting,"The reorientation of the Department had allowed it to enhance its work and increase the visibility of the Organization through updated work methods and activities and an effective utilization of its resources.
+The Department had wisely decided to address some of the key issues of global concern, including HIV/AIDS, natural disasters, human development, threats to international peace and security, eradication of hunger and poverty and the United Nations reform, with attention to the newly created Human Rights Council and Peacebuilding Commission.
+42. The close cooperation between the Department of Peacekeeping Operations and DPI was commendable and should be expanded to ensure the best support for vital peacekeeping operations.
+The Department should be aware that, even though the new information and communication technology was readily available in the developed world, the traditional means of communication like radio and the print media were to many in the developing world still the only means of obtaining information.
+It should therefore expand its links with national broadcasters and journalists in order to reach a worldwide audience.",True,40,lookup|practitioner|conceptual|source_finding,40,40,40,completed,40,40,completed,40,40,completed,39,39,completed,38,38,completed,40,40,completed,lookup,"The target directly states the requested action: DPI should expand its links with national broadcasters and journalists so that it can reach a worldwide audience, particularly where traditional media remain the main information source.",,completed,40,True,0,40,40,False,False,conceptual,,0.7,completed,40,True,0,40,40,False,False,False,,,
+un,2006/cd/pv_1007#19,2006/cd/pv_1007,CD/PV.1007,"At our morning meeting we learned with great sadness of the passing away of the former member of the United States delegation, Mr. Ed Cummings, who served as Counsellor for Legal Affairs at the United States Mission in Geneva and head of the United States delegation to most of the CCW-related meetings.",True,meeting,"In any debate on nuclear disarmament, the principles of transparency and irreversibility are essential constructs of good-faith negotiations.
+We welcomed the conclusion of the Moscow Treaty in 2002 as an encouraging first step in nuclear disarmament processes.
+The upcoming renewal of the Moscow Treaty provides Russia and the United States with the opportunity to make an effective concrete contribution to nuclear disarmament, by agreeing to destroy rather than stockpile the weapons covered by the Treaty.
+In response to a comment made this morning, I can assure the Russian Ambassador that it is always extremely interesting to my delegation to hear about irreversible reductions in nuclear arsenals, whether through the microphone on the record of this Conference or in any other formal transparent way.
+The details provided by the leader of the United States delegation are also welcome.
+In addition to the CTBT, the creation of nuclear-weapon-free zones acts as a powerful symbol for demonstrating renunciation of weapons of mass destruction to the international community. This is particularly valuable at a regional level.
+Nuclear-weapon-free zones' potential to contribute to nuclear disarmament is most comprehensively illustrated in the case of the Treaty of Tlatelolco, where Latin American countries moved together to discard the nuclear weapons option as a region.",True,40,lookup|practitioner|conceptual|comparison|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,,completed,conceptual,"The text explains how nuclear-weapon-free zones contribute to nuclear disarmament: regionally, they symbolize the renunciation of weapons of mass destruction, as illustrated by the Treaty of Tlatelolco.",,completed,40,True,0,40,40,False,False,conceptual,,0.92,completed,40,True,0,40,40,False,False,True,,,
+un,2009/cedaw/c/sr_858_b_#22,2009/cedaw/c/sr_858_b_,CEDAW/C/SR(858.B),Committee on the Elimination of Discrimination against Women,True,meeting,"34. The Chairperson stressed that the delegation should reply to at least some of the questions raised by each expert.
+35. Ms. Gaspard asked whether the National Commission on Human Rights initiated specific inquiries into issues that might affect women's enjoyment of their rights.
+36. Ms. Altangerel (Mongolia) said that the Government campaigned widely against domestic violence in cooperation with the media and local communities.
+An extensive programme for the perpetrators of violence was being implemented and an innovative programme for their rehabilitation through training, as an alternative to imprisonment, was being developed; women themselves favoured that measure.
+37. Although the discriminatory potential of the financial requirements for candidates in parliamentary elections deserved to be examined, that rule was imposed not by the Government but by the political parties, which were registered as associations.
+38. Ms. Natsagdolgor (Mongolia) said that two complaints of human trafficking, three complaints of sexual harassment in the workplace and one complaint of discriminatory treatment had been filed since 2005; there was no record of any complaints prior to that year.
+Domestic violence was defined as a crime, including psychological, physical and financial violence.
+As part of an annual report on social and economic conditions, the National Statistics Office published employment data, including specific information on women.",True,40,lookup|practitioner|conceptual|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,39,39,completed,40,40,completed,40,40,completed,lookup,"The target directly provides a precise factual point: since 2005, two human-trafficking complaints, three sexual-harassment complaints and one discriminatory-treatment complaint had been filed, with no earlier complaints recorded.",,completed,40,True,0,40,40,False,False,conceptual,,0.35,completed,40,True,0,40,40,False,False,False,,,
+un,2009/cedaw/c/sr_877#19,2009/cedaw/c/sr_877,CEDAW/C/SR.877,Combined second and third periodic report of Cameroon (continued),True,meeting,"Sometimes women hesitated to make their claim and took no action, either because of family pressures or because they remarried.
+In the case of divorce, even when a judge had designated a notary to carry out the liquidation, it did not always take place.
+44. A woman's status as the head of a business was recognized.
+45. Although article 337 of the Penal Code prohibited abortion, there were exceptions which covered the cases referred to.
+Abortion was permitted in the case of rape or when the life of the mother was in danger.
+46. Statistics on workers in the private and informal sectors would be available in the near future.
+Cameroon had two ministries responsible for labour: the Ministry of Labour and Professional Education and Ministry of Labour and Social Security.
+47. Ms. Tchatchoua (Cameroon) said that the promotion of women's rights and gender equality was a cross-cutting issue and that the Ministry worked with all departments and focal points.
+Few statistics were available, but the Ministry was working with the focal points and future reports would include more precise data.",True,40,practitioner|conceptual|comparison|claim_verification|source_finding,40,38,,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,The target explicitly states the circumstances in which abortion was permitted under article 337 of Cameroon’s Penal Code—rape or danger to the mother’s life—making this a precise source-specific legal point suited to lookup.,,completed,38,False,2,38,0,False,False,lookup,,0.43,completed,38,False,2,38,0,False,False,True,,,
+un,2013/a/cn_9/sr_943#2,2013/a/cn_9/sr_943,A/CN.9/SR.943,Temporary Chair: Mr. Sorieul (Secretary of the Commission),True,meeting,"Indeed the UNCITRAL Model Law was an important tool for the effective implementation of that Convention.
+2. Since the previous session, the Regional Centre for Asia and the Pacific had been opened with the support of the Government of the Republic of Korea.
+The Centre was an important means of promoting the adoption and use of the Commission's texts.
+It was to be hoped that UNCITRAL would expand its field presence to other regions in the future.
+On the related subject of technical assistance, the Commission would be taking up a document on a strategic direction for UNCITRAL with a view to optimizing the use of resources and expanding the role of the Working Groups and the UNCITRAL secretariat in promoting the Commission's work.
+3. Other matters with which the Commission would deal included arbitration rules, future work on procurement and infrastructure development, legal issues that had an impact on microfinance, and international contract law.",True,40,lookup|practitioner|conceptual|claim_verification,40,40,40,completed,40,40,completed,40,40,completed,35,,completed,40,40,completed,39,39,completed,lookup,"The target explicitly identifies precise agenda matters and institutional actions, including the Regional Centre’s role in promoting UNCITRAL texts and the strategic direction document’s aims of optimizing resources and expanding Working Group and secretariat roles.",,completed,40,True,0,40,40,False,False,conceptual,,0.5,completed,40,True,0,40,40,False,False,False,,,
+un,2008/pbc/3/gnb/sr_1#15,2008/pbc/3/gnb/sr_1,PBC/3/GNB/SR.1,Peacebuilding Commission,True,meeting,"36. Since such efforts could not be fully addressed by the elections alone, her delegation welcomed discussions to see how those dimensions could be fully taken into account through the monitoring mechanism.
+Canada looked forward to working on that mechanism to sharpen its focus and increase its specificity since, while aware of the perils of over-rigid benchmarks, it considered that realistic, concrete indicators would be needed for the Peacebuilding Commission to assess progress towards the objectives set out in the Strategic Framework.
+37. Mr. El Shinawy (Egypt) said that it was necessary to reach a rapid agreement on the tracking and monitoring mechanism and to determine benchmarks for success. The regional dimension was especially important.
+The country-specific configuration for Guinea-Bissau should therefore keep all regional and subregional African organizations informed of developments in the implementation of the Strategic Framework.
+In the same way, it was vital that the Government of Guinea-Bissau notify the Peacebuilding Commission of any difficulties that arose.",True,40,lookup|practitioner|conceptual|claim_verification|source_finding,40,40,,completed,40,40,completed,40,40,completed,39,39,completed,40,40,completed,40,40,completed,comparison,"The target explicitly presents Canada’s and Egypt’s positions on the tracking and monitoring mechanism: Canada emphasizes realistic, concrete indicators while cautioning against over-rigid benchmarks, whereas Egypt calls for benchmarks for success and stresses the regional dimension and notification of implementation difficulties.",,completed,39,False,1,39,39,False,False,conceptual,,0.64,completed,40,True,0,40,40,False,False,False,,,
+un,2007/pbc/1/bdi/sr_4#3,2007/pbc/1/bdi/sr_4,PBC/1/BDI/SR.4,Burundi configuration,True,meeting,"3. Uganda had been involved in the talks between the Government and the Parti pour la libération du peuple Hutu-Forces nationales de libération (PALIPEHUTU-FNL) which led to the Comprehensive Ceasefire Agreement and was working hard to ensure that the Agreement was implemented.
+Together with South Africa, it was currently trying to secure a meeting with Burundi on the sidelines of the upcoming Great Lakes Conference to try to address the concerns of PALIPEHUTU-FNL with regard to immunity for its members, which was provided for under the Agreement.
+Assurances on that score could encourage leaders of that movement to return to Burundi.
+4. Burundi had recently joined the East African Community.
+The move was an important institutional and peacebuilding landmark as it meant that the country's Parliament and court system would have to be harmonized with that of the Community.
+5. Mr. Kamana (Burundi), responding to questions, said that one of the main concerns appeared to be whether Burundi should have submitted a plan of action.
+Following the recommendations of the October meeting, his Government had met with international and civil society partners; the fruit of those meetings was the submission of a document containing draft projects on priorities which had been submitted to the Commission.",True,40,lookup|practitioner|conceptual|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,39,39,completed,40,40,completed,40,40,completed,conceptual,"The target explicitly connects assurances of immunity for PALIPEHUTU-FNL members with encouraging the movement’s leaders to return to Burundi, supporting a rationale-focused information need.",,completed,40,True,0,40,40,False,False,conceptual,,0.73,completed,40,True,0,40,40,False,False,True,,,
+un,2007/a/c_3/61/sr_41#4,2007/a/c_3/61/sr_41,A/C.3/61/SR.41,(a) Elimination of racism and racial discrimination* (continued),True,meeting,"It supported the ten-point action plan proposed by UNHCR to address the issue of mixed migratory flows and felt that the protection of refugees should form an integral part of migration policy.
+8. The European Union hoped to work with others to improve the international response to humanitarian emergencies.
+The cluster leadership approach was important for enhanced information exchange and coordination and the lead role played by UNHCR in that connection was welcome.
+Effective coordination with other United Nations agencies, the Red Cross movement, NGOs, host countries, donors and other relevant partners was crucial for success.
+While UNHCR needed to be given additional resources and capacity to perform its new role of protecting and assisting internally displaced persons, its core mandate should not be undermined.
+9. The European Union rejected intolerance, xenophobia and exclusion and wanted to remain a safe haven for refugees.
+It supported the efforts of UNHCR to mainstream age and gender into all its programmes and welcomed the adoption by the Executive Committee of the Conclusion on women and girls at risk and the Conclusion on statelessness, to protect the groups most often forgotten.",True,40,practitioner|conceptual|comparison|source_finding,40,38,,completed,40,40,completed,40,40,completed,40,40,completed,39,39,completed,40,40,completed,conceptual,"The target connects the cluster leadership approach, information exchange and coordination with UNHCR’s lead role and the need to work with other partners for successful humanitarian response. This directly supports a rationale-focused question about why such coordination is important.",,completed,40,True,0,40,40,False,False,conceptual,,0.73,completed,40,True,0,40,40,False,False,True,,,
+un,2000/a/c_3/55/sr_30#11,2000/a/c_3/55/sr_30,A/C.3/55/SR.30,Draft resolution A/C.3/55/L.17: The girl child,True,meeting,"29. The World Conference must analyse the situation of vulnerable groups, particularly indigenous peoples and migrants, and, taking into account indigenous traditions and customs, must strengthen action to guarantee access to justice.
+It should also consider the issue of the human rights of migrants, who were being subjected to acts of xenophobia, in various parts of the world, without regard for their contribution to the society and economy of the host country.
+30. The World Conference should make specific recommendations about the double discrimination still suffered by women, and should bear in mind other groups which also needed special attention, such as children, the disabled, the elderly, and persons suffering from HIV/AIDS.
+31. Mrs. Romulus (Haiti) said that her delegation subscribed to the statements made by the representative of Antigua and Barbuda on behalf of the Caribbean Community and by Nigeria on behalf of the Group of 77 and China.
+Her Government shared the concerns of the international community about the eradication of racism and related intolerance.
+Since its founding in 1804, Haiti had instituted a tradition of racial tolerance, and that principle had been enshrined in the first Constitution.
+Although the 1987 Constitution did not explicitly refer to racial discrimination, it did refer to the Universal Declaration of Human Rights and the first Constitution.",True,40,lookup|comparison,40,40,40,completed,36,,completed,38,,completed,40,40,completed,39,39,completed,39,,completed,lookup,"The target explicitly states the World Conference’s requested actions: analysing vulnerable groups while taking indigenous traditions into account, strengthening access to justice, and making recommendations on women’s double discrimination and other groups needing special attention.",,completed,40,True,0,40,40,False,False,conceptual,,0.7,completed,38,False,2,38,0,False,False,False,,,
+un,1998/s/1998/927#3,1998/s/1998/927,S/1998/927,LETTER DATED 7 OCTOBER 1998 FROM THE SECRETARY-GENERAL ADDRESSED TO THE PRESIDENT OF THE SECURITY COUNCIL,False,letter,"(a) Iraq will continue to facilitate OMV inspections at sites for which it routinely provides declarations under the OMV plan;
+(b) Iraq will continue to allow IAEA access to locations for the purpose of collecting environmental samples or carrying out radiation surveys;
+(c) Iraq will not permit access to capable sites or indeed to any sites other than those for which Iraq routinely provides declarations under the OMV plan;b
+(d) Iraq will not cooperate in any activity involving investigation of its clandestine nuclear programme.
+6. The Agency's OMV plan, which Iraq formally accepted on 26 November 1993, obliges Iraq to accept unconditionally all of the rights of IAEA enumerated in the plan. The rights include full and free access at any time to all sites, facilities, areas, locations, activities, materials and other items, including documentation, and to all persons and all information that, in the Agency's judgement, may be necessary for its OMV activities.
+As a consequence, IAEA is unable, through capable site inspections, to ensure that prohibited activities are not being carried out in Iraq, free from the risk of detection through direct inspection measures.
+Iraq's refusal to address any matters related to its clandestine nuclear programme constitutes a further limitation of the Agency's right of full and free access, specifically to information.",True,40,lookup|practitioner|comparison|source_finding,40,40,40,completed,40,40,completed,39,39,completed,40,40,completed,39,39,completed,40,40,completed,comparison,The target explicitly contrasts Iraq’s continued facilitation of routine OMV inspections and IAEA environmental-sampling access with its refusal to permit access to capable or other undeclared sites and to cooperate in investigating its clandestine nuclear programme.,,completed,40,True,0,40,40,False,False,conceptual,,0.36,completed,39,False,1,39,39,False,False,False,,,
+un,2011/a/66/613#3,2011/a/66/613,A/66/613,Letter dated 13 December 2011 from the Secretary-General to the President of the General Assembly,False,letter,"7. The Advisory Group agreed to revisit and continue monitoring the progress of implementation of the management response plan at its subsequent meetings.
+Management 8. The Advisory Group thanked the Emergency Relief Coordinator and the CERF secretariat for their continued professional management of the Fund and their continuing efforts to improve its efficiency and effectiveness.
+The Group commended the efforts to reach the target of US$ 450 million in annual funding set by the General Assembly.
+The Advisory Group expressed its appreciation of the secretariat's efforts to broaden and deepen the financial support for the Fund of Member States and the private sector, despite the difficult global economic circumstances.
+9. Members of the Advisory Group acknowledged the role of the Fund in complementing and reinforcing humanitarian reform when there was effective leadership from the humanitarian country team and solid coordination arrangements were in place.
+10. The Advisory Group acknowledged the effort made by the CERF secretariat to improve the quality and timeliness of field reporting over the past five years and the special attention given to working with resident coordinators/humanitarian coordinators who had provided substandard draft reports.
+The Group expressed concern for the overall quality of reporting by resident coordinators/humanitarian coordinators on country-level results, and stressed the need to move towards improved measurement of outcome.",True,40,lookup|practitioner|conceptual|claim_verification|source_finding,40,40,40,completed,40,40,completed,40,40,completed,39,39,completed,40,,completed,40,40,completed,conceptual,The text explains when CERF complements and reinforces humanitarian reform: effective humanitarian country-team leadership and solid coordination arrangements must be in place. It also connects concerns about country-level reporting quality with the need for improved outcome measurement.,,completed,40,True,0,40,40,False,False,conceptual,,0.59,completed,40,True,0,40,40,False,False,True,,,
+eurlex,http://data.europa.eu/eli/reg/2007/41/art_79/oj,32007R0041,32007R0041,"Council Regulation (EC) N o 41/2006 of 21 December 2006 fixing for 2007 the fishing opportunities and associated conditions for certain fish stocks and groups of fish stocks, applicable in Community waters and, for Community vessels, in waters where catch limitations are required",False,no_refs,"Scientific observation and collection of information to support stock assessment
+
+1. Each Member State shall ensure that all its fishing vessels operating in the SEAFO Convention Area, and targeting species covered by the SEAFO Convention, carry qualified scientific observers.
+
+2. Each Member State shall require the submission of the information collected by the observers, in respect of each vessel flying its flag, within 30 days of leaving the SEAFO Convention Area. The data shall be submitted in the format specified by the SEAFO Scientific Committee. The Member State shall provide the Commission with a copy of the information as soon as possible, taking account of the need to maintain confidentiality of non-aggregated data. The Member State may also provide the SEAFO Executive Secretary with a copy of the information.
+
+3. The information referred to in this Article shall, to the greatest extent possible, be collected and verified by designated observers by 30 June 2007.",True,40,lookup|comparison|claim_verification|source_finding,40,40,,completed,,,,36,,completed,40,40,completed,40,40,completed,40,40,completed,fact_pattern,"The article supports a concrete application involving a Member State’s vessel operating in the SEAFO Convention Area, targeting covered species, and submitting observer-collected information after departure. Its explicit observer, 30-day, formatting, confidentiality, and verification requirements directly determine what the Member State must do.",,completed,37,False,3,37,0,False,False,lookup,,0.77,completed,40,True,0,40,0,False,False,False,37,,completed
+eurlex,http://data.europa.eu/eli/reg/2009/194/art_1/oj,32009R0194,32009R0194,Commission Regulation (EC) No 194/2009 of 11 March 2009 imposing a provisional countervailing duty on imports of biodiesel originating in the United States of America,False,no_refs,"1. A provisional countervailing duty is hereby imposed on imports of fatty-acid mono-alkyl esters and/or paraffinic gas oil obtained from synthesis and/or hydro-treatment, of non-fossil origin, commonly known as ‘biodiesel’, in pure form or in a blend containing by weight more than 20 % of fatty-acid mono-alkyl esters and/or paraffinic gas oil obtained from synthesis and/or hydro-treatment, of non-fossil origin, falling within CN codes ex15162098 (TARIC code 1516209820), ex15180091 (TARIC code 1518009120), ex15180099 (TARIC code 1518009920), ex27101941 (TARIC code 2710194120), 38249091, ex38249097 (TARIC code 3824909787), and originating in the United States of America.
+
+2. The rate of the provisional countervailing duty applicable to the products described in paragraph 1 and manufactured by the companies listed below, shall be as follows:
+Company
+Countervailing duty rate
+
+EUR per tonne net
+TARIC additional codeArcher Daniels Midland Company, Decatur237,0A933Cargill Inc., Wayzata213,8A934Green Earth Fuels of Houston LLC, Houston213,4A935Imperium Renewables Inc., Seattle216,8A936Peter Cremer North America LP, Cincinnati211,2A937Vinmar Overseas Limited, Houston211,2A938World Energy Alternatives LLC, Boston211,2A939Companies listed in the Annex219,4see AnnexAll other companies237,0A999The countervailing duty on blends shall be applicable in proportion in the blend, by weight, of the total content of fatty-acid mono-alkyl esters and of paraffinic gasoils obtained from synthesis and/or hydro-treatment, of non-fossil origin (biodiesel content).
+3. The release for free circulation in the Community of the product referred to in paragraph 1 shall be subject to the provision of a security, equivalent to the amount of the provisional duty.
+
+4. Unless otherwise specified, the provisions in force concerning customs duties shall apply.",True,40,lookup|conceptual|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,39,39,completed,40,40,completed,40,40,completed,fact_pattern,"The article supports a concrete import scenario involving a U.S.-origin biodiesel blend exceeding 20% biodiesel content and manufacture by a named company such as Cargill. Those particulars determine the applicable company-specific countervailing-duty rate, its proportional application to the blend, and the required security.",,completed,38,False,2,38,0,False,False,lookup,,0.85,completed,40,True,0,40,0,False,False,False,38,,completed
+eurlex,http://data.europa.eu/eli/reg/2009/1221/art_42/oj,32009R1221,32009R1221,"Regulation (EC) No 1221/2009 of the European Parliament and of the Council of 25 November 2009 on the voluntary participation by organisations in a Community eco-management and audit scheme (EMAS), repealing Regulation (EC) No 761/2001 and Commission Decisions 2001/681/EC and 2006/193/EC",False,no_refs,"Information
+
+1. The Commission shall provide information to:
+
+(a)
+the public on the objectives and principal components of EMAS;
+
+(b)
+organisations on the content of this Regulation.
+
+2. The Commission shall maintain and make publicly available:
+
+(a)
+a register of environmental verifiers and registered organisations;
+
+(b)
+a database of environmental statements in electronic format;
+
+(c)
+a database of best practices on EMAS, including, inter alia, effective tools for EMAS promotion and examples of technical support to organisations;
+
+(d)
+a list of Community resources for the funding of EMAS implementation and related projects and activities.",True,40,lookup|fact_pattern|conceptual|comparison|claim_verification|source_finding,40,40,40,completed,,,,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The article directly specifies the Commission’s information duties, including the audiences it must inform and the registers, databases and funding-resource list it must maintain and make publicly available.",,completed,40,True,0,40,40,False,False,lookup,,0.77,completed,40,True,0,40,40,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2008/683/art_22/oj,32008R0683,32008R0683,Regulation (EC) No 683/2008 of the European Parliament and of the Council of 9 July 2008 on the further implementation of the European satellite navigation programmes (EGNOS and Galileo),False,no_refs,"Information to the European Parliament and to the Council
+The Commission shall ensure the implementation of this Regulation. Each year, when it presents the preliminary draft budget, it shall present a report to the European Parliament and to the Council on the implementation of the programmes. A mid-term review shall be carried out in 2010, which shall include a review of costs, risks and likely revenues from the services offered by Galileo, inter alia , in the light of technological and market developments, to inform the European Parliament and the Council of the progress made on the programmes.",True,40,conceptual|comparison|claim_verification|source_finding,40,,,no_candidates,,,,40,40,completed,40,40,completed,40,40,completed,40,40,completed,conceptual,"The article establishes a substantive accountability relationship: the Commission must report annually and conduct a 2010 mid-term review covering costs, risks and likely revenues to inform the European Parliament and the Council about programme progress.",,completed,40,True,0,40,40,False,False,skip,,0.52,completed,,False,,0,0,False,True,False,34,,completed
+eurlex,http://data.europa.eu/eli/dir/2009/90/art_4/oj,32009L0090,32009L0090,"Commission Directive 2009/90/EC of 31 July 2009 laying down, pursuant to Directive 2000/60/EC of the European Parliament and of the Council, technical specifications for chemical analysis and monitoring of water status (Text with EEA relevance)",False,no_refs,"Minimum performance criteria for methods of analysis
+
+1. Member States shall ensure that the minimum performance criteria for all methods of analysis applied are based on an uncertainty of measurement of 50 % or below (k = 2) estimated at the level of relevant environmental quality standards and a limit of quantification equal or below a value of 30 % of the relevant environmental quality standards.
+
+2. In the absence of relevant environmental quality standard for a given parameter, or in the absence of method of analysis meeting the minimum performance criteria set out in paragraph 1, Member States shall ensure that monitoring is carried out using best available techniques not entailing excessive costs.",True,40,lookup|fact_pattern|conceptual|comparison|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,The article directly establishes the minimum performance criteria—measurement uncertainty of 50% or below and a limit of quantification of 30% or below of the relevant environmental quality standard—and the monitoring fallback where no standard or compliant method exists.,,completed,40,True,0,40,0,False,False,lookup,,0.87,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg_impl/2014/727/art_4/oj,32014R0727,32014R0727,"Commission Implementing Regulation (EU) No 727/2014 of 30 June 2014 initiating a new exporter review of Council Implementing Regulation (EU) No 1389/2011 imposing a definitive anti-dumping duty on imports of trichloroisocyanuric acid originating in the People's Republic of China, repealing the duty with regard to imports from one exporter in this country and making these imports subject to registration",False,no_refs,"1. Interested parties, if their representations are to be taken into account during the investigation, must make themselves known by contacting the Commission, present their views in writing and submit a reply to the questionnaire indicated in recital 11 of this Regulation or any information to be taken into account within 37 days from the date of the entry into force of this Regulation, unless otherwise specified.
+
+2. Interested parties may request to be heard by the Commission investigation services. Any request to be heard must be made in writing and must specify the reasons for the request. For hearings on issues pertaining to the initial stage of the investigation the request must be submitted within 15 days of the date of entry into force of this Regulation. Thereafter, a request to be heard must be submitted within the specific deadlines set by the Commission in its communication with the parties.
+
+3. Parties to the investigation wanting to comment on the appropriateness of Japan, which is envisaged as a market-economy third country for the purpose of establishing normal value in respect of the People's Republic of China, must submit their comments within 10 days of the date of entry into force of this Regulation.",True,40,lookup|fact_pattern|conceptual|source_finding,40,40,,completed,,,,40,40,completed,39,39,completed,34,,completed,40,40,completed,lookup,"The article directly establishes precise procedural requirements and deadlines for interested parties, including the 37-day period for submitting views or questionnaire replies and the separate 15-day period for initial-stage hearing requests.",,completed,40,True,0,40,0,False,False,lookup,,0.82,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2011/349/art_1/oj,32011R0349,32011R0349,"Commission Regulation (EU) No 349/2011 of 11 April 2011 implementing Regulation (EC) No 1338/2008 of the European Parliament and of the Council on Community statistics on public health and health and safety at work, as regards statistics on accidents at work (Text with EEA relevance)",False,no_refs,"Definitions
+
+For the purpose of this Regulation, the following definitions shall apply:
+
+(a)
+‘accident at work’ means a discrete occurrence in the course of work which leads to physical or mental harm. The phrase ‘in the course of work’ means whilst engaged in an occupational activity or during the time spent at work. This includes road traffic accidents that occur in the course of work but excludes commuting accidents, i.e. road accidents that occur during the journey between home and the workplace;
+
+(b)
+‘a fatal accident’ means an accident which leads to the death of a victim within 1 year of the accident;
+
+(c)
+‘economic activity of the employer’ covers the main ‘economic’ activity of the local unit of the enterprise of the victim;
+
+(d)
+‘age’ means the age of the victim at the time of the accident;
+
+(e)
+‘type of injury’ means the physical consequences for the victim;
+
+(f)
+‘geographical location’ means the territorial unit where the accident has occurred;
+
+(g)
+‘size of the enterprise’ means the number of employees (full-time equivalent) working at the local unit of the enterprise of the victim;
+
+(h)
+‘nationality of the victim’ means the country of citizenship;
+
+(i)
+‘days lost’ means the number of calendar days during which the victim is unfit for work as a result of an accident at work;
+
+(j)
+‘workstation’ means the usual or, alternatively, occasional nature of the place/post occupied by the victim at the time of the accident;
+
+(k)
+‘working environment’ means the workplace, work premises or general environment where the accident happened;
+
+(l)
+‘working process’ means the main type of work or task (general activity) being performed by the victim at the time of the accident;
+
+(m)
+‘specific physical activity’ means the victim’s exact physical activity at the instant of the accident;
+
+(n)
+‘material agent associated with the specific physical activity’ means the tool, object or instrument being used by the victim when the accident happened;
+
+(o)
+‘deviation’ means the last event deviating from normality and leading to the accident;
+
+(p)
+‘material agent associated with the deviation’ means the tool, object or instrument involved in the abnormal event;
+
+(q)
+‘contact — mode of injury’ means how the victim was hurt (physical or mental trauma) by the material agent that caused the injury;
+
+(r)
+‘material agent associated with the contact — mode of injury’ means the object, tool or instrument with which the victim came into contact or the psychological mode of injury.",True,40,lookup|fact_pattern|comparison|claim_verification,40,40,,completed,,,,38,,completed,40,40,completed,40,40,completed,38,,completed,comparison,"The article expressly distinguishes road traffic accidents occurring in the course of work, which are included, from commuting accidents between home and the workplace, which are excluded.",,completed,40,True,0,40,40,False,False,lookup,,0.63,completed,40,True,0,40,0,False,False,False,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2007/1303/art_13/oj,32007R1303,32007R1303,Commission Regulation (EC) No 1303/2007 of 5 November 2007 laying down detailed rules for the implementation of Council Regulation (EC) No 1966/2006 on electronic recording and reporting of fishing activities and on means of remote sensing,False,no_refs,"Data on the functioning of the electronic reporting system
+
+1. Member States shall maintain databases on the functioning of their electronic reporting system. They shall contain at least the following information:
+
+(a)
+the list of fishing vessels flying their flag whose electronic reporting systems have experienced technical failure or have failed to function;
+
+(b)
+the number of electronic logbook transmissions received per day and the average number of transmissions received per vessel, broken down by flag Member State;
+
+(c)
+the number of landing declaration, transhipment declaration, takeover declaration and sales note transmissions received, broken down by flag State.
+
+2. Summaries of information on the functioning of Member States’ electronic reporting systems shall be sent to the Commission on its request in a format and at time intervals to be decided in consultation between Member States and the Commission.",True,40,lookup|fact_pattern|comparison|claim_verification|source_finding,40,40,,completed,,,,38,,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The article directly specifies the minimum information Member States must maintain in databases on electronic reporting-system functioning, including failures and transmission statistics, and governs when summaries must be sent to the Commission.",,completed,40,True,0,40,0,False,False,lookup,,0.86,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2005/356/art_14/oj,32005R0356,32005R0356,Commission Regulation (EC) No 356/2005 of 1 March 2005 laying down detailed rules for the marking and identification of passive fishing gear and beam trawls,False,no_refs,"Intermediary marker buoys
+
+1. Intermediary marker buoys shall be fixed to passive gear extending more than 1 nautical mile.
+
+2. Intermediary marker buoys shall be deployed at distances of not more than 1 nautical mile so that no part of the gear extending 1 nautical mile or more shall be left unmarked.
+
+3. Intermediary marker buoys shall have the same characteristics as those of the end marker buoy in the eastern sector except for the following:
+
+(a)
+the flags shall be white;
+
+(b)
+every fifth intermediary marker buoys shall be fitted with a radar reflector giving an echo at least two nautical miles.",True,40,lookup|fact_pattern|comparison|claim_verification|source_finding,40,40,,completed,,,,38,,completed,40,40,completed,40,40,completed,40,40,completed,fact_pattern,"The article directly governs a concrete gear-marking situation: passive gear extending more than one nautical mile must have intermediary buoys spaced no more than one nautical mile apart, with every fifth buoy equipped with a radar reflector. These multiple conditions support an application-focused need.",,completed,40,True,0,40,40,False,False,comparison,,0.46,completed,40,True,0,40,40,False,False,False,40,40,completed
+eurlex,http://data.europa.eu/eli/reg_impl/2014/1244/art_24/oj,32014R1244,32014R1244,Commission Implementing Regulation (EU) No 1244/2014 of 20 November 2014 laying down rules for the implementation of Regulation (EU) No 375/2014 of the European Parliament and of the Council establishing the European Voluntary Humanitarian Aid Corps ( EU Aid Volunteers initiative ) (Text with EEA relevance),False,no_refs,"Insurance coverage
+
+1. All EU Aid Volunteers shall be covered by a complete insurance policy specifically designed to protect them during the entire duration of their deployment in the third countries and relevant periods before and after.
+
+2. The insurance coverage shall be worldwide, 24 hours a day. It shall start from the day the EU Aid Volunteer leaves home on the way to the third country of deployment until the day the EU Aid Volunteer leaves the third country of deployment on the way to, and arrives back at, their home (‘the first period of coverage’).
+
+3. For insurance coverage longer than 12 weeks, it shall be extended for a further 8 weeks in the insured's home country to cover follow-up medical treatment for illnesses and injuries that occurred during the first period of coverage.
+
+4. The coverage shall be applicable to all activities linked to the EU Aid Volunteers initiative and also the private activities of EU Aid Volunteers during the first period of coverage.
+
+5. All EU Aid Volunteers shall be covered at 100 % (total coverage) for the following:
+
+(a)
+medical and dental care;
+
+(b)
+pregnancy and childbirth;
+
+(c)
+accident;
+
+(d)
+repatriation;
+
+(e)
+life insurance;
+
+(f)
+permanent and temporary disability or incapacity;
+
+(g)
+third party liability;
+
+(h)
+loss or theft of documents, travel tickets and personal belongings;
+
+(i)
+complementary assistance.
+
+6. In order to ensure equal treatment and coverage of all EU Aid Volunteers, the Commission may contract one or several insurance providers through a procurement procedure.",True,40,lookup|fact_pattern|conceptual|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,39,39,completed,40,40,completed,40,40,completed,lookup,"The article directly establishes the precise scope and conditions of mandatory insurance for EU Aid Volunteers, including worldwide 24-hour coverage, the deployment-related coverage period, and the listed categories covered at 100%.",,completed,40,True,0,40,0,False,False,lookup,,0.72,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/dir/2009/133/art_4/oj,32009L0133,32009L0133,"Council Directive 2009/133/EC of 19 October 2009 on the common system of taxation applicable to mergers, divisions, partial divisions, transfers of assets and exchanges of shares concerning companies of different Member States and to the transfer of the registered office of an SE or SCE between Member States (codified version)",False,no_refs,"1. A merger, division or partial division shall not give rise to any taxation of capital gains calculated by reference to the difference between the real values of the assets and liabilities transferred and their values for tax purposes.
+
+2. For the purpose of this Article, the following definitions shall apply:
+(a)‘value for tax purposes’the value on the basis of which any gain or loss would have been computed for the purposes of tax upon the income, profits or capital gains of the transferring company if such assets or liabilities had been sold at the time of the merger, division or partial division but independently of it;(b)‘transferred assets and liabilities’those assets and liabilities of the transferring company which, in consequence of the merger, division or partial division, are effectively connected with a permanent establishment of the receiving company in the Member State of the transferring company and play a part in generating the profits or losses taken into account for tax purposes.
+3. Where paragraph 1 applies and where a Member State considers a non-resident transferring company as fiscally transparent on the basis of that Member State’s assessment of the legal characteristics of that company arising from the law under which it is constituted and therefore taxes the shareholders on their share of the profits of the transferring company as and when those profits arise, that Member State shall not tax any income, profits or capital gains calculated by reference to the difference between the real values of the assets and liabilities transferred and their values for tax purposes.
+
+4. Paragraphs 1 and 3 shall apply only if the receiving company computes any new depreciation and any gains or losses in respect of the assets and liabilities transferred according to the rules that would have applied to the transferring company or companies if the merger, division or partial division had not taken place.
+
+5. Where, under the laws of the Member State of the transferring company, the receiving company is entitled to have any new depreciation or any gains or losses in respect of the assets and liabilities transferred computed on a basis different from that set out in paragraph 4, paragraph 1 shall not apply to the assets and liabilities in respect of which that option is exercised.",True,40,fact_pattern|conceptual|claim_verification|source_finding,40,39,,completed,,,,40,40,completed,33,,completed,40,40,completed,40,40,completed,lookup,"The article directly establishes the substantive tax rule for mergers, divisions and partial divisions: capital gains are generally not taxed on the difference between real and tax values, subject to specified computation conditions and an exception where a different basis is exercised.",,completed,39,False,1,39,0,False,False,lookup,,0.73,completed,39,False,1,39,0,False,False,True,40,,completed
+eurlex,http://data.europa.eu/eli/reg/2006/950/art_8/oj,32006R0950,32006R0950,"Commission Regulation (EC) No 950/2006 of 28 June 2006 laying down detailed rules of application for the 2006/2007, 2007/2008 and 2008/2009 marketing years for the import and refining of sugar products under certain tariff quotas and preferential agreements",False,no_refs,"Member States shall communicate to the Commission separately for each tariff quota or delivery obligation and for each country of origin:
+
+(a)
+before the end of each month, the quantities of sugar, by tel quel weight and in white sugar equivalent actually imported three months before;
+
+(b)
+before 1 March and for the previous marketing year or the previous delivery period, as the case may be:
+
+(i)
+the total quantity actually imported:
+
+in the form of sugar for refining, expressed in tel quel weight and in white sugar equivalent,
+
+in the form of sugar not intended for refining, expressed in tel quel weight and in white sugar equivalent,
+
+(ii)
+the quantity of sugar, by tel quel weight and in white sugar equivalent, that has actually been refined.",True,40,fact_pattern|claim_verification|source_finding,40,35,,completed,,,,,,no_candidates,39,,completed,40,40,completed,40,40,completed,lookup,"The article directly specifies what Member States must communicate to the Commission, including the separate reporting by tariff quota and country of origin, the monthly three-month lag, and the annual or delivery-period reporting deadline before 1 March.",,completed,35,False,5,35,0,False,False,lookup,,0.87,completed,35,False,5,35,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2008/1221/art_2/oj,32008R1221,32008R1221,"Commission Regulation (EC) N o 1221/2008 of 5 December 2008 amending Regulation (EC) No 1580/2007 laying down implementing rules of Council Regulations (EC) No 2200/96, (EC) No 2201/96 and (EC) No 1182/2007 in the fruit and vegetable sector as regards marketing standards",False,no_refs,"Repeals
+Regulations (EEC) No 1292/81, (EEC) No 2213/83, (EEC) No 1591/87, (EEC) No 1677/88, (EC) No 831/97, (EC) No 2288/97, (EC) No 963/98, (EC) No 730/1999, (EC) No 1168/1999, (EC) No 1455/1999, (EC) No 2377/1999, (EC) No 2561/1999, (EC) No 2789/1999, (EC) No 790/2000, (EC) No 851/2000, (EC) No 175/2001, (EC) No 912/2001, (EC) No 1508/2001, (EC) No 1543/2001, (EC) No 1615/2001, (EC) No 1799/2001, (EC) No 2396/2001, (EC) No 843/2002, (EC) No 1284/2002, (EC) No 1466/2003, (EC) No 1757/2003, (EC) No 85/2004, (EC) No 86/2004, (EC) No 214/2004, (EC) No 1673/2004, (EC) No 1861/2004, (EC) No 1862/2004, (EC) No 1863/2004 and (EC) No 634/2006 are repealed.",True,,,,,,no_candidates,,,,,,no_candidates,,,no_candidates,,,no_candidates,,,no_candidates,skip,"The target contains only a repeal clause listing regulations. Repeal is expressly excluded, and it provides no qualifying substantive legal rule or safeguard for another generation mode.",,completed,,,,0,0,False,False,skip,,0.91,completed,,,,0,0,False,False,True,,,no_candidates
+eurlex,http://data.europa.eu/eli/dir/2013/34/art_33/oj,32013L0034,32013L0034,"Directive 2013/34/EU of the European Parliament and of the Council of 26 June 2013 on the annual financial statements, consolidated financial statements and related reports of certain types of undertakings, amending Directive 2006/43/EC of the European Parliament and of the Council and repealing Council Directives 78/660/EEC and 83/349/EEC (Text with EEA relevance)",False,no_refs,"Responsibility and liability for drawing up and publishing the financial statements and the management report
+
+1. Member States shall ensure that the members of the administrative, management and supervisory bodies of an undertaking, acting within the competences assigned to them by national law, have collective responsibility for ensuring that:
+
+(a)
+the annual financial statements, the management report and, when provided separately, the corporate governance statement; and
+
+(b)
+the consolidated financial statements, consolidated management reports and, when provided separately, the consolidated corporate governance statement,
+
+are drawn up and published in accordance with the requirements of this Directive and, where applicable, with the international accounting standards adopted in accordance with Regulation (EC) No 1606/2002.
+
+2. Member States shall ensure that their laws, regulations and administrative provisions on liability, at least towards the undertaking, apply to the members of the administrative, management and supervisory bodies of the undertakings for breach of the duties referred to in paragraph 1.",True,40,lookup|conceptual|comparison|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,40,40,completed,40,40,completed,40,40,completed,conceptual,"The article establishes a connected accountability framework: members of an undertaking’s administrative, management and supervisory bodies have collective responsibility for drawing up and publishing specified financial statements and reports, while liability rules apply for breaching those duties. This substantive responsibility–liability relationship supports a conceptual information need.",,completed,40,True,0,40,40,False,False,lookup,,0.65,completed,40,True,0,40,0,False,False,False,32,,completed
+eurlex,http://data.europa.eu/eli/dir/2010/35/art_15/oj,32010L0035,32010L0035,"Directive 2010/35/EU of the European Parliament and of the Council of 16 June 2010 on transportable pressure equipment and repealing Council Directives 76/767/EEC, 84/525/EEC, 84/526/EEC, 84/527/EEC and 1999/36/EC (Text with EEA relevance)",False,no_refs,"Rules and conditions for the affixing of the Pi marking
+
+1. The Pi marking shall consist of the following symbol in the following form:
+
+2. The minimum height of the Pi marking shall be 5 mm. For transportable pressure equipment with a diameter less than or equal to 140 mm the minimum height shall be 2,5 mm.
+
+3. The proportions given in the graduated drawing in paragraph 1 shall be respected. The grid does not form part of the marking.
+
+4. The Pi marking shall be affixed visibly, legibly and permanently to the transportable pressure equipment or to its data plate as well as to demountable parts of refillable transportable pressure equipment having a direct safety function.
+
+5. The Pi marking shall be affixed before the new transportable pressure equipment or demountable parts of refillable transportable pressure equipment having a direct safety function are placed on the market.
+
+6. The Pi marking shall be followed by the identification number of the notified body involved in the initial inspections and tests.
+
+The identification number of the notified body shall be affixed by the body itself, or under its instructions, by the manufacturer.
+
+7. The marking of the date of the periodic inspection or, where appropriate, the intermediate inspection shall be accompanied by the identification number of the notified body responsible for the periodic inspection.
+
+8. With regard to gas cylinders previously in compliance with Directives 84/525/EEC, 84/526/EEC or 84/527/EEC not bearing the Pi marking, when the first periodic inspection is carried out in accordance with this Directive, the identification number of the notified body responsible shall be preceded by the Pi marking.",True,40,lookup|fact_pattern|conceptual|comparison|source_finding,40,40,,completed,,,,40,40,completed,40,40,completed,39,39,completed,40,40,completed,lookup,"The article directly specifies the rules and conditions for affixing the Pi marking, including its minimum height, required visibility and permanence, timing, and accompanying notified-body identification numbers.",,completed,40,True,0,40,0,False,False,lookup,,0.81,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2007/715/art_3/oj,32007R0715,32007R0715,Regulation (EC) No 715/2007 of the European Parliament and of the Council of 20 June 2007 on type approval of motor vehicles with respect to emissions from light passenger and commercial vehicles (Euro 5 and Euro 6) and on access to vehicle repair and maintenance information (Text with EEA relevance),False,no_refs,"Definitions
+
+For the purposes of this Regulation and its implementing measures the following definitions shall apply:
+
+1.
+‘hybrid vehicle’ means a vehicle with at least two different energy converters and two different energy storage systems (on vehicle) for the purpose of vehicle propulsion;
+
+2.
+‘vehicles designed to fulfil specific social needs’ means diesel vehicles of category M1 which are either:
+
+(a)
+special purpose vehicles as defined in Directive 70/156/EEC with a reference mass exceeding 2000 kg;
+
+(b)
+vehicles with a reference mass exceeding 2000 kg and designed to carry seven or more occupants including the driver with the exclusion, as from 1 September 2012, of vehicles of category M1G as defined in Directive 70/156/EEC;
+or
+
+(c)
+vehicles with a reference mass exceeding 1760 kg which are built specifically for commercial purposes to accommodate wheelchair use inside the vehicle;
+
+3.
+‘reference mass’ means the mass of the vehicle in running order less the uniform mass of the driver of 75 kg and increased by a uniform mass of 100 kg;
+
+4.
+‘gaseous pollutants’ means the exhaust gas emissions of carbon monoxide, oxides of nitrogen, expressed in nitrogen dioxide (NO2) equivalent, and hydrocarbons;
+
+5.
+‘particulate pollutants’ means components of the exhaust gas which are removed from the diluted exhaust gas at a maximum temperature of 325 °K (52 °C) by means of the filters described in the test procedure for verifying average tailpipe emissions;
+
+6.
+‘tailpipe emissions’ means the emission of gaseous and particulate pollutants;
+
+7.
+‘evaporative emissions’ means the hydrocarbon vapours emitted from the fuel system of a vehicle other than those from tailpipe emissions;
+
+8.
+‘crankcase’ means the spaces in, or external to, an engine which are connected to the oil sump by internal or external ducts through which gases and vapours can be emitted;
+
+9.
+‘on-board diagnostic system’ or ‘OBD system’ means a system for emission control which has the capability of identifying the likely area of malfunction by means of fault codes stored in a computer memory;
+
+10.
+‘defeat device’ means any element of design which senses temperature, vehicle speed, engine speed (RPM), transmission gear, manifold vacuum or any other parameter for the purpose of activating, modulating, delaying or deactivating the operation of any part of the emission control system, that reduces the effectiveness of the emission control system under conditions which may reasonably be expected to be encountered in normal vehicle operation and use;
+
+11.
+‘pollution control device’ means those components of a vehicle that control and/or limit tailpipe and evaporative emissions;
+
+12.
+‘original pollution control device’ means a pollution control device or an assembly of such devices covered by the type approval granted for the vehicle concerned;
+
+13.
+‘replacement pollution control device’ means a pollution control device or an assembly of such devices intended to replace an original pollution control device and which can be approved as a separate technical unit as defined in Directive 70/156/EEC;
+
+14.
+‘vehicle repair and maintenance information’ means all information required for diagnosis, servicing, inspection, periodic monitoring, repair, re-programming or re-initialising of the vehicle and which the manufacturers provide for their authorised dealers and repairers, including all subsequent amendments and supplements to such information. This information includes all information required for fitting parts or equipment on vehicles;
+
+15.
+‘independent operator’ means undertakings other than authorised dealers and repairers which are directly or indirectly involved in the repair and maintenance of motor vehicles, in particular repairers, manufacturers or distributors of repair equipment, tools or spare parts, publishers of technical information, automobile clubs, roadside assistance operators, operators offering inspection and testing services, operators offering training for installers, manufacturers and repairers of equipment for alternative fuel vehicles;
+
+16.
+‘biofuels’ means liquid or gaseous fuels for transport, produced from biomass;
+
+17.
+‘alternative fuel vehicle’ means a vehicle designed to be capable of running on at least one type of fuel that is either gaseous at atmospheric temperature and pressure, or substantially non-mineral oil derived.",True,40,lookup|comparison|claim_verification|source_finding,40,40,,completed,,,,37,,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The article directly and precisely defines substantive regulatory terms, particularly what qualifies as a “defeat device,” including the sensed parameters, activation effects and reduction in emission-control effectiveness during normal vehicle operation.",,completed,40,True,0,40,0,False,False,lookup,,0.69,completed,40,True,0,40,0,False,False,True,36,,completed
+eurlex,http://data.europa.eu/eli/reg/2010/257/art_2/oj,32010R0257,32010R0257,Commission Regulation (EU) No 257/2010 of 25 March 2010 setting up a programme for the re-evaluation of approved food additives in accordance with Regulation (EC) No 1333/2008 of the European Parliament and of the Council on food additives (Text with EEA relevance),False,no_refs,"Definitions
+
+For the purposes of this Regulation, the following definitions shall apply:
+
+(a)
+‘approved food additive’ means a food additive authorised before 20 January 2009 and listed in Directive 94/35/EC of the European Parliament and of the Council of 30 June 1994 on sweeteners for use in foodstuffs, Directive 94/36/EC of the European Parliament and of the Council of 30 June 1994 on colours for use in foodstuffs or in Directive 95/2/EC of the European Parliament and of the Council of 20 February 1995 on food additives other than colours and sweeteners;
+
+(b)
+‘business operator’ means any natural or legal person responsible for ensuring that the requirements of Regulation (EC) No 1333/2008 are met within the food business under its control;
+
+(c)
+‘interested business operator’ means a business operator interested in the continuity of the authorisation of one or more approved food additives;
+
+(d)
+‘original dossier’ means a dossier on the basis of which the food additive was evaluated and permitted for use in food before 20 January 2009.",True,40,lookup|fact_pattern|comparison|claim_verification|source_finding,40,40,,completed,,,,,,no_candidates,40,,completed,40,40,completed,40,40,completed,lookup,The article expressly defines a precise legal term: an “interested business operator” is a business operator interested in the continuity of authorisation of one or more approved food additives.,,completed,40,True,0,40,0,False,False,lookup,,0.56,completed,40,True,0,40,0,False,False,True,40,,completed
+eurlex,http://data.europa.eu/eli/reg/2014/909/art_43/oj,32014R0909,32014R0909,Regulation (EU) No 909/2014 of the European Parliament and of the Council of 23 July 2014 on improving securities settlement in the European Union and on central securities depositories and amending Directives 98/26/EC and 2014/65/EU and Regulation (EU) No 236/2012 (Text with EEA relevance),False,no_refs,"Legal risks
+
+1. For the purpose of its authorisation and supervision, as well as for the information of its clients, a CSD shall have rules, procedures, and contracts that are clear and understandable for all the securities settlement systems that it operates and all other services that it provides.
+
+2. A CSD shall design its rules, procedures and contracts so that they are enforceable in all relevant jurisdictions, including in the case of the default of a participant.
+
+3. A CSD conducting business in different jurisdictions shall take all reasonable steps to identify and mitigate the risks arising from potential conflicts of law across jurisdictions.",True,40,lookup|fact_pattern|claim_verification|source_finding,40,40,,completed,,,,39,39,completed,39,,completed,40,40,completed,40,40,completed,conceptual,"The article establishes a connected set of safeguards for legal risks: CSD rules, procedures and contracts must be clear, enforceable across relevant jurisdictions including participant default, and designed to identify and mitigate conflicts of law. A conceptual need about this relationship is directly supported by the article.",,completed,39,False,1,39,39,False,False,lookup,,0.64,completed,40,True,0,40,0,False,False,False,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2013/575/art_435/oj,32013R0575,32013R0575,Regulation (EU) No 575/2013 of the European Parliament and of the Council of 26 June 2013 on prudential requirements for credit institutions and investment firms and amending Regulation (EU) No 648/2012 (Text with EEA relevance),False,no_refs,"Risk management objectives and policies
+
+1. Institutions shall disclose their risk management objectives and policies for each separate category of risk, including the risks referred to under this Title. These disclosures shall include:
+
+(a)
+the strategies and processes to manage those risks;
+
+(b)
+the structure and organisation of the relevant risk management function including information on its authority and statute, or other appropriate arrangements;
+
+(c)
+the scope and nature of risk reporting and measurement systems;
+
+(d)
+the policies for hedging and mitigating risk, and the strategies and processes for monitoring the continuing effectiveness of hedges and mitigants;
+
+(e)
+a declaration approved by the management body on the adequacy of risk management arrangements of the institution providing assurance that the risk management systems put in place are adequate with regard to the institution's profile and strategy;
+
+(f)
+a concise risk statement approved by the management body succinctly describing the institution's overall risk profile associated with the business strategy. This statement shall include key ratios and figures providing external stakeholders with a comprehensive view of the institution's management of risk, including how the risk profile of the institution interacts with the risk tolerance set by the management body.
+
+2. Institutions shall disclose the following information, including regular, at least annual updates, regarding governance arrangements:
+
+(a)
+the number of directorships held by members of the management body;
+
+(b)
+the recruitment policy for the selection of members of the management body and their actual knowledge, skills and expertise;
+
+(c)
+the policy on diversity with regard to selection of members of the management body, its objectives and any relevant targets set out in that policy, and the extent to which these objectives and targets have been achieved;
+
+(d)
+whether or not the institution has set up a separate risk committee and the number of times the risk committee has met;
+
+(e)
+the description of the information flow on risk to the management body.",True,40,lookup|fact_pattern|conceptual|comparison|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The article directly specifies the information institutions must disclose, including risk-management policies and governance arrangements with at least annual updates. A precise question about these disclosure requirements is naturally and fully supported by the article’s detailed provisions.",,completed,40,True,0,40,0,False,False,lookup,,0.78,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg_impl/2012/520/art_8/oj,32012R0520,32012R0520,Commission Implementing Regulation (EU) No 520/2012 of 19 June 2012 on the performance of pharmacovigilance activities provided for in Regulation (EC) No 726/2004 of the European Parliament and of the Council and Directive 2001/83/EC of the European Parliament and of the Council (Text with EEA relevance),False,no_refs,"Quality system
+
+1. Marketing authorisation holders, the national competent authorities and the Agency shall establish and use a quality system that is adequate and effective for the performance of their pharmacovigilance activities.
+
+2. The quality system shall cover organisational structure, responsibilities, procedures, processes and resources, appropriate resource management, compliance management and record management.
+
+3. The quality system shall be based on all of the following activities:
+
+(a)
+quality planning: establishing structures and planning integrated and consistent processes;
+
+(b)
+quality adherence: carrying out tasks and responsibilities in accordance with quality requirements;
+
+(c)
+quality control and assurance: monitoring and evaluating how effectively the structures and processes have been established and how effectively the processes are being carried out;
+
+(d)
+quality improvements: correcting and improving the structures and processes where necessary.
+
+4. All elements, requirements and provisions adopted for the quality system shall be documented in a systematic and orderly manner in the form of written policies and procedures, such as quality plans, quality manuals and quality records.
+
+5. All persons involved in the procedures and processes of the quality systems established by the national competent authorities and the Agency for the performance of pharmacovigilance activities shall be responsible for the good functioning of those quality systems and shall ensure a systematic approach towards quality and towards the implementation and maintenance of the quality system.",True,40,lookup|fact_pattern|conceptual|comparison|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The article directly specifies the actors required to establish and use an adequate and effective quality system and enumerates its required coverage, activities, documentation, and responsibilities. A precise question about these requirements is the strongest natural information need.",,completed,40,True,0,40,0,False,False,lookup,,0.56,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2005/1346/art_21/oj,32005R1346,32005R1346,"Commission Regulation (EC) No 1346/2005 of 16 August 2005 laying down detailed rules for the application of Council Regulation (EC) No 2702/1999 on measures to provide information on, and to promote, agricultural products in third countries",False,one_ref,"Checks by the Member States
+
+1. The Member State concerned shall determine the most appropriate means of checking the programmes and measures covered by financing under this Regulation and shall notify the Commission thereof.The checks described shall be undertaken each year on at least 20 % of the programmes completed in the previous year, covering a minimum of two programmes, and shall relate to at least 20 % of the total budget of the programmes completed during the previous year. The selection of programmes for sampling shall be based on a risk analysis.The Member State shall send the Commission a report on each programme checked, describing the results of the checks carried out and the anomalies detected. The report shall be sent as soon as it has been finalised.
+
+2. In particular by means of technical and accounting checks at the premises of the contracting organisation and the implementing body, the Member States shall take the steps necessary to verify that:
+
+(a)
+the information and supporting documents supplied are accurate, and
+
+(b)
+all the obligations laid down in the contract referred to in Article 12(1) have been fulfilled.
+
+Without prejudice to Council Regulation (EEC) No 595/91, the Member States shall inform the Commission at the earliest opportunity of any irregularities detected during checks.
+3. In the case of programmes involving more than one Member State, the Member States concerned shall take the necessary steps to coordinate their checks and shall inform the Commission thereof.
+
+4. The Commission may take part at any time in the checks provided for in paragraphs 1, 2 and 3. To that end, the competent national authorities in the Member States shall send the Commission, at least 30 days prior to the checks, a provisional schedule of the checks to be carried out by the Member State.The Commission may carry out any additional checks it considers necessary.",True,40,lookup|fact_pattern|conceptual|source_finding,40,40,,completed,,,,40,40,completed,39,39,completed,36,,completed,40,40,completed,lookup,"The article directly establishes precise Member State checking requirements, including annual sampling of at least 20% of completed programmes with a minimum of two programmes, coverage of at least 20% of their total budget, risk-based selection, and reporting to the Commission.",,completed,40,True,0,40,0,False,False,lookup,,0.66,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/dir/2012/18/art_4/oj,32012L0018,32012L0018,"Directive 2012/18/EU of the European Parliament and of the Council of 4 July 2012 on the control of major-accident hazards involving dangerous substances, amending and subsequently repealing Council Directive 96/82/EC (Text with EEA relevance)",False,one_ref,"Assessment of major-accident hazards for a particular dangerous substance
+
+1. The Commission shall assess, where appropriate or in any event on the basis of a notification by a Member State in accordance with paragraph 2, whether it is impossible in practice for a particular dangerous substance covered by Part 1 or listed in Part 2 of Annex I, to cause a release of matter or energy that could create a major accident under both normal and abnormal conditions which can reasonably be foreseen. That assessment shall take into account the information referred to in paragraph 3, and shall be based on one or more of the following characteristics:
+
+(a)
+the physical form of the dangerous substance under normal processing or handling conditions or in an unplanned loss of containment;
+
+(b)
+the inherent properties of the dangerous substance, in particular those related to dispersive behaviour in a major-accident scenario, such as molecular mass and saturated vapour pressure;
+
+(c)
+the maximum concentration of the substances in the case of mixtures.
+
+For the purposes of the first subparagraph, the containment and generic packing of the dangerous substance should, where appropriate, also be taken into account, including in particular where covered under specific Union legislation.
+2. Where a Member State considers that a dangerous substance does not present a major-accident hazard in accordance with paragraph 1, it shall notify the Commission together with supporting justification, including the information referred to in paragraph 3.
+
+3. For the purposes of paragraphs 1 and 2, information necessary for assessing the health, physical and environmental hazard properties of the dangerous substance concerned shall include:
+
+(a)
+a comprehensive list of properties necessary to assess the dangerous substance’s potential for causing physical, health or environmental harm;
+
+(b)
+physical and chemical properties (for instance molecular mass, saturated vapour pressure, inherent toxicity, boiling point, reactivity, viscosity, solubility and other relevant properties);
+
+(c)
+health and physical hazard properties (for instance reactivity, flammability, toxicity together with additional factors such as mode of attack on the body, injury to fatality ratio, and long-term effects, and other properties as relevant);
+
+(d)
+environmental hazard properties (for instance ecotoxicity, persistence, bio-accumulation, potential for long-range environmental transport, and other properties as relevant);
+
+(e)
+where available, the Union classification of the substance or mixture;
+
+(f)
+information about substance-specific operating conditions (for instance temperature, pressure and other conditions as relevant) under which the dangerous substance is stored, used and/or may be present in the event of foreseeable abnormal operations or an accident such as fire.
+
+4. Following the assessment referred to in paragraph 1, the Commission shall, if appropriate, present a legislative proposal to the European Parliament and to the Council to exclude the dangerous substance concerned from the scope of this Directive.",True,40,lookup|fact_pattern|conceptual|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,38,38,completed,40,40,completed,40,40,completed,lookup,"The article directly sets out a precise assessment rule: when the Commission evaluates whether a dangerous substance can cause a major accident, it must consider specified physical, inherent, concentration, containment and operating-condition characteristics, supported by the information listed in paragraph 3.",,completed,40,True,0,40,0,False,False,lookup,,0.67,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2009/1107/art_31/oj,32009R1107,32009R1107,Regulation (EC) No 1107/2009 of the European Parliament and of the Council of 21 October 2009 concerning the placing of plant protection products on the market and repealing Council Directives 79/117/EEC and 91/414/EEC,False,few_refs,"Contents of authorisations
+
+1. The authorisation shall define plants or plant products and non-agricultural areas (for example railways, public areas, storage rooms) on which and the purposes for which the plant protection product may be used.
+
+2. The authorisation shall set out the requirements relating to the placing on the market and use of the plant protection product. Those requirements shall as a minimum include the conditions of use necessary to comply with the conditions and requirements provided for in the Regulation approving the active substances, safeners and synergists.The authorisation shall include a classification of the plant protection product for the purpose of Directive 1999/45/EC. Member States may provide that authorisation holders shall classify or update the label without undue delay following any change to the classification and labelling of the plant protection product in accordance with Directive 1999/45/EC. In such cases, they shall immediately inform the competent authority thereof.
+
+3. The requirements referred to in paragraph 2 shall also include where applicable:
+
+(a)
+the maximum dose per hectare in each application;
+
+(b)
+the period between the last application and harvest;
+
+(c)
+the maximum number of applications per year.
+
+4. The requirements referred to in paragraph 2 may include the following:
+
+(a)
+a restriction with respect to the distribution and use of the plant protection product in order to protect the health of the distributors, users, bystanders, residents, consumers or workers concerned or the environment, taking into consideration requirements imposed by other Community provisions; such restriction shall be indicated on the label;
+
+(b)
+the obligation before the product is used to inform any neighbours who could be exposed to the spray drift and who have requested to be informed;
+
+(c)
+indications for proper use according to the principles of Integrated Pest Management referred to in Article 14 of and Annex III to Directive 2009/128/EC;
+
+(d)
+designation of categories of users, such as professional and non-professional;
+
+(e)
+the approved label;
+
+(f)
+the interval between applications;
+
+(g)
+the period between the last application and consumption of the plant product where applicable;
+
+(h)
+the re-entry interval;
+
+(i)
+the packaging size and material.",True,40,lookup|fact_pattern|conceptual|comparison|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,40,,completed,40,40,completed,40,40,completed,comparison,"Article 31 expressly distinguishes requirements that authorisations must include—at minimum, conditions necessary to comply with approval conditions—from additional requirements that may be included, such as health, environmental and user-protection restrictions. This supports a focused comparison of mandatory and optional authorisation content.",,completed,40,True,0,40,0,False,False,lookup,,0.81,completed,40,True,0,40,0,False,False,False,40,40,completed
+eurlex,http://data.europa.eu/eli/reg/2011/204/art_13/oj,32011R0204,32011R0204,Council Regulation (EU) No 204/2011 of 2 March 2011 concerning restrictive measures in view of the situation in Libya,False,few_refs,"1. Without prejudice to the applicable rules concerning reporting, confidentiality and professional secrecy, natural and legal persons, entities and bodies shall:
+
+(a)
+supply immediately any information which would facilitate compliance with this Regulation, such as accounts and amounts frozen in accordance with Article 4, to the competent authority in the Member State where they are resident or located, as indicated on the websites listed in Annex IV, and shall transmit such information, either directly or through the Member States, to the Commission; and
+
+(b)
+cooperate with that competent authority in any verification of this information.
+
+2. Any information provided or received in accordance with this Article shall be used only for the purposes for which it was provided or received.",True,40,lookup|fact_pattern|conceptual|claim_verification,40,40,,completed,,,,40,40,completed,38,,completed,40,40,completed,36,,completed,lookup,"Article 13 directly sets out the information-supply, verification-cooperation, and purpose-limitation obligations imposed on natural and legal persons, making a precise legal-point lookup the strongest fit.",,completed,40,True,0,40,0,False,False,lookup,,0.71,completed,40,True,0,40,0,False,False,True,40,40,completed
+eurlex,http://data.europa.eu/eli/dir/2014/66/art_10/oj,32014L0066,32014L0066,Directive 2014/66/EU of the European Parliament and of the Council of 15 May 2014 on the conditions of entry and residence of third-country nationals in the framework of an intra-corporate transfer,False,many_refs,"Access to information
+
+1. Member States shall make easily accessible to applicants the information on all the documentary evidence needed for an application and information on entry and residence, including the rights, obligations and procedural safeguards, of the intra-corporate transferee and of his or her family members. Member States shall also make easily available information on the procedures applicable to the short-term mobility referred to in Article 21(2) and to the long-term mobility referred to in Article 22(1).
+
+2. The Member States concerned shall make available information to the host entity on the right of Member States to impose sanctions in accordance with Articles 9 and 23.",True,40,lookup|fact_pattern|conceptual|comparison|claim_verification|source_finding,40,40,,completed,,,,40,40,completed,40,40,completed,40,40,completed,40,40,completed,lookup,"The article directly specifies the information Member States must make accessible to applicants and available to host entities, including documentary requirements, rights, safeguards, mobility procedures and potential sanctions.",,completed,40,True,0,40,0,False,False,lookup,,0.73,completed,40,True,0,40,0,False,False,True,40,40,completed

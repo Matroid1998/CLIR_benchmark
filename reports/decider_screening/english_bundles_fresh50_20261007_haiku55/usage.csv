@@ -1,0 +1,3 @@
+﻿stage,model,calls,provider_errors,prompt_tokens,completion_tokens,reported_cost,calls_missing_cost,mean_seconds,p95_seconds
+faithfulness,anthropic/claude-haiku-5.5,290,0,2116425,265044,0.3441645,0,6.497593172413793,10.483792
+quality,anthropic/claude-haiku-5.5,290,0,3103696,878069,0.7494041000000007,0,14.670392796551724,24.67829

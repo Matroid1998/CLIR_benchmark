@@ -1,0 +1,5 @@
+﻿subset,n,valid_pairs,agree,generator_better_utility,jev_better_utility,utility_ties,mean_paired_utility_difference_generator_minus_jev,bootstrap_95_interval
+un_all,25,25,16,4,2,19,-0.08,"[-0.68, 0.32]"
+un_without_meetings,15,15,11,1,2,12,-0.3333333333333333,"[-1.2666666666666666, 0.26666666666666666]"
+un_meetings_only,10,10,5,3,0,7,0.3,"[0, 0.6]"
+eurlex_all,25,25,17,1,2,22,1.52,"[-0.16, 4.8]"

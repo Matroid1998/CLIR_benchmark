@@ -1,0 +1,3 @@
+﻿stage,model,calls,provider_errors,prompt_tokens,completion_tokens,reported_cost,calls_missing_cost,mean_seconds,p95_seconds
+faithfulness,google/gemini-3.8-flash,290,0,1294174,212861,1.7633573250000008,0,7.875460165517241,18.024257
+quality,google/gemini-3.8-flash,291,0,1921686,608378,3.722681999999999,0,16.492510900343643,39.638499

@@ -154,7 +154,7 @@ def analyze(directory):
         outcomes = {t: {'status': s, 'rows': json.loads(r), 'error': e}
                     for t, s, r, e in db.execute('SELECT task,status,rows,error FROM outcomes')}
         requests = [(stage, json.loads(record)) for stage, record in db.execute('SELECT stage,record FROM requests')]
-        skip_reasons = {}
+        skip_reasons = dict(metadata.get('generation_skip_reasons', {}))
         for task, raw in db.execute('SELECT task,record FROM requests WHERE stage="generation"'):
             body = json.loads(raw).get('response') or {}
             for choice in body.get('choices', []):
@@ -393,6 +393,13 @@ def report(directory, summary, comparisons):
         f"Generator/standard decider: `{cfg['generator']}`. Verifier: `{cfg['verifier']}`. "
         f"Jev: `{cfg['jev_model']}`."),
         '## Design and interpretation',
+        (('This is a verifier-only rerun. Questions, answers, candidate metadata, source packets, '
+          'and both decider outputs were reused from the parent run. Only faithfulness and quality '
+          'verification were called, using the exact saved system/user messages and '
+          f"`{cfg['verifier']}` with {cfg.get('verifier_reasoning_effort', 'saved')} reasoning effort. "
+          'Usage below counts only this rerun. The generation design described next belongs to the parent run.')
+         if cfg.get('operation') == 'verifier_only' else
+         'Generation and verification were executed in this run.'),
         ('The sample is deterministic and stratified, not a representative corpus-frequency estimate. '
         'UN sampling uses the existing 50% resolution, 40% meeting, 10% letter mix, full-context-fit '
         'and reference-completeness filters. The complete assembled payload is identical across '

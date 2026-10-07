@@ -1,0 +1,17 @@
+{
+  "documents": 50,
+  "candidate_questions": 440,
+  "generation_skips": 10,
+  "verifiers": 5,
+  "grade_sets_verified": 2200,
+  "long_csv_rows": 450,
+  "wide_csv_rows": 50,
+  "verifier_only_reruns": true,
+  "decider_outputs_unchanged": true,
+  "model_identity_scan": "passed",
+  "csv_sha256": {
+    "all_verifier_grades.csv": "c65a7eef31f19e722a5cee786c0bb01f0c97934764b3ee855377ea12210715d7",
+    "all_modes_per_document.csv": "602d5871e4239c0292fc7fefc44ffe9728e40e34a40bbcb274ca865da98512b7"
+  },
+  "readable_reason_sets_verified": 2200
+}
