@@ -26,7 +26,6 @@ from clir_bench.core.llm import (
     chat,
     chat_with_thinking,
     parse_json_response,
-    provider_of,
 )
 
 MODE_TECHNICAL = "technical"
@@ -241,7 +240,7 @@ class GraderConfig:
     def thinking(self) -> bool:
         if self.use_thinking is not None:
             return self.use_thinking
-        return provider_of(self.model) == "openrouter"
+        return self.model.startswith(("anthropic/claude-", "~anthropic/claude-"))
 
 
 # Rendered between the question and the answer, in this order, when present.

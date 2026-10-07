@@ -141,7 +141,7 @@ def test_legal_sources_keep_runs_and_structured_inputs_in_their_own_directories(
     assert context.workspace.data("eurlex_structure") == tmp_path / "data/legal/eurlex/structure"
     assert context.workspace.data("un_blocks") == tmp_path / "data/legal/un_parallel/blocks"
     assert context.setting("generation_model") == "gpt-5.6-luna"
-    assert context.setting("verifier_model") == "anthropic/claude-sonnet-5.5"
+    assert context.setting("verifier_model") == "google/gemini-3.8-flash"
     for source in context.domain.sources:
         assert context.domain.attribution_for(source.name)
         assert context.workspace.corpus_csv(source).suffix == ".csv"

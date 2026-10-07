@@ -85,7 +85,7 @@ clir --domain legal qac generate --source un --questions 30
 # One invocation creates matching run folders under both corpus QAC roots:
 clir --domain legal qac generate --source eurlex un --questions 30 \
   --generation-model provider/model-a --generation-model provider/model-b \
-  --verifier-model anthropic/claude-sonnet-5.5 --output results.csv
+  --verifier-model google/gemini-3.8-flash --output results.csv
 
 clir --domain legal qac generate --source eurlex un \
   --targets-from data/legal/eurlex/qac/comparison_2026-09-21 \
@@ -246,7 +246,7 @@ record the completed reruns, controlled router comparisons, and current evaluati
 clir --domain legal qac generate --source eurlex --langs en \
   --modes lookup fact_pattern --questions-per-mode 15 \
   --targets-from data/legal/eurlex/qac/eurlex_luna30_en \
-  --generation-model gpt-5.6-luna --verifier-model anthropic/claude-sonnet-5.5 \
+  --generation-model gpt-5.6-luna --verifier-model google/gemini-3.8-flash \
   --run-dir data/legal/eurlex/qac/modes15_new_verifiers --trace
 ```
 

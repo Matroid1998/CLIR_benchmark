@@ -134,7 +134,7 @@ def main():
     parser.add_argument("--eurlex", type=int, default=0)
     parser.add_argument("--seed", type=int, default=20260929)
     parser.add_argument("--generator", default="gpt-5.6-luna")
-    parser.add_argument("--verifier", default="anthropic/claude-sonnet-5.5")
+    parser.add_argument("--verifier", default="google/gemini-3.8-flash")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--prepare-only", action="store_true")

@@ -50,7 +50,7 @@ class LLMSettings:
     """
 
     generation_model: str = "gpt-5-mini"
-    verifier_model: str = "anthropic/claude-sonnet-5.5"
+    verifier_model: str = "google/gemini-3.8-flash"
     # The alias-graph/progressive family graded on 4.5; kept distinct on purpose
     # so re-running those pipelines reproduces their published scores.
     concept_verifier_model: str = "anthropic/claude-sonnet-4.5"

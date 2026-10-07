@@ -76,7 +76,7 @@ SPEC = DomainSpec(
     defaults={
         "qac_runs": True,
         "generation_model": "gpt-5.6-luna",
-        "verifier_model": "anthropic/claude-sonnet-5.5",
+        "verifier_model": "google/gemini-3.8-flash",
     },
 )
 

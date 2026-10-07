@@ -183,7 +183,7 @@ def _options(args, context, saved=None):
                 "max_references": 6, "context_chars": 30000,
                 "reference_chars": None,
                 "generation_model": [context.setting("generation_model", "gpt-5.6-luna")],
-                "verifier_model": context.setting("verifier_model", "anthropic/claude-sonnet-5.5"),
+                "verifier_model": context.setting("verifier_model", "google/gemini-3.8-flash"),
                 "langs": None, "modes": None, "decider_model": None}
     options = {key: getattr(args, key, None) if getattr(args, key, None) is not None
                else old.get(key, default) for key, default in defaults.items()}

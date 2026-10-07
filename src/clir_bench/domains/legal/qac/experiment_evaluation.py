@@ -195,7 +195,7 @@ def main():
     parser.add_argument("--run", action="append", required=True, help="VERSION=RUN_DIRECTORY")
     parser.add_argument("--prompt-manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--model", default="anthropic/claude-sonnet-5.5")
+    parser.add_argument("--model", default="google/gemini-3.8-flash")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--prepare-only", action="store_true")

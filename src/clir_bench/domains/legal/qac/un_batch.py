@@ -603,7 +603,7 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.BlockIndex | None = No
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
     parser.add_argument("--decider-model", choices=("generator", "jev"),
                         help="choose the generation mode per target using the generator or Jev")
-    parser.add_argument("--grade-model", default="anthropic/claude-sonnet-5.5")
+    parser.add_argument("--grade-model", default="google/gemini-3.8-flash")
     parser.add_argument("--generation-cache", type=Path,
                         help="reuse saved responses only for the exact model and canonical messages")
     parser.add_argument("--generation-records", type=Path,
