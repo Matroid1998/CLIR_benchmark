@@ -31,6 +31,7 @@ reports/runs/*/parts/
 reports/prompt_versions/
 reports/prompt_experiments/*/
 reports/**/prompt_manifest.json
+reports/**/verifier_prompt_manifest.json
 reports/**/before_manifest.json
 reports/**/changed_manifest.json
 reports/**/registry_prompts.json
@@ -46,3 +47,4 @@ reports/**/*.log
 # Import bundles are local; extracted current templates are tracked under src/.
 /EURLEX_ENGLISH_BUNDLE.md
 /UN_ENGLISH_BUNDLE.md
+/ALL_VERIFIERS*.md

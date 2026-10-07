@@ -100,8 +100,10 @@ def _compact_example(pack="eurlex", mode="lookup", count=1):
     prompt = PACKS[pack][0].quality(mode, "batch")
     example = deepcopy(grading._quality_output_example(prompt))
     template = example["candidates"][0]
-    # Set fixture scores explicitly; instructional examples may illustrate 5s.
+    # Set the passing fixture explicitly; instructional examples may illustrate failures.
     template["scores"] = dict.fromkeys(template["scores"], 4)
+    template["checks"] = dict.fromkeys(("mode", "support", "metadata"), "pass")
+    template["problems"] = []
     candidates = [{"candidate_id": f"candidate-{index}", "question_language": "en",
                    "question": f"Which coverage applies to traveller {index}?", "answer": "EUR 30,000",
                    "question_type": "amount_or_threshold", "anchor": "coverage",

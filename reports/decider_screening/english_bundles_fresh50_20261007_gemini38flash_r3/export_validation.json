@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "documents": 50,
+  "candidates": 440,
+  "csv_rows": 450,
+  "generation_skips": 10,
+  "original_questions_answers_and_user_messages_unchanged": true,
+  "old_decider_outputs_unchanged": true,
+  "new_generation_calls": 0,
+  "new_decider_calls": 0,
+  "provider_calls": 580,
+  "requests_by_stage": {
+    "faithfulness": 290,
+    "quality": 290
+  },
+  "known_provider_cost_usd": 6.440723475,
+  "requests_without_cost": 0,
+  "exceptional_justification_format_issues": []
+}

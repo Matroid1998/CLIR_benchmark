@@ -232,6 +232,20 @@ payloads before making calls, then runs both deciders and all eligible generatio
 can recover schema-only failures from recorded responses without new model calls;
 repairs retain pinned prompts and their own audit log.
 
+`screening_regrade` replays saved candidates and source packets with a chosen verifier.
+By default it also reuses the recorded rubric. To evaluate updated verifier prompts,
+pass `--verifier-prompt-manifest path/to/manifest.json`; only the system messages
+are replaced. The original generation/decider provenance and the new verifier
+manifest are recorded separately. Always use a separate output directory for a
+new rubric. Scores from different rubric versions may use different standards
+even when the numeric range is unchanged.
+
+The current English verifier rubric, `legal-clir-exceptional-r3`, treats 4 as
+strong or fully correct and reserves 5 for specifically justified exceptional
+execution. When numerical fidelity is inapplicable, it uses 4 as a compatibility
+value and explains this in the reason. Totals retain the /40 schema; compare
+audit outcomes separately and identify the rubric when comparing older scores.
+
 To evaluate each persona independently on a completed screening selection:
 
 ```bash

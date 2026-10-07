@@ -1,7 +1,8 @@
-"""Regrade a completed screening run using its exact recorded verifier messages."""
+"""Regrade saved candidates, optionally replacing only the verifier system prompts."""
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import json
@@ -10,7 +11,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from statistics import mean
 
-from clir_bench.core import grading, llm
+from clir_bench.core import grading, llm, prompt_registry
 from clir_bench.domains.legal.qac.batch_recording import RunState, export_traces
 from clir_bench.domains.legal.qac.env import load_env
 from clir_bench.domains.legal.qac.screening import digest
@@ -73,7 +74,8 @@ def load_parent(directory):
         metadata = {k: json.loads(v) for k, v in db.execute('SELECT key,value FROM metadata')}
         outcomes = {t: {'status': s, 'rows': json.loads(r), 'error': e}
                     for t, s, r, e in db.execute('SELECT task,status,rows,error FROM outcomes')}
-        messages, provenance, skips = {}, {}, {}
+        messages, provenance = {}, {}
+        skips = dict(metadata.get('generation_skip_reasons', {}))
         for request_id, task, stage, record in db.execute(
                 'SELECT id,task,stage,record FROM requests ORDER BY json_extract(record,"$.timestamp"),id'):
             raw = json.loads(record)
@@ -129,20 +131,56 @@ def merge_grades(originals, candidates, faith, quality, model, prompts):
     return rows
 
 
-def regrade(parent, output, model, *, workers=16, retries=3):
+def replace_verifier_prompts(metadata, outcomes, messages, manifest_path):
+    """Pin new rubric text while retaining every recorded source/candidate message."""
+    manifest = prompt_registry.read_manifest(str(Path(manifest_path).resolve()))
+    metadata, messages = copy.deepcopy(metadata), copy.deepcopy(messages)
+    used = {}
+    for task, result in outcomes.items():
+        if not task.startswith('mode/') or not result['rows']:
+            continue
+        source = task.split('/')[1]
+        mode = result['rows'][0].get('screening_mode', result['rows'][0]['mode'])
+        mode = 'practitioner' if mode == 'practitioners' else mode
+        for stage in ('faithfulness', 'quality'):
+            key = f'{source}/faithfulness' if stage == 'faithfulness' else f'{source}/quality/{mode}'
+            prompt = prompt_registry.resolve_prompt(key, str(Path(manifest_path).resolve()))
+            recorded = messages[task, stage]
+            if len(recorded) != 2 or [m.get('role') for m in recorded] != ['system', 'user']:
+                raise ValueError(f'Expected system and user messages: {task}/{stage}')
+            if stage == 'quality' and len(grading.rubric_keys(prompt)) != 5:
+                raise ValueError(f'Expected five quality criteria: {key}')
+            recorded[0]['content'] = prompt
+            used[key] = prompt
+    metadata.setdefault('prompts', {}).update(used)
+    metadata['verifier_prompt_manifest'] = manifest
+    return metadata, messages, {
+        'verifier_prompt_source': 'registered_override',
+        'verifier_prompt_registry': {k: manifest[k] for k in ('bundle', 'label', 'bundle_sha256')},
+        'verifier_prompts_sha256': digest(used),
+        'prompts_sha256': digest(metadata['prompts']),
+    }
+
+
+def regrade(parent, output, model, *, workers=16, retries=3, verifier_prompt_manifest=None):
     if parent.resolve() == output.resolve():
         raise ValueError('Regrade output must be separate from its parent')
     load_env()
     metadata, outcomes, messages, provenance, skips = load_parent(parent)
+    prompt_config = {}
+    if verifier_prompt_manifest:
+        metadata, messages, prompt_config = replace_verifier_prompts(
+            metadata, outcomes, messages, verifier_prompt_manifest)
     config = dict(metadata['config'], verifier=model, parent_run=str(parent.resolve()),
                   operation='verifier_only', verifier_reasoning_effort='medium', retries=retries)
+    config.update(prompt_config)
     fingerprint = digest({'config': config, 'parent_outcomes': outcomes, 'messages': list(messages.values())})
     output.mkdir(parents=True, exist_ok=True)
     with RunState(output / 'run.sqlite') as state:
         if state.get('fingerprint') not in (None, fingerprint):
             raise ValueError('Regrade source or configuration changed')
         state.put('fingerprint', fingerprint)
-        for key in ('targets', 'prompts', 'prompt_manifest'):
+        for key in ('targets', 'prompts', 'prompt_manifest', 'verifier_prompt_manifest'):
             if key in metadata:
                 state.put(key, metadata[key])
         state.put('config', config)
@@ -152,6 +190,9 @@ def regrade(parent, output, model, *, workers=16, retries=3):
         for filename, value in [('config.json', config), ('selection.json', metadata['targets']),
                                 ('prompt_manifest.json', metadata['prompt_manifest'])]:
             (output / filename).write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+        if 'verifier_prompt_manifest' in metadata:
+            prompt_registry.write_manifest(output / 'verifier_prompt_manifest.json',
+                                           metadata['verifier_prompt_manifest'])
         completed = {r['task'] for r in state.outcomes() if r['status'] == 'completed'}
         jobs = []
         for task, result in outcomes.items():
@@ -166,7 +207,7 @@ def regrade(parent, output, model, *, workers=16, retries=3):
             checkpoint = state.checkpoint(task, retries=retries)
             grades, errors = {}, []
             for stage in ('faithfulness', 'quality'):
-                def call():
+                def call(stage=stage):
                     client = checkpoint.client(stage, model, llm.client_for(model))
                     raw = llm.chat(client, model, messages[task, stage], reasoning_effort='medium')
                     data = llm.parse_json_response(raw)
@@ -177,7 +218,7 @@ def regrade(parent, output, model, *, workers=16, retries=3):
                     return [dict(grading._normalize_faith(item), _response=item) for item in items]
                 try:
                     grades[stage] = checkpoint.run(stage, call)
-                except Exception as error:
+                except Exception as error:  # noqa: BLE001 - persist provider and parser failures
                     errors.append(f'{stage}: {type(error).__name__}: {error}')
             if errors:
                 # A failed new grade must never be mistaken for the parent's grade.
@@ -219,8 +260,11 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--verifier', required=True)
     parser.add_argument('--workers', type=int, default=16)
+    parser.add_argument('--verifier-prompt-manifest', type=Path,
+                        help='Replace verifier system prompts only; replay source/candidate inputs exactly')
     args = parser.parse_args()
-    regrade(args.parent, args.output, args.verifier, workers=args.workers)
+    regrade(args.parent, args.output, args.verifier, workers=args.workers,
+            verifier_prompt_manifest=args.verifier_prompt_manifest)
     from clir_bench.domains.legal.qac.screening_analysis import analyze
     analyze(args.output)
     compare_verifiers(args.parent, args.output)
