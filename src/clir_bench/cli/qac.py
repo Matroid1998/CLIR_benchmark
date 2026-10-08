@@ -132,7 +132,7 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
         _run_arguments(generate)
         generate.add_argument(
             "--decider-model", choices=("generator", "jev"),
-            help="Select each target's mode using its generator or Jev via OpenRouter; "
+            help="Select a mode with its generator, or balance eligible personas using Jev yes/no checks; "
                  "omit to keep explicit modes",
         )
         generate.add_argument(

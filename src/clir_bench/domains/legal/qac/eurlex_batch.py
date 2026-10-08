@@ -525,7 +525,7 @@ def main(argv: Sequence[str] | None = None, *, index: ctx.ArticleIndex | None = 
     parser.add_argument("--modes", default=None, help="comma-separated modes (default: lookup,fact_pattern,conceptual)")
     parser.add_argument("--gen-model", default=DEFAULT_GEN_MODEL)
     parser.add_argument("--decider-model", choices=("generator", "jev"),
-                        help="choose the generation mode per target using the generator or Jev")
+                        help="choose a mode with the generator, or balance Jev-eligible personas")
     parser.add_argument("--grade-model", default="google/gemini-3.8-flash")
     parser.add_argument("--generation-cache", type=Path,
                         help="reuse saved responses only for the exact model and canonical messages")

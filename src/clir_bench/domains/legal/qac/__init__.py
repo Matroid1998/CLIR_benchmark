@@ -177,7 +177,7 @@ def _target_metadata(path, sources):
                             for source in sources)
 
 
-def _options(args, context, saved=None):
+def _options(args, context, saved=None, *, operation="generate"):
     old = (saved or {}).get("config", {})
     configured_models = context.setting("generation_model_candidates")
     if configured_models is None:
@@ -187,7 +187,7 @@ def _options(args, context, saved=None):
     elif isinstance(configured_models, (list, tuple)):
         configured_models = list(configured_models)
     else:
-        raise ValueError("generation_model_candidates must be a model ID or list of model IDs")
+        raise ValueError("generation_model_candidates must be a model ID or list of model IDs")  # noqa: TRY004 - invalid configuration
     defaults = {"questions": 100, "questions_per_mode": None, "seed": 42, "keep": 3, "retries": 3,
                 "max_references": 6, "context_chars": 30000,
                 "reference_chars": None,
@@ -217,6 +217,17 @@ def _options(args, context, saved=None):
     if not options["verifier_model"] or not options["generation_model"] or any(
             not isinstance(model, str) or not model.strip() for model in options["generation_model"]):
         raise ValueError("generator and verifier model IDs must be nonempty")
+    if old.get("persona_selection_policy"):
+        from . import persona_routing
+        if old["persona_selection_policy"] != persona_routing.POLICY:
+            raise ValueError("unsupported saved persona selection policy")
+        options["persona_selection_policy"] = old["persona_selection_policy"]
+        options["persona_weights"] = persona_routing.resolve_weights(old["persona_weights"])
+    elif (operation == "generate" and options.get("decider_model") == "jev"
+          and not (saved or {}).get("fingerprint") and not getattr(args, "resume", False)):
+        from . import persona_routing
+        options["persona_selection_policy"] = persona_routing.POLICY
+        options["persona_weights"] = persona_routing.resolve_weights(context.setting("persona_weights"))
     return options
 
 
@@ -303,8 +314,15 @@ def _prepare(selections, indexes, options, operation):
         modes = [target.mode]
         if automatic:
             from . import decider
-            modes = [decider.generation_mode(mode) for mode in decider.prompt_modes(source)]
-            prompts[f"{source}/decider"] = decider.prompt_text(source, options["decider_model"])
+            if options.get("persona_selection_policy"):
+                if f"{source}/decider" not in prompts:
+                    decider.build_eligibility_request(source, "preflight validation")
+                    decider.eligibility_policy(source)
+                modes = [decider.generation_mode(mode) for mode in decider.MODES[source]]
+                prompts[f"{source}/decider"] = decider.eligibility_prompt_text(source)
+            else:
+                modes = [decider.generation_mode(mode) for mode in decider.prompt_modes(source)]
+                prompts[f"{source}/decider"] = decider.prompt_text(source, options["decider_model"])
         for mode in modes:
             prompts[f"{source}/quality/{mode}"] = pack.quality(mode, "batch")
             if operation == "generate":
@@ -380,6 +398,9 @@ def generate(args, context, *, selections=None, supplied_indexes=None):
         all_langs = set().union(*(set(batches[s].ACT_LANGUAGES if s == "eurlex" else batches[s].UN_LANGUAGES) for s in sources))
         if set(options["modes"] or []) - all_modes or set(options["langs"] or []) - all_langs:
             raise ValueError("unsupported language or persona in the selected sources")
+    if options.get("persona_selection_policy"):
+        from . import persona_routing
+        persona_routing.require_safe_targets(selections, indexes)
     prepared, prompts = _prepare(selections, indexes, options, "generate")
     models = list(dict.fromkeys(options["generation_model"]))
     options["generation_model"] = models
@@ -408,7 +429,7 @@ def regrade(args, context):
     # default. A resumed regrade must retain its own saved verifier instead.
     inherited = {key: value for key, value in parent.get("config", {}).items()
                  if key != "verifier_model"}
-    options = _options(args, context, saved or {"config": inherited})
+    options = _options(args, context, saved or {"config": inherited}, operation="regrade")
     batches, groups = _batches(), defaultdict(list)
     selected_sources = getattr(args, "source", None)
     for position, row in enumerate(rows, 1):
@@ -505,10 +526,12 @@ def _execute(args, context, operation, directory, output, saved, options, select
         raise ValueError("--workers must be positive")
     if validate_only:
         return 0
+    weighted = operation == "generate" and bool(options.get("persona_selection_policy"))
     print(f"{operation}: {len(selections)} shared targets, {len(cases)} model/target cases -> {output}")
     if getattr(args, "dry_run", False):
         stages = (3 + bool(options.get("decider_model"))) if operation == "generate" else 2
-        print(f"no model calls; at most {len(cases) * stages} initial stage calls")
+        calls = len(selections) + 3 * len(cases) if weighted else len(cases) * stages
+        print(f"no model calls; at most {calls} initial stage calls")
         return 0
     batches = _batches()
     originals = {row["candidate_id"]: row for row in original_rows or []}
@@ -540,6 +563,7 @@ def _execute(args, context, operation, directory, output, saved, options, select
             state.put("related_runs", (state.get("related_runs") or {}) | related_runs)
         completed = {record["task"]: len(record["rows"]) for record in state.outcomes()
                      if record["status"] in ("completed", "no_candidates")}
+        routing_decisions, routing_errors = {}, {}
         def work(case):
             entry, target, payload, model, candidates = case
             source = entry["corpus"]
@@ -553,8 +577,15 @@ def _execute(args, context, operation, directory, output, saved, options, select
                 decision = None
                 if operation == "generate" and options.get("decider_model"):
                     from . import decider
-                    decision = decider.decide(source, payload, backend=options["decider_model"],
-                                              model=model, checkpoint=checkpoint)
+                    if weighted:
+                        from . import persona_routing
+                        key = persona_routing.task_id(entry)
+                        if key in routing_errors:
+                            raise RuntimeError(routing_errors[key])
+                        decision = routing_decisions[key]
+                    else:
+                        decision = decider.decide(source, payload, backend=options["decider_model"],
+                                                  model=model, checkpoint=checkpoint)
                     if decision["mode"] == "skip":
                         state.outcome(task, [])
                         return task, 0
@@ -629,6 +660,18 @@ def _execute(args, context, operation, directory, output, saved, options, select
 
         executor = ThreadPoolExecutor(max_workers=args.workers)
         try:
+            if weighted:
+                from . import persona_routing
+                targets = {}
+                for entry, _, payload, _, _ in cases:
+                    targets.setdefault(persona_routing.task_id(entry), (entry, payload))
+                for key, decision, error in persona_routing.route_targets(
+                        state, list(targets.values()), weights=options["persona_weights"],
+                        seed=options["seed"], retries=options["retries"], executor=executor):
+                    if error is not None:
+                        routing_errors[key] = error
+                    else:
+                        routing_decisions[key] = decision
             if quota:
                 # Every generator sees the same target rounds, including rounds needed
                 # by a model that skipped or returned fewer questions. Keep surplus
@@ -691,6 +734,10 @@ def _execute(args, context, operation, directory, output, saved, options, select
         outcomes, rows = export()
         counts = dict(Counter(record["status"] for record in outcomes))
         summary = dict(counts, candidates=len(rows), best=sum(bool(r["is_best"]) for r in rows))
+        if weighted:
+            summary["persona_balance"] = persona_routing.balance_summary(
+                selections[0]["corpus"], routing_decisions.values(), options["persona_weights"],
+                failures=len(routing_errors))
         shortages = False
         if quota:
             generated = Counter((row["corpus"], row["mode"], row["generator_model_id"])

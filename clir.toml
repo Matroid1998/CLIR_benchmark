@@ -39,6 +39,15 @@ generation_model_candidates = [
     "upstage/solar-pro4",
 ]
 
+[domains.legal.persona_weights]
+lookup = 5
+conceptual = 5
+fact_pattern = 4
+practitioner = 4
+source_finding = 4
+comparison = 3
+claim_verification = 3
+
 [domains.chemistry]
 corpus_repo = "MehdiAstaraki/multilingual_GP"
 benchmark_repo = "MehdiAstaraki/multi-lingual-qac-chem-patents"

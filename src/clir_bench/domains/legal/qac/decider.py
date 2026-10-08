@@ -180,8 +180,15 @@ def decide(source: str, payload, *, backend: str, model: str, checkpoint=None,
 
 
 def row_metadata(decision: dict) -> dict:
-    return {"decider_model": decision["model"], "decider_mode": decision["mode"],
+    result = {"decider_model": decision["model"], "decider_mode": decision["mode"],
             "decider_reason": decision["reason"],
             "decider_confidence": decision["confidence"],
             "decider_probabilities_json": (json.dumps(decision["probabilities"], sort_keys=True)
                                            if decision["probabilities"] is not None else "")}
+    if decision.get("selection_policy"):
+        result.update(decider_selection_policy=decision["selection_policy"],
+                      decider_routing_task=decision["routing_task"],
+                      decider_threshold=decision["threshold"])
+        for key in ("probabilities_yes", "eligible_modes", "persona_weights", "counts_before"):
+            result[f"decider_{key}_json"] = json.dumps(decision[key], sort_keys=True)
+    return result

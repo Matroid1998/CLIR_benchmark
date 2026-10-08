@@ -90,7 +90,7 @@ def test_jev_http_transport_uses_decisions_endpoint(monkeypatch):
 
 
 @pytest.mark.parametrize("source", ["eurlex", "un"])
-@pytest.mark.parametrize("backend", ["generator", "jev"])
+@pytest.mark.parametrize("backend", ["generator", "jev", "jev_legacy"])
 @pytest.mark.parametrize("skip", [False, True])
 def test_decider_routes_real_batch_and_survives_resume(tmp_path, monkeypatch, source, backend, skip):
     from clir_bench import domains
@@ -101,6 +101,8 @@ def test_decider_routes_real_batch_and_survives_resume(tmp_path, monkeypatch, so
     routed = decider.generation_mode(chosen)
     model = "gpt-test"
     judge = "gpt-judge"
+    weighted = backend == "jev"
+    backend_name = "jev" if backend == "jev_legacy" else backend
     calls = []
     native_calls = []
     generation_calls = []
@@ -112,7 +114,9 @@ def test_decider_routes_real_batch_and_survives_resume(tmp_path, monkeypatch, so
 
     monkeypatch.setattr(generator, "generate", observe_generation)
     monkeypatch.setattr(batch, "prepare_payload", lambda *a, **kw: payload)
-    monkeypatch.setattr(qac, "_indexes", lambda *a, **kw: {source: None})
+    index = (SimpleNamespace(status={target.eli_id: {"complete": True}}) if source == "eurlex"
+             else SimpleNamespace(incomplete={}))
+    monkeypatch.setattr(qac, "_indexes", lambda *a, **kw: {source: index})
 
     def create(**kwargs):
         calls.append(kwargs)
@@ -142,22 +146,35 @@ def test_decider_routes_real_batch_and_survives_resume(tmp_path, monkeypatch, so
     def native(request):
         native_calls.append(request)
         assert request["state"] == payload.text
+        if weighted:
+            assert set(request["questions"]) == set(decider.MODES[source])
+            return {"answers": {mode: {"type": "noul", "noul": float(mode == chosen)}
+                                for mode in decider.MODES[source]}}
         return jev_response(source, chosen)
 
     monkeypatch.setattr(llm, "decisions", native)
     context = _context(tmp_path, "legal")
     parser = build_parser(context, domains.load_module("legal"))
-    argv = ["qac", "generate", "--source", source, "--decider-model", backend,
+    argv = ["qac", "generate", "--source", source, "--decider-model", backend_name,
             "--generation-model", model, "--verifier-model", judge, "--langs", "en",
             "--run-dir", str(tmp_path / "run"), "--trace", "--retries", "1"]
     args = parser.parse_args(argv)
     # Two explicit-mode copies of the target must turn into one decision case.
     entries = [{"corpus": source, "target": asdict(t)} for t in
                (target, replace(target, mode="fact_pattern" if source == "eurlex" else "lookup"))]
+    original_options = qac._options
+    if backend == "jev_legacy":
+        def historical_options(*a, **kw):
+            options = original_options(*a, **kw)
+            options.pop("persona_selection_policy", None)
+            options.pop("persona_weights", None)
+            return options
+        monkeypatch.setattr(qac, "_options", historical_options)
     assert qac.generate(args, context, selections=entries) == 0
+    monkeypatch.setattr(qac, "_options", original_options)
     rows, _ = qac._read_csv(tmp_path / "run" / "results.csv")
     assert len(rows) == (0 if skip else 2)
-    assert len(native_calls) == (backend == "jev")
+    assert len(native_calls) == (backend_name == "jev")
     assert len(calls) == (backend == "generator") + (0 if skip else 3)
     if not skip:
         assert len(generation_calls) == 1 and generation_calls[0]["mode"] == routed
@@ -170,8 +187,16 @@ def test_decider_routes_real_batch_and_survives_resume(tmp_path, monkeypatch, so
     assert metadata["targets"][0]["target"]["mode"] == "auto"
     trace = json.loads((tmp_path / "run" / "llm_calls.json").read_text())
     stages = {stage["stage"]: stage for stage in trace["stages"]}
-    assert stages["decider"]["parsed_output"]["mode"] == chosen
-    assert set(stages) == ({"decider"} if skip else {"decider", "generation", "faithfulness", "quality"})
+    selection_stage = "persona_selection" if weighted else "decider"
+    assert stages[selection_stage]["parsed_output"]["mode"] == chosen
+    routing_stages = {"eligibility", "persona_selection"} if weighted else {"decider"}
+    assert set(stages) == (routing_stages if skip else routing_stages | {"generation", "faithfulness", "quality"})
+    if weighted:
+        balance = metadata["summary"]["persona_balance"]
+        assert balance["assigned"] == (0 if skip else 1)
+        assert balance["no_eligible_persona"] == int(skip)
+        if not skip:
+            assert json.loads(rows[0]["decider_eligible_modes_json"]) == [chosen]
     previous = (len(calls), len(native_calls))
     assert qac.generate(parser.parse_args(argv + ["--resume"]), context) == 0
     assert (len(calls), len(native_calls)) == previous

@@ -141,7 +141,8 @@ the CSV contains up to the requested count. `--trace` also writes `llm_calls.jso
 with every prompt, response, retry, and parsed grade in the same run folder.
 
 For legal sources, add `--decider-model generator` to let each generator choose its
-generation prompt before writing questions, or `--decider-model jev` to use Jev:
+generation prompt, or `--decider-model jev` to balance personas using independent
+Jev yes/no suitability checks:
 
 ```bash
 clir --domain legal qac generate --source eurlex un --questions 30 \
@@ -151,27 +152,48 @@ clir --domain legal qac generate --source un --questions 30 \
   --decider-model jev --generation-model gpt-5.6-luna --trace
 ```
 
-The decider sees the complete assembled generation payload. EUR-Lex choices are
-`fact_pattern`, `lookup`, `conceptual`, and `skip`; UN choices are `lookup`, `practitioner`,
-`conceptual`, and `skip` (`practitioner` maps to the existing `practitioners` prompts).
-A skip makes no generation or verifier calls. Otherwise the chosen mode's existing
-generator, verifiers, and best-candidate ranking run as usual. `--questions` counts
-targets, so skips can reduce output. Do not combine the decider with `--modes` or
+The decider sees the complete assembled generation payload. New Jev runs assess
+each of six personas independently, using the probability threshold pinned in the
+eligibility prompt. Among the Yes personas, the pipeline chooses the largest
+deficit: `(assignments + 1) * weight / sum_weights - persona_count`. The default
+weights in `[domains.legal.persona_weights]` in `clir.toml` are lookup 5, conceptual 5,
+fact_pattern 4, source_finding 4, comparison 3, and claim_verification 3. UN uses
+practitioner with weight 4 in place of fact_pattern; it maps to the `practitioners` prompts.
+
+One choice per sampled article/block and query language is shared by every generator
+candidate. Counts are per corpus run and count assignments once, regardless of
+candidate counts or generation failures. These are long-term proportions: a target
+with at least one Yes is always used, even when its sole eligible persona is already
+overrepresented. No targets are resampled or discarded to balance the mix. An all-No
+target makes no generation or verifier calls. Saved question proportions can differ
+from assignment proportions when generation yields different numbers of candidates.
+
+Reference-complete sampling remains mandatory for weighted routing. Imported target
+plans are checked against the current reference-status indexes before model calls;
+unsafe targets or missing verification data fail preflight. The source packets and
+eligibility thresholds are preserved. `--questions` counts targets, so suitability
+skips can reduce output. Do not combine the decider with `--modes` or
 `--questions-per-mode`. Omit the flag to retain explicit mode selection. Reusing a
 fixed-mode target plan with a decider deduplicates repeated target/language pairs.
 
-Decisions are checkpointed in `run.sqlite`, including skips, and reused on resume.
-CSV rows include the selected mode, decider model, reason (chat models), and
-confidence/probabilities when returned by Jev. `--trace` includes the decider's raw
-request and response. Invalid decisions are retried and then recorded as failures;
+Eligibility calls can run concurrently; persona choices are committed in sampled
+order with seed-based tie breaking. Decisions, weights, policy version and count
+snapshots are checkpointed in `run.sqlite`, including skips. Resume reconstructs
+counts from committed choices without double counting and retains the saved weights.
+Historical runs retain their recorded single-winner routing behavior.
+CSV rows include the chosen persona, independent Yes probabilities, eligible personas,
+threshold, weights and selection policy. The run summary reports assignment counts
+and target shares. `--trace` includes raw requests, responses and shared selection
+checkpoints linked to CSV rows by `decider_routing_task`.
+Invalid decisions are retried and then recorded as failures;
 they never silently select a fallback mode. Regrading preserves decisions and only
 reruns the verifiers. The original batch module CLIs also accept `--decider-model`.
 
 Jev uses `OPENROUTER_API_KEY`, model `~typesafe/jev-latest`, and
 [OpenRouter's Decisions endpoint](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-request)
 (`POST https://openrouter.ai/api/alpha/decisions`). Its structured instructions and
-criteria are sent directly; it returns a typed choice rather than a prose reason.
-The four decider templates are packaged in each legal prompt pack's `decider/` directory.
+criteria are sent directly; new Jev runs request independent `noul` probabilities
+for the six personas. The templates are packaged in each legal prompt pack's `decider/` directory.
 
 ### Legal prompt versions in local MLflow
 
