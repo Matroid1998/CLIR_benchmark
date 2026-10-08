@@ -6,7 +6,7 @@ import csv
 import hashlib
 import json
 from collections import Counter, defaultdict
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import FIRST_COMPLETED, ThreadPoolExecutor, as_completed, wait
 from dataclasses import asdict, replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -511,6 +511,14 @@ def _execute(args, context, operation, directory, output, saved, options, select
              related_runs=None, validate_only=False):
     config = dict(options, operation=operation, targets=selections,
                   prompts_sha256={key: _digest(text.encode()) for key, text in prompts.items()})
+    weighted = operation == "generate" and bool(options.get("persona_selection_policy"))
+    if weighted:
+        # Wait for all generators on one target before verifying that target.
+        # This lets duplicate candidates share grades without delaying every
+        # verifier until the entire corpus has finished generation.
+        config["generation_barrier_policy"] = "per_target_streaming_before_verification-v4"
+        config["generation_target_window"] = 8
+        config["verification_deduplication_policy"] = "exact_question_within_target-v1"
     from clir_bench.core.prompt_registry import manifest_metadata
     registry = manifest_metadata()
     if registry:
@@ -526,7 +534,6 @@ def _execute(args, context, operation, directory, output, saved, options, select
         raise ValueError("--workers must be positive")
     if validate_only:
         return 0
-    weighted = operation == "generate" and bool(options.get("persona_selection_policy"))
     print(f"{operation}: {len(selections)} shared targets, {len(cases)} model/target cases -> {output}")
     if getattr(args, "dry_run", False):
         stages = (3 + bool(options.get("decider_model"))) if operation == "generate" else 2
@@ -564,17 +571,17 @@ def _execute(args, context, operation, directory, output, saved, options, select
         completed = {record["task"]: len(record["rows"]) for record in state.outcomes()
                      if record["status"] in ("completed", "no_candidates")}
         routing_decisions, routing_errors = {}, {}
-        def work(case):
+        def work(case, *, generation_only=False, generated_rows=None):
             entry, target, payload, model, candidates = case
             source = entry["corpus"]
             task = task_id(case)
             if task in completed:
-                return task, completed[task]
+                return task, None if generation_only else completed[task]
             limits = {"max_references": options["max_references"]} if source == "eurlex" else {
                 "context_chars": options["context_chars"], "reference_chars": options["reference_chars"]}
+            decision = None
             try:
                 checkpoint = state.checkpoint(task, retries=options["retries"])
-                decision = None
                 if operation == "generate" and options.get("decider_model"):
                     from . import decider
                     if weighted:
@@ -588,12 +595,18 @@ def _execute(args, context, operation, directory, output, saved, options, select
                                                   model=model, checkpoint=checkpoint)
                     if decision["mode"] == "skip":
                         state.outcome(task, [])
-                        return task, 0
+                        return task, None if generation_only else 0
                     target = replace(target, mode=decision["generation_mode"])
                 result = batches[source].run_one(target, indexes[source], gen_model=model,
-                    grade_model=options["verifier_model"], keep=options["keep"] if candidates is None else len(candidates),
-                    existing_candidates=candidates, checkpoint=checkpoint,
+                    grade_model=options["verifier_model"],
+                    keep=options["keep"] if candidates is None else len(candidates),
+                    existing_candidates=generated_rows if generated_rows is not None else candidates,
+                    generation_only=generation_only,
+                    deduplicate_exact_questions=weighted,
+                    checkpoint=checkpoint,
                     retries=options["retries"], payload=payload, **limits)
+                if generation_only:
+                    return task, result
                 for row in result:
                     if decision is not None:
                         row.update(decider.row_metadata(decision))
@@ -628,13 +641,23 @@ def _execute(args, context, operation, directory, output, saved, options, select
                 from .batch_recording import _redact
                 diagnostic = _redact(str(exc), state._secrets)
                 result = []
-                for original in candidates or []:
-                    row = {k: v for k,v in original.items() if not k.startswith(("faith_", "qual_", "quality_", "faithfulness_"))}
+                fallback_rows = generated_rows if generated_rows is not None else (candidates or [])
+                for original in fallback_rows:
+                    row = {k: v for k, v in original.items()
+                           if not k.startswith(("faith_", "qual_", "quality_", "faithfulness_"))}
+                    row.update(corpus=source, target_id=(target.block_id if source == "un" else target.eli_id),
+                               document_id=(target.doc_id if source == "un" else target.celex_id),
+                               mode=target.mode, question_language=target.language,
+                               candidate_id=original.get("candidate_id", ""),
+                               generator_model_id=model,
+                               generator_model_name=model.rsplit("/", 1)[-1])
+                    if decision is not None:
+                        row.update(decider.row_metadata(decision))
                     row.update(grading_status="failed", grading_error=diagnostic, regrade_status="failed",
                                regrade_error=diagnostic, total_score="", candidate_rank="", is_best=False)
                     result.append(row)
                 state.outcome(task, result, str(exc))
-            return task, len(result)
+            return task, None if generation_only else len(result)
 
         def export():
             outcomes = state.outcomes()
@@ -665,14 +688,72 @@ def _execute(args, context, operation, directory, output, saved, options, select
                 targets = {}
                 for entry, _, payload, _, _ in cases:
                     targets.setdefault(persona_routing.task_id(entry), (entry, payload))
-                for key, decision, error in persona_routing.route_targets(
+                for number, (key, decision, error) in enumerate(persona_routing.route_targets(
                         state, list(targets.values()), weights=options["persona_weights"],
-                        seed=options["seed"], retries=options["retries"], executor=executor):
+                        seed=options["seed"], retries=options["retries"], executor=executor), 1):
                     if error is not None:
                         routing_errors[key] = error
                     else:
                         routing_decisions[key] = decision
-            if quota:
+                    if number % 25 == 0 or number == len(targets):
+                        print(f"completed eligibility/routing {number}/{len(targets)} targets", flush=True)
+                # Generate every model's questions for a target before grading
+                # that target. A small target window keeps both generation and
+                # verification parallel without putting all verifier jobs behind
+                # the full corpus generation queue.
+                generated = {}
+                grading_futures = []
+                target_cases = defaultdict(list)
+                for case in cases:
+                    target_cases[persona_routing.task_id(case[0])].append(case)
+                target_keys = list(target_cases)
+                target_window = config["generation_target_window"]
+                generation_finished = 0
+                generation_futures = {}
+                active_targets = set()
+                finished_by_target = Counter()
+                next_target = 0
+
+                def launch_target(key):
+                    active_targets.add(key)
+                    for case in target_cases[key]:
+                        future = executor.submit(work, case, generation_only=True)
+                        generation_futures[future] = key
+
+                while next_target < len(target_keys) and len(active_targets) < target_window:
+                    launch_target(target_keys[next_target])
+                    next_target += 1
+                while generation_futures:
+                    done, _ = wait(generation_futures, return_when=FIRST_COMPLETED)
+                    finished_targets = []
+                    for future in done:
+                        key = generation_futures.pop(future)
+                        task, rows = future.result()
+                        if rows is not None:
+                            generated[task] = rows
+                        finished_by_target[key] += 1
+                        generation_finished += 1
+                        if finished_by_target[key] == len(target_cases[key]):
+                            for case in target_cases[key]:
+                                task = task_id(case)
+                                if task in completed or task not in generated:
+                                    continue
+                                grading_futures.append(executor.submit(
+                                    work, case, generated_rows=generated[task]))
+                            finished_targets.append(key)
+                        if generation_finished % 10 == 0 or generation_finished == len(cases):
+                            print(f"completed generation {generation_finished}/{len(cases)} model/target cases",
+                                  flush=True)
+                    for key in finished_targets:
+                        active_targets.remove(key)
+                    while next_target < len(target_keys) and len(active_targets) < target_window:
+                        launch_target(target_keys[next_target])
+                        next_target += 1
+                for number, future in enumerate(as_completed(grading_futures), 1):
+                    future.result()
+                    if number % 10 == 0 or number == len(grading_futures):
+                        print(f"completed verification {number}/{len(grading_futures)} model/target cases", flush=True)
+            elif quota:
                 # Every generator sees the same target rounds, including rounds needed
                 # by a model that skipped or returned fewer questions. Keep surplus
                 # outcomes in SQLite while limiting only the final CSV.

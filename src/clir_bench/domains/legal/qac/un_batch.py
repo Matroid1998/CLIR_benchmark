@@ -339,6 +339,8 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             reference_chars: int | None = None,
             generation_recorder: Any = None,
             existing_candidates: list[dict[str, Any]] | None = None,
+            generation_only: bool = False,
+            deduplicate_exact_questions: bool = False,
             checkpoint: Any = None, retries: int = 3,
             payload: ctx.GenerationPayload | None = None) -> list[dict[str, Any]]:
     from clir_bench.core.grading import (
@@ -398,6 +400,29 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
     if not candidates:
         return []
 
+    if generation_only:
+        # Persisted generation data is independent of grading. Emit a compact
+        # row that the normal verifier path can restore after the generation
+        # barrier, including on resume.
+        result = []
+        for position, candidate in enumerate(candidates):
+            candidate_id = "q_" + hashlib.sha256(json.dumps(
+                ["un", target.block_id, target.mode, target.language, gen_model,
+                 position, candidate.question, candidate.answer],
+                ensure_ascii=False).encode()).hexdigest()[:24]
+            result.append({
+                "candidate_id": candidate_id,
+                "question": candidate.question,
+                "answer": candidate.answer,
+                "question_type": candidate.classification if target.mode not in gen.CONCEPTUAL_MODES else "",
+                "framing": candidate.classification if target.mode in gen.CONCEPTUAL_MODES else "",
+                **gen.annotations.row_metadata(candidate),
+                "question_cited": candidate.question_cited,
+                "anchor": candidate.anchor,
+                "anchors": gen.ANCHOR_SEP.join(candidate.anchors),
+            })
+        return result
+
     qa = [{"question": c.question, "answer": c.answer, "_candidate_index": position,
            "candidate_id": ((existing_candidates[position].get("candidate_id") if existing_candidates else None)
                             or "q_" + hashlib.sha256(json.dumps(
@@ -430,7 +455,8 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
     try:
         faith = stage("faithfulness", lambda: grade_faithfulness(
             client("faithfulness", grade_model), grader, faith_prompt, payload.text, qa,
-            strict=enhanced))
+            strict=enhanced,
+            reuse_identity={"deduplicate": "exact_question"} if deduplicate_exact_questions else None))
     except Exception as error:
         if not enhanced:
             raise
@@ -443,7 +469,8 @@ def run_one(target: Target, index: ctx.BlockIndex, *, gen_model: str,
             policies={"target_granularity": "block", "reference_policy": "target_only",
                       "answer_role": ("source_identity" if target.mode == gen.MODE_SOURCE_FINDING
                                       else "evidence_span"), "source_time_policy": "supplied_version",
-                      "require_unique_gold": False}))
+                      "require_unique_gold": False},
+            reuse_identity={"deduplicate": "exact_question"} if deduplicate_exact_questions else None))
     except Exception as error:
         if not enhanced:
             raise

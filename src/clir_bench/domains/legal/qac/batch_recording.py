@@ -373,8 +373,10 @@ class StageCheckpoint:
         documents still run concurrently. Only parsed, validated grades are cached.
         """
         scope = hashlib.sha256(_json([stage, identity]).encode()).hexdigest()
-        keys = [hashlib.sha256(_json([scope, {k: v for k, v in candidate.items()
-                if k not in ("candidate_id", "_candidate_index")}]).encode()).hexdigest()
+        question_only = identity.get("deduplicate") == "exact_question"
+        keys = [hashlib.sha256(_json([scope, ({"question": candidate.get("question")}
+                if question_only else {k: v for k, v in candidate.items()
+                if k not in ("candidate_id", "_candidate_index")})]).encode()).hexdigest()
                 for candidate in candidates]
         with self.state._lock:
             lock = self.state._verification_locks.setdefault(scope, threading.Lock())

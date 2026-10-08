@@ -283,6 +283,8 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
             grade_model: str, max_references: int, keep: int,
             generation_recorder: Any = None,
             existing_candidates: list[dict[str, Any]] | None = None,
+            generation_only: bool = False,
+            deduplicate_exact_questions: bool = False,
             checkpoint: Any = None, retries: int = 3,
             payload: ctx.GenerationPayload | None = None) -> list[dict[str, Any]]:
     from clir_bench.core.grading import (
@@ -349,6 +351,35 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     if not candidates:
         return []
 
+    if generation_only:
+        # Keep only the fields needed to reconstruct the candidate for the
+        # verifier phase. The generation stage itself stores the complete
+        # Candidate objects in run.sqlite, so a resumed run reuses these rows.
+        result = []
+        for position, candidate in enumerate(candidates):
+            candidate_id = "q_" + hashlib.sha256(json.dumps(
+                ["eurlex", target.eli_id, target.mode, target.language, gen_model,
+                 position, candidate.question, candidate.answer],
+                ensure_ascii=False).encode()).hexdigest()[:24]
+            result.append({
+                "candidate_id": candidate_id,
+                "question": candidate.question,
+                "answer": candidate.answer,
+                "question_type": candidate.classification if target.mode != gen.MODE_CONCEPTUAL else "",
+                "framing": candidate.classification if target.mode == gen.MODE_CONCEPTUAL else "",
+                **gen.annotations.row_metadata(candidate),
+                "articles_involved": ",".join(candidate.articles_involved),
+                "articles_involved_eli": ",".join(candidate.involved_elis),
+                "rejected_involved": ",".join(candidate.rejected_involved),
+                "multi_article": candidate.multi_article,
+                "cross_act": candidate.cross_act,
+                "question_cited": candidate.question_cited,
+                "instrument_short_name": candidate.instrument_short_name,
+                "anchor": candidate.anchor,
+                "particulars": gen.PARTICULAR_SEP.join(candidate.particulars),
+            })
+        return result
+
     # The graders see the declaration too: the faithfulness rubric caps the
     # grade when ``articles_involved`` is wrong, which it can only judge if shown.
     qa = [{"question": c.question, "answer": c.answer, "_candidate_index": position,
@@ -384,7 +415,8 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
     try:
         faith = stage("faithfulness", lambda: grade_faithfulness(
             client("faithfulness", grade_model), grader, faith_prompt, payload.text, qa,
-            strict=enhanced))
+            strict=enhanced,
+            reuse_identity={"deduplicate": "exact_question"} if deduplicate_exact_questions else None))
     except Exception as error:
         if not enhanced:
             raise
@@ -398,7 +430,8 @@ def run_one(target: Target, index: ctx.ArticleIndex, *, gen_model: str,
                       "answer_role": ("source_identity" if target.mode == gen.MODE_SOURCE_FINDING
                                       else "evidence_span"), "source_time_policy": "supplied_version",
                       "require_unique_gold": False, "fact_pattern_voice": "third_person_client",
-                      "fact_pattern_clients": "private_clients"}))
+                      "fact_pattern_clients": "private_clients"},
+            reuse_identity={"deduplicate": "exact_question"} if deduplicate_exact_questions else None))
     except Exception as error:
         if not enhanced:
             raise

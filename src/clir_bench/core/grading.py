@@ -631,6 +631,7 @@ def grade_faithfulness(
     *,
     expected: int | None = None,
     strict: bool = False,
+    reuse_identity: Mapping[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Grade answers for grounding, precision and numerical fidelity.
 
@@ -641,7 +642,8 @@ def grade_faithfulness(
     want = expected if expected is not None else len(qa_pairs)
     reuse = getattr(client, "reuse_verification", None)
     if strict and reuse is not None and want == len(qa_pairs):
-        return reuse({"config": asdict(config), "prompt": prompt, "passages": passages},
+        return reuse({"config": asdict(config), "prompt": prompt, "passages": passages,
+                      **(dict(reuse_identity) if reuse_identity else {})},
                      qa_pairs, lambda unique: grade_faithfulness(
                          SimpleNamespace(chat=client.chat), config, prompt, passages, unique, strict=True))
     raw = _invoke(client, config, prompt, f"{passages}\n\n{candidates_block(qa_pairs)}")
@@ -671,6 +673,7 @@ def grade_quality(
     policies: Mapping[str, Any] | None = None,
     rubric_mode: str | None = None,
     strict: bool = False,
+    reuse_identity: Mapping[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Grade questions using the rubric's legacy or structured legal contract.
 
@@ -688,7 +691,8 @@ def grade_quality(
             raise ValueError("Candidate IDs must be unique within a verifier request")
         return reuse({"config": asdict(config), "prompt": prompt, "passages": passages,
                       "mode": mode, "sources": sources, "target_source_id": target_source_id,
-                      "policies": policies, "rubric_mode": rubric_mode},
+                      "policies": policies, "rubric_mode": rubric_mode,
+                      **(dict(reuse_identity) if reuse_identity else {})},
                      qa_pairs, lambda unique: grade_quality(
                          SimpleNamespace(chat=client.chat), config, prompt, passages, unique, mode,
                          sources=sources, target_source_id=target_source_id, policies=policies,
@@ -843,13 +847,13 @@ def rank_candidates(
 __all__ = [
     "CONCEPTUAL_QUALITY_FIELDS",
     "CONCEPTUAL_QUALITY_KEYS",
-    "MODE_CONCEPTUAL",
     "FACT_PATTERN_QUALITY_FIELDS",
     "FACT_PATTERN_QUALITY_KEYS",
     "FAITHFULNESS_FIELDS",
     "FAITHFULNESS_KEYS",
     "LOOKUP_QUALITY_FIELDS",
     "LOOKUP_QUALITY_KEYS",
+    "MODE_CONCEPTUAL",
     "MODE_DESCRIPTIVE",
     "MODE_FACT_PATTERN",
     "MODE_LOOKUP",
