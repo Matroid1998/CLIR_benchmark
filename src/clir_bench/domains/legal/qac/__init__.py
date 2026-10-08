@@ -179,10 +179,19 @@ def _target_metadata(path, sources):
 
 def _options(args, context, saved=None):
     old = (saved or {}).get("config", {})
+    configured_models = context.setting("generation_model_candidates")
+    if configured_models is None:
+        configured_models = context.setting("generation_model", "gpt-5.6-luna")
+    if isinstance(configured_models, str):
+        configured_models = [configured_models]
+    elif isinstance(configured_models, (list, tuple)):
+        configured_models = list(configured_models)
+    else:
+        raise ValueError("generation_model_candidates must be a model ID or list of model IDs")
     defaults = {"questions": 100, "questions_per_mode": None, "seed": 42, "keep": 3, "retries": 3,
                 "max_references": 6, "context_chars": 30000,
                 "reference_chars": None,
-                "generation_model": [context.setting("generation_model", "gpt-5.6-luna")],
+                "generation_model": configured_models,
                 "verifier_model": context.setting("verifier_model", "google/gemini-3.8-flash"),
                 "langs": None, "modes": None, "decider_model": None}
     options = {key: getattr(args, key, None) if getattr(args, key, None) is not None

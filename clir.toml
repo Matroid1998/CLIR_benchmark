@@ -25,6 +25,20 @@ main_score = "recall_at_10"
 # Loading embedding models is opt-in; `clir eval plan` prepares a cluster job.
 allow_local_models = false
 
+[domains.legal]
+generation_model_candidates = [
+    "gpt-5.6-luna",
+    "mistralai/mistral-small-2603",
+    "prism-ml/ternary-bonsai-2-27b",
+    "z-ai/glm-5.3-flashx",
+    "deepseek/deepseek-v4.1-flash",
+    "anthropic/claude-haiku-5.5",
+    "qwen/qwen3.8-27b",
+    "nvidia/nemotron-3.5-lightning",
+    "minimax/minimax-m2.7",
+    "upstage/solar-pro4",
+]
+
 [domains.chemistry]
 corpus_repo = "MehdiAstaraki/multilingual_GP"
 benchmark_repo = "MehdiAstaraki/multi-lingual-qac-chem-patents"
