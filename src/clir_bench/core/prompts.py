@@ -61,9 +61,9 @@ class PromptPack:
         <verifier_dir>/faithfulness_<arity>.txt grounding rubric
         <verifier_dir>/<mode>_<arity>.txt       quality rubric
 
-    ``arity`` is ``batch`` (three candidates, JSON list) or ``single`` (one pair,
-    JSON object). The two are separate files with different output contracts and
-    must stay separate.
+    ``arity`` is ``batch`` (the actual candidate batch) or ``single`` (one pair).
+    Each prompt declares its JSON response contract; batch verifiers may return
+    an array or a structured object. Legacy single prompts remain separate files.
     """
 
     package: str

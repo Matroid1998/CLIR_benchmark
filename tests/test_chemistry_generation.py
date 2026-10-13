@@ -17,6 +17,35 @@ from clir_bench.domains.chemistry.schema import SCHEMA
 from clir_bench.domains.chemistry.vocabulary import MODES, WORKING_LANGUAGES
 
 PACK = PromptPack(SPEC.prompts_package)
+RUBRIC_VERSION = "chemistry-clir-exceptional-r1"
+
+
+def verifier_response(prompt, candidates, score=4, *, metadata_status="pass"):
+    """Use the supplied verifier contracts, including their audit diagnostics."""
+    if prompt == PACK.faithfulness():
+        return json.dumps([
+            dict.fromkeys(grading.FAITHFULNESS_KEYS, score)
+            | {"index": index, "reason": f"Supported at score {score}"}
+            for index in range(len(candidates))
+        ])
+    keys = grading.rubric_keys(prompt)
+    return json.dumps({
+        "candidates": [
+            {
+                "index": index,
+                "candidate_id": candidate.get("candidate_id"),
+                "scores": dict.fromkeys(keys, score),
+                "score_notes": {key: f"{key} assessed at score {score}" for key in keys},
+                "checks": {"mode": "pass", "support": "pass", "metadata": metadata_status},
+                "problems": ([] if metadata_status == "pass" else [
+                    "metadata: The evidence has a harmless literal whitespace mismatch.",
+                ]),
+            }
+            for index, candidate in enumerate(candidates)
+        ],
+        # The multi-candidate integration fixture deliberately repeats one need.
+        "batch_diversity": "not_applicable" if len(candidates) == 1 else "fail",
+    })
 
 
 def examples(mode, language="en"):
@@ -51,7 +80,8 @@ def test_supplied_worked_examples_and_abstentions_obey_the_parser(mode, language
     # Every mode has a matching rubric; generic mode-name defaults may differ.
     keys = grading.rubric_keys(PACK.quality(mode))
     assert len(keys) == 5
-    assert all(f"qual_{key}" in qagen.output_fieldnames(SCHEMA) for key in keys)
+    assert all(f"qual_{key}" in qagen.output_fieldnames(SCHEMA, prompts=PACK, modes=MODES)
+               for key in keys)
 
 
 @pytest.mark.parametrize("mode", MODES)
@@ -72,17 +102,14 @@ def test_generate_grade_and_csv_round_trip_keeps_persona_evidence(
         return json.dumps(candidates)
 
     def grade(client, settings, prompt, content):
-        calls.append(content)
-        assert f"publication_number: {item.family}" in content
-        assert f"Mode: {mode}" in content
-        assert "Question language: en" in content
-        for key, value in candidate.items():
-            if key not in ("question", "answer"):
-                assert str(value[0] if isinstance(value, list) else value) in content
-        keys = (grading.FAITHFULNESS_KEYS if prompt == PACK.faithfulness()
-                else grading.rubric_keys(prompt))
-        return json.dumps([dict.fromkeys(keys, 5) | {"index": index, "reason": "Supported"}
-                           for index in range(count)])
+        payload = json.loads(content)
+        calls.append(prompt)
+        assert f"publication_number: {item.family}" in payload["passages"]
+        assert candidate["evidence"] in payload["passages"]
+        assert payload["candidates"] == [
+            dict(candidate, mode=mode, question_language="en") for _ in range(count)
+        ]
+        return verifier_response(prompt, payload["candidates"])
 
     monkeypatch.setattr(qagen, "chat", generate)
     monkeypatch.setattr(grading, "_invoke", grade)
@@ -91,16 +118,29 @@ def test_generate_grade_and_csv_round_trip_keeps_persona_evidence(
         generation_client=None, grading_client=None,
     )
     assert len(generated) == count
-    assert len(calls) == 2
-    fields = qagen.output_fieldnames(SCHEMA)
+    assert calls == [PACK.faithfulness(), PACK.quality(mode)]
+    fields = qagen.output_fieldnames(SCHEMA, prompts=PACK, modes=MODES)
     path = tmp_path / "results.csv"
     corpus.write_rows(path, [qagen.normalize_row(row, fields) for row in generated], fields)
     for saved in corpus.read_rows(path):
         restored = qagen.candidate_from_row(saved)
         assert restored == dict(candidate, mode=mode, question_language="en")
-        assert saved["total_score"] == "40"
-        assert json.loads(saved["faithfulness_verifier_response_json"])["grounding"] == 5
-        assert json.loads(saved["quality_verifier_response_json"])["focus"] == 5
+        assert saved["total_score"] == "32"
+        assert saved["faith_overall"] == "12"
+        assert saved["qual_overall"] == "20"
+        assert saved["faithfulness_rubric_version"] == RUBRIC_VERSION
+        assert saved["quality_rubric_version"] == RUBRIC_VERSION
+        assert json.loads(saved["faithfulness_verifier_response_json"])["grounding"] == 4
+        audit = json.loads(saved["quality_verifier_response_json"])
+        assert audit["scores"] == dict.fromkeys(grading.rubric_keys(PACK.quality(mode)), 4)
+        for key in audit["scores"]:
+            assert saved[f"qual_{key}"] == "4"
+        assert json.loads(saved["quality_score_notes_json"]) == audit["score_notes"]
+        assert json.loads(saved["quality_checks_json"]) == audit["checks"]
+        assert json.loads(saved["quality_problems_json"]) == []
+        assert saved["quality_batch_diversity"] == ("not_applicable" if count == 1 else "fail")
+        assert saved["quality_audit_status"] == "clear"
+        assert all(saved[f"quality_{key}_status"] == "pass" for key in audit["checks"])
 
 
 def test_abstention_does_not_call_graders(monkeypatch):
@@ -164,6 +204,64 @@ def test_best_selection_keeps_different_personas_for_the_same_document():
     }
 
 
+@pytest.mark.parametrize("value", [None, "", "not a score", "NaN", "Infinity", "-Infinity",
+                                  float("nan"), float("inf"), -float("inf")])
+def test_invalid_and_nonfinite_totals_never_win_best_selection(value):
+    unscored = {"publication_number": "EP-1234567-A1", "question_language": "en",
+                "mode": "lookup", "total_score": value}
+    scored = dict(unscored, total_score="32")
+    assert qagen.select_best([unscored], SCHEMA) == []
+    assert qagen.select_best([unscored, scored], SCHEMA) == [scored]
+    assert qagen.select_best([scored, unscored], SCHEMA) == [scored]
+
+
+@pytest.mark.parametrize("stage", ["faithfulness", "quality"])
+def test_unassessable_candidates_keep_null_totals_and_cannot_become_scored_winners(
+    monkeypatch, tmp_path, stage,
+):
+    first = examples("lookup")[0][0]
+    second = dict(first, question=first["question"] + " ")
+    row = document(first)
+    candidates = [first, second]
+    monkeypatch.setattr(qagen, "chat", lambda *a, **k: json.dumps(candidates))
+
+    def grade(client, settings, prompt, content):
+        payload = json.loads(content)
+        result = json.loads(verifier_response(prompt, payload["candidates"]))
+        if stage == "faithfulness" and prompt == PACK.faithfulness():
+            result[0]["grounding"] = None
+            result[0]["reason"] = "The supplied source unit is truncated before decisive evidence."
+        elif stage == "quality" and prompt == PACK.quality("lookup"):
+            item = result["candidates"][0]
+            key = grading.rubric_keys(prompt)[2]
+            item["scores"][key] = None
+            item["score_notes"][key] = "The supplied source unit omits decisive evidence."
+            item["checks"]["support"] = "uncertain"
+            item["problems"] = ["support: The full source unit is needed to assess this answer."]
+        return json.dumps(result)
+
+    monkeypatch.setattr(grading, "_invoke", grade)
+    generated = qagen.generate_for_document(
+        qagen.PlanItem(row["publication_number"], "en", "lookup"), [row],
+        schema=SCHEMA, prompts=PACK, config=config(), generation_client=None, grading_client=None,
+    )
+    scored, unassessable = generated
+    assert scored["question"] == second["question"]
+    assert scored["total_score"] == 32 and scored["candidate_rank"] == 1
+    assert unassessable["question"] == first["question"]
+    assert unassessable["total_score"] is None
+    assert unassessable["faith_overall" if stage == "faithfulness" else "qual_overall"] is None
+    assert qagen.select_best(generated, SCHEMA) == [scored]
+    assert qagen.select_best([unassessable], SCHEMA) == []
+
+    fields = qagen.output_fieldnames(SCHEMA, prompts=PACK, modes=MODES)
+    path = tmp_path / "unassessable.csv"
+    corpus.write_rows(path, [qagen.normalize_row(unassessable, fields)], fields)
+    saved = corpus.read_rows(path)
+    assert saved[0]["total_score"] == ""
+    assert qagen.select_best(saved, SCHEMA) == []
+
+
 def test_legacy_default_parser_still_supports_semantic_generation(monkeypatch):
     # The shared parser previously referenced MODE_SEMANTIC without importing it.
     candidate = {"question": "Question?", "answer": "Answer", "framing": "solution"}
@@ -193,16 +291,17 @@ def test_cli_generation_and_regrading_preserve_translation_and_replace_grade_aud
     corpus.write_rows(context.workspace.corpus_csv("gp"), [source], tuple(source))
     monkeypatch.setattr(cli, "client_for", lambda model: None)
     monkeypatch.setattr(qagen, "chat", lambda *a, **k: json.dumps([candidate]))
-    score = 5
+    score = 4
+    metadata_status = "pass"
 
     def grade(client, settings, prompt, content):
-        assert "answer_is_translation: True" in content
-        assert f"evidence_language: {candidate['evidence_language']}" in content
-        assert candidate["constraints"][0] in content
-        assert f"publication_number: {source['publication_number']}" in content
-        keys = (grading.FAITHFULNESS_KEYS if prompt == PACK.faithfulness()
-                else grading.rubric_keys(prompt))
-        return json.dumps([dict.fromkeys(keys, score) | {"index": 0, "reason": f"Score {score}"}])
+        payload = json.loads(content)
+        assert payload["candidates"] == [
+            dict(candidate, mode="constraint_search", question_language="en"),
+        ]
+        assert f"publication_number: {source['publication_number']}" in payload["passages"]
+        return verifier_response(prompt, payload["candidates"], score,
+                                 metadata_status=metadata_status)
 
     monkeypatch.setattr(grading, "_invoke", grade)
     output = tmp_path / "generated.csv"
@@ -213,19 +312,37 @@ def test_cli_generation_and_regrading_preserve_translation_and_replace_grade_aud
     assert args.handler(args, context) == 0
     saved = corpus.read_rows(output)
     assert len(saved) == 1
-    assert saved[0]["total_score"] == "40"
+    assert saved[0]["total_score"] == "32"
+    assert saved[0]["quality_audit_status"] == "clear"
+
+    # Simulate an input exported by an older rubric: regrading clears old metrics.
+    saved[0]["qual_focus"] = "5"
+    saved[0]["qual_failure_type"] = "obsolete rubric diagnosis"
+    corpus.write_rows(output, saved, tuple(saved[0]))
 
     # Regrading must update stored raw responses, not retain the generator run's grades.
-    score = 4
+    score = 3
+    metadata_status = "fail"
     regraded = tmp_path / "regraded.csv"
     args = parser.parse_args([
         "qac", "regrade", "--source", "gp", "--input", str(output), "--output", str(regraded),
     ])
     assert args.handler(args, context) == 0
     saved = corpus.read_rows(regraded)[0]
-    assert saved["total_score"] == "32"
-    assert json.loads(saved["faithfulness_verifier_response_json"])["grounding"] == 4
-    assert json.loads(saved["quality_verifier_response_json"])["focus"] == 4
+    assert saved["total_score"] == "24"
+    assert saved["faithfulness_rubric_version"] == RUBRIC_VERSION
+    assert saved["quality_rubric_version"] == RUBRIC_VERSION
+    assert json.loads(saved["faithfulness_verifier_response_json"])["grounding"] == 3
+    audit = json.loads(saved["quality_verifier_response_json"])
+    assert audit["scores"] == dict.fromkeys(grading.rubric_keys(PACK.quality("constraint_search")), 3)
+    assert json.loads(saved["quality_score_notes_json"]) == audit["score_notes"]
+    assert json.loads(saved["quality_checks_json"]) == audit["checks"]
+    assert json.loads(saved["quality_problems_json"]) == audit["problems"]
+    assert saved["quality_metadata_status"] == "fail"
+    assert saved["quality_audit_status"] == "repair"
+    assert saved["quality_batch_diversity"] == "not_applicable"
+    assert saved["qual_focus"] == ""
+    assert saved["qual_failure_type"] == ""
     assert qagen.candidate_from_row(saved) == dict(
         candidate, mode="constraint_search", question_language="en",
     )

@@ -214,9 +214,26 @@ def test_cli_decider_controls_generation_and_preserves_audit(
         return json.dumps([candidate])
 
     def grade(client, config, prompt, text):
-        keys = (grading.FAITHFULNESS_KEYS if "scientific faithfulness" in prompt
-                else grading.rubric_keys(prompt))
-        return json.dumps([dict.fromkeys(keys, 4) | {"index": 0, "reason": "Supported"}])
+        payload = json.loads(text)
+        assert payload["candidates"] == [
+            dict(candidate, mode="lookup", question_language="en"),
+        ]
+        assert f"publication_number: {rows[0]['publication_number']}" in payload["passages"]
+        assert "decider_model" not in text and "probabilities_yes" not in text
+        if prompt == PromptPack(SPEC.prompts_package).faithfulness():
+            return json.dumps([
+                dict.fromkeys(grading.FAITHFULNESS_KEYS, 4) | {"index": 0, "reason": "Supported"},
+            ])
+        keys = grading.rubric_keys(prompt)
+        return json.dumps({
+            "candidates": [{
+                "index": 0, "candidate_id": None, "scores": dict.fromkeys(keys, 4),
+                "score_notes": {key: f"Supported {key}" for key in keys},
+                "checks": dict.fromkeys(("mode", "support", "metadata"), "pass"),
+                "problems": [],
+            }],
+            "batch_diversity": "not_applicable",
+        })
 
     monkeypatch.setattr(qagen, "chat", generate)
     monkeypatch.setattr(grading, "_invoke", grade)
@@ -243,6 +260,9 @@ def test_cli_decider_controls_generation_and_preserves_audit(
     assert saved["decider_model"] == decider.JEV_MODEL
     assert saved["decider_prompt_sha256"] == audit["prompt_sha256"]
     assert json.loads(saved["decider_eligible_modes_json"]) == ["lookup"]
+    assert saved["total_score"] == "32"
+    assert saved["quality_rubric_version"] == "chemistry-clir-exceptional-r1"
+    assert saved["quality_audit_status"] == "clear"
     regraded = tmp_path / "regraded.csv"
     args = parser.parse_args(["qac", "regrade", "--source", source, "--input", str(output),
                               "--output", str(regraded)])

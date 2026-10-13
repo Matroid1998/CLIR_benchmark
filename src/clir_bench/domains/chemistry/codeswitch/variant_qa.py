@@ -36,7 +36,13 @@ from clir_bench.core.grading import (
 from clir_bench.core.llm import chat, client_for, parse_json_object
 from clir_bench.core.parallel import run_tasks
 from clir_bench.core.prompts import PromptPack
-from clir_bench.core.qagen import GenerationConfig, generate_candidates
+from clir_bench.core.qagen import (
+    CANDIDATE_METADATA_FIELDS,
+    GenerationConfig,
+    generate_candidates,
+    grading_fieldnames,
+    normalize_row,
+)
 from clir_bench.domains.chemistry.codeswitch import builder
 
 # The verbatim-term prompt is strict, but models still paraphrase the term. Two
@@ -62,6 +68,14 @@ OUTPUT_FIELDS: tuple[str, ...] = (
     "gold_id",
     "source_id",
 )
+
+
+def output_fieldnames(prompts: PromptPack) -> tuple[str, ...]:
+    """Keep both concept-query grades and the control's persona verifier audit."""
+    return tuple(dict.fromkeys(
+        OUTPUT_FIELDS + CANDIDATE_METADATA_FIELDS + ("mode", "question_language")
+        + grading_fieldnames(prompts=prompts, modes=("lookup",))
+    ))
 
 
 def pick_answer(
@@ -249,7 +263,7 @@ class _Generator:
             "lookup",
         )
         ranked = rank_candidates(qa_pairs, faith, quality, "lookup")
-        if not ranked:
+        if not ranked or ranked[0].total is None:
             return []
         best = ranked[0]
         return [
@@ -261,7 +275,9 @@ class _Generator:
                 "term_used": "",
                 "question": best.qa.get("question", ""),
                 "answer": best.qa.get("answer", ""),
-                "question_type": best.qa.get("question_type", ""),
+                **{key: best.qa.get(key, "") for key in CANDIDATE_METADATA_FIELDS},
+                "mode": "lookup",
+                "question_language": language,
                 **_score_columns(best.faith, best.quality),
                 "gold_id": self.schema.id_of(row),
                 "source_id": row.get("source_id", ""),
@@ -333,7 +349,10 @@ def generate_variant_qa(context: AppContext, args: argparse.Namespace) -> int:
         out_rows.extend(result)
 
     output_path = workdir / builder.QAC_FILENAME
-    written = corpus_io.write_rows(output_path, out_rows, OUTPUT_FIELDS)
+    fieldnames = output_fieldnames(generator.prompts)
+    written = corpus_io.write_rows(
+        output_path, [normalize_row(row, fieldnames) for row in out_rows], fieldnames
+    )
     per_variant = Counter(row["variant"] for row in out_rows)
     print(f"\nWrote {written} variant-QA rows -> {output_path}")
     print(f"  per variant: {dict(sorted(per_variant.items()))}")

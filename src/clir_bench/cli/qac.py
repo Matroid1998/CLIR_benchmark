@@ -301,7 +301,8 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
         plan = plan[: args.limit]
 
     output = args.output or (context.workspace.qac_dir(source) / f"qac_{source.name}.csv")
-    fieldnames = qagen.output_fieldnames(schema)
+    prompts = PromptPack(package=domain.prompts_package)
+    fieldnames = qagen.output_fieldnames(schema, prompts=prompts, modes=domain.analysis.modes)
 
     print(f"plan: {len(plan)} question(s) from {len(grouped)} documents in {corpus_path.name}")
     if args.dry_run:
@@ -332,7 +333,6 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
             return 0
 
     config = _generation_config(args, context)
-    prompts = PromptPack(package=domain.prompts_package)
     generation_client = client_for(config.generation_model)
     grading_client = client_for(config.grader.model)
     order = domain.languages.priority or domain.languages.working
@@ -380,6 +380,10 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
 
     config = _generation_config(args, context)
     prompts = PromptPack(package=domain.prompts_package)
+    fieldnames = qagen.output_fieldnames(schema, prompts=prompts, modes=domain.analysis.modes)
+    empty_grades = dict.fromkeys(
+        qagen.grading_fieldnames(prompts=prompts, modes=domain.analysis.modes), ""
+    )
     client = client_for(config.grader.model)
     order = domain.languages.priority or domain.languages.working
 
@@ -399,11 +403,10 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
             mode,
             strict=True,
         )
-        return {**row, **grade_columns(faith, quality, mode)}
+        return {**row, **empty_grades, **grade_columns(faith, quality, mode)}
 
     regraded = list(run_tasks(rows, work, workers=args.workers, description="regrade"))
     output = args.output or _suffixed(args.input, "_regraded")
-    fieldnames = qagen.output_fieldnames(schema)
     corpus_io.write_rows(output, [qagen.normalize_row(r, fieldnames) for r in regraded], fieldnames)
 
     best_rows = qagen.select_best(regraded, schema)
@@ -421,7 +424,10 @@ def _best(args: argparse.Namespace, context: AppContext) -> int:
     rows = corpus_io.read_rows(args.input)
     best_rows = qagen.select_best(rows, schema)
     output = args.output or _suffixed(args.input, "_best")
-    fieldnames = qagen.output_fieldnames(schema)
+    fieldnames = qagen.output_fieldnames(
+        schema, prompts=PromptPack(package=context.domain.prompts_package),
+        modes=context.domain.analysis.modes,
+    )
     corpus_io.write_rows(
         output, [qagen.normalize_row(r, fieldnames) for r in best_rows], fieldnames
     )

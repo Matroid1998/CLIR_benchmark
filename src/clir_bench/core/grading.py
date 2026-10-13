@@ -7,10 +7,10 @@ comparison scripts). They differed only in transport and arity, so those are the
 two parameters here; the rubric, the score arithmetic, the pad-with-1 fallback
 and the field names are defined once.
 
-Two rubric arities exist on purpose and must not be merged: the main pipeline
-grades three candidates in one call (prompt returns a JSON list), while the
-concept/variant pipelines grade one pair (prompt returns a JSON object). They
-are different prompt files with different output contracts.
+Legacy batch rubrics return a JSON list, while concept/variant rubrics return a
+single JSON object. Current quality rubrics can instead return a compact audit
+object with candidates and a batch diversity check. Each prompt's declared
+contract determines parsing and validation; these shapes are not interchangeable.
 """
 
 from __future__ import annotations
@@ -142,11 +142,23 @@ _QUALITY_FIELDS_BY_MODE = {
 # grader was actually asked to produce.
 _RUBRIC_SCORE = re.compile(r'"([a-z_]+)"\s*:\s*<1-5>')
 _LEGAL_RUBRIC_VERSIONS = frozenset(("legal-qg-v2.0", "legal-qg-v3.0"))
+_CHEMISTRY_RUBRIC_VERSION = "chemistry-clir-exceptional-r1"
+
+
+def _chemistry_rubric_version(prompt: str) -> str | None:
+    """Identify the declared chemistry contract instead of guessing from mode names."""
+    versions = set(re.findall(r"^# RUBRIC:\s*(chemistry-\S+)\s*$", prompt, re.MULTILINE))
+    if not versions:
+        return None
+    if versions != {_CHEMISTRY_RUBRIC_VERSION}:
+        raise ValueError("Chemistry rubric declares conflicting or unsupported versions")
+    return _CHEMISTRY_RUBRIC_VERSION
 
 
 def _quality_output_example(prompt: str) -> Mapping[str, Any] | None:
-    """Recognize the compact legal contract from its actual JSON example."""
-    output = re.search(r"^OUTPUT\s*$", prompt, re.MULTILINE)
+    """Recognize a compact quality contract from its actual JSON example."""
+    marker = r"^ILLUSTRATIVE VERIFIER OUTPUT\s*$" if _chemistry_rubric_version(prompt) else r"^OUTPUT\s*$"
+    output = re.search(marker, prompt, re.MULTILINE)
     if output is None:
         return None
     section = prompt[output.end():]
@@ -402,6 +414,34 @@ _CANDIDATE_INPUT_FIELDS = (
     "answer_is_translation", "source_identifier", "source_article", "evidence",
     "evidence_is_translation",
 )
+_CHEMISTRY_CANDIDATE_INPUT_FIELDS = (
+    "candidate_id", "mode", "question_language", "question", "answer", "anchor",
+    "evidence", "evidence_language", "answer_is_translation", "question_type",
+    "process_kind", "process_start", "process_goal", "relationship_type",
+    "solution_kind", "objective", "constraints", "comparison_entities",
+    "comparison_aspect", "assertion", "assertion_status", "source_identifier",
+)
+
+
+def _chemistry_candidates(qa_pairs: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Pass generation fields verbatim, without old scores or model identities.
+
+    Missing generation fields are left missing so the verifier can distinguish
+    an assessable candidate failure from missing source evidence.
+    """
+    candidates = []
+    ids = []
+    for qa in qa_pairs:
+        if not isinstance(qa, Mapping):
+            raise ValueError("Chemistry verifier candidates must be objects")  # noqa: TRY004 -- invalid verifier input
+        candidate = {key: qa[key] for key in _CHEMISTRY_CANDIDATE_INPUT_FIELDS if key in qa}
+        if candidate.get("candidate_id") is not None:
+            _string(candidate["candidate_id"], "candidate.candidate_id")
+            ids.append(candidate["candidate_id"])
+        candidates.append(candidate)
+    if len(ids) != len(set(ids)):
+        raise ValueError("Candidate IDs must be unique within a verifier request")
+    return candidates
 
 
 def _object(value: Any, keys: Sequence[str], label: str) -> Mapping[str, Any]:
@@ -445,26 +485,31 @@ def _strict_items(data: Any, want: int, keys: Sequence[str]) -> list[dict[str, A
 
 def _normalize_compact_quality(
     data: Any, keys: Sequence[str], candidates: Sequence[Mapping[str, Any]], mode: str,
+    *, rubric_version: str | None = None,
 ) -> list[dict[str, Any]]:
-    """Validate the current legal JSON contract without fabricating scores."""
+    """Validate compact quality contracts without fabricating scores."""
     _object(data, ("candidates", "batch_diversity"), "Quality response")
     items = data["candidates"]
     if not isinstance(items, list) or len(items) != len(candidates):
         raise ValueError(f"Verifier must return exactly {len(candidates)} candidate grades")
-    diversity_choices = ("not_applicable",) if len(candidates) == 1 else ("pass", "fail", "uncertain")
+    diversity_choices = ("not_applicable",) if len(candidates) <= 1 else ("pass", "fail", "uncertain")
     _enum(data["batch_diversity"], diversity_choices, "batch_diversity")
     rows = []
     for index, (item, candidate) in enumerate(zip(items, candidates)):
         _object(item, ("index", "candidate_id", "scores", "score_notes", "checks", "problems"), "Quality grade")
         if (type(item["index"]) is not int or item["index"] != index
                 or item["candidate_id"] != candidate.get("candidate_id")):
-            raise ValueError("Legal verifier changed candidate identity or input order")
+            raise ValueError("Verifier changed candidate identity or input order")
         _object(item["scores"], keys, "scores")
         _object(item["score_notes"], keys, "score_notes")
         for key, score in item["scores"].items():
             if score is not None and (type(score) is not int or not 1 <= score <= 5):
                 raise ValueError(f"Score {key} must be an integer from 1 to 5 or null")
             _string(item["score_notes"][key], f"score_notes.{key}")
+            if rubric_version == _CHEMISTRY_RUBRIC_VERSION and score == 5:
+                note = item["score_notes"][key].strip()
+                if not re.match(r"Exceptional evidence:\s*\S", note):
+                    raise ValueError(f"Score note {key} requires Exceptional evidence: for a 5")
         _object(item["checks"], ("mode", "support", "metadata"), "checks")
         for key, status in item["checks"].items():
             _enum(status, ("pass", "fail", "uncertain"), f"checks.{key}")
@@ -474,10 +519,58 @@ def _normalize_compact_quality(
             _string(problem, "problem")
         if any(status != "pass" for status in item["checks"].values()) and not item["problems"]:
             raise ValueError("Failed or uncertain quality checks require an explanation in problems")
+        if rubric_version == _CHEMISTRY_RUBRIC_VERSION:
+            for key, status in item["checks"].items():
+                if status != "pass" and not any(
+                    re.match(rf"{key}:\s*\S", problem.strip()) for problem in item["problems"]
+                ):
+                    raise ValueError(f"A {status} {key} check requires a {key}: explanation in problems")
+            resolution_score = item["scores"][keys[2]]
+            support = item["checks"]["support"]
+            if support == "fail" and (resolution_score is None or resolution_score > 2):
+                raise ValueError("A failed support check requires an answer-resolution score of 1 or 2")
+            if support == "uncertain" and resolution_score is not None and resolution_score > 3:
+                raise ValueError("An uncertain support check requires an answer-resolution score at most 3 or null")
         row = dict(item["scores"], _keys=list(keys), _response=item,
                    _batch_diversity=data["batch_diversity"], _contract="compact")
+        if rubric_version is not None:
+            row["_rubric_version"] = rubric_version
         row["overall"] = quality_overall(row, mode)
         row["reason"] = "; ".join(f"{key}: {note}" for key, note in item["score_notes"].items())
+        rows.append(row)
+    return rows
+
+
+def _normalize_chemistry_faith(data: Any, want: int) -> list[dict[str, Any]]:
+    """Preserve unassessable criteria and enforce the chemistry evidence contract."""
+    if not isinstance(data, list) or len(data) != want:
+        raise ValueError(f"Chemistry verifier must return exactly {want} candidate grades in an array")
+    rows = []
+    exceptional_labels = {
+        "grounding": "Grounding exceptional:",
+        "precision": "Precision exceptional:",
+        "numerical_fidelity": "Numerical fidelity exceptional:",
+    }
+    for index, item in enumerate(data):
+        _object(item, ("index", *FAITHFULNESS_KEYS, "reason"), "Faithfulness grade")
+        if type(item["index"]) is not int or item["index"] != index:
+            raise ValueError("Chemistry verifier changed candidate identity or input order")
+        _string(item["reason"], "reason")
+        for key in FAITHFULNESS_KEYS:
+            score = item[key]
+            if score is not None and (type(score) is not int or not 1 <= score <= 5):
+                raise ValueError(f"Score {key} must be an integer from 1 to 5 or null")
+            if score == 5:
+                label = exceptional_labels[key]
+                evidence = re.search(
+                    rf"{re.escape(label)}\s*(.*?)(?=(?:Grounding|Precision|Numerical fidelity) exceptional:|$)",
+                    item["reason"], re.DOTALL,
+                )
+                if evidence is None or not evidence.group(1).strip():
+                    raise ValueError(f"A {key} score of 5 requires {label} evidence in reason")
+        row = {key: item[key] for key in FAITHFULNESS_KEYS}
+        row.update(reason=item["reason"].strip(), overall=faith_overall(row),
+                   _response=item, _rubric_version=_CHEMISTRY_RUBRIC_VERSION)
         rows.append(row)
     return rows
 
@@ -647,16 +740,31 @@ def grade_faithfulness(
     """Grade answers for grounding, precision and numerical fidelity.
 
     ``expected`` is the candidate count to return (defaults to ``len(qa_pairs)``).
-    Legacy callers retain score-1 padding. Legal runs use ``strict=True`` so
+    Legacy callers retain score-1 padding. Legal runs use ``strict=True`` and
+    versioned chemistry rubrics always validate their declared contract, so
     malformed grades raise and can be retried without inventing scores.
     """
     want = expected if expected is not None else len(qa_pairs)
+    chemistry_version = _chemistry_rubric_version(prompt)
+    if chemistry_version:
+        if not re.search(r"^# MODE:\s*chemistry_faithfulness_all_seven_personas\s*$", prompt, re.MULTILINE):
+            raise ValueError("Chemistry faithfulness rubric declares the wrong mode")
+        if want != len(qa_pairs):
+            raise ValueError("Chemistry expected count must match the supplied candidates")
+        if not want:
+            return []
+        chemistry_candidates = _chemistry_candidates(qa_pairs)
+        strict = True
     reuse = getattr(client, "reuse_verification", None)
     if strict and reuse is not None and want == len(qa_pairs):
         return reuse({"config": asdict(config), "prompt": prompt, "passages": passages,
                       **(dict(reuse_identity) if reuse_identity else {})},
                      qa_pairs, lambda unique: grade_faithfulness(
                          SimpleNamespace(chat=client.chat), config, prompt, passages, unique, strict=True))
+    if chemistry_version:
+        envelope = {"passages": passages, "candidates": chemistry_candidates}
+        raw = _invoke(client, config, prompt, json.dumps(envelope, ensure_ascii=False))
+        return _normalize_chemistry_faith(parse_json_response(raw), want)
     raw = _invoke(client, config, prompt, f"{passages}\n\n{candidates_block(qa_pairs)}")
     data = parse_json_response(raw)
     items = (_strict_items(data, want, FAITHFULNESS_KEYS) if strict else
@@ -686,13 +794,30 @@ def grade_quality(
     strict: bool = False,
     reuse_identity: Mapping[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
-    """Grade questions using the rubric's legacy or structured legal contract.
+    """Grade questions using the rubric's legacy or structured audit contract.
 
-    Structured legal prompts always require strict identity, evidence, and score
-    validation. The host supplies source boundaries and policies; generator
-    identity and previous scores are excluded from the candidate payload.
+    Structured legal and chemistry prompts always require strict identity and
+    score validation, with additional checks from the declared rubric contract.
+    The host supplies source boundaries; generator identity and previous scores
+    are excluded from the candidate payload.
     """
     want = expected if expected is not None else len(qa_pairs)
+    chemistry_version = _chemistry_rubric_version(prompt)
+    if chemistry_version:
+        declared = re.search(r"^# MODE:\s*([a-z_]+)\s*$", prompt, re.MULTILINE)
+        expected_mode = mode if mode.startswith("chemistry_") else f"chemistry_{mode}"
+        if not declared or declared.group(1) != expected_mode:
+            raise ValueError("Chemistry rubric mode disagrees with the supplied mode")
+        if rubric_mode and rubric_mode != declared.group(1):
+            raise ValueError("Chemistry rubric mode disagrees with the supplied rubric mode")
+        if want != len(qa_pairs):
+            raise ValueError("Chemistry expected count must match the supplied candidates")
+        if _quality_output_example(prompt) is None:
+            raise ValueError("Chemistry quality rubric must declare its compact output contract")
+        if not want:
+            return []
+        chemistry_candidates = _chemistry_candidates(qa_pairs)
+        strict = True
     reuse = getattr(client, "reuse_verification", None)
     if strict and reuse is not None and want == len(qa_pairs) and 1 <= want <= 3:
         ids = [qa["candidate_id"] for qa in qa_pairs if qa.get("candidate_id") is not None]
@@ -708,6 +833,14 @@ def grade_quality(
                          SimpleNamespace(chat=client.chat), config, prompt, passages, unique, mode,
                          sources=sources, target_source_id=target_source_id, policies=policies,
                          rubric_mode=rubric_mode, strict=True))
+    if chemistry_version:
+        candidates = chemistry_candidates
+        envelope = {"passages": passages, "candidates": candidates}
+        raw = _invoke(client, config, prompt, json.dumps(envelope, ensure_ascii=False))
+        return _normalize_compact_quality(
+            parse_json_response(raw), rubric_keys(prompt), candidates, mode,
+            rubric_version=chemistry_version,
+        )
     if _legal_rubric_version(prompt):
         if want != len(qa_pairs):
             raise ValueError("Legal expected count must match the supplied candidates")
@@ -788,13 +921,15 @@ def grade_columns(
     row["total_score"] = total_score(faith, quality, mode)
     if "_response" in faith:
         row["faithfulness_verifier_response_json"] = json.dumps(faith["_response"], ensure_ascii=False)
+        if "_rubric_version" in faith:
+            row["faithfulness_rubric_version"] = faith["_rubric_version"]
     if "_response" in quality:
         audit = quality["_response"]
         row["quality_verifier_response_json"] = json.dumps(audit, ensure_ascii=False)
         row["quality_rubric_version"] = audit.get("rubric_version", "legacy")
         row["quality_audit_status"] = "legacy_not_provided"
         if quality.get("_contract") == "compact":
-            row["quality_rubric_version"] = "unversioned_compact"
+            row["quality_rubric_version"] = quality.get("_rubric_version", "unversioned_compact")
             row["quality_batch_diversity"] = quality["_batch_diversity"]
             row["quality_score_notes_json"] = json.dumps(audit["score_notes"], ensure_ascii=False)
             row["quality_checks_json"] = json.dumps(audit["checks"], ensure_ascii=False)

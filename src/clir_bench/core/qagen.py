@@ -20,6 +20,7 @@ Design properties preserved from the original pipeline, each load-bearing:
 from __future__ import annotations
 
 import json
+import math
 import random
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Optional, Sequence
@@ -47,6 +48,7 @@ CANDIDATE_METADATA_FIELDS = (
     "relationship_type", "solution_kind", "objective", "constraints",
     "comparison_entities", "comparison_aspect", "assertion", "assertion_status",
     "source_identifier",
+    "candidate_id",
 )
 _JSON_METADATA_FIELDS = ("constraints", "comparison_entities", "answer_is_translation")
 
@@ -257,18 +259,44 @@ def generate_for_document(
     return out
 
 
-def output_fieldnames(schema: CorpusSchema) -> tuple[str, ...]:
-    """The QAC CSV schema, covering persona metadata and legacy score columns.
-
-    One writer schema lets different personas share a CSV without losing their
-    evidence, annotations or grading audit records.
-    """
+def grading_fieldnames(
+    *, prompts: PromptPack | None = None, modes: Sequence[str] = (),
+) -> tuple[str, ...]:
+    """Grade and audit columns, including criteria declared by the active rubrics."""
     from clir_bench.core.grading import (
         FAITHFULNESS_FIELDS,
         SEMANTIC_QUALITY_FIELDS,
         TECHNICAL_QUALITY_FIELDS,
+        rubric_keys,
     )
 
+    persona_scores = tuple(
+        f"qual_{key}"
+        for mode in modes if prompts is not None
+        for key in rubric_keys(prompts.quality(mode, "batch"))
+    )
+    scores = tuple(dict.fromkeys(
+        FAITHFULNESS_FIELDS + TECHNICAL_QUALITY_FIELDS + SEMANTIC_QUALITY_FIELDS + persona_scores
+    ))
+    audit = (
+        "faith_reason", "qual_failure_type", "qual_reason", "total_score",
+        "faithfulness_verifier_response_json", "faithfulness_rubric_version",
+        "quality_verifier_response_json", "quality_rubric_version", "quality_audit_status",
+        "quality_batch_diversity", "quality_score_notes_json", "quality_checks_json",
+        "quality_problems_json", "quality_mode_status", "quality_support_status",
+        "quality_metadata_status",
+    )
+    return scores + audit
+
+
+def output_fieldnames(
+    schema: CorpusSchema, *, prompts: PromptPack | None = None, modes: Sequence[str] = (),
+) -> tuple[str, ...]:
+    """The QAC CSV schema, covering persona metadata, scores and audit records.
+
+    Pass the domain's prompt pack and modes to include every active rubric's
+    criteria when several personas share an output file.
+    """
     identity = (
         schema.family_field,
         "corpus_id",
@@ -283,15 +311,7 @@ def output_fieldnames(schema: CorpusSchema) -> tuple[str, ...]:
         "answer",
         *CANDIDATE_METADATA_FIELDS,
     )
-    scores = tuple(
-        dict.fromkeys(FAITHFULNESS_FIELDS + TECHNICAL_QUALITY_FIELDS + SEMANTIC_QUALITY_FIELDS)
-    )
-    trailing = (
-        "faith_reason", "qual_failure_type", "qual_reason", "total_score",
-        "faithfulness_verifier_response_json", "quality_verifier_response_json",
-        "quality_rubric_version", "quality_audit_status",
-    )
-    return identity + scores + trailing + DECIDER_FIELDS
+    return identity + grading_fieldnames(prompts=prompts, modes=modes) + DECIDER_FIELDS
 
 
 def normalize_row(row: Mapping[str, Any], fieldnames: Sequence[str]) -> dict[str, Any]:
@@ -321,26 +341,31 @@ def select_best(
 ) -> list[dict[str, Any]]:
     """Highest-scoring row per (family, question language, mode).
 
-    Sorts explicitly by score rather than relying on upstream ordering, which
-    the old implementation did implicitly.
+    Rows with missing, invalid or nonfinite totals remain in the candidate
+    export but cannot be selected as a scored best candidate.
     """
     best: dict[tuple[str, str, str], dict[str, Any]] = {}
+    scores: dict[tuple[str, str, str], float] = {}
     for row in rows:
+        score = _score(row)
+        if score is None:
+            continue
         key = (
             str(row.get(schema.family_field, "")), str(row.get("question_language", "")),
             str(row.get("mode", "")),
         )
-        current = best.get(key)
-        if current is None or _score(row) > _score(current):
+        if key not in best or score > scores[key]:
             best[key] = dict(row)
+            scores[key] = score
     return list(best.values())
 
 
-def _score(row: Mapping[str, Any]) -> float:
+def _score(row: Mapping[str, Any]) -> float | None:
     try:
-        return float(row.get("total_score") or 0)
+        score = float(row.get("total_score"))
     except (TypeError, ValueError):
-        return 0.0
+        return None
+    return score if math.isfinite(score) else None
 
 
 def allocate_quotas(total: int, strategies: Sequence[int]) -> dict[int, int]:
@@ -372,6 +397,7 @@ __all__ = [
     "allocate_quotas",
     "generate_candidates",
     "generate_for_document",
+    "grading_fieldnames",
     "normalize_row",
     "output_fieldnames",
     "pick_target_languages",

@@ -9,8 +9,8 @@ multilingual worked examples, and grading rubrics.
 
 Changing a rubric here changes the benchmark. Treat these files as data, not
 as prose to tidy up — they were tuned against real generator output and the
-wording carries weight (the scale calibration paragraph, for instance, exists
-to stop graders handing out 4s and 5s by default).
+wording carries weight. The current batch calibration treats 4 as strong or
+fully successful and reserves 5 for a specifically justified exceptional result.
 
 Files are package data, addressed through `importlib.resources` via
 `clir_bench.core.prompts.PromptPack`. Every directory carries an `__init__.py`
@@ -20,6 +20,12 @@ The generation files are the exact standalone blocks from the repository-root
 `chemistry_prompts_{de,en,es,fr,zh}.md` files, with only the surrounding Markdown
 fences and blank lines removed. Preserve the prompt wording and the verbatim
 source/evidence examples when editing or formatting these resources.
+
+The shared batch faithfulness prompt and seven persona batch quality prompts are
+the exact standalone blocks from `chemistry_verifier_prompts.md`, with only the
+surrounding Markdown fences and blank lines removed. Their rubric identifier is
+`chemistry-clir-exceptional-r1`. The single-candidate and legacy technical/semantic
+quality resources retain their existing contracts.
 
 ## Layout
 
@@ -61,17 +67,65 @@ JSON cell encoding. Publication identifiers accompany the source passages for
 source-finding. Best-candidate selection retains one result per publication,
 question language and persona.
 
-The seven batch quality rubrics use the same five score columns (search-bar
-realism, specificity, phrasing economy, focus and linguistic quality) while
-applying each persona's own contract. The batch faithfulness rubric supports
-translations, connected spans and identifier answers with separate evidence.
-These rubrics accompany the new generation contract and need empirical
-calibration before comparing their scores with historical runs.
+## Batch verifier contract
+
+The shared faithfulness rubric scores `grounding`, `precision` and
+`numerical_fidelity`, each out of 5. It checks the actual question, answer,
+evidence, assertion verdict and publication identity against the supplied patent
+packet, including translations and connected spans. When numerical fidelity is
+inapplicable, the rubric assigns 4 as a compatibility value and explains this in
+the reason; inapplicability does not earn exceptional credit.
+
+Every quality rubric has five dimensions, each out of 5. The first three are
+specific to the assigned persona; all seven also score `focus_and_economy` and
+`linguistic_quality`.
+
+| Persona | First three quality dimensions |
+|---|---|
+| `lookup` | `technical_search_realism`, `standalone_anchoring`, `information_value` |
+| `process_retrieval` | `process_search_realism`, `start_goal_anchoring`, `route_completeness` |
+| `conceptual` | `relationship_search_realism`, `subject_anchoring`, `explicit_relationship` |
+| `constraint_search` | `requirement_search_realism`, `task_and_constraint_anchoring`, `candidate_fit` |
+| `comparison` | `comparative_search_realism`, `two_sided_anchoring`, `common_dimension_value` |
+| `assertion_verification` | `checking_search_realism`, `assertion_scope`, `verdict_decisiveness` |
+| `source_finding` | `disclosure_search_realism`, `technical_clue_anchoring`, `clue_identity_fit` |
+
+Quality responses contain `candidates` and a separate `batch_diversity`
+diagnostic. Each candidate contains exactly `index`, `candidate_id`, `scores`,
+`score_notes`, `checks` and `problems`. The score and note maps use the five
+persona-specific keys. The checks are exactly `mode`, `support` and `metadata`,
+with `pass`, `fail` or `uncertain` values. Every failing or uncertain check needs
+a matching prefixed explanation in `problems`. A favorable total cannot replace
+these checks, and batch diversity never changes individual scores.
+
+Faithfulness returns a JSON list whose entries contain exactly `index`,
+`grounding`, `precision`, `numerical_fidelity` and `reason`; it does not use the
+quality response wrapper. Both stages preserve input order. Every quality score
+has a criterion-specific note, and a 5 requires the prefix `Exceptional evidence:`.
+Each faithfulness 5 needs the corresponding `Grounding exceptional:`,
+`Precision exceptional:` or `Numerical fidelity exceptional:` phrase in its reason.
+
+Scores may be null only when missing input makes a whole criterion unassessable.
+Known errors and missing submitted answers are assessable failures. The pipeline
+computes faithfulness /15, quality /25 and combined /40 totals outside the
+prompts; a missing component leaves the corresponding total null rather than
+rescaling it or substituting zero. Compare these rubric scores and audit outcomes
+separately from historical runs: an entirely correct ordinary result can earn
+4 in every dimension without an alleged defect.
+
+CSV export and regrading retain raw verifier responses, `quality_batch_diversity`,
+`quality_score_notes_json`, `quality_checks_json`, `quality_problems_json`,
+`quality_mode_status`, `quality_support_status`, `quality_metadata_status`,
+`quality_audit_status`, `quality_rubric_version` and
+`faithfulness_rubric_version`. Best-candidate selection excludes null, blank or
+nonfinite combined totals. Candidates with numeric totals rank by score; the
+audit checks remain available for review and do not add a separate selection
+gate.
 
 ## Eligibility decider
 
-`decider/jev_eligibility.json` is a byte-for-byte copy of the supplied
-repository-root `chemistry_jev_eligibility.json`. It serves the same role as the
+`decider/jev_eligibility.json` preserves the supplied chemistry eligibility
+template. It serves the same role as the
 legal eligibility template: one independent `noul` question per persona. A patent
 can support none, one, several or all seven personas. The prompt's 32/40 target
 forecasts possible generation quality and is not a measured candidate score.
@@ -105,13 +159,13 @@ adds a new run entry to that audit. Regrading retains the original decider metad
 
 ## The batch / single split is deliberate — do not merge these
 
-The `_batch` and `_single` verifier prompts look nearly identical when you diff
-them, which makes merging them tempting. They must stay separate because they
-have **different output contracts**, and the parsers downstream depend on it:
+The `_batch` and `_single` verifier prompts must stay separate because they have
+**different output contracts**, and the parsers downstream depend on it:
 
 | | input | output |
 |---|---|---|
-| current `*_batch.txt` | multilingual passages + **one to three** candidates | a JSON **list** matching the input count, each carrying an `"index"` |
+| `faithfulness_batch.txt` | multilingual patent packet + actual candidates | a JSON **list** matching the input count, each carrying an `"index"` |
+| current persona `*_batch.txt` | multilingual patent packet + actual candidates | a JSON **object** containing `"candidates"` and `"batch_diversity"` |
 | `*_single.txt` | one passage + **one** QA pair | a single JSON **object**, no `"index"` |
 
 The batch form exists because the main QAC pipeline generates up to three candidates

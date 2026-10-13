@@ -74,6 +74,13 @@ one to three candidates or abstain. Evidence and persona annotations are saved
 in the CSV; the best output keeps one candidate per publication, language and
 persona. See the [chemistry prompt contract](src/clir_bench/domains/chemistry/qac/prompts/README.md).
 
+Chemistry batch verification uses the supplied `chemistry-clir-exceptional-r1`
+rubric: shared faithfulness scores /15 and persona-specific quality scores /25,
+with separate mode, support, metadata and batch-diversity checks. A score of 4
+means strong or fully successful; every 5 requires a concrete exceptional
+justification. Null marks a wholly unassessable criterion and prevents a complete
+total. Identify the rubric when comparing scores with earlier chemistry runs.
+
 To select a suitable chemistry persona before generation, use the Jev eligibility decider:
 
 ```bash
@@ -82,8 +89,8 @@ clir --domain chemistry qac generate --source epo --decider-model jev --question
 ```
 
 Jev assesses all seven personas independently from the supplied multilingual patent packet.
-The packaged `decider/jev_eligibility.json` is copied unchanged from
-`chemistry_jev_eligibility.json`. Its 32/40 screening target is a quality forecast;
+The packaged `decider/jev_eligibility.json` preserves the supplied chemistry
+eligibility template. Its 32/40 screening target is a quality forecast;
 the default Yes-probability threshold is 0.5 because this prompt supplies no routing policy.
 Among eligible personas, the pipeline selects the largest deficit against an equal target mix,
 with reproducible tie-breaking from `--seed`. Override positive weights using
