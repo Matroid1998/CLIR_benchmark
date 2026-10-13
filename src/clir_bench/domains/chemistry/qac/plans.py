@@ -88,7 +88,14 @@ def _languages(args: argparse.Namespace, context: AppContext, source: SourceSpec
 
 def _modes(args: argparse.Namespace) -> list[str]:
     requested = getattr(args, "modes", None)
-    return list(requested) if requested else list(vocab.MODES)
+    modes = list(dict.fromkeys(requested or vocab.MODES))
+    unknown = set(modes) - set(vocab.MODES)
+    if unknown:
+        raise ValueError(
+            f"Unknown chemistry modes: {', '.join(sorted(unknown))}; "
+            f"choose from {', '.join(vocab.MODES)}"
+        )
+    return modes
 
 
 def _items_for_family(

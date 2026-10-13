@@ -65,6 +65,15 @@ clir analyze questions --run latest
 clir runs list
 ```
 
+Chemistry generation uses seven personas in English, German, Spanish, French and
+Chinese: `lookup`, `process_retrieval`, `conceptual`, `constraint_search`,
+`comparison`, `assertion_verification` and `source_finding`. All are enabled by
+default; restrict them with `--modes lookup conceptual`, for example. These
+replace the old `technical` and `semantic` generation modes. Each call can return
+one to three candidates or abstain. Evidence and persona annotations are saved
+in the CSV; the best output keeps one candidate per publication, language and
+persona. See the [chemistry prompt contract](src/clir_bench/domains/chemistry/qac/prompts/README.md).
+
 Chemistry-specific benchmarks:
 
 ```bash

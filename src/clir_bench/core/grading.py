@@ -246,6 +246,7 @@ class GraderConfig:
 # Rendered between the question and the answer, in this order, when present.
 _CANDIDATE_EXTRAS = (
     ("mode", "Mode"),
+    ("question_language", "Question language"),
     ("question_cited", "Question (cited rendering)"),
     ("instrument_short_name", "Instrument short name"),
     ("anchor", "Anchor (declared)"),
@@ -260,6 +261,16 @@ _CANDIDATE_EXTRAS = (
     ("source_identifier", "source_identifier"),
     ("source_article", "source_article"),
     ("evidence", "evidence"),
+    ("evidence_language", "evidence_language"),
+    ("process_kind", "process_kind"),
+    ("process_start", "process_start"),
+    ("process_goal", "process_goal"),
+    ("relationship_type", "relationship_type"),
+    ("solution_kind", "solution_kind"),
+    ("objective", "objective"),
+    ("constraints", "constraints"),
+    ("assertion", "assertion"),
+    ("assertion_status", "assertion_status"),
     ("evidence_is_translation", "evidence_is_translation"),
 )
 
@@ -743,15 +754,19 @@ def grade_one(
     passages: str,
     qa_pair: Mapping[str, str],
     mode: str = MODE_TECHNICAL,
+    *,
+    strict: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Grade a single pair with the single-object rubric prompts.
 
     Used by the concept/variant/progressive pipelines, whose prompts return one
     JSON object rather than a list of three.
     """
-    faith = grade_faithfulness(client, config, faith_prompt, passages, [qa_pair], expected=1)[0]
+    faith = grade_faithfulness(
+        client, config, faith_prompt, passages, [qa_pair], expected=1, strict=strict
+    )[0]
     quality = grade_quality(
-        client, config, quality_prompt, passages, [qa_pair], mode, expected=1
+        client, config, quality_prompt, passages, [qa_pair], mode, expected=1, strict=strict
     )[0]
     return faith, quality
 

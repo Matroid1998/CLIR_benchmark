@@ -151,6 +151,7 @@ class _Generator:
             grader=self.grader,
             generation_reasoning_effort=settings.generation_reasoning_effort,
             retries=settings.retries,
+            candidate_parser=context.domain.qac_candidate_parser,
         )
         self.language_order = context.languages.priority
         self.answer_order = context.languages.answer_order
@@ -228,25 +229,26 @@ class _Generator:
         qa_pairs = generate_candidates(
             self.client,
             self.generation,
-            self.prompts.generation(MODE_TECHNICAL, language),
+            self.prompts.generation("lookup", language),
             passages,
-            MODE_TECHNICAL,
+            "lookup",
         )
         qa_pairs = [qa for qa in qa_pairs if qa.get("question") and qa.get("answer")]
         if not qa_pairs:
             return []
+        qa_pairs = [dict(qa, mode="lookup", question_language=language) for qa in qa_pairs]
         faith = grade_faithfulness(
             self.client, self.grader, self.prompts.faithfulness("batch"), passages, qa_pairs
         )
         quality = grade_quality(
             self.client,
             self.grader,
-            self.prompts.quality(MODE_TECHNICAL, "batch"),
+            self.prompts.quality("lookup", "batch"),
             passages,
             qa_pairs,
-            MODE_TECHNICAL,
+            "lookup",
         )
-        ranked = rank_candidates(qa_pairs, faith, quality, MODE_TECHNICAL)
+        ranked = rank_candidates(qa_pairs, faith, quality, "lookup")
         if not ranked:
             return []
         best = ranked[0]

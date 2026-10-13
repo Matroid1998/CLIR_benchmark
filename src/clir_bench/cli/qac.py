@@ -36,8 +36,8 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
         if run_workflow
         else (
             "Generates candidate questions per document, grades them for "
-            "faithfulness and quality, and keeps the best per document and "
-            f"language. Plans available for this domain: {plans}."
+            "faithfulness and quality, and keeps the best per document, language and "
+            f"mode. Plans available for this domain: {plans}."
         ),
     )
     generate.add_argument(
@@ -203,7 +203,7 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
 
     best = sub.add_parser(
         "best",
-        help="Select the highest-scoring question per document and language",
+        help="Select the highest-scoring question per document, language and mode",
     )
     best.add_argument("--input", type=Path, required=True)
     best.add_argument("--output", type=Path, help="Default: <input>_best.csv")
@@ -268,6 +268,7 @@ def _generation_config(args: argparse.Namespace, context: AppContext) -> qagen.G
         ),
         generation_reasoning_effort=llm.generation_reasoning_effort,
         retries=llm.retries,
+        candidate_parser=context.domain.qac_candidate_parser,
     )
 
 
@@ -362,7 +363,9 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
 
     def work(row: dict) -> dict:
         family = str(row.get(schema.family_field, ""))
-        passages = corpus_io.build_passages_text(grouped.get(family, []), schema, order=order)
+        passages = corpus_io.build_passages_text(
+            grouped.get(family, []), schema, order=order, include_identifiers=True
+        )
         mode = str(row.get("mode") or "technical")
         faith, quality = grade_one(
             client,
@@ -370,8 +373,9 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
             prompts.faithfulness("batch"),
             prompts.quality(mode, "batch"),
             passages,
-            {"question": row.get("question", ""), "answer": row.get("answer", "")},
+            qagen.candidate_from_row(row),
             mode,
+            strict=True,
         )
         return {**row, **grade_columns(faith, quality, mode)}
 

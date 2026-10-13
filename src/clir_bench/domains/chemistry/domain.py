@@ -18,6 +18,7 @@ from clir_bench.core.domain import (
 )
 from clir_bench.domains.chemistry import vocabulary as vocab
 from clir_bench.domains.chemistry.attribution import ATTRIBUTIONS
+from clir_bench.domains.chemistry.qac.candidates import parse_candidates
 from clir_bench.domains.chemistry.qac.plans import PLANS
 from clir_bench.domains.chemistry.schema import SCHEMA
 
@@ -127,6 +128,7 @@ SPEC = DomainSpec(
     data_layout=DATA_LAYOUT,
     defaults=DEFAULTS,
     qac_plans=PLANS,
+    qac_candidate_parser=parse_candidates,
 )
 
 

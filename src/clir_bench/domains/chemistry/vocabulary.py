@@ -134,7 +134,15 @@ CORE_CHEMISTRY_IPC_RANGE = tuple(f"C{n:02d}" for n in range(1, 31))
 
 MODE_TECHNICAL = "technical"
 MODE_SEMANTIC = "semantic"
-MODES = (MODE_TECHNICAL, MODE_SEMANTIC)
+MODES = (
+    "lookup",
+    "process_retrieval",
+    "conceptual",
+    "constraint_search",
+    "comparison",
+    "assertion_verification",
+    "source_finding",
+)
 
 # Analysis labels. ``forced_zh`` marks questions from the run that added Chinese
 # coverage by asking in Chinese regardless of the document's own languages.

@@ -19,6 +19,7 @@ Design properties preserved from the original pipeline, each load-bearing:
 
 from __future__ import annotations
 
+import json
 import random
 from dataclasses import dataclass, field
 from typing import Any, Callable, Mapping, Optional, Sequence
@@ -26,8 +27,9 @@ from typing import Any, Callable, Mapping, Optional, Sequence
 from clir_bench.core import corpus as corpus_io
 from clir_bench.core.domain import CorpusSchema
 from clir_bench.core.grading import (
-    GraderConfig,
+    MODE_SEMANTIC,
     MODE_TECHNICAL,
+    GraderConfig,
     grade_columns,
     grade_faithfulness,
     grade_quality,
@@ -37,6 +39,16 @@ from clir_bench.core.llm import call_with_retries, chat, parse_json_response
 from clir_bench.core.prompts import PromptPack
 
 CANDIDATES_PER_DOCUMENT = 3
+
+# Metadata shared by retrieval personas. Keep structured values intact until CSV export.
+CANDIDATE_METADATA_FIELDS = (
+    "question_type", "framing", "anchor", "evidence", "evidence_language",
+    "answer_is_translation", "process_kind", "process_start", "process_goal",
+    "relationship_type", "solution_kind", "objective", "constraints",
+    "comparison_entities", "comparison_aspect", "assertion", "assertion_status",
+    "source_identifier",
+)
+_JSON_METADATA_FIELDS = ("constraints", "comparison_entities", "answer_is_translation")
 
 # Query-language selection strategies. The numbering is published in dataset
 # metadata, so the values are fixed.
@@ -94,6 +106,7 @@ class GenerationConfig:
     generation_reasoning_effort: str = "medium"
     candidates: int = CANDIDATES_PER_DOCUMENT
     retries: int = 3
+    candidate_parser: Callable[[Any, str], list[dict[str, Any]]] | None = None
 
 
 @dataclass(frozen=True)
@@ -117,11 +130,11 @@ def generate_candidates(
     prompt: str,
     passages: str,
     mode: str,
-) -> list[dict[str, str]]:
+) -> list[dict[str, Any]]:
     """Generate candidate Q/A pairs in one call.
 
-    ``question_type`` (technical) and ``framing`` (semantic) are per-mode
-    classification fields the prompts emit and the analysis layer reports by.
+    A domain parser can enforce its own schema and abstention contract. Otherwise
+    the legacy question/answer parser retains recognized persona annotations.
     """
     raw = chat(
         client,
@@ -130,10 +143,12 @@ def generate_candidates(
         reasoning_effort=config.generation_reasoning_effort,
     )
     data = parse_json_response(raw)
+    if config.candidate_parser is not None:
+        return config.candidate_parser(data, mode)[:config.candidates]
     if isinstance(data, dict):
         data = [data]
 
-    out: list[dict[str, str]] = []
+    out: list[dict[str, Any]] = []
     for item in list(data)[: config.candidates]:
         if not isinstance(item, Mapping):
             continue
@@ -145,6 +160,7 @@ def generate_candidates(
             row["framing"] = str(item.get("framing", "other")).strip()
         else:
             row["question_type"] = str(item.get("question_type", "other")).strip()
+        row.update({key: item[key] for key in CANDIDATE_METADATA_FIELDS if key in item})
         out.append(row)
     return out
 
@@ -163,9 +179,11 @@ def generate_for_document(
     """Generate, grade and rank candidates for one plan item.
 
     Returns rows sorted best-first. Callers keep the top row per
-    (family, language) for the published set and may keep the rest for audit.
+    (family, language, mode) for the published set and may keep the rest for audit.
     """
-    passages = corpus_io.build_passages_text(rows, schema, order=language_order)
+    passages = corpus_io.build_passages_text(
+        rows, schema, order=language_order, include_identifiers=True
+    )
     if not passages:
         return []
 
@@ -183,10 +201,12 @@ def generate_for_document(
     qa_pairs = [qa for qa in qa_pairs if qa.get("question") and qa.get("answer")]
     if not qa_pairs:
         return []
+    qa_pairs = [dict(qa, mode=item.mode, question_language=item.language) for qa in qa_pairs]
 
     faith = call_with_retries(
         lambda: grade_faithfulness(
-            grading_client, config.grader, prompts.faithfulness("batch"), passages, qa_pairs
+            grading_client, config.grader, prompts.faithfulness("batch"), passages, qa_pairs,
+            strict=True,
         ),
         retries=config.retries,
         label=f"grade faithfulness {item.family}/{item.language}",
@@ -199,6 +219,7 @@ def generate_for_document(
             passages,
             qa_pairs,
             item.mode,
+            strict=True,
         ),
         retries=config.retries,
         label=f"grade quality {item.family}/{item.language}",
@@ -221,8 +242,7 @@ def generate_for_document(
             "candidate_rank": rank,
             "question": candidate.qa.get("question", ""),
             "answer": candidate.qa.get("answer", ""),
-            "question_type": candidate.qa.get("question_type", ""),
-            "framing": candidate.qa.get("framing", ""),
+            **{key: candidate.qa.get(key, "") for key in CANDIDATE_METADATA_FIELDS},
         }
         row.update(grade_columns(candidate.faith, candidate.quality, item.mode))
         row.update(item.metadata)
@@ -231,10 +251,10 @@ def generate_for_document(
 
 
 def output_fieldnames(schema: CorpusSchema) -> tuple[str, ...]:
-    """The QAC CSV schema, covering both modes' score columns.
+    """The QAC CSV schema, covering persona metadata and legacy score columns.
 
-    One writer schema for every generation flow: a mode-specific schema would
-    make the technical and semantic outputs unmergeable.
+    One writer schema lets different personas share a CSV without losing their
+    evidence, annotations or grading audit records.
     """
     from clir_bench.core.grading import (
         FAITHFULNESS_FIELDS,
@@ -254,32 +274,55 @@ def output_fieldnames(schema: CorpusSchema) -> tuple[str, ...]:
         "candidate_rank",
         "question",
         "answer",
-        "question_type",
-        "framing",
+        *CANDIDATE_METADATA_FIELDS,
     )
     scores = tuple(
         dict.fromkeys(FAITHFULNESS_FIELDS + TECHNICAL_QUALITY_FIELDS + SEMANTIC_QUALITY_FIELDS)
     )
-    trailing = ("faith_reason", "qual_failure_type", "qual_reason", "total_score")
+    trailing = (
+        "faith_reason", "qual_failure_type", "qual_reason", "total_score",
+        "faithfulness_verifier_response_json", "quality_verifier_response_json",
+        "quality_rubric_version", "quality_audit_status",
+    )
     return identity + scores + trailing
 
 
 def normalize_row(row: Mapping[str, Any], fieldnames: Sequence[str]) -> dict[str, Any]:
     """Pad a row to the full schema so mixed-mode rows share one header."""
-    return {name: row.get(name, "") for name in fieldnames}
+    return {
+        name: json.dumps(value, ensure_ascii=False) if isinstance(value, (list, dict, bool)) else value
+        for name in fieldnames
+        for value in (row.get(name, ""),)
+    }
+
+
+def candidate_from_row(row: Mapping[str, Any]) -> dict[str, Any]:
+    """Restore a CSV candidate's metadata for regrading without leaking prior scores."""
+    candidate = {
+        key: row[key]
+        for key in ("question", "answer", "mode", "question_language", *CANDIDATE_METADATA_FIELDS)
+        if key in row and row[key] != ""
+    }
+    for key in _JSON_METADATA_FIELDS:
+        if isinstance(candidate.get(key), str):
+            candidate[key] = json.loads(candidate[key])
+    return candidate
 
 
 def select_best(
     rows: Sequence[Mapping[str, Any]], schema: CorpusSchema
 ) -> list[dict[str, Any]]:
-    """Highest-scoring row per (family, question language).
+    """Highest-scoring row per (family, question language, mode).
 
     Sorts explicitly by score rather than relying on upstream ordering, which
     the old implementation did implicitly.
     """
-    best: dict[tuple[str, str], dict[str, Any]] = {}
+    best: dict[tuple[str, str, str], dict[str, Any]] = {}
     for row in rows:
-        key = (str(row.get(schema.family_field, "")), str(row.get("question_language", "")))
+        key = (
+            str(row.get(schema.family_field, "")), str(row.get("question_language", "")),
+            str(row.get("mode", "")),
+        )
         current = best.get(key)
         if current is None or _score(row) > _score(current):
             best[key] = dict(row)

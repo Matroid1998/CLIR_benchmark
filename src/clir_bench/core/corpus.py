@@ -131,6 +131,7 @@ def build_passages_text(
     schema: CorpusSchema,
     *,
     order: Sequence[str] = (),
+    include_identifiers: bool = False,
 ) -> str:
     """Concatenate every language version as ``[LANG] Passage: ...`` blocks.
 
@@ -149,6 +150,8 @@ def build_passages_text(
     for row in ranked:
         text = schema.text_of(row)
         if text:
+            if include_identifiers and schema.family_of(row):
+                text = f"{schema.family_field}: {schema.family_of(row)}\n{text}"
             blocks.append(f"[{schema.language_of(row).upper()}] Passage:\n{text}")
     return "\n\n".join(blocks)
 

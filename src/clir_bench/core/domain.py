@@ -236,6 +236,9 @@ class DomainSpec:
     # Each callable takes (context, options) and returns a list of PlanItem.
     qac_plans: Mapping[str, Callable[..., Any]] = field(default_factory=dict)
 
+    # Validate a generator's parsed JSON against the domain's output contract.
+    qac_candidate_parser: Callable[..., list[dict[str, Any]]] | None = None
+
     # Logical key -> path relative to the data root. Reproduces the legacy
     # on-disk names so existing data files keep working unmoved.
     data_layout: Mapping[str, str] = field(default_factory=dict)
