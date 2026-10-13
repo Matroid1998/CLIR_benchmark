@@ -50,6 +50,13 @@ CANDIDATE_METADATA_FIELDS = (
 )
 _JSON_METADATA_FIELDS = ("constraints", "comparison_entities", "answer_is_translation")
 
+DECIDER_FIELDS = (
+    "decider_model", "decider_mode", "decider_reason", "decider_confidence",
+    "decider_threshold", "decider_probabilities_yes_json", "decider_eligible_modes_json",
+    "decider_selection_policy", "decider_persona_weights_json", "decider_counts_before_json",
+    "decider_routing_task", "decider_prompt_sha256",
+)
+
 # Query-language selection strategies. The numbering is published in dataset
 # metadata, so the values are fixed.
 STRATEGY_RANDOM_ANY = 1
@@ -284,7 +291,7 @@ def output_fieldnames(schema: CorpusSchema) -> tuple[str, ...]:
         "faithfulness_verifier_response_json", "quality_verifier_response_json",
         "quality_rubric_version", "quality_audit_status",
     )
-    return identity + scores + trailing
+    return identity + scores + trailing + DECIDER_FIELDS
 
 
 def normalize_row(row: Mapping[str, Any], fieldnames: Sequence[str]) -> dict[str, Any]:

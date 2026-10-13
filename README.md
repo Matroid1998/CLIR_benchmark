@@ -74,6 +74,28 @@ one to three candidates or abstain. Evidence and persona annotations are saved
 in the CSV; the best output keeps one candidate per publication, language and
 persona. See the [chemistry prompt contract](src/clir_bench/domains/chemistry/qac/prompts/README.md).
 
+To select a suitable chemistry persona before generation, use the Jev eligibility decider:
+
+```bash
+clir --domain chemistry qac generate --source gp --decider-model jev --questions 100
+clir --domain chemistry qac generate --source epo --decider-model jev --questions 10 --dry-run
+```
+
+Jev assesses all seven personas independently from the supplied multilingual patent packet.
+The packaged `decider/jev_eligibility.json` is copied unchanged from
+`chemistry_jev_eligibility.json`. Its 32/40 screening target is a quality forecast;
+the default Yes-probability threshold is 0.5 because this prompt supplies no routing policy.
+Among eligible personas, the pipeline selects the largest deficit against an equal target mix,
+with reproducible tie-breaking from `--seed`. Override positive weights using
+`[domains.chemistry.persona_weights]` in `clir.toml`. All-No patents are skipped.
+Each patent is screened once per invocation; assignments are per publication and question language.
+With the decider, `--questions` caps sampled target/language cases; skips can reduce output.
+Do not combine `--decider-model` with `--modes`. Dry runs make no model calls.
+
+The results CSV retains the decider probabilities, eligible personas, chosen persona and prompt
+hash through regrading. A sibling `<output_stem>_eligibility.json` records the prompt snapshot,
+source hashes and all assignments, including skips; `--append` retains earlier audit entries.
+
 Chemistry-specific benchmarks:
 
 ```bash

@@ -20,6 +20,7 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
     sub = parser.add_subparsers(dest="qac_command", metavar="<subcommand>")
 
     run_workflow = bool(context and context.setting("qac_runs", False))
+    eligibility_routing = bool(context and context.domain.qac_route_plan)
     workers = 6 if run_workflow else 1
     plans = (
         ", ".join(context.domain.qac_plans)
@@ -66,7 +67,8 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
             "Target/language/persona cases per model, split across sources (default: 100); "
             "each case can produce up to --keep candidates"
             if run_workflow
-            else "Questions per mode"
+            else ("Questions per mode, or target/language cases with --decider-model"
+                  if eligibility_routing else "Questions per mode")
         ),
     )
     generate.add_argument(
@@ -156,6 +158,12 @@ def register(subparsers: argparse._SubParsersAction, context: AppContext | None)
             help="Maximum candidates per target (default: 3)",
         )
         _context_arguments(generate)
+    elif eligibility_routing:
+        generate.add_argument(
+            "--decider-model", choices=("jev",),
+            help="Assess persona eligibility with Jev and balance assignments among eligible personas; "
+                 "omit to generate explicit modes",
+        )
     generate.set_defaults(handler=_domain_command if run_workflow else _generate)
 
     regrade = sub.add_parser(
@@ -297,8 +305,11 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
 
     print(f"plan: {len(plan)} question(s) from {len(grouped)} documents in {corpus_path.name}")
     if args.dry_run:
+        if getattr(args, "decider_model", None):
+            print("persona: pending Jev eligibility; dry-run makes no model calls")
         for item in plan[:20]:
-            print(f"  {item.family:<24} {item.language}  {item.mode:<10} {item.strategy_name}")
+            mode = "pending" if getattr(args, "decider_model", None) else item.mode
+            print(f"  {item.family:<24} {item.language}  {mode:<10} {item.strategy_name}")
         if len(plan) > 20:
             print(f"  ... and {len(plan) - 20} more")
         print(f"would write -> {output}")
@@ -306,6 +317,19 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
     if not plan:
         print("nothing to generate")
         return 0
+
+    if args.append:
+        corpus_io.ensure_header(output, fieldnames)
+    if domain.qac_route_plan:
+        plan = domain.qac_route_plan(
+            context=context, source=source, args=args, grouped=grouped, plan=plan, output=output,
+        )
+        if not plan:
+            if not args.append:
+                corpus_io.write_rows(output, [], fieldnames)
+                corpus_io.write_rows(_suffixed(output, "_best"), [], fieldnames)
+            print("no eligible targets to generate")
+            return 0
 
     config = _generation_config(args, context)
     prompts = PromptPack(package=domain.prompts_package)
@@ -325,8 +349,6 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
             language_order=order,
         )
 
-    if args.append:
-        corpus_io.ensure_header(output, fieldnames)
     generated: list[dict] = []
     for rows in run_tasks(plan, work, workers=args.workers, description="generate"):
         generated.extend(rows)

@@ -30,6 +30,7 @@ source/evidence examples when editing or formatting these resources.
     generation/comparison/{en,de,fr,es,zh}.txt             two sides on a common dimension
     generation/assertion_verification/{en,de,fr,es,zh}.txt scoped assertion check
     generation/source_finding/{en,de,fr,es,zh}.txt         publication identity from a technical clue
+    decider/jev_eligibility.json              independent suitability checks for all seven personas
     verifiers/faithfulness_{batch,single}.txt   is the answer grounded in the passage?
     verifiers/<persona>_batch.txt              quality and contract checks for each new persona
     verifiers/technical_{batch,single}.txt     legacy grading and single concept queries
@@ -66,6 +67,41 @@ applying each persona's own contract. The batch faithfulness rubric supports
 translations, connected spans and identifier answers with separate evidence.
 These rubrics accompany the new generation contract and need empirical
 calibration before comparing their scores with historical runs.
+
+## Eligibility decider
+
+`decider/jev_eligibility.json` is a byte-for-byte copy of the supplied
+repository-root `chemistry_jev_eligibility.json`. It serves the same role as the
+legal eligibility template: one independent `noul` question per persona. A patent
+can support none, one, several or all seven personas. The prompt's 32/40 target
+forecasts possible generation quality and is not a measured candidate score.
+
+Enable routing with `clir --domain chemistry qac generate --source gp
+--decider-model jev`. The loader replaces the template's state with the same
+multilingual passages and publication identifiers supplied to generation, and
+uses `~typesafe/jev-latest` through the existing Decisions transport. It excludes
+old candidate and grading columns. A response must contain exactly seven finite
+probabilities between 0 and 1; they are not normalized across personas. Malformed
+responses are retried and remain failures if retries are exhausted.
+
+The probability cutoff defaults to 0.5. A future `routing_policy` in the template
+may set `probability_threshold`; local routing policy is never sent to the API.
+The current supplied chemistry template has no calibrated routing policy.
+The pipeline selects the eligible persona with the largest deficit against its
+target share, using equal weights by default and a seeded tie-break. Configure
+other positive weights in `[domains.chemistry.persona_weights]`. A sole eligible
+persona is always used even if it is overrepresented; an all-No result is skipped.
+
+Eligibility is evaluated once per publication and reused across target languages.
+Assignments follow sampled order regardless of concurrent completion order and
+are counted before generation. `--questions` caps distinct target/language cases,
+and `--limit` further restricts the sampled plan. `--modes` cannot be combined with
+the automatic decider. Fixed-mode generation remains available without the flag.
+
+The results CSV includes `decider_*` provenance columns. The sibling
+`<output_stem>_eligibility.json` audit saves the prompt snapshot and hash, input
+hashes, all probabilities and assignments, including skipped targets. `--append`
+adds a new run entry to that audit. Regrading retains the original decider metadata.
 
 ## The batch / single split is deliberate — do not merge these
 

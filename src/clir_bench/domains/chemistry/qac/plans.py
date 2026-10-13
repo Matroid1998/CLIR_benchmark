@@ -88,6 +88,11 @@ def _languages(args: argparse.Namespace, context: AppContext, source: SourceSpec
 
 def _modes(args: argparse.Namespace) -> list[str]:
     requested = getattr(args, "modes", None)
+    if getattr(args, "decider_model", None):
+        if requested is not None:
+            raise ValueError("--decider-model cannot be combined with --modes")
+        # Sample each target once; the eligibility stage replaces this placeholder.
+        return [vocab.MODES[0]]
     modes = list(dict.fromkeys(requested or vocab.MODES))
     unknown = set(modes) - set(vocab.MODES)
     if unknown:
@@ -96,6 +101,16 @@ def _modes(args: argparse.Namespace) -> list[str]:
             f"choose from {', '.join(vocab.MODES)}"
         )
     return modes
+
+
+def _finish_plan(items: list[PlanItem], args: argparse.Namespace) -> list[PlanItem]:
+    if not getattr(args, "decider_model", None):
+        return items
+    # Automatic routing counts target/language cases, not mode-specific attempts.
+    unique = {}
+    for item in items:
+        unique.setdefault((item.family, item.language), item)
+    return list(unique.values())[:args.questions]
 
 
 def _items_for_family(
@@ -168,7 +183,7 @@ def balanced_plan(
                         rng=rng,
                     )
                 )
-    return items
+    return _finish_plan(items, args)
 
 
 def uniform_plan(
@@ -213,7 +228,7 @@ def uniform_plan(
                         rng=rng,
                     )
                 )
-    return items
+    return _finish_plan(items, args)
 
 
 def coverage_plan(
@@ -275,7 +290,7 @@ def coverage_plan(
                         rng=rng,
                     )
                 )
-    return items
+    return _finish_plan(items, args)
 
 
 PLANS: Mapping[str, Callable[..., list[PlanItem]]] = {
