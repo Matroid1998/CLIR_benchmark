@@ -5,10 +5,9 @@ Collapses five copies of the OpenAI/OpenRouter client construction, three copies
 of the Claude extended-thinking call, three copies of the markdown-fence JSON
 parser, and two copies of the OpenRouter reasoning-parameter fallback ladder.
 
-Two providers are in play by design: questions are generated on OpenAI, and the
-feedback verifiers run Claude via OpenRouter. Only the transport differs --
-OpenAI takes ``reasoning_effort``, Claude takes a thinking budget -- so that
-difference is the only thing these functions branch on.
+OpenAI-compatible calls use either the OpenAI or OpenRouter transport. The
+provider routing is based on the configured model ID; selected GPT model IDs
+can be routed through OpenRouter when that is where they are provisioned.
 """
 
 from __future__ import annotations
@@ -54,6 +53,10 @@ def openrouter_client() -> Any:
 
 def provider_of(model: str) -> str:
     """Which transport a model id belongs to."""
+    # This explicitly versioned Luna model is provisioned through OpenRouter,
+    # even though its public model ID has the ``gpt-`` prefix.
+    if model == "gpt-5.6-luna":
+        return "openrouter"
     return "openai" if model.startswith("gpt-") or model.startswith("o1") else "openrouter"
 
 

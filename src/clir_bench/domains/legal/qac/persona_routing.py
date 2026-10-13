@@ -88,7 +88,7 @@ def choose(source, eligibility, counts, weights, *, seed, identity):
             "persona_weights": weights, "counts_before": before, "routing_task": identity}
 
 
-def route_targets(state, targets, *, weights, seed, retries, executor):
+def route_targets(state, targets, *, weights, seed, retries, executor, initial_counts=None):
     """Yield one committed decision/error per target, in fixed sampled order.
 
     Eligibility calls run in parallel. Selections run serially and reuse their
@@ -101,6 +101,12 @@ def route_targets(state, targets, *, weights, seed, retries, executor):
 
     futures = [(entry, executor.submit(assess, entry, payload)) for entry, payload in targets]
     counts = defaultdict(Counter)
+    for source, values in (initial_counts or {}).items():
+        if not isinstance(values, dict) or any(
+                isinstance(value, bool) or not isinstance(value, int) or value < 0
+                for value in values.values()):
+            raise ValueError("initial persona counts must be nonnegative integer counts")
+        counts[source].update(values)
     for entry, future in futures:
         key, source = task_id(entry), entry["corpus"]
         try:

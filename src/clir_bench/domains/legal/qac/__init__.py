@@ -196,6 +196,11 @@ def _options(args, context, saved=None, *, operation="generate"):
                 "langs": None, "modes": None, "decider_model": None}
     options = {key: getattr(args, key, None) if getattr(args, key, None) is not None
                else old.get(key, default) for key, default in defaults.items()}
+    initial_counts = getattr(args, "persona_initial_counts", None)
+    if initial_counts is None:
+        initial_counts = old.get("persona_initial_counts")
+    if initial_counts is not None:
+        options["persona_initial_counts"] = initial_counts
     if options["decider_model"] is None:
         options.pop("decider_model")  # Keep existing run fingerprints stable.
     elif options["decider_model"] not in ("generator", "jev"):
@@ -690,7 +695,8 @@ def _execute(args, context, operation, directory, output, saved, options, select
                     targets.setdefault(persona_routing.task_id(entry), (entry, payload))
                 for number, (key, decision, error) in enumerate(persona_routing.route_targets(
                         state, list(targets.values()), weights=options["persona_weights"],
-                        seed=options["seed"], retries=options["retries"], executor=executor), 1):
+                        seed=options["seed"], retries=options["retries"], executor=executor,
+                        initial_counts=options.get("persona_initial_counts")), 1):
                     if error is not None:
                         routing_errors[key] = error
                     else:
