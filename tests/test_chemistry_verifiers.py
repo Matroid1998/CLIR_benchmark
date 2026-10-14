@@ -78,6 +78,24 @@ def test_persona_criteria_and_compact_audit_are_preserved(monkeypatch, mode, cou
             assert json.loads(columns[f"quality_{field}_json"]) == response["candidates"][index][field]
 
 
+def test_quality_normalizes_satisfactory_batch_diversity_to_pass(monkeypatch):
+    _, response = quality_fixture(count=2)
+    response["batch_diversity"] = "satisfactory"
+
+    rows = grade_quality(monkeypatch, response, count=2)
+
+    assert [row["_batch_diversity"] for row in rows] == ["pass", "pass"]
+
+
+def test_quality_normalizes_unrecognized_diversity_prose_to_uncertain(monkeypatch):
+    _, response = quality_fixture(count=2)
+    response["batch_diversity"] = "The relationship cannot be determined."
+
+    rows = grade_quality(monkeypatch, response, count=2)
+
+    assert [row["_batch_diversity"] for row in rows] == ["uncertain", "uncertain"]
+
+
 def test_chemistry_transports_all_persona_metadata_to_both_verifiers(monkeypatch):
     candidates, response = quality_fixture()
     candidate = candidates[0]
@@ -116,7 +134,7 @@ def test_chemistry_transports_all_persona_metadata_to_both_verifiers(monkeypatch
     lambda data: data["candidates"][0]["checks"].update(metadata="fail"),
     lambda data: data["candidates"][0]["checks"].update(support="uncertain"),
     lambda data: data["candidates"][0].update(problems=[False]),
-    lambda data: data.update(batch_diversity="not_applicable"),
+    lambda data: data.update(batch_diversity=0),
 ])
 def test_quality_rejects_malformed_contract_without_lenient_fallback(monkeypatch, mutation):
     _, response = quality_fixture(count=2)

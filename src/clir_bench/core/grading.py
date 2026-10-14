@@ -497,8 +497,22 @@ def _normalize_compact_quality(
     items = data["candidates"]
     if not isinstance(items, list) or len(items) != len(candidates):
         raise ValueError(f"Verifier must return exactly {len(candidates)} candidate grades")
-    diversity_choices = ("not_applicable",) if len(candidates) <= 1 else ("pass", "fail", "uncertain")
-    _enum(data["batch_diversity"], diversity_choices, "batch_diversity")
+    diversity = data["batch_diversity"]
+    if not isinstance(diversity, str):
+        raise ValueError("batch_diversity must be a string")
+    if len(candidates) <= 1:
+        diversity = "not_applicable"
+    elif diversity not in ("pass", "fail", "uncertain"):
+        # This audit-only field does not affect candidate grades. Models often
+        # answer it in prose despite the requested enum; keep clear judgments
+        # and use the neutral value when the wording is ambiguous.
+        normalized = diversity.casefold().replace("_", " ")
+        if any(term in normalized for term in ("duplicate", "same need", "overlap")):
+            diversity = "fail"
+        elif any(term in normalized for term in ("distinct", "different need", "satisfactory")):
+            diversity = "pass"
+        else:
+            diversity = "uncertain"
     rows = []
     for index, (item, candidate) in enumerate(zip(items, candidates)):
         _object(item, ("index", "candidate_id", "scores", "score_notes", "checks", "problems"), "Quality grade")
@@ -537,7 +551,7 @@ def _normalize_compact_quality(
             if support == "uncertain" and resolution_score is not None and resolution_score > 3:
                 raise ValueError("An uncertain support check requires an answer-resolution score at most 3 or null")
         row = dict(item["scores"], _keys=list(keys), _response=item,
-                   _batch_diversity=data["batch_diversity"], _contract="compact")
+                   _batch_diversity=diversity, _contract="compact")
         if rubric_version is not None:
             row["_rubric_version"] = rubric_version
         row["overall"] = quality_overall(row, mode)

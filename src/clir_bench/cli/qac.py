@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 from clir_bench import domains
@@ -339,17 +340,32 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
     grading_client = client_for(config.grader.model)
     order = domain.languages.priority or domain.languages.working
 
+    failures: list[dict[str, str]] = []
+
     def work(item: qagen.PlanItem):
-        return qagen.generate_for_document(
-            item,
-            grouped.get(item.family, []),
-            schema=schema,
-            prompts=prompts,
-            config=config,
-            generation_client=generation_client,
-            grading_client=grading_client,
-            language_order=order,
-        )
+        try:
+            return qagen.generate_for_document(
+                item,
+                grouped.get(item.family, []),
+                schema=schema,
+                prompts=prompts,
+                config=config,
+                generation_client=generation_client,
+                grading_client=grading_client,
+                language_order=order,
+            )
+        except RuntimeError as exc:
+            failure = {
+                "source_document_id": item.document_id,
+                "publication_number": item.family,
+                "question_language": item.language,
+                "mode": item.mode,
+                "error": str(exc),
+            }
+            failures.append(failure)
+            print(f"warning: omitted {item.document_id}/{item.language}/{item.mode}: {exc}",
+                  file=sys.stderr)
+            return []
 
     generated: list[dict] = []
     for rows in run_tasks(plan, work, workers=args.workers, description="generate"):
@@ -357,6 +373,14 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
 
     rows = [qagen.normalize_row(row, fieldnames) for row in generated]
     corpus_io.write_rows(output, rows, fieldnames, append=args.append)
+    if failures:
+        failure_path = _suffixed(output, "_failures")
+        corpus_io.write_rows(
+            failure_path, sorted(failures, key=lambda row: row["source_document_id"]),
+            ("source_document_id", "publication_number", "question_language", "mode", "error"),
+            append=args.append,
+        )
+        print(f"omitted {len(failures)} target(s) after retry exhaustion -> {failure_path}")
     best_rows = qagen.select_best(rows, schema)
     best_path = _suffixed(output, "_best")
     corpus_io.write_rows(

@@ -35,7 +35,6 @@ ENUMS = {
     "assertion_status": ("supported", "contradicted"),
 }
 LIST_FIELDS = ("constraints", "comparison_entities")
-SUBSTRING_FIELDS = ("anchor", "process_start", "process_goal", "objective", "assertion")
 
 
 def _text(value: Any, field: str) -> None:
@@ -74,18 +73,12 @@ def parse_candidates(data: Any, mode: str) -> list[dict[str, Any]]:
                     _text(part, key)
                 if key == "comparison_entities" and (len(value) != 2 or value[0] == value[1]):
                     raise ValueError("comparison_entities must contain exactly two distinct strings")
-                cursor = 0
-                for part in value:
-                    start = candidate["question"].find(part, cursor)
-                    if start < 0:
-                        raise ValueError(f"{key} must contain question substrings in appearance order")
-                    cursor = start + len(part)
             else:
                 _text(value, key)
             if key in ENUMS and value not in ENUMS[key]:
                 raise ValueError(f"Invalid {key}: {value!r}")
-            if key in SUBSTRING_FIELDS and value not in candidate["question"]:
-                raise ValueError(f"{key} must be an exact question substring")
+        # Substring accuracy is a verifier metadata check. Retain the candidate
+        # so the verifier can grade it instead of retrying or dropping its Q&A.
         if mode == "source_finding":
             if candidate["answer"] != candidate["source_identifier"]:
                 raise ValueError("source_finding answer must equal source_identifier")

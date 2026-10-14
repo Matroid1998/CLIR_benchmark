@@ -182,7 +182,6 @@ def test_abstention_does_not_call_graders(monkeypatch):
     lambda item: [item] * 4,
     lambda item: [item, {"skip_reason": "Mixed skip"}],
     lambda item: [dict(item, answer_is_translation="false")],
-    lambda item: [dict(item, anchor="not in question")],
     lambda item: [dict(item, question_type="material")],
     lambda item: [dict(item, question=None)],
     lambda item: [dict(item, extra="unexpected")],
@@ -193,16 +192,17 @@ def test_malformed_generation_is_rejected_for_retry(mutate):
         parse_candidates(mutate(examples("lookup")[0][0]), "lookup")
 
 
-def test_source_identity_and_ordered_substring_metadata_are_checked():
+def test_source_identity_is_checked_and_substring_metadata_reaches_verifier():
     source = examples("source_finding")[0][0]
     with pytest.raises(ValueError, match="equal source_identifier"):
         parse_candidates([dict(source, answer="EP-WRONG")], "source_finding")
     with pytest.raises(ValueError, match="must be false"):
         parse_candidates([dict(source, answer_is_translation=True)], "source_finding")
     comparison = examples("comparison")[0][0]
-    with pytest.raises(ValueError, match="appearance order"):
-        parse_candidates([dict(comparison, comparison_entities=comparison["comparison_entities"][::-1])],
-                         "comparison")
+    reversed_entities = dict(comparison, comparison_entities=comparison["comparison_entities"][::-1])
+    assert parse_candidates([reversed_entities], "comparison") == [reversed_entities]
+    invalid_anchor = dict(examples("lookup")[0][0], anchor="not in question")
+    assert parse_candidates([invalid_anchor], "lookup") == [invalid_anchor]
 
 
 @pytest.mark.parametrize("plan_name", PLANS)
