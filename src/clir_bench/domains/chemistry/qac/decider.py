@@ -13,6 +13,7 @@ from tempfile import NamedTemporaryFile
 from clir_bench.core import corpus, llm
 from clir_bench.core.parallel import run_tasks
 from clir_bench.core.prompts import load_prompt
+from clir_bench.core.qagen import select_plan_rows
 from clir_bench.domains.chemistry.vocabulary import MODES
 
 JEV_MODEL = "~typesafe/jev-latest"
@@ -141,10 +142,10 @@ def row_metadata(decision, prompt_sha256) -> dict:
 
 
 def route_plan(*, context, source, args, grouped, plan, output):
-    """Screen each patent once, then assign each target/language in sampled order.
+    """Screen each selected document once and assign personas in sampled order.
 
-    Eligibility is independent of the requested output language. All source
-    language versions and target identifiers are the same ones generation sees.
+    Explicit document selections use exactly the source row generation sees.
+    Legacy plan items without a document identity retain their family packet.
     Provider or parsing failures propagate, never becoming a default persona.
     """
     if not getattr(args, "decider_model", None):
@@ -165,25 +166,41 @@ def route_plan(*, context, source, args, grouped, plan, output):
 
     unique = {}
     for item in plan:
-        unique.setdefault((item.family, item.language), item)
-    families = list(dict.fromkeys(item.family for item in unique.values()))
+        key = (item.document_id,) if item.document_id else (item.family, item.language)
+        previous = unique.setdefault(key, item)
+        if (previous.family, previous.language) != (item.family, item.language):
+            raise ValueError(f"Conflicting chemistry source document selection: {item.document_id!r}")
+    selected = {}
+    for item in unique.values():
+        key = item.document_id or item.family
+        previous = selected.setdefault(key, item)
+        if bool(previous.document_id) != bool(item.document_id):
+            raise ValueError(f"Ambiguous chemistry screening identity: {key!r}")
     order = context.languages.priority or context.languages.working
 
-    def assess(family):
+    def assess(key):
+        item = selected[key]
+        rows = select_plan_rows(item, grouped.get(item.family, []), context.schema)
         text = corpus.build_passages_text(
-            grouped[family], context.schema, order=order, include_identifiers=True,
+            rows, context.schema, order=order, include_identifiers=True,
         )
         result = decide_eligibility(text, threshold=policy["probability_threshold"],
                                     retries=context.settings.llm.retries)
-        return family, {**result, "source_sha256": hashlib.sha256(text.encode()).hexdigest()}
+        return key, {**result, "source_sha256": hashlib.sha256(text.encode()).hexdigest()}
 
-    eligibility = dict(run_tasks(families, assess, workers=args.workers, description="eligibility"))
+    eligibility = dict(run_tasks(list(selected), assess, workers=args.workers,
+                                 description="eligibility"))
     counts = Counter()
     assignments, routed = [], []
     for item in unique.values():
-        identity = json.dumps([source.name, item.family, item.language], ensure_ascii=False)
-        decision = choose(eligibility[item.family], counts, weights, seed=args.seed, identity=identity)
-        assignments.append({"family": item.family, "language": item.language, **decision})
+        identity_parts = [source.name, item.family, item.language]
+        if item.document_id:
+            identity_parts.append(item.document_id)
+        identity = json.dumps(identity_parts, ensure_ascii=False)
+        decision = choose(eligibility[item.document_id or item.family], counts, weights,
+                          seed=args.seed, identity=identity)
+        assignments.append({"family": item.family, "language": item.language,
+                            "document_id": item.document_id, **decision})
         if decision["mode"] != "skip":
             counts[decision["mode"]] += 1
             routed.append(replace(item, mode=decision["mode"],
@@ -205,5 +222,5 @@ def route_plan(*, context, source, args, grouped, plan, output):
         finally:
             temporary.unlink(missing_ok=True)
     print(f"eligibility: {len(routed)} assigned, {len(unique) - len(routed)} skipped; "
-          f"{len(families)} patents screened -> {audit_path}")
+          f"{len(selected)} documents screened -> {audit_path}")
     return routed

@@ -296,6 +296,8 @@ def _generate(args: argparse.Namespace, context: AppContext) -> int:
 
     schema = context.schema
     grouped = corpus_io.load_grouped(corpus_path, schema)
+    if domain.qac_validate_corpus:
+        domain.qac_validate_corpus(grouped, schema)
     plan = plan_builder(context=context, source=source, grouped=grouped, args=args)
     if args.limit:
         plan = plan[: args.limit]
@@ -373,6 +375,8 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
     schema = context.schema
     source = domain.source(args.source)
     grouped = corpus_io.load_grouped(context.workspace.corpus_csv(source), schema)
+    if domain.qac_validate_corpus:
+        domain.qac_validate_corpus(grouped, schema)
     rows = corpus_io.read_rows(args.input)
     if not rows:
         print(f"{args.input} is empty")
@@ -389,10 +393,19 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
 
     def work(row: dict) -> dict:
         family = str(row.get(schema.family_field, ""))
-        passages = corpus_io.build_passages_text(
-            grouped.get(family, []), schema, order=order, include_identifiers=True
-        )
         mode = str(row.get("mode") or "technical")
+        item = qagen.PlanItem(
+            family=family, language=str(row.get("question_language", "")), mode=mode,
+            document_id=str(row.get("source_document_id") or (
+                row.get("corpus_id") if domain.qac_validate_corpus else ""
+            ) or ""),
+        )
+        if domain.qac_validate_corpus and not item.document_id:
+            raise ValueError("Regrading requires a selected source document ID")
+        passages = corpus_io.build_passages_text(
+            qagen.select_plan_rows(item, grouped.get(family, []), schema), schema,
+            order=order, include_identifiers=True,
+        )
         faith, quality = grade_one(
             client,
             config.grader,
@@ -403,7 +416,10 @@ def _regrade(args: argparse.Namespace, context: AppContext) -> int:
             mode,
             strict=True,
         )
-        return {**row, **empty_grades, **grade_columns(faith, quality, mode)}
+        return {
+            **row, **empty_grades, **grade_columns(faith, quality, mode),
+            "source_document_id": item.document_id,
+        }
 
     regraded = list(run_tasks(rows, work, workers=args.workers, description="regrade"))
     output = args.output or _suffixed(args.input, "_regraded")

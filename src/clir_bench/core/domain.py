@@ -65,6 +65,12 @@ class CorpusSchema:
     # compared; a domain without that problem leaves this unset and dedup falls
     # back to the family key.
     dedup_key_fn: Optional[Callable[[Mapping[str, Any]], str]] = None
+    # Optional JSON-array column listing directly paired document IDs. When
+    # present in a corpus, these explicit links determine retrieval positives
+    # instead of treating every member of a family as equivalent.
+    parallel_ids_field: str | None = None
+    # Additional source/provenance columns retained in a published corpus.
+    export_metadata_fields: tuple[str, ...] = ()
 
     # -- row accessors ------------------------------------------------------ #
 
@@ -241,6 +247,9 @@ class DomainSpec:
 
     # Optional pre-generation eligibility and persona assignment for a sampled plan.
     qac_route_plan: Callable[..., Any] | None = None
+
+    # Optional source/provenance validation before planning or regrading.
+    qac_validate_corpus: Callable[..., Any] | None = None
 
     # Logical key -> path relative to the data root. Reproduces the legacy
     # on-disk names so existing data files keep working unmoved.

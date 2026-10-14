@@ -36,10 +36,14 @@ def context(tmp_path):
 
 
 def source_rows(family="EP-1234567-A1"):
-    return [{"publication_number": family, "language": language, "doc_id": f"{family}_{language}",
-             "context": text, "question": "OLD QUESTION MUST NOT REACH JEV", "total_score": "40"}
-            for language, text in (("en", "Title: Catalyst\n\nAbstract: The catalyst is a zeolite."),
-                                   ("de", "Title: Katalysator\n\nAbstract: Der Katalysator ist ein Zeolith."))]
+    return [{"publication_number": family, "language": language, "id": f"{family}_{language}",
+             "abstract": text, "context": text, "source": "ai4chem_abstract_pairs",
+             "upstream_dataset": "BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs",
+             "upstream_revision": "test-sha", "accepted_pair_ids": json.dumps([f"pair-{family}"]),
+             "paired_document_ids": json.dumps([f"{family}_{'de' if language == 'en' else 'en'}"]),
+             "question": "OLD QUESTION MUST NOT REACH JEV", "total_score": "40"}
+            for language, text in (("en", "The catalyst is a zeolite."),
+                                   ("de", "Der Katalysator ist ein Zeolith."))]
 
 
 def test_packaged_native_request_keeps_all_seven_independent_questions():
@@ -171,11 +175,11 @@ def test_route_screens_patents_once_and_is_independent_of_completion_order(conte
     assert len(json.loads((tmp_path / "qac_eligibility.json").read_text())["runs"]) == 2
 
 
-@pytest.mark.parametrize("source", ["gp", "epo"])
 @pytest.mark.parametrize("outcome", ["lookup", "skip", "dry_run", "invalid"])
 def test_cli_decider_controls_generation_and_preserves_audit(
-    context, tmp_path, monkeypatch, source, outcome,
+    context, tmp_path, monkeypatch, outcome,
 ):
+    source = "gp"
     rows = source_rows()
     corpus.write_rows(context.workspace.corpus_csv(source), rows, tuple(rows[0]))
     parser = build_parser(context, domains.load_module("chemistry"))
@@ -268,3 +272,60 @@ def test_cli_decider_controls_generation_and_preserves_audit(
                               "--output", str(regraded)])
     assert args.handler(args, context) == 0
     assert all(corpus.read_rows(regraded)[0][key] == saved[key] for key in qagen.DECIDER_FIELDS)
+
+
+def test_routing_screens_exact_same_language_documents_once_each(context, tmp_path, monkeypatch):
+    family = "EP-1234567-A1"
+    rows = [
+        {"publication_number": family, "id": identity, "language": "fr", "context": text}
+        for identity, text in (("fr-first", "PREMIER DOCUMENT"), ("fr-second", "SECOND DOCUMENT"))
+    ] + [{"publication_number": family, "id": "de-other", "language": "de",
+          "context": "UNSELECTED SOURCE"}]
+    plan = [qagen.PlanItem(family, "fr", document_id=row["id"]) for row in rows[:2]]
+    plan.append(plan[0])
+    args = SimpleNamespace(decider_model="jev", modes=None, workers=2, seed=42, append=False)
+    packets = []
+
+    def decide(request):
+        text = request["state"]
+        packets.append(text)
+        assert "UNSELECTED SOURCE" not in text
+        assert ("PREMIER DOCUMENT" in text) != ("SECOND DOCUMENT" in text)
+        return response(["lookup"] if "PREMIER DOCUMENT" in text else ["conceptual"])
+
+    monkeypatch.setattr(llm, "decisions", decide)
+    routed = decider.route_plan(
+        context=context, source=SPEC.source("gp"), args=args, grouped={family: rows},
+        plan=plan, output=tmp_path / "exact.csv",
+    )
+    assert len(packets) == 2
+    assert {(item.document_id, item.mode) for item in routed} == {
+        ("fr-first", "lookup"), ("fr-second", "conceptual"),
+    }
+    audit = json.loads((tmp_path / "exact_eligibility.json").read_text())["runs"][0]
+    assert set(audit["eligibility"]) == {"fr-first", "fr-second"}
+    assert {item["document_id"] for item in audit["assignments"]} == {"fr-first", "fr-second"}
+    assert len({item.metadata["decider_routing_task"] for item in routed}) == 2
+
+
+@pytest.mark.parametrize("command", ["generate", "regrade"])
+def test_cli_rejects_legacy_corpus_before_any_model_call(context, tmp_path, monkeypatch, command):
+    legacy = [{key: row[key] for key in ("publication_number", "id", "language", "context")}
+              for row in source_rows()]
+    corpus.write_rows(context.workspace.corpus_csv("gp"), legacy, tuple(legacy[0]))
+    parser = build_parser(context, domains.load_module("chemistry"))
+    monkeypatch.setattr(cli, "client_for", lambda *a: pytest.fail("created a model client"))
+    monkeypatch.setattr(llm, "decisions", lambda *a: pytest.fail("screened unaccepted source"))
+    options = ["qac", command, "--source", "gp"]
+    if command == "generate":
+        options += ["--decider-model", "jev", "--questions", "1"]
+    else:
+        input_path = tmp_path / "old-questions.csv"
+        row = {"publication_number": legacy[0]["publication_number"], "corpus_id": legacy[0]["id"],
+               "question_language": "en", "mode": "lookup", "question": "Which catalyst?",
+               "answer": "A zeolite."}
+        corpus.write_rows(input_path, [row], tuple(row))
+        options += ["--input", str(input_path)]
+    args = parser.parse_args(options)
+    with pytest.raises(ValueError):
+        args.handler(args, context)

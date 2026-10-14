@@ -63,6 +63,8 @@ def _corpus(args: argparse.Namespace, context: AppContext) -> int:
         used.append(source.name)
     if not rows:
         raise FileNotFoundError("no corpus rows to publish")
+    if domain.qac_validate_corpus:
+        domain.qac_validate_corpus(corpus_io.group_by_family(rows, context.schema), context.schema)
 
     repo = context.hf_repo("corpus_repo", args.repo)
     if not repo:
@@ -111,16 +113,25 @@ def _benchmark(args: argparse.Namespace, context: AppContext) -> int:
             f"{source.name}_benchmark_repo in clir.toml under [domains.{domain.name}]"
         )
 
+    corpus_rows = corpus_io.read_rows(corpus_path)
+    if domain.qac_validate_corpus:
+        domain.qac_validate_corpus(
+            corpus_io.group_by_family(corpus_rows, context.schema), context.schema,
+        )
     configs = publish_io.build_retrieval_configs(
-        corpus_io.read_rows(corpus_path), corpus_io.read_rows(qac_path), context.schema
+        corpus_rows, corpus_io.read_rows(qac_path), context.schema,
     )
     bundle = publish_io.bundle_from_configs(configs)
+    relevance = (
+        "its selected source document and that document's directly accepted translation partners"
+        if context.schema.parallel_ids_field else "every language version of its source document"
+    )
     card = publish_io.build_card(
         title=f"{domain.title} — {source.name} retrieval benchmark",
         description=(
             f"{domain.description}\n\nQueries are graded questions about documents "
-            f"from {source.name}. A query is relevant to every language version of "
-            "its source document; the `cross_language-*` configs keep only versions "
+            f"from {source.name}. A query is relevant to {relevance}; "
+            "the `cross_language-*` configs keep only documents "
             "in a language other than the query's."
         ),
         attribution=domain.attribution_for(source.name),

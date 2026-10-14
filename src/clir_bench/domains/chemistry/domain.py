@@ -22,9 +22,10 @@ from clir_bench.domains.chemistry.qac.candidates import parse_candidates
 from clir_bench.domains.chemistry.qac.decider import route_plan
 from clir_bench.domains.chemistry.qac.plans import PLANS
 from clir_bench.domains.chemistry.schema import SCHEMA
+from clir_bench.domains.chemistry.sources.abstract_pairs import DATASET_REPO, validate_corpus
 
 LANGUAGES = LanguageSpec(
-    inventory=vocab.EXTRACTION_LANGUAGES,
+    inventory=vocab.WORKING_LANGUAGES,
     working=vocab.WORKING_LANGUAGES,
     names=vocab.LANGUAGE_NAMES,
     priority=vocab.LANGUAGE_PRIORITY,
@@ -34,21 +35,12 @@ LANGUAGES = LanguageSpec(
 SOURCES = (
     SourceSpec(
         name="gp",
-        description="Google Patents Public Data (BigQuery)",
+        description="BASF-AI AI4Chem accepted within-document abstract pairs",
         languages=vocab.WORKING_LANGUAGES,
-        corpus_relpath="google_patents/multilingual_corpus.csv",
-        qac_dir_relpath="google_patents/qac",
-        attribution_key="google_patents",
-        source_value="google_patents",
-    ),
-    SourceSpec(
-        name="epo",
-        description="EPO bulk full-text data (BDDS product 32)",
-        languages=vocab.EPO_LANGUAGES,
-        corpus_relpath="EPO/multilingual_corpus.csv",
-        qac_dir_relpath="EPO/qac",
-        attribution_key="epo",
-        source_value="epo",
+        corpus_relpath="ai4chem_abstract_pairs/multilingual_corpus.csv",
+        qac_dir_relpath="ai4chem_abstract_pairs/qac",
+        attribution_key="ai4chem_abstract_pairs",
+        source_value="ai4chem_abstract_pairs",
     ),
 )
 
@@ -59,13 +51,15 @@ ANALYSIS = AnalysisVocab(
     diagnostic_languages=vocab.DIAGNOSTIC_LANGUAGES,
 )
 
-# Logical name -> path under the data root. These reproduce the existing on-disk
-# layout exactly, so the current data/ tree works without being moved.
+# The gp command key is retained, but its active corpus has an isolated location.
+# Historical ingestion locations remain addressable without loading their data.
 DATA_LAYOUT = {
     "gp_raw": "google_patents/chemistry_patents.ndjson",
     "gp_preprocessed": "google_patents/preprocessed",
-    "gp_corpus": "google_patents/multilingual_corpus.csv",
-    "gp_qac": "google_patents/qac",
+    "gp_corpus": "ai4chem_abstract_pairs/multilingual_corpus.csv",
+    "gp_qac": "ai4chem_abstract_pairs/qac",
+    "gp_pairs": "ai4chem_abstract_pairs/accepted_pairs.csv",
+    "gp_manifest": "ai4chem_abstract_pairs/manifest.json",
     "epo_manifest": "EPO/manifest.json",
     "epo_corpus": "EPO/multilingual_corpus.csv",
     "epo_qac": "EPO/qac",
@@ -79,10 +73,11 @@ DATA_LAYOUT = {
 
 # Defaults a user can override in clir.toml under [domains.chemistry].
 DEFAULTS = {
+    # Input is distinct from the writable derived-corpus publishing destination.
+    "input_dataset_repo": DATASET_REPO,
     "corpus_repo": "MehdiAstaraki/multilingual_GP",
     "benchmark_repo": "MehdiAstaraki/multi-lingual-qac-chem-patents",
     "gp_benchmark_repo": "MehdiAstaraki/multi-lingual-qac-chem-patents",
-    "epo_benchmark_repo": "MehdiAstaraki/multi-lingual-qac-epo",
     "alias_graph_repo": "MehdiAstaraki/multi-lingual-qac-alias-graph",
     "progressive_repo": "MehdiAstaraki/progressive-code-switch",
     "chebi_variant": "full",
@@ -115,10 +110,10 @@ SPEC = DomainSpec(
     name="chemistry",
     title="Chemistry patents",
     description=(
-        "Multilingual chemistry-patent retrieval built from Google Patents "
-        "Public Data and EPO bulk full-text data. Documents exist in several "
-        "languages as human translations of one another, which is what makes "
-        "cross-language retrieval measurable rather than simulated."
+        "Multilingual chemistry-patent retrieval built only from BASF-AI's "
+        "AI4Chem within-document Google Patents abstract pairs. Accepted exact "
+        "and high-equivalence pairs in English, German, French, Spanish and "
+        "Chinese provide the explicit cross-language relevance links."
     ),
     schema=SCHEMA,
     languages=LANGUAGES,
@@ -131,6 +126,7 @@ SPEC = DomainSpec(
     qac_plans=PLANS,
     qac_candidate_parser=parse_candidates,
     qac_route_plan=route_plan,
+    qac_validate_corpus=validate_corpus,
 )
 
 

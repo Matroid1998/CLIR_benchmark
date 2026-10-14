@@ -30,20 +30,28 @@ def test_every_source_declares_an_attribution(spec: DomainSpec) -> None:
         assert spec.attribution_for(source.name).strip()
 
 
-def test_attributions_are_not_interchangeable(spec: DomainSpec) -> None:
-    """Each source's licence text must be specific to that source.
-
-    The predecessor attached the Google Patents CC BY 4.0 notice to EPO-derived
-    datasets, crediting a provider the data did not come from.
-    """
+def test_only_ai4chem_source_is_active_with_its_own_attribution(spec: DomainSpec) -> None:
     gp = spec.attribution_for("gp")
-    epo = spec.attribution_for("epo")
-    assert gp != epo
-    assert "CC BY 4.0" in gp and "provided by IFI CLAIMS" in gp
-    assert "European Patent Office" in epo
-    # The EPO block may mention the Google attribution, but only to disclaim it.
-    assert "provided by IFI CLAIMS" not in epo
-    assert "does **not** apply" in epo
+    assert spec.source_names == ("gp",)
+    assert spec.source("gp").source_value == "ai4chem_abstract_pairs"
+    assert "BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs" in gp
+    assert "CC BY 4.0" not in gp
+    assert "does not establish a verified license" in gp
+    with pytest.raises(KeyError, match="unknown source"):
+        spec.source("epo")
+
+
+def test_chemistry_input_source_and_supported_languages_are_explicit(spec: DomainSpec) -> None:
+    assert set(spec.languages.inventory) == {"en", "de", "fr", "es", "zh"}
+    assert spec.languages.inventory == spec.languages.working == spec.source("gp").languages
+    assert spec.defaults["input_dataset_repo"] == (
+        "BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs"
+    )
+    assert spec.defaults["corpus_repo"] != spec.defaults["input_dataset_repo"]
+    assert spec.qac_validate_corpus is not None
+    assert spec.schema.parallel_ids_field == "paired_document_ids"
+    assert {"upstream_dataset", "upstream_revision", "upstream_corpus_id",
+            "upstream_group_key", "accepted_pair_ids", "paired_document_ids"} <= set(spec.schema.fields)
 
 
 def test_working_languages_have_names_and_prompts(spec: DomainSpec) -> None:
@@ -105,11 +113,13 @@ def test_data_layout_resolves_under_the_data_root(spec: DomainSpec) -> None:
     # data/legal never collide.
     assert workspace.domain_data_dir == Path("/tmp/data") / spec.name
     assert workspace.data("gp_corpus") == Path(
-        f"/tmp/data/{spec.name}/google_patents/multilingual_corpus.csv"
+        f"/tmp/data/{spec.name}/ai4chem_abstract_pairs/multilingual_corpus.csv"
     )
     assert workspace.corpus_csv("gp") == Path(
-        f"/tmp/data/{spec.name}/google_patents/multilingual_corpus.csv"
+        f"/tmp/data/{spec.name}/ai4chem_abstract_pairs/multilingual_corpus.csv"
     )
+    assert workspace.data("gp_pairs").name == "accepted_pairs.csv"
+    assert workspace.data("gp_manifest").name == "manifest.json"
     with pytest.raises(KeyError):
         workspace.data("no_such_key")
 

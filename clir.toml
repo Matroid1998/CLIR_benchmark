@@ -49,6 +49,7 @@ comparison = 3
 claim_verification = 3
 
 [domains.chemistry]
+input_dataset_repo = "BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs"
 corpus_repo = "MehdiAstaraki/multilingual_GP"
 benchmark_repo = "MehdiAstaraki/multi-lingual-qac-chem-patents"
 gp_benchmark_repo = "MehdiAstaraki/multi-lingual-qac-chem-patents"

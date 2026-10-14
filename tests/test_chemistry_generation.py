@@ -65,8 +65,27 @@ def config():
 def document(candidate):
     family = candidate.get("source_identifier", "EP-1234567-A1")
     language = candidate["evidence_language"]
-    return {"publication_number": family, "doc_id": f"{family}_{language}",
+    return {"publication_number": family, "id": f"{family}_{language}",
             "language": language, "context": candidate["evidence"]}
+
+
+def accepted_documents(rows):
+    """A symmetric accepted-pair corpus fixture for the chemistry CLI preflight."""
+    output = []
+    for row in rows:
+        peers = [peer for peer in rows if peer["publication_number"] == row["publication_number"]
+                 and peer["language"] != row["language"]]
+        assert peers, "An accepted source endpoint needs a cross-language peer"
+        output.append({
+            **row, "abstract": row["context"], "source": "ai4chem_abstract_pairs",
+            "upstream_dataset": "BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs",
+            "upstream_revision": "test-sha",
+            "accepted_pair_ids": json.dumps([
+                "pair-" + "-".join(sorted((row["id"], peer["id"]))) for peer in peers
+            ]),
+            "paired_document_ids": json.dumps([peer["id"] for peer in peers]),
+        })
+    return output
 
 
 @pytest.mark.parametrize("mode", MODES)
@@ -270,7 +289,7 @@ def test_legacy_default_parser_still_supports_semantic_generation(monkeypatch):
     assert qagen.generate_candidates(None, legacy, "prompt", "passage", "semantic") == [candidate]
 
 
-def test_cli_generation_and_regrading_preserve_translation_and_replace_grade_audits(
+def test_cli_generation_and_regrading_preserve_source_metadata_and_replace_grade_audits(
     monkeypatch, tmp_path,
 ):
     from clir_bench import domains
@@ -284,11 +303,15 @@ def test_cli_generation_and_regrading_preserve_translation_and_replace_grade_aud
         reports_dir=tmp_path / "reports", cluster_dir=tmp_path / "cluster",
     ), SPEC)
     parser = build_parser(context, domains.load_module("chemistry"))
-    # The second English example translates French evidence and has array metadata.
-    candidate = examples("constraint_search")[1][0]
-    assert candidate["answer_is_translation"] is True
+    # The source and prompt share a language; array metadata survives regrading.
+    candidate = examples("constraint_search")[0][0]
+    assert candidate["evidence_language"] == "en"
     source = document(candidate)
-    corpus.write_rows(context.workspace.corpus_csv("gp"), [source], tuple(source))
+    source_rows = accepted_documents([
+        source, dict(source, id=f"{source['publication_number']}_fr", language="fr",
+                     context="Autre version française du document."),
+    ])
+    corpus.write_rows(context.workspace.corpus_csv("gp"), source_rows, tuple(source_rows[0]))
     monkeypatch.setattr(cli, "client_for", lambda model: None)
     monkeypatch.setattr(qagen, "chat", lambda *a, **k: json.dumps([candidate]))
     score = 4
@@ -346,3 +369,137 @@ def test_cli_generation_and_regrading_preserve_translation_and_replace_grade_aud
     assert qagen.candidate_from_row(saved) == dict(
         candidate, mode="constraint_search", question_language="en",
     )
+
+
+@pytest.mark.parametrize("use_decider", [False, True])
+def test_french_documents_use_french_prompts_and_exact_source_through_regrading(
+    monkeypatch, tmp_path, use_decider,
+):
+    from clir_bench import domains
+    from clir_bench.cli import build_parser
+    from clir_bench.cli import qac as cli
+    from clir_bench.core import llm
+    from clir_bench.core.config import Settings
+    from clir_bench.core.context import AppContext
+
+    context = AppContext.build(Settings(
+        project_root=tmp_path, data_dir=tmp_path / "data", reports_dir=tmp_path / "reports",
+        cluster_dir=tmp_path / "cluster",
+    ), SPEC)
+    parser = build_parser(context, domains.load_module("chemistry"))
+    family = "EP-1234567-A1"
+    rows = accepted_documents([
+        {"publication_number": family, "id": f"{family}_fr", "language": "fr",
+         "context": "Le catalyseur A est une zéolite."},
+        {"publication_number": family, "id": f"{family}_en", "language": "en",
+         "context": "ENGLISH SIBLING MUST NOT REACH MODELS"},
+        {"publication_number": family, "id": f"{family}_de", "language": "de",
+         "context": "GERMAN SIBLING MUST NOT REACH MODELS"},
+    ])
+    corpus.write_rows(context.workspace.corpus_csv("gp"), rows, tuple(rows[0]))
+    monkeypatch.setattr(cli, "client_for", lambda model: None)
+    generation_packets, grade_packets, decider_packets = [], [], []
+
+    def assert_packet(packet):
+        assert "[FR]" in packet and "[EN]" not in packet
+        assert "ENGLISH SIBLING" not in packet and "GERMAN SIBLING" not in packet
+        assert sum(f"catalyseur {label}" in packet for label in ("A", "B")) == 1
+
+    def generate(client, model, messages, **kwargs):
+        assert messages[0]["content"] == PACK.generation("lookup", "fr")
+        packet = messages[1]["content"]
+        assert_packet(packet)
+        generation_packets.append(packet)
+        label = "A" if "catalyseur A" in packet else "B"
+        answer = f"Le catalyseur {label} est une zéolite."
+        return json.dumps([{
+            "question": f"Quel catalyseur est utilisé pour la réaction {label} ?",
+            "answer": answer, "anchor": "catalyseur", "evidence": answer,
+            "evidence_language": "fr", "answer_is_translation": False,
+            "question_type": "material_or_composition",
+        }])
+
+    def grade(client, settings, prompt, content):
+        payload = json.loads(content)
+        assert_packet(payload["passages"])
+        assert payload["candidates"][0]["question_language"] == "fr"
+        assert payload["candidates"][0]["evidence"] in payload["passages"]
+        grade_packets.append(payload["passages"])
+        return verifier_response(prompt, payload["candidates"])
+
+    def decide(request):
+        assert_packet(request["state"])
+        decider_packets.append(request["state"])
+        return {"answers": {
+            mode: {"type": "noul", "noul": float(mode == "lookup")} for mode in MODES
+        }}
+
+    monkeypatch.setattr(qagen, "chat", generate)
+    monkeypatch.setattr(grading, "_invoke", grade)
+    monkeypatch.setattr(llm, "decisions", decide)
+    output = tmp_path / "french.csv"
+    options = ["--decider-model", "jev"] if use_decider else ["--modes", "lookup"]
+    args = parser.parse_args([
+        "qac", "generate", "--source", "gp", "--langs", "fr", "--questions", "2",
+        "--output", str(output), *options,
+    ])
+    assert args.handler(args, context) == 0
+    generated = corpus.read_rows(output)
+    assert {row["source_document_id"] for row in generated} == {f"{family}_fr"}
+    assert all(row["corpus_id"] == row["source_document_id"] for row in generated)
+    assert all(row["question_language"] == row["context_language"] == row["context_languages"] == "fr"
+               for row in generated)
+    assert len(corpus.read_rows(tmp_path / "french_best.csv")) == 1
+    assert len(generation_packets) == 1 and len(grade_packets) == 2
+    assert set(grade_packets) == set(generation_packets)
+    assert len(decider_packets) == (1 if use_decider else 0)
+    if use_decider:
+        assert set(decider_packets) == set(generation_packets)
+
+    regraded = tmp_path / "french_regraded.csv"
+    args = parser.parse_args([
+        "qac", "regrade", "--source", "gp", "--input", str(output), "--output", str(regraded),
+    ])
+    assert args.handler(args, context) == 0
+    assert len(grade_packets) == 4
+    assert set(grade_packets) == set(generation_packets)
+    assert {row["source_document_id"] for row in corpus.read_rows(regraded)} == {
+        f"{family}_fr",
+    }
+    assert len(corpus.read_rows(tmp_path / "french_regraded_best.csv")) == 1
+
+
+def test_exact_document_selection_keeps_same_language_siblings_separate(monkeypatch):
+    family = "EP-1234567-A1"
+    rows = [{"publication_number": family, "id": f"fr-{label}", "language": "fr",
+             "context": f"Le catalyseur {label} est une zéolite."} for label in ("A", "B")]
+
+    def generate(client, model, messages, **kwargs):
+        assert messages[0]["content"] == PACK.generation("lookup", "fr")
+        packet = messages[1]["content"]
+        assert sum(row["context"] in packet for row in rows) == 1
+        label = "A" if rows[0]["context"] in packet else "B"
+        return json.dumps([{
+            "question": f"Quel catalyseur est utilisé pour la réaction {label} ?",
+            "answer": f"Le catalyseur {label} est une zéolite.", "anchor": "catalyseur",
+            "evidence": f"Le catalyseur {label} est une zéolite.", "evidence_language": "fr",
+            "answer_is_translation": False, "question_type": "material_or_composition",
+        }])
+
+    def grade(client, settings, prompt, content):
+        payload = json.loads(content)
+        assert sum(row["context"] in payload["passages"] for row in rows) == 1
+        assert payload["candidates"][0]["evidence"] in payload["passages"]
+        return verifier_response(prompt, payload["candidates"])
+
+    monkeypatch.setattr(qagen, "chat", generate)
+    monkeypatch.setattr(grading, "_invoke", grade)
+    results = []
+    for row in rows:
+        results.extend(qagen.generate_for_document(
+            qagen.PlanItem(family, "fr", "lookup", document_id=row["id"]), rows,
+            schema=SCHEMA, prompts=PACK, config=config(), generation_client=None, grading_client=None,
+        ))
+    assert {row["source_document_id"] for row in results} == {"fr-A", "fr-B"}
+    assert all(row["source_document_id"] == row["corpus_id"] for row in results)
+    assert len(qagen.select_best(results, SCHEMA)) == 2

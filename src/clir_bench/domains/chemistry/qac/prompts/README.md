@@ -51,6 +51,15 @@ everything else is reached with `.custom(...)`.
 
 ## Generation contract
 
+The active chemistry source is
+[`BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs`](https://huggingface.co/datasets/BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs),
+addressed by the `gp` CLI key. Import retains only `pair_ok=true` records whose
+`judge_verdict` is `exact` or `high` and whose two endpoint languages are supported.
+Each normalized document contains one endpoint's complete cleaned abstract.
+Upstream publication and group identities, revision and accepted direct pair
+links remain available as provenance. The group identity is not a relevance
+shortcut: accepted pair links need not form a complete graph across languages.
+
 All seven personas are enabled by default for every chemistry generation plan.
 Use `--modes` to select a subset; `technical` and `semantic` are no longer
 generation modes. Each call returns one to three candidates, or one
@@ -58,21 +67,30 @@ generation modes. Each call returns one to three candidates, or one
 produces no candidate rows and does not call the graders. Malformed output
 raises an error and is retried under the configured generation retry policy.
 
+The `balanced`, `uniform` and `coverage` plans select existing source documents
+in `en`, `de`, `fr`, `es` or `zh`. The selected document's language determines
+the generation prompt and question language. `--langs` restricts which source
+documents may be selected. Generation, both graders and the eligibility decider
+receive only the selected document's text and publication identifier.
+
 The parser in `../candidates.py` checks exact field sets, types, enums and
 question-substring annotations. It preserves evidence verbatim. Scientific
 support, evidence provenance and translation fidelity are checked by the
 verifiers. Questions, evidence, evidence language, translation flags and all
 persona annotations survive CSV export and regrading; arrays and booleans use
-JSON cell encoding. Publication identifiers accompany the source passages for
-source-finding. Best-candidate selection retains one result per publication,
-question language and persona.
+JSON cell encoding. Publication identifiers accompany the source passage for
+source-finding. The CSV also preserves `source_document_id`; regrading resolves
+that same source document and supplies only its text to the verifiers.
+Best-candidate selection retains one result per source document, question
+language and persona. Distinct source documents remain separate even when
+their publication number and language are identical.
 
 ## Batch verifier contract
 
 The shared faithfulness rubric scores `grounding`, `precision` and
 `numerical_fidelity`, each out of 5. It checks the actual question, answer,
-evidence, assertion verdict and publication identity against the supplied patent
-packet, including translations and connected spans. When numerical fidelity is
+evidence, assertion verdict and publication identity against the selected source
+document, including connected evidence spans. When numerical fidelity is
 inapplicable, the rubric assigns 4 as a compatibility value and explains this in
 the reason; inapplicability does not earn exceptional credit.
 
@@ -132,7 +150,7 @@ forecasts possible generation quality and is not a measured candidate score.
 
 Enable routing with `clir --domain chemistry qac generate --source gp
 --decider-model jev`. The loader replaces the template's state with the same
-multilingual passages and publication identifiers supplied to generation, and
+selected document text and publication identifier supplied to generation, and
 uses `~typesafe/jev-latest` through the existing Decisions transport. It excludes
 old candidate and grading columns. A response must contain exactly seven finite
 probabilities between 0 and 1; they are not normalized across personas. Malformed
@@ -146,9 +164,10 @@ target share, using equal weights by default and a seeded tie-break. Configure
 other positive weights in `[domains.chemistry.persona_weights]`. A sole eligible
 persona is always used even if it is overrepresented; an all-No result is skipped.
 
-Eligibility is evaluated once per publication and reused across target languages.
+Eligibility is evaluated once per selected source document, with separate
+screening for distinct documents sharing a publication number or language.
 Assignments follow sampled order regardless of concurrent completion order and
-are counted before generation. `--questions` caps distinct target/language cases,
+are counted before generation. `--questions` caps distinct source documents,
 and `--limit` further restricts the sampled plan. `--modes` cannot be combined with
 the automatic decider. Fixed-mode generation remains available without the flag.
 
@@ -164,8 +183,8 @@ The `_batch` and `_single` verifier prompts must stay separate because they have
 
 | | input | output |
 |---|---|---|
-| `faithfulness_batch.txt` | multilingual patent packet + actual candidates | a JSON **list** matching the input count, each carrying an `"index"` |
-| current persona `*_batch.txt` | multilingual patent packet + actual candidates | a JSON **object** containing `"candidates"` and `"batch_diversity"` |
+| `faithfulness_batch.txt` | selected source document + actual candidates | a JSON **list** matching the input count, each carrying an `"index"` |
+| current persona `*_batch.txt` | selected source document + actual candidates | a JSON **object** containing `"candidates"` and `"batch_diversity"` |
 | `*_single.txt` | one passage + **one** QA pair | a single JSON **object**, no `"index"` |
 
 The batch form exists because the main QAC pipeline generates up to three candidates

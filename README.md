@@ -3,7 +3,7 @@
 Builds and evaluates multilingual cross-language information retrieval benchmarks from
 document collections that exist in several languages as human translations of one another.
 
-The domains are chemistry patents (Google Patents Public Data and EPO bulk full-text data)
+The domains are chemistry patents (BASF-AI AI4Chem within-document abstract pairs)
 and legal documents (EUR-Lex articles and United Nations document blocks). Domains declare
 their sources and connect their workflows to the same `clir` commands.
 
@@ -11,16 +11,16 @@ their sources and connect their workflows to the same `clir` commands.
 
 Cross-language retrieval is usually evaluated on machine-translated queries or documents,
 which measures the translation as much as the retriever. Patent families give something
-better: the same document, written by people in several languages. A query about a document
-should retrieve any of its language versions, so cross-lingual retrieval becomes directly
-measurable. That relation — which documents are versions of one another — is the axis the
-whole design turns on.
+better: related document versions in several languages. Chemistry uses explicitly accepted
+pairs of abstracts from the same publication; these direct links define which other
+language versions are relevant. That relation — which documents are accepted counterparts
+of one another — makes cross-lingual retrieval measurable.
 
 ## Install
 
 ```bash
 uv sync                      # pipeline only
-uv sync --extra chem         # + BigQuery, EPO streaming, ontology graph
+uv sync --extra chem         # + chemistry ontology tools and historical ingestion dependencies
 uv sync --extra eval         # + the embedding-model stack (compute nodes)
 cp .env.example .env         # then fill in the keys you need
 ```
@@ -49,9 +49,7 @@ the templates stay formatted; use `--check` to see what would change.
 clir domains                 # what is installed
 clir config                  # resolved settings and paths
 
-clir ingest gp --limit 500   # extract from BigQuery
-clir ingest epo --batches 3  # stream EPO bulk data, resumably
-clir corpus filter --source gp --min-langs 2
+clir ingest gp --limit 500   # import up to 500 accepted AI4Chem abstract pairs
 clir corpus stats
 
 clir qac generate --source gp --plan balanced --questions 100
@@ -65,14 +63,41 @@ clir analyze questions --run latest
 clir runs list
 ```
 
+Chemistry uses only
+[`BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs`](https://huggingface.co/datasets/BASF-AI/ai4chem-clir-google-patents-within-document-abstract-pairs).
+The existing `gp` command key now names this source. Import keeps records with
+`pair_ok=true` and `judge_verdict` equal to `exact` or `high`, with **both**
+endpoint languages in `en`, `de`, `fr`, `es` or `zh`. It preserves each endpoint's
+full cleaned abstract. `--languages` can further restrict that set;
+`--revision` resolves and records an immutable upstream commit.
+
+The corpus, accepted pair records and import manifest are stored under
+`data/chemistry/ai4chem_abstract_pairs/`. Historical Google Patents and EPO files
+remain on disk but are not active chemistry sources. `input_dataset_repo`
+identifies the fixed upstream dataset; `corpus_repo` remains a separate destination
+for publishing the derived retrieval corpus.
+
+Retrieval positives are the selected document and its directly accepted paired
+documents. Sharing a publication number or being linked through a third language
+does not establish an additional positive. The cross-language export retains only
+direct partners in other languages and omits queries with no retained partner.
+
 Chemistry generation uses seven personas in English, German, Spanish, French and
 Chinese: `lookup`, `process_retrieval`, `conceptual`, `constraint_search`,
 `comparison`, `assertion_verification` and `source_finding`. All are enabled by
 default; restrict them with `--modes lookup conceptual`, for example. These
 replace the old `technical` and `semantic` generation modes. Each call can return
 one to three candidates or abstain. Evidence and persona annotations are saved
-in the CSV; the best output keeps one candidate per publication, language and
+in the CSV; the best output keeps one candidate per source document, language and
 persona. See the [chemistry prompt contract](src/clir_bench/domains/chemistry/qac/prompts/README.md).
+
+Chemistry plans select an existing document in `en`, `de`, `fr`, `es` or `zh`.
+That document's language determines both the generation prompt and question
+language; `--langs` filters the documents eligible for selection. Generation,
+both graders, Jev screening and regrading use only that selected document's
+text and publication identifier. The CSV preserves `source_document_id`, so
+distinct source documents remain separate even when they share a publication
+number and language. Regrading resolves the same document from the saved ID.
 
 Chemistry batch verification uses the supplied `chemistry-clir-exceptional-r1`
 rubric: shared faithfulness scores /15 and persona-specific quality scores /25,
@@ -85,18 +110,19 @@ To select a suitable chemistry persona before generation, use the Jev eligibilit
 
 ```bash
 clir --domain chemistry qac generate --source gp --decider-model jev --questions 100
-clir --domain chemistry qac generate --source epo --decider-model jev --questions 10 --dry-run
+clir --domain chemistry qac generate --source gp --decider-model jev --questions 10 --dry-run
 ```
 
-Jev assesses all seven personas independently from the supplied multilingual patent packet.
+Jev assesses all seven personas independently from the selected source document.
 The packaged `decider/jev_eligibility.json` preserves the supplied chemistry
 eligibility template. Its 32/40 screening target is a quality forecast;
 the default Yes-probability threshold is 0.5 because this prompt supplies no routing policy.
 Among eligible personas, the pipeline selects the largest deficit against an equal target mix,
 with reproducible tie-breaking from `--seed`. Override positive weights using
-`[domains.chemistry.persona_weights]` in `clir.toml`. All-No patents are skipped.
-Each patent is screened once per invocation; assignments are per publication and question language.
-With the decider, `--questions` caps sampled target/language cases; skips can reduce output.
+`[domains.chemistry.persona_weights]` in `clir.toml`. All-No documents are skipped.
+Each selected source document is screened once per invocation; each receives its own
+persona assignment. With the decider, `--questions` caps sampled source documents;
+skips can reduce output.
 Do not combine `--decider-model` with `--modes`. Dry runs make no model calls.
 
 The results CSV retains the decider probabilities, eligible personas, chosen persona and prompt

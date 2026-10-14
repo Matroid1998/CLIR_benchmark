@@ -8,10 +8,9 @@ with their benchmarks; only the mechanics live here.
 Two things in this module are load-bearing and were ported deliberately, not
 rewritten:
 
-* **qrels semantics.** Every document sharing a family key is a positive for a
-  query about that family, and the cross-language variant keeps only positives
-  in a different language than the query (falling back to all positives when
-  that would empty the set). Changing this changes what published scores mean.
+* **qrels semantics.** Corpora with explicit parallel-document links use only
+  the source document and its declared direct partners as positives. Legacy
+  corpora retain family-based relevance and their cross-language fallback.
 * **Attribution scoping.** Cards are composed from the attribution of the source
   the data actually came from. The old code attached the Google Patents CC BY 4.0
   block to EPO-derived datasets too; here a card is built per source and an
@@ -20,6 +19,7 @@ rewritten:
 
 from __future__ import annotations
 
+import json
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -188,17 +188,38 @@ def corpus_rows(
         doc_id = schema.id_of(row)
         if not doc_id:
             continue
-        out.append(
-            {
-                "_id": doc_id,
-                "corpus_id": doc_id,
-                "title": row.get("title", ""),
-                "text": schema.text_of(row),
-                "corpus_language": schema.language_of(row),
-                schema.family_field: schema.family_of(row),
-            }
-        )
+        document = {
+            "_id": doc_id,
+            "corpus_id": doc_id,
+            "title": row.get("title", ""),
+            "text": schema.text_of(row),
+            "corpus_language": schema.language_of(row),
+            schema.family_field: schema.family_of(row),
+        }
+        for name in schema.export_metadata_fields:
+            if name in row:
+                document[name] = row[name]
+        if schema.parallel_ids_field and schema.parallel_ids_field in row:
+            document[schema.parallel_ids_field] = _parallel_ids(
+                row[schema.parallel_ids_field], doc_id, schema.parallel_ids_field
+            )
+        out.append(document)
     return out
+
+
+def _parallel_ids(value: Any, doc_id: str, field_name: str) -> list[str]:
+    """Read explicit relevance links without accepting malformed metadata."""
+    if isinstance(value, str):
+        try:
+            value = json.loads(value)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"Document {doc_id!r} has invalid JSON in {field_name}") from exc
+    if (not isinstance(value, list)
+            or any(not isinstance(item, str) or not item.strip() or item != item.strip()
+                   for item in value)
+            or len(value) != len(set(value))):
+        raise ValueError(f"Document {doc_id!r} requires unique nonempty IDs in {field_name}")
+    return list(value)
 
 
 @dataclass
@@ -221,25 +242,33 @@ def build_retrieval_configs(
     question_field: str = "question",
     answer_field: str = "answer",
     doc_id_field: str = "corpus_id",
-    passthrough_fields: Sequence[str] = ("mode", "strategy", "strategy_name", "question_type"),
+    passthrough_fields: Sequence[str] = (
+        "mode", "strategy", "strategy_name", "question_type", "source_document_id",
+    ),
 ) -> RetrievalConfigs:
     """Turn a corpus and its QAC rows into MTEB retrieval configs.
 
-    Relevance: a query generated from a document is relevant to *every* language
-    version of that document -- they are translations of one another, so a
-    retriever that returns the German version of the right document has
-    succeeded. The cross-language variant drops the same-language versions to
-    isolate genuinely cross-lingual retrieval.
+    Explicit parallel links take precedence over family membership. They are
+    direct edges, never transitive equivalence classes. The cross-language
+    variant includes only queries with a known partner in another language.
+    Corpora without explicit links retain the historical family-based behavior.
     """
     ids_by_family: dict[str, list[str]] = {}
     language_by_id: dict[str, str] = {}
     known_ids: set[str] = set()
+    parallel_by_id: dict[str, list[str]] = {}
     for row in corpus:
         doc_id = schema.id_of(row)
         if not doc_id:
             continue
         known_ids.add(doc_id)
         language_by_id[doc_id] = schema.language_of(row)
+        if schema.parallel_ids_field and schema.parallel_ids_field in row:
+            if doc_id in parallel_by_id:
+                raise ValueError(f"Duplicate document ID in explicit-pair corpus: {doc_id!r}")
+            parallel_by_id[doc_id] = _parallel_ids(
+                row[schema.parallel_ids_field], doc_id, schema.parallel_ids_field
+            )
         family = schema.family_of(row)
         if family:
             ids_by_family.setdefault(family, []).append(doc_id)
@@ -253,6 +282,13 @@ def build_retrieval_configs(
 
     for index, row in enumerate(qac):
         doc_id = str(row.get(doc_id_field, "") or "").strip()
+        if parallel_by_id:
+            recorded_id = str(row.get("source_document_id", "") or "").strip()
+            if recorded_id and doc_id and recorded_id != doc_id:
+                raise ValueError("QAC source_document_id disagrees with its corpus document ID")
+            doc_id = recorded_id or doc_id
+            if doc_id not in parallel_by_id:
+                raise ValueError(f"QAC source {doc_id!r} has no explicit pair metadata in the corpus")
         language = str(
             row.get("question_language") or row.get(schema.language_field) or ""
         ).strip()
@@ -262,10 +298,17 @@ def build_retrieval_configs(
 
         query_id = _mint_query_id(schema, doc_id if doc_id in known_ids else "", language, index, seen)
 
-        relevant = list(ids_by_family.get(family, []))
-        if not relevant and doc_id:
-            relevant = [doc_id]
-        cross_relevant = [d for d in relevant if language_by_id.get(d, "") != language] or list(relevant)
+        if parallel_by_id:
+            relevant = list(dict.fromkeys(
+                [doc_id, *(target for target in parallel_by_id[doc_id] if target in known_ids)]
+            ))
+            cross_relevant = [target for target in relevant
+                              if language_by_id.get(target) and language_by_id[target] != language]
+        else:
+            relevant = list(ids_by_family.get(family, []))
+            if not relevant and doc_id:
+                relevant = [doc_id]
+            cross_relevant = [d for d in relevant if language_by_id.get(d, "") != language] or list(relevant)
 
         source_language = language_by_id.get(doc_id, "")
         query_row: dict[str, Any] = {
@@ -284,7 +327,8 @@ def build_retrieval_configs(
                 query_row[name] = str(row.get(name, "") or "").strip()
 
         queries.append(query_row)
-        cross_queries.append(dict(query_row))
+        if cross_relevant:
+            cross_queries.append(dict(query_row))
         for target in relevant:
             qrels.append({"query-id": query_id, "corpus-id": target, "score": 1})
         for target in cross_relevant:

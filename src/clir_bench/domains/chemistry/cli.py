@@ -1,9 +1,8 @@
 """
 Commands this domain adds.
 
-Two kinds: ingest subcommands under the core ``ingest`` group (one per source,
-because a BigQuery extraction and a bulk-archive stream need different options),
-and the chemistry-specific benchmark groups, which have no generic equivalent.
+Two kinds: ingestion of the accepted BASF-AI abstract pairs, and the
+chemistry-specific benchmark groups, which have no generic equivalent.
 
 Handlers import their implementation lazily so that ``clir --help`` does not
 pull in BigQuery, networkx or the model stack.
@@ -12,8 +11,10 @@ pull in BigQuery, networkx or the model stack.
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 
 from clir_bench.core.context import AppContext
+from clir_bench.domains.chemistry.vocabulary import WORKING_LANGUAGES
 
 
 def register_cli(registrar, context: AppContext) -> None:
@@ -28,35 +29,21 @@ def register_cli(registrar, context: AppContext) -> None:
 # --------------------------------------------------------------------------- #
 
 def _register_ingest(registrar) -> None:
-    gp = registrar.ingest_source("gp", help="Extract chemistry patents from Google Patents (BigQuery)")
-    gp.add_argument("--limit", type=int, help="Documents per language (omit for no limit)")
-    gp.add_argument("--languages", nargs="+", help="Languages to extract (default: the domain's)")
-    gp.add_argument("--skip-extract", action="store_true", help="Reuse the existing raw NDJSON")
-    gp.add_argument("--skip-preprocess", action="store_true", help="Reuse the existing per-language CSVs")
-    gp.add_argument("--min-langs", type=int, default=2, help="Languages required per document (default: 2)")
-    gp.add_argument("--yes", "-y", action="store_true", help="Do not prompt; rebuild everything")
-    gp.set_defaults(handler=_ingest_gp)
-
-    epo = registrar.ingest_source("epo", help="Stream EPO bulk full-text data (BDDS)")
-    epo.add_argument("--batches", type=int, default=1, help="Archive items to process (default: 1)")
-    epo.add_argument(
-        "--strict",
-        action="store_true",
-        help="Keep only documents whose chemistry signal comes from classification codes",
+    gp = registrar.ingest_source(
+        "gp", help="Import accepted exact/high BASF-AI Google Patents abstract pairs",
     )
-    epo.add_argument("--item", help="Process one specific BDDS item id (for pilots)")
-    epo.add_argument("--output-dir", help="Write to an isolated directory instead of the corpus")
-    epo.set_defaults(handler=_ingest_epo)
+    gp.add_argument("--revision", default="main", help="Hugging Face revision to resolve and pin")
+    gp.add_argument("--limit", type=int, help="Limit accepted pairs for a small local import")
+    gp.add_argument(
+        "--languages", nargs="+", choices=WORKING_LANGUAGES,
+        help="Keep pairs with both sides in these languages (default: en de fr es zh)",
+    )
+    gp.add_argument("--input", type=Path, help="Read a local export in Parquet or JSONL format")
+    gp.set_defaults(handler=_ingest_gp)
 
 
 def _ingest_gp(args: argparse.Namespace, context: AppContext) -> int:
-    from clir_bench.domains.chemistry.sources.google_patents import ingest
-
-    return ingest(context, args)
-
-
-def _ingest_epo(args: argparse.Namespace, context: AppContext) -> int:
-    from clir_bench.domains.chemistry.sources.epo_bdds import ingest
+    from clir_bench.domains.chemistry.sources.abstract_pairs import ingest
 
     return ingest(context, args)
 

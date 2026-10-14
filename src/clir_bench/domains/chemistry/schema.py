@@ -1,14 +1,11 @@
 """
 The patent corpus schema.
 
-Column names and order match the CSVs the project already has on disk, so
-existing data files are readable without conversion.
-
-``publication_number`` is the family key: the versions of one patent in
-different languages share it, which is what makes a query about a patent
-relevant to all of its translations. A legal domain would set ``family_field``
-to whatever plays that role there (a CELEX id, a case number) and the same core
-logic applies unchanged.
+The historical text columns are retained, with upstream provenance and accepted
+pair metadata appended. ``publication_number`` identifies one publication;
+the upstream patent-family grouping is preserved separately. Retrieval relevance
+uses explicit ``paired_document_ids``, since accepted language pairs do not
+necessarily connect every language version of a publication to every other one.
 """
 
 from __future__ import annotations
@@ -31,6 +28,12 @@ CORPUS_FIELDS = (
     "publication_date",
     "source",
     "ipc_codes",
+    "upstream_dataset",
+    "upstream_revision",
+    "upstream_corpus_id",
+    "upstream_group_key",
+    "accepted_pair_ids",
+    "paired_document_ids",
 )
 
 # The parts assembled into the ``context`` column, in order.
@@ -71,6 +74,11 @@ SCHEMA = CorpusSchema(
     language_field="language",
     text_fields=("context", "abstract", "title"),
     dedup_key_fn=dedup_key,
+    parallel_ids_field="paired_document_ids",
+    export_metadata_fields=(
+        "upstream_dataset", "upstream_revision", "upstream_corpus_id", "upstream_group_key",
+        "accepted_pair_ids", "paired_document_ids",
+    ),
 )
 
 

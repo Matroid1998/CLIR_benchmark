@@ -9,12 +9,12 @@ which mode).
 
 Design properties preserved from the original pipeline, each load-bearing:
 
-* generators *and* graders see every language version of a document, so grading
-  is grounded cross-lingually rather than against one translation;
+* generators and graders see the same evidence: an explicitly selected document,
+  or all language versions when the plan selects a whole family;
 * candidates are generated in one call and graded in one call per rubric, then
   ranked -- not generated-and-graded one at a time;
-* language selection is strategy-driven, which is what makes the benchmark
-  contain both same-language and cross-language queries by construction.
+* plans control the query language; selecting an individual document requires
+  its language to match the question language.
 """
 
 from __future__ import annotations
@@ -127,10 +127,27 @@ class PlanItem:
     mode: str = MODE_TECHNICAL
     strategy: int = STRATEGY_RANDOM_ANY
     metadata: Mapping[str, Any] = field(default_factory=dict)
+    document_id: str = ""
 
     @property
     def strategy_name(self) -> str:
         return str(self.metadata.get("strategy_name") or STRATEGY_NAMES.get(self.strategy, ""))
+
+
+def select_plan_rows(
+    item: PlanItem, rows: Sequence[Mapping[str, str]], schema: CorpusSchema,
+) -> list[Mapping[str, str]]:
+    """Resolve an explicitly selected document without substituting another version."""
+    if not item.document_id:
+        return list(rows)
+    selected = [row for row in rows if schema.id_of(row) == item.document_id]
+    if len(selected) != 1:
+        raise ValueError(f"Expected one source document for {item.document_id!r}, found {len(selected)}")
+    if schema.language_of(selected[0]) != item.language:
+        raise ValueError("Question language must match the selected source document's language")
+    if schema.family_of(selected[0]) != item.family:
+        raise ValueError("Selected source document does not belong to the planned family")
+    return selected
 
 
 def generate_candidates(
@@ -187,9 +204,10 @@ def generate_for_document(
 ) -> list[dict[str, Any]]:
     """Generate, grade and rank candidates for one plan item.
 
-    Returns rows sorted best-first. Callers keep the top row per
-    (family, language, mode) for the published set and may keep the rest for audit.
+    Returns rows sorted best-first. Callers keep the top row per selected
+    document, language and mode for publication and may keep the rest for audit.
     """
+    rows = select_plan_rows(item, rows, schema)
     passages = corpus_io.build_passages_text(
         rows, schema, order=language_order, include_identifiers=True
     )
@@ -242,6 +260,7 @@ def generate_for_document(
         row: dict[str, Any] = {
             schema.family_field: item.family,
             "corpus_id": schema.id_of(context_row),
+            "source_document_id": item.document_id,
             "question_language": item.language,
             "context_language": schema.language_of(context_row),
             "context_languages": corpus_io.serialize_languages(rows, schema, order=language_order),
@@ -300,6 +319,7 @@ def output_fieldnames(
     identity = (
         schema.family_field,
         "corpus_id",
+        "source_document_id",
         "question_language",
         "context_language",
         "context_languages",
@@ -339,13 +359,13 @@ def candidate_from_row(row: Mapping[str, Any]) -> dict[str, Any]:
 def select_best(
     rows: Sequence[Mapping[str, Any]], schema: CorpusSchema
 ) -> list[dict[str, Any]]:
-    """Highest-scoring row per (family, question language, mode).
+    """Highest-scoring row per selected document, question language and mode.
 
     Rows with missing, invalid or nonfinite totals remain in the candidate
     export but cannot be selected as a scored best candidate.
     """
-    best: dict[tuple[str, str, str], dict[str, Any]] = {}
-    scores: dict[tuple[str, str, str], float] = {}
+    best: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+    scores: dict[tuple[str, str, str, str], float] = {}
     for row in rows:
         score = _score(row)
         if score is None:
@@ -353,6 +373,7 @@ def select_best(
         key = (
             str(row.get(schema.family_field, "")), str(row.get("question_language", "")),
             str(row.get("mode", "")),
+            str(row.get("source_document_id") or ""),
         )
         if key not in best or score > scores[key]:
             best[key] = dict(row)
@@ -402,4 +423,5 @@ __all__ = [
     "output_fieldnames",
     "pick_target_languages",
     "select_best",
+    "select_plan_rows",
 ]
