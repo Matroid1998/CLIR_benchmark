@@ -265,7 +265,7 @@ def test_cli_decider_controls_generation_and_preserves_audit(
     assert saved["decider_prompt_sha256"] == audit["prompt_sha256"]
     assert json.loads(saved["decider_eligible_modes_json"]) == ["lookup"]
     assert saved["total_score"] == "32"
-    assert saved["quality_rubric_version"] == "chemistry-clir-exceptional-r1"
+    assert saved["quality_rubric_version"] == "chemistry-clir-exceptional-r2"
     assert saved["quality_audit_status"] == "clear"
     regraded = tmp_path / "regraded.csv"
     args = parser.parse_args(["qac", "regrade", "--source", source, "--input", str(output),

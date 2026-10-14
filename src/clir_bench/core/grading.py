@@ -142,7 +142,10 @@ _QUALITY_FIELDS_BY_MODE = {
 # grader was actually asked to produce.
 _RUBRIC_SCORE = re.compile(r'"([a-z_]+)"\s*:\s*<1-5>')
 _LEGAL_RUBRIC_VERSIONS = frozenset(("legal-qg-v2.0", "legal-qg-v3.0"))
-_CHEMISTRY_RUBRIC_VERSION = "chemistry-clir-exceptional-r1"
+_CHEMISTRY_RUBRIC_VERSIONS = frozenset((
+    "chemistry-clir-exceptional-r1",
+    "chemistry-clir-exceptional-r2",
+))
 
 
 def _chemistry_rubric_version(prompt: str) -> str | None:
@@ -150,14 +153,16 @@ def _chemistry_rubric_version(prompt: str) -> str | None:
     versions = set(re.findall(r"^# RUBRIC:\s*(chemistry-\S+)\s*$", prompt, re.MULTILINE))
     if not versions:
         return None
-    if versions != {_CHEMISTRY_RUBRIC_VERSION}:
+    if len(versions) != 1 or not versions <= _CHEMISTRY_RUBRIC_VERSIONS:
         raise ValueError("Chemistry rubric declares conflicting or unsupported versions")
-    return _CHEMISTRY_RUBRIC_VERSION
+    return next(iter(versions))
 
 
 def _quality_output_example(prompt: str) -> Mapping[str, Any] | None:
     """Recognize a compact quality contract from its actual JSON example."""
-    marker = r"^ILLUSTRATIVE VERIFIER OUTPUT\s*$" if _chemistry_rubric_version(prompt) else r"^OUTPUT\s*$"
+    version = _chemistry_rubric_version(prompt)
+    marker = (r"^ILLUSTRATIVE VERIFIER OUTPUT\s*$"
+              if version == "chemistry-clir-exceptional-r1" else r"^OUTPUT\s*$")
     output = re.search(marker, prompt, re.MULTILINE)
     if output is None:
         return None
@@ -506,7 +511,7 @@ def _normalize_compact_quality(
             if score is not None and (type(score) is not int or not 1 <= score <= 5):
                 raise ValueError(f"Score {key} must be an integer from 1 to 5 or null")
             _string(item["score_notes"][key], f"score_notes.{key}")
-            if rubric_version == _CHEMISTRY_RUBRIC_VERSION and score == 5:
+            if rubric_version in _CHEMISTRY_RUBRIC_VERSIONS and score == 5:
                 note = item["score_notes"][key].strip()
                 if not re.match(r"Exceptional evidence:\s*\S", note):
                     raise ValueError(f"Score note {key} requires Exceptional evidence: for a 5")
@@ -519,7 +524,7 @@ def _normalize_compact_quality(
             _string(problem, "problem")
         if any(status != "pass" for status in item["checks"].values()) and not item["problems"]:
             raise ValueError("Failed or uncertain quality checks require an explanation in problems")
-        if rubric_version == _CHEMISTRY_RUBRIC_VERSION:
+        if rubric_version in _CHEMISTRY_RUBRIC_VERSIONS:
             for key, status in item["checks"].items():
                 if status != "pass" and not any(
                     re.match(rf"{key}:\s*\S", problem.strip()) for problem in item["problems"]
@@ -541,7 +546,9 @@ def _normalize_compact_quality(
     return rows
 
 
-def _normalize_chemistry_faith(data: Any, want: int) -> list[dict[str, Any]]:
+def _normalize_chemistry_faith(
+    data: Any, want: int, rubric_version: str,
+) -> list[dict[str, Any]]:
     """Preserve unassessable criteria and enforce the chemistry evidence contract."""
     if not isinstance(data, list) or len(data) != want:
         raise ValueError(f"Chemistry verifier must return exactly {want} candidate grades in an array")
@@ -570,7 +577,7 @@ def _normalize_chemistry_faith(data: Any, want: int) -> list[dict[str, Any]]:
                     raise ValueError(f"A {key} score of 5 requires {label} evidence in reason")
         row = {key: item[key] for key in FAITHFULNESS_KEYS}
         row.update(reason=item["reason"].strip(), overall=faith_overall(row),
-                   _response=item, _rubric_version=_CHEMISTRY_RUBRIC_VERSION)
+                   _response=item, _rubric_version=rubric_version)
         rows.append(row)
     return rows
 
@@ -764,7 +771,7 @@ def grade_faithfulness(
     if chemistry_version:
         envelope = {"passages": passages, "candidates": chemistry_candidates}
         raw = _invoke(client, config, prompt, json.dumps(envelope, ensure_ascii=False))
-        return _normalize_chemistry_faith(parse_json_response(raw), want)
+        return _normalize_chemistry_faith(parse_json_response(raw), want, chemistry_version)
     raw = _invoke(client, config, prompt, f"{passages}\n\n{candidates_block(qa_pairs)}")
     data = parse_json_response(raw)
     items = (_strict_items(data, want, FAITHFULNESS_KEYS) if strict else

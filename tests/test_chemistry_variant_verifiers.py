@@ -16,7 +16,7 @@ from clir_bench.domains.chemistry.codeswitch import variant_qa
 from clir_bench.domains.chemistry.domain import SPEC
 
 PACK = PromptPack(SPEC.prompts_package)
-RUBRIC_VERSION = "chemistry-clir-exceptional-r1"
+RUBRIC_VERSION = "chemistry-clir-exceptional-r2"
 
 
 @pytest.fixture

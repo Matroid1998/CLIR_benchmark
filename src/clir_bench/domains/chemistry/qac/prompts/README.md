@@ -16,16 +16,18 @@ Files are package data, addressed through `importlib.resources` via
 `clir_bench.core.prompts.PromptPack`. Every directory carries an `__init__.py`
 so the package resolves the same way installed, zipped, or from source.
 
-The generation files are the exact standalone blocks from the repository-root
-`chemistry_prompts_{de,en,es,fr,zh}.md` files, with only the surrounding Markdown
-fences and blank lines removed. Preserve the prompt wording and the verbatim
-source/evidence examples when editing or formatting these resources.
+The active generation files are the exact standalone blocks from
+`new_prompts/generation_{de,en,es,fr,zh}.md`, with only surrounding Markdown
+fences removed. The shared faithfulness and seven persona batch verifier files
+come from `new_prompts/verifier_prompts.md`; the faithfulness block also matches
+`new_prompts/faithfulness_batch.txt`. Their rubric identifier is
+`chemistry-clir-exceptional-r2`. The active Jev eligibility request is copied
+from `new_prompts/jev_eligibility.json`; the per-persona eligibility prompt text
+is retained in `decider/persona_eligibility_prompts.md` for reference.
 
-The shared batch faithfulness prompt and seven persona batch quality prompts are
-the exact standalone blocks from `chemistry_verifier_prompts.md`, with only the
-surrounding Markdown fences and blank lines removed. Their rubric identifier is
-`chemistry-clir-exceptional-r1`. The single-candidate and legacy technical/semantic
-quality resources retain their existing contracts.
+The r2 rubric declares provisional calibration and should not be described as
+calibrated. The single-candidate and legacy technical/semantic quality resources
+retain their existing contracts.
 
 ## Layout
 

@@ -11,7 +11,7 @@ from clir_bench.core.prompts import PromptPack
 from clir_bench.domains.chemistry.domain import SPEC
 
 PACK = PromptPack(SPEC.prompts_package)
-VERSION = "chemistry-clir-exceptional-r1"
+VERSION = "chemistry-clir-exceptional-r2"
 CONFIG = grading.GraderConfig("test")
 PERSONA_KEYS = {
     "lookup": ("technical_search_realism", "standalone_anchoring", "information_value"),

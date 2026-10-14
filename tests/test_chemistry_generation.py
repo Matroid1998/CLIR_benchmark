@@ -17,7 +17,7 @@ from clir_bench.domains.chemistry.schema import SCHEMA
 from clir_bench.domains.chemistry.vocabulary import MODES, WORKING_LANGUAGES
 
 PACK = PromptPack(SPEC.prompts_package)
-RUBRIC_VERSION = "chemistry-clir-exceptional-r1"
+RUBRIC_VERSION = "chemistry-clir-exceptional-r2"
 
 
 def verifier_response(prompt, candidates, score=4, *, metadata_status="pass"):
@@ -50,7 +50,7 @@ def verifier_response(prompt, candidates, score=4, *, metadata_status="pass"):
 
 def examples(mode, language="en"):
     prompt = PACK.generation(mode, language)
-    # The first array is the schema; the rest are two worked examples and a skip.
+    # The first array is the schema; r2 supplies multiple worked examples and a skip.
     return [
         json.JSONDecoder().raw_decode(prompt[match.start():])[0]
         for match in re.finditer(r"^\[\n", prompt, re.MULTILINE)
@@ -91,10 +91,14 @@ def accepted_documents(rows):
 @pytest.mark.parametrize("mode", MODES)
 @pytest.mark.parametrize("language", WORKING_LANGUAGES)
 def test_supplied_worked_examples_and_abstentions_obey_the_parser(mode, language):
-    first, second, skip = examples(mode, language)
-    assert parse_candidates(first, mode) == first
-    assert parse_candidates(second, mode) == second
-    assert parse_candidates(skip, mode) == []
+    worked = examples(mode, language)
+    candidates = [example for example in worked if not (len(example) == 1 and "skip_reason" in example[0])]
+    skips = [example for example in worked if len(example) == 1 and "skip_reason" in example[0]]
+    assert candidates and skips
+    for example in candidates:
+        assert parse_candidates(example, mode) == example
+    for example in skips:
+        assert parse_candidates(example, mode) == []
     assert set(PACK.available_languages(mode)) == set(WORKING_LANGUAGES)
     # Every mode has a matching rubric; generic mode-name defaults may differ.
     keys = grading.rubric_keys(PACK.quality(mode))
