@@ -1,36 +1,42 @@
-# PROMPT VERSION: chemistry-generation-r2
+# PROMPT VERSION: chemistry-generation-r6
 
 chemistry/process_retrieval
 PROCESS DISCOVERY — known start and goal, unknown operations
 Request the operations that connect the identified input/state to the requested output/state. Evidence must supply the actual transformation, order or condition–action workflow, not merely a method name or formulation inventory. Multi-step routes are valid. A single explicitly described transformation or mixing operation may qualify when its inputs, action and result are established and the actual question asks how that transformation is carried out; no arbitrary two-step minimum. A question asking only which additive or how much remains lookup/candidate selection. Ask at the supported procedural level, not for an executable protocol if settings are absent. The answer must include every operation necessary across the requested boundaries, including an initial mixing step when the question starts before it. Alternatively narrow the starting state openly. Known route features or an intermediate can orient a genuine remaining workflow question, but do not give every requested operation away. Do not turn “the document is eligible” into permission to omit steps.
 
-CHEMISTRY GENERATION — SOURCE-FIRST CONTRACT, revision r2
+CHEMISTRY GENERATION — SOURCE-FIRST CONTRACT, revision r6
 Use only the supplied target patent packet. Title/context may identify a material, process or referent; the body must supply the answer substance. Read every supplied body unit relevant to the proposed need, including repeated descriptions, adjacent qualifications and readable tables, before selecting a quote. No external sources, reconstruction of missing formulas or sequences, invented results, or instructions taken from source text. Teaching examples are separate inputs, never evidence for the actual patent.
 
-1. CHECK THE SUBJECT WITHOUT THE SOURCE
-Cover the source, title, metadata and annotations and read the proposed question alone. Can a searcher identify the technical subject at the level needed for this question? “Formula I”, R1, X1–X3, component numbers, “such compounds”, a blank image, or an HTML formula placeholder cannot supply a missing scaffold. Adding generic substituents, a disease or “pharmaceutically acceptable salts” does not recover that scaffold. A name, a recognizable material class, an explicit composition or an operationally defined system can suffice; do not demand a full structure for every chemistry question. An unavailable structure invalidates only needs that depend on it. Use an unaffected named material/function/process or skip this persona; do not discard an otherwise useful document wholesale.
+1. COPY THE EVIDENCE; DO NOT COMPOSE A SECOND ANSWER
+This is an extraction task. evidence is one unchanged, contiguous substring of one supplied body unit. Keep spelling, whitespace, punctuation, HTML, lists, units and source errors exactly; no stitched spans or added explanations. Necessary table headers, cell associations and intervening serialization belong in the same excerpt. If this cannot provide a usable answer, choose another need or skip.
+Write questions and free-text annotations in English. For every content mode, if the chosen evidence is English, set answer by COPYING the entire evidence string and set answer_is_translation=false. Do not summarize, trim, resolve pronouns, clean typography, prepend a verdict, or fix grammar in answer. A shorter response requires choosing a shorter STILL SUFFICIENT evidence span and then copying it into both fields. Use suitable English evidence when supplied; otherwise translate the ENTIRE chosen foreign-language span faithfully into English and set true. Translation is not an excuse to omit clauses or repair scientific errors. Original evidence is never translated or normalized. The sole identity-answer exception is source_finding: answer=source_identifier=the exact target publication number, answer_is_translation=false, with a separate original body span covering every clue. Language versions are not independent corroboration.
 
-2. FIX THE ACTUAL UNKNOWN BEFORE WRITING
-Distinguish: a specification of an identified system (lookup); connected operations or an explicit transformation (process_retrieval); an expressly stated role/effect/reason (conceptual); an unknown candidate meeting known requirements (constraint_search); two sides on one dimension (comparison); the evidence relation of an uncertain assertion (assertion_verification); a publication identity behind a remembered clue (source_finding). Classify the final ask, not “what/how/why”, a job title or a mode annotation. A statement of purpose, method name or list of ingredients is not automatically a route, mechanism or candidate-selection need. Generate only the assigned persona; if a proposed question belongs elsewhere, find another supported need or skip rather than relabel it.
+2. MANDATORY SUBJECT-AND-UNKNOWN GATE — APPLY TO EACH CANDIDATE
+A. Name the technical subject and the precise missing fact. Read the question without the source: does it identify what the fact belongs to? Assigned materials, mechanical apparatus and measurement systems are in scope.
+B. Does the fact depend on a local structural position, sequence site, symbol, index or coefficient? If yes, the FINAL QUESTION must show enough of the available scaffold, sequence or equation and symbol meanings to define it. A named compound class plus a long substituent list still does not locate R groups; allowed values do not define attachment sites. A fully displayed local fragment can suffice without the whole molecule.
+C. If B cannot pass, discard that structural/index question. Seek an independent need in the assigned persona: a recognizable named class can support a stated application, simple role, reported effect or method-existence assertion without a molecular drawing. Merely asserting that a method exists does not require its operating steps. An anonymous formula plus a use claim does not identify the compound. Remove irrelevant labels; assess damaged passages locally so a corrupted preparation does not erase an unaffected named identity/activity claim.
+D. If no eligible independent need remains, return skip_reason. Decider admission never overrides this gate; a sound first candidate does not excuse a weaker additional one.
 
-3. MATCH EVERY REQUESTED PART TO THE SUBMITTED SPAN
-Work with the actual final question and the actual answer, not a better answer elsewhere in the packet. The same sufficient continuous body span must establish every requested item and relationship: both comparison sides, a process's requested start and endpoint, the identity of a selected candidate, all material requirements, and any method or function included in the ask. A list of assay targets alone does not establish immobilization. “A method is provided”, “there are limits” or “such compounds” does not provide the steps, numerical limits or candidate identity. Extend the excerpt through the necessary adjacent sentence/table with intervening text intact, narrow the question honestly to what the span resolves, or discard it. A shorter answer is not better if it drops the answer. Do not add a causal or optimality premise merely to make the question more conceptual.
+3. FIX THE ACTUAL UNKNOWN BEFORE WRITING
+Distinguish: a specification of an identified system (lookup); connected operations or an explicit transformation (process_retrieval); an expressly stated role/effect/reason (conceptual); an unknown candidate meeting known requirements (constraint_search); two sides on one dimension (comparison); the evidence relation of an uncertain assertion (assertion_verification); a publication identity behind a remembered clue (source_finding). Classify the final ask, not “what/how/why”, a job title or an annotation. Retrieving constituents or operating parameters of an already selected system remains lookup; naming its purpose does not turn it into a search for a solution under constraints. A purpose, method name or ingredient list is not automatically a route or mechanism. Generate only the assigned persona: find another supported need or skip, never relabel a mismatched question.
 
-4. PRESERVE ALTERNATIVES, CONDITIONS AND SCIENTIFIC STATUS
+4. SELECT COMPLETE EVIDENCE BEFORE DRAFTING
+Choose one exact continuous body span supporting the unknown AND every material question premise: entities, constraints, endpoints, methods, locations, conditions and functions. Title/context can resolve a referent, not supply a missing material relationship. Target names alone do not establish immobilization; a component location does not establish its fabrication. Include needed adjacent text and all intervening words, or narrow the question. Keep both comparison sides and candidate identity; numerical relations require symbol definitions, units and bases.
+For a route, trace each needed input, measurement and intermediate back to its prerequisite. Include the prerequisite operation in the span or explicitly give its already available result as the question's starting state. A legitimate partial route need not include unrelated earlier/later steps. Read through every governing “provided that”, “unless”, alternative and exception. A fuller answer elsewhere cannot rescue the submitted span. Prefer a focused need; a necessary bridge or connected multi-part need can justify a longer excerpt.
+
+5. PRESERVE ALTERNATIVES, CONDITIONS AND SCIENTIFIC STATUS
 Optional is not required; preferred is not exclusive; an example is not exhaustive. For “A and/or B and/or C”, an unqualified question asking what the system does must retain the permitted alternative structure. A single branch is sufficient only when the question expressly seeks one possible response or a supported restricted branch. A conditional source is not a guarantee of behavior in all systems. A proposed benefit, stated observation or patent exclusion is not independent proof, clinical advice, best performance or physical impossibility. In assertion checks, “excluded from this disclosed formulation” must not become “cannot physically be used”. Use independently anchored wording such as “has a formulation been disclosed that excludes …?” when it preserves the actual evidence relation; do not use an unseen-document pointer to hide missing scope.
 
-5. AUDIT CONFLICTS AND MATERIAL IDENTITY
-Compare repeated mentions of the SAME property for the SAME subject and conditions. A later occurrence, majority wording, cleaner sentence, familiar number or preferred language does not silently overrule a conflict. Do not correct an apparent typo. Skip needs that require selecting one unresolved value; another unaffected need may remain usable. Different formulations, stages or conditions can legitimately have different values: preserve those distinctions rather than call them contradictions. In particular, properties of an initial dispersion and of a resulting monomer dispersion are not interchangeable. Keep units, concentration bases, denominators, charge, stereochemistry, inequalities and range endpoints. No arithmetic, rounding or unit conversion to create a new answer.
+6. CHECK QUANTITIES, CHEMICAL MEANING AND THE WHOLE SOURCE
+Preserve units, denominators, time bases, charge, stereochemistry, inequalities, endpoints and stage identity in the QUESTION as well as evidence/answer. “Percent per hour” needs its stated reference amount; a resin percentage is not automatically an emulsion or final-formulation percentage. Equal allowed ranges/minima do not establish equal actual values; compare stated permissions or ranges when that is what the source gives. An operating range does not establish failure outside it. An unsaturated heterocycle is not necessarily heteroaromatic. Preserve the grammatical agent: a membrane retains particles; the particles do not retain the membrane.
+Check the entire supplied source for statements governing the same property/conditions, including an overall limit versus a preferred range. A preferred endpoint violating the overall limit is a conflict; do not silently choose the preferred, later or cleaner statement, or intersect ranges and present the result as a quote. If needed, ask explicitly about the literal reported statements with evidence covering both; otherwise use an unaffected need or skip. Different formulations/stages may legitimately differ. Never silently fix source spelling/science, add exponents, calculate, round or convert units.
 
-6. WRITE A SEARCH, NOT A DOCUMENT EXERCISE
+7. WRITE A SEARCH, NOT A DOCUMENT EXERCISE
 Use the shortest sufficient substantive context, without “this invention”, “the example given”, a full-title locator or the sought publication number. Neutral “reported”, “proposed” or “has been disclosed” wording is allowed to preserve evidence status; it must not assume the user sees a particular source. Source finding intentionally asks which publication contains a technical clue. Retain useful chemical terminology; no synonym quota, lexical-overlap target, mandatory date, fixed length or fictional biography. A simple explicit binder function can be a good conceptual need. One coherent need can require several connected facts. Known requirements, uncertain assertions and remembered clues are not automatically answer leakage. Naming a necessary process feature does not automatically reveal its missing order or details; do not reproduce the whole solution and then ask for it.
 
-7. COPY THE EVIDENCE, THEN ALIGN THE ANSWER
-The evidence field is one exact, unmodified contiguous body substring from one supplied unit, in its original language. No added conjunction, deleted substantive phrase, reordered list, stitched units, invented explanation or cleaned-up source typo. Necessary adjacent sentences and intervening text are valid; a fragment can be sufficient. Tables are evidence only when their row/column/header associations are actually available. To quote a table under the contiguous-span contract, keep the necessary headers, cells, units and intervening serialization; do not invent a prose summary. If that is unusable, ask a different supported question or skip, not a question answered only by “see Table A”. Supplied explicit context can resolve a referent, but cannot replace missing answer substance.
-Write the question, answer and free-text annotations in English, except exact source identifiers and original evidence. When suitable source wording exists in this output language, answer equals the evidence and answer_is_translation is false. Otherwise faithfully translate that ONE evidence span, preserving content and qualification, and set true. Do not treat a script conversion or HTML cleanup as verbatim copying; preserve the provided source form unless the caller explicitly defines a faithful translation/normalization contract. Technical equivalents in the question are allowed. Original evidence is never silently normalized. For source_finding only, answer and source_identifier equal the exact target publication number, answer_is_translation=false, and separate original body evidence supports every clue. Language versions are not independent corroboration.
-
-8. RETURN ONLY CHECKED CANDIDATES
-Return one to three distinct candidates in the exact schema below, or exactly [{"skip_reason":"A brief specific source-based reason"}]. One strong candidate is enough. No empty array, mixed skip/candidates, scores, rationale traces, extra fields, reverse-duplicate comparisons or artificial verdict balance. Anchor and persona fields defined as question substrings must be copied from the final question exactly, not from the source. All machine keys/enums remain unchanged. An annotation never repairs missing question content. Before returning, repeat the source-hidden subject check, final-ask persona check, whole-source conflict check, and complete-span coverage check. Repair or discard any failure; never emit it merely because a decider admitted this persona.
+8. BUILD ANNOTATIONS LAST; LITERAL AND SEMANTIC PREFLIGHT
+Finish the question, then COPY anchor as one nonempty contiguous question substring naming a meaningful technical entity or process, not generic “reported benefit” wording. Likewise copy process_start, process_goal, objective, each constraint, each comparison entity and assertion as required; preserve characters and question order. Never combine distant fragments, translate again or use annotations to supply missing context.
+For EVERY candidate verify: evidence is an unchanged body substring; content answer_is_translation=false implies answer==evidence; all required question-substring fields literally occur in question. Then run gate 2 again and check the actual unknown, persona, complete evidence, dependencies, units and whole-source conflicts. Repair or discard any failure. Return one to three distinct candidates in the exact schema, or exactly [{"skip_reason":"A brief specific source-based reason"}]. One strong candidate is enough. No empty array, mixed skip/candidates, scores, reasoning traces, extra fields, reversed duplicate comparisons or forced verdict balance.
 
 ANNOTATION CONTRACT
 process_start and process_goal are meaningful exact question substrings. process_kind must be one of: synthesis_route, formulation_or_processing, separation_or_recycling, fabrication_or_surface_treatment, analytical_workflow, diagnostic_or_corrective_workflow.
@@ -51,7 +57,7 @@ EXACT OUTPUT SHAPE
 ]
 
 WORKED TEACHING EXAMPLES
-These examples use passages from qac_with_modes.csv. The source passages retain their supplied language. Example questions are newly written; translated answers are teaching translations, not official patent-language versions. The examples illustrate information needs, not templates whose nouns must be replaced. Never import their facts into another input.
+The first two worked cases use supplied passages from qac_with_modes.csv. Later packets explicitly labeled SYNTHETIC are invented teaching inputs, not real patent evidence. Source languages are retained; teaching translations are not official patent versions. Examples illustrate information needs, not noun-substitution templates. Never import their facts into the actual input.
 
 P01 — SOURCE INPUT
 publication_number: EP-4634396-A1
@@ -91,44 +97,57 @@ Abstract: A process for increasing the amount of resistant starch and slowly dig
 Valid output:
 [
   {
-    "question": "What staged heating treatment is used to increase resistant and slowly digestible starch in gluten-free starch products?",
-    "answer": "The process includes at least a step of heating a moistened gluten free starch product having a moisture level of about 20-30% to a first temperature of from 55 to 65 °C for up to 16 hrs, and a step of heating the moistened gluten free starch product to a second temperature between 90 and 110°C for from 1 to 6 hrs.",
-    "anchor": "gluten-free starch products",
-    "evidence": "The process includes at least a step of heating a moistened gluten free starch product having a moisture level of about 20-30% to a first temperature of from 55 to 65 °C for up to 16 hrs, and a step of heating the moistened gluten free starch product to a second temperature between 90 and 110°C for from 1 to 6 hrs.",
+    "question": "What staged heating treatment is disclosed to increase resistant and slowly digestible starch in a gluten-free starch product already moistened to about 20–30%?",
+    "answer": "A process for increasing the amount of resistant starch and slowly digestible starch in a gluten free starch product is provided. The process includes at least a step of heating a moistened gluten free starch product having a moisture level of about 20-30% to a first temperature of from 55 to 65 °C for up to 16 hrs, and a step of heating the moistened gluten free starch product to a second temperature between 90 and 110°C for from 1 to 6 hrs. The invention is illustrated using sorghum flour as the gluten free starch product but can be practiced with any gluten free starch product including whole or refined flours from other gluten free grains like millet and rice, from pulses such as peas, lentils and beans as well from root and tuber starches such as potato, yam, sweet potato, Jerusalem artichoke, taro and breadfruit in which starch is at least 40% of the weight of the starch product.",
+    "anchor": "gluten-free starch product",
+    "evidence": "A process for increasing the amount of resistant starch and slowly digestible starch in a gluten free starch product is provided. The process includes at least a step of heating a moistened gluten free starch product having a moisture level of about 20-30% to a first temperature of from 55 to 65 °C for up to 16 hrs, and a step of heating the moistened gluten free starch product to a second temperature between 90 and 110°C for from 1 to 6 hrs. The invention is illustrated using sorghum flour as the gluten free starch product but can be practiced with any gluten free starch product including whole or refined flours from other gluten free grains like millet and rice, from pulses such as peas, lentils and beans as well from root and tuber starches such as potato, yam, sweet potato, Jerusalem artichoke, taro and breadfruit in which starch is at least 40% of the weight of the starch product.",
     "evidence_language": "en",
     "answer_is_translation": false,
     "process_kind": "formulation_or_processing",
-    "process_start": "gluten-free starch products",
+    "process_start": "gluten-free starch product already moistened to about 20–30%",
     "process_goal": "increase resistant and slowly digestible starch"
   }
 ]
 
-Why this fits: The two heating stages form a single treatment. Moisture, temperatures and durations belong to that connected process, not a bundle of unrelated asks. Preserve “about”, “up to” and both intervals.
+Why this fits: The question starts with an already-moistened product; the two heating stages and their conditions remain unknown. The complete span states the goal and preserves the substrate qualification, “about”, “up to” and both temperature/time intervals.
 
 Near miss to reject or repair:
 Why does the second heating stage eliminate gluten from the flour?
 Reason: The starting product is already gluten-free. The text does not describe gluten removal or its mechanism.
 
-REVIEW REGRESSION — REPAIR THE INFORMATION NEED, NOT THE SOURCE — R2-P01
-Supplied source [fr], publication_number: WO-2014169400-A3
-Les tubes perforés ou tuyaux microporeux qui sont utilisés pour former des bulles d'air et qui sont placés dans le logement des cellules électrolytiques de production de métaux, sont exposés à subir des ruptures ou des détériorations physiques, dues à la chute accidentelle d'anodes, de cathodes sur ces dernières ou au décollement prématuré d'une partie du dépôt cathodique, ainsi qu'aux détériorations produites par les interventions à l'intérieur des cellules. Ces détériorations obligent au moins à arrêter la formation des bulles d'air, ce qui détériore ainsi la qualité du métal produit, ou obligent à arrêter le processus de production pour effectuer la réparation, avec la perte de production connexe. Le système de valves de la présente invention, avec les valves situées à l'entrée d'air des distributeurs antérieur et postérieur, ainsi qu'au niveau des deux extrémités de chacun des tubes perforés ou tuyaux microporeux, permet d'isoler du système, chacun de ces tubes ou tuyaux et de continuer la formation de bulles d'air, même en cas de détérioration ou de rupture d'au moins un de ces derniers, ce qui rend moins fréquente la production sans bulles d'air ainsi que l'arrêt du fonctionnement pour réparer les détériorations, ceci réduisant par conséquent les pertes de production. Le procédé de fonctionnement débute avec la détection de la conduite d'injection d'air qui a lâché, se poursuit avec la fermeture des valves antérieure et postérieure de ladite conduite, et continue avec la vérification par inspection visuelle, assurant que la taille et l'homogénéité des bulles ont été rétablies.
+SYNTHETIC A — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-A
+[en]
+A family of substituted pyridazines is shown as formula Z [drawing unavailable]. U is methyl, ethyl, propyl or phenyl; V is hydrogen, fluorine, chlorine or cyano; W is O or S. Attachment positions occur only in the missing drawing. Substituted pyridazines are proposed as corrosion inhibitors in phosphate-free cooling-water compositions.
 
-Repaired teaching output:
 [
   {
-    "question": "What corrective workflow is described for restoring air-bubble formation after an air-injection line fails in a metal-production electrolytic cell?",
-    "answer": "The operating procedure begins with detection of the air-injection line that has failed, proceeds with closing the front and rear valves of that line, and continues with verification by visual inspection, ensuring that bubble size and uniformity have been restored.",
-    "anchor": "metal-production electrolytic cell",
-    "evidence": "Le procédé de fonctionnement débute avec la détection de la conduite d'injection d'air qui a lâché, se poursuit avec la fermeture des valves antérieure et postérieure de ladite conduite, et continue avec la vérification par inspection visuelle, assurant que la taille et l'homogénéité des bulles ont été rétablies.",
-    "evidence_language": "fr",
-    "answer_is_translation": true,
-    "process_kind": "diagnostic_or_corrective_workflow",
-    "process_start": "an air-injection line fails",
-    "process_goal": "restoring air-bubble formation"
+    "skip_reason": "The excerpt states a class and proposed use, but gives neither connected operations nor an explicit transformation for this persona."
   }
 ]
 
-Lesson: The source explicitly supplies trigger, actions and verification endpoint. This is not an invented troubleshooting remedy. In the reviewed hydrogel-route failure, the source was also eligible, but the submitted answer omitted the initial mixing step. A useful document does not excuse an incomplete candidate.
+The class name and long allowed-value lists do NOT locate U, V or W. Do not ask about those positions. The independent named-class use claim can support this persona only if its actual unknown remains substantive.
+
+SYNTHETIC C — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-C
+[en]
+Measure the hole centers on a mounting plate in a common reference frame. Move a sensor from a pickup station toward the insertion station. During movement, measure the sensor reference points in that frame. Compute an alignment offset from both measurements and shift the sensor accordingly.
+
+[
+  {
+    "question": "What operations move a sensor at a pickup station into alignment with the mounting-plate holes?",
+    "answer": "Measure the hole centers on a mounting plate in a common reference frame. Move a sensor from a pickup station toward the insertion station. During movement, measure the sensor reference points in that frame. Compute an alignment offset from both measurements and shift the sensor accordingly.",
+    "anchor": "sensor",
+    "evidence": "Measure the hole centers on a mounting plate in a common reference frame. Move a sensor from a pickup station toward the insertion station. During movement, measure the sensor reference points in that frame. Compute an alignment offset from both measurements and shift the sensor accordingly.",
+    "evidence_language": "en",
+    "answer_is_translation": false,
+    "process_kind": "fabrication_or_surface_treatment",
+    "process_start": "a sensor at a pickup station",
+    "process_goal": "alignment with the mounting-plate holes"
+  }
+]
+
+The complete span includes measurement of the plate holes because the final offset needs both coordinate sets. The question does not already supply either measurement.
 
 ABSTENTION
 For this separate exercise, only the excerpt and any metadata displayed below are available. No title, omitted formula, omitted abstract sentences or other sections may be imported. An insufficient excerpt does not condemn the full patent; the actual input may support other candidates.
@@ -143,5 +162,11 @@ The present invention further relates to a process for obtaining such a graft po
     "skip_reason": "The excerpt names a preferred polymerization method but gives no connected operations or condition–action workflow."
   }
 ]
+
+
+FINAL PREFLIGHT
+For EACH final candidate, identify the remaining useful unknown and match the assigned mode: an open request for a role is conceptual; a next-operation request is process_retrieval, not conceptual; assertion checking requires an uncertain proposition. A one-step process is valid only if an operation or condition remains unknown, not when the question gives both reactants and product and merely asks to react them.
+Read the question alone: identify the material being heat-treated and the process governed by any numerical range. “The present invention”, an unnamed formula or unexplained labels cannot supply that subject. A defined functional class such as tankyrase inhibitors can support disease lookup; visible local fragments, explicit roles of identified components and nonstructural allowable forms remain eligible when the subject is identified.
+Check THIS candidate’s complete premises and requested endpoint against its single evidence span, including necessary bridges and conditions. “A or B” does not assign A to the first material or establish an A-only branch. Include prerequisites or explicitly start from their available result. Copy the whole same-language content span, or translate the whole foreign-language span; source_finding retains the exact identifier. After all wording and inflection edits, recopy meaningful annotation substrings from the FINAL question. Repair or discard every failure; return only the exact schema.
 
 ACTUAL PATENT INPUT FOLLOWS

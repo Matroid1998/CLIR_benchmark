@@ -1,36 +1,42 @@
-# PROMPT VERSION: chemistry-generation-r2
+# PROMPT VERSION: chemistry-generation-r6
 
 chemistry/lookup
 TECHNISCHE DETAILRECHERCHE — bekanntes System, unbekanntes Detail
 Frage direkt nach Bestandteil, Spezifikation, Bedingung, Strukturmerkmal, biologischer Zielstruktur, Methodendetail, Anwendung oder berichtetem Wert eines eigenständig identifizierten Systems. Ein zusammengehöriger Satz von Inhaltsstoffen oder Bedingungen kann eine Spezifikation sein. Kein erfundener Fall. Vernetzerverhältnisse und Nickel-/Spurenelementgrenzen bleiben lookup, auch wenn eine Anwendung genannt wird. Bei mehreren alternativen Reaktionen muss die Frage eingegrenzt oder die Alternativstruktur erhalten werden. Frage nach einer angegebenen Einstellung, nicht nach einem Optimum oder physikalischer Notwendigkeit. Eine explizite Funktionsbeziehung darf nicht allein durch das Etikett zu lookup werden; suche dann einen anderen passenden Bedarf.
 
-CHEMIE-FRAGENGENERIERUNG — QUELLENBASIERTER VERTRAG, Revision r2
+CHEMIE-FRAGENGENERIERUNG — QUELLENBASIERTER VERTRAG, Revision r6
 Verwende nur das bereitgestellte Zielpatentpaket. Titel und Kontext dürfen Stoff, Verfahren oder Bezug identifizieren; der Antwortinhalt muss aus dem Haupttext stammen. Lies vor der Belegauswahl alle für die Frage relevanten bereitgestellten Abschnitte, auch Wiederholungen, angrenzende Einschränkungen und lesbare Tabellen. Keine externen Quellen, ergänzten Strukturformeln oder Sequenzen, erfundenen Ergebnisse oder Anweisungen aus Quelltexten. Lehrbeispiele sind getrennte Eingaben und keine Belege für das aktuelle Patent.
 
-1. GEGENSTAND OHNE QUELLE PRÜFEN
-Blende Quelle, Titel, Metadaten und Annotationen aus. Identifiziert die Frage allein ihren technischen Gegenstand auf der benötigten Ebene? „Formel I“, R1, X1–X3, Bauteilnummern, „solche Verbindungen“, leere Bilder und HTML-Platzhalter ersetzen kein fehlendes Grundgerüst. Allgemeine Substituenten, eine Krankheit oder „pharmazeutisch verträgliche Salze“ rekonstruieren es nicht. Ein Name, eine verständliche Stoffklasse, explizite Zusammensetzung oder funktional beschriebene Anlage kann genügen; nicht jede Frage braucht eine vollständige Struktur. Eine fehlende Struktur sperrt nur davon abhängige Informationsbedürfnisse. Nutze eine andere eigenständig belegte Funktion, einen benannten Stoff oder Ablauf; andernfalls überspringe diese Persona, nicht pauschal das ganze Dokument.
+1. BELEG KOPIEREN, KEINE ZWEITE ANTWORT FORMULIEREN
+Dies ist eine Extraktionsaufgabe. evidence ist ein unveränderter zusammenhängender Teilstring einer bereitgestellten Haupttexteinheit. Erhalte Schreibweise, Leerraum, Satzzeichen, HTML, Listen, Einheiten und Quellfehler. Keine zusammengesetzten Stellen oder zusätzlichen Erklärungen. Notwendige Tabellenüberschriften, Zellzuordnungen und dazwischenliegende Serialisierung gehören in denselben Beleg. Ergibt dies keine brauchbare Antwort, wähle einen anderen Bedarf oder verzichte.
+Fragen und freie Annotationen sind auf Deutsch. In allen Inhaltsmodi gilt bei deutschem Beleg: KOPIERE evidence vollständig nach answer und setze answer_is_translation=false. Nicht zusammenfassen, kürzen, Pronomen auflösen, Typografie bereinigen, Urteile voranstellen oder Grammatik korrigieren. Eine kürzere Antwort braucht einen kürzeren WEITERHIN AUSREICHENDEN Beleg, der anschließend in beide Felder kopiert wird. Nutze passende bereitgestellte deutsche Belege; andernfalls übersetze den GESAMTEN gewählten fremdsprachigen Beleg treu ins Deutsche und setze true. Übersetzung erlaubt weder ausgelassene Teilsätze noch korrigierte wissenschaftliche Fehler. evidence bleibt original. Einzige Ausnahme: source_finding mit answer=source_identifier=exakter Zielveröffentlichungsnummer und answer_is_translation=false; ein separater Originalbeleg deckt alle Hinweise ab. Sprachversionen sind keine unabhängige Bestätigung.
 
-2. TATSÄCHLICHE UNBEKANNTE FESTLEGEN
-Unterscheide eine Spezifikation eines identifizierten Systems (lookup), zusammenhängende Operationen oder eine explizite Umwandlung (process_retrieval), eine ausdrücklich genannte Rolle/Wirkung/Begründung (conceptual), einen unbekannten Kandidaten für bekannte Anforderungen (constraint_search), zwei Seiten auf einer gemeinsamen Dimension (comparison), den Evidenzstatus einer unsicheren Behauptung (assertion_verification) und die Identität einer Veröffentlichung zu einem erinnerten Hinweis (source_finding). Entscheidend ist die Schlussfrage, nicht ihr Fragewort, ein Berufstitel oder die Annotation. Zweck, Methodenname und Zutatenliste sind nicht automatisch Ablauf, Mechanismus oder Lösungsauswahl. Erzeuge nur die zugewiesene Persona; passt eine Idee nicht, suche eine andere oder verzichte, statt sie umzubenennen.
+2. VERBINDLICHE GEGENSTANDS- UND UNBEKANNTENPRÜFUNG — JE KANDIDAT
+A. Bestimme technischen Gegenstand und genau fehlende Information. Identifiziert die Frage allein, worauf sie sich bezieht? Zugewiesene Materialien, mechanische Geräte und Messsysteme liegen im Geltungsbereich.
+B. Hängt sie von einer lokalen Strukturposition, Sequenzstelle, einem Symbol, Index oder Koeffizienten ab? Dann muss die ENDGÜLTIGE FRAGE genügend verfügbares Grundgerüst, Sequenz oder Gleichung samt Symbolbedeutungen zeigen. Eine benannte Stoffklasse mit langer Substituentenliste lokalisiert keine R-Gruppen; erlaubte Werte definieren keine Bindungsstellen. Ein vollständig gezeigtes lokales Fragment kann ohne das ganze Molekül genügen.
+C. Besteht B nicht, verwirf diese Struktur-/Indexfrage. Suche einen unabhängigen Bedarf der Persona: Eine erkennbare benannte Klasse kann Anwendung, einfache Rolle, berichtete Wirkung oder Behauptung über die Existenz einer Methode ohne Molekülzeichnung tragen. Eine reine Existenzbehauptung verlangt keine Verfahrensschritte. Eine anonyme Formel mit Verwendungsangabe identifiziert keinen Stoff. Entferne unnötige Labels; beschädigte Herstellung entwertet keine unabhängige benannte Identitäts-/Wirkungsangabe.
+D. Bleibt kein zulässiger unabhängiger Bedarf, gib skip_reason aus. Decider-Zulassung ersetzt diese Prüfung nie; ein guter erster Kandidat entschuldigt keinen schwachen weiteren.
 
-3. JEDEN ERFRAGTEN BESTANDTEIL IM ANTWORTBELEG ABDECKEN
-Prüfe die endgültige Frage zusammen mit der eingereichten Antwort, nicht mit einer besseren Stelle im Dokument. Ein ausreichender zusammenhängender Haupttextbeleg muss alle erfragten Angaben und Beziehungen enthalten: beide Vergleichsseiten, gefragten Anfang und Endpunkt eines Ablaufs, Identität des gewählten Kandidaten, wesentliche Anforderungen und mitgefragte Funktionen oder Methoden. Eine Liste von Nachweiszielen belegt noch keine Immobilisierung. „Ein Verfahren wird bereitgestellt“, „es gelten Grenzwerte“ oder „solche Verbindungen“ liefern weder Schritte noch Werte noch Stoffidentität. Erweitere den Beleg um notwendige angrenzende Sätze beziehungsweise Tabellen samt Zwischentext, grenze die Frage ehrlich ein oder verwerfe sie. Kürze nicht den eigentlichen Antwortinhalt weg. Erfinde keine Ursache oder Optimalität, um eine Frage konzeptionell wirken zu lassen.
+3. TATSÄCHLICHE UNBEKANNTE VOR DEM SCHREIBEN FESTLEGEN
+Unterscheide: Spezifikation eines identifizierten Systems (lookup); verbundene Schritte oder explizite Umwandlung (process_retrieval); ausdrücklich genannte Rolle/Wirkung/Begründung (conceptual); unbekannter Kandidat mit bekannten Anforderungen (constraint_search); zwei Seiten auf einer Dimension (comparison); Belegbeziehung einer unsicheren Behauptung (assertion_verification); Publikationsidentität hinter einem erinnerten Hinweis (source_finding). Klassifiziere die tatsächliche Frage, nicht „was/wie/warum“, Beruf oder Annotation. Bestandteile/Betriebsparameter eines bereits gewählten Systems bleiben lookup; dessen Zweck erzeugt keine Lösungssuche unter Anforderungen. Zweck, Methodenname oder Zutatenliste sind nicht automatisch Ablauf oder Mechanismus. Bleibe in der zugewiesenen Persona: anderen belegten Bedarf finden oder verzichten, nicht umetikettieren.
 
-4. ALTERNATIVEN, BEDINGUNGEN UND STATUS ERHALTEN
+4. VOLLSTÄNDIGEN BELEG VOR DER FRAGE WÄHLEN
+Wähle einen exakten zusammenhängenden Textausschnitt für die Unbekannte UND jede wesentliche Frageprämisse: Entitäten, Anforderungen, Anfang/Ziel, Methoden, Orte, Bedingungen und Funktionen. Titel/Kontext dürfen Referenten klären, keine fehlende Beziehung liefern. Zielnamen belegen keine Immobilisierung; Bauteilposition belegt keine Herstellung. Nimm nötigen Nachbartext mit allen Zwischenwörtern auf oder enge die Frage ein. Erhalte beide Vergleichsseiten und Kandidatenidentität; numerische Beziehungen brauchen Symboldefinitionen, Einheiten und Bezugsgrößen.
+Verfolge bei Abläufen jeden nötigen Eingang, Messwert und jedes Zwischenprodukt zu seiner Voraussetzung zurück. Nimm den vorausgesetzten Schritt in den Beleg auf oder nenne sein bereits verfügbares Ergebnis ausdrücklich als Ausgangszustand der Frage. Ein sinnvoller Teilablauf benötigt keine unverbundenen früheren/späteren Schritte. Lies alle geltenden Vorbehalte, Bedingungen, Alternativen und Ausnahmen. Eine vollständigere Antwort anderswo rettet den eingereichten Beleg nicht. Bevorzuge einen fokussierten Bedarf; eine notwendige Textbrücke oder verbundene Teilfragen können längere Belege rechtfertigen.
+
+5. ALTERNATIVEN, BEDINGUNGEN UND STATUS ERHALTEN
 Optional ist nicht erforderlich; bevorzugt nicht ausschließlich; ein Beispiel nicht abschließend. Bei „A und/oder B und/oder C“ muss eine allgemeine Frage nach dem Verhalten die Alternativen erhalten. Ein Zweig genügt nur, wenn ausdrücklich nach einer möglichen Reaktion oder einem belegten Teilfall gefragt wird. Bedingte Angaben sind keine allgemeine Garantie. Vorgeschlagener Nutzen, berichtete Beobachtung oder Patentausschluss sind kein unabhängiger Wirksamkeitsnachweis, keine Therapieempfehlung, kein Optimum und kein Beweis physikalischer Unmöglichkeit. „Aus der beschriebenen Formulierung ausgeschlossen“ darf nicht zu „physikalisch nicht einsetzbar“ werden. Eine eigenständig verankerte Frage wie „Wurde eine Formulierung offengelegt, die … ausschließt?“ kann den richtigen Evidenzstatus bewahren; ein Verweis auf ein ungesehenes Dokument ersetzt keine Abgrenzung.
 
-5. WIDERSPRÜCHE UND STOFFIDENTITÄT PRÜFEN
-Vergleiche wiederholte Angaben zur GLEICHEN Eigenschaft desselben Gegenstands unter denselben Bedingungen. Die spätere, häufigere, sprachlich sauberere oder vertrauter wirkende Angabe setzt die andere nicht außer Kraft. Korrigiere keinen vermuteten Tippfehler. Vermeide Fragen, deren Antwort zwischen unaufgelösten Werten wählen müsste; unabhängige andere Fragen können bleiben. Unterschiedliche Formulierungen, Stufen oder Bedingungen dürfen verschiedene Werte haben. Verwechsle insbesondere nicht Ausgangsdispersion und daraus gewonnene Monomerdispersion. Erhalte Einheiten, Bezugsbasis, Nenner, Ladung, Stereochemie, Ungleichungen und Intervallgrenzen. Keine neu berechnete, gerundete oder umgerechnete Antwort.
+6. GRÖSSEN, CHEMISCHE BEDEUTUNG UND GESAMTQUELLE PRÜFEN
+Bewahre Einheiten, Nenner, Zeitbasis, Ladung, Stereochemie, Ungleichungen, Grenzen und Prozessstufe auch in der FRAGE. „Prozent pro Stunde“ braucht die genannte Bezugsmenge; Harzanteile sind nicht automatisch Emulsions- oder Endformulierungsanteile. Gleiche erlaubte Bereiche/Minima beweisen keine gleichen tatsächlichen Werte; vergleiche erlaubte Optionen/Bereiche, wenn die Quelle diese nennt. Ein Betriebsbereich beweist kein Versagen außerhalb. Ein ungesättigter Heterocyclus ist nicht zwangsläufig heteroaromatisch. Bewahre den grammatischen Akteur: Eine Membran hält Partikel zurück; die Partikel halten nicht die Membran zurück.
+Prüfe die gesamte bereitgestellte Quelle auf Angaben zur gleichen Eigenschaft unter gleichen Bedingungen, einschließlich Gesamtgrenze versus bevorzugtem Bereich. Verletzt eine bevorzugte Grenze die Gesamtgrenze, liegt ein Konflikt vor; wähle nicht stillschweigend die bevorzugte, spätere oder sauberere Aussage und gib keine errechnete Schnittmenge als Zitat aus. Frage gegebenenfalls ausdrücklich nach den wörtlichen Angaben mit Beleg für beide; sonst unverletzten Bedarf wählen oder verzichten. Andere Formulierungen/Stufen können berechtigt abweichen. Keine stillen Korrekturen von Schreibweise/Wissenschaft, Exponenten, Berechnungen, Rundungen oder Einheiten.
 
-6. SUCHFRAGEN STATT LESEÜBUNGEN
+7. SUCHFRAGEN STATT LESEÜBUNGEN
 Nutze den kürzesten ausreichenden Sachkontext, nicht „diese Erfindung“, „das genannte Beispiel“, vollständige Patenttitel oder die gesuchte Veröffentlichungsnummer. „Berichtet“, „vorgeschlagen“ oder „offengelegt“ ist zur Statuswahrung erlaubt, sofern kein sichtbares Einzeldokument vorausgesetzt wird. source_finding fragt absichtlich nach der Veröffentlichung zu einem technischen Hinweis. Notwendige Fachbegriffe bleiben erhalten: keine Synonymquote, Überlappungsvorgabe, Pflichtjahreszahl, starre Länge oder erfundene Biografie. Eine einfache ausdrücklich genannte Bindemittelfunktion kann konzeptionell geeignet sein. Ein Informationsbedürfnis kann mehrere verbundene Fakten umfassen. Anforderungen, unsichere Behauptungen und erinnerte Hinweise sind nicht automatisch verratene Antworten. Ein notwendiges Verfahrensmerkmal verrät nicht automatisch Reihenfolge und Details; nenne aber nicht die ganze Lösung vorab.
 
-7. BELEG KOPIEREN, ANTWORT DARAN AUSRICHTEN
- evidence ist ein exakter, unveränderter zusammenhängender Ausschnitt aus EINER bereitgestellten Haupttexteinheit in der Originalsprache. Keine neue Konjunktion, entfernte Sachangabe, umgestellte Liste, zusammengeklebten Abschnitte, Erklärung oder still korrigierten Quellfehler. Angrenzende Sätze, nötiger Zwischentext und ausreichende Fragmente sind zulässig. Tabellen zählen nur bei vorhandenen Zuordnungen zwischen Überschriften, Zeilen und Spalten. Ein Tabellenbeleg muss nötige Überschriften, Werte, Einheiten und die dazwischenliegende Serialisierung zusammenhängend erhalten; keine erfundene Prosaübersetzung der Tabelle. Ist dies ungeeignet, wähle eine andere belegte Frage oder verzichte, statt nur auf „Tabelle A“ zu antworten. Kontext darf Bezüge auflösen, nicht fehlenden Antwortinhalt ergänzen.
-Frage, Antwort und freie Annotationen stehen auf Deutsch; ausgenommen sind kopierte Kennungen und Originalbelege. Bei geeignetem deutschen Quelltext gilt answer=evidence und answer_is_translation=false. Andernfalls übersetze genau EINEN Beleg bedeutungsgetreu und setze true. Schriftumwandlung oder HTML-Bereinigung sind keine wortgetreue Kopie; erhalte die Quellform, sofern der Aufrufer keinen ausdrücklichen Übersetzungs-/Normalisierungsvertrag vorgibt. Fachsprachliche Äquivalente in der Frage sind erlaubt. evidence wird nie still normalisiert. Nur bei source_finding entsprechen answer und source_identifier exakt der Zielveröffentlichungsnummer, answer_is_translation=false; ein gesonderter Originalbeleg deckt jeden Hinweis ab. Sprachversionen sind keine unabhängigen Bestätigungen.
-
-8. NUR GEPRÜFTE KANDIDATEN AUSGEBEN
-Gib ein bis drei verschiedene Kandidaten im folgenden Schema aus oder genau [{"skip_reason":"Kurzer konkreter quellenbezogener Grund"}]. Ein starker Kandidat genügt. Keine leere Liste, gemischten Verzichts- und Kandidatenobjekte, Bewertungen, Gedankengänge, Zusatzfelder, umgekehrten Vergleichsduplikate oder erzwungene Urteilsverteilung. Als Frageteilstrings definierte Felder werden exakt aus der endgültigen Frage kopiert, nicht aus der Quelle. Schlüssel und Enumerationen bleiben unverändert. Annotationen ersetzen keinen fehlenden Fragekontext. Wiederhole zuletzt Gegenstandsprüfung ohne Quelle, Prüfung der eigentlichen Unbekannten, Widerspruchsprüfung und vollständige Belegabdeckung. Überarbeite oder verwerfe Fehler auch dann, wenn der Decider die Persona zugelassen hat.
+8. ANNOTATIONEN ZULETZT; WÖRTLICHE UND INHALTLICHE ENDPRÜFUNG
+Stelle die Frage fertig und KOPIERE anchor als nichtleere zusammenhängende Fragezeichenfolge mit sinnvoller technischer Entität oder Prozess, nicht generischem „berichteter Vorteil“. Kopiere ebenso process_start, process_goal, objective, alle constraints, comparison_entities und assertion gemäß Vertrag; Zeichen und Reihenfolge bleiben erhalten. Keine entfernten Fragmente verbinden, erneut übersetzen oder fehlenden Fragekontext durch Annotationen ergänzen.
+Prüfe JEDEN Kandidaten: evidence ist unveränderte Textteilzeichenfolge; bei Inhaltsmodi impliziert answer_is_translation=false answer==evidence; alle vorgeschriebenen Fragezeichenfolgen kommen wörtlich vor. Dann erneut Prüfung 2 sowie tatsächliche Unbekannte, Persona, vollständigen Beleg, Voraussetzungen, Einheiten und Gesamtquellenkonflikte prüfen. Fehler beheben oder Kandidat verwerfen. Gib ein bis drei verschiedene Kandidaten im exakten Schema aus oder genau [{"skip_reason":"Kurzer konkreter quellenbasierter Grund"}]. Ein guter Kandidat genügt. Keine leeren Arrays, gemischten Verzichts-/Kandidatenausgaben, Scores, Gedankenspuren, Zusatzfelder, vertauschten Doppelvergleiche oder erzwungene Urteilsbalance.
 
 ANNOTATIONSVERTRAG
 question_type ist einer der folgenden Werte: parameter_or_condition, material_or_composition, structure, biological_target, reported_outcome, method_detail, application. Maßgeblich ist das tatsächlich gesuchte Detail, nicht das Titelthema.
@@ -49,7 +55,7 @@ EXAKTES AUSGABESCHEMA
 ]
 
 AUSGEARBEITETE LEHRBEISPIELE
-Die Beispiele verwenden Textstellen aus qac_with_modes.csv. Die Quellentexte behalten ihre bereitgestellte Sprache. Die Fragen wurden neu formuliert; übersetzte Antworten sind Lehrübersetzungen und keine amtlichen Sprachfassungen der Patente. Die Beispiele veranschaulichen Informationsbedürfnisse, keine Satzschablonen zum Austausch einzelner Wörter. Übernimm niemals ihre Fakten in eine andere Eingabe.
+Die ersten beiden Fälle verwenden gelieferte Passagen aus qac_with_modes.csv. Spätere als SYNTHETIC markierte Pakete sind erfundene Lehrtexte, keine echten Patentbelege. Quellsprachen bleiben erhalten; Lehrübersetzungen sind keine offiziellen Fassungen. Beispiele zeigen Informationsbedürfnisse, keine Vorlagen zum Austauschen von Substantiven. Ihre Fakten nie in die tatsächliche Eingabe übernehmen.
 
 L01 — QUELLENEINGABE
 publication_number: EP-4634142-A1
@@ -62,9 +68,9 @@ Gültige Ausgabe:
 [
   {
     "question": "Welcher Zeolith-Gerüsttyp wird beim katalytischen Cracken von 1,1-Diarylethanen zu Alkylstyrolen eingesetzt?",
-    "answer": "ein Zeolith mit einer Gerüststruktur vom MWW-Typ",
+    "answer": "(2) Bereitstellen eines Katalysators, der einen Zeolith mit einer Gerüststruktur des MWW-Typs umfasst; (3) Inkontaktbringen des in (1) bereitgestellten Einsatzstroms mit dem in (2) bereitgestellten Katalysator zum katalytischen Cracken des 1,1-Diarylethans zu Alkylstyrol und Alkylbenzol;",
     "anchor": "katalytischen Cracken von 1,1-Diarylethanen zu Alkylstyrolen",
-    "evidence": "a zeolite having the MWW-type framework structure",
+    "evidence": "(2) providing a catalyst comprising a zeolite having the MWW-type framework structure; (3) contacting the feed provided in (1) with the catalyst provided in (2) for the catalytic cracking of the 1,1-diarylethane to the alkylstyrene and the alkylbenzene;",
     "evidence_language": "en",
     "answer_is_translation": true,
     "question_type": "material_or_composition"
@@ -88,9 +94,9 @@ Gültige Ausgabe:
 [
   {
     "question": "Welche Mindestkonzentration an Ameisensäure hat die Quellflüssigkeit zur Trennung von duroplastischem Epoxidharz und eingebetteten Feststoffen?",
-    "answer": "Die Quellflüssigkeit enthält mindestens 1 mol/L Ameisensäure.",
+    "answer": "Es wird ein Verfahren zum Extrahieren von duroplastischen Epoxidfraktionen aus einer Verbundstruktur beschrieben, die eine duroplastische Epoxidmatrix mit einer Netzwerkstruktur und eingebetteten festen Elementen umfasst. Das Verfahren umfasst das Bereitstellen einer Quellflüssigkeit und das Tränken der Verbundstruktur mit der Quellflüssigkeit, einschließlich des Einquellens der Quellflüssigkeit in die Netzwerkstruktur der duroplastischen Epoxidmatrix über eine ausreichende Zeit, um die Netzwerkstruktur mechanisch aufzubrechen und eine Vielzahl von den festen Elementen gelöster duroplastischer Epoxidfraktionen zu bilden. Abtrennen mindestens eines Teils der duroplastischen Epoxidfraktionen von den festen Elementen, um eine Quellflüssigkeitssuspension zu erhalten, die diesen Teil der duroplastischen Epoxidfraktionen in der Quellflüssigkeit umfasst. Die Quellflüssigkeit enthält mindestens 1 mol/L Ameisensäure.",
     "anchor": "Trennung von duroplastischem Epoxidharz und eingebetteten Feststoffen",
-    "evidence": "The swelling fluid comprises at least 1 mol/L of formic acid.",
+    "evidence": "A method of extracting of thermoset epoxy fractions from a composite structure comprising thermoset epoxy matrix having a network structure and embedded solid element(s) is described. The method comprises providing a swelling fluid and soaking the composite structure with the swelling fluid including allowing the thermoset epoxy matrix to swell the swelling fluid into the network structure of the thermoset epoxy matrix for a sufficient time to mechanically break up the network structure to form a multitude of thermoset epoxy fractions liberated from the solid elements. Separating at least a portion of the thermoset epoxy fractions from the solid elements to obtain a swelling fluid slurry comprising the portion of the thermoset epoxy fractions in the swelling fluid. The swelling fluid comprises at least 1 mol/L of formic acid.",
     "evidence_language": "en",
     "answer_is_translation": true,
     "question_type": "parameter_or_condition"
@@ -103,24 +109,43 @@ Beinahe passendes Beispiel: verwerfen oder überarbeiten:
 Welche Ameisensäurekonzentration ist für die Extraktion von duroplastischem Epoxidharz optimal?
 Begründung: Eine angegebene Untergrenze ist kein experimentell ermitteltes Optimum.
 
-REVIEW-FALL — FRAGE UND ANTWORT REPARIEREN, NICHT DIE QUELLE — R2-L01
-Bereitgestellte Quelle [en], publication_number: CA-3230368-A1
-The present invention relates to an analytical method for determining a concentration of an analyte in a bodily fluid by using a mobile device having at least one camera, at least one lidar sensor, at least one processor, and at least one display, wherein the at least one camera and the at least one lidar sensor comprise an at least partially overlapping field of view, the method comprising the following steps: a) providing at least one object, the at least one object being selected from the list comprising: an optical test element having a reagent test region, a color reference card having a reagent test region, a color reference card adapted to be associated with an optical test element having a reagent test region; wherein the reagent test region is adapted for application of a sample of the bodily fluid, and wherein the reagent test region is adapted to undergo, at least partially, a color formation reaction when the sample of the bodily fluid is applied to the reagent test region; b1) prompting, by the display, a user to apply a drop of the bodily fluid to the reagent test region and/or prompting, by the display, a user to confirm application of a drop of the bodily fluid to the reagent test region; b2) prompting, by the display, the user to provide the at least one object within the at least partially overlapping field of view of the at least one camera and the at least one lidar sensor; c) generating, by the processor, a lidar measurement data set at least for the object by receiving output data from the at least one lidar sensor, the lidar measurement data set representing a three-dimensional structure of at least a part of the object; d) comparing, by the processor, the lidar measurement data set from step c) to a pre-generated lidar data set for the object, the pre-generated lidar data set representing a three-dimensional structure of the entire object, thereby obtaining an item of information on a degree of congruence of the lidar measurement data set and the pre-generated lidar data set; and e1) if the item of information from step d) indicates a degree of congruence equal to or above a pre-determined minimum degree of congruence: capturing, by the at least one camera, a measurement image of at least a part of the reagent test region having the sample of the bodily fluid applied thereto, and determining the concentration of the analyte in the bodily fluid based at least on the measurement image captured; or e2) if the item of information from step d) indicates a degree of congruence below a pre-determined minimum degree of congruence: - at least temporarily not allowing the capturing, by the at least one camera, of a measurement image of at least a part of the reagent test region having the sample of the bodily fluid applied thereto; and/or - indicating, by the display, a warning to the user; and/or - indicating, by the display, instractions to the user to take some appropriate action in order to capture, by the at least one camera, a measurement image of at least a part of the reagent test region having the sample of the bodily fluid applied thereto.
+SYNTHETIC A — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-A
+[de]
+Eine Familie substituierter Pyridazine ist als Formel Z dargestellt [Zeichnung nicht verfügbar]. U ist Methyl, Ethyl, Propyl oder Phenyl; V ist Wasserstoff, Fluor, Chlor oder Cyano; W ist O oder S. Die Bindungspositionen stehen nur in der fehlenden Zeichnung. Substituierte Pyridazine werden als Korrosionsinhibitoren in phosphatfreien Kühlwasserzusammensetzungen vorgeschlagen.
 
-Überarbeitetes Lehrbeispiel:
 [
   {
-    "question": "Welche kamerabezogene Reaktion ist bei einem kamerabasierten Körperflüssigkeitstest mit Lidar-Prüfung des Testobjekts als eine mögliche Reaktion auf eine Übereinstimmung unterhalb des Mindestschwellenwerts vorgesehen?",
-    "answer": "zumindest vorübergehend das Erfassen eines Messbildes von zumindest einem Teil des Reagenztestbereichs, auf den die Probe der Körperflüssigkeit aufgebracht wurde, durch die zumindest eine Kamera nicht zuzulassen",
-    "anchor": "kamerabasierten Körperflüssigkeitstest",
-    "evidence": "at least temporarily not allowing the capturing, by the at least one camera, of a measurement image of at least a part of the reagent test region having the sample of the bodily fluid applied thereto",
-    "evidence_language": "en",
-    "answer_is_translation": true,
-    "question_type": "method_detail"
+    "question": "Welche Verwendung wurde für substituierte Pyridazine in phosphatfreien Kühlwasserzusammensetzungen vorgeschlagen?",
+    "answer": "Substituierte Pyridazine werden als Korrosionsinhibitoren in phosphatfreien Kühlwasserzusammensetzungen vorgeschlagen.",
+    "anchor": "substituierte Pyridazine",
+    "evidence": "Substituierte Pyridazine werden als Korrosionsinhibitoren in phosphatfreien Kühlwasserzusammensetzungen vorgeschlagen.",
+    "evidence_language": "de",
+    "answer_is_translation": false,
+    "question_type": "application"
   }
 ]
 
-Lehre: Die geprüfte allgemeine Frage nach dem Verhalten erhielt nur eine von drei und/oder-Reaktionen. Hier wird ausdrücklich eine mögliche Kamerareaktion gesucht. Warnungen und Anweisungen werden nicht ausgeschlossen; eine obligatorische Aufnahmesperre wird nicht behauptet.
+Klassenname und lange Wertelisten lokalisieren U, V oder W NICHT. Frage nicht nach diesen Positionen. Die unabhängige Verwendung der benannten Klasse trägt die Persona nur bei verbleibender substanzieller Unbekannter.
+
+SYNTHETIC B — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-B
+[de]
+Die erste Polymerwiederholungseinheit ist –CH2–CH(U)–, wobei U OH oder OCH3 ist. Die zweite Wiederholungseinheit ist –CH2–C(CH3)(V)–, wobei V OH oder Cl ist.
+
+[
+  {
+    "question": "Welche Gruppen sind für die Seitengruppe U in der Polymerwiederholungseinheit –CH2–CH(U)– erlaubt?",
+    "answer": "Die erste Polymerwiederholungseinheit ist –CH2–CH(U)–, wobei U OH oder OCH3 ist.",
+    "anchor": "Polymerwiederholungseinheit –CH2–CH(U)–",
+    "evidence": "Die erste Polymerwiederholungseinheit ist –CH2–CH(U)–, wobei U OH oder OCH3 ist.",
+    "evidence_language": "de",
+    "answer_is_translation": false,
+    "question_type": "structure"
+  }
+]
+
+Hier zeigen die Fragen das lokale Bindungsfragment; die Symbole sind definiert. Erlaubte Alternativen belegen keine gleichen tatsächlichen Zusammensetzungen.
 
 VERZICHT AUF GENERIERUNG
 Für diese eigenständige Übung stehen nur der folgende Ausschnitt und die angezeigten Metadaten zur Verfügung. Übernimm keinen Titel, keine fehlende Formel, keine ausgelassenen Sätze und keine weiteren Abschnitte. Ein unzureichender Ausschnitt disqualifiziert nicht das gesamte Patent; die tatsächliche Eingabe kann andere Kandidaten unterstützen.
@@ -135,5 +160,11 @@ A compound is represented by formula (I) is described.
     "skip_reason": "Der Ausschnitt enthält nur einen undefinierten Formelverweis und kein eigenständig identifizierbares technisches Detail."
   }
 ]
+
+
+ABSCHLIESSENDE PRÜFUNG
+Bestimme für JEDEN endgültigen Kandidaten die verbleibende sinnvolle Unbekannte und die zugewiesene Persona: Eine offene Rollenfrage ist conceptual; die Frage nach dem nächsten Arbeitsschritt ist process_retrieval, nicht conceptual; assertion_verification verlangt eine unsichere Aussage. Ein einstufiger Prozess ist gültig, wenn eine Operation oder Bedingung unbekannt bleibt, nicht wenn die Frage beide Reaktanten und das Produkt nennt und nur noch deren Reaktion verlangt.
+Lies die Frage allein: Benenne das wärmebehandelte Material und den Prozess, für den ein Zahlenbereich gilt. „Die vorliegende Erfindung“, eine unbenannte Formel oder unerklärte Labels liefern diesen Gegenstand nicht. Eine definierte funktionelle Klasse wie Tankyrase-Inhibitoren kann eine Krankheits-Lookupfrage tragen; sichtbare lokale Fragmente, ausdrückliche Rollen identifizierter Komponenten und nichtstrukturelle zulässige Formen bleiben bei identifiziertem Gegenstand möglich.
+Prüfe die vollständigen Prämissen DIESES Kandidaten und sein gefragtes Ziel am einzigen Beleg, einschließlich nötiger Verbindungstexte und Bedingungen. „A oder B“ ordnet A weder dem ersten Material zu noch belegt es einen ausschließlich auf A beschränkten Fall. Nimm Voraussetzungen auf oder beginne ausdrücklich mit ihrem verfügbaren Ergebnis. Kopiere den gesamten gleichsprachigen Inhaltsbeleg oder übersetze den gesamten fremdsprachigen Beleg; source_finding behält die exakte Kennung. Kopiere nach allen Wortlaut- und Flexionsänderungen sinnvolle Annotationszeichenfolgen erneut aus der ENDGÜLTIGEN Frage. Behebe oder verwerfe jeden Fehler; gib nur das exakte Schema aus.
 
 HIER FOLGT DIE TATSÄCHLICHE PATENTEINGABE

@@ -1,36 +1,42 @@
-# PROMPT VERSION: chemistry-generation-r2
+# PROMPT VERSION: chemistry-generation-r6
 
 chemistry/comparison
 COMPARAISON — deux objets connus, une relation commune inconnue
 Identifie deux matériaux, composants, conditions, étapes ou catégories pertinents et un axe commun. Un extrait continu doit établir les deux côtés à la portée demandée. Directions opposées dans deux stations de revêtement, matériaux d’électrodes distincts et seuil minimal partagé conviennent ; ni supériorité ni mot « comparer » obligatoire. Une liste peut établir une couverture commune, pas une relation méthodologique supplémentaire comme l’immobilisation. Ajoute la phrase adjacente qui la prouve ou réduis la demande. Ne compare pas des variables X/R autour d’un squelette absent, ni des langues ; n’invente pas de témoin, de différence à partir du silence ou de calcul inédit. Égalité et catégories se recouvrant de façon pertinente restent valides. Inverser les côtés ne crée pas un nouveau candidat.
 
-GÉNÉRATION EN CHIMIE — CONTRAT FONDÉ SUR LA SOURCE, révision r2
+GÉNÉRATION EN CHIMIE — CONTRAT FONDÉ SUR LA SOURCE, révision r6
 Utilise uniquement le dossier du brevet cible fourni. Le titre ou le contexte peut identifier un matériau, un procédé ou un référent ; le corps doit fournir le contenu de la réponse. Lis toutes les unités fournies pertinentes, y compris les descriptions répétées, les réserves voisines et les tableaux lisibles, avant de choisir l’extrait. Aucune source extérieure, formule ou séquence reconstituée, aucun résultat inventé ni instruction provenant du texte source. Les exemples pédagogiques sont des entrées distinctes, jamais des preuves pour le brevet réel.
 
-1. IDENTIFIER LE SUJET SANS LA SOURCE
-Masque source, titre, métadonnées et annotations : la question seule identifie-t-elle son sujet technique au niveau nécessaire ? « Formule I », R1, X1–X3, numéros de composants, « ces composés », image vide ou formule HTML manquante ne remplacent pas un squelette absent. Des substituants génériques, une maladie ou des « sels pharmaceutiquement acceptables » ne le reconstituent pas. Un nom, une classe de matériaux intelligible, une composition explicite ou un système défini par son fonctionnement peut suffire ; ne réclame pas une structure complète pour toute question. Une structure absente invalide les seuls besoins qui en dépendent. Cherche un autre sujet, rôle ou procédé identifiable, ou abstiens-toi pour cette persona, sans rejeter automatiquement le document entier.
+1. COPIER LA PREUVE, SANS RÉDIGER UNE DEUXIÈME RÉPONSE
+Il s’agit d’extraction. evidence est une sous-chaîne exacte et continue d’une seule unité du corps fourni. Conserve orthographe, espaces, ponctuation, HTML, listes, unités et erreurs. Aucun collage ni explication ajoutée. Les en-têtes, associations de cellules et sérialisation intermédiaire nécessaires d’un tableau appartiennent au même extrait. Si aucune réponse utilisable n’en résulte, change de besoin ou abstiens-toi.
+Questions et annotations libres sont en français. Dans tout mode de contenu, si la preuve choisie est française, COPIE intégralement evidence dans answer et indique answer_is_translation=false. Ne résume, ne raccourcis, ne résous les pronoms, ne nettoie la typographie et n’ajoute aucun verdict. Une réponse plus courte exige un extrait plus court ENCORE SUFFISANT, ensuite copié dans les deux champs. Préfère la preuve française adéquate fournie ; sinon traduis INTÉGRALEMENT le seul extrait choisi en français et indique true. Traduire ne permet ni d’omettre des propositions ni de réparer des erreurs scientifiques. evidence reste dans sa forme originale. Seule exception : source_finding, où answer=source_identifier=numéro exact de publication cible, answer_is_translation=false, avec un extrait original séparé couvrant tous les indices. Les langues ne sont pas des corroborations indépendantes.
 
-2. FIXER L’INCONNUE RÉELLE
-Distingue une spécification d’un système identifié (lookup), des opérations reliées ou une transformation explicite (process_retrieval), un rôle/effet/motif expressément énoncé (conceptual), un candidat inconnu répondant à des exigences connues (constraint_search), deux objets sur un même axe (comparison), la relation probante d’une assertion incertaine (assertion_verification) et l’identité d’une publication derrière un indice mémorisé (source_finding). Classe la demande finale, pas son mot interrogatif, un métier ou une annotation. Un objectif, un nom de méthode ou une liste d’ingrédients ne constitue pas automatiquement un processus, un mécanisme ou une sélection. Génère seulement la persona attribuée ; cherche un autre besoin ou abstiens-toi si l’idée relève d’une autre persona.
+2. FILTRE OBLIGATOIRE SUJET–INCONNUE — POUR CHAQUE CANDIDAT
+A. Identifie le sujet technique et le fait précis manquant. La question seule identifie-t-elle l’objet de ce fait ? Les matériaux, appareils mécaniques et systèmes de mesure assignés sont dans le périmètre.
+B. Ce fait dépend-il d’une position structurale, d’un site de séquence, d’un symbole, indice ou coefficient local ? Si oui, la QUESTION FINALE doit montrer suffisamment du squelette, de la séquence ou de l’équation disponibles et définir les symboles. Une classe nommée et une longue liste de substituants ne situent pas les groupes R ; leurs valeurs admises ne définissent pas les sites d’attachement. Un fragment local entièrement montré peut suffire sans toute la molécule.
+C. Si B échoue, abandonne cette question structurale/d’indice. Cherche un besoin indépendant dans la persona : une classe nommée reconnaissable peut soutenir application, rôle simple, effet rapporté ou assertion d’existence d’une méthode sans dessin moléculaire. Une simple assertion d’existence n’exige pas les étapes opératoires. Une formule anonyme assortie d’une utilisation n’identifie pas le composé. Supprime les repères inutiles ; une préparation endommagée n’efface pas une identité/activité nommée indépendante.
+D. Si aucun besoin indépendant admissible ne reste, renvoie skip_reason. L’admission du décideur ne remplace jamais ce filtre ; un bon premier candidat n’excuse pas un candidat supplémentaire faible.
 
-3. COUVRIR TOUTE LA DEMANDE AVEC L’EXTRAIT SOUMIS
-Évalue la question finale avec la réponse effective, pas avec une meilleure réponse présente ailleurs. Un même extrait continu suffisant du corps doit établir chaque élément et relation demandés : les deux côtés d’une comparaison, le départ et l’arrivée demandés d’un procédé, l’identité du candidat, les exigences substantielles et les méthodes ou fonctions incluses dans la demande. Une liste de cibles d’analyse ne prouve pas leur immobilisation. « Une méthode est fournie », « des limites existent » ou « ces composés » ne donne ni étapes, ni valeurs, ni candidat. Étends l’extrait au passage adjacent ou au tableau nécessaire en conservant le texte intermédiaire, réduis honnêtement la portée de la question, ou rejette-la. Une réponse plus courte n’est pas meilleure si elle perd l’information demandée. N’ajoute pas de causalité ou d’optimalité pour rendre une question plus conceptuelle.
+3. FIXER L’INCONNUE RÉELLE AVANT DE RÉDIGER
+Distingue : spécification d’un système identifié (lookup) ; opérations liées ou transformation explicite (process_retrieval) ; rôle/effet/raison expressément indiqué (conceptual) ; candidat inconnu satisfaisant des exigences connues (constraint_search) ; deux côtés sur une même dimension (comparison) ; rapport entre preuve et assertion incertaine (assertion_verification) ; identité de publication derrière un indice mémorisé (source_finding). Classe la demande finale, pas « quoi/comment/pourquoi », un métier ou une annotation. Retrouver les constituants ou paramètres d’un système déjà choisi reste lookup ; nommer son but ne crée pas une recherche de solution sous contraintes. But, nom de méthode et liste d’ingrédients ne sont pas automatiquement voie opératoire ou mécanisme. Reste dans la persona assignée : cherche un autre besoin étayé ou abstiens-toi, sans réétiquetage.
 
-4. CONSERVER ALTERNATIVES, CONDITIONS ET STATUT
+4. CHOISIR UN EXTRAIT COMPLET AVANT LA QUESTION
+Choisis un passage continu exact soutenant l’inconnue ET chaque prémisse matérielle : entités, contraintes, extrémités du procédé, méthodes, lieux, conditions et fonctions. Le titre/contexte peut résoudre un référent, pas fournir une relation absente. Nommer des cibles n’établit pas leur immobilisation ; situer un composant n’établit pas sa fabrication. Inclus les phrases nécessaires avec tout le texte intermédiaire, ou restreins la question. Garde les deux côtés de la comparaison et l’identité du candidat ; une relation numérique exige définitions des symboles, unités et bases.
+Pour une voie opératoire, remonte chaque entrée, mesure et intermédiaire nécessaire jusqu’à son préalable. Inclus l’opération préalable dans l’extrait ou donne explicitement son résultat déjà disponible comme état initial de la question. Une voie partielle valable n’exige pas les étapes antérieures/ultérieures sans rapport. Lis toute condition, réserve, alternative et exception applicable. Une réponse plus complète ailleurs ne répare pas l’extrait soumis. Préfère un besoin ciblé ; une liaison indispensable ou un besoin composé cohérent peut justifier un extrait long.
+
+5. CONSERVER ALTERNATIVES, CONDITIONS ET STATUT
 Facultatif n’est pas obligatoire ; préféré n’est pas exclusif ; un exemple n’est pas exhaustif. Pour « A et/ou B et/ou C », une question générale sur le comportement doit conserver les alternatives. Une seule branche suffit uniquement si la question demande expressément une réponse possible ou une branche restreinte étayée. Une indication conditionnelle n’est pas une garantie générale. Bénéfice proposé, observation rapportée ou exclusion d’un brevet n’établit ni validation indépendante, ni conseil clinique, ni optimum, ni impossibilité physique. « Exclu de la formulation divulguée » ne signifie pas « physiquement inutilisable ». Une formulation autonome telle que « une formulation excluant … a-t-elle été divulguée ? » peut préserver la bonne portée, sans s’appuyer sur un document que le lecteur ne voit pas.
 
-5. CONTRÔLER LES CONTRADICTIONS ET L’IDENTITÉ DU MATÉRIAU
-Compare les occurrences répétées de la MÊME propriété, pour le MÊME sujet et les MÊMES conditions. La dernière occurrence, la majorité, une phrase plus propre, un chiffre familier ou une langue préférée ne tranche pas une contradiction. Ne corrige pas silencieusement une coquille supposée. Écarte les besoins qui exigent de choisir entre des valeurs non résolues ; une autre information indépendante peut rester utilisable. Des formulations, étapes ou conditions différentes peuvent légitimement avoir des valeurs différentes. Ne confonds notamment pas dispersion initiale et dispersion dans un monomère obtenue ensuite. Préserve unités, bases de concentration, dénominateurs, charges, stéréochimie, inégalités et bornes. Aucun calcul, arrondi ou changement d’unité pour fabriquer une réponse.
+6. VÉRIFIER QUANTITÉS, SENS CHIMIQUE ET SOURCE ENTIÈRE
+Préserve unités, dénominateurs, bases temporelles, charge, stéréochimie, inégalités, bornes et étape dans la QUESTION comme dans evidence/answer. Un « pourcentage par heure » exige la quantité de référence indiquée ; un pourcentage de résine ne devient pas celui de son émulsion ou de la formulation finale. Des plages/minima autorisés identiques ne prouvent pas l’égalité des valeurs réelles ; compare les permissions/plages indiquées si c’est ce que dit la source. Une plage opératoire ne prouve pas un échec en dehors. Un hétérocycle insaturé n’est pas nécessairement hétéroaromatique. Préserve l’agent grammatical : une membrane retient des particules ; les particules ne retiennent pas la membrane.
+Vérifie toute la source fournie pour la même propriété et les mêmes conditions, y compris limite globale contre plage préférée. Une borne préférée violant la limite globale est un conflit ; ne choisis pas silencieusement l’énoncé préféré, ultérieur ou plus propre, et ne présente pas une intersection calculée comme citation. Au besoin, interroge explicitement les énoncés littéraux avec les deux dans l’extrait ; sinon choisis un besoin intact ou abstiens-toi. Des formulations/étapes différentes peuvent légitimement différer. Ne corrige jamais silencieusement orthographe/science, exposants, calculs, arrondis ou unités.
 
-6. ÉCRIRE UNE RECHERCHE, PAS UN EXERCICE DE LECTURE
+7. ÉCRIRE UNE RECHERCHE, PAS UN EXERCICE DE LECTURE
 Utilise le contexte technique minimal suffisant, sans « cette invention », « l’exemple donné », titre intégral servant de repère ou numéro recherché. « Rapporté », « proposé » ou « divulgué » est permis pour conserver le statut sans supposer un document visible. source_finding demande intentionnellement quelle publication contient un indice technique. Garde les termes chimiques utiles ; aucun quota de synonymes, cible de recouvrement lexical, date obligatoire, longueur fixe ou biographie fictive. Un simple rôle de liant explicitement indiqué peut être un bon besoin conceptuel. Un seul besoin peut réunir plusieurs faits liés. Exigences connues, assertions incertaines et indices mémorisés ne révèlent pas automatiquement la réponse. Mentionner une caractéristique nécessaire du procédé ne révèle pas forcément son ordre ni ses détails ; ne donne cependant pas toute la solution avant de la demander.
 
-7. COPIER LA PREUVE PUIS ALIGNER LA RÉPONSE
- evidence est UN extrait original, exact et continu du corps d’UNE unité fournie. N’ajoute pas de conjonction, ne supprime pas de contenu substantiel, ne réordonne pas une liste, ne colle pas des unités et ne corrige pas les imperfections de la source. Des phrases adjacentes, un texte intermédiaire nécessaire et un fragment suffisant sont valides. Un tableau n’est utilisable que si les associations entre en-têtes, lignes et colonnes sont disponibles. Conserve dans un extrait continu les en-têtes, cellules, unités et éléments de sérialisation nécessaires ; ne fabrique pas un résumé en prose. Si cela ne convient pas, choisis un autre besoin ou abstiens-toi, au lieu de répondre seulement « voir tableau A ». Le contexte peut résoudre un référent, pas compléter l’information substantielle absente.
-Question, réponse et annotations libres sont en français, sauf identifiants copiés et preuve originale. Avec une version française appropriée, answer=evidence et answer_is_translation=false. Sinon, traduis fidèlement UN extrait et indique true. Conversion d’écriture ou nettoyage HTML ne vaut pas copie exacte : conserve la forme source, sauf contrat explicite de traduction/normalisation fourni par l’appelant. Les équivalents techniques dans la question sont permis ; evidence n’est jamais normalisé silencieusement. Pour source_finding seulement, answer et source_identifier sont le numéro exact de publication cible, answer_is_translation=false ; un extrait original séparé prouve tous les indices. Les langues ne constituent pas des confirmations indépendantes.
-
-8. NE RENVOYER QUE DES CANDIDATS CONTRÔLÉS
-Renvoie un à trois candidats distincts dans le schéma ci-dessous ou exactement [{"skip_reason":"Bref motif précis fondé sur la source"}]. Un bon candidat suffit. Aucun tableau vide, mélange d’abstentions et de candidats, score, raisonnement détaillé, champ supplémentaire, comparaison inversée en doublon ou équilibre forcé des verdicts. Les champs définis comme sous-chaînes de question sont copiés exactement de la question finale, pas de la source. Clés et énumérations restent inchangées. Une annotation ne répare pas un contexte absent. Refais enfin les tests du sujet sans source, de l’inconnue, des contradictions et de la couverture complète. Corrige ou rejette un candidat défaillant, même si le décideur avait accepté la persona.
+8. ANNOTER EN DERNIER ; CONTRÔLE LITTÉRAL ET SÉMANTIQUE
+Termine la question, puis COPIE anchor comme sous-chaîne continue non vide nommant une entité ou un procédé technique significatif, pas « bénéfice rapporté » générique. Copie de même process_start, process_goal, objective, chaque constraint, comparison_entity et assertion selon leur contrat ; conserve caractères et ordre. Ne combine pas des fragments distants, ne retraduis pas et ne complète pas le contexte dans les annotations.
+Pour CHAQUE candidat : evidence figure sans changement dans le corps ; en mode contenu answer_is_translation=false implique answer==evidence ; chaque champ devant être une sous-chaîne figure littéralement dans la question. Repasse ensuite le filtre 2 et vérifie inconnue, persona, extrait complet, dépendances, unités et conflits de toute la source. Répare ou écarte toute défaillance. Renvoie un à trois candidats distincts dans le schéma exact, ou exactement [{"skip_reason":"Une brève raison précise fondée sur la source"}]. Un seul bon candidat suffit. Aucun tableau vide, mélange abstention/candidats, score, raisonnement, champ supplémentaire, comparaison inversée en doublon ni équilibre forcé des verdicts.
 
 CONTRAT DES ANNOTATIONS
 comparison_entities contient exactement deux sous-chaînes distinctes et significatives de question dans l’ordre d’apparition. comparison_aspect nomme la dimension commune, non la conclusion. Ne crée pas de doublon en inversant les objets.
@@ -53,7 +59,7 @@ STRUCTURE EXACTE DE LA SORTIE
 ]
 
 EXEMPLES PÉDAGOGIQUES DÉTAILLÉS
-Ces exemples utilisent des passages de qac_with_modes.csv. Les passages sources conservent la langue fournie. Les questions sont nouvelles ; les réponses traduites sont des traductions pédagogiques, et non des versions linguistiques officielles des brevets. Les exemples illustrent des besoins d’information, pas des phrases modèles dont il suffirait de remplacer les noms. Ne réutilise jamais leurs faits dans une autre entrée.
+Les deux premiers cas utilisent des passages fournis de qac_with_modes.csv. Les dossiers suivants marqués SYNTHETIC sont des entrées pédagogiques inventées, pas des preuves de brevets réels. Les langues sources sont conservées ; les traductions pédagogiques ne sont pas officielles. Ce sont des besoins illustrés, pas des modèles à remplacer par d’autres noms. N’importe jamais leurs faits dans l’entrée réelle.
 
 M01 — ENTRÉE SOURCE
 publication_number: EP-4634122-A1
@@ -96,9 +102,9 @@ Sortie valide:
 [
   {
     "question": "Le matériau du cœur et celui de la coquille d’une céramique optique nanocomposite ont-ils la même exigence minimale de transmission à la longueur d’onde visée ?",
-    "answer": "Le premier matériau et le second matériau sont mutuellement insolubles et présentent chacun une transmission d’au moins 80% à une longueur d’onde visée.",
+    "answer": "Un matériau céramique optique nanocomposite (NCOC) comprend une pluralité de nanoparticules revêtues (cœur-coquille), constituées de nanoparticules d’un premier matériau revêtues d’une couche d’un second matériau. Le premier matériau et le second matériau sont mutuellement insolubles et présentent chacun une transmission d’au moins 80% à une longueur d’onde visée.",
     "anchor": "céramique optique nanocomposite",
-    "evidence": "The first material and the second material are mutually insoluble and each have a transmissivity of at least 80% for an intended wavelength.",
+    "evidence": "A nanocomposite optical ceramic (NCOC) material includes a plurality of coated (core-shell) nanoparticles having nanoparticles of a first material coated with a coating of a second material. The first material and the second material are mutually insoluble and each have a transmissivity of at least 80% for an intended wavelength.",
     "evidence_language": "en",
     "answer_is_translation": true,
     "comparison_entities": [
@@ -109,34 +115,47 @@ Sortie valide:
   }
 ]
 
-Pourquoi cet exemple convient: Un minimum partagé constitue une vraie comparaison. Le corps relie les deux matériaux au cœur et à la coquille ; ils ont le même seuil minimal déclaré.
+Pourquoi cet exemple convient: L’extrait choisi relie les deux matériaux au cœur et à la coquille et donne leur seuil minimal commun de transmission. Des minima égaux n’affirment pas des valeurs mesurées égales.
 
 Exemple proche, à rejeter ou à corriger:
 Pourquoi le matériau de la coquille est-il plus transparent que celui du cœur ?
 Motif: Le passage donne une borne commune, pas des transmissions mesurées différentes ni une explication de supériorité.
 
-CAS DE RÉGRESSION — CORRIGER LE BESOIN, PAS LA SOURCE — R2-M01
-Source fournie [de], publication_number: EP-0592745-A1
-Es werden ein Verfahren und eine Vorrichtung zur beidseitigen Beschichtung von plattenförmigem Stückgut (2), insbesondere von Leiterplatten, beschrieben, bei dem die Leiterplatten (2) durch mehrere aufeinanderfolgende Bearbeitungsstationen einer Beschichtungsanlage (1) transportiert werden. In einer ersten Beschichtungsstation (4) wird zunächst eine erste Seite der Leiterplatten (2) mit vorzugsweise UV-härtbarem Kunststoff, Lack oder dergleichen nass beschichtet. Nach dem Beschichten der ersten Seite werden die Leiterplatten (2) in einer ersten Ablüft- und Trockenstation (5) jeweils abgelüftet und getrocknet. Die Leiterplatten (2) werden gewendet, und in einer zweiten Beschichtungsstation (6) wird ihre zweite Seite mit vorzugsweise UV-härtbarem Kunststoff, Lack oder dergleichen nass beschichtet. Die derart beidseitig beschichteten Leiterplatten (2) werden in einer zweiten Ablüft- und Trockenstation (7) abgelüftet und getrocknet und schliesslich zur weiteren Bearbeitung aus der Beschichtungsanlage (1) an weitere Bearbeitungsvorrichtungen übergeben. Bei der Beschichtung werden die Leiterplatten (2) jeweils in entgegengesetzte Richtungen (X, Y) durch die beiden Beschichtungsstationen (4, 6) transportiert, welche in zwei parallel zueinander verlaufenden Gerätezeilen (A, B) nebeneinander angeordnet sind. Das Wenden der Leiterplatten (2) erfolgt in der ersten Ablüft- und Trockenstation (5). Dabei werden sie auch aus der ersten Gerätezeile (A) in die zweite (B) umgesetzt. Die erste Ablüft- und Trockenstation (5) ist derart zwischen der ersten und der zweiten Beschichtungsstation (4, 6) angeordnet, dass ihre Längserstreckung quer zu den Transportrichtungen (X, Y) der Leiterplatten (2) in den Beschichtungsstationen (4, 6) verläuft. Halterungen (11) für die Leiterplatten (2), die am aufwärts führenden Trum (17) eines Umlaufförderers (16), vorzugsweise eines Kettenförderers, befestigt sind, erstrecken sich quer zur ersten Gerätezeile (A), während Halterungen (11), die am abwärts führenden Trum (18) des Umlaufförderers (16) befestigt sind, quer zur zweiten Gerätezeile (B) verlaufen. <IMAGE>
+SYNTHETIC A — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-A
+[fr]
+Une famille de pyridazines substituées est représentée par la formule Z [dessin indisponible]. U est méthyle, éthyle, propyle ou phényle ; V est hydrogène, fluor, chlore ou cyano ; W est O ou S. Les positions de liaison figurent seulement dans le dessin manquant. Des pyridazines substituées sont proposées comme inhibiteurs de corrosion dans des compositions d’eau de refroidissement sans phosphate.
 
-Exemple pédagogique corrigé:
 [
   {
-    "question": "Dans un système de revêtement double face à deux lignes parallèles, les circuits imprimés traversent-ils la première station de revêtement et la seconde station de revêtement dans le même sens ou en sens opposés ?",
-    "answer": "Lors du revêtement, les circuits imprimés (2) sont transportés dans des directions opposées (X, Y) à travers les deux stations de revêtement (4, 6), disposées côte à côte dans deux lignes d’équipements parallèles (A, B).",
-    "anchor": "système de revêtement double face",
-    "evidence": "Bei der Beschichtung werden die Leiterplatten (2) jeweils in entgegengesetzte Richtungen (X, Y) durch die beiden Beschichtungsstationen (4, 6) transportiert, welche in zwei parallel zueinander verlaufenden Gerätezeilen (A, B) nebeneinander angeordnet sind.",
-    "evidence_language": "de",
-    "answer_is_translation": true,
-    "comparison_entities": [
-      "première station de revêtement",
-      "seconde station de revêtement"
-    ],
-    "comparison_aspect": "sens de déplacement des circuits imprimés"
+    "skip_reason": "La comparaison structurale apparente dépend de sites de liaison non définis ; l’utilisation indépendante ne fournit pas deux côtés comparables admissibles."
   }
 ]
 
-Leçon: Le décideur examiné rejetait comparison malgré cette relation explicite. Une direction commune ou opposée est substantielle, sans classement de performances ni gain numérique. Une phrase établit les deux côtés.
+Le nom de classe et les longues listes de valeurs permises ne situent PAS U, V ou W. Ne demande pas ces positions. L’utilisation indépendante de la classe nommée soutient la persona seulement si l’inconnue reste substantielle.
+
+SYNTHETIC B — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-B
+[fr]
+Le premier motif répétitif du polymère est –CH2–CH(U)–, où U est OH ou OCH3. Le second motif répétitif est –CH2–C(CH3)(V)–, où V est OH ou Cl.
+
+[
+  {
+    "question": "Le groupe latéral U du motif –CH2–CH(U)– et le groupe latéral V du motif –CH2–C(CH3)(V)– autorisent-ils tous deux OH ?",
+    "answer": "Le premier motif répétitif du polymère est –CH2–CH(U)–, où U est OH ou OCH3. Le second motif répétitif est –CH2–C(CH3)(V)–, où V est OH ou Cl.",
+    "anchor": "motif –CH2–CH(U)–",
+    "evidence": "Le premier motif répétitif du polymère est –CH2–CH(U)–, où U est OH ou OCH3. Le second motif répétitif est –CH2–C(CH3)(V)–, où V est OH ou Cl.",
+    "evidence_language": "fr",
+    "answer_is_translation": false,
+    "comparison_entities": [
+      "groupe latéral U du motif –CH2–CH(U)–",
+      "groupe latéral V du motif –CH2–C(CH3)(V)–"
+    ],
+    "comparison_aspect": "OH comme groupe latéral autorisé"
+  }
+]
+
+Les questions montrent ici le fragment local d’attachement : les symboles sont définis. Les alternatives admises n’établissent pas des compositions réelles égales.
 
 ABSTENTION
 Dans cet exercice distinct, seuls l’extrait et les éventuelles métadonnées affichés ci-dessous sont disponibles. N’importe aucun titre, formule absente, phrase omise ou autre section. Un extrait insuffisant ne disqualifie pas le brevet complet ; l’entrée réelle peut permettre d’autres candidats.
@@ -151,5 +170,11 @@ In some aspects, performance of an individual instrument can be assessed, or the
     "skip_reason": "L’extrait annonce la possibilité d’évaluer et de comparer, sans établir une comparaison substantielle des deux côtés."
   }
 ]
+
+
+CONTRÔLE FINAL
+Pour CHAQUE candidat final, identifie l’inconnue utile restante et respecte la persona : une demande ouverte de rôle est conceptual ; demander l’opération suivante est process_retrieval, pas conceptual ; assertion_verification exige une proposition incertaine. Un procédé à une étape est valable si une opération ou condition reste inconnue, pas si la question donne les deux réactifs et le produit et demande seulement de les faire réagir.
+Lis la question seule : identifie le matériau traité thermiquement et le procédé régi par toute plage numérique. « La présente invention », une formule non nommée ou des repères inexpliqués ne fournissent pas ce sujet. Une classe fonctionnelle définie telle que les inhibiteurs de tankyrase peut soutenir une recherche de maladies ; les fragments locaux visibles, les rôles explicites de composants identifiés et les formes non structurales permises restent admissibles avec un sujet identifié.
+Vérifie les prémisses complètes de CE candidat et le résultat demandé dans son unique extrait, avec les liaisons et conditions nécessaires. « A ou B » n’attribue pas A au premier matériau et n’établit pas un cas limité à A. Inclus les préalables ou pars explicitement de leur résultat disponible. Copie tout l’extrait de contenu de même langue ou traduis tout l’extrait étranger ; source_finding conserve l’identifiant exact. Après toute modification de rédaction ou de flexion, recopie les sous-chaînes d’annotation significatives depuis la question FINALE. Répare ou écarte chaque échec ; renvoie uniquement le schéma exact.
 
 L’ENTRÉE RÉELLE DU BREVET SUIT

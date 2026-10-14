@@ -1,0 +1,181 @@
+{
+  "source_csv": "/home/mehdi/Projects/CLIR_benchmark/data/chemistry/ai4chem_abstract_pairs/qac/generation_100_jev_haiku_5_5_gemini_3_8_flash_20261014_batch2_review_with_source.csv",
+  "source_sha256": "f7e5b127fe2971746c506b808217c7582927a9150516f83db951a77e33089ab9",
+  "review_date": "2026-10-14",
+  "rows": 100,
+  "method": "Qualitative source-only review of all 100 selected question/answer/evidence records, split across reviewers and adjudicated on disputed boundaries; deterministic exact-string checks on all rows; manifest and eligibility-audit review. No external scientific validation, retriever experiment, or pipeline rerun.",
+  "ratings_out_of_10": {
+    "decider": 7,
+    "generator": 7.5,
+    "verifier": 5
+  },
+  "rating_basis": "Generator rating is mean holistic row rating on an independent 1-10 review scale. Decider and verifier ratings are qualitative overall assessments, not accuracy percentages, calibrated metrics, or rescaled pipeline totals.",
+  "review_scale": {
+    "ready": "Strong usable record without an identified necessary repair.",
+    "minor_edit": "Useful core question and supported answer, but wording, exact extraction, annotation or limited scope cleanup required.",
+    "major_issue": "Material answer/evidence coverage, standalone scope or persona problem requiring substantive revision; does not imply fabricated chemistry."
+  },
+  "review_readiness": {
+    "minor_edit": 46,
+    "ready": 27,
+    "major_issue": 27
+  },
+  "review_verifier_assessment": {
+    "too_lenient": 42,
+    "correct": 47,
+    "mixed": 9,
+    "too_strict": 2
+  },
+  "review_selected_mode_viability": {
+    "viable": 98,
+    "wrong": 1,
+    "uncertain": 1
+  },
+  "deterministic_checks": {
+    "evidence_exact_source_substring": 100,
+    "content_answer_rows": 86,
+    "same_language_answer_evidence_mismatch": 39,
+    "anchor_not_question_substring": 20,
+    "rows_with_any_contract_issue": 48,
+    "issue_rows_flagged_metadata_fail": 32,
+    "issue_rows_missed_metadata_pass": 16,
+    "missed_rows": [
+      9,
+      23,
+      30,
+      37,
+      43,
+      44,
+      47,
+      52,
+      62,
+      63,
+      67,
+      68,
+      71,
+      82,
+      83,
+      85
+    ],
+    "meaning": "These are exact-contract failures, often harmless paraphrases or shortened extracts. They are not all scientific errors."
+  },
+  "pipeline_reported": {
+    "audit_status": {
+      "clear": 66,
+      "blocking": 7,
+      "repair": 26,
+      "review": 1
+    },
+    "total_score_distribution": {
+      "32": 85,
+      "29": 3,
+      "31": 4,
+      "28": 2,
+      "30": 3,
+      "26": 1,
+      "25": 1,
+      "21": 1
+    },
+    "mean_total_score": 31.49,
+    "rubric": "chemistry-clir-exceptional-r2: 4/5 is strong ordinary; 32/40 is all eights criteria scored four. The rubric is provisional, not calibrated."
+  },
+  "selection": {
+    "candidate_rows": 166,
+    "best_per_document_candidates": 146,
+    "selected_rows": 100,
+    "languages": {
+      "en": 20,
+      "fr": 20,
+      "es": 20,
+      "zh": 20,
+      "de": 20
+    },
+    "modes": {
+      "lookup": 14,
+      "process_retrieval": 15,
+      "conceptual": 15,
+      "constraint_search": 14,
+      "comparison": 14,
+      "assertion_verification": 14,
+      "source_finding": 14
+    },
+    "selection_bias": "Selected using verifier scores and language/persona quotas. Final balance is imposed by selection. Ratings do not estimate raw generation yield or Jev recall."
+  },
+  "per_mode_review": {
+    "assertion_verification": {
+      "count": 14,
+      "mean_generator_rating_10": 7.29,
+      "readiness": {
+        "major_issue": 6,
+        "minor_edit": 4,
+        "ready": 4
+      }
+    },
+    "comparison": {
+      "count": 14,
+      "mean_generator_rating_10": 7.5,
+      "readiness": {
+        "ready": 4,
+        "minor_edit": 6,
+        "major_issue": 4
+      }
+    },
+    "conceptual": {
+      "count": 15,
+      "mean_generator_rating_10": 7.4,
+      "readiness": {
+        "minor_edit": 9,
+        "major_issue": 3,
+        "ready": 3
+      }
+    },
+    "constraint_search": {
+      "count": 14,
+      "mean_generator_rating_10": 7.0,
+      "readiness": {
+        "minor_edit": 8,
+        "ready": 1,
+        "major_issue": 5
+      }
+    },
+    "lookup": {
+      "count": 14,
+      "mean_generator_rating_10": 7.43,
+      "readiness": {
+        "minor_edit": 10,
+        "ready": 2,
+        "major_issue": 2
+      }
+    },
+    "process_retrieval": {
+      "count": 15,
+      "mean_generator_rating_10": 7.93,
+      "readiness": {
+        "ready": 4,
+        "minor_edit": 9,
+        "major_issue": 2
+      }
+    },
+    "source_finding": {
+      "count": 14,
+      "mean_generator_rating_10": 7.93,
+      "readiness": {
+        "ready": 9,
+        "major_issue": 5
+      }
+    }
+  },
+  "recommended_priorities": [
+    "Enforce exact evidence, answer=evidence for untranslated content answers, and question-substring metadata with deterministic checks.",
+    "Apply mode/support/metadata acceptance policy before score ranking and quota selection; repair representation issues rather than treating them as false chemistry.",
+    "Strengthen verifier scope checks for equal ranges versus equal values, units/bases, source-local referents and every material selected-evidence clue.",
+    "Evaluate Jev on independently labeled accepted and rejected source-mode pairs, especially source-finding-only packets."
+  ],
+  "limits": [
+    "Reviewer judgments are not independent human gold labels; borderline judgments are annotated in row_audit.csv.",
+    "No measured retrieval or cross-lingual retrieval performance; only question/source quality and pipeline decisions are assessed.",
+    "Current prompt files and recorded rubric versions were used; source claims are not independently scientifically verified.",
+    "The apparent viability of 98 selected modes is not a 98% routing-accuracy estimate, because alternative modes and skipped sources lack exhaustive gold labels.",
+    "Representational repairs, evidence omissions, and unsupported scientific claims are different failure categories."
+  ]
+}

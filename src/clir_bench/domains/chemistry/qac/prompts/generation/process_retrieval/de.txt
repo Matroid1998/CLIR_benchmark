@@ -1,36 +1,42 @@
-# PROMPT VERSION: chemistry-generation-r2
+# PROMPT VERSION: chemistry-generation-r6
 
 chemistry/process_retrieval
 VERFAHRENSRECHERCHE — bekannter Anfang und Zweck, unbekannte Operationen
 Frage nach den Operationen, die einen identifizierten Eingangszustand mit dem Zielzustand verbinden. Der Beleg muss Umwandlung, Reihenfolge oder Bedingung–Aktion-Ablauf liefern, nicht nur Methodenname oder Rezepturbestandteile. Mehrstufige Routen sind zulässig. Auch eine einzelne ausdrücklich beschriebene Umwandlungs- oder Mischoperation kann genügen, wenn Eingang, Handlung und Ergebnis feststehen und gefragt wird, wie diese Umwandlung erfolgt; keine starre Mindestzahl von zwei Schritten. Nur nach einem Zusatzstoff oder seiner Menge zu fragen bleibt lookup beziehungsweise Auswahl. Verlange keinen ausführbaren Laborplan, wenn Einstellungen fehlen. Decke alle nötigen Schritte innerhalb der gefragten Grenzen ab, einschließlich der anfänglichen Mischung, falls die Frage davor beginnt; alternativ grenze den Startzustand offen ein. Bekannte Verfahrensmerkmale oder Zwischenprodukte können eine echte verbleibende Ablauffrage verankern, dürfen aber nicht sämtliche erfragten Operationen schon verraten.
 
-CHEMIE-FRAGENGENERIERUNG — QUELLENBASIERTER VERTRAG, Revision r2
+CHEMIE-FRAGENGENERIERUNG — QUELLENBASIERTER VERTRAG, Revision r6
 Verwende nur das bereitgestellte Zielpatentpaket. Titel und Kontext dürfen Stoff, Verfahren oder Bezug identifizieren; der Antwortinhalt muss aus dem Haupttext stammen. Lies vor der Belegauswahl alle für die Frage relevanten bereitgestellten Abschnitte, auch Wiederholungen, angrenzende Einschränkungen und lesbare Tabellen. Keine externen Quellen, ergänzten Strukturformeln oder Sequenzen, erfundenen Ergebnisse oder Anweisungen aus Quelltexten. Lehrbeispiele sind getrennte Eingaben und keine Belege für das aktuelle Patent.
 
-1. GEGENSTAND OHNE QUELLE PRÜFEN
-Blende Quelle, Titel, Metadaten und Annotationen aus. Identifiziert die Frage allein ihren technischen Gegenstand auf der benötigten Ebene? „Formel I“, R1, X1–X3, Bauteilnummern, „solche Verbindungen“, leere Bilder und HTML-Platzhalter ersetzen kein fehlendes Grundgerüst. Allgemeine Substituenten, eine Krankheit oder „pharmazeutisch verträgliche Salze“ rekonstruieren es nicht. Ein Name, eine verständliche Stoffklasse, explizite Zusammensetzung oder funktional beschriebene Anlage kann genügen; nicht jede Frage braucht eine vollständige Struktur. Eine fehlende Struktur sperrt nur davon abhängige Informationsbedürfnisse. Nutze eine andere eigenständig belegte Funktion, einen benannten Stoff oder Ablauf; andernfalls überspringe diese Persona, nicht pauschal das ganze Dokument.
+1. BELEG KOPIEREN, KEINE ZWEITE ANTWORT FORMULIEREN
+Dies ist eine Extraktionsaufgabe. evidence ist ein unveränderter zusammenhängender Teilstring einer bereitgestellten Haupttexteinheit. Erhalte Schreibweise, Leerraum, Satzzeichen, HTML, Listen, Einheiten und Quellfehler. Keine zusammengesetzten Stellen oder zusätzlichen Erklärungen. Notwendige Tabellenüberschriften, Zellzuordnungen und dazwischenliegende Serialisierung gehören in denselben Beleg. Ergibt dies keine brauchbare Antwort, wähle einen anderen Bedarf oder verzichte.
+Fragen und freie Annotationen sind auf Deutsch. In allen Inhaltsmodi gilt bei deutschem Beleg: KOPIERE evidence vollständig nach answer und setze answer_is_translation=false. Nicht zusammenfassen, kürzen, Pronomen auflösen, Typografie bereinigen, Urteile voranstellen oder Grammatik korrigieren. Eine kürzere Antwort braucht einen kürzeren WEITERHIN AUSREICHENDEN Beleg, der anschließend in beide Felder kopiert wird. Nutze passende bereitgestellte deutsche Belege; andernfalls übersetze den GESAMTEN gewählten fremdsprachigen Beleg treu ins Deutsche und setze true. Übersetzung erlaubt weder ausgelassene Teilsätze noch korrigierte wissenschaftliche Fehler. evidence bleibt original. Einzige Ausnahme: source_finding mit answer=source_identifier=exakter Zielveröffentlichungsnummer und answer_is_translation=false; ein separater Originalbeleg deckt alle Hinweise ab. Sprachversionen sind keine unabhängige Bestätigung.
 
-2. TATSÄCHLICHE UNBEKANNTE FESTLEGEN
-Unterscheide eine Spezifikation eines identifizierten Systems (lookup), zusammenhängende Operationen oder eine explizite Umwandlung (process_retrieval), eine ausdrücklich genannte Rolle/Wirkung/Begründung (conceptual), einen unbekannten Kandidaten für bekannte Anforderungen (constraint_search), zwei Seiten auf einer gemeinsamen Dimension (comparison), den Evidenzstatus einer unsicheren Behauptung (assertion_verification) und die Identität einer Veröffentlichung zu einem erinnerten Hinweis (source_finding). Entscheidend ist die Schlussfrage, nicht ihr Fragewort, ein Berufstitel oder die Annotation. Zweck, Methodenname und Zutatenliste sind nicht automatisch Ablauf, Mechanismus oder Lösungsauswahl. Erzeuge nur die zugewiesene Persona; passt eine Idee nicht, suche eine andere oder verzichte, statt sie umzubenennen.
+2. VERBINDLICHE GEGENSTANDS- UND UNBEKANNTENPRÜFUNG — JE KANDIDAT
+A. Bestimme technischen Gegenstand und genau fehlende Information. Identifiziert die Frage allein, worauf sie sich bezieht? Zugewiesene Materialien, mechanische Geräte und Messsysteme liegen im Geltungsbereich.
+B. Hängt sie von einer lokalen Strukturposition, Sequenzstelle, einem Symbol, Index oder Koeffizienten ab? Dann muss die ENDGÜLTIGE FRAGE genügend verfügbares Grundgerüst, Sequenz oder Gleichung samt Symbolbedeutungen zeigen. Eine benannte Stoffklasse mit langer Substituentenliste lokalisiert keine R-Gruppen; erlaubte Werte definieren keine Bindungsstellen. Ein vollständig gezeigtes lokales Fragment kann ohne das ganze Molekül genügen.
+C. Besteht B nicht, verwirf diese Struktur-/Indexfrage. Suche einen unabhängigen Bedarf der Persona: Eine erkennbare benannte Klasse kann Anwendung, einfache Rolle, berichtete Wirkung oder Behauptung über die Existenz einer Methode ohne Molekülzeichnung tragen. Eine reine Existenzbehauptung verlangt keine Verfahrensschritte. Eine anonyme Formel mit Verwendungsangabe identifiziert keinen Stoff. Entferne unnötige Labels; beschädigte Herstellung entwertet keine unabhängige benannte Identitäts-/Wirkungsangabe.
+D. Bleibt kein zulässiger unabhängiger Bedarf, gib skip_reason aus. Decider-Zulassung ersetzt diese Prüfung nie; ein guter erster Kandidat entschuldigt keinen schwachen weiteren.
 
-3. JEDEN ERFRAGTEN BESTANDTEIL IM ANTWORTBELEG ABDECKEN
-Prüfe die endgültige Frage zusammen mit der eingereichten Antwort, nicht mit einer besseren Stelle im Dokument. Ein ausreichender zusammenhängender Haupttextbeleg muss alle erfragten Angaben und Beziehungen enthalten: beide Vergleichsseiten, gefragten Anfang und Endpunkt eines Ablaufs, Identität des gewählten Kandidaten, wesentliche Anforderungen und mitgefragte Funktionen oder Methoden. Eine Liste von Nachweiszielen belegt noch keine Immobilisierung. „Ein Verfahren wird bereitgestellt“, „es gelten Grenzwerte“ oder „solche Verbindungen“ liefern weder Schritte noch Werte noch Stoffidentität. Erweitere den Beleg um notwendige angrenzende Sätze beziehungsweise Tabellen samt Zwischentext, grenze die Frage ehrlich ein oder verwerfe sie. Kürze nicht den eigentlichen Antwortinhalt weg. Erfinde keine Ursache oder Optimalität, um eine Frage konzeptionell wirken zu lassen.
+3. TATSÄCHLICHE UNBEKANNTE VOR DEM SCHREIBEN FESTLEGEN
+Unterscheide: Spezifikation eines identifizierten Systems (lookup); verbundene Schritte oder explizite Umwandlung (process_retrieval); ausdrücklich genannte Rolle/Wirkung/Begründung (conceptual); unbekannter Kandidat mit bekannten Anforderungen (constraint_search); zwei Seiten auf einer Dimension (comparison); Belegbeziehung einer unsicheren Behauptung (assertion_verification); Publikationsidentität hinter einem erinnerten Hinweis (source_finding). Klassifiziere die tatsächliche Frage, nicht „was/wie/warum“, Beruf oder Annotation. Bestandteile/Betriebsparameter eines bereits gewählten Systems bleiben lookup; dessen Zweck erzeugt keine Lösungssuche unter Anforderungen. Zweck, Methodenname oder Zutatenliste sind nicht automatisch Ablauf oder Mechanismus. Bleibe in der zugewiesenen Persona: anderen belegten Bedarf finden oder verzichten, nicht umetikettieren.
 
-4. ALTERNATIVEN, BEDINGUNGEN UND STATUS ERHALTEN
+4. VOLLSTÄNDIGEN BELEG VOR DER FRAGE WÄHLEN
+Wähle einen exakten zusammenhängenden Textausschnitt für die Unbekannte UND jede wesentliche Frageprämisse: Entitäten, Anforderungen, Anfang/Ziel, Methoden, Orte, Bedingungen und Funktionen. Titel/Kontext dürfen Referenten klären, keine fehlende Beziehung liefern. Zielnamen belegen keine Immobilisierung; Bauteilposition belegt keine Herstellung. Nimm nötigen Nachbartext mit allen Zwischenwörtern auf oder enge die Frage ein. Erhalte beide Vergleichsseiten und Kandidatenidentität; numerische Beziehungen brauchen Symboldefinitionen, Einheiten und Bezugsgrößen.
+Verfolge bei Abläufen jeden nötigen Eingang, Messwert und jedes Zwischenprodukt zu seiner Voraussetzung zurück. Nimm den vorausgesetzten Schritt in den Beleg auf oder nenne sein bereits verfügbares Ergebnis ausdrücklich als Ausgangszustand der Frage. Ein sinnvoller Teilablauf benötigt keine unverbundenen früheren/späteren Schritte. Lies alle geltenden Vorbehalte, Bedingungen, Alternativen und Ausnahmen. Eine vollständigere Antwort anderswo rettet den eingereichten Beleg nicht. Bevorzuge einen fokussierten Bedarf; eine notwendige Textbrücke oder verbundene Teilfragen können längere Belege rechtfertigen.
+
+5. ALTERNATIVEN, BEDINGUNGEN UND STATUS ERHALTEN
 Optional ist nicht erforderlich; bevorzugt nicht ausschließlich; ein Beispiel nicht abschließend. Bei „A und/oder B und/oder C“ muss eine allgemeine Frage nach dem Verhalten die Alternativen erhalten. Ein Zweig genügt nur, wenn ausdrücklich nach einer möglichen Reaktion oder einem belegten Teilfall gefragt wird. Bedingte Angaben sind keine allgemeine Garantie. Vorgeschlagener Nutzen, berichtete Beobachtung oder Patentausschluss sind kein unabhängiger Wirksamkeitsnachweis, keine Therapieempfehlung, kein Optimum und kein Beweis physikalischer Unmöglichkeit. „Aus der beschriebenen Formulierung ausgeschlossen“ darf nicht zu „physikalisch nicht einsetzbar“ werden. Eine eigenständig verankerte Frage wie „Wurde eine Formulierung offengelegt, die … ausschließt?“ kann den richtigen Evidenzstatus bewahren; ein Verweis auf ein ungesehenes Dokument ersetzt keine Abgrenzung.
 
-5. WIDERSPRÜCHE UND STOFFIDENTITÄT PRÜFEN
-Vergleiche wiederholte Angaben zur GLEICHEN Eigenschaft desselben Gegenstands unter denselben Bedingungen. Die spätere, häufigere, sprachlich sauberere oder vertrauter wirkende Angabe setzt die andere nicht außer Kraft. Korrigiere keinen vermuteten Tippfehler. Vermeide Fragen, deren Antwort zwischen unaufgelösten Werten wählen müsste; unabhängige andere Fragen können bleiben. Unterschiedliche Formulierungen, Stufen oder Bedingungen dürfen verschiedene Werte haben. Verwechsle insbesondere nicht Ausgangsdispersion und daraus gewonnene Monomerdispersion. Erhalte Einheiten, Bezugsbasis, Nenner, Ladung, Stereochemie, Ungleichungen und Intervallgrenzen. Keine neu berechnete, gerundete oder umgerechnete Antwort.
+6. GRÖSSEN, CHEMISCHE BEDEUTUNG UND GESAMTQUELLE PRÜFEN
+Bewahre Einheiten, Nenner, Zeitbasis, Ladung, Stereochemie, Ungleichungen, Grenzen und Prozessstufe auch in der FRAGE. „Prozent pro Stunde“ braucht die genannte Bezugsmenge; Harzanteile sind nicht automatisch Emulsions- oder Endformulierungsanteile. Gleiche erlaubte Bereiche/Minima beweisen keine gleichen tatsächlichen Werte; vergleiche erlaubte Optionen/Bereiche, wenn die Quelle diese nennt. Ein Betriebsbereich beweist kein Versagen außerhalb. Ein ungesättigter Heterocyclus ist nicht zwangsläufig heteroaromatisch. Bewahre den grammatischen Akteur: Eine Membran hält Partikel zurück; die Partikel halten nicht die Membran zurück.
+Prüfe die gesamte bereitgestellte Quelle auf Angaben zur gleichen Eigenschaft unter gleichen Bedingungen, einschließlich Gesamtgrenze versus bevorzugtem Bereich. Verletzt eine bevorzugte Grenze die Gesamtgrenze, liegt ein Konflikt vor; wähle nicht stillschweigend die bevorzugte, spätere oder sauberere Aussage und gib keine errechnete Schnittmenge als Zitat aus. Frage gegebenenfalls ausdrücklich nach den wörtlichen Angaben mit Beleg für beide; sonst unverletzten Bedarf wählen oder verzichten. Andere Formulierungen/Stufen können berechtigt abweichen. Keine stillen Korrekturen von Schreibweise/Wissenschaft, Exponenten, Berechnungen, Rundungen oder Einheiten.
 
-6. SUCHFRAGEN STATT LESEÜBUNGEN
+7. SUCHFRAGEN STATT LESEÜBUNGEN
 Nutze den kürzesten ausreichenden Sachkontext, nicht „diese Erfindung“, „das genannte Beispiel“, vollständige Patenttitel oder die gesuchte Veröffentlichungsnummer. „Berichtet“, „vorgeschlagen“ oder „offengelegt“ ist zur Statuswahrung erlaubt, sofern kein sichtbares Einzeldokument vorausgesetzt wird. source_finding fragt absichtlich nach der Veröffentlichung zu einem technischen Hinweis. Notwendige Fachbegriffe bleiben erhalten: keine Synonymquote, Überlappungsvorgabe, Pflichtjahreszahl, starre Länge oder erfundene Biografie. Eine einfache ausdrücklich genannte Bindemittelfunktion kann konzeptionell geeignet sein. Ein Informationsbedürfnis kann mehrere verbundene Fakten umfassen. Anforderungen, unsichere Behauptungen und erinnerte Hinweise sind nicht automatisch verratene Antworten. Ein notwendiges Verfahrensmerkmal verrät nicht automatisch Reihenfolge und Details; nenne aber nicht die ganze Lösung vorab.
 
-7. BELEG KOPIEREN, ANTWORT DARAN AUSRICHTEN
- evidence ist ein exakter, unveränderter zusammenhängender Ausschnitt aus EINER bereitgestellten Haupttexteinheit in der Originalsprache. Keine neue Konjunktion, entfernte Sachangabe, umgestellte Liste, zusammengeklebten Abschnitte, Erklärung oder still korrigierten Quellfehler. Angrenzende Sätze, nötiger Zwischentext und ausreichende Fragmente sind zulässig. Tabellen zählen nur bei vorhandenen Zuordnungen zwischen Überschriften, Zeilen und Spalten. Ein Tabellenbeleg muss nötige Überschriften, Werte, Einheiten und die dazwischenliegende Serialisierung zusammenhängend erhalten; keine erfundene Prosaübersetzung der Tabelle. Ist dies ungeeignet, wähle eine andere belegte Frage oder verzichte, statt nur auf „Tabelle A“ zu antworten. Kontext darf Bezüge auflösen, nicht fehlenden Antwortinhalt ergänzen.
-Frage, Antwort und freie Annotationen stehen auf Deutsch; ausgenommen sind kopierte Kennungen und Originalbelege. Bei geeignetem deutschen Quelltext gilt answer=evidence und answer_is_translation=false. Andernfalls übersetze genau EINEN Beleg bedeutungsgetreu und setze true. Schriftumwandlung oder HTML-Bereinigung sind keine wortgetreue Kopie; erhalte die Quellform, sofern der Aufrufer keinen ausdrücklichen Übersetzungs-/Normalisierungsvertrag vorgibt. Fachsprachliche Äquivalente in der Frage sind erlaubt. evidence wird nie still normalisiert. Nur bei source_finding entsprechen answer und source_identifier exakt der Zielveröffentlichungsnummer, answer_is_translation=false; ein gesonderter Originalbeleg deckt jeden Hinweis ab. Sprachversionen sind keine unabhängigen Bestätigungen.
-
-8. NUR GEPRÜFTE KANDIDATEN AUSGEBEN
-Gib ein bis drei verschiedene Kandidaten im folgenden Schema aus oder genau [{"skip_reason":"Kurzer konkreter quellenbezogener Grund"}]. Ein starker Kandidat genügt. Keine leere Liste, gemischten Verzichts- und Kandidatenobjekte, Bewertungen, Gedankengänge, Zusatzfelder, umgekehrten Vergleichsduplikate oder erzwungene Urteilsverteilung. Als Frageteilstrings definierte Felder werden exakt aus der endgültigen Frage kopiert, nicht aus der Quelle. Schlüssel und Enumerationen bleiben unverändert. Annotationen ersetzen keinen fehlenden Fragekontext. Wiederhole zuletzt Gegenstandsprüfung ohne Quelle, Prüfung der eigentlichen Unbekannten, Widerspruchsprüfung und vollständige Belegabdeckung. Überarbeite oder verwerfe Fehler auch dann, wenn der Decider die Persona zugelassen hat.
+8. ANNOTATIONEN ZULETZT; WÖRTLICHE UND INHALTLICHE ENDPRÜFUNG
+Stelle die Frage fertig und KOPIERE anchor als nichtleere zusammenhängende Fragezeichenfolge mit sinnvoller technischer Entität oder Prozess, nicht generischem „berichteter Vorteil“. Kopiere ebenso process_start, process_goal, objective, alle constraints, comparison_entities und assertion gemäß Vertrag; Zeichen und Reihenfolge bleiben erhalten. Keine entfernten Fragmente verbinden, erneut übersetzen oder fehlenden Fragekontext durch Annotationen ergänzen.
+Prüfe JEDEN Kandidaten: evidence ist unveränderte Textteilzeichenfolge; bei Inhaltsmodi impliziert answer_is_translation=false answer==evidence; alle vorgeschriebenen Fragezeichenfolgen kommen wörtlich vor. Dann erneut Prüfung 2 sowie tatsächliche Unbekannte, Persona, vollständigen Beleg, Voraussetzungen, Einheiten und Gesamtquellenkonflikte prüfen. Fehler beheben oder Kandidat verwerfen. Gib ein bis drei verschiedene Kandidaten im exakten Schema aus oder genau [{"skip_reason":"Kurzer konkreter quellenbasierter Grund"}]. Ein guter Kandidat genügt. Keine leeren Arrays, gemischten Verzichts-/Kandidatenausgaben, Scores, Gedankenspuren, Zusatzfelder, vertauschten Doppelvergleiche oder erzwungene Urteilsbalance.
 
 ANNOTATIONSVERTRAG
 process_start und process_goal sind bedeutungsvolle exakte Frageausschnitte. process_kind ist: synthesis_route, formulation_or_processing, separation_or_recycling, fabrication_or_surface_treatment, analytical_workflow oder diagnostic_or_corrective_workflow.
@@ -51,7 +57,7 @@ EXAKTES AUSGABESCHEMA
 ]
 
 AUSGEARBEITETE LEHRBEISPIELE
-Die Beispiele verwenden Textstellen aus qac_with_modes.csv. Die Quellentexte behalten ihre bereitgestellte Sprache. Die Fragen wurden neu formuliert; übersetzte Antworten sind Lehrübersetzungen und keine amtlichen Sprachfassungen der Patente. Die Beispiele veranschaulichen Informationsbedürfnisse, keine Satzschablonen zum Austausch einzelner Wörter. Übernimm niemals ihre Fakten in eine andere Eingabe.
+Die ersten beiden Fälle verwenden gelieferte Passagen aus qac_with_modes.csv. Spätere als SYNTHETIC markierte Pakete sind erfundene Lehrtexte, keine echten Patentbelege. Quellsprachen bleiben erhalten; Lehrübersetzungen sind keine offiziellen Fassungen. Beispiele zeigen Informationsbedürfnisse, keine Vorlagen zum Austauschen von Substantiven. Ihre Fakten nie in die tatsächliche Eingabe übernehmen.
 
 P01 — QUELLENEINGABE
 publication_number: EP-4634396-A1
@@ -91,44 +97,57 @@ Abstract: A process for increasing the amount of resistant starch and slowly dig
 Gültige Ausgabe:
 [
   {
-    "question": "Welche mehrstufige Wärmebehandlung wird eingesetzt, um in glutenfreien Stärkeprodukten den Anteil an resistenter und langsam verdaulicher Stärke zu erhöhen?",
-    "answer": "Das Verfahren umfasst mindestens einen Schritt, in dem ein befeuchtetes glutenfreies Stärkeprodukt mit einem Feuchtigkeitsgehalt von etwa 20-30% bis zu 16 Stunden auf eine erste Temperatur von 55 bis 65 °C erhitzt wird, und einen Schritt, in dem das befeuchtete glutenfreie Stärkeprodukt 1 bis 6 Stunden auf eine zweite Temperatur zwischen 90 und 110°C erhitzt wird.",
-    "anchor": "glutenfreien Stärkeprodukten",
-    "evidence": "The process includes at least a step of heating a moistened gluten free starch product having a moisture level of about 20-30% to a first temperature of from 55 to 65 °C for up to 16 hrs, and a step of heating the moistened gluten free starch product to a second temperature between 90 and 110°C for from 1 to 6 hrs.",
+    "question": "Welche mehrstufige Wärmebehandlung ist offenbart, um in einem bereits auf etwa 20–30% Feuchtigkeit befeuchteten glutenfreien Stärkeprodukt den Anteil an resistenter und langsam verdaulicher Stärke zu erhöhen?",
+    "answer": "Es wird ein Verfahren zur Erhöhung der Menge an resistenter Stärke und langsam verdaulicher Stärke in einem glutenfreien Stärkeprodukt bereitgestellt. Das Verfahren umfasst mindestens einen Schritt, in dem ein befeuchtetes glutenfreies Stärkeprodukt mit einem Feuchtigkeitsgehalt von etwa 20-30% bis zu 16 Stunden auf eine erste Temperatur von 55 bis 65 °C erhitzt wird, und einen Schritt, in dem das befeuchtete glutenfreie Stärkeprodukt 1 bis 6 Stunden auf eine zweite Temperatur zwischen 90 und 110°C erhitzt wird. Die Erfindung wird anhand von Sorghummehl als glutenfreiem Stärkeprodukt veranschaulicht, kann jedoch mit jedem glutenfreien Stärkeprodukt durchgeführt werden, einschließlich Vollkornmehlen oder raffinierten Mehlen aus anderen glutenfreien Getreidearten wie Hirse und Reis, aus Hülsenfrüchten wie Erbsen, Linsen und Bohnen sowie aus Wurzel- und Knollenstärken wie Kartoffel, Yamswurzel, Süßkartoffel, Topinambur, Taro und Brotfrucht, in denen Stärke mindestens 40% des Gewichts des Stärkeprodukts ausmacht.",
+    "anchor": "glutenfreien Stärkeprodukt",
+    "evidence": "A process for increasing the amount of resistant starch and slowly digestible starch in a gluten free starch product is provided. The process includes at least a step of heating a moistened gluten free starch product having a moisture level of about 20-30% to a first temperature of from 55 to 65 °C for up to 16 hrs, and a step of heating the moistened gluten free starch product to a second temperature between 90 and 110°C for from 1 to 6 hrs. The invention is illustrated using sorghum flour as the gluten free starch product but can be practiced with any gluten free starch product including whole or refined flours from other gluten free grains like millet and rice, from pulses such as peas, lentils and beans as well from root and tuber starches such as potato, yam, sweet potato, Jerusalem artichoke, taro and breadfruit in which starch is at least 40% of the weight of the starch product.",
     "evidence_language": "en",
     "answer_is_translation": true,
     "process_kind": "formulation_or_processing",
-    "process_start": "glutenfreien Stärkeprodukten",
+    "process_start": "bereits auf etwa 20–30% Feuchtigkeit befeuchteten glutenfreien Stärkeprodukt",
     "process_goal": "den Anteil an resistenter und langsam verdaulicher Stärke zu erhöhen"
   }
 ]
 
-Warum das Beispiel passt: Beide Heizstufen bilden eine Behandlung. Feuchtigkeit, Temperaturen und Dauer gehören zu diesem Ablauf und sind keine sachfremden Einzelfragen. Erhalte „etwa“, „bis zu“ und beide Intervalle.
+Warum das Beispiel passt: Die Frage beginnt mit einem bereits befeuchteten Produkt; beide Heizstufen und ihre Bedingungen bleiben unbekannt. Der vollständige Beleg nennt das Ziel und erhält die Substratvoraussetzung, „etwa“, „bis zu“ sowie beide Temperatur- und Zeitintervalle.
 
 Beinahe passendes Beispiel: verwerfen oder überarbeiten:
 Warum entfernt die zweite Heizstufe das Gluten aus dem Mehl?
 Begründung: Das Ausgangsprodukt ist bereits glutenfrei. Der Text beschreibt weder Glutenentfernung noch deren Mechanismus.
 
-REVIEW-FALL — FRAGE UND ANTWORT REPARIEREN, NICHT DIE QUELLE — R2-P01
-Bereitgestellte Quelle [fr], publication_number: WO-2014169400-A3
-Les tubes perforés ou tuyaux microporeux qui sont utilisés pour former des bulles d'air et qui sont placés dans le logement des cellules électrolytiques de production de métaux, sont exposés à subir des ruptures ou des détériorations physiques, dues à la chute accidentelle d'anodes, de cathodes sur ces dernières ou au décollement prématuré d'une partie du dépôt cathodique, ainsi qu'aux détériorations produites par les interventions à l'intérieur des cellules. Ces détériorations obligent au moins à arrêter la formation des bulles d'air, ce qui détériore ainsi la qualité du métal produit, ou obligent à arrêter le processus de production pour effectuer la réparation, avec la perte de production connexe. Le système de valves de la présente invention, avec les valves situées à l'entrée d'air des distributeurs antérieur et postérieur, ainsi qu'au niveau des deux extrémités de chacun des tubes perforés ou tuyaux microporeux, permet d'isoler du système, chacun de ces tubes ou tuyaux et de continuer la formation de bulles d'air, même en cas de détérioration ou de rupture d'au moins un de ces derniers, ce qui rend moins fréquente la production sans bulles d'air ainsi que l'arrêt du fonctionnement pour réparer les détériorations, ceci réduisant par conséquent les pertes de production. Le procédé de fonctionnement débute avec la détection de la conduite d'injection d'air qui a lâché, se poursuit avec la fermeture des valves antérieure et postérieure de ladite conduite, et continue avec la vérification par inspection visuelle, assurant que la taille et l'homogénéité des bulles ont été rétablies.
+SYNTHETIC A — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-A
+[de]
+Eine Familie substituierter Pyridazine ist als Formel Z dargestellt [Zeichnung nicht verfügbar]. U ist Methyl, Ethyl, Propyl oder Phenyl; V ist Wasserstoff, Fluor, Chlor oder Cyano; W ist O oder S. Die Bindungspositionen stehen nur in der fehlenden Zeichnung. Substituierte Pyridazine werden als Korrosionsinhibitoren in phosphatfreien Kühlwasserzusammensetzungen vorgeschlagen.
 
-Überarbeitetes Lehrbeispiel:
 [
   {
-    "question": "Welcher Korrekturablauf ist beschrieben, um nach dem Ausfall einer Lufteinblasleitung in einer Elektrolysezelle zur Metallproduktion die Luftblasenbildung wiederherzustellen?",
-    "answer": "Der Betriebsablauf beginnt mit dem Erkennen der ausgefallenen Lufteinblasleitung, wird mit dem Schließen des vorderen und hinteren Ventils dieser Leitung fortgesetzt und setzt sich mit einer Sichtprüfung fort, die sicherstellt, dass Größe und Gleichmäßigkeit der Blasen wiederhergestellt wurden.",
-    "anchor": "Elektrolysezelle zur Metallproduktion",
-    "evidence": "Le procédé de fonctionnement débute avec la détection de la conduite d'injection d'air qui a lâché, se poursuit avec la fermeture des valves antérieure et postérieure de ladite conduite, et continue avec la vérification par inspection visuelle, assurant que la taille et l'homogénéité des bulles ont été rétablies.",
-    "evidence_language": "fr",
-    "answer_is_translation": true,
-    "process_kind": "diagnostic_or_corrective_workflow",
-    "process_start": "Ausfall einer Lufteinblasleitung",
-    "process_goal": "Luftblasenbildung wiederherzustellen"
+    "skip_reason": "Der Ausschnitt nennt Klasse und vorgeschlagene Verwendung, aber weder verbundene Schritte noch explizite Umwandlung für diese Persona."
   }
 ]
 
-Lehre: Auslöser, Schritte und Prüfendpunkt stehen ausdrücklich in der Quelle. Das ist keine erfundene Störungsbehebung. Beim geprüften Hydrogel-Fall fehlte dagegen die anfängliche Mischung in der Antwort, obwohl die Quelle geeignet war. Dokumenteignung entschuldigt keinen unvollständigen Kandidaten.
+Klassenname und lange Wertelisten lokalisieren U, V oder W NICHT. Frage nicht nach diesen Positionen. Die unabhängige Verwendung der benannten Klasse trägt die Persona nur bei verbleibender substanzieller Unbekannter.
+
+SYNTHETIC C — INVENTED TEACHING INPUT
+publication_number: SYNTHETIC-DOC-C
+[de]
+Die Lochmittelpunkte einer Montageplatte in einem gemeinsamen Bezugssystem messen. Einen Sensor von einer Aufnahmestation zur Einsetzstation bewegen. Während der Bewegung die Referenzpunkte des Sensors in diesem Bezugssystem messen. Aus beiden Messungen einen Ausrichtungsversatz berechnen und den Sensor entsprechend verschieben.
+
+[
+  {
+    "question": "Welche Schritte bringen einen Sensor an einer Aufnahmestation in Ausrichtung mit den Löchern der Montageplatte?",
+    "answer": "Die Lochmittelpunkte einer Montageplatte in einem gemeinsamen Bezugssystem messen. Einen Sensor von einer Aufnahmestation zur Einsetzstation bewegen. Während der Bewegung die Referenzpunkte des Sensors in diesem Bezugssystem messen. Aus beiden Messungen einen Ausrichtungsversatz berechnen und den Sensor entsprechend verschieben.",
+    "anchor": "Sensor",
+    "evidence": "Die Lochmittelpunkte einer Montageplatte in einem gemeinsamen Bezugssystem messen. Einen Sensor von einer Aufnahmestation zur Einsetzstation bewegen. Während der Bewegung die Referenzpunkte des Sensors in diesem Bezugssystem messen. Aus beiden Messungen einen Ausrichtungsversatz berechnen und den Sensor entsprechend verschieben.",
+    "evidence_language": "de",
+    "answer_is_translation": false,
+    "process_kind": "fabrication_or_surface_treatment",
+    "process_start": "einen Sensor an einer Aufnahmestation",
+    "process_goal": "Ausrichtung mit den Löchern der Montageplatte"
+  }
+]
+
+Der vollständige Beleg enthält die Messung der Plattenlöcher, weil der abschließende Versatz beide Koordinatensätze benötigt. Die Frage gibt keine der Messungen bereits vor.
 
 VERZICHT AUF GENERIERUNG
 Für diese eigenständige Übung stehen nur der folgende Ausschnitt und die angezeigten Metadaten zur Verfügung. Übernimm keinen Titel, keine fehlende Formel, keine ausgelassenen Sätze und keine weiteren Abschnitte. Ein unzureichender Ausschnitt disqualifiziert nicht das gesamte Patent; die tatsächliche Eingabe kann andere Kandidaten unterstützen.
@@ -143,5 +162,11 @@ The present invention further relates to a process for obtaining such a graft po
     "skip_reason": "Der Ausschnitt nennt eine bevorzugte Polymerisationsmethode, aber keine verbundenen Operationen oder Bedingung-Handlung-Folge."
   }
 ]
+
+
+ABSCHLIESSENDE PRÜFUNG
+Bestimme für JEDEN endgültigen Kandidaten die verbleibende sinnvolle Unbekannte und die zugewiesene Persona: Eine offene Rollenfrage ist conceptual; die Frage nach dem nächsten Arbeitsschritt ist process_retrieval, nicht conceptual; assertion_verification verlangt eine unsichere Aussage. Ein einstufiger Prozess ist gültig, wenn eine Operation oder Bedingung unbekannt bleibt, nicht wenn die Frage beide Reaktanten und das Produkt nennt und nur noch deren Reaktion verlangt.
+Lies die Frage allein: Benenne das wärmebehandelte Material und den Prozess, für den ein Zahlenbereich gilt. „Die vorliegende Erfindung“, eine unbenannte Formel oder unerklärte Labels liefern diesen Gegenstand nicht. Eine definierte funktionelle Klasse wie Tankyrase-Inhibitoren kann eine Krankheits-Lookupfrage tragen; sichtbare lokale Fragmente, ausdrückliche Rollen identifizierter Komponenten und nichtstrukturelle zulässige Formen bleiben bei identifiziertem Gegenstand möglich.
+Prüfe die vollständigen Prämissen DIESES Kandidaten und sein gefragtes Ziel am einzigen Beleg, einschließlich nötiger Verbindungstexte und Bedingungen. „A oder B“ ordnet A weder dem ersten Material zu noch belegt es einen ausschließlich auf A beschränkten Fall. Nimm Voraussetzungen auf oder beginne ausdrücklich mit ihrem verfügbaren Ergebnis. Kopiere den gesamten gleichsprachigen Inhaltsbeleg oder übersetze den gesamten fremdsprachigen Beleg; source_finding behält die exakte Kennung. Kopiere nach allen Wortlaut- und Flexionsänderungen sinnvolle Annotationszeichenfolgen erneut aus der ENDGÜLTIGEN Frage. Behebe oder verwerfe jeden Fehler; gib nur das exakte Schema aus.
 
 HIER FOLGT DIE TATSÄCHLICHE PATENTEINGABE

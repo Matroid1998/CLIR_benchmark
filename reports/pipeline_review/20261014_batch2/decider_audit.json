@@ -1,0 +1,130 @@
+{
+  "rating_out_of_10": 7,
+  "rating_type": "Provisional expert judgment of source suitability decisions; not measured accuracy or calibrated probability.",
+  "scope": "All 100 selected rows inspected via compact source/question summaries; full source inspected for borderline structural and source-finding-only packets. Eligibility audit, manifest, chemistry decider implementation and run-embedded r2 prompts inspected.",
+  "model": "~typesafe/jev-latest; response typesafe/jev-1.13-20260917",
+  "policy": {
+    "threshold": 0.5,
+    "prompt_target": "At least one naturally formulable source-grounded candidate plausibly >=32/40; this is an eligibility forecast, not an observed generator score.",
+    "selection": "weighted_eligibility_v1 balances eligible modes deterministically; final 100 selected by verifier score with language/mode quotas.",
+    "selected_not_highest_probability": 69
+  },
+  "counts": {
+    "final_rows": 100,
+    "candidate_rows": 166,
+    "candidate_unique_docs": 146,
+    "eligibility_runs": 13,
+    "eligibility_attempts": 408,
+    "unique_screened_source_packets": 311,
+    "skip_attempts": 95,
+    "unique_always_skip": 77,
+    "unique_ever_skip": 79,
+    "unique_ever_pass": 234,
+    "repeated_packets": 64,
+    "repeat_packets_changed_eligible_set": 10,
+    "repeat_packets_changed_skip_status": 2,
+    "selected_singleton_eligible": 9,
+    "selected_source_finding_only": 7,
+    "selected_exact_threshold": 6,
+    "selected_confidence_le_055": 25
+  },
+  "final_mode_counts": {
+    "lookup": 14,
+    "process_retrieval": 15,
+    "conceptual": 15,
+    "constraint_search": 14,
+    "comparison": 14,
+    "assertion_verification": 14,
+    "source_finding": 14
+  },
+  "eligible_among_final_sources": {
+    "lookup": 74,
+    "process_retrieval": 50,
+    "conceptual": 65,
+    "constraint_search": 51,
+    "comparison": 56,
+    "assertion_verification": 87,
+    "source_finding": 87
+  },
+  "selected_confidence": {
+    "minimum": 0.5,
+    "mean": 0.6449,
+    "maximum": 0.87,
+    "under_0_6": 41
+  },
+  "strengths": [
+    "Usually selects a mode for which a clear source-only witness exists. Example row3 MX-2009001165-A process p=.85 ordered hydrotreatment/distillation/separation/recycling route.",
+    "Row12 CN-105274331-A comparison p=.82: explicit iron/copper precipitation endpoint pH 3.5 versus7.0 is naturally comparable.",
+    "Row64 CN-103772248-B process p=.87: complete mercaptopropionic-acid-to-simvastatin-sidechain-acyl-donor sequence.",
+    "Multilabel eligibility preserved: 27/100 final sources eligible for all7 modes; no zero/rare mode collapse. Selected probabilities are moderate, not near-universal 0.99 claims."
+  ],
+  "false_positive_source_level_examples": [
+    {
+      "row": 21,
+      "publication": "EP-0946553-A1_fr",
+      "mode": "lookup",
+      "p": 0.59,
+      "assessment": "Strong concern / likely false-positive eligibility: title empty; scaffold Formula I absent; only substituent definitions and generic insecticide/acaricide/nematicide uses. Cannot identify the chemical subject for a strong standalone lookup from this packet. Assertion eligibility also .65."
+    }
+  ],
+  "false_negative_alternative_mode_examples": [
+    {
+      "row": 39,
+      "publication": "WO-2015152703-A2_fr",
+      "eligible": "source_finding only",
+      "rejected_mode": "process_retrieval",
+      "p": 0.26,
+      "witness": "For a diarrheal-pathogen oligonucleotide DNA chip, PCR-amplify oligonucleotides then immobilize them on a support. The source explicitly supplies both operations and object; a bounded preparation question is feasible."
+    },
+    {
+      "row": 40,
+      "publication": "WO-2018120068-A1_fr",
+      "eligible": "source_finding only",
+      "rejected_mode": "conceptual",
+      "p": 0.19,
+      "witness": "For a portable rapid-test-strip reader, the camera module temporarily stores the image; analysis compares it to downloaded reference parameters and produces a report. Direct role/effect witness exists."
+    },
+    {
+      "row": 98,
+      "publication": "EP-0666983-A1_de",
+      "eligible": "source_finding only",
+      "rejected_mode": "conceptual",
+      "p": 0.36,
+      "witness": "Interdigital acoustic-plate-wave sensor explicitly generates waves by electrostatic attraction and measures membrane oscillation capacitively; direct mechanism/role question feasible."
+    },
+    {
+      "row": 99,
+      "publication": "EP-1567838-A2_de",
+      "eligible": "source_finding only",
+      "rejected_mode": "comparison",
+      "p": 0.26,
+      "witness": "Reflection and transmission spectrometer embodiments both describe receiver signals; comparison of received reflected versus transmitted radiation can be formed from one continuous span."
+    },
+    {
+      "row": 100,
+      "publication": "WO-2022266688-A1_de",
+      "eligible": "source_finding only",
+      "rejected_mode": "conceptual",
+      "p": 0.2,
+      "witness": "In a split-beam optical gas/solid sensor, mirror regions direct both return beams through measurement volume to detector; component function explicitly stated."
+    }
+  ],
+  "generator_not_decider_failures": [
+    "Row27 component G is poorly anchored by generator, but the full packet contains identifiable polycarbonate ingredients/effects and can support a conceptual witness.",
+    "Row42 asks a suspect full packing-stage partition (66 total vs28+17 mentioned), but the packet supports unconflicted solvent/composition/operating-condition lookups. Do not mark lookup eligibility wrong merely because generator chose the bad span.",
+    "Row95 assertion references a vague local b2 label, but source can anchor a bounded first-shell composition assertion with proper material description.",
+    "Row93 asks equality of thickness when source gives equal allowable ranges; comparison mode is still eligible for a correct range-comparison question."
+  ],
+  "recommendations": [
+    "Audit rejected mode/source pairs, especially source-finding-only engineering/diagnostic packets; no recall estimate is justified from selected100 alone.",
+    "Enforce source-hidden subject identifiability for formula-only packets before accepting lookup/assertion.",
+    "Track borderline threshold decisions and repeated-screen label flips; use a fixed independent eligibility gold set for calibration.",
+    "Preserve candidate-level and rejected/failed records; report raw attempt yield separately from selected best-row quality.",
+    "Do not credit balanced final distribution to Jev, or count every bad generated question as a decider error."
+  ],
+  "limits": "No precision/recall, accuracy, Brier score, calibrated probability or end-to-end raw yield can be measured from this selected set without independent labels and full attempt/failure outcomes. Counts of audit assignment skips are not generation failures. 408 screening assignments are repeat attempts, not408 unique documents.",
+  "adjudication_notes": [
+    "Row63 is not counted as an eligibility failure: named functional inhibitor class supports a target lookup without reconstructing Formula I.",
+    "Source-level eligibility and the quality of the realized candidate are assessed separately."
+  ]
+}

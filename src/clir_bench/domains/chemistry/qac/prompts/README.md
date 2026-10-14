@@ -16,14 +16,29 @@ Files are package data, addressed through `importlib.resources` via
 `clir_bench.core.prompts.PromptPack`. Every directory carries an `__init__.py`
 so the package resolves the same way installed, zipped, or from source.
 
-The active generation files are the exact standalone blocks from
-`new_prompts/generation_{de,en,es,fr,zh}.md`, with only surrounding Markdown
-fences removed. The shared faithfulness and seven persona batch verifier files
-come from `new_prompts/verifier_prompts.md`; the faithfulness block also matches
-`new_prompts/faithfulness_batch.txt`. Their rubric identifier is
-`chemistry-clir-exceptional-r2`. The active Jev eligibility request is copied
-from `new_prompts/jev_eligibility.json`; the per-persona eligibility prompt text
-is retained in `decider/persona_eligibility_prompts.md` for reference.
+The active generation files use `chemistry-generation-r6`. Their extraction-first
+instructions and examples preserve the existing schemas and persona definitions.
+The subject-and-unknown gate distinguishes essential local variables from
+class-level questions and defined fragments. Labeled synthetic examples cover
+missing structural identity, valid alternatives, abstention and route prerequisites.
+Revision r6 repairs original example evidence coverage and applies a final
+per-candidate mode, identity, scope and literal-contract check after the examples.
+The shared faithfulness and seven persona batch verifiers retain the
+`chemistry-clir-exceptional-r2` scoring contract, with execution revision
+`chemistry-verifier-r6` for numerical bases, source conflicts, route prerequisites,
+literal comparisons and proportionate validity decisions, with final reconciliation
+after the examples. Two calibration economy marks were corrected to avoid
+duplicating anchoring penalties; the rubric remains r2. The active Jev request
+uses `chemistry-eligibility-screen-r6`; its
+independent witness checks retain the 0.5 probability threshold and provisional
+32/40 quality forecast. The companion
+`decider/persona_eligibility_prompts.md` mirrors that JSON template.
+
+The capped experiment runner is `experiments/chemistry_prompt_loop/run_round.py`.
+It snapshots these prompts, uses at most 50 fresh documents per round and retains
+all candidates, skips and stage failures. Independent evaluations use a fixed
+contract and a fresh evaluator with no conversation history. Run artifacts and
+ratings are stored under `reports/prompt_experiments/chemistry_loop_20261014/`.
 
 The r2 rubric declares provisional calibration and should not be described as
 calibrated. The single-candidate and legacy technical/semantic quality resources
@@ -75,10 +90,11 @@ the generation prompt and question language. `--langs` restricts which source
 documents may be selected. Generation, both graders and the eligibility decider
 receive only the selected document's text and publication identifier.
 
-The parser in `../candidates.py` checks exact field sets, types, enums and
-question-substring annotations. It preserves evidence verbatim. Scientific
-support, evidence provenance and translation fidelity are checked by the
-verifiers. Questions, evidence, evidence language, translation flags and all
+The parser in `../candidates.py` checks exact field sets, types and enums.
+It preserves evidence verbatim and retains substring mistakes for review.
+Scientific support, literal annotation accuracy, evidence provenance and
+translation fidelity are checked by the verifiers. Questions, evidence,
+evidence language, translation flags and all
 persona annotations survive CSV export and regrading; arrays and booleans use
 JSON cell encoding. Publication identifiers accompany the source passage for
 source-finding. The CSV also preserves `source_document_id`; regrading resolves
