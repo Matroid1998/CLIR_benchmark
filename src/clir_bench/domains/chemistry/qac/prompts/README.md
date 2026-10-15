@@ -16,23 +16,14 @@ Files are package data, addressed through `importlib.resources` via
 `clir_bench.core.prompts.PromptPack`. Every directory carries an `__init__.py`
 so the package resolves the same way installed, zipped, or from source.
 
-The active generation files use `chemistry-generation-r6`. Their extraction-first
-instructions and examples preserve the existing schemas and persona definitions.
-The subject-and-unknown gate distinguishes essential local variables from
-class-level questions and defined fragments. Labeled synthetic examples cover
-missing structural identity, valid alternatives, abstention and route prerequisites.
-Revision r6 repairs original example evidence coverage and applies a final
-per-candidate mode, identity, scope and literal-contract check after the examples.
-The shared faithfulness and seven persona batch verifiers retain the
-`chemistry-clir-exceptional-r2` scoring contract, with execution revision
-`chemistry-verifier-r6` for numerical bases, source conflicts, route prerequisites,
-literal comparisons and proportionate validity decisions, with final reconciliation
-after the examples. Two calibration economy marks were corrected to avoid
-duplicating anchoring penalties; the rubric remains r2. The active Jev request
-uses `chemistry-eligibility-screen-r6`; its
-independent witness checks retain the 0.5 probability threshold and provisional
-32/40 quality forecast. The companion
-`decider/persona_eligibility_prompts.md` mirrors that JSON template.
+The active generation files use `chemistry-generation-r7`; the seven persona
+batch verifiers and shared faithfulness verifier use execution revision
+`chemistry-verifier-r7`. They retain the `chemistry-clir-exceptional-r2` scoring
+contract. The Jev request is assembled from `decider/jev_eligibility.json` and
+`decider/eligibility_cases.json`; the loader adds the companion cases to the
+per-persona instruction examples, deduplicating matching `case_id` values. The
+eligibility threshold remains 0.5 and the 32/40 quality forecast remains
+provisional.
 
 The capped experiment runner is `experiments/chemistry_prompt_loop/run_round.py`.
 It snapshots these prompts, uses at most 50 fresh documents per round and retains
@@ -53,7 +44,8 @@ retain their existing contracts.
     generation/comparison/{en,de,fr,es,zh}.txt             two sides on a common dimension
     generation/assertion_verification/{en,de,fr,es,zh}.txt scoped assertion check
     generation/source_finding/{en,de,fr,es,zh}.txt         publication identity from a technical clue
-    decider/jev_eligibility.json              independent suitability checks for all seven personas
+    decider/jev_eligibility.json              independent suitability instructions for all seven personas
+    decider/eligibility_cases.json            bounded examples merged into the Jev instructions
     verifiers/faithfulness_{batch,single}.txt   is the answer grounded in the passage?
     verifiers/<persona>_batch.txt              quality and contract checks for each new persona
     verifiers/technical_{batch,single}.txt     legacy grading and single concept queries
@@ -160,8 +152,10 @@ gate.
 
 ## Eligibility decider
 
-`decider/jev_eligibility.json` preserves the supplied chemistry eligibility
-template. It serves the same role as the
+`decider/jev_eligibility.json` contains the supplied chemistry eligibility
+instructions. The companion `decider/eligibility_cases.json` supplies bounded
+teaching cases, grouped by persona at request time and merged by `case_id`. The
+effective request serves the same role as the
 legal eligibility template: one independent `noul` question per persona. A patent
 can support none, one, several or all seven personas. The prompt's 32/40 target
 forecasts possible generation quality and is not a measured candidate score.

@@ -308,7 +308,12 @@ def test_cli_generation_and_regrading_preserve_source_metadata_and_replace_grade
     ), SPEC)
     parser = build_parser(context, domains.load_module("chemistry"))
     # The source and prompt share a language; array metadata survives regrading.
-    candidate = examples("constraint_search")[0][0]
+    candidate = next(
+        candidate
+        for example in examples("constraint_search")
+        for candidate in example
+        if candidate.get("evidence_language") == "en"
+    )
     assert candidate["evidence_language"] == "en"
     source = document(candidate)
     source_rows = accepted_documents([

@@ -159,18 +159,39 @@ def _chemistry_rubric_version(prompt: str) -> str | None:
 
 
 def _quality_output_example(prompt: str) -> Mapping[str, Any] | None:
-    """Recognize a compact quality contract from its actual JSON example."""
+    """Read the compact quality contract from its JSON example or explicit field list."""
     version = _chemistry_rubric_version(prompt)
     marker = (r"^ILLUSTRATIVE VERIFIER OUTPUT\s*$"
               if version == "chemistry-clir-exceptional-r1" else r"^OUTPUT\s*$")
     output = re.search(marker, prompt, re.MULTILINE)
+    # r7 states the compact contract directly instead of including a JSON sample.
+    if output is None and version == "chemistry-clir-exceptional-r2":
+        output = re.search(r"^OUTPUT CONTRACT\s*$", prompt, re.MULTILINE)
     if output is None:
         return None
     section = prompt[output.end():]
     start = re.search(r'\{\s*"candidates"\s*:', section)
     if start is None:
-        return None
-    example, _ = json.JSONDecoder().raw_decode(section[start.start():])
+        declared = re.search(
+            r"^scores and score_notes each contain exactly these keys:\s*\n"
+            r"([a-z_]+(?:,\s*[a-z_]+){4})\.?$",
+            section, re.MULTILINE,
+        )
+        if declared is None:
+            return None
+        keys = [key.strip() for key in declared.group(1).rstrip(".").split(",")]
+        example = {
+            "candidates": [{
+                "index": 0, "candidate_id": None,
+                "scores": dict.fromkeys(keys, 1),
+                "score_notes": dict.fromkeys(keys, ""),
+                "checks": {"mode": "pass", "support": "pass", "metadata": "pass"},
+                "problems": [],
+            }],
+            "batch_diversity": "not_applicable",
+        }
+    else:
+        example, _ = json.JSONDecoder().raw_decode(section[start.start():])
     candidates = example.get("candidates")
     if not isinstance(candidates, list) or len(candidates) != 1:
         raise ValueError("Quality output example must contain one candidate template")
@@ -499,7 +520,7 @@ def _normalize_compact_quality(
         raise ValueError(f"Verifier must return exactly {len(candidates)} candidate grades")
     diversity = data["batch_diversity"]
     if not isinstance(diversity, str):
-        raise ValueError("batch_diversity must be a string")
+        raise ValueError("batch_diversity must be a string")  # noqa: TRY004
     if len(candidates) <= 1:
         diversity = "not_applicable"
     elif diversity not in ("pass", "fail", "uncertain"):

@@ -21,9 +21,77 @@ POLICY = "weighted_eligibility_v1"
 DEFAULT_WEIGHTS = dict.fromkeys(MODES, 1)
 
 
+def _eligibility_case_state(packet: dict) -> str:
+    """Render one bounded teaching packet in the same form used by runtime input."""
+    if not isinstance(packet, dict):
+        raise TypeError("Eligibility teaching cases must contain a source_packet object")
+    lines = ["TARGET PATENT PACKET (teaching example)"]
+    publication_number = packet.get("publication_number")
+    if publication_number:
+        lines.append(f"publication_number: {publication_number}")
+    title = packet.get("title")
+    if title:
+        lines.append(f"title: {title}")
+    body_units = packet.get("body_units")
+    if not isinstance(body_units, list) or not body_units:
+        raise ValueError("Eligibility teaching cases must contain body_units")
+    for unit in body_units:
+        if not isinstance(unit, dict) or not all(
+                isinstance(unit.get(key), str) and (key == "text" or unit[key])
+                for key in ("unit_id", "language", "text")):
+            raise ValueError("Eligibility teaching case body units need id, language and text")
+        lines.extend(("", f"BODY UNIT {unit['unit_id']} [{unit['language']}]", unit["text"]))
+    return "\n".join(lines)
+
+
 def eligibility_prompt_text() -> str:
-    return load_prompt("clir_bench.domains.chemistry.qac.prompts",
-                       "decider", "jev_eligibility.json")
+    """Return the effective Jev template with the companion example set merged in."""
+    package = "clir_bench.domains.chemistry.qac.prompts"
+    template = json.loads(load_prompt(package, "decider", "jev_eligibility.json"))
+    cases = json.loads(load_prompt(package, "decider", "eligibility_cases.json"))
+    if not isinstance(cases, list):
+        raise TypeError("Chemistry eligibility cases must be a JSON list")
+    questions = template.get("questions")
+    if not isinstance(questions, dict) or set(questions) != set(MODES):
+        raise ValueError("Eligibility prompt must define every chemistry persona")
+
+    examples_by_mode = {mode: {} for mode in MODES}
+    for case in cases:
+        if not isinstance(case, dict) or case.get("mode") not in examples_by_mode:
+            raise ValueError("Eligibility cases must name a known chemistry persona")
+        case_id = case.get("case_id")
+        if not isinstance(case_id, str) or not case_id:
+            raise ValueError("Eligibility cases must have a nonempty case_id")
+        example = {
+            "case_id": case_id,
+            "basis": case.get("kind"),
+            "state": _eligibility_case_state(case.get("source_packet")),
+            "expected_decision": case.get("expected_decision"),
+            "why": case.get("why"),
+        }
+        if "witness" in case:
+            example["attainable_witness"] = case["witness"]
+        if "tempting_bad_attempt" in case:
+            example["tempting_bad_attempt"] = case["tempting_bad_attempt"]
+        mode_examples = examples_by_mode[case["mode"]]
+        if case_id in mode_examples:
+            raise ValueError(f"Duplicate chemistry eligibility case: {case_id}")
+        mode_examples[case_id] = example
+
+    for mode, question in questions.items():
+        instructions = question.get("instructions")
+        if not isinstance(instructions, dict) or not isinstance(instructions.get("examples"), list):
+            raise TypeError(f"Eligibility instructions for {mode} must include examples")
+        # The companion cases are canonical on duplicate IDs; any instruction-only
+        # examples remain available, while case IDs are never sent twice.
+        merged = {}
+        for example in instructions["examples"]:
+            if not isinstance(example, dict) or not isinstance(example.get("case_id"), str):
+                raise TypeError(f"Eligibility prompt has an invalid example for {mode}")
+            merged[example["case_id"]] = example
+        merged.update(examples_by_mode[mode])
+        instructions["examples"] = list(merged.values())
+    return json.dumps(template, ensure_ascii=False, indent=2) + "\n"
 
 
 def _probability(value):

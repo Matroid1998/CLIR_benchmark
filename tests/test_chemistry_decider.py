@@ -60,6 +60,29 @@ def test_packaged_native_request_keeps_all_seven_independent_questions():
     assert decider.parse_eligibility(response([]))["selected_modes"] == []
 
 
+def test_companion_cases_are_merged_once_into_each_persona_instruction():
+    package = "clir_bench.domains.chemistry.qac.prompts"
+    cases = json.loads(decider.load_prompt(package, "decider", "eligibility_cases.json"))
+    request = decider.build_eligibility_request("Selected source")
+    for mode in MODES:
+        expected = [case for case in cases if case["mode"] == mode]
+        examples = request["questions"][mode]["instructions"]["examples"]
+        assert {example["case_id"] for example in examples} == {
+            case["case_id"] for case in expected
+        }
+        assert len({example["case_id"] for example in examples}) == len(examples) == 5
+        examples_by_id = {example["case_id"]: example for example in examples}
+        for case in expected:
+            example = examples_by_id[case["case_id"]]
+            assert example["expected_decision"] is case["expected_decision"]
+            assert "provenance" not in example
+            unit = case["source_packet"]["body_units"][0]
+            assert unit["text"] in example["state"]
+            assert f"BODY UNIT {unit['unit_id']} [{unit['language']}]" in example["state"]
+            if "witness" in case:
+                assert example["attainable_witness"] == case["witness"]
+
+
 def test_local_cutoff_is_not_sent_to_jev(monkeypatch):
     template = json.loads(decider.eligibility_prompt_text())
     template["routing_policy"] = {"probability_threshold": 0.6, "best_score_cutoff": 31}
